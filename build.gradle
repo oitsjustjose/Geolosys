@@ -1,0 +1,61 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = mod_version
+group= "com.oitsjustjose.geolosys"
+archivesBaseName = "Geolosys-${minecraft_version}"
+
+dependencies {
+}
+
+minecraft {
+    version = "${minecraft_version}-${forge_version}"
+
+	if (file('../run').exists()){
+	runDir = "../run"
+	} else {
+		runDir = "run"
+	}
+    useDepAts = true
+    replaceIn "/Lib.java"
+    replace "@VERSION@", mod_version
+
+    mappings = "${mappings_version}"
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'DEV'
+}
+
+artifacts{
+	archives deobfJar
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
