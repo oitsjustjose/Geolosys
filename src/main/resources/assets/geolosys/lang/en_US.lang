@@ -1,2 +1,17 @@
-#Blocks
-tile.persistentbits.chunk_loader.name=§eChunk Loader
+# Blocks
+geolosys.ore.hematite.name=Hematite Ore
+geolosys.ore.limonite.name=Limonite Ore
+geolosys.ore.malachite.name=Malachite Ore
+geolosys.ore.lazurite.name=Lazurite Ore
+geolosys.ore.cassiterite.name=Cassiterite Ore
+geolosys.ore.sphalerite.name=Sphalerite Ore
+geolosys.ore.galena.name=Galena Ore
+geolosys.ore.bauxite.name=Bauxite Ore
+
+# Items
+geolosys.cluster.iron.name=Iron Cluster
+geolosys.cluster.copper.name=Copper Cluster
+geolosys.cluster.tin.name=Tin Cluster
+geolosys.cluster.silver.name=Silver Cluster
+geolosys.cluster.lead.name=Lead Cluster
+geolosys.cluster.aluminum.name=Aluminum Cluster

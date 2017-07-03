@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.Lib;
 
@@ -12,6 +14,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -24,7 +27,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class BlockOre extends Block
 {
-
 	public static final PropertyEnum<BlockOre.EnumType> VARIANT = PropertyEnum.<BlockOre.EnumType> create("variant", BlockOre.EnumType.class);
 
 	public BlockOre()
@@ -39,9 +41,13 @@ public class BlockOre extends Block
 		this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
 		ForgeRegistries.BLOCKS.register(this);
 		ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
-//		this.registerModels();
 	}
 	
+	@Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Geolosys.cluster;
+    }
 
 
 	@Override

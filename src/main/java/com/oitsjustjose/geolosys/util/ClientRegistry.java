@@ -5,8 +5,8 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,9 +29,9 @@ public class ClientRegistry
 		LOCATIONS.put(new ItemStack(block), new ModelResourceLocation(block.getRegistryName(), variant));
 	}
 
-	public void register(Item item, String variant)
+	public void register(ItemStack itemstack, ResourceLocation resLoc, String variant)
 	{
-		LOCATIONS.put(new ItemStack(item), new ModelResourceLocation(item.getRegistryName(), variant));
+		LOCATIONS.put(itemstack, new ModelResourceLocation(resLoc, variant));
 	}
 
 	public void register(ItemStack stack, String variant)
