@@ -151,7 +151,7 @@ public class BlockOre extends Block
 		@Override
 		public String getUnlocalizedName(ItemStack stack)
 		{
-			return BlockOre.EnumType.byMetadata(stack.getMetadata()).getName();
+			return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + BlockOre.EnumType.byMetadata(stack.getMetadata()).getName();
 		}
 
 		@Override
@@ -167,7 +167,7 @@ public class BlockOre extends Block
 		{
 			for (int i = 0; i < BlockOre.EnumType.values().length; i++)
 			{
-				Geolosys.clientRegistry.register(new ItemStack(this, 1, i), BlockOre.EnumType.byMetadata(i).getName());
+				Geolosys.clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + BlockOre.EnumType.byMetadata(i).getName());
 			}
 		}
 	}

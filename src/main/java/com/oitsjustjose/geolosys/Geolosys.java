@@ -47,5 +47,6 @@ public class Geolosys
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+//		proxy.register(Item.getItemFromBlock(ore));
 	}
 }

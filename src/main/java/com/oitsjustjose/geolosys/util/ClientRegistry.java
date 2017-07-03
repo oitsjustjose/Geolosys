@@ -3,10 +3,7 @@ package com.oitsjustjose.geolosys.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.oitsjustjose.geolosys.Geolosys;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +21,6 @@ public class ClientRegistry
 		for (Map.Entry<ItemStack, ModelResourceLocation> entry : LOCATIONS.entrySet())
 		{
 			ModelLoader.setCustomModelResourceLocation(entry.getKey().getItem(), entry.getKey().getItemDamage(), entry.getValue());
-			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(entry.getKey().getItem(), entry.getKey().getItemDamage(), new ModelResourceLocation(entry.getKey().getItem().getRegistryName(), "inventory"));
 		}
 	}
 
