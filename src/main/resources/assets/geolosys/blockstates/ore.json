@@ -1,0 +1,12 @@
+  {
+    "variants": {
+      "variant=hematite" : { "model": "geolosys:block/hematite"},
+      "variant=limonite" : { "model": "geolosys:block/limonite"},
+      "variant=malachite" : { "model": "geolosys:block/malachite"},
+      "variant=lazurite" : { "model": "geolosys:block/lazurite"},
+      "variant=cassiterite" : { "model": "geolosys:block/cassiterite"},
+      "variant=sphalerite" : { "model": "geolosys:block/sphalerite"},
+      "variant=galena" : { "model": "geolosys:block/galena"},
+      "variant=bauxite" : { "model": "geolosys:block/bauxite"}
+    }
+  }

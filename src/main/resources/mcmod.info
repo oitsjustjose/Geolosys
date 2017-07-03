@@ -1,0 +1,16 @@
+[
+{
+  "modid": "geolosys",
+  "name": "Geolosys",
+  "description": "Ores in Geological Systems added to Minecraft, logically!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://oitsjustjose.github.io/Mods/geolosys.html",
+  "updateUrl": "",
+  "authorList": ["oitsjustjose"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
