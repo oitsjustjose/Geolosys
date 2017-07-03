@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,13 +27,9 @@ public class ClientProxy extends CommonProxy
 	{
 		NonNullList<ItemStack> subItems = NonNullList.create();
 		item.getSubItems(item.getCreativeTab(), subItems);
-		System.out.println(subItems);
 		for (ItemStack sub : subItems)
 		{
-			ModelBakery.registerItemVariants(item, item.getRegistryName());
-//			System.out.println(item);
-//			System.out.println(sub);
-//			System.out.println(item.getRegistryName());
+			ModelLoader.setCustomModelResourceLocation(sub.getItem(), sub.getItemDamage(), new ModelResourceLocation(item.getRegistryName(), sub.getUnlocalizedName()));
 			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, sub.getItemDamage(), new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 	}

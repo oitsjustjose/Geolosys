@@ -39,7 +39,10 @@ public class BlockOre extends Block
 		this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
 		ForgeRegistries.BLOCKS.register(this);
 		ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
+//		this.registerModels();
 	}
+	
+
 
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
@@ -54,7 +57,6 @@ public class BlockOre extends Block
 		{
 			for (int i = 0; i < BlockOre.EnumType.values().length; i++)
 			{
-				System.out.println("BLOCK DEBUG: " + new ItemStack(Geolosys.ore, 1, i));
 				items.add(new ItemStack(Geolosys.ore, 1, i));
 			}
 		}
@@ -135,8 +137,9 @@ public class BlockOre extends Block
 		{
 			super(block);
 			this.setHasSubtypes(true);
-			this.setRegistryName(Lib.MODID, "ore");
+			this.setRegistryName(block.getRegistryName());
 			this.setMaxDamage(0);
+			this.registerModels();
 		}
 
 		@Override
@@ -157,6 +160,14 @@ public class BlockOre extends Block
 			if (this.isInCreativeTab(tab))
 			{
 				this.block.getSubBlocks(tab, items);
+			}
+		}
+		
+		private void registerModels()
+		{
+			for (int i = 0; i < BlockOre.EnumType.values().length; i++)
+			{
+				Geolosys.clientRegistry.register(new ItemStack(this, 1, i), BlockOre.EnumType.byMetadata(i).getName());
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.proxy.CommonProxy;
+import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
 
 import net.minecraft.block.Block;
@@ -27,6 +28,7 @@ public class Geolosys
 	// Logger & Configs, statically accessible.
 	public static Logger LOGGER;
 	public static Config config;
+	public static ClientRegistry clientRegistry;
 	public static Block ore;
 
 	@EventHandler
@@ -36,6 +38,8 @@ public class Geolosys
 		LOGGER = event.getModLog();
 		config = new Config(event.getSuggestedConfigurationFile());
 		MinecraftForge.EVENT_BUS.register(config);
+		clientRegistry = new ClientRegistry();
+		MinecraftForge.EVENT_BUS.register(clientRegistry);
 
 		ore = new BlockOre();
 	}
@@ -43,6 +47,5 @@ public class Geolosys
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		proxy.register(Item.getItemFromBlock(ore));
 	}
 }

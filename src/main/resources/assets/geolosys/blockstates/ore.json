@@ -1,19 +1,53 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "block/cube_all",
-        "uvlock": true
-    },
-    "variants": {
-        "normal": [{}],
-        "inventory": [{}],
-        "hematite": { "model": "geolosys:block/hematite" },
-		"limonite" : { "model": "geolosys:block/limonite"},
-		"malachite" : { "model": "geolosys:block/malachite"},
-		"lazurite" : { "model": "geolosys:block/lazurite"},
-		"cassiterite" : { "model": "geolosys:block/cassiterite"},
-		"sphalerite" : { "model": "geolosys:block/sphalerite"},
-		"galena" : { "model": "geolosys:block/galena"},
-		"bauxite" : { "model": "geolosys:block/bauxite"}
-    }
+	"forge_marker": 1,
+	"defaults": {
+		"model": "minecraft:cube_all",
+		"transform": "forge:default-block"
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}],
+		"variant": {
+			"hematite": {
+				"textures": {
+					"all": "geolosys:blocks/hematite"
+				}
+			},
+			"limonite": {
+				"textures": {
+					"all": "geolosys:blocks/limonite"
+				}
+			},
+			"malachite": {
+				"textures": {
+					"all": "geolosys:blocks/malachite"
+				}
+			},
+			"lazurite": {
+				"textures": {
+					"all": "geolosys:blocks/lazurite"
+				}
+			},
+			"cassiterite": {
+				"textures": {
+					"all": "geolosys:blocks/cassiterite"
+				}
+			},
+			"sphalerite": {
+				"textures": {
+					"all": "geolosys:blocks/sphalerite"
+				}
+			},
+			"galena": {
+				"textures": {
+					"all": "geolosys:blocks/galena"
+				}
+			},
+			"bauxite": {
+				"textures": {
+					"all": "geolosys:blocks/bauxite"
+				}
+			}
+		}
+	}
 }
