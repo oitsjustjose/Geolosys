@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.Lib;
-import com.oitsjustjose.geolosys.items.ItemBlockOre;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -25,7 +26,7 @@ public class BlockOre extends Block
 {
 
 	public static final PropertyEnum<BlockOre.EnumType> VARIANT = PropertyEnum.<BlockOre.EnumType> create("variant", BlockOre.EnumType.class);
-	private ItemBlockOre itemBlock = new ItemBlockOre(this);
+
 	public BlockOre()
 	{
 		super(Material.ROCK);
@@ -35,13 +36,9 @@ public class BlockOre extends Block
 		this.setSoundType(SoundType.STONE);
 		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockOre.EnumType.HEMATITE));
+		this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
 		ForgeRegistries.BLOCKS.register(this);
-		ForgeRegistries.ITEMS.register(itemBlock);
-	}
-	
-	public ItemBlockOre getItemBlock()
-	{
-		return itemBlock;
+		ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
 	}
 
 	@Override
@@ -53,9 +50,13 @@ public class BlockOre extends Block
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
 	{
-		for (int i = 0; i < BlockOre.EnumType.values().length; i++)
+		if (this.getCreativeTabToDisplayOn() == itemIn)
 		{
-			items.add(new ItemStack(this, 1, i));
+			for (int i = 0; i < BlockOre.EnumType.values().length; i++)
+			{
+				System.out.println("BLOCK DEBUG: " + new ItemStack(Geolosys.ore, 1, i));
+				items.add(new ItemStack(Geolosys.ore, 1, i));
+			}
 		}
 	}
 
@@ -79,14 +80,7 @@ public class BlockOre extends Block
 
 	public static enum EnumType implements IStringSerializable
 	{
-		HEMATITE(0, "hematite", "hematite"),
-		LIMONITE(1, "limonite", "limonite"),
-		MALACHITE(2, "malachite", "malachite"),
-		LAZURITE(3, "lazurite", "lazurite"),
-		CASSITERITE(4, "cassiterite", "cassiterite"),
-		SPHALERITE(5, "sphalerite", "sphalerite"),
-		GALENA(6, "galena", "galena"),
-		BAUXITE(7, "bauxite", "bauxite");
+		HEMATITE(0, "hematite", "hematite"), LIMONITE(1, "limonite", "limonite"), MALACHITE(2, "malachite", "malachite"), LAZURITE(3, "lazurite", "lazurite"), CASSITERITE(4, "cassiterite", "cassiterite"), SPHALERITE(5, "sphalerite", "sphalerite"), GALENA(6, "galena", "galena"), BAUXITE(7, "bauxite", "bauxite");
 
 		private static final BlockOre.EnumType[] META_LOOKUP = new BlockOre.EnumType[values().length];
 		private final int meta;
@@ -130,6 +124,39 @@ public class BlockOre extends Block
 			for (BlockOre.EnumType type : values())
 			{
 				META_LOOKUP[type.getMetadata()] = type;
+			}
+		}
+	}
+
+	public class ItemBlockOre extends ItemBlock
+	{
+
+		public ItemBlockOre(Block block)
+		{
+			super(block);
+			this.setHasSubtypes(true);
+			this.setRegistryName(Lib.MODID, "ore");
+			this.setMaxDamage(0);
+		}
+
+		@Override
+		public int getMetadata(int damage)
+		{
+			return damage;
+		}
+
+		@Override
+		public String getUnlocalizedName(ItemStack stack)
+		{
+			return BlockOre.EnumType.byMetadata(stack.getMetadata()).getName();
+		}
+
+		@Override
+		public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+		{
+			if (this.isInCreativeTab(tab))
+			{
+				this.block.getSubBlocks(tab, items);
 			}
 		}
 	}

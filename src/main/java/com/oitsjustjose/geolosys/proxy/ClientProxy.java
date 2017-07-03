@@ -3,13 +3,13 @@ package com.oitsjustjose.geolosys.proxy;
 import com.oitsjustjose.geolosys.Lib;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,10 +26,14 @@ public class ClientProxy extends CommonProxy
 	{
 		NonNullList<ItemStack> subItems = NonNullList.create();
 		item.getSubItems(item.getCreativeTab(), subItems);
+		System.out.println(subItems);
 		for (ItemStack sub : subItems)
 		{
 			ModelBakery.registerItemVariants(item, item.getRegistryName());
-			ModelLoader.setCustomModelResourceLocation(item, sub.getItemDamage(), new ModelResourceLocation(item.getRegistryName(), "inventory"));
+//			System.out.println(item);
+//			System.out.println(sub);
+//			System.out.println(item.getRegistryName());
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, sub.getItemDamage(), new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 	}
 
@@ -40,7 +44,7 @@ public class ClientProxy extends CommonProxy
 	@SideOnly(Side.CLIENT)
 	public void register(Block block)
 	{
-		ItemBlock itemBlock = (ItemBlock) Item.getItemFromBlock(block);
+		ItemBlock itemBlock = new ItemBlock(block);
 		// Checks if the block has metadata / subtypes
 		if (itemBlock.getHasSubtypes())
 		{
@@ -49,12 +53,12 @@ public class ClientProxy extends CommonProxy
 			for (ItemStack sub : subItems)
 			{
 				ModelBakery.registerItemVariants(itemBlock, block.getRegistryName());
-				ModelLoader.setCustomModelResourceLocation(itemBlock, sub.getItemDamage(), new ModelResourceLocation(block.getRegistryName(), "inventory"));
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, sub.getItemDamage(), new ModelResourceLocation(block.getRegistryName(), "inventory"));
 			}
 		}
 		else
 		{
-			ModelLoader.setCustomModelResourceLocation(itemBlock, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 		}
 	}
 }
