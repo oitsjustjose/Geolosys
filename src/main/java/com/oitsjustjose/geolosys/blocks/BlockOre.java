@@ -14,6 +14,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -22,6 +23,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -42,13 +44,54 @@ public class BlockOre extends Block
 		ForgeRegistries.BLOCKS.register(this);
 		ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
 	}
-	
-	@Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return Geolosys.cluster;
-    }
 
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	{
+		return Geolosys.cluster;
+	}
+
+	@Override
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	{
+		// Special case for Galena
+		if (state.getBlock().getMetaFromState(state) == 6)
+			drops.add(new ItemStack(Geolosys.cluster, 1, 4));
+		drops.add(new ItemStack(Geolosys.cluster, 1, this.damageDropped(state)));
+	}
+
+	@Override
+	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+	{
+		return false;
+	}
+
+	@Override
+	public int damageDropped(IBlockState state)
+	{
+		int meta = state.getBlock().getMetaFromState(state);
+		switch (meta)
+		{
+		case 0:
+			return 0;
+		case 1:
+			return 0;
+		case 2:
+			return 1;
+		case 3:
+			return 1;
+		case 4:
+			return 2;
+		case 5:
+			return 2;
+		case 6:
+			return 3;
+		case 7:
+			return 5;
+		default:
+			return 0;
+		}
+	}
 
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
@@ -88,7 +131,7 @@ public class BlockOre extends Block
 
 	public static enum EnumType implements IStringSerializable
 	{
-		HEMATITE(0, "hematite", "hematite"), LIMONITE(1, "limonite", "limonite"), MALACHITE(2, "malachite", "malachite"), LAZURITE(3, "lazurite", "lazurite"), CASSITERITE(4, "cassiterite", "cassiterite"), SPHALERITE(5, "sphalerite", "sphalerite"), GALENA(6, "galena", "galena"), BAUXITE(7, "bauxite", "bauxite");
+		HEMATITE(0, "hematite", "hematite"), LIMONITE(1, "limonite", "limonite"), MALACHITE(2, "malachite", "malachite"), AZURITE(3, "azurite", "azurite"), CASSITERITE(4, "cassiterite", "cassiterite"), SPHALERITE(5, "sphalerite", "sphalerite"), GALENA(6, "galena", "galena"), BAUXITE(7, "bauxite", "bauxite");
 
 		private static final BlockOre.EnumType[] META_LOOKUP = new BlockOre.EnumType[values().length];
 		private final int meta;
@@ -168,7 +211,7 @@ public class BlockOre extends Block
 				this.block.getSubBlocks(tab, items);
 			}
 		}
-		
+
 		private void registerModels()
 		{
 			for (int i = 0; i < BlockOre.EnumType.values().length; i++)

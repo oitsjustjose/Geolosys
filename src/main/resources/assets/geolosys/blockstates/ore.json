@@ -23,9 +23,9 @@
 					"all": "geolosys:blocks/malachite"
 				}
 			},
-			"lazurite": {
+			"azurite": {
 				"textures": {
-					"all": "geolosys:blocks/lazurite"
+					"all": "geolosys:blocks/azurite"
 				}
 			},
 			"cassiterite": {
