@@ -6,6 +6,7 @@
 .project
 .settings
 *.launch
+.metadata
 
 # Ignore Gradle GUI config
 gradle-app.setting
