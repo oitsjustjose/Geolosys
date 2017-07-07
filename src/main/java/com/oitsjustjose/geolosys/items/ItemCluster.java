@@ -17,102 +17,100 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemCluster extends Item
 {
-	public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.<EnumType> create("variant", EnumType.class);
+    public ItemCluster()
+    {
+        this.setHasSubtypes(true);
+        this.setCreativeTab(CreativeTabs.MISC);
+        this.setRegistryName(new ResourceLocation(Lib.MODID, "cluster"));
+        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        ForgeRegistries.ITEMS.register(this);
+        this.registerModels();
+        this.registerOreDict();
+    }
 
-	public ItemCluster()
-	{
-		this.setHasSubtypes(true);
-		this.setCreativeTab(CreativeTabs.MISC);
-		this.setRegistryName(new ResourceLocation(Lib.MODID, "cluster"));
-		this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
-		ForgeRegistries.ITEMS.register(this);
-		this.registerModels();
-		this.registerOreDict();
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
+    {
+        if (this.isInCreativeTab(tab))
+        {
+            for (int i = 0; i < EnumType.values().length; ++i)
+            {
+                list.add(new ItemStack(this, 1, i));
+            }
+        }
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
-	{
-		if (this.isInCreativeTab(tab))
-		{
-			for (int i = 0; i < EnumType.values().length; ++i)
-			{
-				list.add(new ItemStack(this, 1, i));
-			}
-		}
-	}
-	
-	@Override
+    @Override
     public String getUnlocalizedName(ItemStack stack)
     {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + EnumType.byMetadata(stack.getMetadata()).getName();
     }
 
-	private void registerModels()
-	{
-		for (int i = 0; i < EnumType.values().length; i++)
-		{
-			Geolosys.clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
-		}
-	}
-	
-	private void registerOreDict()
-	{
-		for(int i = 0; i < EnumType.values().length; i++)
-		{
-			OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
-		}
-	}
+    private void registerModels()
+    {
+        for (int i = 0; i < EnumType.values().length; i++)
+        {
+            Geolosys.clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
+        }
+    }
 
-	public static enum EnumType implements IStringSerializable
-	{
-		IRON(0, "iron"), COPPER(1, "copper"), TIN(2, "tin"), SILVER(3, "silver"), LEAD(4, "lead"), ALUMINUM (5, "aluminum");
+    private void registerOreDict()
+    {
+        for (int i = 0; i < EnumType.values().length; i++)
+        {
+            OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+        }
+    }
 
-		private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-		private final int meta;
-		private final String serializedName;
-		private final String unlocalizedName;
+    public enum EnumType implements IStringSerializable
+    {
+        IRON(0, "iron"), COPPER(1, "copper"), TIN(2, "tin"), SILVER(3, "silver"), LEAD(4, "lead"), ALUMINUM(5, "aluminum");
 
-		private EnumType(int meta, String name)
-		{
-			this.meta = meta;
-			this.serializedName = name;
-			this.unlocalizedName = name;
-		}
+        private static final EnumType[] META_LOOKUP = new EnumType[values().length];
+        private final int meta;
+        private final String serializedName;
+        private final String unlocalizedName;
 
-		public int getMetadata()
-		{
-			return this.meta;
-		}
+        EnumType(int meta, String name)
+        {
+            this.meta = meta;
+            this.serializedName = name;
+            this.unlocalizedName = name;
+        }
 
-		public String toString()
-		{
-			return this.unlocalizedName;
-		}
+        public int getMetadata()
+        {
+            return this.meta;
+        }
 
-		public static EnumType byMetadata(int meta)
-		{
-			if (meta < 0 || meta >= META_LOOKUP.length)
-			{
-				meta = 0;
-			}
+        public String toString()
+        {
+            return this.unlocalizedName;
+        }
 
-			return META_LOOKUP[meta];
-		}
+        public static EnumType byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
 
-		public String getName()
-		{
-			return this.serializedName;
-		}
+            return META_LOOKUP[meta];
+        }
 
-		static
-		{
-			for (EnumType type : values())
-			{
-				META_LOOKUP[type.getMetadata()] = type;
-			}
-		}
-	}
+        public String getName()
+        {
+            return this.serializedName;
+        }
+
+        static
+        {
+            for (EnumType type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+    }
 
 }
