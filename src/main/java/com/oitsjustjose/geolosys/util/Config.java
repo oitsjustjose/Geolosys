@@ -18,6 +18,13 @@ public class Config
     public ConfigCategory Sizes;
 
     public boolean disableIron;
+    public boolean modGold;
+    public boolean modDiamond;
+    public boolean modCoal;
+    public boolean modRedstone;
+    public boolean modLapis;
+    public boolean modStones;
+
     public boolean enableHematite;
     public boolean enableLimonite;
     public boolean enableMalachite;
@@ -67,6 +74,30 @@ public class Config
 
         property = config.get(category, "Disable Vanilla Iron Ore Gen", true);
         disableIron = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Gold Deposits", true);
+        modGold = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Diamond Deposits", true);
+        modDiamond = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Coal Deposits", true);
+        modCoal = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Redstone Deposits", true);
+        modRedstone = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Lapis Deposits", true);
+        modLapis = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Stone Variant Deposits", true);
+        modStones = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Hematite", true);
