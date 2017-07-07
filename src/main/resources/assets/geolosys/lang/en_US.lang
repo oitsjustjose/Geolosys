@@ -5,7 +5,7 @@
 geolosys.ore.hematite.name=Hematite Ore
 geolosys.ore.limonite.name=Limonite Ore
 geolosys.ore.malachite.name=Malachite Ore
-geolosys.ore.lazurite.name=Lazurite Ore
+geolosys.ore.azurite.name=Azurite Ore
 geolosys.ore.cassiterite.name=Cassiterite Ore
 geolosys.ore.sphalerite.name=Sphalerite Ore
 geolosys.ore.galena.name=Galena Ore
@@ -26,7 +26,7 @@ geolosys.cluster.aluminum.name=Aluminum Cluster
 #              Ingots                  #
 # ------------------------------------ #
 geolosys.ingot.copper.name=Copper Ingot
-geolosys.ingot.lead.name=Tin Ingot
+geolosys.ingot.tin.name=Tin Ingot
 geolosys.ingot.silver.name=Silver Ingot
 geolosys.ingot.lead.name=Lead Ingot
 geolosys.ingot.aluminum.name=Aluminum Ingot
