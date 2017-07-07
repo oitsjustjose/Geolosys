@@ -1,4 +1,7 @@
 # Blocks
+# ------------------------------------ #
+#                Ores                  #
+# ------------------------------------ #
 geolosys.ore.hematite.name=Hematite Ore
 geolosys.ore.limonite.name=Limonite Ore
 geolosys.ore.malachite.name=Malachite Ore
@@ -9,9 +12,21 @@ geolosys.ore.galena.name=Galena Ore
 geolosys.ore.bauxite.name=Bauxite Ore
 
 # Items
+
+# ------------------------------------ #
+#             Clusters                 #
+# ------------------------------------ #
 geolosys.cluster.iron.name=Iron Cluster
 geolosys.cluster.copper.name=Copper Cluster
 geolosys.cluster.tin.name=Tin Cluster
 geolosys.cluster.silver.name=Silver Cluster
 geolosys.cluster.lead.name=Lead Cluster
 geolosys.cluster.aluminum.name=Aluminum Cluster
+# ------------------------------------ #
+#              Ingots                  #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Copper Ingot
+geolosys.ingot.lead.name=Tin Ingot
+geolosys.ingot.silver.name=Silver Ingot
+geolosys.ingot.lead.name=Lead Ingot
+geolosys.ingot.aluminum.name=Aluminum Ingot
