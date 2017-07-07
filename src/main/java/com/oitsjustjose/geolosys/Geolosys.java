@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
@@ -32,6 +33,7 @@ public class Geolosys
     public static ClientRegistry clientRegistry;
     public static BlockOre ore;
     public static Item cluster;
+    public static Item ingot;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -45,6 +47,7 @@ public class Geolosys
 
         ore = new BlockOre();
         cluster = new ItemCluster();
+        ingot = new ItemIngot();
 
         registerVanillaOreGen();
         registerGeolosysOreGen();
