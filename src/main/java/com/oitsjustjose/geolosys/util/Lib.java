@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys;
+package com.oitsjustjose.geolosys.util;
 
 /**
  * 
