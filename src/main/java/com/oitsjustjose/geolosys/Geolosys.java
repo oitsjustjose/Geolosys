@@ -60,26 +60,15 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modGold)
-        {
             WorldGenPluton.addOreGen(Blocks.GOLD_ORE.getDefaultState(), 32, 2, 36, 1, 16);
-        }
         if (config.modDiamond)
-        {
             WorldGenPluton.addOreGen(Blocks.DIAMOND_ORE.getDefaultState(), 18, 2, 16, 1, 12);
-        }
         if (config.modCoal)
-        {
             WorldGenPluton.addOreGen(Blocks.COAL_ORE.getDefaultState(), 64, 2, 70, 1, 16);
-        }
-
         if (config.modRedstone)
-        {
             WorldGenPluton.addOreGen(Blocks.REDSTONE_ORE.getDefaultState(), 48, 2, 32, 1, 16);
-        }
         if (config.modLapis)
-        {
             WorldGenPluton.addOreGen(Blocks.LAPIS_ORE.getDefaultState(), 18, 2, 24, 1, 20);
-        }
         if (config.modStones)
         {
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
