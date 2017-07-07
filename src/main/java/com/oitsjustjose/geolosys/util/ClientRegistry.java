@@ -1,8 +1,5 @@
 package com.oitsjustjose.geolosys.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
@@ -11,9 +8,12 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientRegistry
 {
-	private Map<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap<ItemStack, ModelResourceLocation>();
+	private HashMap<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap();
 
 	@SubscribeEvent
 	public void handleModels(ModelRegistryEvent event)
