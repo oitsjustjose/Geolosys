@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.Lib;
+import com.oitsjustjose.geolosys.util.Lib;
 
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.creativetab.CreativeTabs;
@@ -61,7 +61,7 @@ public class ItemCluster extends Item
 	{
 		for(int i = 0; i < EnumType.values().length; i++)
 		{
-			OreDictionary.registerOre("ore" + EnumType.byMetadata(i).name().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).name().substring(1), new ItemStack(this, 1, i));
+			OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
 		}
 	}
 
