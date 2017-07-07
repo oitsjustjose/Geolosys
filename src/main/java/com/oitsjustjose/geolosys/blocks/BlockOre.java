@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.blocks;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.Lib;
+import com.oitsjustjose.geolosys.util.Lib;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -23,6 +23,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -93,6 +94,11 @@ public class BlockOre extends Block
             default:
                 return 0;
         }
+    }
+
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    {
+        return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
