@@ -4,8 +4,12 @@ import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.world.WorldGenIronOverride;
+import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.world.WorldGenOverride;
 import com.oitsjustjose.geolosys.world.WorldGenPluton;
+import net.minecraft.block.BlockStone;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -41,20 +45,33 @@ public class Geolosys
 
         ore = new BlockOre();
         cluster = new ItemCluster();
+
+        IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
+        IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
+        IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
+
+        WorldGenPluton.addOreGen(Blocks.DIAMOND_ORE.getDefaultState(), 18, 2, 16, 1, 12);
+        WorldGenPluton.addOreGen(Blocks.GOLD_ORE.getDefaultState(), 32, 2, 36, 1, 16);
+        WorldGenPluton.addOreGen(Blocks.LAPIS_ORE.getDefaultState(), 18, 2, 24, 1, 20);
+        WorldGenPluton.addOreGen(Blocks.REDSTONE_ORE.getDefaultState(), 48, 2, 32, 1, 16);
+        WorldGenPluton.addOreGen(Blocks.COAL_ORE.getDefaultState(), 64, 2, 70, 1, 16);
+        WorldGenPluton.addOreGen(andesite, 72, 2, 70, 1, 20);
+        WorldGenPluton.addOreGen(diorite, 72, 2, 70, 1, 20);
+        WorldGenPluton.addOreGen(granite, 72, 2, 70, 1, 20);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, 20);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, 10);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, 20);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, 10);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, 20);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(5), config.clusterSizeSphalerite, 8, 43, config.frequencySphalerite, 10);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, 20);
+        WorldGenPluton.addOreGen(ore.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, 20);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        MinecraftForge.ORE_GEN_BUS.register(new WorldGenIronOverride());
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(0), config.weightIron), 0);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(1), config.weightIron), 1);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(2), config.weightCopper), 2);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(3), config.weightCopper), 3);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(4), config.weightTin), 4);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(5), config.weightTin), 5);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(6), config.weightSilverLead), 6);
-//        GameRegistry.registerWorldGenerator(new WorldGenPluton(ore.getStateFromMeta(7), config.weightAluminum), 7);
-
+        MinecraftForge.ORE_GEN_BUS.register(new WorldGenOverride());
+        GameRegistry.registerWorldGenerator(new WorldGenPluton(), 0);
     }
 }
