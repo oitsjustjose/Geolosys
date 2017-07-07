@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.Lib;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,6 +26,7 @@ public class ConfigGUI extends GuiConfig
 
 		list.add(new ConfigElement(Geolosys.config.FeatureControl));
 		list.add(new ConfigElement(Geolosys.config.Weights));
+		list.add(new ConfigElement(Geolosys.config.Sizes));
 
 		return list;
 	}

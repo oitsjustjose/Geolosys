@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.util;
 
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.Lib;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -16,19 +15,35 @@ public class Config
     public Configuration config;
     public ConfigCategory FeatureControl;
     public ConfigCategory Weights;
+    public ConfigCategory Sizes;
 
-    public boolean enableIron;
-    public boolean enableDiamonds;
-    public boolean enableCopper;
-    public boolean enableTin;
-    public boolean enableSilverLead;
-    public boolean enableAluminum;
+    public boolean disableIron;
+    public boolean enableHematite;
+    public boolean enableLimonite;
+    public boolean enableMalachite;
+    public boolean enableAzurite;
+    public boolean enableCassiterite;
+    public boolean enableSphalerite;
+    public boolean enableGalena;
+    public boolean enableBauxite;
 
-    public int weightIron;
-    public int weightCopper;
-    public int weightTin;
-    public int weightSilverLead;
-    public int weightAluminum;
+    public int frequencyHematite;
+    public int frequencyLimonite;
+    public int frequencyMalachite;
+    public int frequencyAzurite;
+    public int frequencyCassiterite;
+    public int frequencySphalerite;
+    public int frequencyGalena;
+    public int frequencyBauxite;
+
+    public int clusterSizeHematite;
+    public int clusterSizeLimonite;
+    public int clusterSizeMalachite;
+    public int clusterSizeAzurite;
+    public int clusterSizeCassiterite;
+    public int clusterSizeSphalerite;
+    public int clusterSizeGalena;
+    public int clusterSizeBauxite;
 
     public int[] blacklistedDIMs;
 
@@ -48,36 +63,42 @@ public class Config
         String category = "Feature Control";
         List<String> propertyOrder = Lists.newArrayList();
         FeatureControl = config.getCategory(category);
-        FeatureControl.setComment("Enable or Disable features as a whole");
+        FeatureControl.setComment("Control which features are enabled:");
 
-        property = config.get(category, "Iron", true);
-        property.setComment("Enabling will generate Iron Ore as Limonite or Hematite");
-        enableIron = property.getBoolean();
+        property = config.get(category, "Disable Vanilla Iron Ore Gen", true);
+        disableIron = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Diamonds", true);
-        property.setComment("Enabling will allow Diamonds to be more common");
-        enableDiamonds = property.getBoolean();
+        property = config.get(category, "Enable Hematite", true);
+        enableHematite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Copper", true);
-        property.setComment("Enabling will generate Copper Ore as Malachite or Lazurite");
-        enableCopper = property.getBoolean();
+        property = config.get(category, "Enable Limonite", true);
+        enableLimonite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Tin", true);
-        property.setComment("Enabling will generate Tin Ore as Cassiterite or Sphalerite");
-        enableTin = property.getBoolean();
+        property = config.get(category, "Enable Malachite", true);
+        enableMalachite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Silver & Lead", true);
-        property.setComment("Enabling will generate Silver and Lead Ore as Galena");
-        enableSilverLead = property.getBoolean();
+        property = config.get(category, "Enable Azurite", true);
+        enableAzurite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Aluminum", true);
-        property.setComment("Enabling will generate Aluminum Ore as Bauxite");
-        enableAluminum = property.getBoolean();
+        property = config.get(category, "Enable Cassiterite", true);
+        enableCassiterite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Sphalerite", true);
+        enableSphalerite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Galena", true);
+        enableGalena = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Bauxite", true);
+        enableBauxite = property.getBoolean();
         propertyOrder.add(property.getName());
 
         FeatureControl.setPropertyOrder(propertyOrder);
@@ -92,33 +113,81 @@ public class Config
         blacklistedDIMs = property.getIntList();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Overall Iron Rarity", 4);
-        property.setComment("An overall joint weight for both Hematite and Limonite");
-        weightIron = property.getInt();
+        property = config.get(category, "# of Hematite veins per chunk", 1);
+        frequencyHematite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Overall Copper Rarity", 4);
-        property.setComment("An overall joint weight for both Malachite and Azurite");
-        weightIron = property.getInt();
+        property = config.get(category, "# of Limonite veins per chunk", 1);
+        frequencyLimonite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Overall Tin Rarity", 4);
-        property.setComment("An overall joint weight for both Sphalerite and Cassiterite");
-        weightIron = property.getInt();
+        property = config.get(category, "# of Malachite veins per chunk", 1);
+        frequencyMalachite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Overall Silver & Lead Rarity", 6);
-        property.setComment("An overall joint weight for Galena - your source for silver AND lead");
-        weightIron = property.getInt();
+        property = config.get(category, "# of Azurite veins per chunk", 1);
+        frequencyAzurite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Overall Aluminum Rarity", 3);
-        property.setComment("An overall joint weight for Bauxite");
-        weightIron = property.getInt();
+        property = config.get(category, "# of Cassiterite veins per chunk", 1);
+        frequencyCassiterite = property.getInt();
         propertyOrder.add(property.getName());
+
+        property = config.get(category, "# of Sphalerite veins per chunk", 1);
+        frequencySphalerite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "# of Galena veins per chunk", 1);
+        frequencyGalena = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "# of Bauxite veins per chunk", 1);
+        frequencyBauxite = property.getInt();
+        propertyOrder.add(property.getName());
+
 
 
         Weights.setPropertyOrder(propertyOrder);
+
+        // Cluster Sizes
+        category = "Ore Cluster Sizes";
+        propertyOrder = Lists.newArrayList();
+        Sizes = config.getCategory(category);
+        Sizes.setComment("The number of ores found in each cluster");
+
+        property = config.get(category, "Hematite Cluster Size", 48);
+        clusterSizeHematite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Limonite Cluster Size", 40);
+        clusterSizeLimonite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Malachite Cluster Size", 48);
+        clusterSizeMalachite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Azurite Cluster Size", 40);
+        clusterSizeAzurite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Cassiterite Cluster Size", 48);
+        clusterSizeCassiterite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Sphalerite Cluster Size", 40);
+        clusterSizeSphalerite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Galena Cluster Size", 40);
+        clusterSizeGalena = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Bauxite Cluster Size", 28);
+        clusterSizeBauxite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        Sizes.setPropertyOrder(propertyOrder);
 
         if (config.hasChanged())
         {
@@ -130,9 +199,6 @@ public class Config
     public void update(OnConfigChangedEvent event)
     {
         if (event.getModID().equals(Lib.MODID))
-        {
             loadConfiguration();
-            // TODO: Anything that needs to be changed after updating configs goes here
-        }
     }
 }
