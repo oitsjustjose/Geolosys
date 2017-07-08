@@ -33,12 +33,8 @@ public class ItemCluster extends Item
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
     {
         if (this.isInCreativeTab(tab))
-        {
             for (int i = 0; i < EnumType.values().length; ++i)
-            {
                 list.add(new ItemStack(this, 1, i));
-            }
-        }
     }
 
     @Override
@@ -50,22 +46,23 @@ public class ItemCluster extends Item
     private void registerModels()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-        {
             Geolosys.clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
-        }
     }
 
     private void registerOreDict()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-        {
             OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
-        }
     }
 
     public enum EnumType implements IStringSerializable
     {
-        IRON(0, "iron"), COPPER(1, "copper"), TIN(2, "tin"), SILVER(3, "silver"), LEAD(4, "lead"), ALUMINUM(5, "aluminum");
+        IRON(0, "iron"),
+        COPPER(1, "copper"),
+        TIN(2, "tin"),
+        SILVER(3, "silver"),
+        LEAD(4, "lead"),
+        ALUMINUM(5, "aluminum");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;

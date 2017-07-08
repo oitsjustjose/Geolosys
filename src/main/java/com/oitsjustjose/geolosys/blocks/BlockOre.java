@@ -37,6 +37,7 @@ public class BlockOre extends Block
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setHarvestLevel("pickaxe", 1);
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
     }
@@ -50,12 +51,27 @@ public class BlockOre extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        // Special case for Galena
+        // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
         if (state.getBlock().getMetaFromState(state) == 6)
         {
-            drops.add(new ItemStack(Geolosys.cluster, 1, 4));
+            Random rand = new Random();
+            int rng = rand.nextInt(2);
+            if (rng == 0)
+            {
+                drops.add(new ItemStack(Geolosys.cluster, 1, 3));
+                rng = rand.nextInt(2);
+                if (rng == 0)
+                    drops.add(new ItemStack(Geolosys.cluster, 1, 4));
+            }
+            else
+            {
+                drops.add(new ItemStack(Geolosys.cluster, 1, 4));
+            }
         }
-        drops.add(new ItemStack(Geolosys.cluster, 1, this.damageDropped(state)));
+        else
+        {
+            drops.add(new ItemStack(Geolosys.cluster, 1, this.damageDropped(state)));
+        }
     }
 
     @Override
@@ -82,8 +98,6 @@ public class BlockOre extends Block
                 return 2;
             case 5:
                 return 2;
-            case 6:
-                return 3;
             case 7:
                 return 5;
             default:
@@ -139,7 +153,7 @@ public class BlockOre extends Block
         MALACHITE(2, "malachite", "malachite"),
         AZURITE(3, "azurite", "azurite"),
         CASSITERITE(4, "cassiterite", "cassiterite"),
-        SPHALERITE(5, "sphalerite", "sphalerite"),
+        TEALLITE(5, "teallite", "teallite"),
         GALENA(6, "galena", "galena"),
         BAUXITE(7, "bauxite", "bauxite");
 

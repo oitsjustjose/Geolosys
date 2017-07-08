@@ -69,7 +69,11 @@ public class ItemIngot extends Item
 
     public enum EnumType implements IStringSerializable
     {
-        COPPER(0, "copper"), TIN(1, "tin"), SILVER(2, "silver"), LEAD(3, "lead"), ALUMINUM(4, "aluminum");
+        COPPER(0, "copper"),
+        TIN(1, "tin"),
+        SILVER(2, "silver"),
+        LEAD(3, "lead"),
+        ALUMINUM(4, "aluminum");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
