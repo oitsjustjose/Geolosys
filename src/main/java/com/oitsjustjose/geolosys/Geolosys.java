@@ -12,13 +12,16 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12")
@@ -47,7 +50,8 @@ public class Geolosys
 
         ore = new BlockOre();
         cluster = new ItemCluster();
-        ingot = new ItemIngot();
+        if (config.enableIngots)
+            ingot = new ItemIngot();
 
         registerVanillaOreGen();
         registerGeolosysOreGen();
@@ -58,6 +62,34 @@ public class Geolosys
     {
         MinecraftForge.ORE_GEN_BUS.register(new WorldGenOverride());
         GameRegistry.registerWorldGenerator(new WorldGenPluton(), 0);
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event)
+    {
+        if (!config.enableIngots)
+        {
+            String mat = "";
+            try
+            {
+                mat = "ingotIron";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 0), OreDictionary.getOres("ingotIron").get(0), 0.7F);
+                mat = "ingotCopper";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 1), OreDictionary.getOres("ingotCopper").get(0), 0.7F);
+                mat = "ingotTin";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 2), OreDictionary.getOres("ingotTin").get(0), 0.7F);
+                mat = "ingotSilver";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 3), OreDictionary.getOres("ingotSilver").get(0), 0.7F);
+                mat = "ingotLead";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 4), OreDictionary.getOres("ingotLead").get(0), 0.7F);
+                mat = "ingotAluminum";
+                GameRegistry.addSmelting(new ItemStack(cluster, 1, 5), OreDictionary.getOres("ingotAluminum").get(0), 0.7F);
+            }
+            catch (NullPointerException | IndexOutOfBoundsException e)
+            {
+                LOGGER.fatal("Could not find " + mat + " in the OreDictionary. Please enable Geolosys' Ingots in the config or add a mod which adds it.");
+            }
+        }
     }
 
     private void registerVanillaOreGen()
@@ -96,8 +128,8 @@ public class Geolosys
             WorldGenPluton.addOreGen(ore.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, 10);
         if (config.enableCassiterite)
             WorldGenPluton.addOreGen(ore.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, 20);
-        if (config.enableSphalerite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(5), config.clusterSizeSphalerite, 8, 43, config.frequencySphalerite, 10);
+        if (config.enableTeallite)
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, 10);
         if (config.enableGalena)
             WorldGenPluton.addOreGen(ore.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, 20);
         if (config.enableBauxite)
