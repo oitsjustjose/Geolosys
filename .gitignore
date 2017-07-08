@@ -1,13 +1,12 @@
 .gradle
 /build/
 /run/
+/out/
 *.DS_STORE
-.classpath
-.project
-.settings
+*.iml
+*.ipr
 *.launch
-.metadata
-out
+*.iws
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -20,6 +19,3 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
-*.iws
-Geolosys.iws
-*.iws
