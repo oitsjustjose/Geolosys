@@ -1,4 +1,5 @@
 # Blocks
+
 # ------------------------------------ #
 #                Ores                  #
 # ------------------------------------ #
@@ -7,7 +8,7 @@ geolosys.ore.limonite.name=Limonite Ore
 geolosys.ore.malachite.name=Malachite Ore
 geolosys.ore.azurite.name=Azurite Ore
 geolosys.ore.cassiterite.name=Cassiterite Ore
-geolosys.ore.sphalerite.name=Sphalerite Ore
+geolosys.ore.teallite.name=Teallite Ore
 geolosys.ore.galena.name=Galena Ore
 geolosys.ore.bauxite.name=Bauxite Ore
 

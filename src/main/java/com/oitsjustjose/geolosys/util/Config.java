@@ -17,6 +17,7 @@ public class Config
     public ConfigCategory Weights;
     public ConfigCategory Sizes;
 
+    // Feature Control
     public boolean disableIron;
     public boolean modGold;
     public boolean modDiamond;
@@ -24,31 +25,31 @@ public class Config
     public boolean modRedstone;
     public boolean modLapis;
     public boolean modStones;
-
     public boolean enableHematite;
     public boolean enableLimonite;
     public boolean enableMalachite;
     public boolean enableAzurite;
     public boolean enableCassiterite;
-    public boolean enableSphalerite;
+    public boolean enableTeallite;
     public boolean enableGalena;
     public boolean enableBauxite;
-
+    public boolean enableIngots;
+    // Weights
     public int frequencyHematite;
     public int frequencyLimonite;
     public int frequencyMalachite;
     public int frequencyAzurite;
     public int frequencyCassiterite;
-    public int frequencySphalerite;
+    public int frequencyTeallite;
     public int frequencyGalena;
     public int frequencyBauxite;
-
+    // Sizes
     public int clusterSizeHematite;
     public int clusterSizeLimonite;
     public int clusterSizeMalachite;
     public int clusterSizeAzurite;
     public int clusterSizeCassiterite;
-    public int clusterSizeSphalerite;
+    public int clusterSizeTeallite;
     public int clusterSizeGalena;
     public int clusterSizeBauxite;
 
@@ -120,8 +121,8 @@ public class Config
         enableCassiterite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Enable Sphalerite", true);
-        enableSphalerite = property.getBoolean();
+        property = config.get(category, "Enable Teallite", true);
+        enableTeallite = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Galena", true);
@@ -130,6 +131,11 @@ public class Config
 
         property = config.get(category, "Enable Bauxite", true);
         enableBauxite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Ingots", true);
+        property.setComment("Set to \"False\" if other mods already provide all necessary ore variants.");
+        enableIngots = property.getBoolean();
         propertyOrder.add(property.getName());
 
         FeatureControl.setPropertyOrder(propertyOrder);
@@ -164,8 +170,8 @@ public class Config
         frequencyCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "# of Sphalerite veins per chunk", 1);
-        frequencySphalerite = property.getInt();
+        property = config.get(category, "# of Teallite veins per chunk", 1);
+        frequencyTeallite = property.getInt();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "# of Galena veins per chunk", 1);
@@ -175,7 +181,6 @@ public class Config
         property = config.get(category, "# of Bauxite veins per chunk", 1);
         frequencyBauxite = property.getInt();
         propertyOrder.add(property.getName());
-
 
 
         Weights.setPropertyOrder(propertyOrder);
@@ -206,8 +211,8 @@ public class Config
         clusterSizeCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Sphalerite Cluster Size", 40);
-        clusterSizeSphalerite = property.getInt();
+        property = config.get(category, "Teallite Cluster Size", 40);
+        clusterSizeTeallite = property.getInt();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Galena Cluster Size", 40);

@@ -33,9 +33,9 @@
 					"all": "geolosys:blocks/cassiterite"
 				}
 			},
-			"sphalerite": {
+			"teallite": {
 				"textures": {
-					"all": "geolosys:blocks/sphalerite"
+					"all": "geolosys:blocks/teallite"
 				}
 			},
 			"galena": {
