@@ -17,7 +17,7 @@ public class ConfigGUI extends GuiConfig
 {
 	public ConfigGUI(GuiScreen guiScreen)
 	{
-		super(guiScreen, getConfigElements(), Lib.MODID, false, false, "Geolosys Configuration");
+		super(guiScreen, getConfigElements(), Lib.MODID, true, true, "Geolosys Configuration");
 	}
 
 	private static List<IConfigElement> getConfigElements()
