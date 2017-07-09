@@ -20,6 +20,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
@@ -37,9 +39,15 @@ public class BlockOre extends Block
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
-        this.setHarvestLevel("pickaxe", 1);
+        this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
+    }
+
+    private void setHarvestLevels()
+    {
+        for (EnumType t : EnumType.values())
+            this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
     }
 
     @Override
@@ -51,8 +59,18 @@ public class BlockOre extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
+        // Special case for Limonite; odd-chance for the drop to be nickel AND iron
+        if (state.getBlock().getMetaFromState(state) == 1)
+        {
+            Random rand = new Random();
+            int rng = rand.nextInt(10);
+            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 10%:
+            if (rng == 0)
+                drops.add(new ItemStack(Geolosys.cluster, 1, 7));
+            drops.add(new ItemStack(Geolosys.cluster, 1, 0));
+        }
         // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
-        if (state.getBlock().getMetaFromState(state) == 6)
+        else if (state.getBlock().getMetaFromState(state) == 6)
         {
             Random rand = new Random();
             int rng = rand.nextInt(2);
@@ -88,8 +106,6 @@ public class BlockOre extends Block
         {
             case 0:
                 return 0;
-            case 1:
-                return 0;
             case 2:
                 return 1;
             case 3:
@@ -100,11 +116,16 @@ public class BlockOre extends Block
                 return 2;
             case 7:
                 return 5;
+            case 8:
+                return 6;
+            case 9:
+                return 8;
             default:
                 return 0;
         }
     }
 
+    @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
@@ -114,18 +135,6 @@ public class BlockOre extends Block
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
-    }
-
-    @Override
-    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items)
-    {
-        if (this.getCreativeTabToDisplayOn() == itemIn)
-        {
-            for (int i = 0; i < EnumType.values().length; i++)
-            {
-                items.add(new ItemStack(Geolosys.ore, 1, i));
-            }
-        }
     }
 
     @Override
@@ -148,25 +157,34 @@ public class BlockOre extends Block
 
     public enum EnumType implements IStringSerializable
     {
-        HEMATITE(0, "hematite", "hematite"),
-        LIMONITE(1, "limonite", "limonite"),
-        MALACHITE(2, "malachite", "malachite"),
-        AZURITE(3, "azurite", "azurite"),
-        CASSITERITE(4, "cassiterite", "cassiterite"),
-        TEALLITE(5, "teallite", "teallite"),
-        GALENA(6, "galena", "galena"),
-        BAUXITE(7, "bauxite", "bauxite");
+        HEMATITE(0, 1, "hematite", "hematite"),
+        LIMONITE(1, 2, "limonite", "limonite"),
+        MALACHITE(2, 1, "malachite", "malachite"),
+        AZURITE(3, 1, "azurite", "azurite"),
+        CASSITERITE(4, 1, "cassiterite", "cassiterite"),
+        TEALLITE(5, 1, "teallite", "teallite"),
+        GALENA(6, 2, "galena", "galena"),
+        BAUXITE(7, 0, "bauxite", "bauxite"),
+        AUTUNITE(8, 2, "autunite", "autunite"),
+        PLATINUM(9, 2, "platinum", "platinum");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
+        private final int toolLevel;
         private final String serializedName;
         private final String unlocalizedName;
 
-        EnumType(int meta, String name, String unlocalizedName)
+        EnumType(int meta, int toolLevel, String name, String unlocalizedName)
         {
             this.meta = meta;
+            this.toolLevel = toolLevel;
             this.serializedName = name;
             this.unlocalizedName = unlocalizedName;
+        }
+
+        public int getToolLevel()
+        {
+            return this.toolLevel;
         }
 
         public int getMetadata()
@@ -228,12 +246,12 @@ public class BlockOre extends Block
         }
 
         @Override
-        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+        @SideOnly(Side.CLIENT)
+        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
-            {
-                this.block.getSubBlocks(tab, items);
-            }
+                for (int i = 0; i < EnumType.values().length; ++i)
+                    list.add(new ItemStack(this, 1, i));
         }
 
         private void registerModels()
