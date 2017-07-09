@@ -65,9 +65,9 @@ public class BlockOre extends Block
         {
             if (Geolosys.config.enableNickel)
             {
-                // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 10%:
+                // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
                 Random rand = new Random();
-                int rng = rand.nextInt(10);
+                int rng = rand.nextInt(5);
                 if (rng == 0)
                     drops.add(new ItemStack(Geolosys.cluster, 1, ItemCluster.META_NICKEL));
             }
