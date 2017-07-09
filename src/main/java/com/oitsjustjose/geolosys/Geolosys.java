@@ -34,14 +34,15 @@ public class Geolosys
     public static Logger LOGGER;
     public static Config config;
     public static ClientRegistry clientRegistry;
+
     public static BlockOre ore;
+
     public static Item cluster;
     public static Item ingot;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        instance = this;
         LOGGER = event.getModLog();
         config = new Config(event.getSuggestedConfigurationFile());
         MinecraftForge.EVENT_BUS.register(config);
@@ -119,20 +120,24 @@ public class Geolosys
     private void registerGeolosysOreGen()
     {
         if (config.enableHematite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, config.chanceHematite);
         if (config.enableLimonite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, config.chanceLimonite);
         if (config.enableMalachite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, config.chanceLimonite);
         if (config.enableAzurite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, config.chanceAzurite);
         if (config.enableCassiterite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, config.chanceCassiterite);
         if (config.enableTeallite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, config.chanceTeallite);
         if (config.enableGalena)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, config.chanceGalena);
         if (config.enableBauxite)
-            WorldGenPluton.addOreGen(ore.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, 10);
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, config.chanceBauxite);
+        if (config.enablePlatinum)
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.frequencyPlatinum, config.chancePlatinum);
+        if (config.enableAutunite)
+            WorldGenPluton.addOreGen(ore.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.frequencyUranium, config.chanceUranium);
     }
 }

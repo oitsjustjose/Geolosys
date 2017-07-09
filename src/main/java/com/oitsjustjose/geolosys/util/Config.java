@@ -15,6 +15,7 @@ public class Config
     public Configuration config;
     public ConfigCategory FeatureControl;
     public ConfigCategory Weights;
+    public ConfigCategory Chances;
     public ConfigCategory Sizes;
 
     // Feature Control
@@ -46,6 +47,19 @@ public class Config
     public int frequencyTeallite;
     public int frequencyGalena;
     public int frequencyBauxite;
+    public int frequencyPlatinum;
+    public int frequencyUranium;
+    // Chances
+    public int chanceHematite;
+    public int chanceLimonite;
+    public int chanceMalachite;
+    public int chanceAzurite;
+    public int chanceCassiterite;
+    public int chanceTeallite;
+    public int chanceGalena;
+    public int chanceBauxite;
+    public int chancePlatinum;
+    public int chanceUranium;
     // Sizes
     public int clusterSizeHematite;
     public int clusterSizeLimonite;
@@ -55,6 +69,8 @@ public class Config
     public int clusterSizeTeallite;
     public int clusterSizeGalena;
     public int clusterSizeBauxite;
+    public int clusterSizePlatinum;
+    public int clusterSizeUranium;
 
     public int[] blacklistedDIMs;
 
@@ -155,6 +171,53 @@ public class Config
 
         FeatureControl.setPropertyOrder(propertyOrder);
 
+        category = "Ore Gen Chances";
+        propertyOrder = Lists.newArrayList();
+        Chances = config.getCategory(category);
+        Chances.setComment("The % chance for a pluton to generate in a chunk");
+
+        property = config.get(category, "Hematite Pluton Chance Per Chunk", 10);
+        chanceHematite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Limonite Pluton Chance Per Chunk", 10);
+        chanceLimonite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Malachite Pluton Chance Per Chunk", 10);
+        chanceMalachite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Azurite Pluton Chance Per Chunk", 10);
+        chanceAzurite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Cassiterite Pluton Chance Per Chunk", 10);
+        chanceCassiterite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Teallite Pluton Chance Per Chunk", 10);
+        chanceTeallite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Galena Pluton Chance Per Chunk", 10);
+        chanceGalena = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Bauxite Pluton Chance Per Chunk", 10);
+        chanceBauxite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Platinum Pluton Chance Per Chunk", 5);
+        chancePlatinum = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Uranium Pluton Chance Per Chunk", 5);
+        chanceUranium = property.getInt();
+        propertyOrder.add(property.getName());
+
+        Chances.setPropertyOrder(propertyOrder);
+
         // Weights
         category = "Ore Gen Weights";
         propertyOrder = Lists.newArrayList();
@@ -197,6 +260,13 @@ public class Config
         frequencyBauxite = property.getInt();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "# of Platinum veins per chunk", 1);
+        frequencyPlatinum = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "# of Uranium veins per chunk", 1);
+        frequencyUranium = property.getInt();
+        propertyOrder.add(property.getName());
 
         Weights.setPropertyOrder(propertyOrder);
 
@@ -236,6 +306,14 @@ public class Config
 
         property = config.get(category, "Bauxite Cluster Size", 28);
         clusterSizeBauxite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Platinum Cluster Size", 20);
+        clusterSizePlatinum = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Uranium Cluster Size", 12);
+        clusterSizeUranium = property.getInt();
         propertyOrder.add(property.getName());
 
         Sizes.setPropertyOrder(propertyOrder);
