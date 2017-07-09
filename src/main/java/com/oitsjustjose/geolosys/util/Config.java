@@ -38,6 +38,7 @@ public class Config
     public boolean enableAutunite;
     public boolean enablePlatinum;
     public boolean enableIngots;
+    public boolean registerAsBauxite;
     // Weights
     public int frequencyHematite;
     public int frequencyLimonite;
@@ -167,6 +168,11 @@ public class Config
         property = config.get(category, "Enable Ingots", true);
         property.setComment("Set to \"False\" if other mods already provide all necessary ore variants.");
         enableIngots = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Also register Aluminum Cluster as oreBauxite", false);
+        property.setComment("Meant as a layer of compatibility for mods like TechReborn. Adds \"oreBauxite\" as one of the entries for the Aluminum Cluster");
+        registerAsBauxite = property.getBoolean();
         propertyOrder.add(property.getName());
 
         FeatureControl.setPropertyOrder(propertyOrder);
