@@ -27,12 +27,15 @@ public class Config
     public boolean modStones;
     public boolean enableHematite;
     public boolean enableLimonite;
+    public boolean enableNickel;
     public boolean enableMalachite;
     public boolean enableAzurite;
     public boolean enableCassiterite;
     public boolean enableTeallite;
     public boolean enableGalena;
     public boolean enableBauxite;
+    public boolean enableAutunite;
+    public boolean enablePlatinum;
     public boolean enableIngots;
     // Weights
     public int frequencyHematite;
@@ -109,6 +112,10 @@ public class Config
         enableLimonite = property.getBoolean();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Enable Nickel Drops from Limonite", true);
+        enableNickel = property.getBoolean();
+        propertyOrder.add(property.getName());
+
         property = config.get(category, "Enable Malachite", true);
         enableMalachite = property.getBoolean();
         propertyOrder.add(property.getName());
@@ -131,6 +138,14 @@ public class Config
 
         property = config.get(category, "Enable Bauxite", true);
         enableBauxite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Autunite", true);
+        enableAutunite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Platinum", true);
+        enablePlatinum = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Ingots", true);

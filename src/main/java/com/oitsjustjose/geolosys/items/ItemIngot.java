@@ -20,6 +20,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemIngot extends Item
 {
+    public static final int META_COPPER = 0;
+    public static final int META_TIN = 1;
+    public static final int META_SILVER = 2;
+    public static final int META_LEAD = 3;
+    public static final int META_ALUMINUM = 4;
+    public static final int META_NICKEL = 5;
+    public static final int META_PLATINUM = 6;
+
+
     public ItemIngot()
     {
         this.setHasSubtypes(true);
@@ -69,11 +78,13 @@ public class ItemIngot extends Item
 
     public enum EnumType implements IStringSerializable
     {
-        COPPER(0, "copper"),
-        TIN(1, "tin"),
-        SILVER(2, "silver"),
-        LEAD(3, "lead"),
-        ALUMINUM(4, "aluminum");
+        COPPER(META_COPPER, "copper"),
+        TIN(META_TIN, "tin"),
+        SILVER(META_SILVER, "silver"),
+        LEAD(META_LEAD, "lead"),
+        ALUMINUM(META_ALUMINUM, "aluminum"),
+        NICKEL(META_NICKEL, "nickel"),
+        PLATINUM(META_PLATINUM, "platinum");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
