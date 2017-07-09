@@ -47,6 +47,16 @@
 				"textures": {
 					"all": "geolosys:blocks/bauxite"
 				}
+			},
+			"autunite": {
+				"textures": {
+					"all": "geolosys:blocks/autunite"
+				}
+			},
+			"platinum": {
+				"textures": {
+					"all": "geolosys:blocks/platinum"
+				}
 			}
 		}
 	}

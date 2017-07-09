@@ -11,6 +11,8 @@ geolosys.ore.cassiterite.name=Cassiterite Ore
 geolosys.ore.teallite.name=Teallite Ore
 geolosys.ore.galena.name=Galena Ore
 geolosys.ore.bauxite.name=Bauxite Ore
+geolosys.ore.autunite.name=Autunite Ore
+geolosys.ore.platinum.name=Platinum Ore
 
 # Items
 
@@ -23,6 +25,9 @@ geolosys.cluster.tin.name=Tin Cluster
 geolosys.cluster.silver.name=Silver Cluster
 geolosys.cluster.lead.name=Lead Cluster
 geolosys.cluster.aluminum.name=Aluminum Cluster
+geolosys.cluster.uranium.name=Uranium Cluster
+geolosys.cluster.nickel.name=Nickel Cluster
+geolosys.cluster.platinum.name=Platinum Cluster
 # ------------------------------------ #
 #              Ingots                  #
 # ------------------------------------ #

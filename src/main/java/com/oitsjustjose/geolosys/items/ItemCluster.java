@@ -62,7 +62,10 @@ public class ItemCluster extends Item
         TIN(2, "tin"),
         SILVER(3, "silver"),
         LEAD(4, "lead"),
-        ALUMINUM(5, "aluminum");
+        ALUMINUM(5, "aluminum"),
+        URANIUM(6, "uranium"),
+        NICKEL(7, "nickel"),
+        PLATINUM(8, "platinum");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
