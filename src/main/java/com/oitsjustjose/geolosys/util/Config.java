@@ -19,8 +19,6 @@ public class Config
     public ConfigCategory Sizes;
     public ConfigCategory UserEntries;
 
-    public ConfigParser configParser;
-
     // Feature Control
     public boolean disableIron;
     public boolean modGold;
@@ -187,27 +185,27 @@ public class Config
         Chances = config.getCategory(category);
         Chances.setComment("The % chance for a pluton to generate in a chunk");
 
-        property = config.get(category, "Hematite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Hematite Pluton Chance Per Chunk", 5);
         chanceHematite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Limonite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Limonite Pluton Chance Per Chunk", 5);
         chanceLimonite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Malachite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Malachite Pluton Chance Per Chunk", 5);
         chanceMalachite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Azurite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Azurite Pluton Chance Per Chunk", 5);
         chanceAzurite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Cassiterite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Cassiterite Pluton Chance Per Chunk", 5);
         chanceCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Teallite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Teallite Pluton Chance Per Chunk", 5);
         chanceTeallite = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -336,8 +334,9 @@ public class Config
 
         property = config.get(category, "Custom Ore Entries", new String[]{});
         property.setComment("Format is:\n" +
-                "<modid:block:meta>, clusterSize, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
-                "META, COLONS AND COMMAS ARE REQUIRED.");
+                "modid:block:meta, clusterSize, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
+                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
+                "actuallyadditions:block_misc:3, 32, 13, 42, 1, 20");
         userEntriesRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
@@ -347,7 +346,6 @@ public class Config
         {
             config.save();
         }
-        configParser = new ConfigParser();
     }
 
     @SubscribeEvent
