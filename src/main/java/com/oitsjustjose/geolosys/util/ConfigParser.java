@@ -27,7 +27,7 @@ public class ConfigParser
     {
         for (String s : Geolosys.config.userEntriesRaw)
         {
-            String[] parts = s.split("[\\W]");
+            String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 8)
             {
                 printFormattingError(s);
