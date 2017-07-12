@@ -35,6 +35,7 @@ public class Geolosys
     public static Logger LOGGER;
     public static Config config;
     public static ClientRegistry clientRegistry;
+    private ConfigParser configParser;
 
     public static BlockOre ore;
 
@@ -91,7 +92,7 @@ public class Geolosys
                 LOGGER.fatal("Could not find " + mat + " in the OreDictionary. Please enable Geolosys' Ingots in the config or add a mod which adds it.");
             }
         }
-
+        configParser = new ConfigParser();
         registerUserOreGen();
         GameRegistry.registerWorldGenerator(new WorldGenPluton(), 0);
     }
@@ -99,13 +100,13 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modGold)
-            WorldGenPluton.addOreGen(Blocks.GOLD_ORE.getDefaultState(), 20, 5, 30, 1, 16);
+            WorldGenPluton.addOreGen(Blocks.GOLD_ORE.getDefaultState(), 20, 5, 30, 1, 12);
         if (config.modDiamond)
-            WorldGenPluton.addOreGen(Blocks.DIAMOND_ORE.getDefaultState(), 12, 2, 15, 1, 12);
+            WorldGenPluton.addOreGen(Blocks.DIAMOND_ORE.getDefaultState(), 12, 2, 15, 1, 10);
         if (config.modCoal)
-            WorldGenPluton.addOreGen(Blocks.COAL_ORE.getDefaultState(), 64, 2, 70, 1, 20);
+            WorldGenPluton.addOreGen(Blocks.COAL_ORE.getDefaultState(), 64, 2, 70, 1, 12);
         if (config.modRedstone)
-            WorldGenPluton.addOreGen(Blocks.REDSTONE_ORE.getDefaultState(), 32, 5, 12, 1, 16);
+            WorldGenPluton.addOreGen(Blocks.REDSTONE_ORE.getDefaultState(), 32, 5, 12, 1, 14);
         if (config.modLapis)
             WorldGenPluton.addOreGen(Blocks.LAPIS_ORE.getDefaultState(), 20, 10, 24, 1, 8);
         if (config.modStones)
@@ -114,9 +115,9 @@ public class Geolosys
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 
-            WorldGenPluton.addOreGen(andesite, 72, 2, 70, 1, 20);
-            WorldGenPluton.addOreGen(diorite, 72, 2, 70, 1, 20);
-            WorldGenPluton.addOreGen(granite, 72, 2, 70, 1, 20);
+            WorldGenPluton.addOreGen(andesite, 72, 2, 70, 1, 40);
+            WorldGenPluton.addOreGen(diorite, 72, 2, 70, 1, 40);
+            WorldGenPluton.addOreGen(granite, 72, 2, 70, 1, 40);
         }
     }
 
@@ -146,7 +147,7 @@ public class Geolosys
 
     private void registerUserOreGen()
     {
-        for (ConfigParser.Entry e : config.configParser.getUserEntries())
+        for (ConfigParser.Entry e : configParser.getUserEntries())
             WorldGenPluton.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
     }
 }
