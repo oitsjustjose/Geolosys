@@ -5,6 +5,7 @@ import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.util.ConfigParser;
 import com.oitsjustjose.geolosys.util.Lib;
 import com.oitsjustjose.geolosys.world.WorldGenOverride;
 import com.oitsjustjose.geolosys.world.WorldGenPluton;
@@ -62,7 +63,6 @@ public class Geolosys
     public void init(FMLInitializationEvent event)
     {
         MinecraftForge.ORE_GEN_BUS.register(new WorldGenOverride());
-        GameRegistry.registerWorldGenerator(new WorldGenPluton(), 0);
     }
 
     @EventHandler
@@ -91,6 +91,9 @@ public class Geolosys
                 LOGGER.fatal("Could not find " + mat + " in the OreDictionary. Please enable Geolosys' Ingots in the config or add a mod which adds it.");
             }
         }
+
+        registerUserOreGen();
+        GameRegistry.registerWorldGenerator(new WorldGenPluton(), 0);
     }
 
     private void registerVanillaOreGen()
@@ -139,5 +142,11 @@ public class Geolosys
             WorldGenPluton.addOreGen(ore.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.frequencyPlatinum, config.chancePlatinum);
         if (config.enableAutunite)
             WorldGenPluton.addOreGen(ore.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.frequencyUranium, config.chanceUranium);
+    }
+
+    private void registerUserOreGen()
+    {
+        for (ConfigParser.Entry e : config.configParser.getUserEntries())
+            WorldGenPluton.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
     }
 }

@@ -17,6 +17,9 @@ public class Config
     public ConfigCategory Weights;
     public ConfigCategory Chances;
     public ConfigCategory Sizes;
+    public ConfigCategory UserEntries;
+
+    public ConfigParser configParser;
 
     // Feature Control
     public boolean disableIron;
@@ -72,6 +75,8 @@ public class Config
     public int clusterSizeBauxite;
     public int clusterSizePlatinum;
     public int clusterSizeUranium;
+    // User Entries
+    public String[] userEntriesRaw;
 
     public int[] blacklistedDIMs;
 
@@ -324,10 +329,25 @@ public class Config
 
         Sizes.setPropertyOrder(propertyOrder);
 
+        category = "User Entries";
+        propertyOrder = Lists.newArrayList();
+        UserEntries = config.getCategory(category);
+        UserEntries.setComment("It is STRONGLY suggested you use the ConfigGUI for this.");
+
+        property = config.get(category, "Custom Ore Entries", new String[]{});
+        property.setComment("Format is:\n" +
+                "<modid:block:meta>, clusterSize, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
+                "META, COLONS AND COMMAS ARE REQUIRED.");
+        userEntriesRaw = property.getStringList();
+        propertyOrder.add(property.getName());
+
+        UserEntries.setPropertyOrder(propertyOrder);
+
         if (config.hasChanged())
         {
             config.save();
         }
+        configParser = new ConfigParser();
     }
 
     @SubscribeEvent

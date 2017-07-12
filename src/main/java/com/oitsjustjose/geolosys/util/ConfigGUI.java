@@ -28,6 +28,7 @@ public class ConfigGUI extends GuiConfig
 		list.add(new ConfigElement(Geolosys.config.Weights));
 		list.add(new ConfigElement(Geolosys.config.Chances));
 		list.add(new ConfigElement(Geolosys.config.Sizes));
+		list.add(new ConfigElement(Geolosys.config.UserEntries));
 
 		return list;
 	}
