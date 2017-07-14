@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.blocks.BlockOre;
+import com.oitsjustjose.geolosys.blocks.BlockVanillaOre;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
@@ -14,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,6 +40,7 @@ public class Geolosys
     private ConfigParser configParser;
 
     public static BlockOre ore;
+    public static BlockVanillaOre vanillaOre;
 
     public static Item cluster;
     public static Item ingot;
@@ -52,6 +55,7 @@ public class Geolosys
         MinecraftForge.EVENT_BUS.register(clientRegistry);
 
         ore = new BlockOre();
+        vanillaOre = new BlockVanillaOre();
         cluster = new ItemCluster();
         if (config.enableIngots)
             ingot = new ItemIngot();
@@ -99,16 +103,19 @@ public class Geolosys
 
     private void registerVanillaOreGen()
     {
-        if (config.modGold)
-            WorldGenPluton.addOreGen(Blocks.GOLD_ORE.getDefaultState(), 20, 5, 30, 1, 12);
-        if (config.modDiamond)
-            WorldGenPluton.addOreGen(Blocks.DIAMOND_ORE.getDefaultState(), 12, 2, 15, 1, 10);
         if (config.modCoal)
-            WorldGenPluton.addOreGen(Blocks.COAL_ORE.getDefaultState(), 64, 2, 70, 1, 12);
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(0), 48, 2, 70, 1, 12);
         if (config.modRedstone)
-            WorldGenPluton.addOreGen(Blocks.REDSTONE_ORE.getDefaultState(), 32, 5, 12, 1, 14);
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(1), 48, 5, 12, 1, 4);
+        if (config.modGold)
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(2), 24, 5, 30, 1, 8);
         if (config.modLapis)
-            WorldGenPluton.addOreGen(Blocks.LAPIS_ORE.getDefaultState(), 20, 10, 24, 1, 8);
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(3), 20, 10, 24, 1, 8);
+        if (config.modQuartz)
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(4), 32, 40, 56, 1, 4);
+        if (config.modDiamond)
+            WorldGenPluton.addOreGen(vanillaOre.getStateFromMeta(5), 16, 2, 15, 1, 8);
+
         if (config.modStones)
         {
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
