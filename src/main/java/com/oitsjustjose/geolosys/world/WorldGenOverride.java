@@ -26,6 +26,8 @@ public class WorldGenOverride
             event.setResult(Event.Result.DENY);
         if (Geolosys.config.modLapis && event.getType() == OreGenEvent.GenerateMinable.EventType.LAPIS)
             event.setResult(Event.Result.DENY);
+        if (Geolosys.config.modQuartz && event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ)
+            event.setResult(Event.Result.DENY);
         if (Geolosys.config.modStones)
             if (event.getType() == OreGenEvent.GenerateMinable.EventType.ANDESITE || event.getType() == OreGenEvent.GenerateMinable.EventType.GRANITE || event.getType() == OreGenEvent.GenerateMinable.EventType.DIORITE)
                 event.setResult(Event.Result.DENY);

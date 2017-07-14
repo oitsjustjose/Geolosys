@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -62,11 +63,11 @@ public class BlockVanillaOre extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
-            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDropped(random), Blocks.COAL_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
         }
         else if (meta == 1)
         {
-            drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDropped(random), Blocks.REDSTONE_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
         }
         else if (meta == 2)
         {
@@ -74,11 +75,11 @@ public class BlockVanillaOre extends Block
         }
         else if (meta == 3)
         {
-            drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), Blocks.LAPIS_ORE.quantityDropped(random), Blocks.LAPIS_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
         }
         else if (meta == 4)
         {
-            drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune), Blocks.QUARTZ_ORE.quantityDropped(random), Blocks.QUARTZ_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune), Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random), Blocks.QUARTZ_ORE.damageDropped(state)));
             int fortuneDropCalc = 1 + random.nextInt(fortune + 1);
             for (int i = 0; i < fortuneDropCalc; i++)
             {
@@ -96,7 +97,7 @@ public class BlockVanillaOre extends Block
         }
         else if (meta == 5)
         {
-            drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), Blocks.DIAMOND_ORE.quantityDropped(random), Blocks.DIAMOND_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random), Blocks.DIAMOND_ORE.damageDropped(state)));
         }
     }
 
@@ -124,6 +125,16 @@ public class BlockVanillaOre extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
+        if (state.getBlock().getMetaFromState(state) == 1)
+        {
+            world.setBlockToAir(pos);
+//            if (!world.isRemote)
+//            {
+                EntityItem entItem = new EntityItem(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, new ItemStack(Blocks.REDSTONE_ORE));
+//                entItem.dropItemWithOffset(Item.getItemFromBlock(Blocks.REDSTONE_ORE), 1, 0.1F);
+                world.spawnEntity(entItem);
+//            }
+        }
         return false;
     }
 
