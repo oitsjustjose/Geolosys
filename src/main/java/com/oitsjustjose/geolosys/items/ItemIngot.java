@@ -70,9 +70,8 @@ public class ItemIngot extends Item
 
     private void registerSmelting()
     {
-        GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
         for (int i = 0; i < EnumType.values().length; i++)
-            GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, i + 1), new ItemStack(this, 1, i), 0.7F);
+            GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
     }
 
 
