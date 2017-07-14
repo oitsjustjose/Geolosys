@@ -3,16 +3,22 @@
 # ------------------------------------ #
 #                Ores                  #
 # ------------------------------------ #
-geolosys.ore.hematite.name=Hematite Ore
-geolosys.ore.limonite.name=Limonite Ore
-geolosys.ore.malachite.name=Malachite Ore
-geolosys.ore.azurite.name=Azurite Ore
-geolosys.ore.cassiterite.name=Cassiterite Ore
-geolosys.ore.teallite.name=Teallite Ore
-geolosys.ore.galena.name=Galena Ore
-geolosys.ore.bauxite.name=Bauxite Ore
-geolosys.ore.autunite.name=Autunite Ore
-geolosys.ore.platinum.name=Platinum Ore
+geolosys.ore.hematite.name=Hematite
+geolosys.ore.limonite.name=Limonite
+geolosys.ore.malachite.name=Malachite
+geolosys.ore.azurite.name=Azurite
+geolosys.ore.cassiterite.name=Cassiterite
+geolosys.ore.teallite.name=Teallite
+geolosys.ore.galena.name=Galena
+geolosys.ore.bauxite.name=Bauxite
+geolosys.ore.autunite.name=Autunite
+geolosys.ore.platinum.name=Platinum
+geolosys.orevanilla.coal.name=Coal
+geolosys.orevanilla.cinnabar.name=Cinnabar
+geolosys.orevanilla.gold.name=Gold
+geolosys.orevanilla.lapis.name=Lapis Lazuli
+geolosys.orevanilla.quartz.name=Assorted Quartz
+geolosys.orevanilla.diamond.name=Diamond
 
 # Items
 
@@ -20,6 +26,7 @@ geolosys.ore.platinum.name=Platinum Ore
 #             Clusters                 #
 # ------------------------------------ #
 geolosys.cluster.iron.name=Iron Cluster
+geolosys.cluster.gold.name=Gold Cluster
 geolosys.cluster.copper.name=Copper Cluster
 geolosys.cluster.tin.name=Tin Cluster
 geolosys.cluster.silver.name=Silver Cluster
