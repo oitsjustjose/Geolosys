@@ -26,6 +26,7 @@ public class Config
     public boolean modCoal;
     public boolean modRedstone;
     public boolean modLapis;
+    public boolean modQuartz;
     public boolean modStones;
     public boolean enableHematite;
     public boolean enableLimonite;
@@ -118,6 +119,10 @@ public class Config
 
         property = config.get(category, "Replace Lapis Deposits", true);
         modLapis = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Replace Quartz Deposits (also adds Certus Quartz drops", true);
+        modQuartz = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Replace Stone Variant Deposits", true);
