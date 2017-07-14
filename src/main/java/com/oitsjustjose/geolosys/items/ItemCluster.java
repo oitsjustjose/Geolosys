@@ -73,8 +73,8 @@ public class ItemCluster extends Item
 
     private void registerSmelting()
     {
-        GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
-        GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
+        GameRegistry.addSmelting(new ItemStack(this, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
+        GameRegistry.addSmelting(new ItemStack(this, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
     }
 
 
