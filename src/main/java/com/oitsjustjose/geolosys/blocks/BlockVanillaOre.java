@@ -48,13 +48,38 @@ public class BlockVanillaOre extends Block
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
-        MinecraftForge.EVENT_BUS.register(new VanillaSilkTouchEventHandler());
     }
 
     private void setHarvestLevels()
     {
         for (EnumType t : EnumType.values())
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
+    }
+
+    @Override
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        return state.getBlock().getMetaFromState(state) != 2;
+    }
+
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state)
+    {
+        switch (blockState.getBlock().getMetaFromState(state))
+        {
+            case 0:
+                return new ItemStack(Blocks.COAL_ORE);
+            case 1:
+                return new ItemStack(Blocks.REDSTONE_ORE);
+            case 3:
+                return new ItemStack(Blocks.LAPIS_ORE);
+            case 4:
+                return new ItemStack(Blocks.QUARTZ_ORE);
+            case 5:
+                return new ItemStack(Blocks.DIAMOND_ORE);
+            default:
+                return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+        }
     }
 
     @Override
@@ -123,12 +148,6 @@ public class BlockVanillaOre extends Block
         }
     }
 
-    @Override
-    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
-    {
-        return false;
-    }
-
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
@@ -143,6 +162,7 @@ public class BlockVanillaOre extends Block
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
@@ -263,42 +283,4 @@ public class BlockVanillaOre extends Block
                 Geolosys.clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
         }
     }
-
-    /**
-     * This class is specifically for the Silk Touching event
-     * Instead of using native Block code which doesn't offer "isSilkTouching"
-     * I'm using this because it's generally more compatible
-     */
-    public class VanillaSilkTouchEventHandler
-    {
-        @SubscribeEvent
-        public void register(BlockEvent.HarvestDropsEvent event)
-        {
-            if (event.getState().getBlock() != Geolosys.ORE_VANILLA || event.getState() == Geolosys.ORE_VANILLA.getStateFromMeta(2) || !event.isSilkTouching())
-                return;
-
-            event.getDrops().clear();
-            event.getDrops().add(new ItemStack(getVanillaCorrespondant(event.getState())));
-        }
-
-        public Block getVanillaCorrespondant(IBlockState state)
-        {
-            switch (blockState.getBlock().getMetaFromState(state))
-            {
-                case 0:
-                    return Blocks.COAL_ORE;
-                case 1:
-                    return Blocks.REDSTONE_ORE;
-                case 3:
-                    return Blocks.LAPIS_ORE;
-                case 4:
-                    return Blocks.QUARTZ_ORE;
-                case 5:
-                    return Blocks.DIAMOND_ORE;
-                default:
-                    return null;
-            }
-        }
-    }
-
 }
