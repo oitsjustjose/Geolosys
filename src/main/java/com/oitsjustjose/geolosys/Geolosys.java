@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockVanillaOre;
+import com.oitsjustjose.geolosys.chunkdata.ChunkOreGen;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
@@ -36,13 +37,15 @@ public class Geolosys
     public static Logger LOGGER;
     public static Config config;
     public static ClientRegistry clientRegistry;
+    public static ChunkOreGen chunkOreGen;
     private ConfigParser configParser;
 
-    public static BlockOre ore;
-    public static BlockVanillaOre vanillaOre;
 
-    public static Item cluster;
-    public static Item ingot;
+    public static BlockOre ORE;
+    public static BlockVanillaOre VANILLA_ORE;
+
+    public static Item CLUSTER;
+    public static Item INGOT;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -52,12 +55,13 @@ public class Geolosys
         MinecraftForge.EVENT_BUS.register(config);
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
+        chunkOreGen = new ChunkOreGen();
 
-        ore = new BlockOre();
-        vanillaOre = new BlockVanillaOre();
-        cluster = new ItemCluster();
+        ORE = new BlockOre();
+        VANILLA_ORE = new BlockVanillaOre();
+        CLUSTER = new ItemCluster();
         if (config.enableIngots)
-            ingot = new ItemIngot();
+            INGOT = new ItemIngot();
 
         registerVanillaOreGen();
         registerGeolosysOreGen();
@@ -78,17 +82,17 @@ public class Geolosys
             try
             {
                 mat = "ingotIron";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 0), OreDictionary.getOres("ingotIron").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), OreDictionary.getOres("ingotIron").get(0), 0.7F);
                 mat = "ingotCopper";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 1), OreDictionary.getOres("ingotCopper").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), OreDictionary.getOres("ingotCopper").get(0), 0.7F);
                 mat = "ingotTin";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 2), OreDictionary.getOres("ingotTin").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 2), OreDictionary.getOres("ingotTin").get(0), 0.7F);
                 mat = "ingotSilver";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 3), OreDictionary.getOres("ingotSilver").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 3), OreDictionary.getOres("ingotSilver").get(0), 0.7F);
                 mat = "ingotLead";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 4), OreDictionary.getOres("ingotLead").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 4), OreDictionary.getOres("ingotLead").get(0), 0.7F);
                 mat = "ingotAluminum";
-                GameRegistry.addSmelting(new ItemStack(cluster, 1, 5), OreDictionary.getOres("ingotAluminum").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 5), OreDictionary.getOres("ingotAluminum").get(0), 0.7F);
             }
             catch (NullPointerException | IndexOutOfBoundsException e)
             {
@@ -103,17 +107,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(0), 64, 2, 70, 1, 12);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(0), 64, 2, 70, 1, 12);
         if (config.modRedstone)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(1), 64, 5, 12, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(1), 64, 5, 12, 1, 4);
         if (config.modGold)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(2), 32, 5, 30, 1, 6);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(2), 32, 5, 30, 1, 6);
         if (config.modLapis)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(3), 32, 10, 24, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(3), 32, 10, 24, 1, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(4), 40, 40, 56, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(4), 40, 40, 56, 1, 4);
         if (config.modDiamond)
-            OreGenerator.addOreGen(vanillaOre.getStateFromMeta(5), 24, 2, 15, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(5), 24, 2, 15, 1, 4);
 
         if (config.modStones)
         {
@@ -130,25 +134,25 @@ public class Geolosys
     private void registerGeolosysOreGen()
     {
         if (config.enableHematite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, config.chanceHematite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, config.chanceHematite);
         if (config.enableLimonite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, config.chanceLimonite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, config.chanceLimonite);
         if (config.enableMalachite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, config.chanceLimonite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, config.chanceLimonite);
         if (config.enableAzurite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, config.chanceAzurite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, config.chanceAzurite);
         if (config.enableCassiterite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, config.chanceCassiterite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, config.chanceCassiterite);
         if (config.enableTeallite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, config.chanceTeallite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, config.chanceTeallite);
         if (config.enableGalena)
-            OreGenerator.addOreGen(ore.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, config.chanceGalena);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, config.chanceGalena);
         if (config.enableBauxite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, config.chanceBauxite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, config.chanceBauxite);
         if (config.enablePlatinum)
-            OreGenerator.addOreGen(ore.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.frequencyPlatinum, config.chancePlatinum);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.frequencyPlatinum, config.chancePlatinum);
         if (config.enableAutunite)
-            OreGenerator.addOreGen(ore.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.frequencyUranium, config.chanceUranium);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.frequencyUranium, config.chanceUranium);
     }
 
     private void registerUserOreGen()

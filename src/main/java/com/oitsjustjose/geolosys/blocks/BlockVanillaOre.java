@@ -4,7 +4,6 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -15,13 +14,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -71,7 +68,7 @@ public class BlockVanillaOre extends Block
         }
         else if (meta == 2)
         {
-            drops.add(new ItemStack(Geolosys.cluster, 1, ItemCluster.META_GOLD));
+            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_GOLD));
         }
         else if (meta == 3)
         {

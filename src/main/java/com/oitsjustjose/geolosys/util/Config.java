@@ -174,7 +174,7 @@ public class Config
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Ingots", true);
-        property.setComment("Set to \"False\" if other mods already provide all necessary ore variants.");
+        property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
         enableIngots = property.getBoolean();
         propertyOrder.add(property.getName());
 
@@ -236,7 +236,7 @@ public class Config
         category = "Ore Gen Weights";
         propertyOrder = Lists.newArrayList();
         Weights = config.getCategory(category);
-        Weights.setComment("Fine-tuned adjustments for ore generation rates.");
+        Weights.setComment("Fine-tuned adjustments for ORE generation rates.");
 
         property = config.get(category, "Blacklisted Dimensions", new int[]{-1, 1}, "Dimensions that ores CAN'T generate in");
         blacklistedDIMs = property.getIntList();
@@ -288,7 +288,7 @@ public class Config
         category = "Ore Cluster Sizes";
         propertyOrder = Lists.newArrayList();
         Sizes = config.getCategory(category);
-        Sizes.setComment("The number of ores found in each cluster");
+        Sizes.setComment("The number of ores found in each CLUSTER");
 
         property = config.get(category, "Hematite Cluster Size", 48);
         clusterSizeHematite = property.getInt();

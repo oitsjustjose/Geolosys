@@ -3,12 +3,9 @@ package com.oitsjustjose.geolosys.items;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.Lib;
 
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -33,7 +30,7 @@ public class ItemIngot extends Item
     {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "ingot"));
+        this.setRegistryName(new ResourceLocation(Lib.MODID, "INGOT"));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
@@ -65,13 +62,13 @@ public class ItemIngot extends Item
     private void registerOreDict()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            OreDictionary.registerOre("ingot" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("INGOT" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
     }
 
     private void registerSmelting()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            GameRegistry.addSmelting(new ItemStack(Geolosys.cluster, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
+            GameRegistry.addSmelting(new ItemStack(Geolosys.CLUSTER, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
     }
 
 
