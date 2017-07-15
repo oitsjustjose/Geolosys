@@ -89,17 +89,23 @@ public class Geolosys
             try
             {
                 mat = "ingotIron";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), OreDictionary.getOres("ingotIron").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), OreDictionary.getOres(mat).get(0), 0.7F);
+                mat = "ingotGold";
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), OreDictionary.getOres(mat).get(0), 1.0F);
                 mat = "ingotCopper";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), OreDictionary.getOres("ingotCopper").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 2), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotTin";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 2), OreDictionary.getOres("ingotTin").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 3), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotSilver";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 3), OreDictionary.getOres("ingotSilver").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 4), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotLead";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 4), OreDictionary.getOres("ingotLead").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 5), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotAluminum";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 5), OreDictionary.getOres("ingotAluminum").get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 6), OreDictionary.getOres(mat).get(0), 0.7F);
+                mat = "ingotNickel";
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 7), OreDictionary.getOres(mat).get(0), 0.7F);
+                mat = "ingotPlatinum";
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 8), OreDictionary.getOres(mat).get(0), 0.7F);
             }
             catch (NullPointerException | IndexOutOfBoundsException e)
             {
