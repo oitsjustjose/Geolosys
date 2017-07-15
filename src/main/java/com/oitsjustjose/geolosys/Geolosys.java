@@ -116,7 +116,7 @@ public class Geolosys
         registerUserOreGen();
         registerUserStoneGen();
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 0);
-        GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+        GameRegistry.registerWorldGenerator(new OreGenerator(), 1);
     }
 
     private void registerVanillaOreGen()
