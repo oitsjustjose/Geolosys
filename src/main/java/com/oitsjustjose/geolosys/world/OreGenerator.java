@@ -83,8 +83,7 @@ public class OreGenerator implements IWorldGenerator
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
         if (!isDIMBlacklisted(world.provider.getDimension()))
-            for (OreGen gen : orespawnList)
-                gen.generate(world, random, (chunkX * 16), (chunkZ * 16));
+            orespawnList.get(random.nextInt(orespawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
     }
 
     public boolean isDIMBlacklisted(int dim)

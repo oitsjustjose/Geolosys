@@ -30,13 +30,8 @@ public class ChunkData
     private BlockPos getPosForNugPlacement(World world, ChunkPos chunkPos)
     {
         // Start from the skybox and work down
-        int i = 255;
-        while (world.isAirBlock(new BlockPos(chunkPos.x << 4, i, chunkPos.z << 4)))
-            i--;
-
-        BlockPos posToAnalyze = new BlockPos((chunkPos.x << 4) + random.nextInt(15), i + 1, (chunkPos.z << 4) + random.nextInt(15));
-
-        if (world.getBlockState(posToAnalyze).getBlock().isReplaceable(world, posToAnalyze))
+        BlockPos posToAnalyze = new BlockPos((chunkPos.x << 4) + random.nextInt(15), 255, (chunkPos.z << 4) + random.nextInt(15));
+        while (world.getBlockState(posToAnalyze).getBlock().isReplaceable(world, posToAnalyze))
             posToAnalyze = posToAnalyze.down();
         return posToAnalyze;
     }

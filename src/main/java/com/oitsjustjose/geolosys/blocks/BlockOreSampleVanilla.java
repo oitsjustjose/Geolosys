@@ -36,7 +36,7 @@ public class BlockOreSampleVanilla extends Block
     {
         super(Material.ROCK);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample_vanilla"));
-        this.setHardness(7.5F);
+        this.setHardness(2.0F);
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);

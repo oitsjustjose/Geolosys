@@ -1,5 +1,3 @@
-# Blocks
-
 # ------------------------------------ #
 #                Ores                  #
 # ------------------------------------ #
@@ -13,14 +11,32 @@ geolosys.ore.galena.name=Galena
 geolosys.ore.bauxite.name=Bauxite
 geolosys.ore.autunite.name=Autunite
 geolosys.ore.platinum.name=Platinum
-geolosys.orevanilla.coal.name=Coal
-geolosys.orevanilla.cinnabar.name=Cinnabar
-geolosys.orevanilla.gold.name=Gold
-geolosys.orevanilla.lapis.name=Lapis Lazuli
-geolosys.orevanilla.quartz.name=Assorted Quartz
-geolosys.orevanilla.diamond.name=Diamond
+geolosys.ore_vanilla.coal.name=Coal
+geolosys.ore_vanilla.cinnabar.name=Cinnabar
+geolosys.ore_vanilla.gold.name=Gold
+geolosys.ore_vanilla.lapis.name=Lapis Lazuli
+geolosys.ore_vanilla.quartz.name=Assorted Quartz
+geolosys.ore_vanilla.diamond.name=Diamond
 
-# Items
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.ore_sample.hematite.name=Hematite Sample
+geolosys.ore_sample.limonite.name=Limonite Sample
+geolosys.ore_sample.malachite.name=Malachite Sample
+geolosys.ore_sample.azurite.name=Azurite Sample
+geolosys.ore_sample.cassiterite.name=Cassiterite Sample
+geolosys.ore_sample.teallite.name=Teallite Sample
+geolosys.ore_sample.galena.name=Galena Sample
+geolosys.ore_sample.bauxite.name=Bauxite Sample
+geolosys.ore_sample.autunite.name=Autunite Sample
+geolosys.ore_sample.platinum.name=Platinum Sample
+geolosys.ore_sample_vanilla.coal.name=Coal Sample
+geolosys.ore_sample_vanilla.cinnabar.name=Cinnabar Sample
+geolosys.ore_sample_vanilla.gold.name=Gold Sample
+geolosys.ore_sample_vanilla.lapis.name=Lapis Lazuli Sample
+geolosys.ore_sample_vanilla.quartz.name=Assorted Quartz Sample
+geolosys.ore_sample_vanilla.diamond.name=Diamond Sample
 
 # ------------------------------------ #
 #             Clusters                 #
@@ -35,6 +51,7 @@ geolosys.cluster.aluminum.name=Aluminum Cluster
 geolosys.cluster.uranium.name=Uranium Cluster
 geolosys.cluster.nickel.name=Nickel Cluster
 geolosys.cluster.platinum.name=Platinum Cluster
+
 # ------------------------------------ #
 #              Ingots                  #
 # ------------------------------------ #
