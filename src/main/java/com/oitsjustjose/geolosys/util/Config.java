@@ -190,27 +190,27 @@ public class Config
         Chances = config.getCategory(category);
         Chances.setComment("The % chance for a pluton to generate in a chunk");
 
-        property = config.get(category, "Hematite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Hematite Pluton Chance Per Chunk", 4);
         chanceHematite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Limonite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Limonite Pluton Chance Per Chunk", 6);
         chanceLimonite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Malachite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Malachite Pluton Chance Per Chunk", 4);
         chanceMalachite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Azurite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Azurite Pluton Chance Per Chunk", 7);
         chanceAzurite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Cassiterite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Cassiterite Pluton Chance Per Chunk", 3);
         chanceCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Teallite Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Teallite Pluton Chance Per Chunk", 7);
         chanceTeallite = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -218,11 +218,11 @@ public class Config
         chanceGalena = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Bauxite Pluton Chance Per Chunk", 10);
+        property = config.get(category, "Bauxite Pluton Chance Per Chunk", 9);
         chanceBauxite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Platinum Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Platinum Pluton Chance Per Chunk", 4);
         chancePlatinum = property.getInt();
         propertyOrder.add(property.getName());
 

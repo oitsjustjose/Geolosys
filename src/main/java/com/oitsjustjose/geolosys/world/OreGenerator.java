@@ -26,14 +26,17 @@ public class OreGenerator implements IWorldGenerator
     public static class OreGen
     {
         WorldGenPluton pluton;
+        IBlockState state;
         int minY;
         int maxY;
         int chunkOccurence;
         int weight;
 
+
         public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int chunkOccurence, int weight)
         {
             this.pluton = new WorldGenPluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
+            this.state = state;
             this.minY = minY;
             this.maxY = maxY;
             this.chunkOccurence = chunkOccurence;
@@ -42,7 +45,7 @@ public class OreGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x, z)))
+            if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
                 return;
             BlockPos pos;
             for (int i = 0; i < chunkOccurence; i++)
@@ -51,9 +54,17 @@ public class OreGenerator implements IWorldGenerator
                 {
                     pos = new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8);
                     pluton.generate(world, rand, pos);
-                    Geolosys.chunkOreGen.addChunk(new ChunkPos(x, z));
+                    Geolosys.chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
                 }
             }
+        }
+
+        private IBlockState getSampleForOre(IBlockState state)
+        {
+            if(state.getBlock() == Geolosys.ORE)
+                return Geolosys.ORE_SAMPLE.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            else
+                return Geolosys.ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
         }
     }
 
@@ -81,5 +92,4 @@ public class OreGenerator implements IWorldGenerator
                 return true;
         return false;
     }
-
 }

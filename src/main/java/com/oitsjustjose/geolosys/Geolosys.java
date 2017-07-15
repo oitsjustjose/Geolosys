@@ -1,8 +1,10 @@
 package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.blocks.BlockOre;
+import com.oitsjustjose.geolosys.blocks.BlockOreSample;
+import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockVanillaOre;
-import com.oitsjustjose.geolosys.chunkdata.ChunkOreGen;
+import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
@@ -37,12 +39,14 @@ public class Geolosys
     public static Logger LOGGER;
     public static Config config;
     public static ClientRegistry clientRegistry;
-    public static ChunkOreGen chunkOreGen;
+    public static ChunkData chunkOreGen;
     private ConfigParser configParser;
 
 
     public static BlockOre ORE;
     public static BlockVanillaOre VANILLA_ORE;
+    public static BlockOreSample ORE_SAMPLE;
+    public static BlockOreSampleVanilla ORE_SAMPLE_VANILLA;
 
     public static Item CLUSTER;
     public static Item INGOT;
@@ -55,16 +59,18 @@ public class Geolosys
         MinecraftForge.EVENT_BUS.register(config);
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
-        chunkOreGen = new ChunkOreGen();
+        chunkOreGen = new ChunkData();
 
         ORE = new BlockOre();
         VANILLA_ORE = new BlockVanillaOre();
+        ORE_SAMPLE = new BlockOreSample();
+        ORE_SAMPLE_VANILLA = new BlockOreSampleVanilla();
         CLUSTER = new ItemCluster();
         if (config.enableIngots)
             INGOT = new ItemIngot();
 
-        registerVanillaOreGen();
         registerGeolosysOreGen();
+        registerVanillaOreGen();
     }
 
     @EventHandler
@@ -107,17 +113,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(0), 64, 2, 70, 1, 12);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(0), 64, 48, 70, 1, 8);
         if (config.modRedstone)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(1), 64, 5, 12, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(1), 64, 5, 12, 1, 3);
         if (config.modGold)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(2), 32, 5, 30, 1, 6);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(2), 40, 5, 30, 1, 2);
         if (config.modLapis)
             OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(3), 32, 10, 24, 1, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(4), 40, 40, 56, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(4), 32, 48, 56, 1, 6);
         if (config.modDiamond)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(5), 24, 2, 15, 1, 4);
+            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(5), 20, 2, 15, 1, 5);
 
         if (config.modStones)
         {

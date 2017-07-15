@@ -1,0 +1,46 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "geolosys:sample",
+		"transform": "forge:default-block",
+		"textures": {
+			"particle": "minecraft:blocks/stone"
+		}
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}],
+		"variant": {
+			"coal": {
+				"textures": {
+					"all": "geolosys:blocks/coal"
+				}
+			},
+			"cinnabar": {
+				"textures": {
+					"all": "geolosys:blocks/cinnabar"
+				}
+			},
+			"gold": {
+				"textures": {
+					"all": "geolosys:blocks/gold"
+				}
+			},
+			"lapis": {
+				"textures": {
+					"all": "geolosys:blocks/lapis"
+				}
+			},
+			"quartz": {
+				"textures": {
+					"all": "geolosys:blocks/quartz"
+				}
+			},
+			"diamond": {
+				"textures": {
+					"all": "geolosys:blocks/diamond"
+				}
+			}
+		}
+	}
+}

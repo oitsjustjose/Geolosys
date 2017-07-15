@@ -4,6 +4,8 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockButton;
+import net.minecraft.block.BlockGlass;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -11,13 +13,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -26,130 +27,93 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockVanillaOre extends Block
+public class BlockOreSample extends Block
 {
     public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
 
-    public BlockVanillaOre()
+    public BlockOreSample()
     {
-        super(Material.ROCK);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_vanilla"));
-        this.setHardness(7.5F);
+        super(Material.GROUND);
+        this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample"));
+        this.setHardness(2.0F);
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.COAL));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
-        this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
     }
 
-    private void setHarvestLevels()
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        for (EnumType t : EnumType.values())
-            this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
+        return new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.25F, 0.8F);
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    public boolean isFullCube(IBlockState state)
     {
-        Random random = new Random();
-        int meta = state.getBlock().getMetaFromState(state);
-        if (meta == 0)
-        {
-            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
-        }
-        else if (meta == 1)
-        {
-            drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
-        }
-        else if (meta == 2)
-        {
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_GOLD));
-        }
-        else if (meta == 3)
-        {
-            drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
-        }
-        else if (meta == 4)
-        {
-            drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune), Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random), Blocks.QUARTZ_ORE.damageDropped(state)));
-            int fortuneDropCalc = 1 + random.nextInt(fortune + 1);
-            for (int i = 0; i < fortuneDropCalc; i++)
-            {
-                int rng = random.nextInt(20);
-                Item certusQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
-
-                if (certusQuartz != null)
-                {
-                    if (rng < 2)
-                        drops.add(new ItemStack(certusQuartz, 1, 0));
-                    if (rng > 18)
-                        drops.add(new ItemStack(certusQuartz, 1, 1));
-                }
-            }
-        }
-        else if (meta == 5)
-        {
-            drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random), Blocks.DIAMOND_ORE.damageDropped(state)));
-        }
+        return false;
     }
 
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+        return false;
+    }
 
     @Override
-    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+    public EnumBlockRenderType getRenderType(IBlockState state)
     {
-        switch (state.getBlock().getMetaFromState(state))
-        {
-            case 0:
-                return Blocks.COAL_ORE.getExpDrop(state, world, pos, fortune);
-            case 1:
-                return Blocks.REDSTONE_ORE.getExpDrop(state, world, pos, fortune);
-            case 3:
-                return Blocks.LAPIS_ORE.getExpDrop(state, world, pos, fortune);
-            case 4:
-                return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
-            case 5:
-                return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
-            default:
-                return 0;
-        }
+        return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Geolosys.CLUSTER;
     }
 
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        if (state.getBlock().getMetaFromState(state) != 2)
-        {
-//            world.setBlockToAir(pos);
-//            EntityItem entItem = new EntityItem(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, new ItemStack(getVanillaCorrespondant(state)));
-//            world.spawnEntity(entItem);
-        }
         return false;
     }
 
-    public Block getVanillaCorrespondant(IBlockState state)
+    @Override
+    public int damageDropped(IBlockState state)
     {
-        switch (blockState.getBlock().getMetaFromState(state))
+        int meta = state.getBlock().getMetaFromState(state);
+        switch (meta)
         {
             case 0:
-                return Blocks.COAL_ORE;
+                return ItemCluster.META_IRON;
             case 1:
-                return Blocks.REDSTONE_ORE;
+                return ItemCluster.META_IRON;
+            case 2:
+                return ItemCluster.META_COPPER;
             case 3:
-                return Blocks.LAPIS_ORE;
+                return ItemCluster.META_COPPER;
             case 4:
-                return Blocks.QUARTZ_ORE;
+                return ItemCluster.META_TIN;
             case 5:
-                return Blocks.DIAMOND_ORE;
+                return ItemCluster.META_TIN;
+            case 6:
+                return ItemCluster.META_SILVER;
+            case 7:
+                return ItemCluster.META_ALUMINUM;
+            case 8:
+                return ItemCluster.META_PLATINUM;
+            case 9:
+                return ItemCluster.META_URANIUM;
             default:
-                return null;
+                return 0;
         }
     }
-
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
@@ -183,23 +147,29 @@ public class BlockVanillaOre extends Block
 
     public enum EnumType implements IStringSerializable
     {
-        COAL(0, 0, "coal"),
-        CINNABAR(1, 2, "cinnabar"),
-        GOLD(2, 2, "gold"),
-        LAPIS(3, 1, "lapis"),
-        QUARTZ(4, 1, "quartz"),
-        DIAMOND(5, 2, "diamond");
+        HEMATITE(0, 1, "hematite", "hematite"),
+        LIMONITE(1, 2, "limonite", "limonite"),
+        MALACHITE(2, 1, "malachite", "malachite"),
+        AZURITE(3, 1, "azurite", "azurite"),
+        CASSITERITE(4, 1, "cassiterite", "cassiterite"),
+        TEALLITE(5, 1, "teallite", "teallite"),
+        GALENA(6, 2, "galena", "galena"),
+        BAUXITE(7, 0, "bauxite", "bauxite"),
+        PLATINUM(8, 2, "platinum", "platinum"),
+        AUTUNITE(9, 2, "autunite", "autunite");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
         private final int toolLevel;
+        private final String serializedName;
         private final String unlocalizedName;
 
-        EnumType(int meta, int toolLevel, String name)
+        EnumType(int meta, int toolLevel, String name, String unlocalizedName)
         {
             this.meta = meta;
             this.toolLevel = toolLevel;
-            this.unlocalizedName = name;
+            this.serializedName = name;
+            this.unlocalizedName = unlocalizedName;
         }
 
         public int getToolLevel()
@@ -229,7 +199,7 @@ public class BlockVanillaOre extends Block
 
         public String getName()
         {
-            return this.unlocalizedName;
+            return this.serializedName;
         }
 
         static
