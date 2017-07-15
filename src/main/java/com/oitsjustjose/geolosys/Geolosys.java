@@ -44,7 +44,7 @@ public class Geolosys
 
 
     public static BlockOre ORE;
-    public static BlockVanillaOre VANILLA_ORE;
+    public static BlockVanillaOre ORE_VANILLA;
     public static BlockOreSample ORE_SAMPLE;
     public static BlockOreSampleVanilla ORE_SAMPLE_VANILLA;
 
@@ -62,7 +62,7 @@ public class Geolosys
         chunkOreGen = new ChunkData();
 
         ORE = new BlockOre();
-        VANILLA_ORE = new BlockVanillaOre();
+        ORE_VANILLA = new BlockVanillaOre();
         ORE_SAMPLE = new BlockOreSample();
         ORE_SAMPLE_VANILLA = new BlockOreSampleVanilla();
         CLUSTER = new ItemCluster();
@@ -113,17 +113,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(0), 64, 48, 70, 1, 8);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 64, 48, 70, 1, 8);
         if (config.modRedstone)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(1), 64, 5, 12, 1, 3);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 1, 3);
         if (config.modGold)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(2), 40, 5, 30, 1, 2);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 1, 2);
         if (config.modLapis)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(3), 32, 10, 24, 1, 4);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 1, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(4), 32, 48, 56, 1, 6);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 32, 48, 56, 1, 6);
         if (config.modDiamond)
-            OreGenerator.addOreGen(VANILLA_ORE.getStateFromMeta(5), 20, 2, 15, 1, 5);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 1, 5);
 
         if (config.modStones)
         {

@@ -290,43 +290,43 @@ public class Config
         Sizes = config.getCategory(category);
         Sizes.setComment("The number of ores found in each CLUSTER");
 
-        property = config.get(category, "Hematite Cluster Size", 48);
+        property = config.get(category, "Hematite Cluster Size", 96);
         clusterSizeHematite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Limonite Cluster Size", 40);
+        property = config.get(category, "Limonite Cluster Size", 80);
         clusterSizeLimonite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Malachite Cluster Size", 48);
+        property = config.get(category, "Malachite Cluster Size", 96);
         clusterSizeMalachite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Azurite Cluster Size", 40);
+        property = config.get(category, "Azurite Cluster Size", 80);
         clusterSizeAzurite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Cassiterite Cluster Size", 48);
+        property = config.get(category, "Cassiterite Cluster Size", 96);
         clusterSizeCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Teallite Cluster Size", 40);
+        property = config.get(category, "Teallite Cluster Size", 80);
         clusterSizeTeallite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Galena Cluster Size", 40);
+        property = config.get(category, "Galena Cluster Size", 72);
         clusterSizeGalena = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Bauxite Cluster Size", 28);
+        property = config.get(category, "Bauxite Cluster Size", 64);
         clusterSizeBauxite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Platinum Cluster Size", 20);
+        property = config.get(category, "Platinum Cluster Size", 32);
         clusterSizePlatinum = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Uranium Cluster Size", 12);
+        property = config.get(category, "Autunite Cluster Size", 24);
         clusterSizeUranium = property.getInt();
         propertyOrder.add(property.getName());
 

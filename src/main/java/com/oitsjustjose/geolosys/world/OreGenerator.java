@@ -61,10 +61,12 @@ public class OreGenerator implements IWorldGenerator
 
         private IBlockState getSampleForOre(IBlockState state)
         {
-            if(state.getBlock() == Geolosys.ORE)
+            if (state.getBlock() == Geolosys.ORE)
                 return Geolosys.ORE_SAMPLE.getStateFromMeta(state.getBlock().getMetaFromState(state));
-            else
+            else if (state.getBlock() == Geolosys.ORE_VANILLA)
                 return Geolosys.ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            else
+                return Blocks.AIR.getDefaultState();
         }
     }
 

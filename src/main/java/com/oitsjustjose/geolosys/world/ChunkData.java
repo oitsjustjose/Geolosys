@@ -16,7 +16,6 @@ public class ChunkData
 
     public void addChunk(ChunkPos pos, World world, IBlockState state)
     {
-        System.out.println("Called addChunk for " + pos + " with state " + state);
         populatedChunks.add(pos);
         BlockPos p = getPosForNugPlacement(world, pos);
         if (world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
