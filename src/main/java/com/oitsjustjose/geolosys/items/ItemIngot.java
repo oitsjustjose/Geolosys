@@ -62,7 +62,7 @@ public class ItemIngot extends Item
     private void registerOreDict()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            OreDictionary.registerOre("INGOT" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("ingot" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
     }
 
     private void registerSmelting()
