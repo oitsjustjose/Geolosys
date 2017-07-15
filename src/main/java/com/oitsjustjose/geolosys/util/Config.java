@@ -122,7 +122,7 @@ public class Config
         modLapis = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Replace Quartz Deposits (also adds Certus Quartz drops", true);
+        property = config.get(category, "Replace Quartz Deposits (also adds Certus Quartz drops)", true);
         modQuartz = property.getBoolean();
         propertyOrder.add(property.getName());
 
