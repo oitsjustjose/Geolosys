@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -41,6 +42,8 @@ public class OreGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
+            if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x, z)))
+                return;
             BlockPos pos;
             for (int i = 0; i < chunkOccurence; i++)
             {
@@ -48,6 +51,7 @@ public class OreGenerator implements IWorldGenerator
                 {
                     pos = new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8);
                     pluton.generate(world, rand, pos);
+                    Geolosys.chunkOreGen.addChunk(new ChunkPos(x, z));
                 }
             }
         }
