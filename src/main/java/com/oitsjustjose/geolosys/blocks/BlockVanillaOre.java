@@ -125,18 +125,34 @@ public class BlockVanillaOre extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        if (state.getBlock().getMetaFromState(state) == 1)
+        if (state.getBlock().getMetaFromState(state) != 2)
         {
             world.setBlockToAir(pos);
-//            if (!world.isRemote)
-//            {
-                EntityItem entItem = new EntityItem(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, new ItemStack(Blocks.REDSTONE_ORE));
-//                entItem.dropItemWithOffset(Item.getItemFromBlock(Blocks.REDSTONE_ORE), 1, 0.1F);
-                world.spawnEntity(entItem);
-//            }
+            EntityItem entItem = new EntityItem(world, (double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, new ItemStack(getVanillaCorrespondant(state)));
+            world.spawnEntity(entItem);
         }
         return false;
     }
+
+    public Block getVanillaCorrespondant(IBlockState state)
+    {
+        switch (blockState.getBlock().getMetaFromState(state))
+        {
+            case 0:
+                return Blocks.COAL_ORE;
+            case 1:
+                return Blocks.REDSTONE_ORE;
+            case 3:
+                return Blocks.LAPIS_ORE;
+            case 4:
+                return Blocks.QUARTZ_ORE;
+            case 5:
+                return Blocks.DIAMOND_ORE;
+            default:
+                return null;
+        }
+    }
+
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
