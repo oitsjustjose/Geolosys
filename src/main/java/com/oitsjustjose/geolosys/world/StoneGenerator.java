@@ -10,6 +10,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class StoneGenerator implements IWorldGenerator
 {
     public static class StoneGen
     {
-        WorldGenPluton pluton;
+        WorldGenMinable pluton;
         IBlockState state;
         int minY;
         int maxY;
@@ -35,7 +36,7 @@ public class StoneGenerator implements IWorldGenerator
 
         public StoneGen(IBlockState state, Block replaceTarget, int minY, int maxY, int chunkOccurence, int weight)
         {
-            this.pluton = new WorldGenPluton(state, 96, BlockMatcher.forBlock(replaceTarget));
+            this.pluton = new WorldGenMinable(state, 96, BlockMatcher.forBlock(replaceTarget));
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;
