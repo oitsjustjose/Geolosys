@@ -11,6 +11,7 @@ import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.ConfigParser;
 import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.world.StoneGenerator;
 import com.oitsjustjose.geolosys.world.WorldGenOverride;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import net.minecraft.block.BlockStone;
@@ -108,12 +109,13 @@ public class Geolosys
         configParser = new ConfigParser();
         registerUserOreGen();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+        GameRegistry.registerWorldGenerator(new StoneGenerator(), 0);
     }
 
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 64, 48, 70, 1, 8);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 96, 48, 70, 1, 8);
         if (config.modRedstone)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 1, 3);
         if (config.modGold)
@@ -131,9 +133,9 @@ public class Geolosys
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 
-            OreGenerator.addOreGen(andesite, 72, 2, 70, 1, 40);
-            OreGenerator.addOreGen(diorite, 72, 2, 70, 1, 40);
-            OreGenerator.addOreGen(granite, 72, 2, 70, 1, 40);
+            StoneGenerator.addStoneGen(andesite, 2, 70, 1, 40);
+            StoneGenerator.addStoneGen(diorite, 2, 70, 1, 40);
+            StoneGenerator.addStoneGen(granite, 2, 70, 1, 40);
         }
     }
 
