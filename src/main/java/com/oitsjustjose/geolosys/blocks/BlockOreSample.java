@@ -211,6 +211,10 @@ public class BlockOreSample extends Block
         }
     }
 
+    /**
+     * An ItemBlock class for this block allowing it to
+     * support subtypes with proper placement
+     */
     public class ItemBlockOre extends ItemBlock
     {
 
@@ -247,9 +251,7 @@ public class BlockOreSample extends Block
         private void registerModels()
         {
             for (int i = 0; i < EnumType.values().length; i++)
-            {
                 Geolosys.clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
-            }
         }
     }
 }
