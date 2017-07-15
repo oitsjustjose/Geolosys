@@ -5,27 +5,27 @@ import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.List;
 
 public class ConfigParser
 {
-    private List<Entry> userEntriesClean;
+    private List<Entry> userOreEntriesClean;
+    private List<Entry> userStoneEntriesClean;
 
     public ConfigParser()
     {
-        userEntriesClean = Lists.newArrayList();
-        parseConfig();
+        userOreEntriesClean = Lists.newArrayList();
+        parseOres();
+        userStoneEntriesClean = Lists.newArrayList();
+        parseStones();
     }
 
-    public void parseConfig()
+    public void parseOres()
     {
-        for (String s : Geolosys.config.userEntriesRaw)
+        for (String s : Geolosys.config.userOreEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 8)
@@ -42,7 +42,37 @@ public class ConfigParser
                     continue;
                 }
                 IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
-                userEntriesClean.add(new Entry(tempState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6]), toInt(parts[7])));
+                userOreEntriesClean.add(new Entry(tempState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6]), toInt(parts[7])));
+
+            }
+            catch (NumberFormatException e)
+            {
+                printFormattingError(s);
+                continue;
+            }
+        }
+    }
+
+    public void parseStones()
+    {
+        for (String s : Geolosys.config.userStoneEntriesRaw)
+        {
+            String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
+            if (parts.length != 7)
+            {
+                printFormattingError(s);
+                continue;
+            }
+            try
+            {
+                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+                if (block == null || block == Blocks.AIR)
+                {
+                    printFormattingError(s);
+                    continue;
+                }
+                IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
+                userStoneEntriesClean.add(new Entry(tempState, 70, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
 
             }
             catch (NumberFormatException e)
@@ -67,7 +97,7 @@ public class ConfigParser
 
     public List<Entry> getUserEntries()
     {
-        return userEntriesClean;
+        return userOreEntriesClean;
     }
 
 

@@ -75,7 +75,8 @@ public class Config
     public int clusterSizePlatinum;
     public int clusterSizeUranium;
     // User Entries
-    public String[] userEntriesRaw;
+    public String[] userOreEntriesRaw;
+    public String[] userStoneEntriesRaw;
 
     public int[] blacklistedDIMs;
 
@@ -342,7 +343,16 @@ public class Config
                 "modid:block:meta, clusterSize, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
                 "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
                 "actuallyadditions:block_misc:3, 32, 13, 42, 1, 20");
-        userEntriesRaw = property.getStringList();
+        userOreEntriesRaw = property.getStringList();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Custom Stone Entries", new String[]{});
+        property.setComment("Format is:\n" +
+                "modid:block:meta, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
+                "ALL CLUSTERS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" +
+                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
+                "rustic:slate:0, 27, 54, 1, 10");
+        userStoneEntriesRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
         UserEntries.setPropertyOrder(propertyOrder);
