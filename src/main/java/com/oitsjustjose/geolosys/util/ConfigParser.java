@@ -72,7 +72,7 @@ public class ConfigParser
                     continue;
                 }
                 IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
-                userStoneEntriesClean.add(new Entry(tempState, 70, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
+                userStoneEntriesClean.add(new Entry(tempState, 0, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
 
             }
             catch (NumberFormatException e)
@@ -95,11 +95,15 @@ public class ConfigParser
     }
 
 
-    public List<Entry> getUserEntries()
+    public List<Entry> getUserOreEntries()
     {
-        return userOreEntriesClean;
+        return this.userOreEntriesClean;
     }
 
+    public List<Entry> getUserStoneEntries()
+    {
+        return this.userStoneEntriesClean;
+    }
 
     public class Entry
     {

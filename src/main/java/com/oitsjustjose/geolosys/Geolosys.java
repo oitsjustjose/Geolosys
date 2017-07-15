@@ -108,8 +108,9 @@ public class Geolosys
         }
         configParser = new ConfigParser();
         registerUserOreGen();
-        GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+        registerUserStoneGen();
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 0);
+        GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
     }
 
     private void registerVanillaOreGen()
@@ -165,7 +166,12 @@ public class Geolosys
 
     private void registerUserOreGen()
     {
-        for (ConfigParser.Entry e : configParser.getUserEntries())
+        for (ConfigParser.Entry e : configParser.getUserOreEntries())
             OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
+    }
+    private void registerUserStoneGen()
+    {
+        for (ConfigParser.Entry e : configParser.getUserStoneEntries())
+            StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
     }
 }
