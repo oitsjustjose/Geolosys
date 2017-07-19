@@ -18,9 +18,17 @@ public class ChunkData
     public void addChunk(ChunkPos pos, World world, IBlockState state)
     {
         populatedChunks.add(pos);
-        BlockPos p = getPosForNugPlacement(world, pos);
-        if (world.getWorldType() != WorldType.FLAT && world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
-            world.setBlockState(p.up(), state);
+        if (world.getWorldType() != WorldType.FLAT)
+            return;
+
+        // Generate up to 4 clusters per chunk.
+        int cap = random.nextInt(4) + 1;
+        for (int i = 0; i < cap; i++)
+        {
+            BlockPos p = getPosForNugPlacement(world, pos);
+            if (world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
+                world.setBlockState(p.up(), state);
+        }
     }
 
     public boolean canGenerateInChunk(ChunkPos pos)
