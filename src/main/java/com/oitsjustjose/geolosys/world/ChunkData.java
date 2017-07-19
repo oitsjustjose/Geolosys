@@ -5,6 +5,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -18,7 +19,7 @@ public class ChunkData
     {
         populatedChunks.add(pos);
         BlockPos p = getPosForNugPlacement(world, pos);
-        if (world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
+        if (world.getWorldType() != WorldType.FLAT && world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
             world.setBlockState(p.up(), state);
     }
 
