@@ -280,18 +280,18 @@ public class Config
 
         property = config.get(category, "Custom Ore Entries", new String[]{});
         property.setComment("Format is:\n" +
-                "modid:block:meta, clusterSize, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
+                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk\n" +
                 "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 1, 20");
+                "actuallyadditions:block_misc:3, 32, 13, 42, 20");
         userOreEntriesRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Custom Stone Entries", new String[]{});
         property.setComment("Format is:\n" +
-                "modid:block:meta, min Y, max Y, per-chunk frequency, chance to gen in chunk\n" +
+                "modid:block:meta, min Y, max Y, chance to gen in chunk\n" +
                 "ALL CLUSTERS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" +
                 "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
-                "rustic:slate:0, 27, 54, 1, 10");
+                "rustic:slate:0, 27, 54, 10");
         userStoneEntriesRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
