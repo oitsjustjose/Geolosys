@@ -34,7 +34,7 @@ public class BlockOreSampleVanilla extends Block
 
     public BlockOreSampleVanilla()
     {
-        super(Material.ROCK);
+        super(Material.GROUND);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample_vanilla"));
         this.setHardness(2.0F);
         this.setResistance(10F);
@@ -47,24 +47,28 @@ public class BlockOreSampleVanilla extends Block
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.25F, 0.8F);
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public EnumBlockRenderType getRenderType(IBlockState state)
     {
         return EnumBlockRenderType.MODEL;
