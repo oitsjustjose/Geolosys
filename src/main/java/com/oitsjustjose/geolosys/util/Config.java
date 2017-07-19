@@ -14,7 +14,6 @@ public class Config
 {
     public Configuration config;
     public ConfigCategory FeatureControl;
-    public ConfigCategory Weights;
     public ConfigCategory Chances;
     public ConfigCategory Sizes;
     public ConfigCategory UserEntries;
@@ -41,17 +40,6 @@ public class Config
     public boolean enablePlatinum;
     public boolean enableIngots;
     public boolean registerAsBauxite;
-    // Weights
-    public int frequencyHematite;
-    public int frequencyLimonite;
-    public int frequencyMalachite;
-    public int frequencyAzurite;
-    public int frequencyCassiterite;
-    public int frequencyTeallite;
-    public int frequencyGalena;
-    public int frequencyBauxite;
-    public int frequencyPlatinum;
-    public int frequencyUranium;
     // Chances
     public int chanceHematite;
     public int chanceLimonite;
@@ -184,6 +172,10 @@ public class Config
         registerAsBauxite = property.getBoolean();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Blacklisted Dimensions", new int[]{-1, 1}, "Dimensions that ores CAN'T generate in");
+        blacklistedDIMs = property.getIntList();
+        propertyOrder.add(property.getName());
+
         FeatureControl.setPropertyOrder(propertyOrder);
 
         category = "Ore Gen Chances";
@@ -232,58 +224,6 @@ public class Config
         propertyOrder.add(property.getName());
 
         Chances.setPropertyOrder(propertyOrder);
-
-        // Weights
-        category = "Ore Gen Weights";
-        propertyOrder = Lists.newArrayList();
-        Weights = config.getCategory(category);
-        Weights.setComment("Fine-tuned adjustments for ORE generation rates.");
-
-        property = config.get(category, "Blacklisted Dimensions", new int[]{-1, 1}, "Dimensions that ores CAN'T generate in");
-        blacklistedDIMs = property.getIntList();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Hematite veins per chunk", 1);
-        frequencyHematite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Limonite veins per chunk", 1);
-        frequencyLimonite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Malachite veins per chunk", 1);
-        frequencyMalachite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Azurite veins per chunk", 1);
-        frequencyAzurite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Cassiterite veins per chunk", 1);
-        frequencyCassiterite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Teallite veins per chunk", 1);
-        frequencyTeallite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Galena veins per chunk", 1);
-        frequencyGalena = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Bauxite veins per chunk", 1);
-        frequencyBauxite = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Platinum veins per chunk", 1);
-        frequencyPlatinum = property.getInt();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "# of Uranium veins per chunk", 1);
-        frequencyUranium = property.getInt();
-        propertyOrder.add(property.getName());
-
-        Weights.setPropertyOrder(propertyOrder);
 
         // Cluster Sizes
         category = "Ore Cluster Sizes";

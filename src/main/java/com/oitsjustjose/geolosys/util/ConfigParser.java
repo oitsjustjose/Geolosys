@@ -28,7 +28,7 @@ public class ConfigParser
         for (String s : Geolosys.config.userOreEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
-            if (parts.length != 8)
+            if (parts.length != 7)
             {
                 printFormattingError(s);
                 continue;
@@ -42,7 +42,7 @@ public class ConfigParser
                     continue;
                 }
                 IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
-                userOreEntriesClean.add(new Entry(tempState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6]), toInt(parts[7])));
+                userOreEntriesClean.add(new Entry(tempState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
 
             }
             catch (NumberFormatException e)
@@ -58,7 +58,7 @@ public class ConfigParser
         for (String s : Geolosys.config.userStoneEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
-            if (parts.length != 7)
+            if (parts.length != 6)
             {
                 printFormattingError(s);
                 continue;
@@ -72,7 +72,7 @@ public class ConfigParser
                     continue;
                 }
                 IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
-                userStoneEntriesClean.add(new Entry(tempState, 0, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
+                userStoneEntriesClean.add(new Entry(tempState, 0, toInt(parts[3]), toInt(parts[4]), toInt(parts[5])));
 
             }
             catch (NumberFormatException e)
@@ -111,16 +111,14 @@ public class ConfigParser
         private int size;
         private int minY;
         private int maxY;
-        private int chunkOccurence;
         private int chancePerChunk;
 
-        public Entry(IBlockState state, int size, int minY, int maxY, int chunkOccurence, int chancePerChunk)
+        public Entry(IBlockState state, int size, int minY, int maxY, int chancePerChunk)
         {
             this.state = state;
             this.size = size;
             this.minY = minY;
             this.maxY = maxY;
-            this.chunkOccurence = chunkOccurence;
             this.chancePerChunk = chancePerChunk;
             sanitizeEntries();
         }
@@ -133,8 +131,6 @@ public class ConfigParser
                 this.maxY = 255;
             if (this.chancePerChunk < 1)
                 this.chancePerChunk = 1;
-            if (this.chunkOccurence < 1)
-                this.chunkOccurence = 1;
         }
 
         public IBlockState getState()
@@ -156,11 +152,6 @@ public class ConfigParser
         public int getMaxY()
         {
             return maxY;
-        }
-
-        public int getChunkOccurence()
-        {
-            return chunkOccurence;
         }
 
         public int getChancePerChunk()

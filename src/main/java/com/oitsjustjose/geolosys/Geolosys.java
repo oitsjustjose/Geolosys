@@ -4,16 +4,16 @@ import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreSample;
 import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockVanillaOre;
-import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.ConfigParser;
 import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.world.ChunkData;
+import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
 import com.oitsjustjose.geolosys.world.WorldGenOverride;
-import com.oitsjustjose.geolosys.world.OreGenerator;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -122,17 +122,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 96, 48, 70, 1, 8);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 96, 48, 70, 8);
         if (config.modRedstone)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 1, 3);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 3);
         if (config.modGold)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 1, 2);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 2);
         if (config.modLapis)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 1, 4);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 32, 48, 56, 1, 6);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 32, 48, 56, 6);
         if (config.modDiamond)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 1, 5);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 5);
 
         if (config.modStones)
         {
@@ -140,44 +140,45 @@ public class Geolosys
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 
-            StoneGenerator.addStoneGen(andesite, 2, 70, 1, 40);
-            StoneGenerator.addStoneGen(diorite, 2, 70, 1, 40);
-            StoneGenerator.addStoneGen(granite, 2, 70, 1, 40);
+            StoneGenerator.addStoneGen(andesite, 2, 70, 40);
+            StoneGenerator.addStoneGen(diorite, 2, 70, 40);
+            StoneGenerator.addStoneGen(granite, 2, 70, 40);
         }
     }
 
     private void registerGeolosysOreGen()
     {
         if (config.enableHematite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.frequencyHematite, config.chanceHematite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(0), config.clusterSizeHematite, 35, 65, config.chanceHematite);
         if (config.enableLimonite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.frequencyLimonite, config.chanceLimonite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(1), config.clusterSizeLimonite, 0, 35, config.chanceLimonite);
         if (config.enableMalachite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.frequencyMalachite, config.chanceLimonite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(2), config.clusterSizeMalachite, 30, 65, config.chanceLimonite);
         if (config.enableAzurite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.frequencyAzurite, config.chanceAzurite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(3), config.clusterSizeAzurite, 0, 35, config.chanceAzurite);
         if (config.enableCassiterite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.frequencyCassiterite, config.chanceCassiterite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(4), config.clusterSizeCassiterite, 44, 68, config.chanceCassiterite);
         if (config.enableTeallite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.frequencyTeallite, config.chanceTeallite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(5), config.clusterSizeTeallite, 8, 43, config.chanceTeallite);
         if (config.enableGalena)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.frequencyGalena, config.chanceGalena);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(6), config.clusterSizeGalena, 0, 50, config.chanceGalena);
         if (config.enableBauxite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.frequencyBauxite, config.chanceBauxite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(7), config.clusterSizeBauxite, 45, 70, config.chanceBauxite);
         if (config.enablePlatinum)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.frequencyPlatinum, config.chancePlatinum);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(8), config.clusterSizePlatinum, 3, 25, config.chancePlatinum);
         if (config.enableAutunite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.frequencyUranium, config.chanceUranium);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.chanceUranium);
     }
 
     private void registerUserOreGen()
     {
         for (ConfigParser.Entry e : configParser.getUserOreEntries())
-            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
+            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
     }
+
     private void registerUserStoneGen()
     {
         for (ConfigParser.Entry e : configParser.getUserStoneEntries())
-            StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChunkOccurence(), e.getChancePerChunk());
+            StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
     }
 }

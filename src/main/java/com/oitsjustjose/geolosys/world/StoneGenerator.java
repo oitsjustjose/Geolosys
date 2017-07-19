@@ -30,17 +30,15 @@ public class StoneGenerator implements IWorldGenerator
         IBlockState state;
         int minY;
         int maxY;
-        int chunkOccurence;
         int weight;
 
 
-        public StoneGen(IBlockState state, Block replaceTarget, int minY, int maxY, int chunkOccurence, int weight)
+        public StoneGen(IBlockState state, Block replaceTarget, int minY, int maxY, int weight)
         {
             this.pluton = new WorldGenMinable(state, 96, BlockMatcher.forBlock(replaceTarget));
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;
-            this.chunkOccurence = chunkOccurence;
             this.weight = weight;
         }
 
@@ -48,18 +46,16 @@ public class StoneGenerator implements IWorldGenerator
         {
             if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
                 return;
-            BlockPos pos;
-            for (int i = 0; i < chunkOccurence; i++)
-                if (rand.nextInt(100) < weight)
-                    pluton.generate(world, rand, new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8));
+            if (rand.nextInt(100) < weight)
+                pluton.generate(world, rand, new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8));
         }
     }
 
     public static ArrayList<StoneGen> stonespawnList = new ArrayList();
 
-    public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int chunkOccurence, int weight)
+    public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
-        StoneGen gen = new StoneGen(state, Blocks.STONE, minY, maxY, chunkOccurence, weight);
+        StoneGen gen = new StoneGen(state, Blocks.STONE, minY, maxY, weight);
         stonespawnList.add(gen);
         return gen;
     }

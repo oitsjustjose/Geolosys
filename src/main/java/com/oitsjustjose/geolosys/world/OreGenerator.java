@@ -29,17 +29,15 @@ public class OreGenerator implements IWorldGenerator
         IBlockState state;
         int minY;
         int maxY;
-        int chunkOccurence;
         int weight;
 
 
-        public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int chunkOccurence, int weight)
+        public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int weight)
         {
             this.pluton = new WorldGenPluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;
-            this.chunkOccurence = chunkOccurence;
             this.weight = weight;
         }
 
@@ -48,14 +46,11 @@ public class OreGenerator implements IWorldGenerator
             if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
                 return;
             BlockPos pos;
-            for (int i = 0; i < chunkOccurence; i++)
+            if (rand.nextInt(100) < weight)
             {
-                if (rand.nextInt(100) < weight)
-                {
-                    pos = new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8);
-                    pluton.generate(world, rand, pos);
-                    Geolosys.chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
-                }
+                pos = new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8);
+                pluton.generate(world, rand, pos);
+                Geolosys.chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
             }
         }
 
@@ -72,9 +67,9 @@ public class OreGenerator implements IWorldGenerator
 
     public static ArrayList<OreGen> orespawnList = new ArrayList();
 
-    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int chunkOccurence, int weight)
+    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight)
     {
-        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, chunkOccurence, weight);
+        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight);
         orespawnList.add(gen);
         return gen;
     }
