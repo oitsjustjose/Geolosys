@@ -18,7 +18,7 @@ public class ChunkData
     public void addChunk(ChunkPos pos, World world, IBlockState state)
     {
         populatedChunks.add(pos);
-        if (world.getWorldType() != WorldType.FLAT)
+        if (world.getWorldType() == WorldType.FLAT)
             return;
 
         // Generate up to 4 clusters per chunk.
@@ -26,8 +26,8 @@ public class ChunkData
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getPosForNugPlacement(world, pos);
-            if (world.getBlockState(p).isSideSolid(world, p, EnumFacing.UP))
-                world.setBlockState(p.up(), state);
+            if (world.getBlockState(p).getBlock().isReplaceable(world, p));
+                world.setBlockState(p, state);
         }
     }
 
@@ -38,10 +38,6 @@ public class ChunkData
 
     private BlockPos getPosForNugPlacement(World world, ChunkPos chunkPos)
     {
-        // Start from the skybox and work down
-        BlockPos posToAnalyze = new BlockPos((chunkPos.x << 4) + random.nextInt(15), 255, (chunkPos.z << 4) + random.nextInt(15));
-        while (world.getBlockState(posToAnalyze).getBlock().isReplaceable(world, posToAnalyze))
-            posToAnalyze = posToAnalyze.down();
-        return posToAnalyze;
+        return world.getTopSolidOrLiquidBlock(new BlockPos((chunkPos.x << 4) + random.nextInt(15), 0, (chunkPos.z << 4) + random.nextInt(15)));
     }
 }
