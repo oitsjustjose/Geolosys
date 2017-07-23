@@ -3,9 +3,11 @@
 
 * ADDED: Right click interaction to samples
 * FIXED: Samples not always generating
-* REMOVED: Unused config option for # of veins per chunk (obviously it's 1, always)
+* FIXED: Samples spawning in superflat
+* FIXED: Unused config option for # of veins per chunk (obviously it's 1, always)
 * CHANGED: Samples generate in clusters of 1 to 4
 * CHANGED: Samples behave more realistically
+* CHANGED: Tweaked vanilla ore-gen values one last time. 5/7 are balanced now ;)
 
 1.2:
 
