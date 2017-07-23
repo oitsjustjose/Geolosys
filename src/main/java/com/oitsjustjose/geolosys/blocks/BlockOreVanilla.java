@@ -31,11 +31,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class BlockVanillaOre extends Block
+public class BlockOreVanilla extends Block
 {
     public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
 
-    public BlockVanillaOre()
+    public BlockOreVanilla()
     {
         super(Material.ROCK);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_vanilla"));

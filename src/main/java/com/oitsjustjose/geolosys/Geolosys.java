@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreSample;
 import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
-import com.oitsjustjose.geolosys.blocks.BlockVanillaOre;
+import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
@@ -45,7 +45,7 @@ public class Geolosys
 
 
     public static BlockOre ORE;
-    public static BlockVanillaOre ORE_VANILLA;
+    public static BlockOreVanilla ORE_VANILLA;
     public static BlockOreSample ORE_SAMPLE;
     public static BlockOreSampleVanilla ORE_SAMPLE_VANILLA;
 
@@ -63,7 +63,7 @@ public class Geolosys
         chunkOreGen = new ChunkData();
 
         ORE = new BlockOre();
-        ORE_VANILLA = new BlockVanillaOre();
+        ORE_VANILLA = new BlockOreVanilla();
         ORE_SAMPLE = new BlockOreSample();
         ORE_SAMPLE_VANILLA = new BlockOreSampleVanilla();
         CLUSTER = new ItemCluster();
