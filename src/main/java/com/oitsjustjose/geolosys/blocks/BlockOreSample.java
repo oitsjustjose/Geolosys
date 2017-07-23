@@ -6,11 +6,13 @@ import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -47,6 +49,32 @@ public class BlockOreSample extends Block
 
     @Override
     @SuppressWarnings("deprecation")
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    {
+        if (!this.canPlaceBlockAt(worldIn, pos))
+        {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
+        }
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+    {
+        return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        this.dropBlockAsItem(worldIn, pos, state, 0);
+        worldIn.setBlockToAir(pos);
+        playerIn.swingArm(EnumHand.MAIN_HAND);
+        return true;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.25F, 0.8F);
@@ -73,10 +101,48 @@ public class BlockOreSample extends Block
         return EnumBlockRenderType.MODEL;
     }
 
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Geolosys.CLUSTER;
+    }
+
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
         return false;
+    }
+
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+        int meta = state.getBlock().getMetaFromState(state);
+        switch (meta)
+        {
+            case 0:
+                return ItemCluster.META_IRON;
+            case 1:
+                return ItemCluster.META_IRON;
+            case 2:
+                return ItemCluster.META_COPPER;
+            case 3:
+                return ItemCluster.META_COPPER;
+            case 4:
+                return ItemCluster.META_TIN;
+            case 5:
+                return ItemCluster.META_TIN;
+            case 6:
+                return ItemCluster.META_SILVER;
+            case 7:
+                return ItemCluster.META_ALUMINUM;
+            case 8:
+                return ItemCluster.META_PLATINUM;
+            case 9:
+                return ItemCluster.META_URANIUM;
+            default:
+                return 0;
+        }
     }
 
     @Override

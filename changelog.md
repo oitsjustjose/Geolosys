@@ -1,4 +1,13 @@
-1.2-alpha:
+1.3:
+**Warning, this is basically the 'Samples' update :P**
+
+* ADDED: Right click interaction to samples
+* FIXED: Samples not always generating
+* REMOVED: Unused config option for # of veins per chunk (obviously it's 1, always)
+* CHANGED: Samples generate in clusters of 1 to 4
+* CHANGED: Samples behave more realistically
+
+1.2:
 
 * ADDED: Custom vanilla ore variants - these can be silk touched for the Vanilla ores. All drop values are directly referenced from their vanilla variants
 * ADDED: Assorted Quartz Clusters can drop Certus Quartz, Charged Certus Quartz or Black Quartz if available.
