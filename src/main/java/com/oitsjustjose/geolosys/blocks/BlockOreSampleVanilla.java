@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockGravel;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -36,9 +37,9 @@ public class BlockOreSampleVanilla extends Block
     {
         super(Material.GROUND);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample_vanilla"));
-        this.setHardness(2.0F);
-        this.setResistance(10F);
-        this.setSoundType(SoundType.STONE);
+        this.setHardness(0.125F);
+        this.setResistance(2F);
+        this.setSoundType(SoundType.GROUND);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.COAL));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));

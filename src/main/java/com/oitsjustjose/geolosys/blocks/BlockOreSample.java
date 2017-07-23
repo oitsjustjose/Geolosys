@@ -35,9 +35,9 @@ public class BlockOreSample extends Block
     {
         super(Material.GROUND);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample"));
-        this.setHardness(2.0F);
-        this.setResistance(10F);
-        this.setSoundType(SoundType.STONE);
+        this.setHardness(0.125F);
+        this.setResistance(2F);
+        this.setSoundType(SoundType.GROUND);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
@@ -46,6 +46,7 @@ public class BlockOreSample extends Block
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.25F, 0.8F);
