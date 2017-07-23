@@ -33,7 +33,7 @@ public class BlockOre extends Block
     public BlockOre()
     {
         super(Material.ROCK);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "ORE"));
+        this.setRegistryName(new ResourceLocation(Lib.MODID, "ore"));
         this.setHardness(7.5F);
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
