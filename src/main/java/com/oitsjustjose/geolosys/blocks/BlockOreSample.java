@@ -3,10 +3,7 @@ package com.oitsjustjose.geolosys.blocks;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockButton;
-import net.minecraft.block.BlockGlass;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -76,45 +73,47 @@ public class BlockOreSample extends Block
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return Geolosys.CLUSTER;
-    }
-
-    @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
         return false;
     }
 
     @Override
-    public int damageDropped(IBlockState state)
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        int meta = state.getBlock().getMetaFromState(state);
-        switch (meta)
+        // Special case for Limonite; odd-chance for the drop to be nickel AND iron
+        if (state.getBlock().getMetaFromState(state) == 1)
         {
-            case 0:
-                return ItemCluster.META_IRON;
-            case 1:
-                return ItemCluster.META_IRON;
-            case 2:
-                return ItemCluster.META_COPPER;
-            case 3:
-                return ItemCluster.META_COPPER;
-            case 4:
-                return ItemCluster.META_TIN;
-            case 5:
-                return ItemCluster.META_TIN;
-            case 6:
-                return ItemCluster.META_SILVER;
-            case 7:
-                return ItemCluster.META_ALUMINUM;
-            case 8:
-                return ItemCluster.META_PLATINUM;
-            case 9:
-                return ItemCluster.META_URANIUM;
-            default:
-                return 0;
+            if (Geolosys.config.enableNickel)
+            {
+                // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
+                Random rand = new Random();
+                int rng = rand.nextInt(5);
+                if (rng == 0)
+                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_NICKEL));
+            }
+            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_IRON));
+        }
+        // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
+        else if (state.getBlock().getMetaFromState(state) == 6)
+        {
+            Random rand = new Random();
+            int rng = rand.nextInt(2);
+            if (rng == 0)
+            {
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_SILVER));
+                rng = rand.nextInt(2);
+                if (rng == 0)
+                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
+            }
+            else
+            {
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
+            }
+        }
+        else
+        {
+            drops.add(new ItemStack(Geolosys.CLUSTER, 1, this.damageDropped(state)));
         }
     }
 
