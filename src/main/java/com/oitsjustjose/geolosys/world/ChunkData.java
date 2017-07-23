@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.world;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -25,7 +24,7 @@ public class ChunkData
         int cap = random.nextInt(4) + 1;
         for (int i = 0; i < cap; i++)
         {
-            BlockPos p = getPosForNugPlacement(world, pos);
+            BlockPos p = getSamplePos(world, pos);
             if (world.getBlockState(p).getBlock().isReplaceable(world, p));
                 world.setBlockState(p, state);
         }
@@ -36,7 +35,7 @@ public class ChunkData
         return !populatedChunks.contains(pos);
     }
 
-    private BlockPos getPosForNugPlacement(World world, ChunkPos chunkPos)
+    private BlockPos getSamplePos(World world, ChunkPos chunkPos)
     {
         return world.getTopSolidOrLiquidBlock(new BlockPos((chunkPos.x << 4) + random.nextInt(15), 0, (chunkPos.z << 4) + random.nextInt(15)));
     }
