@@ -1,3 +1,10 @@
+1.4:
+* ADDED: Config options for vanilla ores
+* CHANGED: Vanilla ore rate defaults... again
+* CHANGED: Diamonds are now called "Kimberlite"
+* CHANGED: Diamond texture to be more Kimberlite-y
+* FIXED: A few bad names in the configs... best to double check them
+
 1.3:
 **Warning, this is basically the 'Samples' update :P**
 
