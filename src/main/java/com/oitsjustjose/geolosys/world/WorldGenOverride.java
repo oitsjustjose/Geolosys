@@ -14,7 +14,7 @@ public class WorldGenOverride
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void onOrePopulate(OreGenEvent.GenerateMinable event)
     {
-        if (Geolosys.config.disableIron && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
+        if (Geolosys.config.modIron && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
             event.setResult(Event.Result.DENY);
         if (Geolosys.config.modGold && event.getType() == OreGenEvent.GenerateMinable.EventType.GOLD)
             event.setResult(Event.Result.DENY);

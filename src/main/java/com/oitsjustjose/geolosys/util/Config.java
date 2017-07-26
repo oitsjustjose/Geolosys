@@ -19,7 +19,7 @@ public class Config
     public ConfigCategory UserEntries;
 
     // Feature Control
-    public boolean disableIron;
+    public boolean modIron;
     public boolean modGold;
     public boolean modDiamond;
     public boolean modCoal;
@@ -46,7 +46,7 @@ public class Config
     public int chanceGold;
     public int chanceLapis;
     public int chanceQuartz;
-    public int chanceDiamond;
+    public int chanceKimberlite;
 
     public int chanceHematite;
     public int chanceLimonite;
@@ -65,7 +65,7 @@ public class Config
     public int clusterSizeGold;
     public int clusterSizeLapis;
     public int clusterSizeQuartz;
-    public int clusterSizeDiamond;
+    public int clusterSizeKimberlite;
 
     public int clusterSizeHematite;
     public int clusterSizeLimonite;
@@ -101,15 +101,15 @@ public class Config
         FeatureControl = config.getCategory(category);
         FeatureControl.setComment("Control which features are enabled:");
 
-        property = config.get(category, "Disable Vanilla Iron Ore Gen", true);
-        disableIron = property.getBoolean();
+        property = config.get(category, "Replace Vanilla Iron Ore Gen", true);
+        modIron = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Replace Gold Deposits", true);
         modGold = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Replace Diamond Deposits", true);
+        property = config.get(category, "Replace Diamond Deposits with Kimberlite", true);
         modDiamond = property.getBoolean();
         propertyOrder.add(property.getName());
 
@@ -117,7 +117,7 @@ public class Config
         modCoal = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Replace Redstone Deposits", true);
+        property = config.get(category, "Replace Redstone Deposits with Cinnabar", true);
         modRedstone = property.getBoolean();
         propertyOrder.add(property.getName());
 
@@ -125,7 +125,8 @@ public class Config
         modLapis = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Replace Quartz Deposits (also adds Certus Quartz drops)", true);
+        property = config.get(category, "Replace Quartz Deposits", true);
+        property.setComment("Also adds Certus and Black Quartz drops");
         modQuartz = property.getBoolean();
         propertyOrder.add(property.getName());
 
@@ -218,8 +219,8 @@ public class Config
         chanceQuartz = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Diamond Pluton Chance Per Chunk", 4);
-        chanceDiamond = property.getInt();
+        property = config.get(category, "Kimberlite Pluton Chance Per Chunk", 4);
+        chanceKimberlite = property.getInt();
         propertyOrder.add(property.getName());
 
 
@@ -259,7 +260,7 @@ public class Config
         chancePlatinum = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Uranium Pluton Chance Per Chunk", 5);
+        property = config.get(category, "Autunite Pluton Chance Per Chunk", 5);
         chanceUranium = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -291,8 +292,8 @@ public class Config
         clusterSizeQuartz = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Diamond Cluster Size", 20);
-        clusterSizeDiamond = property.getInt();
+        property = config.get(category, "Kimberlite Cluster Size", 20);
+        clusterSizeKimberlite = property.getInt();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Hematite Cluster Size", 96);
