@@ -192,7 +192,7 @@ public class BlockOreVanilla extends Block
         GOLD(2, 2, "gold"),
         LAPIS(3, 1, "lapis"),
         QUARTZ(4, 1, "quartz"),
-        DIAMOND(5, 2, "diamond");
+        KIMBERLITE(5, 2, "kimberlite");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;

@@ -36,9 +36,9 @@
 					"all": "geolosys:blocks/quartz"
 				}
 			},
-			"diamond": {
+			"kimberlite": {
 				"textures": {
-					"all": "geolosys:blocks/diamond"
+					"all": "geolosys:blocks/kimberlite"
 				}
 			}
 		}

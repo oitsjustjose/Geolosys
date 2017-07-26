@@ -122,17 +122,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 64, 48, 70, 8);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), config.clusterSizeCoal, 48, 70, config.chanceCoal);
         if (config.modRedstone)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 3);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), config.clusterSizeCinnabar, 5, 12, config.chanceCinnabar);
         if (config.modGold)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 3);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), config.clusterSizeGold, 5, 30, config.chanceGold);
         if (config.modLapis)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 4);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
         if (config.modQuartz)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 40, 48, 56, 6);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), config.clusterSizeQuartz, 48, 56, config.chanceQuartz);
         if (config.modDiamond)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 4);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), config.clusterSizeDiamond, 2, 15, config.chanceDiamond);
 
         if (config.modStones)
         {

@@ -41,6 +41,13 @@ public class Config
     public boolean enableIngots;
     public boolean registerAsBauxite;
     // Chances
+    public int chanceCoal;
+    public int chanceCinnabar;
+    public int chanceGold;
+    public int chanceLapis;
+    public int chanceQuartz;
+    public int chanceDiamond;
+
     public int chanceHematite;
     public int chanceLimonite;
     public int chanceMalachite;
@@ -51,7 +58,15 @@ public class Config
     public int chanceBauxite;
     public int chancePlatinum;
     public int chanceUranium;
+
     // Sizes
+    public int clusterSizeCoal;
+    public int clusterSizeCinnabar;
+    public int clusterSizeGold;
+    public int clusterSizeLapis;
+    public int clusterSizeQuartz;
+    public int clusterSizeDiamond;
+
     public int clusterSizeHematite;
     public int clusterSizeLimonite;
     public int clusterSizeMalachite;
@@ -183,6 +198,31 @@ public class Config
         Chances = config.getCategory(category);
         Chances.setComment("The % chance for a pluton to generate in a chunk");
 
+        property = config.get(category, "Coal Pluton Chance Per Chunk", 8);
+        chanceCoal = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Cinnabar Pluton Chance Per Chunk", 3);
+        chanceCinnabar = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Gold Pluton Chance Per Chunk", 3);
+        chanceGold = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Lapis Pluton Chance Per Chunk", 4);
+        chanceLapis = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Quartz Pluton Chance Per Chunk", 6);
+        chanceQuartz = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Diamond Pluton Chance Per Chunk", 4);
+        chanceDiamond = property.getInt();
+        propertyOrder.add(property.getName());
+
+
         property = config.get(category, "Hematite Pluton Chance Per Chunk", 4);
         chanceHematite = property.getInt();
         propertyOrder.add(property.getName());
@@ -230,6 +270,30 @@ public class Config
         propertyOrder = Lists.newArrayList();
         Sizes = config.getCategory(category);
         Sizes.setComment("The number of ores found in each CLUSTER");
+
+        property = config.get(category, "Coal Cluster Size", 64);
+        clusterSizeCoal = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Cinnabar Cluster Size", 64);
+        clusterSizeCinnabar = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Gold Cluster Size", 40);
+        clusterSizeGold = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Lapis Cluster Size", 32);
+        clusterSizeLapis = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Quartz Cluster Size", 40);
+        clusterSizeQuartz = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Diamond Cluster Size", 20);
+        clusterSizeDiamond = property.getInt();
+        propertyOrder.add(property.getName());
 
         property = config.get(category, "Hematite Cluster Size", 96);
         clusterSizeHematite = property.getInt();
