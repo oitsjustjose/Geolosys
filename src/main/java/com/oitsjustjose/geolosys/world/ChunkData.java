@@ -21,7 +21,7 @@ public class ChunkData
             return;
 
         // Generate up to 4 clusters per chunk.
-        int cap = random.nextInt(4) + 1;
+        int cap = random.nextInt(2) + 1;
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
