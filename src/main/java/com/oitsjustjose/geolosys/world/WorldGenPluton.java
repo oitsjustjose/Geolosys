@@ -83,7 +83,7 @@ public class WorldGenPluton extends WorldGenerator
                                     if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.predicate))
                                     {
                                         if (blockpos.getY() < 24 && rand.nextInt(100) == 0)
-                                            worldIn.setBlockState(blockpos, Blocks.LAVA.getDefaultState(), 2);
+                                            worldIn.setBlockState(blockpos, Blocks.MAGMA.getDefaultState(), 2);
                                         else
                                             worldIn.setBlockState(blockpos, this.oreBlock, 2);
                                     }

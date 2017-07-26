@@ -128,11 +128,11 @@ public class Geolosys
         if (config.modGold)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 2);
         if (config.modLapis)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 40, 10, 24, 4);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 48, 48, 56, 6);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 32, 48, 56, 6);
         if (config.modDiamond)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 24, 2, 15, 5);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 5);
 
         if (config.modStones)
         {
