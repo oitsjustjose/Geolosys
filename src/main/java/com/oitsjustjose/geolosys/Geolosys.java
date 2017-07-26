@@ -122,17 +122,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 96, 48, 70, 8);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(0), 64, 48, 70, 8);
         if (config.modRedstone)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(1), 64, 5, 12, 3);
         if (config.modGold)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 2);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(2), 40, 5, 30, 3);
         if (config.modLapis)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), 32, 10, 24, 4);
         if (config.modQuartz)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 32, 48, 56, 6);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), 40, 48, 56, 6);
         if (config.modDiamond)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 5);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), 20, 2, 15, 4);
 
         if (config.modStones)
         {
