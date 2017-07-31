@@ -94,6 +94,11 @@ public class BlockOreVanilla extends Block
         else if (meta == 1)
         {
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
+            // Compat for ExtraUtils 2
+            final Item EXU_INGREDIENT = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
+            if (EXU_INGREDIENT != null && random.nextInt(30) == 0)
+                drops.add(new ItemStack(EXU_INGREDIENT));
+
         }
         else if (meta == 2)
         {
@@ -110,6 +115,7 @@ public class BlockOreVanilla extends Block
             for (int i = 0; i < fortuneDropCalc; i++)
             {
                 int rng = random.nextInt(25);
+                // Compat for certus quartz & black quartz
                 Item certusQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
                 Item blackQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
                 if (certusQuartz != null)
