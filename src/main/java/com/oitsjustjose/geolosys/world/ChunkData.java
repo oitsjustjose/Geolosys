@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
+import com.oitsjustjose.geolosys.blocks.BlockOreSample;
+import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,7 +27,7 @@ public class ChunkData
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
-            if (world.getBlockState(p).getBlock().isReplaceable(world, p));
+            if (world.getBlockState(p.down()).getBlock() instanceof BlockOreSample || world.getBlockState(p.down()).getBlock() instanceof BlockOreSampleVanilla);
                 world.setBlockState(p, state);
         }
     }
