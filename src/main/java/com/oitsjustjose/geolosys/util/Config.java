@@ -78,7 +78,6 @@ public class Config
     public int clusterSizePlatinum;
     public int clusterSizeUranium;
     // User Entries
-    public String[] userOreEntriesRaw;
     public String[] userStoneEntriesRaw;
 
     public int[] blacklistedDIMs;
@@ -276,7 +275,7 @@ public class Config
         clusterSizeCoal = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Cinnabar Cluster Size", 64);
+        property = config.get(category, "Cinnabar Cluster Size", 56);
         clusterSizeCinnabar = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -296,7 +295,7 @@ public class Config
         clusterSizeKimberlite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Hematite Cluster Size", 96);
+        property = config.get(category, "Hematite Cluster Size", 24);
         clusterSizeHematite = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -304,7 +303,7 @@ public class Config
         clusterSizeLimonite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Malachite Cluster Size", 96);
+        property = config.get(category, "Malachite Cluster Size", 24);
         clusterSizeMalachite = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -312,7 +311,7 @@ public class Config
         clusterSizeAzurite = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Cassiterite Cluster Size", 96);
+        property = config.get(category, "Cassiterite Cluster Size", 24);
         clusterSizeCassiterite = property.getInt();
         propertyOrder.add(property.getName());
 
@@ -342,14 +341,6 @@ public class Config
         propertyOrder = Lists.newArrayList();
         UserEntries = config.getCategory(category);
         UserEntries.setComment("It is STRONGLY suggested you use the ConfigGUI for this.");
-
-        property = config.get(category, "Custom Ore Entries", new String[]{});
-        property.setComment("Format is:\n" +
-                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk\n" +
-                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 20");
-        userOreEntriesRaw = property.getStringList();
-        propertyOrder.add(property.getName());
 
         property = config.get(category, "Custom Stone Entries", new String[]{});
         property.setComment("Format is:\n" +
