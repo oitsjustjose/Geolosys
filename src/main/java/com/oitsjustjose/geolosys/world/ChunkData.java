@@ -39,6 +39,6 @@ public class ChunkData
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)
     {
-        return world.getTopSolidOrLiquidBlock(new BlockPos((chunkPos.x << 4) + random.nextInt(15), 0, (chunkPos.z << 4) + random.nextInt(15)));
+        return world.getTopSolidOrLiquidBlock(new BlockPos((chunkPos.x << 4) + random.nextInt(16), 0, (chunkPos.z << 4) + random.nextInt(16)));
     }
 }

@@ -26,16 +26,16 @@ public class StoneGenerator implements IWorldGenerator
 {
     public static class StoneGen
     {
-        WorldGenMinable pluton;
+        WorldGenStonePluton pluton;
         IBlockState state;
         int minY;
         int maxY;
         int weight;
 
 
-        public StoneGen(IBlockState state, Block replaceTarget, int minY, int maxY, int weight)
+        public StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
-            this.pluton = new WorldGenMinable(state, 96, BlockMatcher.forBlock(replaceTarget));
+            this.pluton = new WorldGenStonePluton(state, 96);
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;
@@ -55,7 +55,7 @@ public class StoneGenerator implements IWorldGenerator
 
     public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
-        StoneGen gen = new StoneGen(state, Blocks.STONE, minY, maxY, weight);
+        StoneGen gen = new StoneGen(state, minY, maxY, weight);
         stonespawnList.add(gen);
         return gen;
     }

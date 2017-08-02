@@ -25,7 +25,7 @@ public class OreGenerator implements IWorldGenerator
 {
     public static class OreGen
     {
-        WorldGenPluton pluton;
+        WorldGenOrePluton pluton;
         IBlockState state;
         int minY;
         int maxY;
@@ -34,7 +34,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int weight)
         {
-            this.pluton = new WorldGenPluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
+            this.pluton = new WorldGenOrePluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;

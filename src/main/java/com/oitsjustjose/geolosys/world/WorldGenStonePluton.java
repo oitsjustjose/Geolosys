@@ -11,25 +11,15 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 import java.util.Random;
 
-public class WorldGenPluton extends WorldGenerator
+public class WorldGenStonePluton extends WorldGenerator
 {
     private final IBlockState oreBlock;
-    /**
-     * The number of blocks to generate.
-     */
     private final int numberOfBlocks;
-    private final Predicate<IBlockState> predicate;
 
-    public WorldGenPluton(IBlockState state, int blockCount)
-    {
-        this(state, blockCount, new WorldGenPluton.StonePredicate());
-    }
-
-    public WorldGenPluton(IBlockState state, int blockCount, Predicate<IBlockState> p_i45631_3_)
+    public WorldGenStonePluton(IBlockState state, int blockCount)
     {
         this.oreBlock = state;
         this.numberOfBlocks = blockCount;
-        this.predicate = p_i45631_3_;
     }
 
     @Override
@@ -80,13 +70,8 @@ public class WorldGenPluton extends WorldGenerator
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
                                     IBlockState state = worldIn.getBlockState(blockpos);
-                                    if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.predicate))
-                                    {
-                                        if (blockpos.getY() < 24 && rand.nextInt(100) == 0)
-                                            worldIn.setBlockState(blockpos, Blocks.MAGMA.getDefaultState(), 2);
-                                        else
-                                            worldIn.setBlockState(blockpos, this.oreBlock, 2);
-                                    }
+                                    if (state.getBlock() == Blocks.STONE)
+                                        worldIn.setBlockState(blockpos, this.oreBlock, 2);
                                 }
                             }
                         }
@@ -96,27 +81,5 @@ public class WorldGenPluton extends WorldGenerator
         }
 
         return true;
-    }
-
-    public boolean generateSill(World worldIn, Random rand, BlockPos pos)
-    {
-        return false;
-    }
-
-
-    static class StonePredicate implements Predicate<IBlockState>
-    {
-        public boolean apply(IBlockState p_apply_1_)
-        {
-            if (p_apply_1_ != null && p_apply_1_.getBlock() == Blocks.STONE)
-            {
-                BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType) p_apply_1_.getValue(BlockStone.VARIANT);
-                return blockstone$enumtype.isNatural();
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

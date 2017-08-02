@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Created by jose on 7/7/17.
  */
-public class WorldGenOverride
+public class VanillaWorldGenOverride
 {
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void onOrePopulate(OreGenEvent.GenerateMinable event)
