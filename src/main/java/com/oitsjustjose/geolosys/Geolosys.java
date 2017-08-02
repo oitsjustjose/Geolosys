@@ -152,7 +152,7 @@ public class Geolosys
         if (config.enableLimonite)
             OreGenerator.addOreGen(ORE.getStateFromMeta(1), config.clusterSizeLimonite, 6, 32, config.chanceLimonite);
         if (config.enableMalachite)
-            OreGenerator.addOreGen(ORE.getStateFromMeta(2), config.clusterSizeMalachite, 39, 44, config.chanceLimonite);
+            OreGenerator.addOreGen(ORE.getStateFromMeta(2), config.clusterSizeMalachite, 39, 44, config.chanceMalachite);
         if (config.enableAzurite)
             OreGenerator.addOreGen(ORE.getStateFromMeta(3), config.clusterSizeAzurite, 12, 44, config.chanceAzurite);
         if (config.enableCassiterite)
