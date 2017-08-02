@@ -1,3 +1,16 @@
+1.5:
+**WARNING: You should disable 'cascading chunk lag' logging in the Forge Config. More explained below**
+
+* ADDED: ExU2 Compatibility for Cinnabar!
+* REMOVED: Config for custom ores... if this is chaos, let me know, but I decided to remove it ultimately because the samples wouldn't ever be able to be dynamic like that..
+* CHANGED: Mineral deposits below Y=24 now generate magma blocks instead of lava to prevent frustration and be more geologically accurate
+* CHANGED: Mineral deposits of lesser minerals (cassiterite, malachite & hematite) generate in smaller clusters by default (delete config entries to reset them!)
+* CHANGED: Mineral deposits now generate... differently. Still in the same chunk and the same formation, but at . It's bound to cause "cascading chunk lag", but I've tested this extensively and it **does not progress for long** before stopping :)
+* FIXED: Some chunks not generating mineral deposits even though there was a sample
+* FIXED: Samples on samples
+
+
+
 1.4:
 * ADDED: Config options for vanilla ores
 * CHANGED: Vanilla ore rate defaults... again
