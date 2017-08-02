@@ -48,7 +48,7 @@ public class OreGenerator implements IWorldGenerator
             BlockPos pos;
             if (rand.nextInt(100) < weight)
             {
-                pos = new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8);
+                pos = new BlockPos(x + rand.nextInt(5 + 1 + 5) - 5, minY + rand.nextInt(maxY - minY), z + rand.nextInt(5 + 1 + 5) - 5);
                 pluton.generate(world, rand, pos);
                 Geolosys.chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
             }
