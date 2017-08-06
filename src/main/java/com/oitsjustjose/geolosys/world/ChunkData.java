@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.world;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.BlockOreSample;
 import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
 import net.minecraft.block.state.IBlockState;
@@ -22,8 +23,7 @@ public class ChunkData
         if (world.getWorldType() == WorldType.FLAT)
             return;
 
-        // Generate up to 4 clusters per chunk.
-        int cap = random.nextInt(2) + 1;
+        int cap = random.nextInt(Geolosys.config.chanceSample - 1) + 1;
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);

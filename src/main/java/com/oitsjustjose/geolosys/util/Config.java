@@ -58,6 +58,7 @@ public class Config
     public int chanceBauxite;
     public int chancePlatinum;
     public int chanceUranium;
+    public int chanceSample;
 
     // Sizes
     public int clusterSizeCoal;
@@ -262,6 +263,11 @@ public class Config
         property = config.get(category, "Autunite Pluton Chance Per Chunk", 5);
         chanceUranium = property.getInt();
         propertyOrder.add(property.getName());
+
+        property = config.get(category, "Random Chance of Samples per Chunk", 4, "The maximum number of samples that can generate per chunk", 1, 16);
+        chanceSample = property.getInt();
+        propertyOrder.add(property.getName());
+
 
         Chances.setPropertyOrder(propertyOrder);
 
