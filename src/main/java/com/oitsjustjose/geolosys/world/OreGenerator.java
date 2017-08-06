@@ -77,7 +77,7 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (!isDIMBlacklisted(world.provider.getDimension()))
+        if (!isDIMBlacklisted(world.provider.getDimension()) && orespawnList.size() > 0)
             orespawnList.get(random.nextInt(orespawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
     }
 
