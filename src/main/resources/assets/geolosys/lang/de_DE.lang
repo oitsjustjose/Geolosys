@@ -1,0 +1,33 @@
+# Blocks
+
+# ------------------------------------ #
+#                Ores                  #
+# ------------------------------------ #
+geolosys.ore.hematite.name=Hämatiterz
+geolosys.ore.limonite.name=Brauneisenerz
+geolosys.ore.malachite.name=Malachiterz
+geolosys.ore.azurite.name=Azuriterz
+geolosys.ore.cassiterite.name=Kassiteriterz
+geolosys.ore.teallite.name=Tealliterz
+geolosys.ore.galena.name=Galeniterz
+geolosys.ore.bauxite.name=Bauxiterz
+
+# Items
+
+# ------------------------------------ #
+#             Clusters                 #
+# ------------------------------------ #
+geolosys.cluster.iron.name=Eisenklumpen
+geolosys.cluster.copper.name=Kupferklumpen
+geolosys.cluster.tin.name=Zinnklumpen
+geolosys.cluster.silver.name=Silberklumpen
+geolosys.cluster.lead.name=Bleiklumpen
+geolosys.cluster.aluminum.name=Aluminiumklumpen
+# ------------------------------------ #
+#              Ingots                  #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Kupferbarren
+geolosys.ingot.tin.name=Zinnbarren
+geolosys.ingot.silver.name=Silberbarren
+geolosys.ingot.lead.name=Bleibarren
+geolosys.ingot.aluminum.name=Aluminiumbarren
