@@ -8,6 +8,7 @@ import net.minecraft.block.BlockGravel;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
+@SuppressWarnings("deprecation")
 public class BlockOreSampleVanilla extends Block
 {
     public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
@@ -48,7 +50,30 @@ public class BlockOreSampleVanilla extends Block
     }
 
     @Override
-    @SuppressWarnings("deprecation")
+    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isTopSolid(IBlockState state)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean canPlaceTorchOnTop(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        return false;
+    }
+
+    @Override
+    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_)
+    {
+        return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!this.canPlaceBlockAt(worldIn, pos))
@@ -74,28 +99,24 @@ public class BlockOreSampleVanilla extends Block
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return new AxisAlignedBB(0.2F, 0.0F, 0.2F, 0.8F, 0.25F, 0.8F);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public EnumBlockRenderType getRenderType(IBlockState state)
     {
         return EnumBlockRenderType.MODEL;
@@ -141,7 +162,6 @@ public class BlockOreSampleVanilla extends Block
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
