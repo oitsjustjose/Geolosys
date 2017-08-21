@@ -129,7 +129,7 @@ public class Geolosys
         if (config.modLapis)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
         if (config.modQuartz)
-            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), config.clusterSizeQuartz, 48, 56, config.chanceQuartz);
+            OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(4), config.clusterSizeQuartz, 6, 29, config.chanceQuartz);
         if (config.modDiamond)
             OreGenerator.addOreGen(ORE_VANILLA.getStateFromMeta(5), config.clusterSizeKimberlite, 2, 15, config.chanceKimberlite);
 
