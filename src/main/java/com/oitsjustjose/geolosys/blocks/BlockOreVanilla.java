@@ -94,11 +94,14 @@ public class BlockOreVanilla extends Block
         else if (meta == 1)
         {
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
+            int RNG = random.nextInt(60);
             // Compat for ExtraUtils 2
-            final Item EXU_INGREDIENT = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
-            if (EXU_INGREDIENT != null && random.nextInt(30) == 0)
-                drops.add(new ItemStack(EXU_INGREDIENT));
-
+            final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
+            if (EXU_MATERIAL != null && RNG < 2)
+                drops.add(new ItemStack(EXU_MATERIAL));
+            final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
+            if (TE_MATERIAL != null && RNG == 2)
+                drops.add(new ItemStack(TE_MATERIAL, 1, 866));
         }
         else if (meta == 2)
         {
