@@ -123,14 +123,14 @@ public class BlockOreVanilla extends Block
                 Item blackQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
                 if (certusQuartz != null)
                 {
-                    if (rng < 2) // 2 / 25
+                    if (rng < 5) // 2 / 25
                         drops.add(new ItemStack(certusQuartz, 1, 0));
-                    else if (rng < 3) // 1 / 25
+                    else if (rng > 5 && rng < 6) // 1 / 25
                         drops.add(new ItemStack(certusQuartz, 1, 1));
                 }
                 if (blackQuartz != null)
                 {
-                    if (rng >= 3 && rng < 5) // 2 / 25
+                    if (rng >= 6 && rng < 10) // 2 / 25
                         drops.add(new ItemStack(blackQuartz, 1, 5));
                 }
             }
