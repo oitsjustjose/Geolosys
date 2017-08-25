@@ -59,6 +59,7 @@ public class Config
     public int chancePlatinum;
     public int chanceUranium;
     public int chanceSample;
+    public boolean generateSamplesInWater;
 
     // Sizes
     public int clusterSizeCoal;
@@ -268,6 +269,9 @@ public class Config
         chanceSample = property.getInt();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Allow samples to spawn in water (shallow or deep)", false);
+        generateSamplesInWater = property.getBoolean();
+        propertyOrder.add(property.getName());
 
         Chances.setPropertyOrder(propertyOrder);
 

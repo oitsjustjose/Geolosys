@@ -27,7 +27,10 @@ public class ChunkData
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
-            if (world.getBlockState(p.down()).getBlock() instanceof BlockOreSample || world.getBlockState(p.down()).getBlock() instanceof BlockOreSampleVanilla);
+
+            if (world.getBlockState(p.down()).getBlock() instanceof BlockOreSample || world.getBlockState(p.down()).getBlock() instanceof BlockOreSampleVanilla)
+                continue;
+            if (Geolosys.config.generateSamplesInWater || !isMoist(world, p))
                 world.setBlockState(p, state);
         }
     }
@@ -40,5 +43,10 @@ public class ChunkData
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)
     {
         return world.getTopSolidOrLiquidBlock(new BlockPos((chunkPos.x << 4) + random.nextInt(16), 0, (chunkPos.z << 4) + random.nextInt(16)));
+    }
+
+    private boolean isMoist(World world, BlockPos pos)
+    {
+        return world.getBlockState(pos.up()).getMaterial().isLiquid() || world.getBlockState(pos.east()).getMaterial().isLiquid() || world.getBlockState(pos.west()).getMaterial().isLiquid() || world.getBlockState(pos.north()).getMaterial().isLiquid() || world.getBlockState(pos.south()).getMaterial().isLiquid();
     }
 }
