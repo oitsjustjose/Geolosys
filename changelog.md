@@ -8,7 +8,7 @@
 * CHANGED: Mineral deposits now generate... differently. Still in the same chunk and the same formation, but at . It's bound to cause "cascading chunk lag", but I've tested this extensively and it **does not progress for long** before stopping :)
 * FIXED: Some chunks not generating mineral deposits even though there was a sample
 * FIXED: Samples on samples
-
+* CHANGED: Some new textures by Wiiv! When the rest are done, a new version will be released :D
 
 
 1.4:
