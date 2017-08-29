@@ -80,6 +80,7 @@ public class Config
     public int clusterSizePlatinum;
     public int clusterSizeUranium;
     // User Entries
+    public String[] userOreEntriesRaw;
     public String[] userStoneEntriesRaw;
 
     public int[] blacklistedDIMs;
@@ -351,6 +352,14 @@ public class Config
         propertyOrder = Lists.newArrayList();
         UserEntries = config.getCategory(category);
         UserEntries.setComment("It is STRONGLY suggested you use the ConfigGUI for this.");
+
+        property = config.get(category, "Custom Ore Entries", new String[]{});
+        property.setComment("Format is:\n" +
+                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk\n" +
+                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
+                "actuallyadditions:block_misc:3, 32, 13, 42, 20");
+        userOreEntriesRaw = property.getStringList();
+        propertyOrder.add(property.getName());
 
         property = config.get(category, "Custom Stone Entries", new String[]{});
         property.setComment("Format is:\n" +

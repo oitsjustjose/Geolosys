@@ -113,6 +113,7 @@ public class Geolosys
             }
         }
         configParser = new ConfigParser();
+        registerUserOreGen();
         registerUserStoneGen();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
@@ -168,6 +169,13 @@ public class Geolosys
         if (config.enableAutunite)
             OreGenerator.addOreGen(ORE.getStateFromMeta(9), config.clusterSizeUranium, 8, 33, config.chanceUranium);
     }
+
+    private void registerUserOreGen()
+    {
+        for(ConfigParser.Entry e : configParser.getUserOreEntries())
+            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
+    }
+
 
     private void registerUserStoneGen()
     {

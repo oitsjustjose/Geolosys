@@ -61,24 +61,24 @@ public class OreGenerator implements IWorldGenerator
             else if (state.getBlock() == Geolosys.ORE_VANILLA)
                 return Geolosys.ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
             else
-                return Blocks.AIR.getDefaultState();
+                return state;
         }
     }
 
-    public static ArrayList<OreGen> orespawnList = new ArrayList();
+    public static ArrayList<OreGen> oreSpawnList = new ArrayList();
 
     public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight)
     {
         OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight);
-        orespawnList.add(gen);
+        oreSpawnList.add(gen);
         return gen;
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (!isDIMBlacklisted(world.provider.getDimension()) && orespawnList.size() > 0)
-            orespawnList.get(random.nextInt(orespawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        if (!isDIMBlacklisted(world.provider.getDimension()) && oreSpawnList.size() > 0)
+            oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
     }
 
     public boolean isDIMBlacklisted(int dim)
