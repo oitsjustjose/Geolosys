@@ -16,6 +16,7 @@ public class Config
     public ConfigCategory FeatureControl;
     public ConfigCategory Chances;
     public ConfigCategory Sizes;
+    public ConfigCategory Samples;
     public ConfigCategory UserEntries;
 
     // Feature Control
@@ -267,17 +268,7 @@ public class Config
         chanceUranium = property.getInt();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Random Chance of Samples per Chunk", 4, "The maximum number of samples that can generate per chunk", 1, 16);
-        chanceSample = property.getInt();
-        propertyOrder.add(property.getName());
 
-        property = config.get(category, "Allow samples to spawn in water (shallow or deep)", false);
-        generateSamplesInWater = property.getBoolean();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "Samples drop nothing, instead reveal their contents via chat", false);
-        boringSamples = property.getBoolean();
-        propertyOrder.add(property.getName());
 
         Chances.setPropertyOrder(propertyOrder);
 
@@ -352,6 +343,26 @@ public class Config
         propertyOrder.add(property.getName());
 
         Sizes.setPropertyOrder(propertyOrder);
+
+        // Sample settings
+        category = "Ore Samples";
+        propertyOrder = Lists.newArrayList();
+        Samples = config.getCategory(category);
+        Samples.setComment("Settings strictly regarding samples");
+
+        property = config.get(category, "Random Chance of Samples per Chunk", 4, "The maximum number of samples that can generate per chunk", 1, 16);
+        chanceSample = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Allow samples to spawn in water (shallow or deep)", false);
+        generateSamplesInWater = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Samples drop nothing, instead reveal their contents via chat", false);
+        boringSamples = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        Samples.setPropertyOrder(propertyOrder);
 
         category = "User Entries";
         propertyOrder = Lists.newArrayList();
