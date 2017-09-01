@@ -60,6 +60,7 @@ public class Config
     public int chanceUranium;
     public int chanceSample;
     public boolean generateSamplesInWater;
+    public boolean boringSamples;
 
     // Sizes
     public int clusterSizeCoal;
@@ -272,6 +273,10 @@ public class Config
 
         property = config.get(category, "Allow samples to spawn in water (shallow or deep)", false);
         generateSamplesInWater = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Samples drop nothing, instead reveal their contents via chat", false);
+        boringSamples = property.getBoolean();
         propertyOrder.add(property.getName());
 
         Chances.setPropertyOrder(propertyOrder);

@@ -3,7 +3,8 @@ package com.oitsjustjose.geolosys.blocks;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
@@ -12,21 +13,22 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
@@ -46,6 +48,7 @@ public class BlockOreSample extends Block
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -91,7 +94,15 @@ public class BlockOreSample extends Block
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        this.dropBlockAsItem(worldIn, pos, state, 0);
+        if (Geolosys.config.boringSamples)
+        {
+            String resource = EnumType.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
+            playerIn.sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
+        }
+        else
+        {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+        }
         worldIn.setBlockToAir(pos);
         playerIn.swingArm(EnumHand.MAIN_HAND);
         return true;
@@ -121,13 +132,6 @@ public class BlockOreSample extends Block
         return EnumBlockRenderType.MODEL;
     }
 
-
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return Geolosys.CLUSTER;
-    }
-
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
@@ -135,72 +139,60 @@ public class BlockOreSample extends Block
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
-        int meta = state.getBlock().getMetaFromState(state);
-        switch (meta)
-        {
-            case 0:
-                return ItemCluster.META_IRON;
-            case 1:
-                return ItemCluster.META_IRON;
-            case 2:
-                return ItemCluster.META_COPPER;
-            case 3:
-                return ItemCluster.META_COPPER;
-            case 4:
-                return ItemCluster.META_TIN;
-            case 5:
-                return ItemCluster.META_TIN;
-            case 6:
-                return ItemCluster.META_SILVER;
-            case 7:
-                return ItemCluster.META_ALUMINUM;
-            case 8:
-                return ItemCluster.META_PLATINUM;
-            case 9:
-                return ItemCluster.META_URANIUM;
-            default:
-                return 0;
-        }
-    }
-
-    @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        // Special case for Limonite; odd-chance for the drop to be nickel AND iron
-        if (state.getBlock().getMetaFromState(state) == 1)
+        Random rand = new Random();
+
+        switch (state.getBlock().getMetaFromState(state))
         {
-            if (Geolosys.config.enableNickel)
-            {
-                // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
-                Random rand = new Random();
-                int rng = rand.nextInt(5);
+            case 0:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_IRON));
+                break;
+            case 1:
+                if (Geolosys.config.enableNickel)
+                {
+                    // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
+                    int rng = rand.nextInt(5);
+                    if (rng == 0)
+                        drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_NICKEL));
+                }
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_IRON));
+                break;
+            case 2:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_COPPER));
+                break;
+            case 3:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_COPPER));
+                break;
+            case 4:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_TIN));
+                break;
+            case 5:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_TIN));
+                break;
+            case 6:
+                int rng = rand.nextInt(2);
                 if (rng == 0)
-                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_NICKEL));
-            }
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_IRON));
-        }
-        // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
-        else if (state.getBlock().getMetaFromState(state) == 6)
-        {
-            Random rand = new Random();
-            int rng = rand.nextInt(2);
-            if (rng == 0)
-            {
-                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_SILVER));
-                rng = rand.nextInt(2);
-                if (rng == 0)
+                {
+                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_SILVER));
+                    rng = rand.nextInt(2);
+                    if (rng == 0)
+                        drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
+                }
+                else
+                {
                     drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
-            }
-            else
-            {
-                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
-            }
-        }
-        else
-        {
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, this.damageDropped(state)));
+                }
+                break;
+            case 7:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_ALUMINUM));
+                break;
+            case 8:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_PLATINUM));
+                break;
+            case 9:
+                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_URANIUM));
+                break;
         }
     }
 
@@ -222,7 +214,6 @@ public class BlockOreSample extends Block
         return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
     }
 
-
     @Override
     public int getMetaFromState(IBlockState state)
     {
@@ -235,46 +226,48 @@ public class BlockOreSample extends Block
         return new BlockStateContainer(this, VARIANT);
     }
 
+    @SubscribeEvent
+    public void registerEvent(BlockEvent.HarvestDropsEvent event)
+    {
+        if (!Geolosys.config.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+            return;
+        String resource = EnumType.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
+        event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
+        event.getDrops().clear();
+    }
+
     public enum EnumType implements IStringSerializable
     {
-        HEMATITE(0, 1, "hematite", "hematite"),
-        LIMONITE(1, 2, "limonite", "limonite"),
-        MALACHITE(2, 1, "malachite", "malachite"),
-        AZURITE(3, 1, "azurite", "azurite"),
-        CASSITERITE(4, 1, "cassiterite", "cassiterite"),
-        TEALLITE(5, 1, "teallite", "teallite"),
-        GALENA(6, 2, "galena", "galena"),
-        BAUXITE(7, 0, "bauxite", "bauxite"),
-        PLATINUM(8, 2, "platinum", "platinum"),
-        AUTUNITE(9, 2, "autunite", "autunite");
+        HEMATITE(0, "hematite", "iron"),
+        LIMONITE(1, "limonite", "nickel"),
+        MALACHITE(2, "malachite", "poor copper"),
+        AZURITE(3, "azurite", "copper"),
+        CASSITERITE(4, "cassiterite", "poor tin"),
+        TEALLITE(5, "teallite", "tin"),
+        GALENA(6, "galena", "silver & lead"),
+        BAUXITE(7, "bauxite", "aluminum"),
+        PLATINUM(8, "platinum", "platinum"),
+        AUTUNITE(9, "autunite", "uranium");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-        private final int meta;
-        private final int toolLevel;
-        private final String serializedName;
-        private final String unlocalizedName;
 
-        EnumType(int meta, int toolLevel, String name, String unlocalizedName)
+        static
+        {
+            for (EnumType type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
+        private final int meta;
+        private final String name;
+        private final String resource;
+
+        EnumType(int meta, String name, String resource)
         {
             this.meta = meta;
-            this.toolLevel = toolLevel;
-            this.serializedName = name;
-            this.unlocalizedName = unlocalizedName;
-        }
-
-        public int getToolLevel()
-        {
-            return this.toolLevel;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
+            this.name = name;
+            this.resource = resource;
         }
 
         public static EnumType byMetadata(int meta)
@@ -287,17 +280,24 @@ public class BlockOreSample extends Block
             return META_LOOKUP[meta];
         }
 
-        public String getName()
+        public int getMetadata()
         {
-            return this.serializedName;
+            return this.meta;
         }
 
-        static
+        public String toString()
         {
-            for (EnumType type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
+            return this.resource;
+        }
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public String getResource()
+        {
+            return this.resource;
         }
     }
 
