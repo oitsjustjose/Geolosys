@@ -1,3 +1,13 @@
+1.6:
+
+* ADDED: Config to prevent samples from actually dropping anything
+* ADDED: Config to add custom ore entries again; "samples" for these entries are the block themselves.
+* ADDED: Config for samples spawning in the water
+* CHANGED: New textures by Wiiv!!
+* FIXED: Samples on samples not spawning samples at all
+* FIXED: Snow and other things spawning on top of samples
+
+
 1.5:
 
 **WARNING: You should disable 'cascading chunk lag' logging in the Forge Config. More explained below**
