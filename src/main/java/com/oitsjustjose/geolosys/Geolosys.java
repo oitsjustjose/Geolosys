@@ -6,6 +6,7 @@ import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
+import com.oitsjustjose.geolosys.items.ItemProPick;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.ConfigParser;
@@ -51,6 +52,7 @@ public class Geolosys
 
     public static Item CLUSTER;
     public static Item INGOT;
+    public static Item PRO_PICK;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -69,6 +71,7 @@ public class Geolosys
         CLUSTER = new ItemCluster();
         if (config.enableIngots)
             INGOT = new ItemIngot();
+        PRO_PICK = new ItemProPick();
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
@@ -85,31 +88,32 @@ public class Geolosys
     {
         if (!config.enableIngots)
         {
-            String mat = "";
+            String mat = "ingotIron";
             try
             {
-                mat = "ingotIron";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotGold";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), OreDictionary.getOres(mat).get(0), 1.0F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), OreDictionary.getOres(mat).get(0), 1.0F);
                 mat = "ingotCopper";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 2), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotTin";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 3), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotSilver";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 4), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotLead";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 5), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotAluminum";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 6), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotNickel";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 7), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), OreDictionary.getOres(mat).get(0), 0.7F);
                 mat = "ingotPlatinum";
-                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 8), OreDictionary.getOres(mat).get(0), 0.7F);
+                GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), OreDictionary.getOres(mat).get(0), 0.7F);
             }
             catch (NullPointerException | IndexOutOfBoundsException e)
             {
                 LOGGER.fatal("Could not find " + mat + " in the OreDictionary. Please enable Geolosys' Ingots in the config or add a mod which adds it.");
+                throw new RuntimeException(e);
+
             }
         }
         configParser = new ConfigParser();
@@ -137,7 +141,8 @@ public class Geolosys
         if (config.modStones)
         {
 
-            IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
+            IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
+            IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 
             StoneGenerator.addStoneGen(andesite, 2, 70, 40);
@@ -172,7 +177,7 @@ public class Geolosys
 
     private void registerUserOreGen()
     {
-        for(ConfigParser.Entry e : configParser.getUserOreEntries())
+        for (ConfigParser.Entry e : configParser.getUserOreEntries())
             OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
     }
 
