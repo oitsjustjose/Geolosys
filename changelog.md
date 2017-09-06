@@ -1,3 +1,6 @@
+1.7:
+* ADDED: Prospector's Pick
+
 1.6:
 
 * ADDED: Config to prevent samples from actually dropping anything

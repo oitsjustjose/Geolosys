@@ -22,8 +22,8 @@ public class ItemProPick extends Item
 {
     public ItemProPick()
     {
-        this.setHasSubtypes(true);
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.setMaxStackSize(1);
+        this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Lib.MODID, "PRO_PICK"));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
@@ -70,7 +70,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -94,7 +94,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -119,7 +119,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -144,7 +144,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -169,7 +169,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -193,7 +193,7 @@ public class ItemProPick extends Item
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
                             {
-                                player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+                                foundMessage(player, state, facing);
                                 found = true;
                                 break;
                             }
@@ -201,19 +201,21 @@ public class ItemProPick extends Item
                     }
                 }
                 break;
-            default:
-                break;
         }
 
 
         if (!found)
         {
-
             player.sendStatusMessage(new TextComponentString("No deposits found"), true);
         }
         player.swingArm(hand);
         return EnumActionResult.SUCCESS;
     }
 
+    void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
+    {
+        player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+
+    }
 
 }
