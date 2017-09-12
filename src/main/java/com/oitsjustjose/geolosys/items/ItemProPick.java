@@ -68,7 +68,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -92,7 +92,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -117,7 +117,7 @@ public class ItemProPick extends Item
                         {
                             System.out.println("Checking: " + pos.add(x, y, z));
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -142,7 +142,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -167,7 +167,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -191,7 +191,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla)
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -212,10 +212,8 @@ public class ItemProPick extends Item
         return EnumActionResult.SUCCESS;
     }
 
-    void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
+    private void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
         player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
-
     }
-
 }

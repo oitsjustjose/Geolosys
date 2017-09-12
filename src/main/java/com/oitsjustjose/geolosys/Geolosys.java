@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys;
 
+import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreSample;
 import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
@@ -31,6 +32,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12")
 public class Geolosys
 {
@@ -42,8 +45,8 @@ public class Geolosys
     public static Config config;
     public static ClientRegistry clientRegistry;
     public static ChunkData chunkOreGen;
+    public static ArrayList<IBlockState> userStates;
     private ConfigParser configParser;
-
 
     public static BlockOre ORE;
     public static BlockOreVanilla ORE_VANILLA;
@@ -63,6 +66,7 @@ public class Geolosys
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         chunkOreGen = new ChunkData();
+        userStates = new ArrayList<>();
 
         ORE = new BlockOre();
         ORE_VANILLA = new BlockOreVanilla();
@@ -178,7 +182,10 @@ public class Geolosys
     private void registerUserOreGen()
     {
         for (ConfigParser.Entry e : configParser.getUserOreEntries())
+        {
             OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
+            userStates.add(e.getState());
+        }
     }
 
 
