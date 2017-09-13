@@ -115,7 +115,6 @@ public class ItemProPick extends Item
                     {
                         for (int z = zStart; z <= zEnd; z++)
                         {
-                            System.out.println("Checking: " + pos.add(x, y, z));
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                             if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
                             {
