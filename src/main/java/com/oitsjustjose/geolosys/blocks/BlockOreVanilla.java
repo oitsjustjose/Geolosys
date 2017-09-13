@@ -125,7 +125,7 @@ public class BlockOreVanilla extends Block
                 {
                     if (rng < 5) // 2 / 25
                         drops.add(new ItemStack(certusQuartz, 1, 0));
-                    else if (rng > 5 && rng < 6) // 1 / 25
+                    else if (rng > 5 && rng < 7) // 1 / 25
                         drops.add(new ItemStack(certusQuartz, 1, 1));
                 }
                 if (blackQuartz != null)
