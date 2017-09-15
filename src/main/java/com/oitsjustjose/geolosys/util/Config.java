@@ -40,8 +40,10 @@ public class Config
     public boolean enableAutunite;
     public boolean enablePlatinum;
     public boolean enableIngots;
+    public boolean enableProPick;
     public boolean registerAsBauxite;
-    // Chances
+
+    // Chances (vanilla)
     public int chanceCoal;
     public int chanceCinnabar;
     public int chanceGold;
@@ -49,6 +51,7 @@ public class Config
     public int chanceQuartz;
     public int chanceKimberlite;
 
+    // Chances (modded)
     public int chanceHematite;
     public int chanceLimonite;
     public int chanceMalachite;
@@ -59,6 +62,8 @@ public class Config
     public int chanceBauxite;
     public int chancePlatinum;
     public int chanceUranium;
+
+    // Sample Stuff
     public int chanceSample;
     public boolean generateSamplesInWater;
     public boolean boringSamples;
@@ -185,6 +190,11 @@ public class Config
         property = config.get(category, "Enable Ingots", true);
         property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
         enableIngots = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Prospector's Pick", true);
+        property.setComment("Set to \"False\" if you don't wish to have this feature, or have another mod doing it");
+        enableProPick = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Also register Aluminum Cluster as oreBauxite", false);

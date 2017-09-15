@@ -75,7 +75,8 @@ public class Geolosys
         CLUSTER = new ItemCluster();
         if (config.enableIngots)
             INGOT = new ItemIngot();
-        PRO_PICK = new ItemProPick();
+        if (config.enableProPick)
+            PRO_PICK = new ItemProPick();
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
