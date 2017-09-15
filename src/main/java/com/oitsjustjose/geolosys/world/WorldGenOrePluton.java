@@ -43,6 +43,13 @@ public class WorldGenOrePluton extends WorldGenerator
         double d4 = (double) (position.getY() + rand.nextInt(3) - 2);
         double d5 = (double) (position.getY() + rand.nextInt(3) - 2);
 
+        // TwilightForest "compat"
+        if(worldIn.provider.getDimension() == 7)
+        {
+            d4 /= 2;
+            d5 /= 2;
+        }
+
         for (int i = 0; i < this.numberOfBlocks; ++i)
         {
             float f1 = (float) i / (float) this.numberOfBlocks;

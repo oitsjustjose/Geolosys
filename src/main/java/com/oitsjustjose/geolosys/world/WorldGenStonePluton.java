@@ -33,6 +33,13 @@ public class WorldGenStonePluton extends WorldGenerator
         double d4 = (double) (position.getY() + rand.nextInt(3) - 2);
         double d5 = (double) (position.getY() + rand.nextInt(3) - 2);
 
+        // TwilightForest "compat"
+        if(worldIn.provider.getDimension() == 7)
+        {
+            d4 /= 2;
+            d5 /= 2;
+        }
+
         for (int i = 0; i < this.numberOfBlocks; ++i)
         {
             float f1 = (float) i / (float) this.numberOfBlocks;
@@ -70,6 +77,7 @@ public class WorldGenStonePluton extends WorldGenerator
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
                                     IBlockState state = worldIn.getBlockState(blockpos);
+
                                     if (state.getBlock() == Blocks.STONE)
                                         worldIn.setBlockState(blockpos, this.oreBlock, 2);
                                 }
