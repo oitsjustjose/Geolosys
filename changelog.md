@@ -2,6 +2,7 @@
 * ADDED: Prospector's Pick
 * ADDED: Prospector's Pick feature config
 * FIXED: Odd ore generation in the Twilight Forest dimension
+
 **I will be in contact with the Twilight Forest devs to see if we can come up with a means of replacing the ore generation in Hollow Hills**
 
 1.6:
