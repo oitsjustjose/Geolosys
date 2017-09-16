@@ -107,7 +107,7 @@ public class Config
 
         String category = "Feature Control";
         List<String> propertyOrder = Lists.newArrayList();
-        FeatureControl = config.getCategory(category);
+        FeatureControl = config.getCategory(category).setRequiresMcRestart(true);
         FeatureControl.setComment("Control which features are enabled:");
 
         property = config.get(category, "Replace Vanilla Iron Ore Gen", true);
@@ -210,7 +210,7 @@ public class Config
 
         category = "Ore Gen Chances";
         propertyOrder = Lists.newArrayList();
-        Chances = config.getCategory(category);
+        Chances = config.getCategory(category).setRequiresMcRestart(true);
         Chances.setComment("The % chance for a pluton to generate in a chunk");
 
         property = config.get(category, "Coal Pluton Chance Per Chunk", 8);
@@ -279,13 +279,12 @@ public class Config
         propertyOrder.add(property.getName());
 
 
-
         Chances.setPropertyOrder(propertyOrder);
 
         // Cluster Sizes
         category = "Ore Cluster Sizes";
         propertyOrder = Lists.newArrayList();
-        Sizes = config.getCategory(category);
+        Sizes = config.getCategory(category).setRequiresMcRestart(true);
         Sizes.setComment("The number of ores found in each CLUSTER");
 
         property = config.get(category, "Coal Cluster Size", 64);
@@ -357,7 +356,7 @@ public class Config
         // Sample settings
         category = "Ore Samples";
         propertyOrder = Lists.newArrayList();
-        Samples = config.getCategory(category);
+        Samples = config.getCategory(category).setRequiresMcRestart(true);
         Samples.setComment("Settings strictly regarding samples");
 
         property = config.get(category, "Random Chance of Samples per Chunk", 4, "The maximum number of samples that can generate per chunk", 1, 16);
@@ -376,14 +375,16 @@ public class Config
 
         category = "User Entries";
         propertyOrder = Lists.newArrayList();
-        UserEntries = config.getCategory(category);
+        UserEntries = config.getCategory(category).setRequiresMcRestart(true);
         UserEntries.setComment("It is STRONGLY suggested you use the ConfigGUI for this.");
 
         property = config.get(category, "Custom Ore Entries", new String[]{});
         property.setComment("Format is:\n" +
-                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk\n" +
-                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 20");
+                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk. Example:\n" +
+                "actuallyadditions:block_misc:3, 32, 13, 42, 20\n" +
+                "Optionally you can declare your own \"sample\" block by appending an extra modid:block:meta to the end. Example:\n" +
+                "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1\n" +
+                "META, COLONS AND COMMAS ARE REQUIRED.");
         userOreEntriesRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
