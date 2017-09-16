@@ -45,6 +45,7 @@ public class Geolosys
     public static ClientRegistry clientRegistry;
     public static ChunkData chunkOreGen;
     public static ArrayList<IBlockState> userStates;
+    public static ConfigParser configParser;
     public static BlockOre ORE;
     public static BlockOreVanilla ORE_VANILLA;
     public static BlockOreSample ORE_SAMPLE;
@@ -52,7 +53,6 @@ public class Geolosys
     public static Item CLUSTER;
     public static Item INGOT;
     public static Item PRO_PICK;
-    private ConfigParser configParser;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -202,7 +202,7 @@ public class Geolosys
 
     private void registerUserOreGen()
     {
-        for (ConfigParser.Entry e : configParser.getUserOreEntries())
+        for (ConfigParser.Entry e : configParser.getUserOreEntries().keySet())
         {
             OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
             userStates.add(e.getState());

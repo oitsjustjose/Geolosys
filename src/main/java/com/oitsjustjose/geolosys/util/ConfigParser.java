@@ -8,16 +8,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigParser
 {
-    private List<Entry> userOreEntriesClean;
+    private HashMap<Entry, IBlockState> userOreEntriesClean;
     private List<Entry> userStoneEntriesClean;
 
     public ConfigParser()
     {
-        userOreEntriesClean = Lists.newArrayList();
+        userOreEntriesClean = new HashMap<>();
         parseOres();
         userStoneEntriesClean = Lists.newArrayList();
         parseStones();
@@ -28,22 +30,36 @@ public class ConfigParser
         for (String s : Geolosys.config.userOreEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
-            if (parts.length != 7)
+            if (parts.length != 7 && parts.length != 10)
             {
                 printFormattingError(s);
                 continue;
             }
             try
             {
-                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
-                if (block == null || block == Blocks.AIR)
+                Block oreBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+                if (oreBlock == null || oreBlock == Blocks.AIR)
                 {
                     printFormattingError(s);
                     continue;
                 }
-                IBlockState tempState = block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
-                userOreEntriesClean.add(new Entry(tempState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6])));
-
+                IBlockState oreState = oreBlock.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
+                Entry oreEntry = new Entry(oreState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6]));
+                if (parts.length == 7)
+                {
+                    userOreEntriesClean.put(oreEntry, oreState);
+                }
+                else
+                {
+                    Block sampleBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[7], parts[8]));
+                    if(sampleBlock == null || sampleBlock == Blocks.AIR)
+                    {
+                        printFormattingError(s);
+                        continue;
+                    }
+                    IBlockState sampleState = sampleBlock.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[9]), null, null);
+                    userOreEntriesClean.put(oreEntry, sampleState);
+                }
             }
             catch (NumberFormatException e)
             {
@@ -94,9 +110,25 @@ public class ConfigParser
         Geolosys.LOGGER.info("Entry " + s + " is not valid and has been skipped. Please check your formatting.");
     }
 
-    public List<Entry> getUserOreEntries()
+    public HashMap<Entry, IBlockState> getUserOreEntries()
     {
         return this.userOreEntriesClean;
+    }
+
+    public boolean blockstateExistsInEntries(IBlockState state)
+    {
+        for (Entry e : this.userOreEntriesClean.keySet())
+            if (e.getState() == state)
+                return true;
+        return false;
+    }
+
+    public IBlockState getSampleForState(IBlockState state)
+    {
+        for (Entry e : this.userOreEntriesClean.keySet())
+            if (e.getState() == state)
+                return this.userOreEntriesClean.get(e);
+        return null;
     }
 
 
