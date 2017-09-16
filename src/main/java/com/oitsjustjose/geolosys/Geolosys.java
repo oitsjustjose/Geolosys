@@ -90,55 +90,38 @@ public class Geolosys
     {
         if (!config.enableIngots)
         {
-            String mat = "ingotIron";
-            try
+            if (config.modIron)
             {
-                if (config.modIron)
-                {
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.modGold)
-                {
-                    mat = "ingotGold";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), OreDictionary.getOres(mat).get(0), 1.0F);
-                }
-                if (config.enableMalachite | config.enableAzurite)
-                {
-                    mat = "ingotCopper";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.enableCassiterite || config.enableTeallite)
-                {
-                    mat = "ingotTin";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.enableGalena)
-                {
-                    mat = "ingotSilver";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), OreDictionary.getOres(mat).get(0), 0.7F);
-                    mat = "ingotLead";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.enableBauxite)
-                {
-                    mat = "ingotAluminum";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.enableLimonite)
-                {
-                    mat = "ingotNickel";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
-                if (config.enablePlatinum)
-                {
-                    mat = "ingotPlatinum";
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), OreDictionary.getOres(mat).get(0), 0.7F);
-                }
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
             }
-            catch (NullPointerException | IndexOutOfBoundsException e)
+            if (config.modGold)
             {
-                LOGGER.fatal("Could not find " + mat + " in the OreDictionary. Please enable Geolosys' Ingots in the config or add a mod which adds it.");
-                throw new RuntimeException(e);
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
+            }
+            if (config.enableMalachite | config.enableAzurite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
+            }
+            if (config.enableCassiterite || config.enableTeallite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
+            }
+            if (config.enableGalena)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
+            }
+            if (config.enableBauxite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
+            }
+            if (config.enableLimonite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
+            }
+            if (config.enablePlatinum)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
             }
         }
         configParser = new ConfigParser();
@@ -146,6 +129,18 @@ public class Geolosys
         registerUserStoneGen();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
+    }
+
+    private void smeltSafely(ItemStack input, String oreDictName)
+    {
+        try
+        {
+            GameRegistry.addSmelting(input, OreDictionary.getOres(oreDictName).get(0), 0.7F);
+        }
+        catch (IndexOutOfBoundsException | NullPointerException ex)
+        {
+            System.out.println(oreDictName + " has not been added already. Smelting has been skipped.");
+        }
     }
 
     private void registerVanillaOreGen()
