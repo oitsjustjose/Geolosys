@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ConfigParser
 {
@@ -43,7 +42,7 @@ public class ConfigParser
                     printFormattingError(s);
                     continue;
                 }
-                IBlockState oreState = oreBlock.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null);
+                IBlockState oreState = HelperFunctions.getStateFromMeta(oreBlock, toInt(parts[2]));
                 Entry oreEntry = new Entry(oreState, toInt(parts[3]), toInt(parts[4]), toInt(parts[5]), toInt(parts[6]));
                 if (parts.length == 7)
                 {
@@ -57,7 +56,7 @@ public class ConfigParser
                         printFormattingError(s);
                         continue;
                     }
-                    IBlockState sampleState = sampleBlock.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[9]), null, null);
+                    IBlockState sampleState = HelperFunctions.getStateFromMeta(sampleBlock, toInt(parts[9]));
                     userOreEntriesClean.put(oreEntry, sampleState);
                 }
             }
