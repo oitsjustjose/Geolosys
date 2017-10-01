@@ -1,9 +1,7 @@
 package com.oitsjustjose.geolosys;
 
-import com.oitsjustjose.geolosys.blocks.BlockOre;
-import com.oitsjustjose.geolosys.blocks.BlockOreSample;
-import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
-import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
+import com.google.common.eventbus.Subscribe;
+import com.oitsjustjose.geolosys.blocks.*;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
@@ -19,12 +17,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
@@ -35,24 +36,24 @@ import java.util.ArrayList;
 public class Geolosys
 {
     @Instance(Lib.MODID)
-    public static Geolosys instance;
+    private static Geolosys instance;
 
     // Logger & Configs, statically accessible.
-    public static Logger LOGGER;
-    public static Config config;
-    public static ClientRegistry clientRegistry;
-    public static ChunkData chunkOreGen;
-    public static ArrayList<IBlockState> userStates;
-    public static ConfigParser configParser;
+    public Logger LOGGER;
+    public Config config;
+    public ClientRegistry clientRegistry;
+    public ChunkData chunkOreGen;
+    public ArrayList<IBlockState> userStates;
+    public ConfigParser configParser;
 
-    public static Block ORE;
-    public static Block ORE_VANILLA;
-    public static Block ORE_SAMPLE;
-    public static Block ORE_SAMPLE_VANILLA;
+    public Block ORE;
+    public Block ORE_VANILLA;
+    public Block ORE_SAMPLE;
+    public Block ORE_SAMPLE_VANILLA;
 
-    public static Item CLUSTER;
-    public static Item INGOT;
-    public static Item PRO_PICK;
+    public Item CLUSTER;
+    public Item INGOT;
+    public Item PRO_PICK;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -67,8 +68,8 @@ public class Geolosys
 
         ORE = new BlockOre();
         ORE_VANILLA = new BlockOreVanilla();
-        ORE_SAMPLE = new BlockOreSample();
-        ORE_SAMPLE_VANILLA = new BlockOreSampleVanilla();
+        ORE_SAMPLE = new BlockSample();
+        ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
         if (config.enableIngots)
             INGOT = new ItemIngot();
@@ -210,4 +211,10 @@ public class Geolosys
         for (ConfigParser.Entry e : configParser.getUserStoneEntries())
             StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
     }
+
+    public static Geolosys getInstance()
+    {
+        return instance;
+    }
+
 }

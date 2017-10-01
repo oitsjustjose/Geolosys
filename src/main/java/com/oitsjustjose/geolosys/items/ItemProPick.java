@@ -32,7 +32,7 @@ public class ItemProPick extends Item
 
     private void registerModel()
     {
-        Geolosys.clientRegistry.register(new ItemStack(this), new ResourceLocation(this.getRegistryName().toString()), "inventory");
+        Geolosys.getInstance().clientRegistry.register(new ItemStack(this), new ResourceLocation(this.getRegistryName().toString()), "inventory");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -92,7 +92,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -116,7 +116,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -141,7 +141,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -166,7 +166,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -190,7 +190,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.userStates.contains(state))
+                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;

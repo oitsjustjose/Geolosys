@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -54,24 +55,26 @@ public class BlockOre extends Block
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Geolosys.CLUSTER;
+        return Geolosys.getInstance().CLUSTER;
     }
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
+        Config conf = Geolosys.getInstance().config;
+        Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
         {
-            if (Geolosys.config.enableNickel)
+            if (conf.enableNickel)
             {
                 // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
                 Random rand = new Random();
                 int rng = rand.nextInt(5);
                 if (rng == 0)
-                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_NICKEL));
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
             }
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_IRON));
+            drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
         }
         // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
         else if (state.getBlock().getMetaFromState(state) == 6)
@@ -80,19 +83,19 @@ public class BlockOre extends Block
             int rng = rand.nextInt(2);
             if (rng == 0)
             {
-                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_SILVER));
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER));
                 rng = rand.nextInt(2);
                 if (rng == 0)
-                    drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
             }
             else
             {
-                drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_LEAD));
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
             }
         }
         else
         {
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, this.damageDropped(state)));
+            drops.add(new ItemStack(CLUSTER, 1, this.damageDropped(state)));
         }
     }
 
@@ -265,7 +268,7 @@ public class BlockOre extends Block
         private void registerModels()
         {
             for (int i = 0; i < EnumType.values().length; i++)
-                Geolosys.clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
         }
     }
 }

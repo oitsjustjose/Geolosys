@@ -43,25 +43,25 @@ public class OreGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
                 return;
             BlockPos pos;
             if (rand.nextInt(100) < weight)
             {
                 pos = new BlockPos(x + rand.nextInt(5 + 1 + 5) - 5, minY + rand.nextInt(maxY - minY), z + rand.nextInt(5 + 1 + 5) - 5);
                 pluton.generate(world, rand, pos);
-                Geolosys.chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
+                Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
             }
         }
 
         private IBlockState getSampleForOre(IBlockState state)
         {
-            if (state.getBlock() == Geolosys.ORE)
-                return Geolosys.ORE_SAMPLE.getStateFromMeta(state.getBlock().getMetaFromState(state));
-            else if (state.getBlock() == Geolosys.ORE_VANILLA)
-                return Geolosys.ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
-            else if (Geolosys.configParser.blockstateExistsInEntries(state))
-                return Geolosys.configParser.getSampleForState(state);
+            if (state.getBlock() == Geolosys.getInstance().ORE)
+                return Geolosys.getInstance().ORE_SAMPLE.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            else if (state.getBlock() == Geolosys.getInstance().ORE_VANILLA)
+                return Geolosys.getInstance().ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            else if (Geolosys.getInstance().configParser.blockstateExistsInEntries(state))
+                return Geolosys.getInstance().configParser.getSampleForState(state);
             else
                 return state;
         }
@@ -85,7 +85,7 @@ public class OreGenerator implements IWorldGenerator
 
     public boolean isDIMBlacklisted(int dim)
     {
-        for (int d : Geolosys.config.blacklistedDIMs)
+        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
             if (d == dim)
                 return true;
         return false;

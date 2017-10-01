@@ -60,14 +60,14 @@ public class ItemCluster extends Item
     private void registerModels()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            Geolosys.clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
+            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
     }
 
     private void registerOreDict()
     {
         for (int i = 0; i < EnumType.values().length; i++)
             OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
-        if (Geolosys.config.registerAsBauxite)
+        if (Geolosys.getInstance().config.registerAsBauxite)
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
     }
 

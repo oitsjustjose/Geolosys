@@ -56,7 +56,7 @@ public class ItemIngot extends Item
     private void registerModels()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            Geolosys.clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
+            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
     }
 
     private void registerOreDict()
@@ -68,7 +68,7 @@ public class ItemIngot extends Item
     private void registerSmelting()
     {
         for (int i = 0; i < EnumType.values().length; i++)
-            GameRegistry.addSmelting(new ItemStack(Geolosys.CLUSTER, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
+            GameRegistry.addSmelting(new ItemStack(Geolosys.getInstance().CLUSTER, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
     }
 
 

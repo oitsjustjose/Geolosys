@@ -44,7 +44,7 @@ public class StoneGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
                 return;
             if (rand.nextInt(100) < weight)
                 pluton.generate(world, rand, new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8));
@@ -69,7 +69,7 @@ public class StoneGenerator implements IWorldGenerator
 
     public boolean isDIMBlacklisted(int dim)
     {
-        for (int d : Geolosys.config.blacklistedDIMs)
+        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
             if (d == dim)
                 return true;
         return false;

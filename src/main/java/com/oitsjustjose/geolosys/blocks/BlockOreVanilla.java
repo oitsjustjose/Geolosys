@@ -105,7 +105,7 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 2)
         {
-            drops.add(new ItemStack(Geolosys.CLUSTER, 1, ItemCluster.META_GOLD));
+            drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_GOLD));
         }
         else if (meta == 3)
         {
@@ -294,7 +294,7 @@ public class BlockOreVanilla extends Block
         private void registerModels()
         {
             for (int i = 0; i < EnumType.values().length; i++)
-                Geolosys.clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
         }
     }
 }

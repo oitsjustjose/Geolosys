@@ -1,8 +1,8 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.blocks.BlockOreSample;
-import com.oitsjustjose.geolosys.blocks.BlockOreSampleVanilla;
+import com.oitsjustjose.geolosys.blocks.BlockSample;
+import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -23,14 +23,14 @@ public class ChunkData
         if (world.getWorldType() == WorldType.FLAT)
             return;
 
-        int cap = random.nextInt(Geolosys.config.chanceSample - 1) + 1;
+        int cap = random.nextInt(Geolosys.getInstance().config.chanceSample - 1) + 1;
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
 
-            if (world.getBlockState(p.down()).getBlock() instanceof BlockOreSample || world.getBlockState(p.down()).getBlock() instanceof BlockOreSampleVanilla)
+            if (world.getBlockState(p.down()).getBlock() instanceof BlockSample || world.getBlockState(p.down()).getBlock() instanceof BlockSampleVanilla)
                 continue;
-            if (Geolosys.config.generateSamplesInWater || !isMoist(world, p))
+            if (Geolosys.getInstance().config.generateSamplesInWater || !isMoist(world, p))
                 world.setBlockState(p, state);
         }
     }
