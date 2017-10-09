@@ -39,7 +39,6 @@ public class ItemCluster extends Item
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
         this.registerOreDict();
-        this.registerSmelting();
     }
 
     @Override
@@ -70,13 +69,6 @@ public class ItemCluster extends Item
         if (Geolosys.getInstance().config.registerAsBauxite)
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
     }
-
-    private void registerSmelting()
-    {
-        GameRegistry.addSmelting(new ItemStack(this, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
-        GameRegistry.addSmelting(new ItemStack(this, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
-    }
-
 
     public enum EnumType implements IStringSerializable
     {

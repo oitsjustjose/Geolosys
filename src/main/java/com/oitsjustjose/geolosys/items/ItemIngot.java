@@ -35,7 +35,6 @@ public class ItemIngot extends Item
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
         this.registerOreDict();
-        this.registerSmelting();
     }
 
     @Override
@@ -64,13 +63,6 @@ public class ItemIngot extends Item
         for (int i = 0; i < EnumType.values().length; i++)
             OreDictionary.registerOre("ingot" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
     }
-
-    private void registerSmelting()
-    {
-        for (int i = 0; i < EnumType.values().length; i++)
-            GameRegistry.addSmelting(new ItemStack(Geolosys.getInstance().CLUSTER, 1, i + 2), new ItemStack(this, 1, i), 0.7F);
-    }
-
 
     public enum EnumType implements IStringSerializable
     {

@@ -41,6 +41,7 @@ public class Config
     public boolean enablePlatinum;
     public boolean enableIngots;
     public boolean enableProPick;
+    public boolean enableSmelting;
     public boolean registerAsBauxite;
 
     // Chances (vanilla)
@@ -195,6 +196,10 @@ public class Config
         property = config.get(category, "Enable Prospector's Pick", true);
         property.setComment("Set to \"False\" if you don't wish to have this feature, or have another mod doing it");
         enableProPick = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Cluster Smelting", true);
+        enableSmelting = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Also register Aluminum Cluster as oreBauxite", false);

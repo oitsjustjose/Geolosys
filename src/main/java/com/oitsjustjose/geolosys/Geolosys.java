@@ -1,7 +1,9 @@
 package com.oitsjustjose.geolosys;
 
-import com.google.common.eventbus.Subscribe;
-import com.oitsjustjose.geolosys.blocks.*;
+import com.oitsjustjose.geolosys.blocks.BlockOre;
+import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
+import com.oitsjustjose.geolosys.blocks.BlockSample;
+import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
@@ -14,18 +16,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
@@ -54,6 +54,11 @@ public class Geolosys
     public Item CLUSTER;
     public Item INGOT;
     public Item PRO_PICK;
+
+    public static Geolosys getInstance()
+    {
+        return instance;
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -89,42 +94,56 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        if (!config.enableIngots)
+        if (config.enableSmelting)
         {
-            if (config.modIron)
+            GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
+            GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
+
+            if (!config.enableIngots)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
+                if (config.modIron)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
+                }
+                if (config.modGold)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
+                }
+                if (config.enableMalachite | config.enableAzurite)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
+                }
+                if (config.enableCassiterite || config.enableTeallite)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
+                }
+                if (config.enableGalena)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
+                }
+                if (config.enableBauxite)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
+                }
+                if (config.enableLimonite)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
+                }
+                if (config.enablePlatinum)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
+                }
             }
-            if (config.modGold)
+            else
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
-            }
-            if (config.enableMalachite | config.enableAzurite)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
-            }
-            if (config.enableCassiterite || config.enableTeallite)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
-            }
-            if (config.enableGalena)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
-            }
-            if (config.enableBauxite)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
-            }
-            if (config.enableLimonite)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
-            }
-            if (config.enablePlatinum)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
+                for (int i = 0; i < ItemIngot.EnumType.values().length; i++)
+                {
+                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, i + 2), new ItemStack(INGOT, 1, i), 0.7F);
+                }
             }
         }
+
         configParser = new ConfigParser();
         registerUserOreGen();
         registerUserStoneGen();
@@ -147,17 +166,17 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,0), config.clusterSizeCoal, 48, 70, config.chanceCoal);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), config.clusterSizeCoal, 48, 70, config.chanceCoal);
         if (config.modRedstone)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,1), config.clusterSizeCinnabar, 5, 12, config.chanceCinnabar);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), config.clusterSizeCinnabar, 5, 12, config.chanceCinnabar);
         if (config.modGold)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,2), config.clusterSizeGold, 5, 30, config.chanceGold);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), config.clusterSizeGold, 5, 30, config.chanceGold);
         if (config.modLapis)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
         if (config.modQuartz)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,4), config.clusterSizeQuartz, 6, 29, config.chanceQuartz);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), config.clusterSizeQuartz, 6, 29, config.chanceQuartz);
         if (config.modDiamond)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA,5), config.clusterSizeKimberlite, 2, 15, config.chanceKimberlite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), config.clusterSizeKimberlite, 2, 15, config.chanceKimberlite);
 
         if (config.modStones)
         {
@@ -205,16 +224,10 @@ public class Geolosys
         }
     }
 
-
     private void registerUserStoneGen()
     {
         for (ConfigParser.Entry e : configParser.getUserStoneEntries())
             StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
-    }
-
-    public static Geolosys getInstance()
-    {
-        return instance;
     }
 
 }
