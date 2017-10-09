@@ -1,3 +1,11 @@
+1.8:
+* ADDED: User Entries for mineral deposits can now have a custom "sample" specified - particularly useful alongside ContentTweaker if you want to make your own sample replicas. `See config for usage` - Thanks Darkosto for the suggestion!
+* ADDED: Config option to disable the cluster smelting recipes, since their recipes are registered in `postInit` (and *have* to be) so they can't be CraftTweak'd out - Thanks Darkosto for the suggestion!
+* CHANGED: Internal refactors that the user should probably never have to worry about 
+* CHANGED: Game no longers crash if `enableIngots` is false but you lack an ingot; it'll just log it and move on :)
+* CHANGED: In-game config now notifies of restart requirement
+
+
 1.7:
 * ADDED: Prospector's Pick
 * ADDED: Prospector's Pick feature config
