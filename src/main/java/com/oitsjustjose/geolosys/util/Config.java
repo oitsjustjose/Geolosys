@@ -199,6 +199,7 @@ public class Config
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Cluster Smelting", true);
+        property.setComment("Set to \"False\" if you don't want smelting automatically initialized");
         enableSmelting = property.getBoolean();
         propertyOrder.add(property.getName());
 
