@@ -5,6 +5,7 @@ import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
 import com.oitsjustjose.geolosys.util.*;
@@ -54,6 +55,7 @@ public class Geolosys
     public Item CLUSTER;
     public Item INGOT;
     public Item PRO_PICK;
+    public Item ALMANAC;
 
     public static Geolosys getInstance()
     {
@@ -76,6 +78,7 @@ public class Geolosys
         ORE_SAMPLE = new BlockSample();
         ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
+        ALMANAC = new ItemFieldManual();
         if (config.enableIngots)
             INGOT = new ItemIngot();
         if (config.enableProPick)
