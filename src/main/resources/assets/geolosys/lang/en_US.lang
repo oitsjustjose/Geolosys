@@ -68,3 +68,6 @@ geolosys.ingot.platinum.name=Platinum Ingot
 #               Misc                   #
 # ------------------------------------ #
 geolosys.pro_pick.name=Prospector's Pick
+geolosys.field_manual.name=Field Manual
+geolosys.field_manual.tooltip=Everything you need to know about mining with Geolosys!
+shift.tooltip=Press Shift
