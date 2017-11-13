@@ -61,12 +61,12 @@ public class BlockOre extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Config conf = Geolosys.getInstance().config;
+        Config config = Geolosys.getInstance().config;
         Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
         {
-            if (conf.enableNickel)
+            if (config.enableNickel)
             {
                 // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
                 Random rand = new Random();
@@ -96,11 +96,18 @@ public class BlockOre extends Block
         // Special case for Osmium
         else if (state.getBlock().getMetaFromState(state) == 8)
         {
-            Random rand = new Random();
-            int rng = rand.nextInt(2);
-            if(rng == 0)
+            if (config.enableOsmium)
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                Random rand = new Random();
+                int rng = rand.nextInt(2);
+                if (rng == 0)
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                }
+                else
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+                }
             }
             else
             {
@@ -110,11 +117,18 @@ public class BlockOre extends Block
         // Special case for Autunite to drop yellorium
         else if (state.getBlock().getMetaFromState(state) == 9)
         {
-            Random rand = new Random();
-            int rng = rand.nextInt(2);
-            if(rng == 0)
+            if (config.enableYellorium)
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                Random rand = new Random();
+                int rng = rand.nextInt(2);
+                if (rng == 0)
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                }
+                else
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
+                }
             }
             else
             {
