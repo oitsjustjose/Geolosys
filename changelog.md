@@ -1,3 +1,9 @@
+1.10:
+* ADDED: Sphalerite; this is a resource for Zinc, and can be disabled and configured like all other orers
+* ADDED: Osmium drop to Platinum, if enabled
+* ADDED: Yellorium drop to Autunite, if enabled
+* FIXED: Bugs with smelting.. I hope.
+
 1.9:
 * ADDED: Field Manual! Crafted with an undamaged wooden pickaxe and book
 

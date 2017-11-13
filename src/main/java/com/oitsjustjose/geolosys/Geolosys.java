@@ -102,61 +102,51 @@ public class Geolosys
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
 
-//            if (!config.enableIngots)
+            if (config.modIron)
             {
-                if (config.modIron)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
-                }
-                if (config.modGold)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
-                }
-                if (config.enableMalachite || config.enableAzurite)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
-                }
-                if (config.enableCassiterite || config.enableTeallite)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
-                }
-                if (config.enableGalena)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
-                }
-                if (config.enableBauxite)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
-                }
-                if (config.enableLimonite)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
-                }
-                if (config.enablePlatinum)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
-                }
-                if (config.enableSphalerite)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC), "ingotZinc");
-                }
-                if (config.enableYellorium)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM), "ingotYellorium");
-                }
-                if (config.enableOsmium)
-                {
-                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM), "ingotOsmium");
-                }
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
             }
-//            else
-//            {
-//                for (int i = 0; i < ItemIngot.EnumType.values().length; i++)
-//                {
-//                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, i + 2), new ItemStack(INGOT, 1, i), 0.7F);
-//                }
-//            }
+            if (config.modGold)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
+            }
+            if (config.enableMalachite || config.enableAzurite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
+            }
+            if (config.enableCassiterite || config.enableTeallite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
+            }
+            if (config.enableGalena)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
+            }
+            if (config.enableBauxite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
+            }
+            if (config.enableLimonite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
+            }
+            if (config.enablePlatinum)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
+            }
+            if (config.enableSphalerite)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC), "ingotZinc");
+            }
+            if (config.enableYellorium)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM), "ingotYellorium");
+            }
+            if (config.enableOsmium)
+            {
+                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM), "ingotOsmium");
+            }
         }
 
         configParser = new ConfigParser();
