@@ -24,6 +24,7 @@ public class ItemIngot extends Item
     public static final int META_ALUMINUM = 4;
     public static final int META_NICKEL = 5;
     public static final int META_PLATINUM = 6;
+    public static final int META_ZINC = 7;
 
 
     public ItemIngot()
@@ -72,7 +73,8 @@ public class ItemIngot extends Item
         LEAD(META_LEAD, "lead"),
         ALUMINUM(META_ALUMINUM, "aluminum"),
         NICKEL(META_NICKEL, "nickel"),
-        PLATINUM(META_PLATINUM, "platinum");
+        PLATINUM(META_PLATINUM, "platinum"),
+        ZINC(META_ZINC, "zinc");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;

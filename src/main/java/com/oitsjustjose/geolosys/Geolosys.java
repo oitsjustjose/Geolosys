@@ -102,7 +102,7 @@ public class Geolosys
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
 
-            if (!config.enableIngots)
+//            if (!config.enableIngots)
             {
                 if (config.modIron)
                 {
@@ -112,7 +112,7 @@ public class Geolosys
                 {
                     smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
                 }
-                if (config.enableMalachite | config.enableAzurite)
+                if (config.enableMalachite || config.enableAzurite)
                 {
                     smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
                 }
@@ -137,14 +137,26 @@ public class Geolosys
                 {
                     smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
                 }
-            }
-            else
-            {
-                for (int i = 0; i < ItemIngot.EnumType.values().length; i++)
+                if (config.enableSphalerite)
                 {
-                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, i + 2), new ItemStack(INGOT, 1, i), 0.7F);
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC), "ingotZinc");
+                }
+                if (config.enableYellorium)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM), "ingotYellorium");
+                }
+                if (config.enableOsmium)
+                {
+                    smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM), "ingotOsmium");
                 }
             }
+//            else
+//            {
+//                for (int i = 0; i < ItemIngot.EnumType.values().length; i++)
+//                {
+//                    GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, i + 2), new ItemStack(INGOT, 1, i), 0.7F);
+//                }
+//            }
         }
 
         configParser = new ConfigParser();
@@ -183,7 +195,6 @@ public class Geolosys
 
         if (config.modStones)
         {
-
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
@@ -215,7 +226,9 @@ public class Geolosys
         if (config.enablePlatinum)
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 8), config.clusterSizePlatinum, 3, 25, config.chancePlatinum);
         if (config.enableAutunite)
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), config.clusterSizeUranium, 8, 33, config.chanceUranium);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), config.clusterSizeAutunite, 8, 33, config.chanceAutunite);
+        if (config.enableSphalerite)
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 10), config.clusterSizeSphalerite, 35, 55, config.chanceSphalerite);
     }
 
     private void registerUserOreGen()
@@ -232,5 +245,4 @@ public class Geolosys
         for (ConfigParser.Entry e : configParser.getUserStoneEntries())
             StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
     }
-
 }

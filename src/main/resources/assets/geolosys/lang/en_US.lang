@@ -11,6 +11,7 @@ geolosys.ore.galena.name=Galena
 geolosys.ore.bauxite.name=Bauxite
 geolosys.ore.autunite.name=Autunite
 geolosys.ore.platinum.name=Platinum
+geolosys.ore.sphalerite.name=Sphalerite
 geolosys.ore_vanilla.coal.name=Coal
 geolosys.ore_vanilla.cinnabar.name=Cinnabar
 geolosys.ore_vanilla.gold.name=Gold
@@ -31,6 +32,7 @@ geolosys.ore_sample.galena.name=Galena Sample
 geolosys.ore_sample.bauxite.name=Bauxite Sample
 geolosys.ore_sample.autunite.name=Autunite Sample
 geolosys.ore_sample.platinum.name=Platinum Sample
+geolosys.ore_sample.sphalerite.name=Sphalerite Sample
 geolosys.ore_sample_vanilla.coal.name=Coal Sample
 geolosys.ore_sample_vanilla.cinnabar.name=Cinnabar Sample
 geolosys.ore_sample_vanilla.gold.name=Gold Sample
@@ -51,6 +53,9 @@ geolosys.cluster.aluminum.name=Aluminum Cluster
 geolosys.cluster.uranium.name=Uranium Cluster
 geolosys.cluster.nickel.name=Nickel Cluster
 geolosys.cluster.platinum.name=Platinum Cluster
+geolosys.cluster.zinc.name=Zinc Cluster
+geolosys.cluster.osmium.name=Osmium Cluster
+geolosys.cluster.yellorium.name=Yellorium Cluster
 
 # ------------------------------------ #
 #              Ingots                  #
@@ -62,7 +67,7 @@ geolosys.ingot.lead.name=Lead Ingot
 geolosys.ingot.aluminum.name=Aluminum Ingot
 geolosys.ingot.nickel.name=Nickel Ingot
 geolosys.ingot.platinum.name=Platinum Ingot
-
+geolosys.ingot.zinc.name=Zinc Ingot
 
 # ------------------------------------ #
 #               Misc                   #

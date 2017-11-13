@@ -39,6 +39,9 @@ public class Config
     public boolean enableBauxite;
     public boolean enableAutunite;
     public boolean enablePlatinum;
+    public boolean enableSphalerite;
+    public boolean enableOsmium;
+    public boolean enableYellorium;
     public boolean enableIngots;
     public boolean enableProPick;
     public boolean enableSmelting;
@@ -62,7 +65,8 @@ public class Config
     public int chanceGalena;
     public int chanceBauxite;
     public int chancePlatinum;
-    public int chanceUranium;
+    public int chanceAutunite;
+    public int chanceSphalerite;
 
     // Sample Stuff
     public int chanceSample;
@@ -86,7 +90,8 @@ public class Config
     public int clusterSizeGalena;
     public int clusterSizeBauxite;
     public int clusterSizePlatinum;
-    public int clusterSizeUranium;
+    public int clusterSizeAutunite;
+    public int clusterSizeSphalerite;
     // User Entries
     public String[] userOreEntriesRaw;
     public String[] userStoneEntriesRaw;
@@ -188,6 +193,18 @@ public class Config
         enablePlatinum = property.getBoolean();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Enable Sphalerite", true);
+        enableSphalerite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Yellorium", true);
+        enableYellorium = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Osmium", true);
+        enableOsmium = property.getBoolean();
+        propertyOrder.add(property.getName());
+        
         property = config.get(category, "Enable Ingots", true);
         property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
         enableIngots = property.getBoolean();
@@ -281,9 +298,12 @@ public class Config
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Autunite Pluton Chance Per Chunk", 5);
-        chanceUranium = property.getInt();
+        chanceAutunite = property.getInt();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Sphalerite Pluton Chance Per Chunk", 7);
+        chanceSphalerite = property.getInt();
+        propertyOrder.add(property.getName());
 
         Chances.setPropertyOrder(propertyOrder);
 
@@ -354,7 +374,11 @@ public class Config
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Autunite Cluster Size", 24);
-        clusterSizeUranium = property.getInt();
+        clusterSizeAutunite = property.getInt();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Sphalerite Cluster Size", 24);
+        clusterSizeSphalerite = property.getInt();
         propertyOrder.add(property.getName());
 
         Sizes.setPropertyOrder(propertyOrder);

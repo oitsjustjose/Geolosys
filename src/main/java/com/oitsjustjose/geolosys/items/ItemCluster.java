@@ -3,16 +3,13 @@ package com.oitsjustjose.geolosys.items;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.Lib;
 
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -29,6 +26,9 @@ public class ItemCluster extends Item
     public static final int META_NICKEL = 7;
     public static final int META_PLATINUM = 8;
     public static final int META_URANIUM = 9;
+    public static final int META_ZINC = 10;
+    public static final int META_YELLORIUM = 11;
+    public static final int META_OSMIUM = 12;
 
     public ItemCluster()
     {
@@ -81,8 +81,10 @@ public class ItemCluster extends Item
         ALUMINUM(META_ALUMINUM, "aluminum"),
         NICKEL(META_NICKEL, "nickel"),
         PLATINUM(META_PLATINUM, "platinum"),
-        URANIUM(META_URANIUM, "uranium");
-
+        URANIUM(META_URANIUM, "uranium"),
+        ZINC(META_ZINC, "zinc"),
+        YELLORIUM(META_YELLORIUM, "yellorium"),
+        OSMIUM(META_OSMIUM, "osmium");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
@@ -129,5 +131,4 @@ public class ItemCluster extends Item
             }
         }
     }
-
 }

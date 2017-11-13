@@ -192,10 +192,31 @@ public class BlockSample extends Block
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM));
                 break;
             case 8:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                rand = new Random();
+                rng = rand.nextInt(2);
+                if (rng == 0)
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                }
+                else
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+                }
                 break;
             case 9:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                rand = new Random();
+                rng = rand.nextInt(2);
+                if (rng == 0)
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                }
+                else
+                {
+                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
+                }
+                break;
+            case 10:
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC));
                 break;
         }
     }
@@ -251,7 +272,8 @@ public class BlockSample extends Block
         GALENA(6, "galena", "silver & lead"),
         BAUXITE(7, "bauxite", "aluminum"),
         PLATINUM(8, "platinum", "platinum"),
-        AUTUNITE(9, "autunite", "uranium");
+        AUTUNITE(9, "autunite", "uranium"),
+        SPHALERITE(10, "sphalerite", "zinc");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
 

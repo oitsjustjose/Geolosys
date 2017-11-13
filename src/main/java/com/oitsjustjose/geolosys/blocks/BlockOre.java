@@ -93,6 +93,34 @@ public class BlockOre extends Block
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
             }
         }
+        // Special case for Osmium
+        else if (state.getBlock().getMetaFromState(state) == 8)
+        {
+            Random rand = new Random();
+            int rng = rand.nextInt(2);
+            if(rng == 0)
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+            }
+            else
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+            }
+        }
+        // Special case for Autunite to drop yellorium
+        else if (state.getBlock().getMetaFromState(state) == 9)
+        {
+            Random rand = new Random();
+            int rng = rand.nextInt(2);
+            if(rng == 0)
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+            }
+            else
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
+            }
+        }
         else
         {
             drops.add(new ItemStack(CLUSTER, 1, this.damageDropped(state)));
@@ -127,6 +155,8 @@ public class BlockOre extends Block
                 return ItemCluster.META_PLATINUM;
             case 9:
                 return ItemCluster.META_URANIUM;
+            case 10:
+                return ItemCluster.META_ZINC;
             default:
                 return 0;
         }
@@ -173,7 +203,8 @@ public class BlockOre extends Block
         GALENA(6, 2, "galena", "galena"),
         BAUXITE(7, 0, "bauxite", "bauxite"),
         PLATINUM(8, 2, "platinum", "platinum"),
-        AUTUNITE(9, 2, "autunite", "autunite");
+        AUTUNITE(9, 2, "autunite", "autunite"),
+        SPHALERITE(10, 1, "sphalerite", "sphalerite");
 
         private static final EnumType[] META_LOOKUP = new EnumType[values().length];
         private final int meta;
