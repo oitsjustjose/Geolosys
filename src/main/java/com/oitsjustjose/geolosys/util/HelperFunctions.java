@@ -31,6 +31,10 @@ public class HelperFunctions
     {
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
+        if (langFile == null)
+        {
+            langFile = "en_US";
+        }
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
         try
         {
