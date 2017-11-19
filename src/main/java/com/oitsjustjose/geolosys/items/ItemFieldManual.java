@@ -71,7 +71,7 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(21)), false));
+        Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
         return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
     }
 
@@ -214,7 +214,7 @@ public class ItemFieldManual extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public static String translatePageText(int pageNumber)
+    public String translatePageText(int pageNumber)
     {
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
@@ -245,7 +245,7 @@ public class ItemFieldManual extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public static String translateTitle(int pageNumber)
+    public String translateTitle(int pageNumber)
     {
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
@@ -273,5 +273,37 @@ public class ItemFieldManual extends Item
         {
         }
         return "ERROR READING PAGE " + pageNumber;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getNumEntries()
+    {
+        String langFile = Minecraft.getMinecraft().gameSettings.language;
+        langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
+        InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
+        int numLines = 0;
+        if (in == null)
+        {
+            langFile = "en_US";
+            in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
+        }
+        try
+        {
+            for (String s : IOUtils.readLines(in, "utf-8"))
+            {
+                if (s.indexOf("=") == -1)
+                {
+                    continue;
+                }
+                if (s.contains("_title"))
+                {
+                    numLines++;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+        }
+        return numLines;
     }
 }

@@ -46,6 +46,6 @@ page_16_text=Larger but deeper source of Tin. It generates between §3Y=8§0 and
 page_17_text=Larger but deeper source of Iron, as well as a source of Nickel. It generates between §3Y=6§0 and §3Y=32§0, but requires an Iron Pickaxe to harvest.
 page_18_text=Plentiful source of both Silver and Lead. It generates between §3Y=16§0 and §3Y=50§0.
 page_19_text=Large source of Aluminum. It generates between §3Y=45§0 and §3Y=70§0, and only requires a Wooden Pickaxe to harvest.
-page_20_text=Info about sphalerite
-page_21_text=Good source of --- wait, you probably can figure that out. It generates between §3Y=3§0 and §3Y=25§0, and §4requires an Iron Pickaxe or better to harvest§0.
-page_22_text=Reliable source of Uranium. It generates between §3Y=8§0 and §3Y=33§0, and §4requires an Iron Pickaxe or better to harvest§0.
+page_20_text=Good source of Zinc. It generates between §3Y=35§0 and §3Y=55§0.
+page_21_text=Good source of - wait, you probably can figure that out. But it also drops §bOsmium§0 if enabled in config. It generates between §3Y=3§0 and §3Y=25§0, and §4requires an Iron Pickaxe or better to harvest§0.
+page_22_text=Reliable source of Uranium. Also drops §aYellorium§0 if enabled in config. It generates between §3Y=8§0 and §3Y=33§0, and §4requires an Iron Pickaxe or better to harvest§0.
