@@ -219,6 +219,11 @@ public class ItemFieldManual extends Item
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
+        if (in == null)
+        {
+            langFile = "en_US";
+            in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
+        }
         try
         {
             for (String s : IOUtils.readLines(in, "utf-8"))
@@ -245,6 +250,11 @@ public class ItemFieldManual extends Item
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
+        if (in == null)
+        {
+            langFile = "en_US";
+            in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
+        }
         try
         {
             for (String s : IOUtils.readLines(in, "utf-8"))
