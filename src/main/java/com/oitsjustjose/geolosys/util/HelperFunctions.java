@@ -31,11 +31,12 @@ public class HelperFunctions
     {
         String langFile = Minecraft.getMinecraft().gameSettings.language;
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
-        if (langFile == null)
+        InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
+        if (in == null)
         {
             langFile = "en_US";
+            in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
         }
-        InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
         try
         {
             for (String s : IOUtils.readLines(in, "utf-8"))
