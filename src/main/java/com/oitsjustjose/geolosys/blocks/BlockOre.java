@@ -111,7 +111,7 @@ public class BlockOre extends Block
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
             }
         }
         // Special case for Autunite to drop yellorium
@@ -132,7 +132,7 @@ public class BlockOre extends Block
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
             }
         }
         else

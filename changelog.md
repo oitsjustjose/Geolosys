@@ -1,3 +1,8 @@
+1.8.3:
+* ADDED: Info for Sphalerite, Osmium & Yellorium to the Field Manual
+* ADDED: Automatic modularity for additional pages (this means that users can add as many entries as they'd like!)
+* FIXED: Yellorium and Osmium dropping when disabled, instead of the other way around.
+
 1.8.2:
 * ADDED: Sphalerite; this is a resource for Zinc, and can be disabled and configured like all other orers
 * ADDED: Osmium drop to Platinum, if enabled
