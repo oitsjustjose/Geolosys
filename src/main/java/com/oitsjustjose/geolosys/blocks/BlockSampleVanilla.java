@@ -143,6 +143,14 @@ public class BlockSampleVanilla extends Block
             return;
         }
         Geolosys.getInstance().ORE_VANILLA.getDrops(drops, world, pos, state, fortune);
+        // Drop down the stack size:
+        for (ItemStack stack : drops)
+        {
+            if (stack.getCount() > 1)
+            {
+                stack.setCount(1);
+            }
+        }
     }
 
 

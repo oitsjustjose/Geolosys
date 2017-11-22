@@ -149,6 +149,14 @@ public class BlockSample extends Block
             return;
         }
         Geolosys.getInstance().ORE.getDrops(drops, world, pos, state, fortune);
+        // Drop down the stack size:
+        for (ItemStack stack : drops)
+        {
+            if (stack.getCount() > 1)
+            {
+                stack.setCount(1);
+            }
+        }
     }
 
     @Override
