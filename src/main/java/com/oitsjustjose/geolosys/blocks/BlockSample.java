@@ -143,82 +143,12 @@ public class BlockSample extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Random rand = new Random();
-        Item CLUSTER = Geolosys.getInstance().CLUSTER;
-        Config conf = Geolosys.getInstance().config;
-
-        switch (state.getBlock().getMetaFromState(state))
+        if (Geolosys.getInstance().config.boringSamples)
         {
-            case 0:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
-                break;
-            case 1:
-                if (conf.enableNickel)
-                {
-                    // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
-                    int rng = rand.nextInt(5);
-                    if (rng == 0)
-                        drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
-                }
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
-                break;
-            case 2:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER));
-                break;
-            case 3:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER));
-                break;
-            case 4:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN));
-                break;
-            case 5:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN));
-                break;
-            case 6:
-                int rng = rand.nextInt(2);
-                if (rng == 0)
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER));
-                    rng = rand.nextInt(2);
-                    if (rng == 0)
-                        drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
-                }
-                else
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
-                }
-                break;
-            case 7:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM));
-                break;
-            case 8:
-                rand = new Random();
-                rng = rand.nextInt(2);
-                if (rng == 0)
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
-                }
-                else
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
-                }
-                break;
-            case 9:
-                rand = new Random();
-                rng = rand.nextInt(2);
-                if (rng == 0)
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
-                }
-                else
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
-                }
-                break;
-            case 10:
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC));
-                break;
+            drops.clear();
+            return;
         }
+        Geolosys.getInstance().ORE.getDrops(drops, world, pos, state, fortune);
     }
 
     @Override

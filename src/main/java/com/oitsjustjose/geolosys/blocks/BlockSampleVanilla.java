@@ -142,28 +142,7 @@ public class BlockSampleVanilla extends Block
             drops.clear();
             return;
         }
-        Random random = new Random();
-        switch (state.getBlock().getMetaFromState(state))
-        {
-            case 0:
-                drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), 1, Blocks.COAL_ORE.damageDropped(state)));
-                break;
-            case 1:
-                drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), 1, Blocks.REDSTONE_ORE.damageDropped(state)));
-                break;
-            case 2:
-                drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_GOLD));
-                break;
-            case 3:
-                drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), 1, Blocks.LAPIS_ORE.damageDropped(state)));
-                break;
-            case 4:
-                drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune), 1, Blocks.QUARTZ_ORE.damageDropped(state)));
-                break;
-            case 5:
-                drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), 1, Blocks.DIAMOND_ORE.damageDropped(state)));
-                break;
-        }
+        Geolosys.getInstance().ORE_VANILLA.getDrops(drops, world, pos, state, fortune);
     }
 
 
