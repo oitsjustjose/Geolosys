@@ -11,20 +11,19 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +32,7 @@ import java.util.Random;
 
 public class BlockOreVanilla extends Block
 {
-    public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
+    public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
 
     public BlockOreVanilla()
     {
@@ -43,7 +42,7 @@ public class BlockOreVanilla extends Block
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.COAL));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, Types.Vanilla.COAL));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
@@ -52,7 +51,7 @@ public class BlockOreVanilla extends Block
 
     private void setHarvestLevels()
     {
-        for (EnumType t : EnumType.values())
+        for (Types.Vanilla t : Types.Vanilla.values())
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
     }
 
@@ -172,14 +171,14 @@ public class BlockOreVanilla extends Block
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 
     @Override
@@ -192,66 +191,6 @@ public class BlockOreVanilla extends Block
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, VARIANT);
-    }
-
-    public enum EnumType implements IStringSerializable
-    {
-        COAL(0, 0, "coal"),
-        CINNABAR(1, 2, "cinnabar"),
-        GOLD(2, 2, "gold"),
-        LAPIS(3, 1, "lapis"),
-        QUARTZ(4, 1, "quartz"),
-        KIMBERLITE(5, 2, "kimberlite");
-
-        private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-        private final int meta;
-        private final int toolLevel;
-        private final String unlocalizedName;
-
-        EnumType(int meta, int toolLevel, String name)
-        {
-            this.meta = meta;
-            this.toolLevel = toolLevel;
-            this.unlocalizedName = name;
-        }
-
-        public int getToolLevel()
-        {
-            return this.toolLevel;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
-        }
-
-        public static EnumType byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
-        public String getName()
-        {
-            return this.unlocalizedName;
-        }
-
-        static
-        {
-            for (EnumType type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
-        }
     }
 
     /**
@@ -279,7 +218,7 @@ public class BlockOreVanilla extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + EnumType.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Vanilla.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -287,14 +226,14 @@ public class BlockOreVanilla extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
-                for (int i = 0; i < EnumType.values().length; ++i)
+                for (int i = 0; i < Types.Vanilla.values().length; ++i)
                     list.add(new ItemStack(this, 1, i));
         }
 
         private void registerModels()
         {
-            for (int i = 0; i < EnumType.values().length; i++)
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
+            for (int i = 0; i < Types.Vanilla.values().length; i++)
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
         }
     }
 }

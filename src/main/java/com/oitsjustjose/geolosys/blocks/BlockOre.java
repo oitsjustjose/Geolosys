@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class BlockOre extends Block
 {
-    public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
+    public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
 
     public BlockOre()
     {
@@ -39,7 +39,7 @@ public class BlockOre extends Block
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, Types.Modded.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
@@ -48,7 +48,7 @@ public class BlockOre extends Block
 
     private void setHarvestLevels()
     {
-        for (EnumType t : EnumType.values())
+        for (Types.Modded t : Types.Modded.values())
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
     }
 
@@ -185,13 +185,13 @@ public class BlockOre extends Block
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
@@ -204,73 +204,6 @@ public class BlockOre extends Block
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, VARIANT);
-    }
-
-    public enum EnumType implements IStringSerializable
-    {
-        HEMATITE(0, 1, "hematite", "hematite"),
-        LIMONITE(1, 2, "limonite", "limonite"),
-        MALACHITE(2, 1, "malachite", "malachite"),
-        AZURITE(3, 1, "azurite", "azurite"),
-        CASSITERITE(4, 1, "cassiterite", "cassiterite"),
-        TEALLITE(5, 1, "teallite", "teallite"),
-        GALENA(6, 2, "galena", "galena"),
-        BAUXITE(7, 0, "bauxite", "bauxite"),
-        PLATINUM(8, 2, "platinum", "platinum"),
-        AUTUNITE(9, 2, "autunite", "autunite"),
-        SPHALERITE(10, 1, "sphalerite", "sphalerite");
-
-        private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-        private final int meta;
-        private final int toolLevel;
-        private final String serializedName;
-        private final String unlocalizedName;
-
-        EnumType(int meta, int toolLevel, String name, String unlocalizedName)
-        {
-            this.meta = meta;
-            this.toolLevel = toolLevel;
-            this.serializedName = name;
-            this.unlocalizedName = unlocalizedName;
-        }
-
-        public int getToolLevel()
-        {
-            return this.toolLevel;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
-        }
-
-        public static EnumType byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
-        public String getName()
-        {
-            return this.serializedName;
-        }
-
-        static
-        {
-            for (EnumType type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
-        }
     }
 
     /**
@@ -298,7 +231,7 @@ public class BlockOre extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + EnumType.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -306,14 +239,14 @@ public class BlockOre extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
-                for (int i = 0; i < EnumType.values().length; ++i)
+                for (int i = 0; i < Types.Modded.values().length; ++i)
                     list.add(new ItemStack(this, 1, i));
         }
 
         private void registerModels()
         {
-            for (int i = 0; i < EnumType.values().length; i++)
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
+            for (int i = 0; i < Types.Modded.values().length; i++)
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
         }
     }
 }

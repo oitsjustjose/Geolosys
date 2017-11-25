@@ -46,89 +46,27 @@ public class ItemCluster extends Item
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
     {
         if (this.isInCreativeTab(tab))
-            for (int i = 0; i < EnumType.values().length; ++i)
+            for (int i = 0; i < Types.Cluster.values().length; ++i)
                 list.add(new ItemStack(this, 1, i));
     }
 
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + EnumType.byMetadata(stack.getMetadata()).getName();
+        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Cluster.byMetadata(stack.getMetadata()).getName();
     }
 
     private void registerModels()
     {
-        for (int i = 0; i < EnumType.values().length; i++)
-            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + EnumType.byMetadata(i).name()), "inventory");
+        for (int i = 0; i < Types.Cluster.values().length; i++)
+            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Cluster.byMetadata(i).name()), "inventory");
     }
 
     private void registerOreDict()
     {
-        for (int i = 0; i < EnumType.values().length; i++)
-            OreDictionary.registerOre("ore" + EnumType.byMetadata(i).getName().substring(0, 1).toUpperCase() + EnumType.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+        for (int i = 0; i < Types.Cluster.values().length; i++)
+            OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
         if (Geolosys.getInstance().config.registerAsBauxite)
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
-    }
-
-    public enum EnumType implements IStringSerializable
-    {
-        IRON(META_IRON, "iron"),
-        GOLD(META_GOLD, "gold"),
-        COPPER(META_COPPER, "copper"),
-        TIN(META_TIN, "tin"),
-        SILVER(META_SILVER, "silver"),
-        LEAD(META_LEAD, "lead"),
-        ALUMINUM(META_ALUMINUM, "aluminum"),
-        NICKEL(META_NICKEL, "nickel"),
-        PLATINUM(META_PLATINUM, "platinum"),
-        URANIUM(META_URANIUM, "uranium"),
-        ZINC(META_ZINC, "zinc"),
-        YELLORIUM(META_YELLORIUM, "yellorium"),
-        OSMIUM(META_OSMIUM, "osmium");
-
-        private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-        private final int meta;
-        private final String serializedName;
-        private final String unlocalizedName;
-
-        EnumType(int meta, String name)
-        {
-            this.meta = meta;
-            this.serializedName = name;
-            this.unlocalizedName = name;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
-        }
-
-        public static EnumType byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
-        public String getName()
-        {
-            return this.serializedName;
-        }
-
-        static
-        {
-            for (EnumType type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
-        }
     }
 }

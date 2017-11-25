@@ -36,7 +36,7 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class BlockSample extends Block
 {
-    public static final PropertyEnum<EnumType> VARIANT = PropertyEnum.create("variant", EnumType.class);
+    public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
 
     public BlockSample()
     {
@@ -46,7 +46,7 @@ public class BlockSample extends Block
         this.setResistance(2F);
         this.setSoundType(SoundType.GROUND);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumType.HEMATITE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, Types.Modded.HEMATITE));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
@@ -98,7 +98,7 @@ public class BlockSample extends Block
     {
         if (Geolosys.getInstance().config.boringSamples)
         {
-            String resource = EnumType.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
+            String resource = Types.Modded.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
             playerIn.sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
         }
         else
@@ -168,13 +168,13 @@ public class BlockSample extends Block
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, EnumType.byMetadata(meta));
+        return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
@@ -194,77 +194,10 @@ public class BlockSample extends Block
     {
         if (!Geolosys.getInstance().config.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
             return;
-        String resource = EnumType.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
+        String resource = Types.Modded.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
         event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
         event.getDrops().clear();
     }
-
-    public enum EnumType implements IStringSerializable
-    {
-        HEMATITE(0, "hematite", "iron"),
-        LIMONITE(1, "limonite", "nickel"),
-        MALACHITE(2, "malachite", "poor copper"),
-        AZURITE(3, "azurite", "copper"),
-        CASSITERITE(4, "cassiterite", "poor tin"),
-        TEALLITE(5, "teallite", "tin"),
-        GALENA(6, "galena", "silver & lead"),
-        BAUXITE(7, "bauxite", "aluminum"),
-        PLATINUM(8, "platinum", "platinum"),
-        AUTUNITE(9, "autunite", "uranium"),
-        SPHALERITE(10, "sphalerite", "zinc");
-
-        private static final EnumType[] META_LOOKUP = new EnumType[values().length];
-
-        static
-        {
-            for (EnumType type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
-        }
-
-        private final int meta;
-        private final String name;
-        private final String resource;
-
-        EnumType(int meta, String name, String resource)
-        {
-            this.meta = meta;
-            this.name = name;
-            this.resource = resource;
-        }
-
-        public static EnumType byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.resource;
-        }
-
-        public String getName()
-        {
-            return this.name;
-        }
-
-        public String getResource()
-        {
-            return this.resource;
-        }
-    }
-
     /**
      * An ItemBlock class for this block allowing it to
      * support subtypes with proper placement
@@ -289,7 +222,7 @@ public class BlockSample extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + EnumType.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -297,14 +230,14 @@ public class BlockSample extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
-                for (int i = 0; i < EnumType.values().length; ++i)
+                for (int i = 0; i < Types.Modded.values().length; ++i)
                     list.add(new ItemStack(this, 1, i));
         }
 
         private void registerModels()
         {
-            for (int i = 0; i < EnumType.values().length; i++)
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + EnumType.byMetadata(i).getName());
+            for (int i = 0; i < Types.Modded.values().length; i++)
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
         }
     }
 }

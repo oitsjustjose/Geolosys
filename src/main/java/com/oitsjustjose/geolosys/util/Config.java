@@ -205,7 +205,7 @@ public class Config
         enableOsmium = property.getBoolean();
         propertyOrder.add(property.getName());
         
-        property = config.get(category, "Enable Ingots", true);
+        property = config.get(category, "Enable Ingot", true);
         property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
         enableIngots = property.getBoolean();
         propertyOrder.add(property.getName());
