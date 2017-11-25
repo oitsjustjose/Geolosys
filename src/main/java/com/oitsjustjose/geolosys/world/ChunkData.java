@@ -21,7 +21,9 @@ public class ChunkData
     {
         populatedChunks.add(pos);
         if (world.getWorldType() == WorldType.FLAT)
+        {
             return;
+        }
 
         int cap = random.nextInt(Geolosys.getInstance().config.chanceSample - 1) + 1;
         for (int i = 0; i < cap; i++)
@@ -29,9 +31,13 @@ public class ChunkData
             BlockPos p = getSamplePos(world, pos);
 
             if (world.getBlockState(p.down()).getBlock() instanceof BlockSample || world.getBlockState(p.down()).getBlock() instanceof BlockSampleVanilla)
+            {
                 continue;
+            }
             if (Geolosys.getInstance().config.generateSamplesInWater || !isMoist(world, p))
+            {
                 world.setBlockState(p, state);
+            }
         }
     }
 

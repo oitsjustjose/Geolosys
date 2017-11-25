@@ -16,7 +16,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -49,7 +52,9 @@ public class BlockOre extends Block
     private void setHarvestLevels()
     {
         for (Types.Modded t : Types.Modded.values())
+        {
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
+        }
     }
 
     @Override
@@ -72,7 +77,9 @@ public class BlockOre extends Block
                 Random rand = new Random();
                 int rng = rand.nextInt(5);
                 if (rng == 0)
+                {
                     drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
+                }
             }
             drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
         }
@@ -86,7 +93,9 @@ public class BlockOre extends Block
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER));
                 rng = rand.nextInt(2);
                 if (rng == 0)
+                {
                     drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
+                }
             }
             else
             {
@@ -239,14 +248,20 @@ public class BlockOre extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
+            {
                 for (int i = 0; i < Types.Modded.values().length; ++i)
+                {
                     list.add(new ItemStack(this, 1, i));
+                }
+            }
         }
 
         private void registerModels()
         {
             for (int i = 0; i < Types.Modded.values().length; i++)
+            {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
+            }
         }
     }
 }

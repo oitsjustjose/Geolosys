@@ -44,7 +44,7 @@ public class WorldGenOrePluton extends WorldGenerator
         double d5 = (double) (position.getY() + rand.nextInt(3) - 2);
 
         // TwilightForest "compat"
-        if(worldIn.provider.getDimension() == 7)
+        if (worldIn.provider.getDimension() == 7)
         {
             d4 /= 2;
             d5 /= 2;
@@ -90,9 +90,13 @@ public class WorldGenOrePluton extends WorldGenerator
                                     if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.predicate))
                                     {
                                         if (blockpos.getY() < 24 && rand.nextInt(100) == 0)
+                                        {
                                             worldIn.setBlockState(blockpos, Blocks.MAGMA.getDefaultState(), 2);
+                                        }
                                         else
+                                        {
                                             worldIn.setBlockState(blockpos, this.oreBlock, 2);
+                                        }
                                     }
                                 }
                             }

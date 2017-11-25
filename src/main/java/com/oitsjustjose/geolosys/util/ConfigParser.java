@@ -51,7 +51,7 @@ public class ConfigParser
                 else
                 {
                     Block sampleBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[7], parts[8]));
-                    if(sampleBlock == null || sampleBlock == Blocks.AIR)
+                    if (sampleBlock == null || sampleBlock == Blocks.AIR)
                     {
                         printFormattingError(s);
                         continue;
@@ -117,16 +117,24 @@ public class ConfigParser
     public boolean blockstateExistsInEntries(IBlockState state)
     {
         for (Entry e : this.userOreEntriesClean.keySet())
+        {
             if (e.getState() == state)
+            {
                 return true;
+            }
+        }
         return false;
     }
 
     public IBlockState getSampleForState(IBlockState state)
     {
         for (Entry e : this.userOreEntriesClean.keySet())
+        {
             if (e.getState() == state)
+            {
                 return this.userOreEntriesClean.get(e);
+            }
+        }
         return null;
     }
 
@@ -157,11 +165,17 @@ public class ConfigParser
         private void sanitizeEntries()
         {
             if (this.minY < 0)
+            {
                 this.minY = 0;
+            }
             if (this.maxY > 255)
+            {
                 this.maxY = 255;
+            }
             if (this.chancePerChunk < 1)
+            {
                 this.chancePerChunk = 1;
+            }
         }
 
         public IBlockState getState()

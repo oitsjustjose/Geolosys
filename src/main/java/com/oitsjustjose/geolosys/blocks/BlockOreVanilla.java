@@ -52,7 +52,9 @@ public class BlockOreVanilla extends Block
     private void setHarvestLevels()
     {
         for (Types.Vanilla t : Types.Vanilla.values())
+        {
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
+        }
     }
 
     @Override
@@ -97,10 +99,14 @@ public class BlockOreVanilla extends Block
             // Compat for ExtraUtils 2
             final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
             if (EXU_MATERIAL != null && RNG < 2)
+            {
                 drops.add(new ItemStack(EXU_MATERIAL));
+            }
             final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
             if (TE_MATERIAL != null && RNG == 2)
+            {
                 drops.add(new ItemStack(TE_MATERIAL, 1, 866));
+            }
         }
         else if (meta == 2)
         {
@@ -123,14 +129,20 @@ public class BlockOreVanilla extends Block
                 if (certusQuartz != null)
                 {
                     if (rng < 5) // 2 / 25
+                    {
                         drops.add(new ItemStack(certusQuartz, 1, 0));
+                    }
                     else if (rng > 5 && rng < 7) // 1 / 25
+                    {
                         drops.add(new ItemStack(certusQuartz, 1, 1));
+                    }
                 }
                 if (blackQuartz != null)
                 {
                     if (rng >= 6 && rng < 10) // 2 / 25
+                    {
                         drops.add(new ItemStack(blackQuartz, 1, 5));
+                    }
                 }
             }
         }
@@ -226,14 +238,20 @@ public class BlockOreVanilla extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
+            {
                 for (int i = 0; i < Types.Vanilla.values().length; ++i)
+                {
                     list.add(new ItemStack(this, 1, i));
+                }
+            }
         }
 
         private void registerModels()
         {
             for (int i = 0; i < Types.Vanilla.values().length; i++)
+            {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
+            }
         }
     }
 }

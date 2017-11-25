@@ -14,6 +14,15 @@ public class Types
         KIMBERLITE(5, 2, "kimberlite", "diamond");
 
         private static final Vanilla[] META_LOOKUP = new Vanilla[values().length];
+
+        static
+        {
+            for (Vanilla type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
         private final int meta;
         private final int toolLevel;
         private final String unlocalizedName;
@@ -25,6 +34,16 @@ public class Types
             this.toolLevel = toolLevel;
             this.unlocalizedName = name;
             this.resource = resource;
+        }
+
+        public static Vanilla byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
+
+            return META_LOOKUP[meta];
         }
 
         public int getToolLevel()
@@ -47,27 +66,9 @@ public class Types
             return this.resource;
         }
 
-        public static Vanilla byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
         public String getName()
         {
             return this.unlocalizedName;
-        }
-
-        static
-        {
-            for (Vanilla type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
         }
     }
 
@@ -86,6 +87,15 @@ public class Types
         SPHALERITE(10, 1, "sphalerite", "sphalerite", "zinc");
 
         private static final Modded[] META_LOOKUP = new Modded[values().length];
+
+        static
+        {
+            for (Modded type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
         private final int meta;
         private final int toolLevel;
         private final String serializedName;
@@ -99,6 +109,16 @@ public class Types
             this.serializedName = name;
             this.unlocalizedName = unlocalizedName;
             this.resource = resource;
+        }
+
+        public static Modded byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
+
+            return META_LOOKUP[meta];
         }
 
         public int getToolLevel()
@@ -116,16 +136,6 @@ public class Types
             return this.unlocalizedName;
         }
 
-        public static Modded byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
-                meta = 0;
-            }
-
-            return META_LOOKUP[meta];
-        }
-
         public String getResource()
         {
             return this.resource;
@@ -134,14 +144,6 @@ public class Types
         public String getName()
         {
             return this.serializedName;
-        }
-
-        static
-        {
-            for (Modded type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
         }
     }
 }

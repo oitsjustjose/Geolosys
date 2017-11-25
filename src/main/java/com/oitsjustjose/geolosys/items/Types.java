@@ -16,6 +16,15 @@ public class Types
         ZINC(7, "zinc");
 
         private static final Ingot[] META_LOOKUP = new Ingot[values().length];
+
+        static
+        {
+            for (Ingot type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
         private final int meta;
         private final String serializedName;
         private final String unlocalizedName;
@@ -25,16 +34,6 @@ public class Types
             this.meta = meta;
             this.serializedName = name;
             this.unlocalizedName = name;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
         }
 
         public static Ingot byMetadata(int meta)
@@ -47,17 +46,19 @@ public class Types
             return META_LOOKUP[meta];
         }
 
+        public int getMetadata()
+        {
+            return this.meta;
+        }
+
+        public String toString()
+        {
+            return this.unlocalizedName;
+        }
+
         public String getName()
         {
             return this.serializedName;
-        }
-
-        static
-        {
-            for (Ingot type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
         }
     }
 
@@ -78,6 +79,15 @@ public class Types
         OSMIUM(12, "osmium");
 
         private static final Cluster[] META_LOOKUP = new Cluster[values().length];
+
+        static
+        {
+            for (Cluster type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
         private final int meta;
         private final String serializedName;
         private final String unlocalizedName;
@@ -87,16 +97,6 @@ public class Types
             this.meta = meta;
             this.serializedName = name;
             this.unlocalizedName = name;
-        }
-
-        public int getMetadata()
-        {
-            return this.meta;
-        }
-
-        public String toString()
-        {
-            return this.unlocalizedName;
         }
 
         public static Cluster byMetadata(int meta)
@@ -109,17 +109,19 @@ public class Types
             return META_LOOKUP[meta];
         }
 
+        public int getMetadata()
+        {
+            return this.meta;
+        }
+
+        public String toString()
+        {
+            return this.unlocalizedName;
+        }
+
         public String getName()
         {
             return this.serializedName;
-        }
-
-        static
-        {
-            for (Cluster type : values())
-            {
-                META_LOOKUP[type.getMetadata()] = type;
-            }
         }
     }
 }

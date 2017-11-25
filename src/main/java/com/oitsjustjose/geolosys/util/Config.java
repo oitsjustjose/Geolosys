@@ -204,7 +204,7 @@ public class Config
         property = config.get(category, "Enable Osmium", true);
         enableOsmium = property.getBoolean();
         propertyOrder.add(property.getName());
-        
+
         property = config.get(category, "Enable Ingot", true);
         property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
         enableIngots = property.getBoolean();
@@ -439,6 +439,8 @@ public class Config
     public void update(OnConfigChangedEvent event)
     {
         if (event.getModID().equals(Lib.MODID))
+        {
             loadConfiguration();
+        }
     }
 }

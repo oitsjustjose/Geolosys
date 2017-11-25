@@ -1,8 +1,6 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.items.ItemCluster;
-import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -14,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -30,8 +27,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockSample extends Block
@@ -193,11 +188,14 @@ public class BlockSample extends Block
     public void registerEvent(BlockEvent.HarvestDropsEvent event)
     {
         if (!Geolosys.getInstance().config.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+        {
             return;
+        }
         String resource = Types.Modded.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
         event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
         event.getDrops().clear();
     }
+
     /**
      * An ItemBlock class for this block allowing it to
      * support subtypes with proper placement
@@ -230,14 +228,20 @@ public class BlockSample extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
+            {
                 for (int i = 0; i < Types.Modded.values().length; ++i)
+                {
                     list.add(new ItemStack(this, 1, i));
+                }
+            }
         }
 
         private void registerModels()
         {
             for (int i = 0; i < Types.Modded.values().length; i++)
+            {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
+            }
         }
     }
 }

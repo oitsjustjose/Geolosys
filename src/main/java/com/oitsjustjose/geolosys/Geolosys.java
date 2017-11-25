@@ -80,9 +80,13 @@ public class Geolosys
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
         if (config.enableIngots)
+        {
             INGOT = new ItemIngot();
+        }
         if (config.enableProPick)
+        {
             PRO_PICK = new ItemProPick();
+        }
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
@@ -171,17 +175,29 @@ public class Geolosys
     private void registerVanillaOreGen()
     {
         if (config.modCoal)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), config.clusterSizeCoal, 48, 70, config.chanceCoal);
+        }
         if (config.modRedstone)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), config.clusterSizeCinnabar, 5, 12, config.chanceCinnabar);
+        }
         if (config.modGold)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), config.clusterSizeGold, 5, 30, config.chanceGold);
+        }
         if (config.modLapis)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
+        }
         if (config.modQuartz)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), config.clusterSizeQuartz, 6, 29, config.chanceQuartz);
+        }
         if (config.modDiamond)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), config.clusterSizeKimberlite, 2, 15, config.chanceKimberlite);
+        }
 
         if (config.modStones)
         {
@@ -198,27 +214,49 @@ public class Geolosys
     private void registerGeolosysOreGen()
     {
         if (config.enableHematite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 0), config.clusterSizeHematite, 32, 60, config.chanceHematite);
+        }
         if (config.enableLimonite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 1), config.clusterSizeLimonite, 6, 32, config.chanceLimonite);
+        }
         if (config.enableMalachite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 2), config.clusterSizeMalachite, 39, 44, config.chanceMalachite);
+        }
         if (config.enableAzurite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 3), config.clusterSizeAzurite, 12, 44, config.chanceAzurite);
+        }
         if (config.enableCassiterite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 4), config.clusterSizeCassiterite, 44, 68, config.chanceCassiterite);
+        }
         if (config.enableTeallite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 5), config.clusterSizeTeallite, 8, 43, config.chanceTeallite);
+        }
         if (config.enableGalena)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 6), config.clusterSizeGalena, 16, 50, config.chanceGalena);
+        }
         if (config.enableBauxite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 7), config.clusterSizeBauxite, 45, 70, config.chanceBauxite);
+        }
         if (config.enablePlatinum)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 8), config.clusterSizePlatinum, 3, 25, config.chancePlatinum);
+        }
         if (config.enableAutunite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), config.clusterSizeAutunite, 8, 33, config.chanceAutunite);
+        }
         if (config.enableSphalerite)
+        {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 10), config.clusterSizeSphalerite, 35, 55, config.chanceSphalerite);
+        }
     }
 
     private void registerUserOreGen()
@@ -233,6 +271,8 @@ public class Geolosys
     private void registerUserStoneGen()
     {
         for (ConfigParser.Entry e : configParser.getUserStoneEntries())
+        {
             StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
+        }
     }
 }

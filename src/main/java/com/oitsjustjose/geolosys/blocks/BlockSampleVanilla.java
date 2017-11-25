@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -13,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -29,8 +27,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class BlockSampleVanilla extends Block
@@ -194,7 +190,9 @@ public class BlockSampleVanilla extends Block
     public void registerEvent(BlockEvent.HarvestDropsEvent event)
     {
         if (!Geolosys.getInstance().config.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+        {
             return;
+        }
         String resource = Types.Vanilla.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
         event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
         event.getDrops().clear();
@@ -233,14 +231,20 @@ public class BlockSampleVanilla extends Block
         public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
         {
             if (this.isInCreativeTab(tab))
+            {
                 for (int i = 0; i < Types.Vanilla.values().length; ++i)
+                {
                     list.add(new ItemStack(this, 1, i));
+                }
+            }
         }
 
         private void registerModels()
         {
             for (int i = 0; i < Types.Vanilla.values().length; i++)
+            {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
+            }
         }
     }
 }

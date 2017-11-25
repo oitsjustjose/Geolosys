@@ -2,11 +2,9 @@ package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.Lib;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -46,8 +44,12 @@ public class ItemCluster extends Item
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
     {
         if (this.isInCreativeTab(tab))
+        {
             for (int i = 0; i < Types.Cluster.values().length; ++i)
+            {
                 list.add(new ItemStack(this, 1, i));
+            }
+        }
     }
 
     @Override
@@ -59,14 +61,20 @@ public class ItemCluster extends Item
     private void registerModels()
     {
         for (int i = 0; i < Types.Cluster.values().length; i++)
+        {
             Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Cluster.byMetadata(i).name()), "inventory");
+        }
     }
 
     private void registerOreDict()
     {
         for (int i = 0; i < Types.Cluster.values().length; i++)
+        {
             OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+        }
         if (Geolosys.getInstance().config.registerAsBauxite)
+        {
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
+        }
     }
 }

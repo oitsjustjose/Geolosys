@@ -146,9 +146,13 @@ public class ItemFieldManual extends Item
             String line;
             int a;
             for (line = contents.get(key), a = key + offset; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1; line = line.substring(0, line.length() - 1))
+            {
                 ;
+            }
             for (line += " "; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1; line += " ")
+            {
                 ;
+            }
             line += a;
             builder3.append(line).append('\n');
             if (++i >= 13)
@@ -173,44 +177,6 @@ public class ItemFieldManual extends Item
         final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
         stack.setTagCompound(tags);
         return stack;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public class Book
-    {
-        private List<Page> pages;
-
-        public Book(int pageCount)
-        {
-            pages = Lists.newArrayList();
-            for (int i = 0; i < pageCount; i++)
-            {
-                pages.add(new Page(i + 1));
-            }
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public class Page
-    {
-        private String title;
-        private String text;
-
-        public Page(int pageNumber)
-        {
-            title = translateTitle(pageNumber);
-            text = translatePageText(pageNumber);
-        }
-
-        public String getTitle()
-        {
-            return title;
-        }
-
-        public String getText()
-        {
-            return text;
-        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -305,5 +271,43 @@ public class ItemFieldManual extends Item
         {
         }
         return numLines;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public class Book
+    {
+        private List<Page> pages;
+
+        public Book(int pageCount)
+        {
+            pages = Lists.newArrayList();
+            for (int i = 0; i < pageCount; i++)
+            {
+                pages.add(new Page(i + 1));
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public class Page
+    {
+        private String title;
+        private String text;
+
+        public Page(int pageNumber)
+        {
+            title = translateTitle(pageNumber);
+            text = translatePageText(pageNumber);
+        }
+
+        public String getTitle()
+        {
+            return title;
+        }
+
+        public String getText()
+        {
+            return text;
+        }
     }
 }

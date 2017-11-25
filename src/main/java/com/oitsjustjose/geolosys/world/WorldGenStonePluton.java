@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys.world;
 
-import com.google.common.base.Predicate;
-import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -34,7 +32,7 @@ public class WorldGenStonePluton extends WorldGenerator
         double d5 = (double) (position.getY() + rand.nextInt(3) - 2);
 
         // TwilightForest "compat"
-        if(worldIn.provider.getDimension() == 7)
+        if (worldIn.provider.getDimension() == 7)
         {
             d4 /= 2;
             d5 /= 2;
@@ -79,7 +77,9 @@ public class WorldGenStonePluton extends WorldGenerator
                                     IBlockState state = worldIn.getBlockState(blockpos);
 
                                     if (state.getBlock() == Blocks.STONE)
+                                    {
                                         worldIn.setBlockState(blockpos, this.oreBlock, 2);
+                                    }
                                 }
                             }
                         }

@@ -23,6 +23,36 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator
 {
+    public static ArrayList<OreGen> oreSpawnList = new ArrayList();
+
+    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight)
+    {
+        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight);
+        oreSpawnList.add(gen);
+        return gen;
+    }
+
+    @Override
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
+    {
+        if (!isDIMBlacklisted(world.provider.getDimension()) && oreSpawnList.size() > 0)
+        {
+            oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        }
+    }
+
+    public boolean isDIMBlacklisted(int dim)
+    {
+        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
+        {
+            if (d == dim)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static class OreGen
     {
         WorldGenOrePluton pluton;
@@ -44,7 +74,9 @@ public class OreGenerator implements IWorldGenerator
         public void generate(World world, Random rand, int x, int z)
         {
             if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
+            {
                 return;
+            }
             BlockPos pos;
             if (rand.nextInt(100) < weight)
             {
@@ -57,37 +89,21 @@ public class OreGenerator implements IWorldGenerator
         private IBlockState getSampleForOre(IBlockState state)
         {
             if (state.getBlock() == Geolosys.getInstance().ORE)
+            {
                 return Geolosys.getInstance().ORE_SAMPLE.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            }
             else if (state.getBlock() == Geolosys.getInstance().ORE_VANILLA)
+            {
                 return Geolosys.getInstance().ORE_SAMPLE_VANILLA.getStateFromMeta(state.getBlock().getMetaFromState(state));
+            }
             else if (Geolosys.getInstance().configParser.blockstateExistsInEntries(state))
+            {
                 return Geolosys.getInstance().configParser.getSampleForState(state);
+            }
             else
+            {
                 return state;
+            }
         }
-    }
-
-    public static ArrayList<OreGen> oreSpawnList = new ArrayList();
-
-    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight)
-    {
-        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight);
-        oreSpawnList.add(gen);
-        return gen;
-    }
-
-    @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
-    {
-        if (!isDIMBlacklisted(world.provider.getDimension()) && oreSpawnList.size() > 0)
-            oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
-    }
-
-    public boolean isDIMBlacklisted(int dim)
-    {
-        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
-            if (d == dim)
-                return true;
-        return false;
     }
 }
