@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
@@ -31,6 +33,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
+import java.io.*;
 import java.util.ArrayList;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12")
@@ -42,6 +46,7 @@ public class Geolosys
     // Logger & Configs, statically accessible.
     public Logger LOGGER;
     public Config config;
+    public ConfigOres configOres;
     public ClientRegistry clientRegistry;
     public ChunkData chunkOreGen;
     public ArrayList<IBlockState> userStates;
@@ -68,6 +73,7 @@ public class Geolosys
         LOGGER = event.getModLog();
         config = new Config(event.getSuggestedConfigurationFile());
         MinecraftForge.EVENT_BUS.register(config);
+        configOres = getOresConfig();
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         chunkOreGen = new ChunkData();
@@ -106,50 +112,50 @@ public class Geolosys
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
             GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
 
-            if (config.modIron)
+            if (configOres.hematiteChance > 0 || configOres.limoniteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON), "ingotIron");
+                smeltSafely(new ItemStack(CLUSTER, 1, 0), "ingotIron");
             }
-            if (config.modGold)
+            if (configOres.goldChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_GOLD), "ingotGold");
+                smeltSafely(new ItemStack(CLUSTER, 1, 1), "ingotGold");
             }
-            if (config.enableMalachite || config.enableAzurite)
+            if (configOres.malachiteChance > 0 || configOres.azuriteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_COPPER), "ingotCopper");
+                smeltSafely(new ItemStack(CLUSTER, 1, 2), "ingotCopper");
             }
-            if (config.enableCassiterite || config.enableTeallite)
+            if (configOres.cassiteriteChance > 0 || configOres.tealliteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_TIN), "ingotTin");
+                smeltSafely(new ItemStack(CLUSTER, 1, 3), "ingotTin");
             }
-            if (config.enableGalena)
+            if (configOres.galenaChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER), "ingotSilver");
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD), "ingotLead");
+                smeltSafely(new ItemStack(CLUSTER, 1, 4), "ingotSilver");
+                smeltSafely(new ItemStack(CLUSTER, 1, 5), "ingotLead");
             }
-            if (config.enableBauxite)
+            if (configOres.bauxiteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ALUMINUM), "ingotAluminum");
+                smeltSafely(new ItemStack(CLUSTER, 1, 6), "ingotAluminum");
             }
-            if (config.enableLimonite)
+            if (configOres.limoniteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL), "ingotNickel");
+                smeltSafely(new ItemStack(CLUSTER, 1, 7), "ingotNickel");
             }
-            if (config.enablePlatinum)
+            if (configOres.platinumChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM), "ingotPlatinum");
+                smeltSafely(new ItemStack(CLUSTER, 1, 8), "ingotPlatinum");
             }
-            if (config.enableSphalerite)
+            if (configOres.sphaleriteChance > 0)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_ZINC), "ingotZinc");
+                smeltSafely(new ItemStack(CLUSTER, 1, 10), "ingotZinc");
             }
             if (config.enableYellorium)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM), "ingotYellorium");
+                smeltSafely(new ItemStack(CLUSTER, 1, 11), "ingotYellorium");
             }
             if (config.enableOsmium)
             {
-                smeltSafely(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM), "ingotOsmium");
+                smeltSafely(new ItemStack(CLUSTER, 1, 12), "ingotOsmium");
             }
         }
 
@@ -174,29 +180,29 @@ public class Geolosys
 
     private void registerVanillaOreGen()
     {
-        if (config.modCoal)
+        if (configOres.coalChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), config.clusterSizeCoal, 48, 70, config.chanceCoal);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), configOres.coalSize, 48, 70, configOres.coalChance, configOres.coalDimBlacklist);
         }
-        if (config.modRedstone)
+        if (configOres.cinnabarChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), config.clusterSizeCinnabar, 5, 12, config.chanceCinnabar);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), configOres.cinnabarSize, 5, 12, configOres.cinnabarChance, configOres.cinnabarDimBlacklist);
         }
-        if (config.modGold)
+        if (configOres.goldChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), config.clusterSizeGold, 5, 30, config.chanceGold);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), configOres.goldSize, 5, 30, configOres.goldChance, configOres.goldDimBlacklist);
         }
-        if (config.modLapis)
+        if (configOres.lapisChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), config.clusterSizeLapis, 10, 24, config.chanceLapis);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), configOres.lapisSize, 10, 24, configOres.lapisChance, configOres.lapisDimBlacklist);
         }
-        if (config.modQuartz)
+        if (configOres.quartzChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), config.clusterSizeQuartz, 6, 29, config.chanceQuartz);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), configOres.quartzSize, 6, 29, configOres.quartzChance, configOres.quartzDimBlacklist);
         }
-        if (config.modDiamond)
+        if (configOres.kimberliteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), config.clusterSizeKimberlite, 2, 15, config.chanceKimberlite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), configOres.kimberliteSize, 2, 15, configOres.kimberliteChance, configOres.kimberliteDimBlacklist);
         }
 
         if (config.modStones)
@@ -213,57 +219,101 @@ public class Geolosys
 
     private void registerGeolosysOreGen()
     {
-        if (config.enableHematite)
+        if (configOres.hematiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 0), config.clusterSizeHematite, 32, 60, config.chanceHematite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 0), configOres.hematiteSize, 32, 60, configOres.hematiteChance, configOres.hematiteDimBlacklist);
         }
-        if (config.enableLimonite)
+        if (configOres.limoniteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 1), config.clusterSizeLimonite, 6, 32, config.chanceLimonite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 1), configOres.limoniteSize, 6, 32, configOres.limoniteChance, configOres.limoniteDimBlacklist);
         }
-        if (config.enableMalachite)
+        if (configOres.malachiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 2), config.clusterSizeMalachite, 39, 44, config.chanceMalachite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 2), configOres.malachiteSize, 39, 44, configOres.malachiteChance, configOres.malachiteDimBlacklist);
         }
-        if (config.enableAzurite)
+        if (configOres.azuriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 3), config.clusterSizeAzurite, 12, 44, config.chanceAzurite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 3), configOres.azuriteSize, 12, 44, configOres.azuriteChance, configOres.azuriteDimBlacklist);
         }
-        if (config.enableCassiterite)
+        if (configOres.cassiteriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 4), config.clusterSizeCassiterite, 44, 68, config.chanceCassiterite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 4), configOres.cassiteriteSize, 44, 68, configOres.cassiteriteChance, configOres.cassiteriteDimBlacklist);
         }
-        if (config.enableTeallite)
+        if (configOres.tealliteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 5), config.clusterSizeTeallite, 8, 43, config.chanceTeallite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 5), configOres.tealliteSize, 8, 43, configOres.tealliteChance, configOres.tealliteDimBlacklist);
         }
-        if (config.enableGalena)
+        if (configOres.galenaChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 6), config.clusterSizeGalena, 16, 50, config.chanceGalena);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 6), configOres.galenaSize, 16, 50, configOres.galenaChance, configOres.galentaDimBlacklist);
         }
-        if (config.enableBauxite)
+        if (configOres.bauxiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 7), config.clusterSizeBauxite, 45, 70, config.chanceBauxite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 7), configOres.bauxiteSize, 45, 70, configOres.bauxiteChance, configOres.bauxiteDimBlacklist);
         }
-        if (config.enablePlatinum)
+        if (configOres.platinumChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 8), config.clusterSizePlatinum, 3, 25, config.chancePlatinum);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 8), configOres.platinumSize, 3, 25, configOres.platinumChance, configOres.platinumDimBlacklist);
         }
-        if (config.enableAutunite)
+        if (configOres.autuniteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), config.clusterSizeAutunite, 8, 33, config.chanceAutunite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), configOres.autuniteSize, 8, 33, configOres.autuniteChance, configOres.autuniteDimBlacklist);
         }
-        if (config.enableSphalerite)
+        if (configOres.sphaleriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 10), config.clusterSizeSphalerite, 35, 55, config.chanceSphalerite);
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 10), configOres.sphaleriteSize, 35, 55, configOres.sphaleriteChance, configOres.sphaleriteDimBlacklist);
         }
+    }
+
+    @Nonnull
+    private ConfigOres getOresConfig()
+    {
+        try
+        {
+            FileReader fr = new FileReader("./config/geolosys_ores.json".replace("/", File.separator));
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            String json = "";
+            try
+            {
+                while ((line = br.readLine()) != null)
+                {
+                    json += line;
+                }
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                return gson.fromJson(json, ConfigOres.class);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            ConfigOres props = new ConfigOres();
+            props.populateConfigs();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(props);
+            try
+            {
+                FileWriter fw = new FileWriter("./config/geolosys_ores.json".replace("/", File.separator));
+                fw.write(json);
+                fw.close();
+                return props;
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        return getOresConfig();
     }
 
     private void registerUserOreGen()
     {
         for (ConfigParser.Entry e : configParser.getUserOreEntries().keySet())
         {
-            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
+            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk(), new int[]{-1, 1});
             userStates.add(e.getState());
         }
     }

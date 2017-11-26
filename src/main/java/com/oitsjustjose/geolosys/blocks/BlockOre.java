@@ -71,17 +71,17 @@ public class BlockOre extends Block
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
         {
-            if (config.enableNickel)
+            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
+            Random rand = new Random();
+            int rng = rand.nextInt(5);
+            if (rng == 0)
             {
-                // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
-                Random rand = new Random();
-                int rng = rand.nextInt(5);
-                if (rng == 0)
-                {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
-                }
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
             }
-            drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
+            else
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
+            }
         }
         // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
         else if (state.getBlock().getMetaFromState(state) == 6)

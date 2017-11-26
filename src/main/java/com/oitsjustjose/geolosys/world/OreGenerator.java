@@ -25,9 +25,9 @@ public class OreGenerator implements IWorldGenerator
 {
     public static ArrayList<OreGen> oreSpawnList = new ArrayList();
 
-    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight)
+    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
-        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight);
+        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
         return gen;
     }
@@ -60,15 +60,16 @@ public class OreGenerator implements IWorldGenerator
         int minY;
         int maxY;
         int weight;
+        int[] blacklistedDims;
 
-
-        public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int weight)
+        public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int weight, int[] blacklist)
         {
             this.pluton = new WorldGenOrePluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;
             this.weight = weight;
+            this.blacklistedDims = blacklist;
         }
 
         public void generate(World world, Random rand, int x, int z)
@@ -76,6 +77,13 @@ public class OreGenerator implements IWorldGenerator
             if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
             {
                 return;
+            }
+            for (int i : blacklistedDims)
+            {
+                if (i == world.provider.getDimension())
+                {
+                    return;
+                }
             }
             BlockPos pos;
             if (rand.nextInt(100) < weight)

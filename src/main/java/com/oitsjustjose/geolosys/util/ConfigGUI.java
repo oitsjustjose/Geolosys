@@ -24,8 +24,6 @@ public class ConfigGUI extends GuiConfig
         ArrayList<IConfigElement> list = new ArrayList<IConfigElement>();
 
         list.add(new ConfigElement(Geolosys.getInstance().config.FeatureControl));
-        list.add(new ConfigElement(Geolosys.getInstance().config.Chances));
-        list.add(new ConfigElement(Geolosys.getInstance().config.Sizes));
         list.add(new ConfigElement(Geolosys.getInstance().config.Samples));
         list.add(new ConfigElement(Geolosys.getInstance().config.UserEntries));
 

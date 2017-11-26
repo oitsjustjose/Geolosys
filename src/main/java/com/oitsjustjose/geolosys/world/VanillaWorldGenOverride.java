@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.util.ConfigOres;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -15,36 +15,36 @@ public class VanillaWorldGenOverride
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void onOrePopulate(OreGenEvent.GenerateMinable event)
     {
-        Config conf = Geolosys.getInstance().config;
-        if (conf.modIron && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
+        ConfigOres conf = Geolosys.getInstance().configOres;
+        if ((conf.hematiteChance > 0 || conf.limoniteChance > 0) && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modGold && event.getType() == OreGenEvent.GenerateMinable.EventType.GOLD)
+        if (conf.goldChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.GOLD)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modDiamond && event.getType() == OreGenEvent.GenerateMinable.EventType.DIAMOND)
+        if (conf.kimberliteChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.DIAMOND)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modCoal && event.getType() == OreGenEvent.GenerateMinable.EventType.COAL)
+        if (conf.coalChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.COAL)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modRedstone && event.getType() == OreGenEvent.GenerateMinable.EventType.REDSTONE)
+        if (conf.cinnabarChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.REDSTONE)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modLapis && event.getType() == OreGenEvent.GenerateMinable.EventType.LAPIS)
+        if (conf.lapisChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.LAPIS)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modQuartz && event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ)
+        if (conf.quartzChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.modStones)
+        if (Geolosys.getInstance().config.modStones)
         {
             if (event.getType() == OreGenEvent.GenerateMinable.EventType.ANDESITE || event.getType() == OreGenEvent.GenerateMinable.EventType.GRANITE || event.getType() == OreGenEvent.GenerateMinable.EventType.DIORITE)
             {
