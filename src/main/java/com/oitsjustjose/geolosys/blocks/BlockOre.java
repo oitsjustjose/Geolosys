@@ -67,7 +67,7 @@ public class BlockOre extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Config config = Geolosys.getInstance().config;
+        Config config = Config.getInstance();
         Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
@@ -106,7 +106,11 @@ public class BlockOre extends Block
         // Special case for Osmium
         else if (state.getBlock().getMetaFromState(state) == 8)
         {
-            if (config.enableOsmium)
+            if(config.enableOsmiumExclusively)
+            {
+                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+            }
+            else if (config.enableOsmium)
             {
                 Random rand = new Random();
                 int rng = rand.nextInt(2);
