@@ -60,7 +60,7 @@ public class BlockOreVanilla extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        return state.getBlock().getMetaFromState(state) != 2;
+        return true;
     }
 
     @Override
@@ -72,6 +72,8 @@ public class BlockOreVanilla extends Block
                 return new ItemStack(Blocks.COAL_ORE);
             case 1:
                 return new ItemStack(Blocks.REDSTONE_ORE);
+            case 2:
+                return new ItemStack(Blocks.GOLD_ORE);
             case 3:
                 return new ItemStack(Blocks.LAPIS_ORE);
             case 4:

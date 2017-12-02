@@ -13,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -153,9 +154,22 @@ public class BlockOre extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        return false;
+        return state.getBlock().getMetaFromState(state) == 0 || state.getBlock().getMetaFromState(state) == 1;
     }
 
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state)
+    {
+        switch (blockState.getBlock().getMetaFromState(state))
+        {
+            case 0:
+                return new ItemStack(Blocks.IRON_ORE);
+            case 1:
+                return new ItemStack(Blocks.IRON_ORE);
+            default:
+                return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+        }
+    }
     @Override
     public int damageDropped(IBlockState state)
     {
