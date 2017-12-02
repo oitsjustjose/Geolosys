@@ -109,9 +109,6 @@ public class Geolosys
     {
         if (config.enableSmelting)
         {
-            GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 0), new ItemStack(Items.IRON_INGOT, 1, 0), 0.7F);
-            GameRegistry.addSmelting(new ItemStack(CLUSTER, 1, 1), new ItemStack(Items.GOLD_INGOT, 1, 0), 1.0F);
-
             if (configOres.hematiteChance > 0 || configOres.limoniteChance > 0)
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 0), "ingotIron");
