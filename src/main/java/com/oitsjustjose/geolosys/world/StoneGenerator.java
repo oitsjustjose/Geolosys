@@ -20,34 +20,22 @@ import java.util.Random;
 
 public class StoneGenerator implements IWorldGenerator
 {
-    public static ArrayList<StoneGen> stonespawnList = new ArrayList();
+    public static ArrayList<StoneGen> stoneSpawnList = new ArrayList();
 
     public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
         StoneGen gen = new StoneGen(state, minY, maxY, weight);
-        stonespawnList.add(gen);
+        stoneSpawnList.add(gen);
         return gen;
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (!isDIMBlacklisted(world.provider.getDimension()) && stonespawnList.size() > 0)
+        if(stoneSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
         {
-            stonespawnList.get(random.nextInt(stonespawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
-    }
-
-    public boolean isDIMBlacklisted(int dim)
-    {
-        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
-        {
-            if (d == dim)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static class StoneGen

@@ -45,7 +45,6 @@ public class Geolosys
 
     // Logger & Configs, statically accessible.
     public Logger LOGGER;
-    public Config config;
     public ConfigOres configOres;
     public ClientRegistry clientRegistry;
     public ChunkData chunkOreGen;
@@ -71,8 +70,7 @@ public class Geolosys
     public void preInit(FMLPreInitializationEvent event)
     {
         LOGGER = event.getModLog();
-        config = new Config(event.getSuggestedConfigurationFile());
-        MinecraftForge.EVENT_BUS.register(config);
+        MinecraftForge.EVENT_BUS.register(new Config(event.getSuggestedConfigurationFile()));
         configOres = getOresConfig();
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
@@ -85,11 +83,11 @@ public class Geolosys
         ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
-        if (config.enableIngots)
+        if (Config.getInstance().enableIngots)
         {
             INGOT = new ItemIngot();
         }
-        if (config.enableProPick)
+        if (Config.getInstance().enableProPick)
         {
             PRO_PICK = new ItemProPick();
         }
@@ -107,7 +105,7 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        if (config.enableSmelting)
+        if (Config.getInstance().enableSmelting)
         {
             if (configOres.hematiteChance > 0 || configOres.limoniteChance > 0)
             {
@@ -146,11 +144,11 @@ public class Geolosys
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 10), "ingotZinc");
             }
-            if (config.enableYellorium)
+            if (Config.getInstance().enableYellorium)
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 11), "ingotYellorium");
             }
-            if (config.enableOsmium)
+            if (Config.getInstance().enableOsmium)
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 12), "ingotOsmium");
             }
@@ -201,8 +199,7 @@ public class Geolosys
         {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), configOres.kimberliteSize, 2, 15, configOres.kimberliteChance, configOres.kimberliteDimBlacklist);
         }
-
-        if (config.modStones)
+        if (Config.getInstance().modStones)
         {
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);

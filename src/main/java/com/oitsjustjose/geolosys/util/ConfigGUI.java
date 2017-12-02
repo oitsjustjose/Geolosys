@@ -16,16 +16,16 @@ public class ConfigGUI extends GuiConfig
 {
     public ConfigGUI(GuiScreen guiScreen)
     {
-        super(guiScreen, getConfigElements(), Lib.MODID, true, true, "Geolosys Configuration");
+        super(guiScreen, getConfigElements(), Lib.MODID, false, false, "Geolosys Configuration");
     }
 
     private static List<IConfigElement> getConfigElements()
     {
         ArrayList<IConfigElement> list = new ArrayList<IConfigElement>();
 
-        list.add(new ConfigElement(Geolosys.getInstance().config.FeatureControl));
-        list.add(new ConfigElement(Geolosys.getInstance().config.Samples));
-        list.add(new ConfigElement(Geolosys.getInstance().config.UserEntries));
+        list.add(new ConfigElement(Config.getInstance().FeatureControl));
+        list.add(new ConfigElement(Config.getInstance().Samples));
+        list.add(new ConfigElement(Config.getInstance().UserEntries));
 
         return list;
     }

@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -91,7 +92,7 @@ public class BlockSample extends Block
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (Geolosys.getInstance().config.boringSamples)
+        if (Config.getInstance().boringSamples)
         {
             String resource = Types.Modded.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
             playerIn.sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
@@ -138,7 +139,7 @@ public class BlockSample extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        if (Geolosys.getInstance().config.boringSamples)
+        if (Config.getInstance().boringSamples)
         {
             drops.clear();
             return;
@@ -187,7 +188,7 @@ public class BlockSample extends Block
     @SubscribeEvent
     public void registerEvent(BlockEvent.HarvestDropsEvent event)
     {
-        if (!Geolosys.getInstance().config.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+        if (!Config.getInstance().boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
         {
             return;
         }

@@ -35,22 +35,10 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (!isDIMBlacklisted(world.provider.getDimension()) && oreSpawnList.size() > 0)
+        if(oreSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
-    }
-
-    public boolean isDIMBlacklisted(int dim)
-    {
-        for (int d : Geolosys.getInstance().config.blacklistedDIMs)
-        {
-            if (d == dim)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static class OreGen

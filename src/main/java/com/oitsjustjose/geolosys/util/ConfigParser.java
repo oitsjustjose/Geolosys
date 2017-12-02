@@ -26,7 +26,7 @@ public class ConfigParser
 
     public void parseOres()
     {
-        for (String s : Geolosys.getInstance().config.userOreEntriesRaw)
+        for (String s : Config.getInstance().userOreEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 7 && parts.length != 10)
@@ -70,7 +70,7 @@ public class ConfigParser
 
     public void parseStones()
     {
-        for (String s : Geolosys.getInstance().config.userStoneEntriesRaw)
+        for (String s : Config.getInstance().userStoneEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 6)

@@ -20,6 +20,7 @@ public class Config
     // Feature Control
     public boolean modStones;
     public boolean enableOsmium;
+    public boolean enableOsmiumExclusively;
     public boolean enableYellorium;
     public boolean enableIngots;
     public boolean enableProPick;
@@ -27,7 +28,7 @@ public class Config
     public boolean registerAsBauxite;
 
     // Sample Stuff
-    public int chanceSample;
+    public int maxSamples;
     public boolean generateSamplesInWater;
     public boolean boringSamples;
 
@@ -35,7 +36,7 @@ public class Config
     public String[] userOreEntriesRaw;
     public String[] userStoneEntriesRaw;
 
-    public int[] blacklistedDIMs;
+    private static Config instance;
 
     public Config(File configFile)
     {
@@ -44,6 +45,7 @@ public class Config
             config = new Configuration(configFile, null, true);
             loadConfiguration();
         }
+        instance = this;
     }
 
     void loadConfiguration()
@@ -52,10 +54,10 @@ public class Config
 
         String category = "Feature Control";
         List<String> propertyOrder = Lists.newArrayList();
-        FeatureControl = config.getCategory(category).setRequiresMcRestart(true);
+        FeatureControl = config.getCategory(category);
         FeatureControl.setComment("Control which features are enabled:");
 
-        property = config.get(category, "Replace Stone Variant Deposits", true);
+        property = config.get(category, "Replace Stone Variant Deposits", true).setRequiresMcRestart(true);
         modStones = property.getBoolean();
         propertyOrder.add(property.getName());
 
@@ -67,28 +69,24 @@ public class Config
         enableOsmium = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Enable Ingot", true);
-        property.setComment("Set to \"False\" if other mods already provide all necessary ORE variants.");
+        property = config.get(category, "Enable Osmium Exclusively (without platinum)", false);
+        enableOsmiumExclusively = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Ingots", true).setRequiresMcRestart(true);
         enableIngots = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Enable Prospector's Pick", true);
-        property.setComment("Set to \"False\" if you don't wish to have this feature, or have another mod doing it");
+        property = config.get(category, "Enable Prospector's Pick", true).setRequiresMcRestart(true);
         enableProPick = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Enable Cluster Smelting", true);
-        property.setComment("Set to \"False\" if you don't want smelting automatically initialized");
+        property = config.get(category, "Enable Cluster Smelting", true).setRequiresMcRestart(true);
         enableSmelting = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Also register Aluminum Cluster as oreBauxite", false);
-        property.setComment("Meant as a layer of compatibility for mods like TechReborn. Adds \"oreBauxite\" as one of the entries for the Aluminum Cluster");
+        property = config.get(category, "Register Aluminum Cluster as oreBauxite", false).setRequiresMcRestart(true);
         registerAsBauxite = property.getBoolean();
-        propertyOrder.add(property.getName());
-
-        property = config.get(category, "Blacklisted Dimensions", new int[]{-1, 1}, "Dimensions that ores CAN'T generate in");
-        blacklistedDIMs = property.getIntList();
         propertyOrder.add(property.getName());
 
         FeatureControl.setPropertyOrder(propertyOrder);
@@ -96,11 +94,13 @@ public class Config
         // Sample settings
         category = "Ore Samples";
         propertyOrder = Lists.newArrayList();
-        Samples = config.getCategory(category).setRequiresMcRestart(true);
+        Samples = config.getCategory(category);
         Samples.setComment("Settings strictly regarding samples");
 
-        property = config.get(category, "Random Chance of Samples per Chunk", 4, "The maximum number of samples that can generate per chunk", 1, 16);
-        chanceSample = property.getInt();
+        property = config.get(category, "Maximum Number of Samples per Chunk", 4);
+        property.setMinValue(1);
+        property.setMaxValue(16);
+        maxSamples = property.getInt();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Allow samples to spawn in water (shallow or deep)", false);
@@ -150,5 +150,10 @@ public class Config
     {
         if (event.getModID().equals(Lib.MODID))
             loadConfiguration();
+    }
+
+    public static Config getInstance()
+    {
+        return instance;
     }
 }
