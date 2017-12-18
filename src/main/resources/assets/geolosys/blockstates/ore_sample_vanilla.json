@@ -44,6 +44,11 @@
         "textures": {
           "all": "geolosys:blocks/kimberlite"
         }
+      },
+      "beryl": {
+        "textures": {
+          "all": "geolosys:blocks/beryl"
+        }
       }
     }
   }

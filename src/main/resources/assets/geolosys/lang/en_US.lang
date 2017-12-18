@@ -18,6 +18,7 @@ geolosys.ore_vanilla.gold.name=Gold
 geolosys.ore_vanilla.lapis.name=Lapis Lazuli
 geolosys.ore_vanilla.quartz.name=Assorted Quartz
 geolosys.ore_vanilla.kimberlite.name=Kimberlite
+geolosys.ore_vanilla.beryl.name=Beryl
 
 # ------------------------------------ #
 #              Samples                 #
@@ -39,6 +40,7 @@ geolosys.ore_sample_vanilla.gold.name=Gold Sample
 geolosys.ore_sample_vanilla.lapis.name=Lapis Lazuli Sample
 geolosys.ore_sample_vanilla.quartz.name=Assorted Quartz Sample
 geolosys.ore_sample_vanilla.kimberlite.name=Kimberlite Sample
+geolosys.ore_sample_vanilla.beryl.name=Beryl Sample
 
 # ------------------------------------ #
 #             Clusters                 #

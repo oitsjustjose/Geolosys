@@ -80,6 +80,8 @@ public class BlockOreVanilla extends Block
                 return new ItemStack(Blocks.QUARTZ_ORE);
             case 5:
                 return new ItemStack(Blocks.DIAMOND_ORE);
+            case 6:
+                return new ItemStack(Blocks.EMERALD_ORE);
             default:
                 return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
         }
@@ -152,6 +154,10 @@ public class BlockOreVanilla extends Block
         {
             drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random), Blocks.DIAMOND_ORE.damageDropped(state)));
         }
+        else if (meta == 6)
+        {
+            drops.add(new ItemStack(Blocks.EMERALD_ORE.getItemDropped(state, random, fortune), Blocks.EMERALD_ORE.quantityDroppedWithBonus(fortune, random), Blocks.EMERALD_ORE.damageDropped(state)));
+        }
     }
 
 
@@ -170,11 +176,12 @@ public class BlockOreVanilla extends Block
                 return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
             case 5:
                 return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
+            case 6:
+                return Blocks.EMERALD_ORE.getExpDrop(state, world, pos, fortune);
             default:
                 return 0;
         }
     }
-
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)

@@ -11,7 +11,8 @@ public class Types
         GOLD(2, 2, "gold", "gold"),
         LAPIS(3, 1, "lapis", "lapis"),
         QUARTZ(4, 1, "quartz", "various quartz types"),
-        KIMBERLITE(5, 2, "kimberlite", "diamond");
+        KIMBERLITE(5, 2, "kimberlite", "diamond"),
+        BERYL(6, 2, "beryl", "emerald");
 
         private static final Vanilla[] META_LOOKUP = new Vanilla[values().length];
 
