@@ -45,6 +45,10 @@ public class VanillaWorldGenOverride
         {
             event.setResult(Event.Result.DENY);
         }
+        if (conf.berylChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.EMERALD)
+        {
+            event.setResult(Event.Result.DENY);
+        }
         if (Config.getInstance().modStones)
         {
             if (event.getType() == OreGenEvent.GenerateMinable.EventType.ANDESITE || event.getType() == OreGenEvent.GenerateMinable.EventType.GRANITE || event.getType() == OreGenEvent.GenerateMinable.EventType.DIORITE)

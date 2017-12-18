@@ -199,6 +199,10 @@ public class Geolosys
         {
             OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), configOres.kimberliteSize, 2, 15, configOres.kimberliteChance, configOres.kimberliteDimBlacklist);
         }
+        if (configOres.berylChance > 0)
+        {
+            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), configOres.berylSize, 4, 32, configOres.berylChance, configOres.berylDimBlacklist);
+        }
         if (Config.getInstance().modStones)
         {
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);

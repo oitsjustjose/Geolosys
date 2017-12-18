@@ -26,6 +26,10 @@ public class ConfigOres
     public int kimberliteChance;
     public int[] kimberliteDimBlacklist;
 
+    public int berylSize;
+    public int berylChance;
+    public int[] berylDimBlacklist;
+
     public int hematiteSize;
     public int hematiteChance;
     public int[] hematiteDimBlacklist;
@@ -95,6 +99,10 @@ public class ConfigOres
         kimberliteSize = 20;
         kimberliteChance = 4;
         kimberliteDimBlacklist = new int[]{-1, 1};
+
+        berylSize = 16;
+        berylChance = 3;
+        berylDimBlacklist = new int[]{-1, 1};
 
         hematiteSize = 24;
         hematiteChance = 4;
