@@ -44,6 +44,12 @@ public class ItemProPick extends Item
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
+        if (worldIn.isRemote)
+        {
+            player.swingArm(hand);
+            return EnumActionResult.PASS;
+        }
+
         int xStart;
         int xEnd;
         int yStart;
