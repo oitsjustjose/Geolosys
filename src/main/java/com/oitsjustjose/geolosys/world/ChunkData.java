@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.world;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.util.Config;
@@ -25,7 +26,8 @@ public class ChunkData
             return;
         }
 
-        int cap = random.nextInt(Config.getInstance().maxSamples - 1) + 1;
+        int cap = getSampleCount(state);
+        Geolosys.getInstance().LOGGER.info(cap);
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
@@ -54,5 +56,84 @@ public class ChunkData
     private boolean isMoist(World world, BlockPos pos)
     {
         return world.getBlockState(pos.up()).getMaterial().isLiquid() || world.getBlockState(pos.east()).getMaterial().isLiquid() || world.getBlockState(pos.west()).getMaterial().isLiquid() || world.getBlockState(pos.north()).getMaterial().isLiquid() || world.getBlockState(pos.south()).getMaterial().isLiquid();
+    }
+
+    private int getSampleCount(IBlockState state)
+    {
+        int count = 0;
+        if (state.getBlock() == Geolosys.getInstance().ORE_SAMPLE)
+        {
+            switch (state.getBlock().getMetaFromState(state))
+            {
+                case 0:
+                    count = Math.round(Geolosys.getInstance().configOres.hematiteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 1:
+                    count = Math.round(Geolosys.getInstance().configOres.limoniteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 2:
+                    count = Math.round(Geolosys.getInstance().configOres.malachiteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 3:
+                    count = Math.round(Geolosys.getInstance().configOres.azuriteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 4:
+                    count = Math.round(Geolosys.getInstance().configOres.cassiteriteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 5:
+                    count = Math.round(Geolosys.getInstance().configOres.tealliteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 6:
+                    count = Math.round(Geolosys.getInstance().configOres.galenaSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 7:
+                    count = Math.round(Geolosys.getInstance().configOres.bauxiteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 8:
+                    count = Math.round(Geolosys.getInstance().configOres.platinumSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 9:
+                    count = Math.round(Geolosys.getInstance().configOres.autuniteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 10:
+                    count = Math.round(Geolosys.getInstance().configOres.sphaleriteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+            }
+        }
+        else if (state.getBlock() == Geolosys.getInstance().ORE_SAMPLE_VANILLA)
+        {
+            switch (state.getBlock().getMetaFromState(state))
+            {
+                case 0:
+                    count = Math.round(Geolosys.getInstance().configOres.coalSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 1:
+                    count = Math.round(Geolosys.getInstance().configOres.cinnabarSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 2:
+                    count = Math.round(Geolosys.getInstance().configOres.goldSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 3:
+                    count = Math.round(Geolosys.getInstance().configOres.lapisSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 4:
+                    count = Math.round(Geolosys.getInstance().configOres.quartzSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 5:
+                    count = Math.round(Geolosys.getInstance().configOres.kimberliteSize / (float)(Config.getInstance().maxSamples));
+                    break;
+                case 6:
+                    count = Math.round(Geolosys.getInstance().configOres.berylSize / (float)(Config.getInstance().maxSamples));
+                    break;
+            }
+        }
+
+        // Normalize maximum sample counts
+        if (count > Config.getInstance().maxSamples)
+        {
+            count = Config.getInstance().maxSamples;
+        }
+
+        return count;
     }
 }

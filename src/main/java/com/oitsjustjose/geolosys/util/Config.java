@@ -97,7 +97,7 @@ public class Config
         Samples = config.getCategory(category);
         Samples.setComment("Settings strictly regarding samples");
 
-        property = config.get(category, "Maximum Number of Samples per Chunk", 4);
+        property = config.get(category, "Maximum Number of Samples per Chunk", 10);
         property.setMinValue(1);
         property.setMaxValue(16);
         maxSamples = property.getInt();
