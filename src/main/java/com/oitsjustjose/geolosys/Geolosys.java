@@ -71,7 +71,7 @@ public class Geolosys
     {
         LOGGER = event.getModLog();
         MinecraftForge.EVENT_BUS.register(new Config(event.getSuggestedConfigurationFile()));
-        configOres = getOresConfig();
+        configOres = getOresConfig(event.getModConfigurationDirectory());
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         chunkOreGen = new ChunkData();
@@ -169,7 +169,7 @@ public class Geolosys
         }
         catch (IndexOutOfBoundsException | NullPointerException ex)
         {
-            System.out.println(oreDictName + " has not been added already. Smelting has been skipped.");
+            LOGGER.info(oreDictName + " has not been added already. Smelting has been skipped.");
         }
     }
 
@@ -264,11 +264,12 @@ public class Geolosys
     }
 
     @Nonnull
-    private ConfigOres getOresConfig()
+    private ConfigOres getOresConfig(File configDir)
     {
         try
         {
-            FileReader fr = new FileReader("./config/geolosys_ores.json".replace("/", File.separator));
+            System.out.println(configDir.getAbsolutePath());
+            FileReader fr = new FileReader(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
             BufferedReader br = new BufferedReader(fr);
             String line;
             String json = "";
@@ -294,7 +295,7 @@ public class Geolosys
             String json = gson.toJson(props);
             try
             {
-                FileWriter fw = new FileWriter("./config/geolosys_ores.json".replace("/", File.separator));
+                FileWriter fw = new FileWriter(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
                 fw.write(json);
                 fw.close();
                 return props;
@@ -304,7 +305,7 @@ public class Geolosys
                 ex.printStackTrace();
             }
         }
-        return getOresConfig();
+        return getOresConfig(configDir);
     }
 
     private void registerUserOreGen()
