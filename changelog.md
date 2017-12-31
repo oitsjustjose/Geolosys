@@ -1,3 +1,15 @@
+1.8.4:
+* ADDED: Beryl, a mineral resource for emeralds!
+* ADDED: New JSON file for ore generation settings (offers more refined settings). See your /config/geolsys_ores.json for more!
+* ADDED: New texture for cassiterite samples, to make them distinguishable
+* ADDED: Ability for osmium to be enabled *alone*
+* CHANGED: Ingot textures to new beta-style ingot texture
+* CHANGED: Samples now generate based on the mineral deposit size (still respecting the max samples config)
+* CHANGED: Default ore generation values (in the JSON config)
+* FIXED: Prospector's pick sending its message on both sides
+* FIXED: Gold and Iron not being obtainable via silk-touch
+* FIXED: Duplicate smelting registration
+
 1.8.3:
 * ADDED: Info for Sphalerite, Osmium & Yellorium to the Field Manual
 * ADDED: Automatic modularity for additional pages (this means that users can add as many entries as they'd like!)
