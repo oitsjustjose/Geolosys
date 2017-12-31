@@ -37,7 +37,7 @@
       },
       "cassiterite": {
         "textures": {
-          "all": "geolosys:blocks/cassiterite"
+          "all": "geolosys:blocks/cassiterite_sample"
         }
       },
       "teallite": {

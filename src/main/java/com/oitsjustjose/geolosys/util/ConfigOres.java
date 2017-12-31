@@ -105,7 +105,7 @@ public class ConfigOres
         berylDimBlacklist = new int[]{-1, 1};
 
         hematiteSize = 24;
-        hematiteChance = 4;
+        hematiteChance = 7;
         hematiteDimBlacklist = new int[]{-1, 1};
 
         limoniteSize = 80;
@@ -129,11 +129,11 @@ public class ConfigOres
         tealliteDimBlacklist = new int[]{-1, 1};
 
         galenaSize = 72;
-        galenaChance = 10;
+        galenaChance = 9;
         galentaDimBlacklist = new int[]{-1, 1};
 
         bauxiteSize = 64;
-        bauxiteChance = 9;
+        bauxiteChance = 8;
         bauxiteDimBlacklist = new int[]{-1, 1};
 
         platinumSize = 32;
