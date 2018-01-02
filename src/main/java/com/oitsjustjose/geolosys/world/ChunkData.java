@@ -27,7 +27,6 @@ public class ChunkData
         }
 
         int cap = getSampleCount(state);
-        Geolosys.getInstance().LOGGER.info(cap);
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos);
