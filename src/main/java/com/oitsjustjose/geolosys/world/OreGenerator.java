@@ -35,7 +35,7 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if(oreSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
+        if (oreSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
@@ -66,9 +66,21 @@ public class OreGenerator implements IWorldGenerator
             {
                 return;
             }
-            for (int i : blacklistedDims)
+            // Ensure that the entry exists in the JSON file
+            if (blacklistedDims != null)
             {
-                if (i == world.provider.getDimension())
+                for (int i : blacklistedDims)
+                {
+                    if (i == world.provider.getDimension())
+                    {
+                        return;
+                    }
+                }
+            }
+            // If the blacklist doesn't exist, we'll assume usual 1 and -1
+            else
+            {
+                if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
                 {
                     return;
                 }
