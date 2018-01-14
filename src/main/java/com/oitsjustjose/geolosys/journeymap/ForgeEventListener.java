@@ -27,7 +27,7 @@ public class ForgeEventListener
             IBlockState state = event.getWorld().getBlockState(event.getPos());
             if (state.getBlock() == Geolosys.getInstance().ORE_SAMPLE || state.getBlock() == Geolosys.getInstance().ORE_SAMPLE_VANILLA)
             {
-                if (event.getEntityPlayer().isSneaking())
+                if (event.getEntityPlayer().isSneaking() && event.getWorld().isRemote)
                 {
                     if (jmAPI.playerAccepts(Lib.MODID, DisplayType.Waypoint))
                     {
