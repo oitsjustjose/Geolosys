@@ -1,3 +1,7 @@
+1.8.5:
+* ADDED: JourneyMap implementation; sneak r-click a sample to add as a waypoint automatically!
+* FIXED: Debug message in the output with the geolosys_ores.json location
+
 1.8.4:
 * ADDED: Beryl, a mineral resource for emeralds!
 * ADDED: New JSON file for ore generation settings (offers more refined settings). See your /config/geolsys_ores.json for more!
