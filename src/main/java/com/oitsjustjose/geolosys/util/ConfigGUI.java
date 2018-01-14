@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.util;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
@@ -35,7 +34,6 @@ public class ConfigGUI extends GuiConfig
         @Override
         public void initialize(Minecraft minecraftInstance)
         {
-
         }
 
         @Override

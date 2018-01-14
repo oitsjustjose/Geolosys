@@ -29,6 +29,19 @@ minecraft {
     mappings = "${mappings_version}"
 }
 
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
+}
+
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'DEV'

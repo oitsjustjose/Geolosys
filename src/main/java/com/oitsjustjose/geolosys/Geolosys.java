@@ -268,7 +268,6 @@ public class Geolosys
     {
         try
         {
-            System.out.println(configDir.getAbsolutePath());
             FileReader fr = new FileReader(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
             BufferedReader br = new BufferedReader(fr);
             String line;
