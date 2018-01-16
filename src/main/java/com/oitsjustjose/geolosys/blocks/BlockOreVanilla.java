@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Random;
 
@@ -94,20 +95,28 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
+            if (OreDictionary.doesOreNameExist("dustSulfur"))
+            {
+                int rng = random.nextInt(50);
+                if (rng == 0)
+                {
+                    drops.add(OreDictionary.getOres("dustSulfur").get(0));
+                }
+            }
             drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
         }
         else if (meta == 1)
         {
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
-            int RNG = random.nextInt(60);
+            int rng = random.nextInt(60);
             // Compat for ExtraUtils 2
             final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
-            if (EXU_MATERIAL != null && RNG < 2)
+            if (EXU_MATERIAL != null && rng < 2)
             {
                 drops.add(new ItemStack(EXU_MATERIAL));
             }
             final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
-            if (TE_MATERIAL != null && RNG == 2)
+            if (TE_MATERIAL != null && rng == 2)
             {
                 drops.add(new ItemStack(TE_MATERIAL, 1, 866));
             }
