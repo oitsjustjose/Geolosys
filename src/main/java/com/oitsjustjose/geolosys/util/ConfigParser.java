@@ -15,6 +15,7 @@ public class ConfigParser
 {
     private HashMap<Entry, IBlockState> userOreEntriesClean;
     private List<Entry> userStoneEntriesClean;
+    private List<IBlockState> userReplacementMatsClean;
 
     public ConfigParser()
     {
@@ -22,6 +23,8 @@ public class ConfigParser
         parseOres();
         userStoneEntriesClean = Lists.newArrayList();
         parseStones();
+        userReplacementMatsClean = Lists.newArrayList();
+        parsePredicates();
     }
 
     public void parseOres()
@@ -98,6 +101,34 @@ public class ConfigParser
         }
     }
 
+    public void parsePredicates()
+    {
+        for (String s : Config.getInstance().replacementMatsRaw)
+        {
+            String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
+            if (parts.length != 3)
+            {
+                printFormattingError(s);
+                continue;
+            }
+            try
+            {
+                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+                if (block == null || block == Blocks.AIR)
+                {
+                    printFormattingError(s);
+                    continue;
+                }
+                userReplacementMatsClean.add(block.getStateForPlacement(null, null, null, 0.0F, 0.0F, 0.0F, toInt(parts[2]), null, null));
+            }
+            catch (NumberFormatException e)
+            {
+                printFormattingError(s);
+                continue;
+            }
+        }
+    }
+
     private int toInt(String s)
     {
         return Integer.parseInt(s);
@@ -112,6 +143,11 @@ public class ConfigParser
     public HashMap<Entry, IBlockState> getUserOreEntries()
     {
         return this.userOreEntriesClean;
+    }
+
+    public List<IBlockState> getUserReplacementMatEntries()
+    {
+        return this.userReplacementMatsClean;
     }
 
     public boolean blockstateExistsInEntries(IBlockState state)

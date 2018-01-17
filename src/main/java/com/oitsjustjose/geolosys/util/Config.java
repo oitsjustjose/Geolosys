@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.util;
 
 import com.google.common.collect.Lists;
+import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -22,10 +23,12 @@ public class Config
     public boolean enableOsmium;
     public boolean enableOsmiumExclusively;
     public boolean enableYellorium;
+    public boolean enableSulfur;
     public boolean enableIngots;
     public boolean enableProPick;
     public boolean enableSmelting;
     public boolean registerAsBauxite;
+    public String[] replacementMatsRaw;
 
     // Sample Stuff
     public int maxSamples;
@@ -73,6 +76,10 @@ public class Config
         enableOsmiumExclusively = property.getBoolean();
         propertyOrder.add(property.getName());
 
+        property = config.get(category, "Enable Sulfur from Coal", true);
+        enableSulfur = property.getBoolean();
+        propertyOrder.add(property.getName());
+
         property = config.get(category, "Enable Ingots", true).setRequiresMcRestart(true);
         enableIngots = property.getBoolean();
         propertyOrder.add(property.getName());
@@ -87,6 +94,10 @@ public class Config
 
         property = config.get(category, "Register Aluminum Cluster as oreBauxite", false).setRequiresMcRestart(true);
         registerAsBauxite = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Blocks mineral deposits can replace", new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0"});
+        replacementMatsRaw = property.getStringList();
         propertyOrder.add(property.getName());
 
         FeatureControl.setPropertyOrder(propertyOrder);
@@ -149,7 +160,12 @@ public class Config
     public void update(OnConfigChangedEvent event)
     {
         if (event.getModID().equals(Lib.MODID))
+        {
             loadConfiguration();
+            Geolosys.getInstance().configParser.parseOres();
+            Geolosys.getInstance().configParser.parseStones();
+            Geolosys.getInstance().configParser.parsePredicates();
+        }
     }
 
     public static Config getInstance()

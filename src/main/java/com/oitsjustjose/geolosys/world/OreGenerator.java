@@ -27,7 +27,7 @@ public class OreGenerator implements IWorldGenerator
 
     public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
-        OreGen gen = new OreGen(state, maxVeinSize, Blocks.STONE, minY, maxY, weight, blacklist);
+        OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
         return gen;
     }
@@ -50,9 +50,9 @@ public class OreGenerator implements IWorldGenerator
         int weight;
         int[] blacklistedDims;
 
-        public OreGen(IBlockState state, int maxVeinSize, Block replaceTarget, int minY, int maxY, int weight, int[] blacklist)
+        public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenOrePluton(state, maxVeinSize, BlockMatcher.forBlock(replaceTarget));
+            this.pluton = new WorldGenOrePluton(state, maxVeinSize);
             this.state = state;
             this.minY = minY;
             this.maxY = maxY;

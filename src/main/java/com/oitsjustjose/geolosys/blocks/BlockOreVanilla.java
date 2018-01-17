@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -95,7 +96,7 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
-            if (OreDictionary.doesOreNameExist("dustSulfur"))
+            if (Config.getInstance().enableSulfur && OreDictionary.doesOreNameExist("dustSulfur"))
             {
                 int rng = random.nextInt(50);
                 if (rng == 0)

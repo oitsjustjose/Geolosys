@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.google.common.base.Predicate;
+import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -119,15 +120,10 @@ public class WorldGenOrePluton extends WorldGenerator
     {
         public boolean apply(IBlockState p_apply_1_)
         {
-            if (p_apply_1_ != null && p_apply_1_.getBlock() == Blocks.STONE)
-            {
-                BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType) p_apply_1_.getValue(BlockStone.VARIANT);
-                return blockstone$enumtype.isNatural();
-            }
-            else
-            {
-                return false;
-            }
+            boolean ret = Geolosys.getInstance().configParser.getUserReplacementMatEntries().contains(p_apply_1_);
+            if (ret)
+                Geolosys.getInstance().LOGGER.info("Replacing " + p_apply_1_ + " with an ore!");
+            return ret;
         }
     }
 }
