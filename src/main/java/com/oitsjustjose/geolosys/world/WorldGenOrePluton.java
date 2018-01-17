@@ -120,10 +120,7 @@ public class WorldGenOrePluton extends WorldGenerator
     {
         public boolean apply(IBlockState p_apply_1_)
         {
-            boolean ret = Geolosys.getInstance().configParser.getUserReplacementMatEntries().contains(p_apply_1_);
-            if (ret)
-                Geolosys.getInstance().LOGGER.info("Replacing " + p_apply_1_ + " with an ore!");
-            return ret;
+            return Geolosys.getInstance().configParser.getUserReplacementMatEntries().contains(p_apply_1_);
         }
     }
 }
