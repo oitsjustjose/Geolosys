@@ -1,10 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
