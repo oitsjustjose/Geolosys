@@ -49,6 +49,18 @@ public class BlockOreVanilla extends Block
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
+        this.registerOreDict();
+    }
+
+    private void registerOreDict()
+    {
+        // Registering it with a mean name because these ores shouldn't be normally obtainable
+        for (int i = 0; i < Types.Vanilla.values().length; i++)
+        {
+            String formatted = Types.Vanilla.values()[i].getName();
+            formatted = formatted.substring(0, 1).toUpperCase() + formatted.substring(1);
+            OreDictionary.registerOre("geolosysOre" + formatted, new ItemStack(this, 1, i));
+        }
     }
 
     private void setHarvestLevels()
