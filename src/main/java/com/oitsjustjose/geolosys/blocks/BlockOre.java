@@ -28,7 +28,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Random;
 
@@ -49,18 +48,6 @@ public class BlockOre extends Block
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
-        this.registerOreDict();
-    }
-
-    private void registerOreDict()
-    {
-        // Registering it with a mean name because these ores shouldn't be normally obtainable
-        for (int i = 0; i < Types.Modded.values().length; i++)
-        {
-            String formatted = Types.Modded.values()[i].getName();
-            formatted = formatted.substring(0, 1).toUpperCase() + formatted.substring(1);
-            OreDictionary.registerOre("geolosysOre" + formatted, new ItemStack(this, 1, i));
-        }
     }
 
     private void setHarvestLevels()
