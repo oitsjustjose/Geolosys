@@ -20,6 +20,7 @@ public class Config
 
     // Feature Control
     public boolean modStones;
+    public boolean ieIntegration;
     public boolean enableOsmium;
     public boolean enableOsmiumExclusively;
     public boolean enableYellorium;
@@ -62,6 +63,10 @@ public class Config
 
         property = config.get(category, "Replace Stone Variant Deposits", true).setRequiresMcRestart(true);
         modStones = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Immersive Engineering Integration", true).setRequiresMcRestart(true);
+        ieIntegration = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Yellorium", true);
