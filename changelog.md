@@ -1,3 +1,13 @@
+### 1.8.6:
+
+* ADDED: Immersive Engineering Excavator Integration!
+		
+	This integration removes existing excavator entries that are added by Geolosys. The excavated resource texture will look a little off - this isn't on my end :(
+* FIXED: Dimension blacklist configs not working if you **allow** an ore in dim -1 or 1
+* FIXED: Duplicate waypoints from the JourneyMap integration
+* UPDATED: German and Simplified Chinese translations (thanks to ACGaming and 3TUSK)
+
+
 ### 1.8.5:
 
 * ADDED: JourneyMap implementation; sneak r-click a sample to add as a waypoint automatically!
