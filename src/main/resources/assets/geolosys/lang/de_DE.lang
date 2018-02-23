@@ -1,0 +1,80 @@
+# ------------------------------------ #
+#                Ores                  #
+# ------------------------------------ #
+geolosys.ore.hematite.name=Hämatit
+geolosys.ore.limonite.name=Limonit
+geolosys.ore.malachite.name=Malachit
+geolosys.ore.azurite.name=Azurit
+geolosys.ore.cassiterite.name=Kassiterit
+geolosys.ore.teallite.name=Teallit
+geolosys.ore.galena.name=Galenit
+geolosys.ore.bauxite.name=Bauxit
+geolosys.ore.autunite.name=Autunit
+geolosys.ore.platinum.name=Platin
+geolosys.ore.sphalerite.name=Sphalerit
+geolosys.ore_vanilla.coal.name=Kohle
+geolosys.ore_vanilla.cinnabar.name=Zinnober
+geolosys.ore_vanilla.gold.name=Gold
+geolosys.ore_vanilla.lapis.name=Lapislazuli
+geolosys.ore_vanilla.quartz.name=Gemischter Quarz
+geolosys.ore_vanilla.kimberlite.name=Kimberlit
+geolosys.ore_vanilla.beryl.name=Beryll
+
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.ore_sample.hematite.name=Hämatitprobe
+geolosys.ore_sample.limonite.name=Limonitprobe
+geolosys.ore_sample.malachite.name=Malachitprobe
+geolosys.ore_sample.azurite.name=Azuritprobe
+geolosys.ore_sample.cassiterite.name=Kassiteritprobe
+geolosys.ore_sample.teallite.name=Teallitprobe
+geolosys.ore_sample.galena.name=Galenitprobe
+geolosys.ore_sample.bauxite.name=Bauxitprobe
+geolosys.ore_sample.autunite.name=Autunitprobe
+geolosys.ore_sample.platinum.name=Platinprobe
+geolosys.ore_sample.sphalerite.name=Sphaleritprobe
+geolosys.ore_sample_vanilla.coal.name=Kohleprobe
+geolosys.ore_sample_vanilla.cinnabar.name=Zinnoberprobe
+geolosys.ore_sample_vanilla.gold.name=Goldprobe
+geolosys.ore_sample_vanilla.lapis.name=Lapislazuliprobe
+geolosys.ore_sample_vanilla.quartz.name=Gemischter Quarz-Probe
+geolosys.ore_sample_vanilla.kimberlite.name=Kimberlitprobe
+geolosys.ore_sample_vanilla.beryl.name=Beryllprobe
+
+# ------------------------------------ #
+#             Clusters                 #
+# ------------------------------------ #
+geolosys.cluster.iron.name=Eisenklumpen
+geolosys.cluster.gold.name=Goldklumpen
+geolosys.cluster.copper.name=Kupferklumpen
+geolosys.cluster.tin.name=Zinnklumpen
+geolosys.cluster.silver.name=Silberklumpen
+geolosys.cluster.lead.name=Bleiklumpen
+geolosys.cluster.aluminum.name=Aluminiumklumpen
+geolosys.cluster.uranium.name=Uranklumpen
+geolosys.cluster.nickel.name=Nickelklumpen
+geolosys.cluster.platinum.name=Platinklumpen
+geolosys.cluster.zinc.name=Zinkklumpen
+geolosys.cluster.osmium.name=Osmiumklumpen
+geolosys.cluster.yellorium.name=Yelloriumklumpen
+
+# ------------------------------------ #
+#              Ingots                  #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Kupferbarren
+geolosys.ingot.tin.name=Zinnbarren
+geolosys.ingot.silver.name=Silberbarren
+geolosys.ingot.lead.name=Bleibarren
+geolosys.ingot.aluminum.name=Aluminiumbarren
+geolosys.ingot.nickel.name=Nickelbarren
+geolosys.ingot.platinum.name=Platinbarren
+geolosys.ingot.zinc.name=Zinkbarren
+
+# ------------------------------------ #
+#               Misc                   #
+# ------------------------------------ #
+geolosys.pro_pick.name=Prospektionsspitzhacke
+geolosys.field_manual.name=Feldhandbuch
+geolosys.field_manual.tooltip=Alles, was du über den Bergbau mit Geolosys wissen musst!
+shift.tooltip=Shift drücken

@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.journeymap;
+package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.Lib;
@@ -32,9 +32,10 @@ public class ForgeEventListener
                     if (jmAPI.playerAccepts(Lib.MODID, DisplayType.Waypoint))
                     {
                         String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
+                        String id = Lib.MODID + " - " + name + " - " + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
                         try
                         {
-                            jmAPI.show(new Waypoint(Lib.MODID, name, event.getWorld().provider.getDimension(), event.getPos()));
+                            jmAPI.show(new Waypoint(Lib.MODID, id, name, event.getWorld().provider.getDimension(), event.getPos()));
                         }
                         catch (Throwable t)
                         {

@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -74,10 +75,12 @@ public class ItemCluster extends Item
         for (int i = 0; i < Types.Cluster.values().length; i++)
         {
             OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("geolosysOre" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
         }
         if (Config.getInstance().registerAsBauxite)
         {
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
+            OreDictionary.registerOre("geolosysOreBauxite", new ItemStack(this, 1, META_ALUMINUM));
         }
     }
 }

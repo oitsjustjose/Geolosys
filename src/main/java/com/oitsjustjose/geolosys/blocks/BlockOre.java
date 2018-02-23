@@ -106,7 +106,7 @@ public class BlockOre extends Block
         // Special case for Osmium
         else if (state.getBlock().getMetaFromState(state) == 8)
         {
-            if(config.enableOsmiumExclusively)
+            if (config.enableOsmiumExclusively)
             {
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
             }
@@ -174,6 +174,7 @@ public class BlockOre extends Block
                 return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
         }
     }
+
     @Override
     public int damageDropped(IBlockState state)
     {

@@ -31,7 +31,16 @@ minecraft {
 
 repositories {
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+
+    // JM
+    maven {
+    	url 'https://oss.sonatype.org/content/groups/public/'
+    }
+    // IE
+    maven {
+    	name 'jared maven'
+    	url 'http://blamejared.com/maven'
+	}
 }
 
 configurations.all {
@@ -39,6 +48,7 @@ configurations.all {
 }
 
 dependencies {
+	deobfCompile "blusunrize:ImmersiveEngineering:0.12-+:deobf"
     compile group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
 }
 

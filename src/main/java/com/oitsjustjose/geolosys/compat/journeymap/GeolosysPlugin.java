@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.journeymap;
+package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.util.Lib;
 import journeymap.client.api.ClientPlugin;
