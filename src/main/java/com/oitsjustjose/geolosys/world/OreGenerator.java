@@ -20,19 +20,18 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator
 {
-    public static ArrayList<OreGen> oreSpawnList = new ArrayList();
+    private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
 
-    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
+    public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
         OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
-        return gen;
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (oreSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
+        if (oreSpawnList.size() > 0)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
@@ -57,7 +56,7 @@ public class OreGenerator implements IWorldGenerator
             this.blacklistedDims = blacklist;
         }
 
-        public void generate(World world, Random rand, int x, int z)
+        void generate(World world, Random rand, int x, int z)
         {
             if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
             {

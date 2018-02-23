@@ -20,13 +20,12 @@ import java.util.Random;
 
 public class StoneGenerator implements IWorldGenerator
 {
-    public static ArrayList<StoneGen> stoneSpawnList = new ArrayList();
+    private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
 
-    public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int weight)
+    public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
         StoneGen gen = new StoneGen(state, minY, maxY, weight);
         stoneSpawnList.add(gen);
-        return gen;
     }
 
     @Override
@@ -47,7 +46,7 @@ public class StoneGenerator implements IWorldGenerator
         int weight;
 
 
-        public StoneGen(IBlockState state, int minY, int maxY, int weight)
+        StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
             this.pluton = new WorldGenStonePluton(state, 96);
             this.state = state;
@@ -56,7 +55,7 @@ public class StoneGenerator implements IWorldGenerator
             this.weight = weight;
         }
 
-        public void generate(World world, Random rand, int x, int z)
+        void generate(World world, Random rand, int x, int z)
         {
             if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16)))
             {

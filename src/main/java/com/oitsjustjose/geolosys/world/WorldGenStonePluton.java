@@ -14,7 +14,7 @@ public class WorldGenStonePluton extends WorldGenerator
     private final IBlockState oreBlock;
     private final int numberOfBlocks;
 
-    public WorldGenStonePluton(IBlockState state, int blockCount)
+    WorldGenStonePluton(IBlockState state, int blockCount)
     {
         this.oreBlock = state;
         this.numberOfBlocks = blockCount;

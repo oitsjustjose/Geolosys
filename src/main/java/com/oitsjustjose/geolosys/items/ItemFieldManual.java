@@ -135,7 +135,7 @@ public class ItemFieldManual extends Item
         }
 
         final NBTTagList pageList = new NBTTagList();
-        pageList.appendTag((NBTBase) new NBTTagString(TextFormatting.BOLD + "\n\n\n\n      Geolosys\n    Field Manual"));
+        pageList.appendTag(new NBTTagString(TextFormatting.BOLD + "\n\n\n\n      Geolosys\n    Field Manual"));
         final int offset = 3 + contents.size() / 13;
         final int[] keys = contents.keys();
         Arrays.sort(keys);
@@ -147,11 +147,9 @@ public class ItemFieldManual extends Item
             int a;
             for (line = contents.get(key), a = key + offset; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1; line = line.substring(0, line.length() - 1))
             {
-                ;
             }
             for (line += " "; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1; line += " ")
             {
-                ;
             }
             line += a;
             builder3.append(line).append('\n');
