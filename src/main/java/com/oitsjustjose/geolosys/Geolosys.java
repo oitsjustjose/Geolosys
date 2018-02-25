@@ -11,12 +11,7 @@ import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
-import com.oitsjustjose.geolosys.util.ClientRegistry;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.ConfigOres;
-import com.oitsjustjose.geolosys.util.ConfigParser;
-import com.oitsjustjose.geolosys.util.HelperFunctions;
-import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.util.*;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
@@ -40,12 +35,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
@@ -287,15 +279,17 @@ public class Geolosys
             FileReader fr = new FileReader(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
             BufferedReader br = new BufferedReader(fr);
             String line;
-            String json = "";
+            StringBuilder json = new StringBuilder();
             try
             {
                 while ((line = br.readLine()) != null)
                 {
-                    json += line;
+                    json.append(line);
                 }
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                return gson.fromJson(json, ConfigOres.class);
+                ConfigOres ret = gson.fromJson(json.toString(), ConfigOres.class);
+                ret.validate();
+                return ret;
             }
             catch (IOException e)
             {

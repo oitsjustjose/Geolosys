@@ -1,223 +1,398 @@
 package com.oitsjustjose.geolosys.util;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 public class ConfigOres
 {
-    public int coalSize;
-    public int coalChance;
-    public int[] coalDimBlacklist;
-    public int coalMinY;
-    public int coalMaxY;
+    public int coalSize = -1;
+    public int coalChance = -1;
+    public int[] coalDimBlacklist = {};
+    public int coalMinY = -1;
+    public int coalMaxY = -1;
 
-    public int cinnabarSize;
-    public int cinnabarChance;
-    public int[] cinnabarDimBlacklist;
-    public int cinnabarMinY;
-    public int cinnabarMaxY;
+    public int cinnabarSize = -1;
+    public int cinnabarChance = -1;
+    public int[] cinnabarDimBlacklist = {};
+    public int cinnabarMinY = -1;
+    public int cinnabarMaxY = -1;
 
-    public int goldSize;
-    public int goldChance;
-    public int[] goldDimBlacklist;
-    public int goldMinY;
-    public int goldMaxY;
+    public int goldSize = -1;
+    public int goldChance = -1;
+    public int[] goldDimBlacklist = {};
+    public int goldMinY = -1;
+    public int goldMaxY = -1;
 
-    public int lapisSize;
-    public int lapisChance;
-    public int[] lapisDimBlacklist;
-    public int lapisMinY;
-    public int lapisMaxY;
+    public int lapisSize = -1;
+    public int lapisChance = -1;
+    public int[] lapisDimBlacklist = {};
+    public int lapisMinY = -1;
+    public int lapisMaxY = -1;
 
-    public int quartzSize;
-    public int quartzChance;
-    public int[] quartzDimBlacklist;
-    public int quartzMinY;
-    public int quartzMaxY;
+    public int quartzSize = -1;
+    public int quartzChance = -1;
+    public int[] quartzDimBlacklist = {};
+    public int quartzMinY = -1;
+    public int quartzMaxY = -1;
 
-    public int kimberliteSize;
-    public int kimberliteChance;
-    public int[] kimberliteDimBlacklist;
-    public int kimberliteMinY;
-    public int kimberliteMaxY;
+    public int kimberliteSize = -1;
+    public int kimberliteChance = -1;
+    public int[] kimberliteDimBlacklist = {};
+    public int kimberliteMinY = -1;
+    public int kimberliteMaxY = -1;
 
-    public int berylSize;
-    public int berylChance;
-    public int[] berylDimBlacklist;
-    public int berylMinY;
-    public int berylMaxY;
+    public int berylSize = -1;
+    public int berylChance = -1;
+    public int[] berylDimBlacklist = {};
+    public int berylMinY = -1;
+    public int berylMaxY = -1;
 
-    public int hematiteSize;
-    public int hematiteChance;
-    public int[] hematiteDimBlacklist;
-    public int hematiteMinY;
-    public int hematiteMaxY;
+    public int hematiteSize = -1;
+    public int hematiteChance = -1;
+    public int[] hematiteDimBlacklist = {};
+    public int hematiteMinY = -1;
+    public int hematiteMaxY = -1;
 
-    public int limoniteSize;
-    public int limoniteChance;
-    public int[] limoniteDimBlacklist;
-    public int limoniteMinY;
-    public int limoniteMaxY;
+    public int limoniteSize = -1;
+    public int limoniteChance = -1;
+    public int[] limoniteDimBlacklist = {};
+    public int limoniteMinY = -1;
+    public int limoniteMaxY = -1;
 
-    public int malachiteSize;
-    public int malachiteChance;
-    public int[] malachiteDimBlacklist;
-    public int malachiteMinY;
-    public int malachiteMaxY;
+    public int malachiteSize = -1;
+    public int malachiteChance = -1;
+    public int[] malachiteDimBlacklist = {};
+    public int malachiteMinY = -1;
+    public int malachiteMaxY = -1;
 
-    public int azuriteSize;
-    public int azuriteChance;
-    public int[] azuriteDimBlacklist;
-    public int azuriteMinY;
-    public int azuriteMaxY;
+    public int azuriteSize = -1;
+    public int azuriteChance = -1;
+    public int[] azuriteDimBlacklist = {};
+    public int azuriteMinY = -1;
+    public int azuriteMaxY = -1;
 
-    public int cassiteriteSize;
-    public int cassiteriteChance;
-    public int[] cassiteriteDimBlacklist;
-    public int cassiteriteMinY;
-    public int cassiteriteMaxY;
+    public int cassiteriteSize = -1;
+    public int cassiteriteChance = -1;
+    public int[] cassiteriteDimBlacklist = {};
+    public int cassiteriteMinY = -1;
+    public int cassiteriteMaxY = -1;
 
-    public int tealliteSize;
-    public int tealliteChance;
-    public int[] tealliteDimBlacklist;
-    public int tealliteMinY;
-    public int tealliteMaxY;
+    public int tealliteSize = -1;
+    public int tealliteChance = -1;
+    public int[] tealliteDimBlacklist = {};
+    public int tealliteMinY = -1;
+    public int tealliteMaxY = -1;
 
-    public int galenaSize;
-    public int galenaChance;
-    public int[] galenaDimBlacklist;
-    public int galenaMinY;
-    public int galenaMaxY;
+    public int galenaSize = -1;
+    public int galenaChance = -1;
+    public int[] galenaDimBlacklist = {};
+    public int galenaMinY = -1;
+    public int galenaMaxY = -1;
 
-    public int bauxiteSize;
-    public int bauxiteChance;
-    public int[] bauxiteDimBlacklist;
-    public int bauxiteMinY;
-    public int bauxiteMaxY;
+    public int bauxiteSize = -1;
+    public int bauxiteChance = -1;
+    public int[] bauxiteDimBlacklist = {};
+    public int bauxiteMinY = -1;
+    public int bauxiteMaxY = -1;
 
-    public int platinumSize;
-    public int platinumChance;
-    public int[] platinumDimBlacklist;
-    public int platinumMinY;
-    public int platinumMaxY;
+    public int platinumSize = -1;
+    public int platinumChance = -1;
+    public int[] platinumDimBlacklist = {};
+    public int platinumMinY = -1;
+    public int platinumMaxY = -1;
 
-    public int autuniteSize;
-    public int autuniteChance;
-    public int[] autuniteDimBlacklist;
-    public int autuniteMinY;
-    public int autuniteMaxY;
+    public int autuniteSize = -1;
+    public int autuniteChance = -1;
+    public int[] autuniteDimBlacklist = {};
+    public int autuniteMinY = -1;
+    public int autuniteMaxY = -1;
 
-    public int sphaleriteSize;
-    public int sphaleriteChance;
-    public int[] sphaleriteDimBlacklist;
-    public int sphaleriteMinY;
-    public int sphaleriteMaxY;
+    public int sphaleriteSize = -1;
+    public int sphaleriteChance = -1;
+    public int[] sphaleriteDimBlacklist = {};
+    public int sphaleriteMinY = -1;
+    public int sphaleriteMaxY = -1;
+
+    public final int coalSizeDefault = 64;
+    public final int coalChanceDefault = 8;
+    public final int[] coalDimBlacklistDefault = new int[]{-1, 1};
+    public final int coalMinYDefault = 48;
+    public final int coalMaxYDefault = 78;
+
+    public final int cinnabarSizeDefault = 56;
+    public final int cinnabarChanceDefault = 3;
+    public final int[] cinnabarDimBlacklistDefault = new int[]{-1, 1};
+    public final int cinnabarMinYDefault = 5;
+    public final int cinnabarMaxYDefault = 12;
+
+    public final int goldSizeDefault = 40;
+    public final int goldChanceDefault = 3;
+    public final int[] goldDimBlacklistDefault = new int[]{-1, 1};
+    public final int goldMinYDefault = 5;
+    public final int goldMaxYDefault = 30;
+
+    public final int lapisSizeDefault = 32;
+    public final int lapisChanceDefault = 4;
+    public final int[] lapisDimBlacklistDefault = new int[]{-1, 1};
+    public final int lapisMinYDefault = 10;
+    public final int lapisMaxYDefault = 24;
+
+    public final int quartzSizeDefault = 40;
+    public final int quartzChanceDefault = 6;
+    public final int[] quartzDimBlacklistDefault = new int[]{-1, 1};
+    public final int quartzMinYDefault = 6;
+    public final int quartzMaxYDefault = 29;
+
+    public final int kimberliteSizeDefault = 20;
+    public final int kimberliteChanceDefault = 4;
+    public final int[] kimberliteDimBlacklistDefault = new int[]{-1, 1};
+    public final int kimberliteMinYDefault = 2;
+    public final int kimberliteMaxYDefault = 15;
+
+    public final int berylSizeDefault = 16;
+    public final int berylChanceDefault = 3;
+    public final int[] berylDimBlacklistDefault = new int[]{-1, 1};
+    public final int berylMinYDefault = 4;
+    public final int berylMaxYDefault = 32;
+
+    public final int hematiteSizeDefault = 24;
+    public final int hematiteChanceDefault = 7;
+    public final int[] hematiteDimBlacklistDefault = new int[]{-1, 1};
+    public final int hematiteMinYDefault = 32;
+    public final int hematiteMaxYDefault = 60;
+
+    public final int limoniteSizeDefault = 80;
+    public final int limoniteChanceDefault = 6;
+    public final int[] limoniteDimBlacklistDefault = new int[]{-1, 1};
+    public final int limoniteMinYDefault = 6;
+    public final int limoniteMaxYDefault = 32;
+
+    public final int malachiteSizeDefault = 24;
+    public final int malachiteChanceDefault = 4;
+    public final int[] malachiteDimBlacklistDefault = new int[]{-1, 1};
+    public final int malachiteMinYDefault = 39;
+    public final int malachiteMaxYDefault = 44;
+
+    public final int azuriteSizeDefault = 80;
+    public final int azuriteChanceDefault = 7;
+    public final int[] azuriteDimBlacklistDefault = new int[]{-1, 1};
+    public final int azuriteMinYDefault = 12;
+    public final int azuriteMaxYDefault = 44;
+
+    public final int cassiteriteSizeDefault = 24;
+    public final int cassiteriteChanceDefault = 3;
+    public final int[] cassiteriteDimBlacklistDefault = new int[]{-1, 1};
+    public final int cassiteriteMinYDefault = 44;
+    public final int cassiteriteMaxYDefault = 68;
+
+    public final int tealliteSizeDefault = 80;
+    public final int tealliteChanceDefault = 7;
+    public final int[] tealliteDimBlacklistDefault = new int[]{-1, 1};
+    public final int tealliteMinYDefault = 8;
+    public final int tealliteMaxYDefault = 43;
+
+    public final int galenaSizeDefault = 72;
+    public final int galenaChanceDefault = 9;
+    public final int[] galenaDimBlacklistDefault = new int[]{-1, 1};
+    public final int galenaMinYDefault = 16;
+    public final int galenaMaxYDefault = 50;
+
+    public final int bauxiteSizeDefault = 64;
+    public final int bauxiteChanceDefault = 8;
+    public final int[] bauxiteDimBlacklistDefault = new int[]{-1, 1};
+    public final int bauxiteMinYDefault = 45;
+    public final int bauxiteMaxYDefault = 70;
+
+    public final int platinumSizeDefault = 32;
+    public final int platinumChanceDefault = 4;
+    public final int[] platinumDimBlacklistDefault = new int[]{-1, 1};
+    public final int platinumMinYDefault = 3;
+    public final int platinumMaxYDefault = 25;
+
+    public final int autuniteSizeDefault = 24;
+    public final int autuniteChanceDefault = 5;
+    public final int[] autuniteDimBlacklistDefault = new int[]{-1, 1};
+    public final int autuniteMinYDefault = 8;
+    public final int autuniteMaxYDefault = 33;
+
+    public final int sphaleriteSizeDefault = 24;
+    public final int sphaleriteChanceDefault = 7;
+    public final int[] sphaleriteDimBlacklistDefault = new int[]{-1, 1};
+    public final int sphaleriteMinYDefault = 35;
+    public final int sphaleriteMaxYDefault = 55;
+
+    public void validate()
+    {
+        for (Field f : this.getClass().getFields())
+        {
+            if (f.getModifiers() == Modifier.PUBLIC + Modifier.FINAL)
+            {
+                continue;
+            }
+            if (f.getType() == int.class)
+            {
+                try
+                {
+                    Field field = this.getClass().getField(f.getName());
+                    int val = field.getInt(this);
+                    if (val == -1)
+                    {
+                        int defValue = -1;
+                        // Dynamically find the default value using reflection
+                        for (Field searchField : this.getClass().getFields())
+                        {
+                            if (searchField.getName().equalsIgnoreCase(f.getName() + "Default"))
+                            {
+                                defValue = searchField.getInt(this);
+                                break;
+                            }
+                        }
+                        f.setInt(this, defValue);
+                    }
+                }
+                catch (IllegalAccessException | NoSuchFieldException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            else if (f.getType() == Array.class)
+            {
+                try
+                {
+                    int[] val = (int[]) f.get(this);
+                    if (val.length == 0)
+                    {
+                        int[] defValue = new int[]{};
+                        // Dynamically find the default value using reflection
+                        for (Field searchField : this.getClass().getFields())
+                        {
+                            if (searchField.getName().equalsIgnoreCase(f.getName() + "Default"))
+                            {
+                                defValue = (int[]) searchField.get(this);
+                                break;
+                            }
+                        }
+                        f.set(this, defValue);
+                    }
+                }
+                catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     public void populateConfigs()
     {
-        coalSize = 64;
-        coalChance = 8;
-        coalDimBlacklist = new int[]{-1, 1};
-        coalMinY = 48;
-        coalMaxY = 78;
+        coalSize = coalSizeDefault;
+        coalChance = coalChanceDefault;
+        coalDimBlacklist = coalDimBlacklistDefault;
+        coalMinY = coalMinYDefault;
+        coalMaxY = coalMaxYDefault;
 
-        cinnabarSize = 56;
-        cinnabarChance = 3;
-        cinnabarDimBlacklist = new int[]{-1, 1};
-        cinnabarMinY = 5;
-        cinnabarMaxY = 12;
+        cinnabarSize = cinnabarSizeDefault;
+        cinnabarChance = cinnabarChanceDefault;
+        cinnabarDimBlacklist = cinnabarDimBlacklistDefault;
+        cinnabarMinY = cinnabarMinYDefault;
+        cinnabarMaxY = cinnabarMaxYDefault;
 
-        goldSize = 40;
-        goldChance = 3;
-        goldDimBlacklist = new int[]{-1, 1};
-        goldMinY = 5;
-        goldMaxY = 30;
+        goldSize = goldSizeDefault;
+        goldChance = goldChanceDefault;
+        goldDimBlacklist = goldDimBlacklistDefault;
+        goldMinY = goldMinYDefault;
+        goldMaxY = goldMaxYDefault;
 
-        lapisSize = 32;
-        lapisChance = 4;
-        lapisDimBlacklist = new int[]{-1, 1};
-        lapisMinY = 10;
-        lapisMaxY = 24;
+        lapisSize = lapisSizeDefault;
+        lapisChance = lapisChanceDefault;
+        lapisDimBlacklist = lapisDimBlacklistDefault;
+        lapisMinY = lapisMinYDefault;
+        lapisMaxY = lapisMaxYDefault;
 
-        quartzSize = 40;
-        quartzChance = 6;
-        quartzDimBlacklist = new int[]{-1, 1};
-        quartzMinY = 6;
-        quartzMaxY = 29;
+        quartzSize = quartzSizeDefault;
+        quartzChance = quartzChanceDefault;
+        quartzDimBlacklist = quartzDimBlacklistDefault;
+        quartzMinY = quartzMinYDefault;
+        quartzMaxY = quartzMaxYDefault;
 
-        kimberliteSize = 20;
-        kimberliteChance = 4;
-        kimberliteDimBlacklist = new int[]{-1, 1};
-        kimberliteMinY = 2;
-        kimberliteMaxY = 15;
+        kimberliteSize = kimberliteSizeDefault;
+        kimberliteChance = kimberliteChanceDefault;
+        kimberliteDimBlacklist = kimberliteDimBlacklistDefault;
+        kimberliteMinY = kimberliteMinYDefault;
+        kimberliteMaxY = kimberliteMaxYDefault;
 
-        berylSize = 16;
-        berylChance = 3;
-        berylDimBlacklist = new int[]{-1, 1};
-        berylMinY = 4;
-        berylMaxY = 32;
+        berylSize = berylSizeDefault;
+        berylChance = berylChanceDefault;
+        berylDimBlacklist = berylDimBlacklistDefault;
+        berylMinY = berylMinYDefault;
+        berylMaxY = berylMaxYDefault;
 
-        hematiteSize = 24;
-        hematiteChance = 7;
-        hematiteDimBlacklist = new int[]{-1, 1};
-        hematiteMinY = 32;
-        hematiteMaxY = 60;
+        hematiteSize = hematiteSizeDefault;
+        hematiteChance = hematiteChanceDefault;
+        hematiteDimBlacklist = hematiteDimBlacklistDefault;
+        hematiteMinY = hematiteMinYDefault;
+        hematiteMaxY = hematiteMaxYDefault;
 
-        limoniteSize = 80;
-        limoniteChance = 6;
-        limoniteDimBlacklist = new int[]{-1, 1};
-        limoniteMinY = 6;
-        limoniteMaxY = 32;
+        limoniteSize = limoniteSizeDefault;
+        limoniteChance = limoniteChanceDefault;
+        limoniteDimBlacklist = limoniteDimBlacklistDefault;
+        limoniteMinY = limoniteMinYDefault;
+        limoniteMaxY = limoniteMaxYDefault;
 
-        malachiteSize = 24;
-        malachiteChance = 4;
-        malachiteDimBlacklist = new int[]{-1, 1};
-        malachiteMinY = 39;
-        malachiteMaxY = 44;
+        malachiteSize = malachiteSizeDefault;
+        malachiteChance = malachiteChanceDefault;
+        malachiteDimBlacklist = malachiteDimBlacklistDefault;
+        malachiteMinY = malachiteMinYDefault;
+        malachiteMaxY = malachiteMaxYDefault;
 
-        azuriteSize = 80;
-        azuriteChance = 7;
-        azuriteDimBlacklist = new int[]{-1, 1};
-        azuriteMinY = 12;
-        azuriteMaxY = 44;
+        azuriteSize = azuriteSizeDefault;
+        azuriteChance = azuriteChanceDefault;
+        azuriteDimBlacklist = azuriteDimBlacklistDefault;
+        azuriteMinY = azuriteMinYDefault;
+        azuriteMaxY = azuriteMaxYDefault;
 
-        cassiteriteSize = 24;
-        cassiteriteChance = 3;
-        cassiteriteDimBlacklist = new int[]{-1, 1};
-        cassiteriteMinY = 44;
-        cassiteriteMaxY = 68;
+        cassiteriteSize = cassiteriteSizeDefault;
+        cassiteriteChance = cassiteriteChanceDefault;
+        cassiteriteDimBlacklist = cassiteriteDimBlacklistDefault;
+        cassiteriteMinY = cassiteriteMinYDefault;
+        cassiteriteMaxY = cassiteriteMaxYDefault;
 
-        tealliteSize = 80;
-        tealliteChance = 7;
-        tealliteDimBlacklist = new int[]{-1, 1};
-        tealliteMinY = 8;
-        tealliteMaxY = 43;
+        tealliteSize = tealliteSizeDefault;
+        tealliteChance = tealliteChanceDefault;
+        tealliteDimBlacklist = tealliteDimBlacklistDefault;
+        tealliteMinY = tealliteMinYDefault;
+        tealliteMaxY = tealliteMaxYDefault;
 
-        galenaSize = 72;
-        galenaChance = 9;
-        galenaDimBlacklist = new int[]{-1, 1};
-        galenaMinY = 16;
-        galenaMaxY = 50;
+        galenaSize = galenaSizeDefault;
+        galenaChance = galenaChanceDefault;
+        galenaDimBlacklist = galenaDimBlacklistDefault;
+        galenaMinY = galenaMinYDefault;
+        galenaMaxY = galenaMaxYDefault;
 
-        bauxiteSize = 64;
-        bauxiteChance = 8;
-        bauxiteDimBlacklist = new int[]{-1, 1};
-        bauxiteMinY = 45;
-        bauxiteMaxY = 70;
+        bauxiteSize = bauxiteSizeDefault;
+        bauxiteChance = bauxiteChanceDefault;
+        bauxiteDimBlacklist = bauxiteDimBlacklistDefault;
+        bauxiteMinY = bauxiteMinYDefault;
+        bauxiteMaxY = bauxiteMaxYDefault;
 
-        platinumSize = 32;
-        platinumChance = 4;
-        platinumDimBlacklist = new int[]{-1, 1};
-        platinumMinY = 3;
-        platinumMaxY = 25;
+        platinumSize = platinumSizeDefault;
+        platinumChance = platinumChanceDefault;
+        platinumDimBlacklist = platinumDimBlacklistDefault;
+        platinumMinY = platinumMinYDefault;
+        platinumMaxY = platinumMaxYDefault;
 
-        autuniteSize = 24;
-        autuniteChance = 5;
-        autuniteDimBlacklist = new int[]{-1, 1};
-        autuniteMinY = 8;
-        autuniteMaxY = 33;
+        autuniteSize = autuniteSizeDefault;
+        autuniteChance = autuniteChanceDefault;
+        autuniteDimBlacklist = autuniteDimBlacklistDefault;
+        autuniteMinY = autuniteMinYDefault;
+        autuniteMaxY = autuniteMaxYDefault;
 
-        sphaleriteSize = 24;
-        sphaleriteChance = 7;
-        sphaleriteDimBlacklist = new int[]{-1, 1};
-        sphaleriteMinY = 35;
-        sphaleriteMaxY = 55;
+        sphaleriteSize = sphaleriteSizeDefault;
+        sphaleriteChance = sphaleriteChanceDefault;
+        sphaleriteDimBlacklist = sphaleriteDimBlacklistDefault;
+        sphaleriteMinY = sphaleriteMinYDefault;
+        sphaleriteMaxY = sphaleriteMaxYDefault;
     }
 }
