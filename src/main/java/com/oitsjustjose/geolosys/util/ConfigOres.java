@@ -120,8 +120,8 @@ public class ConfigOres
     public final int coalMinYDefault = 48;
     public final int coalMaxYDefault = 78;
 
-    public final int cinnabarSizeDefault = 56;
-    public final int cinnabarChanceDefault = 3;
+    public final int cinnabarSizeDefault = 40;
+    public final int cinnabarChanceDefault = 5;
     public final int[] cinnabarDimBlacklistDefault = new int[]{-1, 1};
     public final int cinnabarMinYDefault = 5;
     public final int cinnabarMaxYDefault = 12;
@@ -157,7 +157,7 @@ public class ConfigOres
     public final int berylMaxYDefault = 32;
 
     public final int hematiteSizeDefault = 24;
-    public final int hematiteChanceDefault = 7;
+    public final int hematiteChanceDefault = 8;
     public final int[] hematiteDimBlacklistDefault = new int[]{-1, 1};
     public final int hematiteMinYDefault = 32;
     public final int hematiteMaxYDefault = 60;
@@ -169,7 +169,7 @@ public class ConfigOres
     public final int limoniteMaxYDefault = 32;
 
     public final int malachiteSizeDefault = 24;
-    public final int malachiteChanceDefault = 4;
+    public final int malachiteChanceDefault = 6;
     public final int[] malachiteDimBlacklistDefault = new int[]{-1, 1};
     public final int malachiteMinYDefault = 39;
     public final int malachiteMaxYDefault = 44;
@@ -181,7 +181,7 @@ public class ConfigOres
     public final int azuriteMaxYDefault = 44;
 
     public final int cassiteriteSizeDefault = 24;
-    public final int cassiteriteChanceDefault = 3;
+    public final int cassiteriteChanceDefault = 6;
     public final int[] cassiteriteDimBlacklistDefault = new int[]{-1, 1};
     public final int cassiteriteMinYDefault = 44;
     public final int cassiteriteMaxYDefault = 68;
@@ -193,13 +193,13 @@ public class ConfigOres
     public final int tealliteMaxYDefault = 43;
 
     public final int galenaSizeDefault = 72;
-    public final int galenaChanceDefault = 9;
+    public final int galenaChanceDefault = 6;
     public final int[] galenaDimBlacklistDefault = new int[]{-1, 1};
     public final int galenaMinYDefault = 16;
     public final int galenaMaxYDefault = 50;
 
     public final int bauxiteSizeDefault = 64;
-    public final int bauxiteChanceDefault = 8;
+    public final int bauxiteChanceDefault = 6;
     public final int[] bauxiteDimBlacklistDefault = new int[]{-1, 1};
     public final int bauxiteMinYDefault = 45;
     public final int bauxiteMaxYDefault = 70;
@@ -217,7 +217,7 @@ public class ConfigOres
     public final int autuniteMaxYDefault = 33;
 
     public final int sphaleriteSizeDefault = 24;
-    public final int sphaleriteChanceDefault = 7;
+    public final int sphaleriteChanceDefault = 5;
     public final int[] sphaleriteDimBlacklistDefault = new int[]{-1, 1};
     public final int sphaleriteMinYDefault = 35;
     public final int sphaleriteMaxYDefault = 55;
