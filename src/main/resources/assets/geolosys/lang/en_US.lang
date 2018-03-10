@@ -72,6 +72,14 @@ geolosys.ingot.platinum.name=Platinum Ingot
 geolosys.ingot.zinc.name=Zinc Ingot
 
 # ------------------------------------ #
+#               Coals                  #
+# ------------------------------------ #
+geolosys.coal.peat.name=Peat
+geolosys.coal.lignite.name=Lignite Coal
+geolosys.coal.bituminous.name=Bituminous Coal
+geolosys.coal.anthracite.name=Anthracite Coal
+
+# ------------------------------------ #
 #               Misc                   #
 # ------------------------------------ #
 geolosys.pro_pick.name=Prospector's Pick

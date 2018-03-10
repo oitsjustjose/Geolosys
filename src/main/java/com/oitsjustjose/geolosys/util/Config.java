@@ -25,6 +25,7 @@ public class Config
     public boolean enableYellorium;
     public boolean enableSulfur;
     public boolean enableIngots;
+    public boolean enableCoals;
     public boolean enableProPick;
     public int proPickRange;
     public boolean enableSmelting;
@@ -83,6 +84,10 @@ public class Config
 
         property = config.get(category, "Enable Ingots", true).setRequiresMcRestart(true);
         enableIngots = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enable Coals", true).setRequiresMcRestart(true);
+        enableCoals = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Prospector's Pick", true).setRequiresMcRestart(true);

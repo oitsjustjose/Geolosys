@@ -4,6 +4,71 @@ import net.minecraft.util.IStringSerializable;
 
 public class Types
 {
+    public enum Coal implements IStringSerializable
+    {
+        PEAT(0, 12, "peat"),
+        LIGNITE(1, 16, "lignite"),
+        BITUMINOUS(2, 24, "bituminous"),
+        ANTHRACITE(3, 32, "anthracite");
+
+        private final int meta;
+        private final int burnTime;
+        private final String serializedName;
+        private final String unlocalizedName;
+
+
+        Coal(int meta, int burnTime, String name)
+        {
+            this.meta = meta;
+            this.burnTime = burnTime;
+            this.serializedName = name;
+            this.unlocalizedName = name;
+        }
+
+
+        private static final Coal[] META_LOOKUP = new Coal[values().length];
+
+        static
+        {
+            for (Coal type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
+        public static Coal byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
+
+            return META_LOOKUP[meta];
+        }
+
+        public int getMetadata()
+        {
+            return this.meta;
+        }
+
+        public String toString()
+        {
+            return this.unlocalizedName;
+        }
+
+        public String getName()
+        {
+            return this.serializedName;
+        }
+
+        public int getBurnTime()
+
+        {
+            return this.burnTime;
+        }
+
+    }
+
     public enum Ingot implements IStringSerializable
     {
         COPPER(0, "copper"),

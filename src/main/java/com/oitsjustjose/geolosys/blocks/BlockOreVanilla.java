@@ -96,6 +96,40 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
+            if (Config.getInstance().enableCoals)
+            {
+                Item coal = Geolosys.getInstance().COAL;
+                int y = pos.getY();
+                int rng = random.nextInt(10) + fortune;
+                if (y <= 12)
+                {
+                    if (rng > 5)
+                    {
+                        drops.add(new ItemStack(coal, 1, 3));
+                    }
+                }
+                else if (y <= 24)
+                {
+                    if (rng > 5)
+                    {
+                        drops.add(new ItemStack(coal, 1, 2));
+                    }
+                }
+                else if (y < 36)
+                {
+                    if (rng > 5)
+                    {
+                        drops.add(new ItemStack(coal, 1, 1));
+                    }
+                }
+                else if (y < 48)
+                {
+                    if (rng > 5)
+                    {
+                        drops.add(new ItemStack(coal, 1, 0));
+                    }
+                }
+            }
             if (Config.getInstance().enableSulfur && OreDictionary.doesOreNameExist("dustSulfur"))
             {
                 int rng = random.nextInt(50);

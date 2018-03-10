@@ -5,7 +5,7 @@ public class ConfigOresDefault
     public static final int coalSizeDefault = 64;
     public static final int coalChanceDefault = 8;
     public static final int[] coalDimBlacklistDefault = new int[]{-1, 1};
-    public static final int coalMinYDefault = 48;
+    public static final int coalMinYDefault = 8;
     public static final int coalMaxYDefault = 78;
 
     public static final int cinnabarSizeDefault = 40;

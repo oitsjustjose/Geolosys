@@ -8,10 +8,16 @@ import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.items.ItemCoal;
 import com.oitsjustjose.geolosys.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
-import com.oitsjustjose.geolosys.util.*;
+import com.oitsjustjose.geolosys.util.ClientRegistry;
+import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.util.ConfigOres;
+import com.oitsjustjose.geolosys.util.ConfigParser;
+import com.oitsjustjose.geolosys.util.HelperFunctions;
+import com.oitsjustjose.geolosys.util.Lib;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
@@ -35,9 +41,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
@@ -61,6 +70,7 @@ public class Geolosys
 
     public Item CLUSTER;
     public Item INGOT;
+    public Item COAL;
     public Item PRO_PICK;
     public Item ALMANAC;
 
@@ -89,6 +99,10 @@ public class Geolosys
         if (Config.getInstance().enableIngots)
         {
             INGOT = new ItemIngot();
+        }
+        if (Config.getInstance().enableCoals)
+        {
+            COAL = new ItemCoal();
         }
         if (Config.getInstance().enableProPick)
         {
