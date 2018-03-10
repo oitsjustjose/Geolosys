@@ -26,6 +26,7 @@ public class Config
     public boolean enableSulfur;
     public boolean enableIngots;
     public boolean enableProPick;
+    public int proPickRange;
     public boolean enableSmelting;
     public boolean registerAsBauxite;
     public String[] replacementMatsRaw;
@@ -86,6 +87,12 @@ public class Config
 
         property = config.get(category, "Enable Prospector's Pick", true).setRequiresMcRestart(true);
         enableProPick = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Prospector's Pick Range", 5).setRequiresMcRestart(false);
+        property.setMinValue(1);
+        property.setMaxValue(255);
+        proPickRange = property.getInt();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Enable Cluster Smelting", true).setRequiresMcRestart(true);

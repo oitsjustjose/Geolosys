@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.items;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
+import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -56,17 +57,19 @@ public class ItemProPick extends Item
         int yEnd;
         int zStart;
         int zEnd;
+        int confAmt = Config.getInstance().proPickRange;
+
         boolean found = false;
 
         switch (facing)
         {
             case UP:
-                xStart = -2;
-                xEnd = 2;
-                yStart = -5;
+                xStart = -(confAmt / 2);
+                xEnd = confAmt / 2;
+                yStart = -confAmt;
                 yEnd = 0;
-                zStart = -2;
-                zEnd = 2;
+                zStart = -(confAmt / 2);
+                zEnd = (confAmt / 2);
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
@@ -85,12 +88,12 @@ public class ItemProPick extends Item
                 }
                 break;
             case DOWN:
-                xStart = -2;
-                xEnd = 2;
+                xStart = -(confAmt / 2);
+                xEnd = confAmt / 2;
                 yStart = 0;
-                yEnd = 5;
-                zStart = -2;
-                zEnd = 2;
+                yEnd = confAmt;
+                zStart = -(confAmt / 2);
+                zEnd = confAmt / 2;
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
@@ -109,12 +112,12 @@ public class ItemProPick extends Item
                 }
                 break;
             case NORTH:
-                xStart = -2;
-                xEnd = 2;
-                yStart = -2;
-                yEnd = 2;
+                xStart = -(confAmt / 2);
+                xEnd = confAmt / 2;
+                yStart = -(confAmt / 2);
+                yEnd = confAmt / 2;
                 zStart = 0;
-                zEnd = 5;
+                zEnd = confAmt;
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
@@ -133,11 +136,11 @@ public class ItemProPick extends Item
                 }
                 break;
             case SOUTH:
-                xStart = -2;
-                xEnd = 2;
-                yStart = -2;
-                yEnd = 2;
-                zStart = -5;
+                xStart = -(confAmt / 2);
+                xEnd = confAmt / 2;
+                yStart = -(confAmt / 2);
+                yEnd = confAmt / 2;
+                zStart = -confAmt;
                 zEnd = 0;
 
                 for (int x = xStart; x <= xEnd; x++)
@@ -158,12 +161,12 @@ public class ItemProPick extends Item
                 }
                 break;
             case EAST:
-                xStart = -5;
+                xStart = -(confAmt);
                 xEnd = 0;
-                yStart = -2;
-                yEnd = 2;
-                zStart = -2;
-                zEnd = 2;
+                yStart = -(confAmt / 2);
+                yEnd = confAmt / 2;
+                zStart = -(confAmt / 2);
+                zEnd = confAmt / 2;
 
                 for (int x = xStart; x <= xEnd; x++)
                 {
@@ -184,11 +187,11 @@ public class ItemProPick extends Item
                 break;
             case WEST:
                 xStart = 0;
-                xEnd = 5;
-                yStart = -2;
-                yEnd = 2;
-                zStart = -2;
-                zEnd = 2;
+                xEnd = confAmt;
+                yStart = -(confAmt / 2);
+                yEnd = confAmt / 2;
+                zStart = -(confAmt / 2);
+                zEnd = confAmt / 2;
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
