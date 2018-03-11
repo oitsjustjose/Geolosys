@@ -32,7 +32,7 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (oreSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
+        if (oreSpawnList.size() > 0)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
@@ -49,6 +49,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
+            assert minY < maxY;
             this.pluton = new WorldGenOrePluton(state, maxVeinSize);
             this.state = state;
             this.minY = minY;
@@ -85,7 +86,7 @@ public class OreGenerator implements IWorldGenerator
             BlockPos pos;
             if (rand.nextInt(100) < weight)
             {
-                pos = new BlockPos(x + rand.nextInt(5 + 1 + 5) - 5, minY + rand.nextInt(maxY - minY), z + rand.nextInt(5 + 1 + 5) - 5);
+                pos = new BlockPos(x + rand.nextInt(11) - 5, minY + rand.nextInt(maxY - minY), z + rand.nextInt(11) - 5);
                 pluton.generate(world, rand, pos);
                 Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
             }

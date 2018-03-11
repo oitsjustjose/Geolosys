@@ -32,7 +32,7 @@ public class StoneGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if(stoneSpawnList.size() > 0 && world.provider.getDimension() != -1 && world.provider.getDimension() != 1)
+        if(stoneSpawnList.size() > 0)
         {
             stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
