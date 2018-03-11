@@ -4,6 +4,7 @@
 * CHANGED: Default ore generation options to be more vanilla-esque
 * CHANGED: Ore generation logic - this will take the chance into account in a better way
 * CHANGED: Optimized generation performance slightly (and reduce cascading lag a decent bit, but not by 100%)
+* CHANGED: Allow minY and maxY to be the same - if you want..?
 * FIXED: Dimension blacklist configs not working if you allow an ore in dim -1 or 1 (***AGAIN***)
 
 
