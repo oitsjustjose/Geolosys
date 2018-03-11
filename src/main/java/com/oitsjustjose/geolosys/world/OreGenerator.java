@@ -49,11 +49,10 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            assert minY < maxY;
             this.pluton = new WorldGenOrePluton(state, maxVeinSize);
             this.state = state;
-            this.minY = minY;
-            this.maxY = maxY;
+            this.minY = Math.min(minY, maxY);
+            this.maxY = Math.max(minY, maxY);
             this.weight = weight;
             this.blacklistedDims = blacklist;
         }
@@ -86,7 +85,8 @@ public class OreGenerator implements IWorldGenerator
             BlockPos pos;
             if (rand.nextInt(100) < weight)
             {
-                pos = new BlockPos(x + rand.nextInt(11) - 5, minY + rand.nextInt(maxY - minY), z + rand.nextInt(11) - 5);
+                int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+                pos = new BlockPos(x + rand.nextInt(11) - 5, y, z + rand.nextInt(11) - 5);
                 pluton.generate(world, rand, pos);
                 Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
             }

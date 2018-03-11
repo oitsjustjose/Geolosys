@@ -32,7 +32,7 @@ public class StoneGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if(stoneSpawnList.size() > 0)
+        if (stoneSpawnList.size() > 0)
         {
             stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
@@ -51,8 +51,8 @@ public class StoneGenerator implements IWorldGenerator
         {
             this.pluton = new WorldGenStonePluton(state, 96);
             this.state = state;
-            this.minY = minY;
-            this.maxY = maxY;
+            this.minY = Math.min(minY, maxY);
+            this.maxY = Math.max(minY, maxY);
             this.weight = weight;
         }
 
@@ -64,7 +64,8 @@ public class StoneGenerator implements IWorldGenerator
             }
             if (rand.nextInt(100) < weight)
             {
-                pluton.generate(world, rand, new BlockPos(x + 8, minY + rand.nextInt(maxY - minY), z + 8));
+                int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+                pluton.generate(world, rand, new BlockPos(x + 8, y, z + 8));
             }
         }
     }
