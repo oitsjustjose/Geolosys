@@ -1,7 +1,10 @@
 ### 1.8.8:
 
-* 
-* FIXED: Dimension blacklist configs not working if you allow an ore in dim -1 or 1 (***AGAIN*** >_>)
+* ADDED: New Coal Variants! Vanilla coal still drops, but peat, lignite coal, bituminous coal or anthracite coal can also drop depending on depth. Deeper coals yield better burn times in a furnace.
+* CHANGED: Default ore generation options to be more vanilla-esque
+* CHANGED: Ore generation logic - this will take the chance into account in a better way
+* CHANGED: Optimized generation performance slightly (and reduce cascading lag a decent bit, but not by 100%)
+* FIXED: Dimension blacklist configs not working if you allow an ore in dim -1 or 1 (***AGAIN***)
 
 
 ### 1.8.7:
