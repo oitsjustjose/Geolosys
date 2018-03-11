@@ -30,7 +30,7 @@ public class OreGenerator implements IWorldGenerator
         {
             biggestWeight = weight;
         }
-            OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
+        OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
     }
 
