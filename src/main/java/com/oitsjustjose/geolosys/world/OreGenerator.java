@@ -22,7 +22,6 @@ public class OreGenerator implements IWorldGenerator
 {
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
     private static int biggestWeight = 0;
-    private static int totalWeights = 0;
     private OreGen lastGenerated;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
@@ -31,8 +30,7 @@ public class OreGenerator implements IWorldGenerator
         {
             biggestWeight = weight;
         }
-        totalWeights += weight;
-        OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
+            OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
     }
 

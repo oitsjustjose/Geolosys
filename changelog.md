@@ -1,3 +1,9 @@
+### 1.8.8:
+
+* 
+* FIXED: Dimension blacklist configs not working if you allow an ore in dim -1 or 1 (***AGAIN*** >_>)
+
+
 ### 1.8.7:
 
 * ADDED: JSON Validation (so if you don't have an entry, a default is loaded)
