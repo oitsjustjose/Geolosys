@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.world;
 
 import com.google.common.base.Predicate;
 import com.oitsjustjose.geolosys.Geolosys;
-import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -108,11 +107,6 @@ public class WorldGenOrePluton extends WorldGenerator
         }
 
         return true;
-    }
-
-    public boolean generateSill(World worldIn, Random rand, BlockPos pos)
-    {
-        return false;
     }
 
 

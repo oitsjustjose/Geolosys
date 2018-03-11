@@ -20,21 +20,39 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator
 {
-    public static ArrayList<OreGen> oreSpawnList = new ArrayList();
+    private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
+    private static int biggestWeight = 0;
+    private static int totalWeights = 0;
+    private OreGen lastGenerated;
 
-    public static OreGen addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
+    public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
+        if (weight > biggestWeight)
+        {
+            biggestWeight = weight;
+        }
+        totalWeights += weight;
         OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
-        return gen;
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        if (oreSpawnList.size() > 0)
+        // Randomized chance for spawning to NOT happen:
+        int minWeight = random.nextInt(biggestWeight);
+        while (true)
         {
-            oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            OreGen check = oreSpawnList.get(random.nextInt(oreSpawnList.size()));
+            if (check.weight > minWeight && (lastGenerated == null || check.state != lastGenerated.state))
+            {
+                if (random.nextInt(100) < check.weight)
+                {
+                    check.generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    this.lastGenerated = check;
+                }
+                return;
+            }
         }
     }
 
@@ -82,14 +100,10 @@ public class OreGenerator implements IWorldGenerator
                     return;
                 }
             }
-            BlockPos pos;
-            if (rand.nextInt(100) < weight)
-            {
-                int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
-                pos = new BlockPos(x + rand.nextInt(11) - 5, y, z + rand.nextInt(11) - 5);
-                pluton.generate(world, rand, pos);
-                Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
-            }
+
+            int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+            pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, y, z + rand.nextInt(4) + 4));
+            Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
         }
 
         private IBlockState getSampleForOre(IBlockState state)
