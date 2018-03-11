@@ -1,3 +1,6 @@
+### 1.8.8b:
+* CHANGED: Major improvement to the JSON validator for geolosys_ores.json - it'll now add new entries you don't have!!
+
 ### 1.8.8:
 
 * ADDED: New Coal Variants! Vanilla coal still drops, but peat, lignite coal, bituminous coal or anthracite coal can also drop depending on depth. Deeper coals yield better burn times in a furnace.

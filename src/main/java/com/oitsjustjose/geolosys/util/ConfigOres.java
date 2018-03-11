@@ -1,120 +1,128 @@
 package com.oitsjustjose.geolosys.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 public class ConfigOres
 {
     public int coalSize = -1;
     public int coalChance = -1;
-    public int[] coalDimBlacklist = {};
+    public int[] coalDimBlacklist = null;
     public int coalMinY = -1;
     public int coalMaxY = -1;
 
     public int cinnabarSize = -1;
     public int cinnabarChance = -1;
-    public int[] cinnabarDimBlacklist = {};
+    public int[] cinnabarDimBlacklist = null;
     public int cinnabarMinY = -1;
     public int cinnabarMaxY = -1;
 
     public int goldSize = -1;
     public int goldChance = -1;
-    public int[] goldDimBlacklist = {};
+    public int[] goldDimBlacklist = null;
     public int goldMinY = -1;
     public int goldMaxY = -1;
 
     public int lapisSize = -1;
     public int lapisChance = -1;
-    public int[] lapisDimBlacklist = {};
+    public int[] lapisDimBlacklist = null;
     public int lapisMinY = -1;
     public int lapisMaxY = -1;
 
     public int quartzSize = -1;
     public int quartzChance = -1;
-    public int[] quartzDimBlacklist = {};
+    public int[] quartzDimBlacklist = null;
     public int quartzMinY = -1;
     public int quartzMaxY = -1;
 
     public int kimberliteSize = -1;
     public int kimberliteChance = -1;
-    public int[] kimberliteDimBlacklist = {};
+    public int[] kimberliteDimBlacklist = null;
     public int kimberliteMinY = -1;
     public int kimberliteMaxY = -1;
 
     public int berylSize = -1;
     public int berylChance = -1;
-    public int[] berylDimBlacklist = {};
+    public int[] berylDimBlacklist = null;
     public int berylMinY = -1;
     public int berylMaxY = -1;
 
     public int hematiteSize = -1;
     public int hematiteChance = -1;
-    public int[] hematiteDimBlacklist = {};
+    public int[] hematiteDimBlacklist = null;
     public int hematiteMinY = -1;
     public int hematiteMaxY = -1;
 
     public int limoniteSize = -1;
     public int limoniteChance = -1;
-    public int[] limoniteDimBlacklist = {};
+    public int[] limoniteDimBlacklist = null;
     public int limoniteMinY = -1;
     public int limoniteMaxY = -1;
 
     public int malachiteSize = -1;
     public int malachiteChance = -1;
-    public int[] malachiteDimBlacklist = {};
+    public int[] malachiteDimBlacklist = null;
     public int malachiteMinY = -1;
     public int malachiteMaxY = -1;
 
     public int azuriteSize = -1;
     public int azuriteChance = -1;
-    public int[] azuriteDimBlacklist = {};
+    public int[] azuriteDimBlacklist = null;
     public int azuriteMinY = -1;
     public int azuriteMaxY = -1;
 
     public int cassiteriteSize = -1;
     public int cassiteriteChance = -1;
-    public int[] cassiteriteDimBlacklist = {};
+    public int[] cassiteriteDimBlacklist = null;
     public int cassiteriteMinY = -1;
     public int cassiteriteMaxY = -1;
 
     public int tealliteSize = -1;
     public int tealliteChance = -1;
-    public int[] tealliteDimBlacklist = {};
+    public int[] tealliteDimBlacklist = null;
     public int tealliteMinY = -1;
     public int tealliteMaxY = -1;
 
     public int galenaSize = -1;
     public int galenaChance = -1;
-    public int[] galenaDimBlacklist = {};
+    public int[] galenaDimBlacklist = null;
     public int galenaMinY = -1;
     public int galenaMaxY = -1;
 
     public int bauxiteSize = -1;
     public int bauxiteChance = -1;
-    public int[] bauxiteDimBlacklist = {};
+    public int[] bauxiteDimBlacklist = null;
     public int bauxiteMinY = -1;
     public int bauxiteMaxY = -1;
 
     public int platinumSize = -1;
     public int platinumChance = -1;
-    public int[] platinumDimBlacklist = {};
+    public int[] platinumDimBlacklist = null;
     public int platinumMinY = -1;
     public int platinumMaxY = -1;
 
     public int autuniteSize = -1;
     public int autuniteChance = -1;
-    public int[] autuniteDimBlacklist = {};
+    public int[] autuniteDimBlacklist = null;
     public int autuniteMinY = -1;
     public int autuniteMaxY = -1;
 
     public int sphaleriteSize = -1;
     public int sphaleriteChance = -1;
-    public int[] sphaleriteDimBlacklist = {};
+    public int[] sphaleriteDimBlacklist = null;
     public int sphaleriteMinY = -1;
     public int sphaleriteMaxY = -1;
 
-    public void validate()
+    public void validate(File configDir)
     {
+        boolean dirty = false;
         for (Field f : this.getClass().getFields())
         {
             if (f.getType() == int.class)
@@ -125,13 +133,14 @@ public class ConfigOres
                     int val = field.getInt(this);
                     if (val == -1)
                     {
+                        dirty = true;
                         int defValue = -1;
                         // Dynamically find the default value using reflection
                         for (Field searchField : ConfigOresDefault.class.getFields())
                         {
                             if (searchField.getName().equalsIgnoreCase(f.getName() + "Default"))
                             {
-                                defValue = searchField.getInt( ConfigOresDefault.class);
+                                defValue = searchField.getInt(ConfigOresDefault.class);
                                 break;
                             }
                         }
@@ -143,20 +152,23 @@ public class ConfigOres
                     e.printStackTrace();
                 }
             }
-            else if (f.getType() == Array.class)
+            else if (f.getType().isArray())
             {
                 try
                 {
                     int[] val = (int[]) f.get(this);
-                    if (val.length == 0)
+                    if (val == null)
                     {
+                        System.out.println(f.getName() + " is null");
+                        dirty = true;
                         int[] defValue = new int[]{};
                         // Dynamically find the default value using reflection
                         for (Field searchField : ConfigOresDefault.class.getFields())
                         {
                             if (searchField.getName().equalsIgnoreCase(f.getName() + "Default"))
                             {
-                                defValue = (int[]) searchField.get( ConfigOresDefault.class);
+                                defValue = (int[]) searchField.get(ConfigOresDefault.class);
+                                System.out.println(f.getName() + " is now " + Arrays.toString(defValue));
                                 break;
                             }
                         }
@@ -167,6 +179,23 @@ public class ConfigOres
                 {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        // Rewrite the JSON of missing components:
+        if (dirty)
+        {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(this);
+            try
+            {
+                FileWriter fw = new FileWriter(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
+                fw.write(json);
+                fw.close();
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
             }
         }
     }

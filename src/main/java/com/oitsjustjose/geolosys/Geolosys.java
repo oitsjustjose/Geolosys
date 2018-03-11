@@ -302,7 +302,7 @@ public class Geolosys
                 }
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 ConfigOres ret = gson.fromJson(json.toString(), ConfigOres.class);
-                ret.validate();
+                ret.validate(configDir);
                 return ret;
             }
             catch (IOException e)
