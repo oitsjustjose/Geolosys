@@ -2,6 +2,8 @@ package com.oitsjustjose.geolosys.compat.ie;
 
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.util.ConfigOres;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,108 +15,104 @@ import java.util.LinkedHashMap;
 
 public class IECompat
 {
+    @SuppressWarnings("unchecked")
     public static void init()
     {
+        ConfigOres conf = Geolosys.getInstance().configOres;
         OreDictionary.registerOre("clumpCoal", Items.COAL);
         final Item AE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
-
         if (AE_MATERIAL != null)
         {
             OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(AE_MATERIAL, 1, 1));
         }
+
         // Remove the vanilla ones
         LinkedHashMap<ExcavatorHandler.MineralMix, Integer> list = (LinkedHashMap<ExcavatorHandler.MineralMix, Integer>) ExcavatorHandler.mineralList.clone();
-
         for (ExcavatorHandler.MineralMix mix : list.keySet())
         {
-            if (mix.name.equalsIgnoreCase("Iron"))
+            if (mix.name.equalsIgnoreCase("Iron") && (conf.hematiteChance > 0 || conf.limoniteChance > 0))
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Bauxite"))
+            if (mix.name.equalsIgnoreCase("Bauxite") && conf.bauxiteChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Cassiterite"))
+            if (mix.name.equalsIgnoreCase("Cassiterite") && (conf.cassiteriteChance > 0 || conf.tealliteChance > 0))
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Coal"))
+            if (mix.name.equalsIgnoreCase("Coal") && conf.coalChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Copper"))
+            if (mix.name.equalsIgnoreCase("Copper") && (conf.malachiteChance > 0 || conf.azuriteChance > 0))
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Galena"))
+            if (mix.name.equalsIgnoreCase("Galena") && conf.galenaChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Gold"))
+            if (mix.name.equalsIgnoreCase("Gold") && conf.goldChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Iron"))
+            if (mix.name.equalsIgnoreCase("Lapis") && conf.lapisChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Lapis"))
+            if (mix.name.equalsIgnoreCase("Lead") && conf.galenaChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Lead"))
+            if (mix.name.equalsIgnoreCase("Magnetite") && (conf.hematiteChance > 0 || conf.limoniteChance > 0))
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Magnetite"))
+            if (mix.name.equalsIgnoreCase("Nickel") && conf.limoniteChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Nickel"))
+            if (mix.name.equalsIgnoreCase("Platinum") && conf.platinumChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Platinum"))
+            if (mix.name.equalsIgnoreCase("Pyrite") && (conf.goldChance > 0 || conf.hematiteChance > 0))
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Pyrite"))
+            if (mix.name.equalsIgnoreCase("Quartzite") && conf.quartzChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Quartzite"))
+            if (mix.name.equalsIgnoreCase("Silver") && conf.galenaChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
                 continue;
             }
-            if (mix.name.equalsIgnoreCase("Silver"))
+            if (mix.name.equalsIgnoreCase("Uranium") && conf.autuniteChance > 0)
             {
                 ExcavatorHandler.mineralList.remove(mix);
-                continue;
-            }
-            if (mix.name.equalsIgnoreCase("Uranium"))
-            {
-                ExcavatorHandler.mineralList.remove(mix);
-                continue;
             }
         }
 
-        ExcavatorHandler.addMineral("Coal", Geolosys.getInstance().configOres.coalChance, 0.05F, new String[]{"clumpCoal", "dustSulfur"}, new float[]{0.98F, 0.02F});
+        // Add custom Geolosys entries
+        ExcavatorHandler.addMineral("Coal", Geolosys.getInstance().configOres.coalChance, 0.1F, new String[]{"clumpCoal", "coal", "dustSulfur"}, new float[]{1.0F, 0.03F, 0.02F});
         ExcavatorHandler.addMineral("Cinnabar", Geolosys.getInstance().configOres.cinnabarChance, 0.05F, new String[]{"dustRedstone", "crystalCinnabar", "gemRedstone"}, new float[]{.959F, .034F, .017F});
         ExcavatorHandler.addMineral("Gold", Geolosys.getInstance().configOres.goldChance, 0.05F, new String[]{"geolosysOreGold"}, new float[]{1.0F});
         ExcavatorHandler.addMineral("Lapis", Geolosys.getInstance().configOres.lapisChance, 0.05F, new String[]{"dustLapis"}, new float[]{1.0F});
@@ -129,8 +127,29 @@ public class IECompat
         ExcavatorHandler.addMineral("Teallite", Geolosys.getInstance().configOres.tealliteChance, 0.05F, new String[]{"geolosysOreTin"}, new float[]{1.0F});
         ExcavatorHandler.addMineral("Galena", Geolosys.getInstance().configOres.galenaChance, 0.05F, new String[]{"geolosysOreSilver", "geolosysOreLead"}, new float[]{0.5F, 0.5F});
         ExcavatorHandler.addMineral("Bauxite", Geolosys.getInstance().configOres.bauxiteChance, 0.15F, new String[]{"geolosysOreAluminum"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Platinum", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOrePlatinum", "geolosysOreOsmium"}, new float[]{0.5F, 0.5F});
-        ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"geolosysOreUranium", "geolosysOreYellorium"}, new float[]{0.5F, 0.5F});
         ExcavatorHandler.addMineral("Sphalerite", Geolosys.getInstance().configOres.sphaleriteChance, 0.05F, new String[]{"geolosysOreZinc"}, new float[]{1.0F});
+        if (Config.getInstance().enableOsmium)
+        {
+            if (Config.getInstance().enableOsmiumExclusively)
+            {
+                ExcavatorHandler.addMineral("Osmium", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOreOsmium"}, new float[]{1.0F});
+            }
+            else
+            {
+                ExcavatorHandler.addMineral("Platinum", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOrePlatinum", "geolosysOreOsmium"}, new float[]{0.5F, 0.5F});
+            }
+        }
+        else
+        {
+            ExcavatorHandler.addMineral("Platinum", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOrePlatinum"}, new float[]{1.0F});
+        }
+        if (Config.getInstance().enableYellorium)
+        {
+            ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"geolosysOreUranium", "geolosysOreYellorium"}, new float[]{0.5F, 0.5F});
+        }
+        else
+        {
+            ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"geolosysOreUranium"}, new float[]{1.0F});
+        }
     }
 }
