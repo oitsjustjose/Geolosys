@@ -1,3 +1,8 @@
+### 1.8.8c:
+* ADDED: New Compass Enchancement (configurable) that helps you find mineral deposits without F3
+* CHANGED: Minor touchy things for the IE compat layer
+
+
 ### 1.8.8b:
 * CHANGED: Major improvement to the JSON validator for geolosys_ores.json - it'll now add new entries you don't have!!
 
