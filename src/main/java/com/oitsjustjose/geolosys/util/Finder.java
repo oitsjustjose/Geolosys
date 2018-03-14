@@ -6,6 +6,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 public class Finder
@@ -22,7 +24,7 @@ public class Finder
         {
             try
             {
-                event.getEntityPlayer().sendStatusMessage(new TextComponentString("Altitude: " + (int) event.getEntityPlayer().posY + " | Chunk: " + ((int) event.getEntityPlayer().posX & 15) + ", " + ((int) event.getEntityPlayer().posZ & 15)), true);
+                event.getEntityPlayer().sendStatusMessage(new TextComponentString("Altitude: " + (int) event.getEntityPlayer().posY + " | Chunk: " + ((int)Math.floor(event.getEntityPlayer().posX) & 15) + ", " + ((int)Math.floor(event.getEntityPlayer().posZ) & 15)), true);
             }
             catch (NullPointerException ignored)
             {
@@ -31,6 +33,7 @@ public class Finder
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void registerEvent(ItemTooltipEvent event)
     {
         if (event.getItemStack().getItem() == Items.COMPASS)
