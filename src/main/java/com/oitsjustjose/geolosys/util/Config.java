@@ -27,6 +27,7 @@ public class Config
     public boolean enableIngots;
     public boolean enableCoals;
     public boolean enableProPick;
+    public boolean enhancedCompass;
     public int proPickRange;
     public boolean enableSmelting;
     public boolean registerAsBauxite;
@@ -92,6 +93,10 @@ public class Config
 
         property = config.get(category, "Enable Prospector's Pick", true).setRequiresMcRestart(true);
         enableProPick = property.getBoolean();
+        propertyOrder.add(property.getName());
+
+        property = config.get(category, "Enhanced Compass Features", true);
+        enhancedCompass = property.getBoolean();
         propertyOrder.add(property.getName());
 
         property = config.get(category, "Prospector's Pick Range", 5).setRequiresMcRestart(false);

@@ -4,8 +4,11 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.util.Finder;
+import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,7 +20,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemProPick extends Item
 {
@@ -29,6 +39,10 @@ public class ItemProPick extends Item
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
+        if (Config.getInstance().enhancedCompass)
+        {
+            MinecraftForge.EVENT_BUS.register(new Finder());
+        }
     }
 
     private void registerModel()
@@ -40,6 +54,20 @@ public class ItemProPick extends Item
     public String getUnlocalizedName(ItemStack stack)
     {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+        {
+            tooltip.add(HelperFunctions.getTranslation(this.getUnlocalizedName(stack) + ".tooltip"));
+        }
+        else
+        {
+            tooltip.add(HelperFunctions.getTranslation("shift.tooltip"));
+        }
     }
 
     @Override
