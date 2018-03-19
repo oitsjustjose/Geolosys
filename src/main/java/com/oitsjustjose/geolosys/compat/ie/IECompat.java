@@ -115,7 +115,7 @@ public class IECompat
         ExcavatorHandler.addMineral("Coal", Geolosys.getInstance().configOres.coalChance, 0.1F, new String[]{"clumpCoal", "coal", "dustSulfur"}, new float[]{1.0F, 0.03F, 0.02F});
         ExcavatorHandler.addMineral("Cinnabar", Geolosys.getInstance().configOres.cinnabarChance, 0.05F, new String[]{"dustRedstone", "crystalCinnabar", "gemRedstone"}, new float[]{.959F, .034F, .017F});
         ExcavatorHandler.addMineral("Gold", Geolosys.getInstance().configOres.goldChance, 0.05F, new String[]{"geolosysOreGold"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Lapis", Geolosys.getInstance().configOres.lapisChance, 0.05F, new String[]{"dustLapis"}, new float[]{1.0F});
+        ExcavatorHandler.addMineral("Lapis", Geolosys.getInstance().configOres.lapisChance, 0.05F, new String[]{"gemLapis"}, new float[]{1.0F});
         ExcavatorHandler.addMineral("Quartz", Geolosys.getInstance().configOres.quartzChance, 0.05F, new String[]{"gemQuartz", "crystalCertusQuartz", "crystalCertusQuartzCharged", "gemQuartzBlack"}, new float[]{.8F, .08F, .04F, .08F});
         ExcavatorHandler.addMineral("Kimberlite", Geolosys.getInstance().configOres.kimberliteChance, 0.05F, new String[]{"gemDiamond"}, new float[]{1.0F});
         ExcavatorHandler.addMineral("Beryl", Geolosys.getInstance().configOres.berylChance, 0.05F, new String[]{"gemEmerald"}, new float[]{1.0F});
