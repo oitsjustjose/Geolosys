@@ -25,7 +25,6 @@ public class ItemCoal extends Item
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
-        this.registerOreDict();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -53,15 +52,6 @@ public class ItemCoal extends Item
         for (int i = 0; i < Types.Coal.values().length; i++)
         {
             Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Coal.byMetadata(i).name()), "inventory");
-        }
-    }
-
-    private void registerOreDict()
-    {
-        for (int i = 0; i < Types.Coal.values().length; i++)
-        {
-            OreDictionary.registerOre("coal", new ItemStack(this, 1, i));
-            OreDictionary.registerOre("gemCoal", new ItemStack(this, 1, i));
         }
     }
 
