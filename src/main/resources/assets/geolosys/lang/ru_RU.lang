@@ -72,9 +72,19 @@ geolosys.ingot.platinum.name=Платиновый Слиток
 geolosys.ingot.zinc.name=Цинковый Слиток
 
 # ------------------------------------ #
+#               Coals                  #
+# ------------------------------------ #
+geolosys.coal.peat.name=Торф
+geolosys.coal.lignite.name=Бурый Уголь
+geolosys.coal.bituminous.name=Битумиозный Уголь
+geolosys.coal.anthracite.name=Антрацитовый Уголь
+
+# ------------------------------------ #
 #               Misc                   #
 # ------------------------------------ #
 geolosys.pro_pick.name=Кирка Проспектора
 geolosys.field_manual.name=Руководство по Месторождениям
 geolosys.field_manual.tooltip=Всё, что нужно знать о копании с Geolosys!
+geolosys.pro_pick.tooltip=Полезнее, когда вместе с компасом!
 shift.tooltip=Нажмите Shift.
+compass.tooltip=Показывает высоту над уровнем моря и локальные координаты чанка, когда в руке.
