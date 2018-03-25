@@ -20,11 +20,11 @@ import java.util.Random;
 public class ChunkData
 {
     private Random random = new Random();
-    private File fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory(), "GeolosysDeposits.dat");
+    File fileLocation = null;
 
     public void addChunk(ChunkPos pos, World world, IBlockState state)
     {
-        GeolosysAPI.currentWorldDeposits.put(pos, state.toString());
+        GeolosysAPI.currentWorldDeposits.put(new GeolosysAPI.ChunkPosSerializable(pos), state.toString());
         this.serialize();
         if (world.getWorldType() == WorldType.FLAT)
         {
@@ -49,7 +49,9 @@ public class ChunkData
 
     public boolean canGenerateInChunk(ChunkPos pos)
     {
-        return !GeolosysAPI.currentWorldDeposits.keySet().contains(pos);
+        System.out.println(GeolosysAPI.currentWorldDeposits);
+
+        return !GeolosysAPI.currentWorldDeposits.keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos));
     }
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)
@@ -154,6 +156,15 @@ public class ChunkData
 
     public void serialize()
     {
+        if (DimensionManager.getCurrentSaveRootDirectory() == null)
+        {
+            System.out.println("null");
+            return;
+        }
+        else if (this.fileLocation == null)
+        {
+            this.fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+        }
         try
         {
             FileOutputStream fileOut = new FileOutputStream(fileLocation);
@@ -165,7 +176,6 @@ public class ChunkData
         catch (IOException i)
         {
             i.printStackTrace();
-            Geolosys.getInstance().LOGGER.error("There was an error saving GeolosysDeposits.dat");
             return;
         }
     }
@@ -179,7 +189,7 @@ public class ChunkData
             {
                 FileInputStream fileIn = new FileInputStream(fileLocation);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
-                GeolosysAPI.currentWorldDeposits = (HashMap<ChunkPos, String>) in.readObject();
+                GeolosysAPI.currentWorldDeposits = (HashMap<GeolosysAPI.ChunkPosSerializable, String>) in.readObject();
                 in.close();
                 fileIn.close();
             }
