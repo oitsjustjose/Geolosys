@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.util.Config;
@@ -10,18 +11,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraftforge.common.DimensionManager;
 
-import java.util.HashSet;
+import java.io.*;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ChunkData
 {
-    Random random = new Random();
-    private HashSet<ChunkPos> populatedChunks = new HashSet<>();
+    private Random random = new Random();
+    private File fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory(), "GeolosysDeposits.dat");
 
     public void addChunk(ChunkPos pos, World world, IBlockState state)
     {
-        populatedChunks.add(pos);
+        GeolosysAPI.currentWorldDeposits.put(pos, state.toString());
+        this.serialize();
         if (world.getWorldType() == WorldType.FLAT)
         {
             return;
@@ -45,7 +49,7 @@ public class ChunkData
 
     public boolean canGenerateInChunk(ChunkPos pos)
     {
-        return !populatedChunks.contains(pos);
+        return !GeolosysAPI.currentWorldDeposits.keySet().contains(pos);
     }
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)
@@ -146,5 +150,51 @@ public class ChunkData
         }
 
         return count;
+    }
+
+    public void serialize()
+    {
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream(fileLocation);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(GeolosysAPI.currentWorldDeposits);
+            out.close();
+            fileOut.close();
+        }
+        catch (IOException i)
+        {
+            i.printStackTrace();
+            Geolosys.getInstance().LOGGER.error("There was an error saving GeolosysDeposits.dat");
+            return;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void deserialize()
+    {
+        try
+        {
+            if (fileLocation.exists())
+            {
+                FileInputStream fileIn = new FileInputStream(fileLocation);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                GeolosysAPI.currentWorldDeposits = (HashMap<ChunkPos, String>) in.readObject();
+                in.close();
+                fileIn.close();
+            }
+        }
+        catch (IOException i)
+        {
+            Geolosys.getInstance().LOGGER.error("There was an error loading GeolosysDeposits.dat");
+            i.printStackTrace();
+            return;
+        }
+        catch (ClassNotFoundException c)
+        {
+            Geolosys.getInstance().LOGGER.error("There was an error in the code for deserialization. Please contact oitsjustjose on GitHub with a log");
+            Geolosys.getInstance().LOGGER.error(c.getMessage());
+            return;
+        }
     }
 }

@@ -7,17 +7,8 @@ import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
-import com.oitsjustjose.geolosys.items.ItemCluster;
-import com.oitsjustjose.geolosys.items.ItemCoal;
-import com.oitsjustjose.geolosys.items.ItemFieldManual;
-import com.oitsjustjose.geolosys.items.ItemIngot;
-import com.oitsjustjose.geolosys.items.ItemProPick;
-import com.oitsjustjose.geolosys.util.ClientRegistry;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.ConfigOres;
-import com.oitsjustjose.geolosys.util.ConfigParser;
-import com.oitsjustjose.geolosys.util.HelperFunctions;
-import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.items.*;
+import com.oitsjustjose.geolosys.util.*;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
@@ -36,17 +27,13 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
@@ -346,5 +333,13 @@ public class Geolosys
         {
             StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
         }
+    }
+
+    // Handles all of the self-loading features
+    // Moved to "ServerStarted" to improve compat
+    @EventHandler
+    public void serverStarted(FMLServerStartedEvent event)
+    {
+        chunkOreGen.deserialize();
     }
 }
