@@ -1,0 +1,80 @@
+# ------------------------------------ #
+#                Ores                  #
+# ------------------------------------ #
+geolosys.ore.hematite.name=Гематит
+geolosys.ore.limonite.name=Лимонит
+geolosys.ore.malachite.name=Малахит
+geolosys.ore.azurite.name=Азурит
+geolosys.ore.cassiterite.name=Касситерит
+geolosys.ore.teallite.name=Теаллит
+geolosys.ore.galena.name=Галенит
+geolosys.ore.bauxite.name=Боксит
+geolosys.ore.autunite.name=Аутунит
+geolosys.ore.platinum.name=Платина
+geolosys.ore.sphalerite.name=Сфалерит
+geolosys.ore_vanilla.coal.name=Уголь
+geolosys.ore_vanilla.cinnabar.name=Киноварь
+geolosys.ore_vanilla.gold.name=Золото
+geolosys.ore_vanilla.lapis.name=Лазурит
+geolosys.ore_vanilla.quartz.name=Смешанный Кварц
+geolosys.ore_vanilla.kimberlite.name=Кимберлит
+geolosys.ore_vanilla.beryl.name=Берилл
+
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.ore_sample.hematite.name=Гематитовый Образец
+geolosys.ore_sample.limonite.name=Лимонитовый Образец
+geolosys.ore_sample.malachite.name=Малахитовый Образец
+geolosys.ore_sample.azurite.name=Азуритовый Образец
+geolosys.ore_sample.cassiterite.name=Касситеритовый Образец
+geolosys.ore_sample.teallite.name=Теаллитовый Образец
+geolosys.ore_sample.galena.name=Галенитовый Образец
+geolosys.ore_sample.bauxite.name=Бокситовый Образец
+geolosys.ore_sample.autunite.name=Аутунитовый Образец
+geolosys.ore_sample.platinum.name=Платиновый Образец
+geolosys.ore_sample.sphalerite.name=Сфалеритовый Образец
+geolosys.ore_sample_vanilla.coal.name=Угольный Образец
+geolosys.ore_sample_vanilla.cinnabar.name=Киноварный Образец
+geolosys.ore_sample_vanilla.gold.name=Золотой Образец
+geolosys.ore_sample_vanilla.lapis.name=Лазуритовый Образец
+geolosys.ore_sample_vanilla.quartz.name=Образец Смешанного Кварца
+geolosys.ore_sample_vanilla.kimberlite.name=Кимберлитовый Образец
+geolosys.ore_sample_vanilla.beryl.name=Берилловый Образец
+
+# ------------------------------------ #
+#             Clusters                 #
+# ------------------------------------ #
+geolosys.cluster.iron.name=:Железное Скопление
+geolosys.cluster.gold.name=Золотое Скопление
+geolosys.cluster.copper.name=Медное Скопление
+geolosys.cluster.tin.name=Оловянное Скопление
+geolosys.cluster.silver.name=Серебряное Скопление
+geolosys.cluster.lead.name=Свинцовое Скопление
+geolosys.cluster.aluminum.name=Алюминивое Скопление
+geolosys.cluster.uranium.name=Урановое Скопление
+geolosys.cluster.nickel.name=Никелевое Скопление
+geolosys.cluster.platinum.name=Платиновое Скопление
+geolosys.cluster.zinc.name=Цинковое Скопление
+geolosys.cluster.osmium.name=Осмиумовое Скопление
+geolosys.cluster.yellorium.name=Йеллориумовое Скопление
+
+# ------------------------------------ #
+#              Ingots                  #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Медный Слиток
+geolosys.ingot.tin.name=Оловянный Слиток
+geolosys.ingot.silver.name=Серебряный Слиток
+geolosys.ingot.lead.name=Свинцовый Слиток
+geolosys.ingot.aluminum.name=Алюминиевый Слиток
+geolosys.ingot.nickel.name=Никелевый Слиток
+geolosys.ingot.platinum.name=Платиновый Слиток
+geolosys.ingot.zinc.name=Цинковый Слиток
+
+# ------------------------------------ #
+#               Misc                   #
+# ------------------------------------ #
+geolosys.pro_pick.name=Кирка Проспектора
+geolosys.field_manual.name=Руководство по Месторождениям
+geolosys.field_manual.tooltip=Всё, что нужно знать о копании с Geolosys!
+shift.tooltip=Нажмите Shift.
