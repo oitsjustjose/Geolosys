@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -104,6 +105,9 @@ public class OreGenerator implements IWorldGenerator
 
             int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
             pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, y, z + rand.nextInt(4) + 4));
+            System.out.println(state.toString().substring(0, state.toString().indexOf("[")) + ":" + state.getBlock().getMetaFromState(state));
+            GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), state.toString().substring(0, state.toString().indexOf("[")) + ":" + state.getBlock().getMetaFromState(state));
+            GeolosysAPI.writeToFile();
             Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
         }
 

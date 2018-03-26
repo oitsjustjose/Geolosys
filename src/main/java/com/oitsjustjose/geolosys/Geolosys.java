@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
@@ -335,11 +336,9 @@ public class Geolosys
         }
     }
 
-    // Handles all of the self-loading features
-    // Moved to "ServerStarted" to improve compat
     @EventHandler
     public void serverStarted(FMLServerStartedEvent event)
     {
-        chunkOreGen.deserialize();
+        GeolosysAPI.readFromFile();
     }
 }
