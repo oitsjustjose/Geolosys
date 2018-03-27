@@ -50,6 +50,14 @@ public class GeolosysAPI
     @SuppressWarnings("unchecked")
     public static void readFromFile()
     {
+        if (DimensionManager.getCurrentSaveRootDirectory() == null)
+        {
+            return;
+        }
+        else if (fileLocation == null)
+        {
+            fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+        }
         try
         {
             if (fileLocation.exists())

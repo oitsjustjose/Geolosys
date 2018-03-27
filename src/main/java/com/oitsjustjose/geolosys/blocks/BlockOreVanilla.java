@@ -35,6 +35,11 @@ import java.util.Random;
 public class BlockOreVanilla extends Block
 {
     public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
+    private final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
+    private final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
+    private final Item certusQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
+    private final Item blackQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
+
 
     public BlockOreVanilla()
     {
@@ -145,12 +150,10 @@ public class BlockOreVanilla extends Block
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
             int rng = random.nextInt(60);
             // Compat for ExtraUtils 2
-            final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
             if (EXU_MATERIAL != null && rng < 2)
             {
                 drops.add(new ItemStack(EXU_MATERIAL));
             }
-            final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
             if (TE_MATERIAL != null && rng == 2)
             {
                 drops.add(new ItemStack(TE_MATERIAL, 1, 866));
@@ -172,8 +175,7 @@ public class BlockOreVanilla extends Block
             {
                 int rng = random.nextInt(25);
                 // Compat for certus quartz & black quartz
-                Item certusQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
-                Item blackQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
+
                 if (certusQuartz != null)
                 {
                     if (rng < 5) // 2 / 25
