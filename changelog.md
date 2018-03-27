@@ -1,3 +1,9 @@
+### 1.8.9b:
+* FIXED: `NullPointerException` on line 54 of GeolosysAPI (NPE for `fileLocation`)
+
+### 1.8.9:
+* ADDED: API for Geolosys, so that other mods can see where mineral deposits have generated and even do some simple trickery to basically control Geolosys.
+
 ### 1.8.8c:
 * ADDED: New Compass Enchancement (configurable) that helps you find mineral deposits without F3
 * CHANGED: Minor touchy things for the IE compat layer
