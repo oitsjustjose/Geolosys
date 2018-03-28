@@ -1,3 +1,6 @@
+### 1.8.9c:
+* FIXED: Console spam. Sorry. Thanks AmazigJj :)
+
 ### 1.8.9b:
 * FIXED: `NullPointerException` on line 54 of GeolosysAPI (NPE for `fileLocation`)
 
