@@ -1,3 +1,11 @@
+### 1.8.10:
+* [API] ADDED: Ability to add your own minerals and stones yourself
+* ADDED: Lava to the replacement mats defaults (this is a good idea, just saying...)
+* CHANGED: Lots of internal stuff. You won't notice much, but now others can read my code (including myself)
+* CHANGED: Minerals will now automatically replace any "stones" added when generating
+* CHANGED: Replacement materials config no longer *requires* metadata
+* CHANGED: World generator to the Vanilla MC one. This means no more cascading lag, but no more magma blocks.
+
 ### 1.8.9c:
 * FIXED: Console spam. Sorry. Thanks AmazigJj :)
 
