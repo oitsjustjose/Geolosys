@@ -10,6 +10,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.Loader;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -84,7 +85,20 @@ public class OreGenerator implements IWorldGenerator
             {
                 return;
             }
-            pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, minY != maxY ? minY + rand.nextInt(maxY - minY) : minY, z + rand.nextInt(4) + 4));
+            for (int d : this.blacklistedDims)
+            {
+                if (d == world.provider.getDimension())
+                {
+                    return;
+                }
+            }
+            int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+            if (Loader.isModLoaded("twilightforest") && world.provider.getDimension() == 7)
+            {
+                y /= 2;
+                y /= 2;
+            }
+            pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, y, z + rand.nextInt(4) + 4));
             GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), state.toString().substring(0, state.toString().indexOf("[")) + ":" + state.getBlock().getMetaFromState(state));
             GeolosysAPI.writeToFile();
             Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
