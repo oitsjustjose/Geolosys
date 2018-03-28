@@ -99,7 +99,7 @@ public class ConfigParser
         for (String s : Config.getInstance().replacementMatsRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
-            if (parts.length != 3)
+            if (parts.length != 2 && parts.length != 3)
             {
                 printFormattingError(s);
                 continue;
@@ -112,7 +112,14 @@ public class ConfigParser
                     printFormattingError(s);
                     continue;
                 }
-                GeolosysAPI.replacementMats.add(HelperFunctions.getStateFromMeta(block, toInt(parts[2])));
+                if (parts.length == 2)
+                {
+                    GeolosysAPI.replacementMats.add(block.getDefaultState());
+                }
+                else
+                {
+                    GeolosysAPI.replacementMats.add(HelperFunctions.getStateFromMeta(block, toInt(parts[2])));
+                }
             }
             catch (NumberFormatException e)
             {
@@ -126,7 +133,6 @@ public class ConfigParser
     {
         return Integer.parseInt(s);
     }
-
 
     private void printFormattingError(String s)
     {

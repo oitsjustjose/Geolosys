@@ -8,6 +8,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class OreGenerator implements IWorldGenerator
         while (true)
         {
             OreGen check = oreSpawnList.get(random.nextInt(oreSpawnList.size()));
-            if (check.weight > minWeight)// && (lastGenerated == null || check.state != lastGenerated.state))
+            if (check.weight > minWeight)
             {
                 if (lastGenerated == null || lastGenerated.state != check.state)
                 {
@@ -60,7 +61,7 @@ public class OreGenerator implements IWorldGenerator
 
     public static class OreGen
     {
-        WorldGenOrePluton pluton;
+        WorldGenMinable pluton;
         IBlockState state;
         int minY;
         int maxY;
@@ -69,7 +70,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenOrePluton(state, maxVeinSize);
+            this.pluton = new WorldGenMinable(state, maxVeinSize, iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState)));
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
@@ -83,36 +84,10 @@ public class OreGenerator implements IWorldGenerator
             {
                 return;
             }
-            // Ensure that the entry exists in the JSON file
-            if (blacklistedDims != null)
-            {
-                for (int i : blacklistedDims)
-                {
-                    if (i == world.provider.getDimension())
-                    {
-                        return;
-                    }
-                }
-            }
-            // If the blacklist doesn't exist, we'll assume usual 1 and -1
-            else
-            {
-                if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
-                {
-                    return;
-                }
-            }
-
-            int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
-            pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, y, z + rand.nextInt(4) + 4));
+            pluton.generate(world, rand, new BlockPos(x + rand.nextInt(4) + 4, minY != maxY ? minY + rand.nextInt(maxY - minY) : minY, z + rand.nextInt(4) + 4));
             GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), state.toString().substring(0, state.toString().indexOf("[")) + ":" + state.getBlock().getMetaFromState(state));
             GeolosysAPI.writeToFile();
-            Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, getSampleForOre(state));
-        }
-
-        private IBlockState getSampleForOre(IBlockState state)
-        {
-            return GeolosysAPI.oreBlocks.get(state);
+            Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
         }
     }
 }

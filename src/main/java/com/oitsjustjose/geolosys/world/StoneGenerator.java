@@ -1,12 +1,14 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
@@ -20,13 +22,12 @@ import java.util.Random;
 
 public class StoneGenerator implements IWorldGenerator
 {
-    public static ArrayList<StoneGen> stoneSpawnList = new ArrayList();
+    private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
 
-    public static StoneGen addStoneGen(IBlockState state, int minY, int maxY, int weight)
+    public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
         StoneGen gen = new StoneGen(state, minY, maxY, weight);
         stoneSpawnList.add(gen);
-        return gen;
     }
 
     @Override
@@ -40,16 +41,16 @@ public class StoneGenerator implements IWorldGenerator
 
     public static class StoneGen
     {
-        WorldGenStonePluton pluton;
+        WorldGenMinable pluton;
         IBlockState state;
         int minY;
         int maxY;
         int weight;
 
 
-        public StoneGen(IBlockState state, int minY, int maxY, int weight)
+        StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
-            this.pluton = new WorldGenStonePluton(state, 96);
+            this.pluton = new WorldGenMinable(state, 96, iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState)));
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);

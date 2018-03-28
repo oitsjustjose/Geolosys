@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.util;
 
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -113,7 +112,7 @@ public class Config
         registerAsBauxite = property.getBoolean();
         propertyOrder.add(property.getName());
 
-        property = config.get(category, "Blocks mineral deposits can replace", new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0"});
+        property = config.get(category, "Blocks mineral deposits can replace", new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt", "minecraft:flowing_lava", "minecraft:lava"});
         replacementMatsRaw = property.getStringList();
         propertyOrder.add(property.getName());
 

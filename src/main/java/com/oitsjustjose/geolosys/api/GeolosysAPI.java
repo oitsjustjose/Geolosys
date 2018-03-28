@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
 
@@ -26,7 +27,6 @@ public class GeolosysAPI
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
     public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
-
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
      */
