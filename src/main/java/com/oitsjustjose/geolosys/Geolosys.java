@@ -35,7 +35,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.*;
-import java.util.ArrayList;
 
 @Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
 public class Geolosys
@@ -48,8 +47,6 @@ public class Geolosys
     public ConfigOres configOres;
     public ClientRegistry clientRegistry;
     public ChunkData chunkOreGen;
-    public ArrayList<IBlockState> userStates;
-    public ConfigParser configParser;
 
     public Block ORE;
     public Block ORE_VANILLA;
@@ -76,7 +73,6 @@ public class Geolosys
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         chunkOreGen = new ChunkData();
-        userStates = new ArrayList<>();
 
         ORE = new BlockOre();
         ORE_VANILLA = new BlockOreVanilla();
@@ -164,9 +160,7 @@ public class Geolosys
             }
         }
 
-        configParser = new ConfigParser();
-        registerUserOreGen();
-        registerUserStoneGen();
+        ConfigParser.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }
@@ -187,31 +181,31 @@ public class Geolosys
     {
         if (configOres.coalChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), configOres.coalSize, configOres.coalMinY, configOres.coalMaxY, configOres.coalChance, configOres.coalDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 0), configOres.coalMinY, configOres.coalMaxY, configOres.coalSize, configOres.coalChance, configOres.coalDimBlacklist);
         }
         if (configOres.cinnabarChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), configOres.cinnabarSize, configOres.cinnabarMinY, configOres.cinnabarMaxY, configOres.cinnabarChance, configOres.cinnabarDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), configOres.cinnabarMinY, configOres.cinnabarMaxY, configOres.cinnabarSize, configOres.cinnabarChance, configOres.cinnabarDimBlacklist);
         }
         if (configOres.goldChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), configOres.goldSize, configOres.goldMinY, configOres.goldMaxY, configOres.goldChance, configOres.goldDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 2), configOres.goldMinY, configOres.goldMaxY, configOres.goldSize, configOres.goldChance, configOres.goldDimBlacklist);
         }
         if (configOres.lapisChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), configOres.lapisSize, configOres.lapisMinY, configOres.lapisMaxY, configOres.lapisChance, configOres.lapisDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), configOres.lapisMinY, configOres.lapisMaxY, configOres.lapisSize, configOres.lapisChance, configOres.lapisDimBlacklist);
         }
         if (configOres.quartzChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), configOres.quartzSize, configOres.quartzMinY, configOres.quartzMaxY, configOres.quartzChance, configOres.quartzDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 4), configOres.quartzMinY, configOres.quartzMaxY, configOres.quartzSize, configOres.quartzChance, configOres.quartzDimBlacklist);
         }
         if (configOres.kimberliteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), configOres.kimberliteSize, configOres.kimberliteMinY, configOres.kimberliteMaxY, configOres.kimberliteChance, configOres.kimberliteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 5), configOres.kimberliteMinY, configOres.kimberliteMaxY, configOres.kimberliteSize, configOres.kimberliteChance, configOres.kimberliteDimBlacklist);
         }
         if (configOres.berylChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), configOres.berylSize, configOres.berylMinY, configOres.berylMaxY, configOres.berylChance, configOres.berylDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.berylMinY, configOres.berylMaxY, configOres.berylSize, configOres.berylChance, configOres.berylDimBlacklist);
         }
         if (Config.getInstance().modStones)
         {
@@ -219,9 +213,9 @@ public class Geolosys
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
             IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
 
-            StoneGenerator.addStoneGen(andesite, 2, 70, 40);
-            StoneGenerator.addStoneGen(diorite, 2, 70, 40);
-            StoneGenerator.addStoneGen(granite, 2, 70, 40);
+            GeolosysAPI.registerStoneDeposit(andesite, 2, 70, 40);
+            GeolosysAPI.registerStoneDeposit(diorite, 2, 70, 40);
+            GeolosysAPI.registerStoneDeposit(granite, 2, 70, 40);
         }
     }
 
@@ -229,47 +223,47 @@ public class Geolosys
     {
         if (configOres.hematiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 0), configOres.hematiteSize, configOres.hematiteMinY, configOres.hematiteMaxY, configOres.hematiteChance, configOres.hematiteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 0), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 0), configOres.hematiteMinY, configOres.hematiteMaxY, configOres.hematiteSize, configOres.hematiteChance, configOres.hematiteDimBlacklist);
         }
         if (configOres.limoniteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 1), configOres.limoniteSize, configOres.limoniteMinY, configOres.limoniteMaxY, configOres.limoniteChance, configOres.limoniteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 1), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 1), configOres.limoniteMinY, configOres.limoniteMaxY, configOres.limoniteSize, configOres.limoniteChance, configOres.limoniteDimBlacklist);
         }
         if (configOres.malachiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 2), configOres.malachiteSize, configOres.malachiteMinY, configOres.malachiteMaxY, configOres.malachiteChance, configOres.malachiteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 2), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 2), configOres.malachiteMinY, configOres.malachiteMaxY, configOres.malachiteSize, configOres.malachiteChance, configOres.malachiteDimBlacklist);
         }
         if (configOres.azuriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 3), configOres.azuriteSize, configOres.azuriteMinY, configOres.azuriteMaxY, configOres.azuriteChance, configOres.azuriteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 3), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 3), configOres.azuriteMinY, configOres.azuriteMaxY, configOres.azuriteSize, configOres.azuriteChance, configOres.azuriteDimBlacklist);
         }
         if (configOres.cassiteriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 4), configOres.cassiteriteSize, configOres.cassiteriteMinY, configOres.cassiteriteMaxY, configOres.cassiteriteChance, configOres.cassiteriteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 4), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 4), configOres.cassiteriteMinY, configOres.cassiteriteMaxY, configOres.cassiteriteSize, configOres.cassiteriteChance, configOres.cassiteriteDimBlacklist);
         }
         if (configOres.tealliteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 5), configOres.tealliteSize, configOres.tealliteMinY, configOres.tealliteMaxY, configOres.tealliteChance, configOres.tealliteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 5), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 5), configOres.tealliteMinY, configOres.tealliteMaxY, configOres.tealliteSize, configOres.tealliteChance, configOres.tealliteDimBlacklist);
         }
         if (configOres.galenaChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 6), configOres.galenaSize, configOres.galenaMinY, configOres.galenaMaxY, configOres.galenaChance, configOres.galenaDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 6), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 6), configOres.galenaMinY, configOres.galenaMaxY, configOres.galenaSize, configOres.galenaChance, configOres.galenaDimBlacklist);
         }
         if (configOres.bauxiteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 7), configOres.bauxiteSize, configOres.bauxiteMinY, configOres.bauxiteMaxY, configOres.bauxiteChance, configOres.bauxiteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 7), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 7), configOres.bauxiteMinY, configOres.bauxiteMaxY, configOres.bauxiteSize, configOres.bauxiteChance, configOres.bauxiteDimBlacklist);
         }
         if (configOres.platinumChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 8), configOres.platinumSize, configOres.platinumMinY, configOres.platinumMaxY, configOres.platinumChance, configOres.platinumDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 8), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 8), configOres.platinumMinY, configOres.platinumMaxY, configOres.platinumSize, configOres.platinumChance, configOres.platinumDimBlacklist);
         }
         if (configOres.autuniteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 9), configOres.autuniteSize, configOres.autuniteMinY, configOres.autuniteMaxY, configOres.autuniteChance, configOres.autuniteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 9), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 9), configOres.autuniteMinY, configOres.autuniteMaxY, configOres.autuniteSize, configOres.autuniteChance, configOres.autuniteDimBlacklist);
         }
         if (configOres.sphaleriteChance > 0)
         {
-            OreGenerator.addOreGen(HelperFunctions.getStateFromMeta(ORE, 10), configOres.sphaleriteSize, configOres.sphaleriteMinY, configOres.sphaleriteMaxY, configOres.sphaleriteChance, configOres.sphaleriteDimBlacklist);
+            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE, 10), HelperFunctions.getStateFromMeta(ORE_SAMPLE, 10), configOres.sphaleriteMinY, configOres.sphaleriteMaxY, configOres.sphaleriteSize, configOres.sphaleriteChance, configOres.sphaleriteDimBlacklist);
         }
     }
 
@@ -317,23 +311,6 @@ public class Geolosys
             }
         }
         return getOresConfig(configDir);
-    }
-
-    private void registerUserOreGen()
-    {
-        for (ConfigParser.Entry e : configParser.getUserOreEntries().keySet())
-        {
-            OreGenerator.addOreGen(e.getState(), e.getSize(), e.getMinY(), e.getMaxY(), e.getChancePerChunk(), new int[]{-1, 1});
-            userStates.add(e.getState());
-        }
-    }
-
-    private void registerUserStoneGen()
-    {
-        for (ConfigParser.Entry e : configParser.getUserStoneEntries())
-        {
-            StoneGenerator.addStoneGen(e.getState(), e.getMinY(), e.getMaxY(), e.getChancePerChunk());
-        }
     }
 
     @EventHandler

@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.util.Config;
@@ -105,7 +106,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -129,7 +130,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -153,7 +154,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -178,7 +179,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -203,7 +204,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;
@@ -227,7 +228,7 @@ public class ItemProPick extends Item
                         for (int z = zStart; z <= zEnd; z++)
                         {
                             IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (state.getBlock() instanceof BlockOre || state.getBlock() instanceof BlockOreVanilla || Geolosys.getInstance().userStates.contains(state))
+                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
                             {
                                 foundMessage(player, state, facing);
                                 found = true;

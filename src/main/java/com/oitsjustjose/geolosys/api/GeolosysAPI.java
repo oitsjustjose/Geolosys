@@ -1,10 +1,14 @@
 package com.oitsjustjose.geolosys.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.world.OreGenerator;
+import com.oitsjustjose.geolosys.world.StoneGenerator;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,11 +20,18 @@ public class GeolosysAPI
     // Some local instance variables I don't want others having access to..
     private static File fileLocation = null;
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
+    // A K:V pair of block states to pair deposits with their samples
+    public static HashMap<IBlockState, IBlockState> oreBlocks = new HashMap<>();
+    // A collection of blocks which Geolosys can replace in generation
+    public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
+    // A K:V pair of IBlockStates with their sample sizes
+    public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
+
     public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits()
     {
         return (HashMap<ChunkPosSerializable, String>) currentWorldDeposits.clone();
@@ -106,6 +117,39 @@ public class GeolosysAPI
             i.printStackTrace();
         }
     }
+
+    /**
+     * Adds a deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlock     The block you want UNDERGROUND as an ore
+     * @param sampleBlock  The block you want ON THE SURFACE as a sample
+     * @param yMin         The minimum Y level this deposit can generate at
+     * @param yMax         The maximum Y level this deposit can generate at
+     * @param size         The size of the deposit
+     * @param chance       The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist An array of dimension numbers in which this deposit cannot generate
+     */
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist)
+    {
+        OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
+        oreBlocks.put(oreBlock, sampleBlock);
+        sampleCounts.put(sampleBlock, size);
+    }
+
+    /**
+     * Ads a stone type for Geolosys to handle the generation of.
+     *
+     * @param stoneBlock The block you want to generate
+     * @param yMin       The minimum Y level this deposit can generate at
+     * @param yMax       The maximum Y level this deposit can generate at
+     * @param chance     The chance of the deposit generating (higher = more likely)
+     */
+    public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance)
+    {
+        StoneGenerator.addStoneGen(stoneBlock, yMin, yMax, chance);
+        replacementMats.add(stoneBlock);
+    }
+
 
     /**
      * ChunkPosSerializable is a serializable version of Mojang's ChunkPos

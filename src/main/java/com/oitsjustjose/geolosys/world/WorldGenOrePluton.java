@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.world;
 
 import com.google.common.base.Predicate;
-import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -112,9 +112,9 @@ public class WorldGenOrePluton extends WorldGenerator
 
     static class StonePredicate implements Predicate<IBlockState>
     {
-        public boolean apply(IBlockState p_apply_1_)
+        public boolean apply(IBlockState test)
         {
-            return Geolosys.getInstance().configParser.getUserReplacementMatEntries().contains(p_apply_1_);
+            return GeolosysAPI.replacementMats.contains(test) || test.getMaterial().isLiquid();
         }
     }
 }

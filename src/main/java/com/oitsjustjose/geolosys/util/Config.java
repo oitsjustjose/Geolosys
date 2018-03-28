@@ -179,9 +179,7 @@ public class Config
         if (event.getModID().equals(Lib.MODID))
         {
             loadConfiguration();
-            Geolosys.getInstance().configParser.parseOres();
-            Geolosys.getInstance().configParser.parseStones();
-            Geolosys.getInstance().configParser.parsePredicates();
+            ConfigParser.init();
         }
     }
 
