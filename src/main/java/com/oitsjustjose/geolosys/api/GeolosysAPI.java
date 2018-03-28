@@ -4,7 +4,6 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
 
