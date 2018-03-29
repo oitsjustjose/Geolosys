@@ -66,7 +66,7 @@ public class StoneGenerator implements IWorldGenerator
             if (rand.nextInt(100) < weight)
             {
                 int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
-                pluton.generate(world, rand, new BlockPos(x + 8, y, z + 8));
+                pluton.generate(world, rand, new BlockPos(x, y, z));
             }
         }
     }
