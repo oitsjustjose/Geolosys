@@ -6,9 +6,17 @@
     " S "
   ],
   "key": {
-    "S": { "type": "forge:ore_dict", "ore": "stickWood" },
-    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
-    "B": { "item": "minecraft:iron_block" }
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    }
   },
   "result": {
     "item": "geolosys:pro_pick"

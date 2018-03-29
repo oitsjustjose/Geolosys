@@ -17,15 +17,15 @@ import java.util.HashMap;
  */
 public class GeolosysAPI
 {
-    // Some local instance variables I don't want others having access to..
-    private static File fileLocation = null;
-    private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     // A K:V pair of block states to pair deposits with their samples
     public static HashMap<IBlockState, IBlockState> oreBlocks = new HashMap<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
     public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
+    // Some local instance variables I don't want others having access to..
+    private static File fileLocation = null;
+    private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta

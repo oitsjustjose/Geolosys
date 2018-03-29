@@ -12,11 +12,11 @@ import java.util.List;
 
 public class Config
 {
+    private static Config instance;
     public Configuration config;
     public ConfigCategory FeatureControl;
     public ConfigCategory Samples;
     public ConfigCategory UserEntries;
-
     // Feature Control
     public boolean modStones;
     public boolean enableOsmium;
@@ -31,17 +31,13 @@ public class Config
     public boolean enableSmelting;
     public boolean registerAsBauxite;
     public String[] replacementMatsRaw;
-
     // Sample Stuff
     public int maxSamples;
     public boolean generateSamplesInWater;
     public boolean boringSamples;
-
     // User Entries
     public String[] userOreEntriesRaw;
     public String[] userStoneEntriesRaw;
-
-    private static Config instance;
 
     public Config(File configFile)
     {
@@ -51,6 +47,11 @@ public class Config
             loadConfiguration();
         }
         instance = this;
+    }
+
+    public static Config getInstance()
+    {
+        return instance;
     }
 
     void loadConfiguration()
@@ -180,10 +181,5 @@ public class Config
             loadConfiguration();
             ConfigParser.init();
         }
-    }
-
-    public static Config getInstance()
-    {
-        return instance;
     }
 }

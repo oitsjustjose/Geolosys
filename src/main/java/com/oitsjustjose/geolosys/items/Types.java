@@ -11,21 +11,6 @@ public class Types
         BITUMINOUS(2, 24, "bituminous"),
         ANTHRACITE(3, 32, "anthracite");
 
-        private final int meta;
-        private final int burnTime;
-        private final String serializedName;
-        private final String unlocalizedName;
-
-
-        Coal(int meta, int burnTime, String name)
-        {
-            this.meta = meta;
-            this.burnTime = burnTime;
-            this.serializedName = name;
-            this.unlocalizedName = name;
-        }
-
-
         private static final Coal[] META_LOOKUP = new Coal[values().length];
 
         static
@@ -34,6 +19,19 @@ public class Types
             {
                 META_LOOKUP[type.getMetadata()] = type;
             }
+        }
+
+        private final int meta;
+        private final int burnTime;
+        private final String serializedName;
+        private final String unlocalizedName;
+
+        Coal(int meta, int burnTime, String name)
+        {
+            this.meta = meta;
+            this.burnTime = burnTime;
+            this.serializedName = name;
+            this.unlocalizedName = name;
         }
 
         public static Coal byMetadata(int meta)

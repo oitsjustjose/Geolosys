@@ -24,7 +24,7 @@ public class Finder
         {
             try
             {
-                event.getEntityPlayer().sendStatusMessage(new TextComponentString("Altitude: " + (int) event.getEntityPlayer().posY + " | Chunk: " + ((int)Math.floor(event.getEntityPlayer().posX) & 15) + ", " + ((int)Math.floor(event.getEntityPlayer().posZ) & 15)), true);
+                event.getEntityPlayer().sendStatusMessage(new TextComponentString("Altitude: " + (int) event.getEntityPlayer().posY + " | Chunk: " + ((int) Math.floor(event.getEntityPlayer().posX) & 15) + ", " + ((int) Math.floor(event.getEntityPlayer().posZ) & 15)), true);
             }
             catch (NullPointerException ignored)
             {

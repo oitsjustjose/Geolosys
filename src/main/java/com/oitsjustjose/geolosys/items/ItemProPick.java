@@ -2,8 +2,6 @@ package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.blocks.BlockOre;
-import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.util.Config;
 import com.oitsjustjose.geolosys.util.Finder;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
