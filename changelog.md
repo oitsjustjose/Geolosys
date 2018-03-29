@@ -1,6 +1,7 @@
 ### 1.8.10:
 * [API] ADDED: Ability to add your own minerals and stones yourself
 * ADDED: Lava to the replacement mats defaults (this is a good idea, just saying...)
+* FIXED: World generation issues. Things should be good now. I promise.
 * CHANGED: Lots of internal stuff. You won't notice much, but now others can read my code (including myself)
 * CHANGED: Minerals will now automatically replace any "stones" added when generating
 * CHANGED: Replacement materials config no longer *requires* metadata
