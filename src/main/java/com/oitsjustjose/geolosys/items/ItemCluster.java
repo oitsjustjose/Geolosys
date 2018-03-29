@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -73,7 +73,7 @@ public class ItemCluster extends Item
             OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
             OreDictionary.registerOre("geolosysOre" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
         }
-        if (Config.getInstance().registerAsBauxite)
+        if (ModConfig.featureControl.registerAsBauxite)
         {
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
             OreDictionary.registerOre("geolosysOreBauxite", new ItemStack(this, 1, META_ALUMINUM));

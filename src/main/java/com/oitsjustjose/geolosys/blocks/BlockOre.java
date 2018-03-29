@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -66,7 +66,6 @@ public class BlockOre extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        Config config = Config.getInstance();
         Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
@@ -105,11 +104,11 @@ public class BlockOre extends Block
         // Special case for Osmium
         else if (state.getBlock().getMetaFromState(state) == 8)
         {
-            if (config.enableOsmiumExclusively)
+            if (ModConfig.featureControl.enableOsmiumExclusively)
             {
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
             }
-            else if (config.enableOsmium)
+            else if (ModConfig.featureControl.enableOsmium)
             {
                 Random rand = new Random();
                 int rng = rand.nextInt(2);
@@ -130,7 +129,7 @@ public class BlockOre extends Block
         // Special case for Autunite to drop yellorium
         else if (state.getBlock().getMetaFromState(state) == 9)
         {
-            if (config.enableYellorium)
+            if (ModConfig.featureControl.enableYellorium)
             {
                 Random rand = new Random();
                 int rng = rand.nextInt(2);

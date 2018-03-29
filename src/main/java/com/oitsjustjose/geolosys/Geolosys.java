@@ -8,9 +8,9 @@ import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
-import com.oitsjustjose.geolosys.config.Config;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ConfigParser;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.*;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
 import com.oitsjustjose.geolosys.util.Finder;
@@ -41,7 +41,7 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.io.*;
 
-@Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, guiFactory = "com.oitsjustjose.geolosys.config.ConfigGUI$GUIFactory", acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
+@Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
 public class Geolosys
 {
     public static final String MODID = "geolosys";
@@ -76,7 +76,6 @@ public class Geolosys
     public void preInit(FMLPreInitializationEvent event)
     {
         LOGGER = event.getModLog();
-        MinecraftForge.EVENT_BUS.register(new Config(event.getSuggestedConfigurationFile()));
         configOres = getOresConfig(event.getModConfigurationDirectory());
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
@@ -88,19 +87,19 @@ public class Geolosys
         ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
-        if (Config.getInstance().enableIngots)
+        if (ModConfig.featureControl.enableIngots)
         {
             INGOT = new ItemIngot();
         }
-        if (Config.getInstance().enableCoals)
+        if (ModConfig.featureControl.enableCoals)
         {
             COAL = new ItemCoal();
         }
-        if (Config.getInstance().enableProPick)
+        if (ModConfig.featureControl.enableProPick)
         {
             PRO_PICK = new ItemProPick();
         }
-        if (Config.getInstance().enhancedCompass)
+        if (ModConfig.featureControl.enableEnhancedCompass)
         {
             MinecraftForge.EVENT_BUS.register(new Finder());
         }
@@ -123,7 +122,7 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        if (Config.getInstance().enableSmelting)
+        if (ModConfig.featureControl.enableSmelting)
         {
             if (configOres.hematiteChance > 0 || configOres.limoniteChance > 0)
             {
@@ -162,11 +161,11 @@ public class Geolosys
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 10), "ingotZinc");
             }
-            if (Config.getInstance().enableYellorium)
+            if (ModConfig.featureControl.enableYellorium)
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 11), "ingotYellorium");
             }
-            if (Config.getInstance().enableOsmium)
+            if (ModConfig.featureControl.enableOsmium)
             {
                 smeltSafely(new ItemStack(CLUSTER, 1, 12), "ingotOsmium");
             }
@@ -219,7 +218,7 @@ public class Geolosys
         {
             GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.berylMinY, configOres.berylMaxY, configOres.berylSize, configOres.berylChance, configOres.berylDimBlacklist);
         }
-        if (Config.getInstance().modStones)
+        if (ModConfig.featureControl.modStones)
         {
             IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
             IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);

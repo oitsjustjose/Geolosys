@@ -2,8 +2,8 @@ package com.oitsjustjose.geolosys.compat.ie;
 
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.config.Config;
 import com.oitsjustjose.geolosys.config.ConfigOres;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -128,9 +128,9 @@ public class IECompat
         ExcavatorHandler.addMineral("Galena", Geolosys.getInstance().configOres.galenaChance, 0.05F, new String[]{"geolosysOreSilver", "geolosysOreLead"}, new float[]{0.5F, 0.5F});
         ExcavatorHandler.addMineral("Bauxite", Geolosys.getInstance().configOres.bauxiteChance, 0.15F, new String[]{"geolosysOreAluminum"}, new float[]{1.0F});
         ExcavatorHandler.addMineral("Sphalerite", Geolosys.getInstance().configOres.sphaleriteChance, 0.05F, new String[]{"geolosysOreZinc"}, new float[]{1.0F});
-        if (Config.getInstance().enableOsmium)
+        if (ModConfig.featureControl.enableOsmium)
         {
-            if (Config.getInstance().enableOsmiumExclusively)
+            if (ModConfig.featureControl.enableOsmiumExclusively)
             {
                 ExcavatorHandler.addMineral("Osmium", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOreOsmium"}, new float[]{1.0F});
             }
@@ -143,7 +143,7 @@ public class IECompat
         {
             ExcavatorHandler.addMineral("Platinum", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"geolosysOrePlatinum"}, new float[]{1.0F});
         }
-        if (Config.getInstance().enableYellorium)
+        if (ModConfig.featureControl.enableYellorium)
         {
             ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"geolosysOreUranium", "geolosysOreYellorium"}, new float[]{0.5F, 0.5F});
         }

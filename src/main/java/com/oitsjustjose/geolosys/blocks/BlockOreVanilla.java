@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -100,7 +100,7 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
-            if (Config.getInstance().enableCoals)
+            if (ModConfig.featureControl.enableCoals)
             {
                 Item coal = Geolosys.getInstance().COAL;
                 int y = pos.getY();
@@ -134,7 +134,7 @@ public class BlockOreVanilla extends Block
                     }
                 }
             }
-            if (Config.getInstance().enableSulfur && OreDictionary.doesOreNameExist("dustSulfur"))
+            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur"))
             {
                 int rng = random.nextInt(50);
                 if (rng == 0)

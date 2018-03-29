@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigParser
@@ -25,7 +26,7 @@ public class ConfigParser
 
     public void parseOres()
     {
-        for (String s : Config.getInstance().userOreEntriesRaw)
+        for (String s : ModConfig.userEntries.userOreEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 7 && parts.length != 10)
@@ -68,7 +69,7 @@ public class ConfigParser
 
     public void parseStones()
     {
-        for (String s : Config.getInstance().userStoneEntriesRaw)
+        for (String s : ModConfig.userEntries.userStoneEntriesRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 6)
@@ -97,7 +98,7 @@ public class ConfigParser
 
     public void parsePredicates()
     {
-        for (String s : Config.getInstance().replacementMatsRaw)
+        for (String s : ModConfig.userEntries.replacementMatsRaw)
         {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 2 && parts.length != 3)

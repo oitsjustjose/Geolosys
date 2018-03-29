@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.world;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
-import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -32,7 +32,7 @@ public class ChunkData
             {
                 continue;
             }
-            if (Config.getInstance().generateSamplesInWater || !isMoist(world, p))
+            if (ModConfig.samples.generateInWater || !isMoist(world, p))
             {
                 world.setBlockState(p, state);
             }
@@ -56,12 +56,12 @@ public class ChunkData
 
     private int getSampleCount(IBlockState state)
     {
-        int count = GeolosysAPI.sampleCounts.get(state) / Config.getInstance().maxSamples;
+        int count = GeolosysAPI.sampleCounts.get(state) / ModConfig.samples.maxSamples;
 
         // Normalize maximum sample counts
-        if (count > Config.getInstance().maxSamples)
+        if (count > ModConfig.samples.maxSamples)
         {
-            count = Config.getInstance().maxSamples;
+            count = ModConfig.samples.maxSamples;
         }
 
         return count;

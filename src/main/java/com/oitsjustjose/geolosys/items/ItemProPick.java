@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -77,7 +77,7 @@ public class ItemProPick extends Item
         int yEnd;
         int zStart;
         int zEnd;
-        int confAmt = Config.getInstance().proPickRange;
+        int confAmt = ModConfig.featureControl.proPickRange;
 
         boolean found = false;
 
