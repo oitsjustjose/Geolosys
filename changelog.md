@@ -1,11 +1,14 @@
 ### 1.8.10:
+#### This is a big update. Read carefully.
 * [API] ADDED: Ability to add your own minerals and stones yourself
 * ADDED: Lava to the replacement mats defaults (this is a good idea, just saying...)
 * FIXED: World generation issues. Things should be good now. I promise.
+* CHANGED: `geolosys_ores.json` defaults. Just trying to find the right balance, y'know?
 * CHANGED: Lots of internal stuff. You won't notice much, but now others can read my code (including myself)
 * CHANGED: Minerals will now automatically replace any "stones" added when generating
 * CHANGED: Replacement materials config no longer *requires* metadata
-* CHANGED: World generator to the Vanilla MC one. This means no more cascading lag, but no more magma blocks.
+* CHANGED: World generator to the Vanilla MC one. This means **no more cascading lag**, but no more magma blocks.
+* CHANGED: **THIS IS IMPORTANT**: Config Layout. Forge came out with a new one that is much nicer. Unfortunately this means you'll need to **UPDATE YOUR CONFIG**. I'd suggest moving your old one to a new folder (or renaming it), letting a new one get created, and copying entries side-by-side. 
 
 ### 1.8.9c:
 * FIXED: Console spam. Sorry. Thanks AmazigJj :)
