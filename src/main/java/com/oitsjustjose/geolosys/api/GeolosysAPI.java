@@ -44,16 +44,6 @@ public class GeolosysAPI
     public static void putWorldDeposit(ChunkPos pos, String state)
     {
         currentWorldDeposits.put(new ChunkPosSerializable(pos), state);
-        int total = 0;
-        for (ChunkPosSerializable chunk : currentWorldDeposits.keySet())
-        {
-            if (currentWorldDeposits.get(chunk).equals(state))
-            {
-                total++;
-            }
-        }
-        Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
-        Geolosys.getInstance().LOGGER.info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
     }
 
     /**
