@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +19,7 @@ public class ItemCoal extends Item
     {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "COAL"));
+        this.setRegistryName(new ResourceLocation(Geolosys.MODID, "COAL"));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();

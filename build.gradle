@@ -23,7 +23,7 @@ minecraft {
     runDir = "run"
 
     useDepAts = true
-    replaceIn "/util/Lib.java"
+    replaceIn "/Geolosys.java"
     replace "@VERSION@", mod_version
 
     mappings = "${mappings_version}"

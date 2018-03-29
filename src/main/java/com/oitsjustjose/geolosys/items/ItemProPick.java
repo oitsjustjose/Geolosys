@@ -2,10 +2,8 @@ package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.Finder;
+import com.oitsjustjose.geolosys.config.Config;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
-import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,14 +31,10 @@ public class ItemProPick extends Item
     {
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.TOOLS);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "PRO_PICK"));
+        this.setRegistryName(new ResourceLocation(Geolosys.MODID, "PRO_PICK"));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
-        if (Config.getInstance().enhancedCompass)
-        {
-            MinecraftForge.EVENT_BUS.register(new Finder());
-        }
     }
 
     private void registerModel()

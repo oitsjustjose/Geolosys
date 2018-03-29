@@ -2,8 +2,8 @@ package com.oitsjustjose.geolosys.compat.ie;
 
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.ConfigOres;
+import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ConfigOres;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

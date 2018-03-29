@@ -1,8 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.Lib;
+import com.oitsjustjose.geolosys.config.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -37,7 +36,7 @@ public class BlockSampleVanilla extends Block
     public BlockSampleVanilla()
     {
         super(Material.GROUND);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "ore_sample_vanilla"));
+        this.setRegistryName(new ResourceLocation(Geolosys.MODID, "ore_sample_vanilla"));
         this.setHardness(0.125F);
         this.setResistance(2F);
         this.setSoundType(SoundType.GROUND);

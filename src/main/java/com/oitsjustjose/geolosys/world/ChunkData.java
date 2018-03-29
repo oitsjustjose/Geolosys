@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.world;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
-import com.oitsjustjose.geolosys.util.Config;
+import com.oitsjustjose.geolosys.config.Config;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;

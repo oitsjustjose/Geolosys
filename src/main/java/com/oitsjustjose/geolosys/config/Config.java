@@ -1,6 +1,7 @@
-package com.oitsjustjose.geolosys.util;
+package com.oitsjustjose.geolosys.config;
 
 import com.google.common.collect.Lists;
+import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -176,7 +177,7 @@ public class Config
     @SubscribeEvent
     public void update(OnConfigChangedEvent event)
     {
-        if (event.getModID().equals(Lib.MODID))
+        if (event.getModID().equals(Geolosys.MODID))
         {
             loadConfiguration();
             ConfigParser.init();

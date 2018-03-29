@@ -1,5 +1,6 @@
-package com.oitsjustjose.geolosys.util;
+package com.oitsjustjose.geolosys.config;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
@@ -15,7 +16,7 @@ public class ConfigGUI extends GuiConfig
 {
     public ConfigGUI(GuiScreen guiScreen)
     {
-        super(guiScreen, getConfigElements(), Lib.MODID, false, false, "Geolosys Configuration");
+        super(guiScreen, getConfigElements(), Geolosys.MODID, false, false, "Geolosys Configuration");
     }
 
     private static List<IConfigElement> getConfigElements()

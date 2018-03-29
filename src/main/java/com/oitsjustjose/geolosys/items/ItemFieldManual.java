@@ -3,7 +3,6 @@ package com.oitsjustjose.geolosys.items;
 import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
-import com.oitsjustjose.geolosys.util.Lib;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -42,7 +41,7 @@ public class ItemFieldManual extends Item
     {
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.TOOLS);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "FIELD_MANUAL"));
+        this.setRegistryName(new ResourceLocation(Geolosys.MODID, "FIELD_MANUAL"));
         this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();

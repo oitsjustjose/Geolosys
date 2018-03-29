@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.util.Lib;
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.display.DisplayType;
 import journeymap.client.api.display.Waypoint;
@@ -29,13 +28,13 @@ public class ForgeEventListener
             {
                 if (event.getEntityPlayer().isSneaking() && event.getWorld().isRemote)
                 {
-                    if (jmAPI.playerAccepts(Lib.MODID, DisplayType.Waypoint))
+                    if (jmAPI.playerAccepts(Geolosys.MODID, DisplayType.Waypoint))
                     {
                         String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
-                        String id = Lib.MODID + " - " + name + " - " + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
+                        String id = Geolosys.MODID + " - " + name + " - " + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
                         try
                         {
-                            jmAPI.show(new Waypoint(Lib.MODID, id, name, event.getWorld().provider.getDimension(), event.getPos()));
+                            jmAPI.show(new Waypoint(Geolosys.MODID, id, name, event.getWorld().provider.getDimension(), event.getPos()));
                         }
                         catch (Throwable t)
                         {

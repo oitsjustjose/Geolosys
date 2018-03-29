@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.util;
+package com.oitsjustjose.geolosys.config;
 
 public class ConfigOresDefault
 {

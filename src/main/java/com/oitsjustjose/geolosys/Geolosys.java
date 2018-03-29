@@ -8,8 +8,13 @@ import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
+import com.oitsjustjose.geolosys.config.Config;
+import com.oitsjustjose.geolosys.config.ConfigOres;
+import com.oitsjustjose.geolosys.config.ConfigParser;
 import com.oitsjustjose.geolosys.items.*;
-import com.oitsjustjose.geolosys.util.*;
+import com.oitsjustjose.geolosys.util.ClientRegistry;
+import com.oitsjustjose.geolosys.util.Finder;
+import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
@@ -36,10 +41,13 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.io.*;
 
-@Mod(modid = Lib.MODID, name = Lib.NAME, version = Lib.VERSION, guiFactory = Lib.GUIFACTORY, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
+@Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, guiFactory = "com.oitsjustjose.geolosys.config.ConfigGUI$GUIFactory", acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
 public class Geolosys
 {
-    @Instance(Lib.MODID)
+    public static final String MODID = "geolosys";
+    public static final String VERSION = "@VERSION@";
+
+    @Instance(Geolosys.MODID)
     private static Geolosys instance;
 
     // Logger & Configs, statically accessible.
@@ -91,6 +99,10 @@ public class Geolosys
         if (Config.getInstance().enableProPick)
         {
             PRO_PICK = new ItemProPick();
+        }
+        if (Config.getInstance().enhancedCompass)
+        {
+            MinecraftForge.EVENT_BUS.register(new Finder());
         }
 
         registerGeolosysOreGen();

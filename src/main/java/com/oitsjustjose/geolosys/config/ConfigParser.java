@@ -1,7 +1,8 @@
-package com.oitsjustjose.geolosys.util;
+package com.oitsjustjose.geolosys.config;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.util.HelperFunctions;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

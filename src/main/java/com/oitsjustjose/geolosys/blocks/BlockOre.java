@@ -1,9 +1,8 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.config.Config;
 import com.oitsjustjose.geolosys.items.ItemCluster;
-import com.oitsjustjose.geolosys.util.Config;
-import com.oitsjustjose.geolosys.util.Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -38,7 +37,7 @@ public class BlockOre extends Block
     public BlockOre()
     {
         super(Material.ROCK);
-        this.setRegistryName(new ResourceLocation(Lib.MODID, "ore"));
+        this.setRegistryName(new ResourceLocation(Geolosys.MODID, "ore"));
         this.setHardness(7.5F);
         this.setResistance(10F);
         this.setSoundType(SoundType.STONE);
