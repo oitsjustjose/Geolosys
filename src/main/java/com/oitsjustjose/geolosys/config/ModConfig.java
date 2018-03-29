@@ -61,8 +61,6 @@ public class ModConfig
 
         @Config.Name("Register Aluminum as oreBauxite")
         public boolean registerAsBauxite = false;
-
-
     }
 
     public static class Samples
@@ -106,7 +104,6 @@ public class ModConfig
     {
         if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
         {
-            System.out.println("DEBUG");
             ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
         }
     }
