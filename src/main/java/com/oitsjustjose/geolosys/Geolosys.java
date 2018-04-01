@@ -113,7 +113,7 @@ public class Geolosys
     {
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
 
-        if (Loader.isModLoaded("immersiveengineering"))
+        if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
         {
             IECompat.init();
         }

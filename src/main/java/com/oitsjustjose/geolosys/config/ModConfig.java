@@ -61,6 +61,12 @@ public class ModConfig
 
         @Config.Name("Register Aluminum as oreBauxite")
         public boolean registerAsBauxite = false;
+
+        @Config.Name("Enable debug print statements for generation")
+        public boolean debugGeneration = false;
+
+        @Config.Name("Enable IE Integration")
+        public boolean enableIECompat = true;
     }
 
     public static class Samples
