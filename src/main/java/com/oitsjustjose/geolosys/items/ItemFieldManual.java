@@ -104,7 +104,6 @@ public class ItemFieldManual extends Item
 
             if (title == null || text == null || title.isEmpty() || text.isEmpty())
             {
-                System.out.println("Well you succ");
                 break;
             }
 

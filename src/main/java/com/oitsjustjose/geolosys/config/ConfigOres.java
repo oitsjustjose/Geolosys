@@ -158,7 +158,6 @@ public class ConfigOres
                     int[] val = (int[]) f.get(this);
                     if (val == null)
                     {
-                        System.out.println(f.getName() + " is null");
                         dirty = true;
                         int[] defValue = new int[]{};
                         // Dynamically find the default value using reflection
@@ -167,7 +166,6 @@ public class ConfigOres
                             if (searchField.getName().equalsIgnoreCase(f.getName() + "Default"))
                             {
                                 defValue = (int[]) searchField.get(ConfigOresDefault.class);
-                                System.out.println(f.getName() + " is now " + Arrays.toString(defValue));
                                 break;
                             }
                         }
