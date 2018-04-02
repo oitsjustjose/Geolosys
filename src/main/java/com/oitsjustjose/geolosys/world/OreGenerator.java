@@ -88,7 +88,6 @@ public class OreGenerator implements IWorldGenerator
                 }
                 pluton.generate(world, rand, new BlockPos(x + 8, y, z + 8));
                 GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
-                System.out.println(state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
                 GeolosysAPI.writeToFile();
                 Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
             }
