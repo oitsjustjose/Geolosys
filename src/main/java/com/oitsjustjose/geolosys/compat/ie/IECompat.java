@@ -2,13 +2,11 @@ package com.oitsjustjose.geolosys.compat.ie;
 
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.LinkedHashMap;
@@ -20,10 +18,9 @@ public class IECompat
     {
         ConfigOres conf = Geolosys.getInstance().configOres;
         OreDictionary.registerOre("clumpCoal", Items.COAL);
-        final Item AE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
-        if (AE_MATERIAL != null)
+        if (ModMaterials.AE_MATERIAL != null)
         {
-            OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(AE_MATERIAL, 1, 1));
+            OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
         }
 
         // Remove the vanilla ones

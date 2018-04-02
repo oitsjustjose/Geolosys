@@ -7,6 +7,7 @@ import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ConfigParser;
@@ -172,6 +173,7 @@ public class Geolosys
         }
 
         ConfigParser.init();
+        ModMaterials.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }

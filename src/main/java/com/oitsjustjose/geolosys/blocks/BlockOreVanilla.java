@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import net.minecraft.block.Block;
@@ -34,10 +35,6 @@ import java.util.Random;
 public class BlockOreVanilla extends Block
 {
     public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
-    private final Item EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
-    private final Item TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
-    private final Item certusQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
-    private final Item blackQuartz = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
 
 
     public BlockOreVanilla()
@@ -149,13 +146,13 @@ public class BlockOreVanilla extends Block
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
             int rng = random.nextInt(60);
             // Compat for ExtraUtils 2
-            if (EXU_MATERIAL != null && rng < 2)
+            if (ModMaterials.EXU_MATERIAL != null && rng < 2)
             {
-                drops.add(new ItemStack(EXU_MATERIAL));
+                drops.add(new ItemStack(ModMaterials.EXU_MATERIAL));
             }
-            if (TE_MATERIAL != null && rng == 2)
+            if (ModMaterials.TE_MATERIAL != null && rng == 2)
             {
-                drops.add(new ItemStack(TE_MATERIAL, 1, 866));
+                drops.add(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866));
             }
         }
         else if (meta == 2)
@@ -175,22 +172,22 @@ public class BlockOreVanilla extends Block
                 int rng = random.nextInt(25);
                 // Compat for certus quartz & black quartz
 
-                if (certusQuartz != null)
+                if (ModMaterials.CERTUS_QUARTZ != null)
                 {
                     if (rng < 5) // 2 / 25
                     {
-                        drops.add(new ItemStack(certusQuartz, 1, 0));
+                        drops.add(new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0));
                     }
                     else if (rng > 5 && rng < 7) // 1 / 25
                     {
-                        drops.add(new ItemStack(certusQuartz, 1, 1));
+                        drops.add(new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 1));
                     }
                 }
-                if (blackQuartz != null)
+                if (ModMaterials.BLACK_QUARTZ != null)
                 {
                     if (rng >= 6 && rng < 10) // 2 / 25
                     {
-                        drops.add(new ItemStack(blackQuartz, 1, 5));
+                        drops.add(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5));
                     }
                 }
             }
