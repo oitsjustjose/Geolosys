@@ -1,3 +1,12 @@
+### 1.8.10c:
+* ADDED: Config option for the IE compat module
+* FIXED: Inter-mod compat with drops not working
+* FIXED: Crashing for blocks with odd names
+* FIXED: Occasional print statements from debugging
+
+### 1.8.10b:
+* ADDED: Debug print statements for Darkosto (configurable, OFF by default)
+
 ### 1.8.10:
 #### This is a big update. Read carefully.
 * [API] ADDED: Ability to add your own minerals and stones yourself
