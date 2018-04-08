@@ -1,3 +1,7 @@
+# If your issue has ***anything*** to do with Cascading Lag, **DO NOT REPORT IT**.
+
+(Deleting this and the above line indicates that you have read this :smile: )
+
 ## Versions:
 
 - Minecraft Forge:
