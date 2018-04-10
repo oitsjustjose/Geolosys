@@ -27,6 +27,9 @@ public class ModConfig
         @Config.Name("Replace Stone Variant Deposits")
         public boolean modStones = true;
 
+        @Config.Name("Replace non-Geolosys ore drops")
+        public boolean modDrops = true;
+
         @Config.Name("Enable Osmium")
         public boolean enableOsmium = true;
 
