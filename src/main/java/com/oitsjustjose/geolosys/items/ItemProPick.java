@@ -78,18 +78,19 @@ public class ItemProPick extends Item
         int zStart;
         int zEnd;
         int confAmt = ModConfig.featureControl.proPickRange;
+        int confDmt = ModConfig.featureControl.proPickDiameter;
 
         boolean found = false;
 
         switch (facing)
         {
             case UP:
-                xStart = -(confAmt / 2);
-                xEnd = confAmt / 2;
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
                 yStart = -confAmt;
                 yEnd = 0;
-                zStart = -(confAmt / 2);
-                zEnd = (confAmt / 2);
+                zStart = -(confDmt / 2);
+                zEnd = (confDmt / 2);
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
@@ -108,12 +109,12 @@ public class ItemProPick extends Item
                 }
                 break;
             case DOWN:
-                xStart = -(confAmt / 2);
-                xEnd = confAmt / 2;
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
                 yStart = 0;
                 yEnd = confAmt;
-                zStart = -(confAmt / 2);
-                zEnd = confAmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
@@ -132,10 +133,10 @@ public class ItemProPick extends Item
                 }
                 break;
             case NORTH:
-                xStart = -(confAmt / 2);
-                xEnd = confAmt / 2;
-                yStart = -(confAmt / 2);
-                yEnd = confAmt / 2;
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
                 zStart = 0;
                 zEnd = confAmt;
                 for (int x = xStart; x <= xEnd; x++)
@@ -156,10 +157,10 @@ public class ItemProPick extends Item
                 }
                 break;
             case SOUTH:
-                xStart = -(confAmt / 2);
-                xEnd = confAmt / 2;
-                yStart = -(confAmt / 2);
-                yEnd = confAmt / 2;
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
                 zStart = -confAmt;
                 zEnd = 0;
 
@@ -183,10 +184,10 @@ public class ItemProPick extends Item
             case EAST:
                 xStart = -(confAmt);
                 xEnd = 0;
-                yStart = -(confAmt / 2);
-                yEnd = confAmt / 2;
-                zStart = -(confAmt / 2);
-                zEnd = confAmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
 
                 for (int x = xStart; x <= xEnd; x++)
                 {
@@ -208,10 +209,10 @@ public class ItemProPick extends Item
             case WEST:
                 xStart = 0;
                 xEnd = confAmt;
-                yStart = -(confAmt / 2);
-                yEnd = confAmt / 2;
-                zStart = -(confAmt / 2);
-                zEnd = confAmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
