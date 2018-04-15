@@ -4,50 +4,52 @@
 page_1_title=Introduction
 page_2_title=Getting Started
 page_3_title=Samples
-page_4_title=Clusters
-page_5_title=Stone Variants
-page_6_title=Coal
-page_7_title=Hematite
-page_8_title=Gold
-page_9_title=Lapis Lazuli
-page_10_title=Cinnabar
-page_11_title=Kimberlite
-page_12_title=Beryl
-page_13_title=Assorted Quartz
-page_14_title=Malachite
-page_15_title=Azurite
-page_16_title=Cassiterite
-page_17_title=Teallite
-page_18_title=Limonite
-page_19_title=Galena
-page_20_title=Bauxite
-page_21_title=Sphalerite
-page_22_title=Platinum
-page_23_title=Autunite
+page_4_title=Prospecting
+page_5_title=Clusters
+page_6_title=Stone Variants
+page_7_title=Coal
+page_8_title=Hematite
+page_9_title=Gold
+page_10_title=Lapis Lazuli
+page_11_title=Cinnabar
+page_12_title=Kimberlite
+page_13_title=Beryl
+page_14_title=Assorted Quartz
+page_15_title=Malachite
+page_16_title=Azurite
+page_17_title=Cassiterite
+page_18_title=Teallite
+page_19_title=Limonite
+page_20_title=Galena
+page_21_title=Bauxite
+page_22_title=Sphalerite
+page_23_title=Platinum
+page_24_title=Autunite
 
 # ------------------------------------ #
 #                Pages                 #
 # ------------------------------------ #
 page_1_text=Geolosys is a mod which is meant to add difficulty to mining. Most of this manual will assume that the configs are default, but may make mention of possible config options when relevant.
 page_2_text=Geolosys works on mechanics very similar to those of TerraFirmaCraft, in the sense that mineral deposits are rare and large. Unlike TFC, it aims to be compatible with as many mods as possible. Samples below §3Y=24§0 have a chance of spawning a §4Magma block§0, so be careful!
-page_3_text=Samples generate on the surface, within the same chunk as the corresponding mineral vein. If the config allows, you can get a small sample of what the entire vein will yield by either right-clicking or breaking the sample. Prospecting early game might be hard, but know that once you find a sample it's within that chunk (generally in the center)! Make yourself a Prospector's Pick ASAP to make the process easier.
-page_4_text=Clusters act as the ore material themselves; the ore block you find in the world is useless, but the cluster is what can be processed! If silk touching, you'll always get the cluster unless mining a vanilla-replacement which will instead yield the actual vanilla ore-block. You can use these clusters in any type of machine, and if the config allows they can also be smelted.
-page_5_text=Vanilla stone variants are now clustered into large plutons, instead of generating sporadically throughout the world.
-page_6_text=Added by Geolosys to work the same as Vanilla. Coal can generate between §3Y=48§0 and §3Y=70§0.
-page_7_text=An easy, small mineral that is a good source for Iron. The veins are smaller than Limonite, but it generates between §3Y=32§0 and §3Y=60§0.
-page_8_text=Added by Geolosys to work the same as Vanilla. It can generate between §3Y=5§0 and §3Y=30§0.
-page_9_text=Added by Geolosys to work the same way as Vanilla. It can generate between §3Y=10§0 and §3Y=24§0.
-page_10_text=The closest thing to real-life Redstone (though is IRL harvested for Mercury). It can drop §4Thermal Expansion Cinnabar§0 if installed, as well as §4Extra Utilities' Resonating Redstone Crystal§0. It can generate between §3Y=5§0 and §3Y=12§0.
-page_11_text=Added by Geolosys to be identical to Diamonds. It can generate between §3Y=2§0 and §3Y=15§0.
-page_12_text=Beryl is the primary source of Emeralds. Beryl can generate in any biome, between §3Y=4§0 and §3Y=32§0.
-page_13_text=Prevents you from having to make a trek to the nether each time you need Quartz. It has a similar drop rate to Vanilla nether quartz, however it also has a random chance of dropping Actually Additions' Black Quartz and Applied (Ener/Llama)gistics' Charged & Regular Certus if either (or both) are installed. It can generate between §3Y=6§0 and §3Y=29§0.
-page_14_text=Smaller but easier source of Copper. It generates between §3Y=39§0 and §3Y=44§0.
-page_15_text=Larger but deeper source of Copper. It generates between §3Y=12§0 and §3Y=44§0.
-page_16_text=Smaller but easier source of Tin. It generates between §3Y=44§0 and §3Y=68§0.
-page_17_text=Larger but deeper source of Tin. It generates between §3Y=8§0 and §3Y=43§0.
-page_18_text=Larger but deeper source of Iron, as well as a source of Nickel. It generates between §3Y=6§0 and §3Y=32§0, but requires an Iron Pickaxe to harvest.
-page_19_text=Plentiful source of both Silver and Lead. It generates between §3Y=16§0 and §3Y=50§0.
-page_20_text=Large source of Aluminum. It generates between §3Y=45§0 and §3Y=70§0, and only requires a Wooden Pickaxe to harvest.
-page_21_text=Good source of Zinc. It generates between §3Y=35§0 and §3Y=55§0.
-page_22_text=Good source of - wait, you probably can figure that out. But it also drops §bOsmium§0 if enabled in config. It generates between §3Y=3§0 and §3Y=25§0, and §4requires an Iron Pickaxe or better to harvest§0.
-page_23_text=Reliable source of Uranium. Also drops §aYellorium§0 if enabled in config. It generates between §3Y=8§0 and §3Y=33§0, and §4requires an Iron Pickaxe or better to harvest§0.
+page_3_text=Samples generate on the surface, within the same chunk as the corresponding mineral vein. If the config allows, you can get a small sample of what the entire vein will yield by either right-clicking or breaking the sample.
+page_4_text=Once you've found a sample of the mineral you're searching for, it's time to start digging. It's strongly suggested that you make yourself a §7Prospector's Pick§0 and a §7Compass§0. Refer to this manual for what Y level to descend to, and use the §7Compass§0 to find your current depth and the §7prospector's pick§0 to scan areas in the direction you use it (a 5 block cube in the default config).
+page_5_text=Clusters act as the ore material themselves; the ore block you find in the world is useless, but the cluster is what can be processed! If silk touching, you'll always get the cluster unless mining a vanilla-replacement which will instead yield the actual vanilla ore-block. You can use these clusters in any type of machine, and if the config allows they can also be smelted.
+page_6_text=Vanilla stone variants are now clustered into large plutons, instead of generating sporadically throughout the world.
+page_7_text=Added by Geolosys to work the same as Vanilla. Coal can generate between §3Y=8§0 and §3Y=78§0, and can drop sulfur if another mod adds it. Coal ore can also drop Peat, Lignite, Bitumen or Anthracite (in addition to normal coal); what it drops depends on your §ldepth§r§0. The previous list is in order from highest to lowest in depth, and lowest to highest in flamability (in a furnace).
+page_8_text=An easy, small mineral that is a good source for Iron. The veins are smaller than Limonite, but it generates between §3Y=32§0 and §3Y=60§0.
+page_9_text=Added by Geolosys to work the same as Vanilla. It can generate between §3Y=5§0 and §3Y=30§0.
+page_10_text=Added by Geolosys to work the same way as Vanilla. It can generate between §3Y=10§0 and §3Y=24§0.
+page_11_text=The closest thing to real-life Redstone (though is IRL harvested for Mercury). It can drop §4Thermal Expansion Cinnabar§0 if installed, as well as §4Extra Utilities' Resonating Redstone Crystal§0. It can generate between §3Y=5§0 and §3Y=12§0.
+page_12_text=Added by Geolosys to be identical to Diamonds. It can generate between §3Y=2§0 and §3Y=15§0.
+page_13_text=Beryl is the primary source of Emeralds. Beryl can generate in any biome, between §3Y=4§0 and §3Y=32§0.
+page_14_text=Prevents you from having to make a trek to the nether each time you need Quartz. It has a similar drop rate to Vanilla nether quartz, however it also has a random chance of dropping Actually Additions' Black Quartz and Applied (Ener/Llama)gistics' Charged & Regular Certus if either (or both) are installed. It can generate between §3Y=6§0 and §3Y=29§0.
+page_15_text=Smaller but easier source of Copper. It generates between §3Y=39§0 and §3Y=44§0.
+page_16_text=Larger but deeper source of Copper. It generates between §3Y=12§0 and §3Y=44§0.
+page_17_text=Smaller but easier source of Tin. It generates between §3Y=44§0 and §3Y=68§0.
+page_18_text=Larger but deeper source of Tin. It generates between §3Y=8§0 and §3Y=43§0.
+page_19_text=Larger but deeper source of Iron, as well as a source of Nickel. It generates between §3Y=6§0 and §3Y=32§0, but requires an Iron Pickaxe to harvest.
+page_20_text=Plentiful source of both Silver and Lead. It generates between §3Y=16§0 and §3Y=50§0.
+page_21_text=Large source of Aluminum. It generates between §3Y=45§0 and §3Y=70§0, and only requires a Wooden Pickaxe to harvest.
+page_22_text=Good source of Zinc. It generates between §3Y=35§0 and §3Y=55§0.
+page_23_text=Good source of - wait, you probably can figure that out. But it also drops §bOsmium§0 if enabled in config. It generates between §3Y=3§0 and §3Y=25§0, and §4requires an Iron Pickaxe or better to harvest§0.
+page_24_text=Reliable source of Uranium. Also drops §aYellorium§0 if enabled in config. It generates between §3Y=8§0 and §3Y=33§0, and §4requires an Iron Pickaxe or better to harvest§0.
