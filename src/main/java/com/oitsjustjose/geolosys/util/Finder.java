@@ -24,7 +24,13 @@ public class Finder
         {
             try
             {
-                event.getEntityPlayer().sendStatusMessage(new TextComponentString("Altitude: " + (int) event.getEntityPlayer().posY + " | Chunk: " + ((int) Math.floor(event.getEntityPlayer().posX) & 15) + ", " + ((int) Math.floor(event.getEntityPlayer().posZ) & 15)), true);
+                StringBuilder status = new StringBuilder();
+                if (event.getEntityPlayer().posY < event.getEntityPlayer().getEntityWorld().getTopSolidOrLiquidBlock(event.getEntityPlayer().getPosition()).getY())
+                {
+                    status.append("Depth: ").append((int) event.getEntityPlayer().posY).append(" | ");
+                }
+                status.append("Chunk: ").append((int) Math.floor(event.getEntityPlayer().posX) & 15).append(", ").append((int) Math.floor(event.getEntityPlayer().posZ) & 15);
+                event.getEntityPlayer().sendStatusMessage(new TextComponentString(status.toString()), true);
             }
             catch (NullPointerException ignored)
             {
