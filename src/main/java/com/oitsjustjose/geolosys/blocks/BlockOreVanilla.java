@@ -131,7 +131,7 @@ public class BlockOreVanilla extends Block
                     }
                 }
             }
-            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur"))
+            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0 )
             {
                 int rng = random.nextInt(50);
                 if (rng == 0)
