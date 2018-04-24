@@ -25,7 +25,6 @@ import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
 import com.oitsjustjose.geolosys.world.VanillaWorldGenOverride;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -67,10 +66,10 @@ public class Geolosys
     public ClientRegistry clientRegistry;
     public ChunkData chunkOreGen;
 
-    public Block ORE;
-    public Block ORE_VANILLA;
-    public Block ORE_SAMPLE;
-    public Block ORE_SAMPLE_VANILLA;
+    public BlockOre ORE;
+    public BlockOreVanilla ORE_VANILLA;
+    public BlockSample ORE_SAMPLE;
+    public BlockSampleVanilla ORE_SAMPLE_VANILLA;
 
     public Item CLUSTER;
     public Item INGOT;
@@ -90,6 +89,7 @@ public class Geolosys
         configOres = getOresConfig(event.getModConfigurationDirectory());
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
+        MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
         chunkOreGen = new ChunkData();
 
         ORE = new BlockOre();

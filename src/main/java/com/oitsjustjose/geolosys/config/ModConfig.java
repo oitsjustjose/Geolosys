@@ -5,6 +5,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Geolosys.MODID)
@@ -112,12 +113,17 @@ public class ModConfig
         public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0"};
     }
 
-    @SubscribeEvent
-    public void onChanged(ConfigChangedEvent.OnConfigChangedEvent event)
+    @Mod.EventBusSubscriber(modid = Geolosys.MODID)
+    public static class EventHandler
     {
-        if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
+        @SubscribeEvent
+        public void onChanged(ConfigChangedEvent.OnConfigChangedEvent event)
         {
-            ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
+            if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
+            {
+                System.out.println("Changed");
+                ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
+            }
         }
     }
 }
