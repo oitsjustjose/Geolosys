@@ -27,6 +27,7 @@ public class ItemCluster extends Item
     public static final int META_ZINC = 10;
     public static final int META_YELLORIUM = 11;
     public static final int META_OSMIUM = 12;
+    public static final int META_SPHALERITE = 13;
 
     public ItemCluster()
     {
