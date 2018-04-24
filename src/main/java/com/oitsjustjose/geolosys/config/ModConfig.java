@@ -75,6 +75,10 @@ public class ModConfig
 
         @Config.Name("Enable IE Integration")
         public boolean enableIECompat = true;
+
+        @Config.Name("Retroactively replace existing ores in world")
+        @Config.Comment("Happens when a player enters a chunk; changes other mod ores into Geolosys's")
+        public boolean retroReplace = true;
     }
 
     public static class Samples

@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.compat;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +18,8 @@ public class ModMaterials
     public static Item TE_MATERIAL;
     public static Item CERTUS_QUARTZ;
     public static Item BLACK_QUARTZ;
-    public static HashMap<String, ItemStack> converter;
+    public static HashMap<String, ItemStack> clusterConverter;
+    public static HashMap<String, IBlockState> blockConverter;
 
     public static void init()
     {
@@ -27,24 +29,53 @@ public class ModMaterials
         CERTUS_QUARTZ = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
         BLACK_QUARTZ = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
 
-        converter = new HashMap<>();
-        converter.put("oreIron", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_IRON));
-        converter.put("oreGold", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_GOLD));
-        converter.put("oreCopper", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_COPPER));
-        converter.put("oreTin", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_TIN));
-        converter.put("oreSilver", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_SILVER));
-        converter.put("oreLead", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_LEAD));
-        converter.put("oreAluminum", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
-        converter.put("oreAluminium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
-        converter.put("oreNickel", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_NICKEL));
-        converter.put("orePlatinum", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_PLATINUM));
-        converter.put("oreUranium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_URANIUM));
-        converter.put("oreZinc", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ZINC));
-        converter.put("oreYellorium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_YELLORIUM));
-        converter.put("oreOsmium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM));
+        clusterConverter = new HashMap<>();
+        clusterConverter.put("oreIron", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_IRON));
+        clusterConverter.put("oreGold", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_GOLD));
+        clusterConverter.put("oreCopper", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_COPPER));
+        clusterConverter.put("oreTin", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_TIN));
+        clusterConverter.put("oreSilver", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_SILVER));
+        clusterConverter.put("oreLead", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_LEAD));
+        clusterConverter.put("oreAluminum", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
+        clusterConverter.put("oreAluminium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
+        clusterConverter.put("oreNickel", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_NICKEL));
+        clusterConverter.put("orePlatinum", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_PLATINUM));
+        clusterConverter.put("oreUranium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_URANIUM));
+        clusterConverter.put("oreZinc", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ZINC));
+        clusterConverter.put("oreYellorium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_YELLORIUM));
+        clusterConverter.put("oreOsmium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM));
+        clusterConverter.put("oreSphalerite", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_SPHALERITE));
         if (ModConfig.featureControl.registerAsBauxite)
         {
-            converter.put("oreBauxite", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
+            clusterConverter.put("oreBauxite", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
+        }
+        blockConverter = new HashMap<>();
+        blockConverter.put("oreCoal", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(0));
+        blockConverter.put("oreRedstone", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(1));
+        blockConverter.put("oreGold", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(2));
+        blockConverter.put("oreLapis", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(3));
+        blockConverter.put("oreQuartz", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(4));
+        blockConverter.put("oreQuartzBlack", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(4));
+        blockConverter.put("oreCertusQuartz", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(4));
+        blockConverter.put("oreDiamond", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(5));
+        blockConverter.put("oreEmerald", Geolosys.getInstance().ORE_VANILLA.getStateFromMeta(6));
+        blockConverter.put("oreIron", Geolosys.getInstance().ORE.getStateFromMeta(0));
+        blockConverter.put("oreCopper", Geolosys.getInstance().ORE.getStateFromMeta(2));
+        blockConverter.put("oreTin", Geolosys.getInstance().ORE.getStateFromMeta(4));
+        blockConverter.put("oreSilver", Geolosys.getInstance().ORE.getStateFromMeta(6));
+        blockConverter.put("oreLead", Geolosys.getInstance().ORE.getStateFromMeta(6));
+        blockConverter.put("oreAluminum", Geolosys.getInstance().ORE.getStateFromMeta(7));
+        blockConverter.put("oreAluminium", Geolosys.getInstance().ORE.getStateFromMeta(7));
+        blockConverter.put("oreNickel", Geolosys.getInstance().ORE.getStateFromMeta(1));
+        blockConverter.put("orePlatinum", Geolosys.getInstance().ORE.getStateFromMeta(8));
+        blockConverter.put("oreUranium", Geolosys.getInstance().ORE.getStateFromMeta(9));
+        blockConverter.put("oreZinc", Geolosys.getInstance().ORE.getStateFromMeta(10));
+        blockConverter.put("oreYellorium", Geolosys.getInstance().ORE.getStateFromMeta(9));
+        blockConverter.put("oreOsmium", Geolosys.getInstance().ORE.getStateFromMeta(9));
+        blockConverter.put("oreSphalerite", Geolosys.getInstance().ORE.getStateFromMeta(10));
+        if (ModConfig.featureControl.registerAsBauxite)
+        {
+            blockConverter.put("oreBauxite", Geolosys.getInstance().ORE.getStateFromMeta(7));
         }
     }
 }
