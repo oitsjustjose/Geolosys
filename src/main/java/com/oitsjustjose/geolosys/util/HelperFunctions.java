@@ -4,6 +4,8 @@ import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,7 +43,7 @@ public class HelperFunctions
         {
             for (String s : IOUtils.readLines(in, "utf-8"))
             {
-                if (s.indexOf("=") == -1)
+                if (!s.contains("="))
                 {
                     continue;
                 }
@@ -55,5 +57,10 @@ public class HelperFunctions
         {
         }
         return toTranslate;
+    }
+
+    public static ItemStack blockStateToStack(IBlockState state)
+    {
+        return new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
     }
 }
