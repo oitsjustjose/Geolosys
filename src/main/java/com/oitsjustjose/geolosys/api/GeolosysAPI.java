@@ -50,9 +50,9 @@ public class GeolosysAPI
      * @param pos   The Mojang ChunkPos to act as a key
      * @param state The String to act as a value
      */
-    public static void putWorldDeposit(ChunkPos pos, String state)
+    public static void putWorldDeposit(ChunkPos pos, int dimension, String state)
     {
-        currentWorldDeposits.put(new ChunkPosSerializable(pos), state);
+        currentWorldDeposits.put(new ChunkPosSerializable(pos, dimension), state);
         if (ModConfig.featureControl.debugGeneration)
         {
             int total = 0;
@@ -180,9 +180,9 @@ public class GeolosysAPI
      *
      * @param pos The ChunkPos to add to
      */
-    public static void markChunkRegenned(ChunkPos pos)
+    public static void markChunkRegenned(ChunkPos pos, int dimension)
     {
-        markChunkRegenned(new ChunkPosSerializable(pos));
+        markChunkRegenned(new ChunkPosSerializable(pos, dimension));
     }
 
     /**
@@ -202,9 +202,9 @@ public class GeolosysAPI
      * @param pos The ChunkPos to check
      * @return True if the chunk is in the map and has been marked as regenned
      */
-    public static boolean hasChunkRegenned(ChunkPos pos)
+    public static boolean hasChunkRegenned(ChunkPos pos, int dimension)
     {
-        return hasChunkRegenned(new ChunkPosSerializable(pos));
+        return hasChunkRegenned(new ChunkPosSerializable(pos, dimension));
     }
 
     /**
@@ -217,7 +217,7 @@ public class GeolosysAPI
     {
         for (ChunkPosSerializable c : regennedChunks.keySet())
         {
-            if (c.getX() == pos.getX() && c.getZ() == pos.getZ())
+            if (c.getX() == pos.getX() && c.getZ() == pos.getZ() && c.getDimension() == pos.getDimension())
             {
                 return regennedChunks.get(c);
             }
@@ -244,23 +244,25 @@ public class GeolosysAPI
     {
         private int x;
         private int z;
+        private int dim;
 
         /**
          * @param pos A Mojang ChunkPos initializer for ChunkPosSerializable
          */
-        public ChunkPosSerializable(ChunkPos pos)
+        public ChunkPosSerializable(ChunkPos pos, int dim)
         {
-            this(pos.x, pos.z);
+            this(pos.x, pos.z, dim);
         }
 
         /**
          * @param x The X position which the Chunk starts at
          * @param z The Z position which the Chunk starts at
          */
-        public ChunkPosSerializable(int x, int z)
+        public ChunkPosSerializable(int x, int z, int dim)
         {
             this.x = x;
             this.z = z;
+            this.dim = dim;
         }
 
         /**
@@ -280,6 +282,14 @@ public class GeolosysAPI
         }
 
         /**
+         * @return The dimension of the chunk
+         */
+        public int getDimension()
+        {
+            return this.dim;
+        }
+
+        /**
          * @return A Mojang ChunkPos variant of this object
          */
         public ChunkPos toChunkPos()
@@ -290,7 +300,7 @@ public class GeolosysAPI
         @Override
         public String toString()
         {
-            return this.toChunkPos().toString();
+            return "[" + this.getX() + "," + this.getZ() + "," + this.getDimension() + "]";
         }
 
         @Override
@@ -303,12 +313,7 @@ public class GeolosysAPI
             else if (other instanceof ChunkPosSerializable)
             {
                 ChunkPosSerializable c = (ChunkPosSerializable) other;
-                return c.getX() == this.getX() && c.getZ() == this.getZ();
-            }
-            else if (other instanceof ChunkPos)
-            {
-                ChunkPos c = (ChunkPos) other;
-                return c.getXStart() == this.getX() && c.getZStart() == this.getZ();
+                return c.getX() == this.getX() && c.getZ() == this.getZ() && c.getDimension() == this.getDimension();
             }
             return false;
         }
