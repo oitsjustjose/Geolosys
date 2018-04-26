@@ -1,11 +1,13 @@
 package com.oitsjustjose.geolosys.compat;
 
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -40,7 +42,11 @@ public class OreConverter
         {
             return;
         }
-        if (!(event.getEntity() instanceof EntityPlayer) || event.getEntity() instanceof FakePlayer)
+        if (!(event.getEntity() instanceof EntityPlayer) || event.getEntity() instanceof FakePlayer || event.getEntity().getEntityWorld().isRemote)
+        {
+            return;
+        }
+        if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ())))
         {
             return;
         }
@@ -60,6 +66,8 @@ public class OreConverter
                 }
             }
         }
+        GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()));
+        GeolosysAPI.writeToFile();
     }
 
 

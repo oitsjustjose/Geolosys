@@ -8,9 +8,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist
@@ -27,6 +34,7 @@ public class GeolosysAPI
     // Some local instance variables I don't want others having access to..
     private static File fileLocation = null;
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
+    private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
@@ -90,6 +98,7 @@ public class GeolosysAPI
                 FileInputStream fileIn = new FileInputStream(fileLocation);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
                 currentWorldDeposits = (HashMap<ChunkPosSerializable, String>) in.readObject();
+                regennedChunks = (LinkedHashMap<ChunkPosSerializable, Boolean>) in.readObject();
                 in.close();
                 fileIn.close();
             }
@@ -123,6 +132,7 @@ public class GeolosysAPI
             FileOutputStream fileOut = new FileOutputStream(fileLocation);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(GeolosysAPI.getCurrentWorldDeposits());
+            out.writeObject(GeolosysAPI.getRegennedChunks());
             out.close();
             fileOut.close();
         }
@@ -162,6 +172,67 @@ public class GeolosysAPI
     {
         StoneGenerator.addStoneGen(stoneBlock, yMin, yMax, chance);
         replacementMats.add(stoneBlock);
+    }
+
+    /**
+     * Marks a chunk as having been regenerated
+     * - this is for the "Retroactively replace existing ores in world" option
+     *
+     * @param pos The ChunkPos to add to
+     */
+    public static void markChunkRegenned(ChunkPos pos)
+    {
+        markChunkRegenned(new ChunkPosSerializable(pos));
+    }
+
+    /**
+     * Marks a chunk as having been regenerated
+     * - this is for the "Retroactively replace existing ores in world" option
+     *
+     * @param pos The ChunkPosSerializeable to add to
+     */
+    public static void markChunkRegenned(ChunkPosSerializable pos)
+    {
+        regennedChunks.put(pos, true);
+    }
+
+    /**
+     * Checks if a chunk has been retroactively replaced with Geolosys ores
+     *
+     * @param pos The ChunkPos to check
+     * @return True if the chunk is in the map and has been marked as regenned
+     */
+    public static boolean hasChunkRegenned(ChunkPos pos)
+    {
+        return hasChunkRegenned(new ChunkPosSerializable(pos));
+    }
+
+    /**
+     * Checks if a chunk has been retroactively replaced with Geolosys ores
+     *
+     * @param pos The ChunkPos to check
+     * @return True if the chunk is in the map and has been marked as regenned
+     */
+    public static boolean hasChunkRegenned(ChunkPosSerializable pos)
+    {
+        for (ChunkPosSerializable c : regennedChunks.keySet())
+        {
+            if (c.getX() == pos.getX() && c.getZ() == pos.getZ())
+            {
+                return regennedChunks.get(c);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
+     */
+    @SuppressWarnings("unchecked")
+
+    public static HashMap<ChunkPosSerializable, Boolean> getRegennedChunks()
+    {
+        return (HashMap<ChunkPosSerializable, Boolean>) regennedChunks.clone();
     }
 
 
@@ -233,6 +304,11 @@ public class GeolosysAPI
             {
                 ChunkPosSerializable c = (ChunkPosSerializable) other;
                 return c.getX() == this.getX() && c.getZ() == this.getZ();
+            }
+            else if (other instanceof ChunkPos)
+            {
+                ChunkPos c = (ChunkPos) other;
+                return c.getXStart() == this.getX() && c.getZStart() == this.getZ();
             }
             return false;
         }

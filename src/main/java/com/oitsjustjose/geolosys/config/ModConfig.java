@@ -125,7 +125,6 @@ public class ModConfig
         {
             if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
             {
-                System.out.println("Changed");
                 ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
             }
         }
