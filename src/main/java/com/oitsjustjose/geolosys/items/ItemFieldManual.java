@@ -70,8 +70,12 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
-        return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+        if(world.isRemote)
+        {
+            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
+            return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+        }
+        return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 
     @Override
