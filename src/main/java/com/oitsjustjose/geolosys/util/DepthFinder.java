@@ -30,7 +30,7 @@ public class DepthFinder
         // Update every 1 second
         if (System.currentTimeMillis() - lastCheckedTime >= 1000)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 9; i++)
             {
                 if (event.getEntityPlayer().inventory.getStackInSlot(i).getItem() == Items.COMPASS)
                 {
