@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.util;
 
+import com.oitsjustjose.geolosys.items.ItemProPick;
 import net.minecraft.init.Items;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -12,6 +13,9 @@ import org.lwjgl.input.Keyboard;
 
 public class DepthFinder
 {
+    private long lastCheckedTime = System.currentTimeMillis();
+    private boolean hasCompass = false;
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void registerEvent(PlayerEvent event)
     {
@@ -19,8 +23,28 @@ public class DepthFinder
         {
             return;
         }
-
-        if (event.getEntityPlayer().getHeldItemMainhand().getItem() == Items.COMPASS)
+        if (event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemProPick || event.getEntityPlayer().getHeldItemOffhand().getItem() instanceof ItemProPick)
+        {
+            return;
+        }
+        // Update every 1 second
+        if (System.currentTimeMillis() - lastCheckedTime >= 1000)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (event.getEntityPlayer().inventory.getStackInSlot(i).getItem() == Items.COMPASS)
+                {
+                    hasCompass = true;
+                    break;
+                }
+                else
+                {
+                    hasCompass = false;
+                }
+            }
+            lastCheckedTime = System.currentTimeMillis();
+        }
+        if (hasCompass)
         {
             try
             {
