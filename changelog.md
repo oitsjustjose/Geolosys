@@ -2,9 +2,11 @@
 * ADDED: Extra Prospector's Pick settings (Thanks agentgoblin!)
 * ADDED: Ore-swapping: replaces other mod ores with Geolosys ones *after* they've generated (like for Twilight Forest). This only happens **once** per chunk visited, when the player visits it
 * [API] ADDED: Ability to check or mark if chunks have been ore-swapped
+* CHANGED: Textures for coal variants (thanks Wiiv :))
 * CHANGED: Field Manual info to reflect latest defaults
 * CHANGED: Compass depth meter mechanics (only shows once underground)
 * FIXED: Config GUI (from the Mod Options menu) not updating
+* FIXED: Field manual opening for all users on LAN Multiplayer
 
 ### 1.8.10c:
 * ADDED: Config option for the IE compat module
