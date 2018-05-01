@@ -19,7 +19,7 @@ import com.oitsjustjose.geolosys.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
 import com.oitsjustjose.geolosys.util.ClientRegistry;
-import com.oitsjustjose.geolosys.util.Finder;
+import com.oitsjustjose.geolosys.util.DepthFinder;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
@@ -112,7 +112,7 @@ public class Geolosys
         }
         if (ModConfig.featureControl.enableEnhancedCompass)
         {
-            MinecraftForge.EVENT_BUS.register(new Finder());
+            MinecraftForge.EVENT_BUS.register(new DepthFinder());
         }
         if (ModConfig.featureControl.modDrops)
         {

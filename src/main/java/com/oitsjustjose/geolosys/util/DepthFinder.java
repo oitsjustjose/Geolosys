@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
-public class Finder
+public class DepthFinder
 {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void registerEvent(PlayerEvent event)
