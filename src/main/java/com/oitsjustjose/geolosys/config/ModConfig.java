@@ -98,23 +98,19 @@ public class ModConfig
     {
         @Config.Name("Custom Ore Entries")
         @Config.Comment("Format is:\n" +
-                "modid:block:meta, clusterSize, min Y, max Y, chance to gen in chunk. Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 20\n" +
-                "Optionally you can declare your own \"sample\" block by appending an extra modid:block:meta to the end. Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1\n" +
-                "META, COLONS AND COMMAS ARE REQUIRED.")
+                "modid:block:meta, deposit size, min Y, max Y, chance to gen in chunk, block to use as sample, [dimension blacklist] Example:\n" +
+                "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1, [1, -1]")
         public String[] userOreEntriesRaw = new String[]{};
 
         @Config.Name("Custom Stone Entries")
         @Config.Comment("Format is:\n" +
                 "modid:block:meta, min Y, max Y, chance to gen in chunk\n" +
-                "ALL CLUSTERS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" +
-                "META, COLONS AND COMMAS ARE REQUIRED. Example:\n" +
+                "ALL DEPOSITS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" +
                 "rustic:slate:0, 27, 54, 10")
         public String[] userStoneEntriesRaw = new String[]{};
 
         @Config.Name("Blocks mineral deposits can replace")
-        public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0"};
+        public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0", "minecraft:netherrack:0"};
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)

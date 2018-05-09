@@ -1,10 +1,12 @@
 ### 1.9:
 * ADDED: Extra Prospector's Pick settings (Thanks agentgoblin!)
 * ADDED: Ore-swapping: replaces other mod ores with Geolosys ones *after* they've generated (like for Twilight Forest). This only happens **once** per chunk visited, when the player visits it
+* ADDED: Compatibility for Astral Sorcery's Infused Crystal Pickaxe
 * [API] ADDED: Ability to check or mark if chunks have been ore-swapped
 * CHANGED: Textures for coal variants (thanks Wiiv :))
 * CHANGED: Field Manual info to reflect latest defaults
 * CHANGED: Compass depth meter mechanics (only shows once underground)
+* CHANGED: IE Integration now picks up ore blocks instead of clusters
 * FIXED: Config GUI (from the Mod Options menu) not updating
 * FIXED: Field manual opening for all users on LAN Multiplayer
 
