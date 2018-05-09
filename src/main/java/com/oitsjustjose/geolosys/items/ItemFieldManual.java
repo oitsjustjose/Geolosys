@@ -1,19 +1,18 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.google.common.collect.Lists;
+import com.oitsjustjose.geolosys.Client.GuiScreenFieldManual;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -37,6 +36,8 @@ import java.util.List;
 
 public class ItemFieldManual extends Item
 {
+    private FontRenderer fontRenderer;
+
     public ItemFieldManual()
     {
         this.setMaxStackSize(1);
@@ -70,13 +71,14 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-        if(world.isRemote)
+        if (world.isRemote)
         {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
+            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenFieldManual(player, getBook(new Book(getNumEntries()))));
             return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
         }
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
+
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -95,9 +97,13 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ItemStack getBook(Book book)
     {
+        if(fontRenderer == null)
+        {
+            this.fontRenderer = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, true);
+            this.fontRenderer.setUnicodeFlag(true);
+        }
         NBTTagCompound tags = new NBTTagCompound();
         List<NBTTagString> pages = Lists.newArrayList();
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         TIntObjectHashMap<String> contents = new TIntObjectHashMap<>();
 
         for (Page page : book.pages)
@@ -184,8 +190,7 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public String translatePageText(int pageNumber)
     {
-        String langFile = Minecraft.getMinecraft().gameSettings.language;
-        langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
+        String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
         if (in == null)
         {
@@ -215,8 +220,7 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public String translateTitle(int pageNumber)
     {
-        String langFile = Minecraft.getMinecraft().gameSettings.language;
-        langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
+        String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
         if (in == null)
         {
@@ -246,14 +250,13 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public int getNumEntries()
     {
-        String langFile = Minecraft.getMinecraft().gameSettings.language;
-        langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
+        String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
         int numLines = 0;
         if (in == null)
         {
             langFile = "en_US";
-            in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
+            in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
         }
         try
         {
@@ -269,7 +272,7 @@ public class ItemFieldManual extends Item
                 }
             }
         }
-        catch (IOException e)
+        catch (IOException ignored)
         {
         }
         return numLines;

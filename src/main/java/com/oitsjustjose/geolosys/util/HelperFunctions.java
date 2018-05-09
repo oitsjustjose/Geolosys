@@ -31,7 +31,7 @@ public class HelperFunctions
     @SideOnly(Side.CLIENT)
     public static String getTranslation(String toTranslate)
     {
-        String langFile = Minecraft.getMinecraft().gameSettings.language;
+        String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         langFile = langFile.substring(0, langFile.indexOf("_")) + langFile.substring(langFile.indexOf("_")).toUpperCase();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + langFile + ".lang");
         if (in == null)
