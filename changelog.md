@@ -1,3 +1,7 @@
+### 1.9.1:
+* FIXED: Various crashes with field manual
+* CHANGED: Field Manual GUI: Now uses Unicode font (easier to read) and custom texture!
+
 ### 1.9:
 * ADDED: Extra Prospector's Pick settings (Thanks agentgoblin!)
 * ADDED: Ore-swapping: replaces other mod ores with Geolosys ones *after* they've generated (like for Twilight Forest). This only happens **once** per chunk visited, when the player visits it
