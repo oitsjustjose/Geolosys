@@ -2,7 +2,9 @@ package com.oitsjustjose.geolosys.Client;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
+import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
@@ -31,7 +33,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiScreenFieldManual extends GuiScreen
 {
-    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
+    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation(Geolosys.MODID, "textures/gui/field_manual.png");
     private final EntityPlayer editingPlayer;
     private final ItemStack book;
     private boolean bookGettingSigned;
@@ -43,14 +45,14 @@ public class GuiScreenFieldManual extends GuiScreen
     private NextPageButton buttonNextPage;
     private NextPageButton buttonPreviousPage;
     private GuiButton buttonDone;
-    private boolean lastFlag;
+    private FontRenderer font;
 
     public GuiScreenFieldManual(EntityPlayer player, ItemStack book)
     {
         this.editingPlayer = player;
         this.book = book;
-        this.lastFlag = Minecraft.getMinecraft().fontRenderer.getUnicodeFlag();
-        Minecraft.getMinecraft().fontRenderer.setUnicodeFlag(true);
+        this.font = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, true);
+        this.font.setUnicodeFlag(true);
         if (book.hasTagCompound())
         {
             NBTTagCompound nbttagcompound = book.getTagCompound();
@@ -86,14 +88,6 @@ public class GuiScreenFieldManual extends GuiScreen
         this.updateButtons();
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed()
-    {
-        Minecraft.getMinecraft().fontRenderer.setUnicodeFlag(lastFlag);
-        Keyboard.enableRepeatEvents(false);
-    }
 
     private void updateButtons()
     {
@@ -162,20 +156,19 @@ public class GuiScreenFieldManual extends GuiScreen
         this.mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
         this.drawTexturedModalRect(i, 2, 0, 0, 192, 192);
-
         if (this.bookGettingSigned)
         {
             String s = "";
             String s1 = I18n.format("book.editTitle");
-            int k = this.fontRenderer.getStringWidth(s1);
-            this.fontRenderer.drawString(s1, i + 36 + (116 - k) / 2, 34, 0);
-            int l = this.fontRenderer.getStringWidth(s);
-            this.fontRenderer.drawString(s, i + 36 + (116 - l) / 2, 50, 0);
+            int k = font.getStringWidth(s1);
+            font.drawString(s1, i + 36 + (116 - k) / 2, 34, 0);
+            int l = font.getStringWidth(s);
+            font.drawString(s, i + 36 + (116 - l) / 2, 50, 0);
             String s2 = I18n.format("book.byAuthor", this.editingPlayer.getName());
-            int i1 = this.fontRenderer.getStringWidth(s2);
-            this.fontRenderer.drawString(TextFormatting.DARK_GRAY + s2, i + 36 + (116 - i1) / 2, 60, 0);
+            int i1 = font.getStringWidth(s2);
+            font.drawString(TextFormatting.DARK_GRAY + s2, i + 36 + (116 - i1) / 2, 60, 0);
             String s3 = I18n.format("book.finalizeWarning");
-            this.fontRenderer.drawSplitString(s3, i + 36, 82, 116, 0);
+            font.drawSplitString(s3, i + 36, 82, 116, 0);
         }
         else
         {
@@ -195,7 +188,7 @@ public class GuiScreenFieldManual extends GuiScreen
                     try
                     {
                         ITextComponent itextcomponent = ITextComponent.Serializer.jsonToComponent(s5);
-                        this.cachedComponents = itextcomponent != null ? GuiUtilRenderComponents.splitText(itextcomponent, 116, this.fontRenderer, true, true) : null;
+                        this.cachedComponents = itextcomponent != null ? GuiUtilRenderComponents.splitText(itextcomponent, 116, font, true, true) : null;
                     }
                     catch (JsonParseException var13)
                     {
@@ -211,21 +204,21 @@ public class GuiScreenFieldManual extends GuiScreen
                 this.cachedPage = this.currPage;
             }
 
-            int j1 = this.fontRenderer.getStringWidth(s4);
-            this.fontRenderer.drawString(s4, i - j1 + 192 - 44, 18, 0);
+            int j1 = font.getStringWidth(s4);
+            font.drawString(s4, i - j1 + 192 - 44, 18, 0);
 
             if (this.cachedComponents == null)
             {
-                this.fontRenderer.drawSplitString(s5, i + 36, 34, 116, 0);
+                font.drawSplitString(s5, i + 36, 34, 116, 0);
             }
             else
             {
-                int k1 = Math.min(128 / this.fontRenderer.FONT_HEIGHT, this.cachedComponents.size());
+                int k1 = Math.min(128 / font.FONT_HEIGHT, this.cachedComponents.size());
 
                 for (int l1 = 0; l1 < k1; ++l1)
                 {
                     ITextComponent itextcomponent2 = this.cachedComponents.get(l1);
-                    this.fontRenderer.drawString(itextcomponent2.getUnformattedText(), i + 36, 34 + l1 * this.fontRenderer.FONT_HEIGHT, 0);
+                    font.drawString(itextcomponent2.getUnformattedText(), i + 36, 34 + l1 * font.FONT_HEIGHT, 0);
                 }
 
                 ITextComponent itextcomponent1 = this.getClickedComponentAt(mouseX, mouseY);
@@ -317,7 +310,7 @@ public class GuiScreenFieldManual extends GuiScreen
 
             if (i >= 0 && j >= 0)
             {
-                int k = Math.min(128 / this.fontRenderer.FONT_HEIGHT, this.cachedComponents.size());
+                int k = Math.min(128 / font.FONT_HEIGHT, this.cachedComponents.size());
 
                 if (i <= 116 && j < this.mc.fontRenderer.FONT_HEIGHT * k + k)
                 {
