@@ -5,7 +5,6 @@
 * [API] ADDED: Ability to check or mark if chunks have been ore-swapped
 * CHANGED: Textures for coal variants (thanks Wiiv :))
 * CHANGED: Field Manual info to reflect latest defaults
-* CHANGED: Compass depth meter mechanics (only shows once underground)
 * CHANGED: IE Integration now picks up ore blocks instead of clusters
 * CHANGED: User-generated deposits now **require** a sample block and a **dimension blacklist**
 * FIXED: Config GUI (from the Mod Options menu) not updating
