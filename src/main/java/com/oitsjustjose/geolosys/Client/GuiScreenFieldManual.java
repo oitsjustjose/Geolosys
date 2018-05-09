@@ -33,7 +33,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiScreenFieldManual extends GuiScreen
 {
-    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation(Geolosys.MODID, "textures/gui/field_manual.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Geolosys.MODID, "textures/gui/field_manual.png");
     private final EntityPlayer editingPlayer;
     private final ItemStack book;
     private boolean bookGettingSigned;
@@ -153,7 +153,7 @@ public class GuiScreenFieldManual extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
+        this.mc.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - 192) / 2;
         this.drawTexturedModalRect(i, 2, 0, 0, 192, 192);
         if (this.bookGettingSigned)
@@ -369,7 +369,7 @@ public class GuiScreenFieldManual extends GuiScreen
             {
                 boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
+                mc.getTextureManager().bindTexture(TEXTURE);
                 int i = 0;
                 int j = 192;
 
