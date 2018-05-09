@@ -50,6 +50,15 @@ public class BlockOreVanilla extends Block
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
+        this.registerOreDict();
+    }
+
+    private void registerOreDict()
+    {
+        for (int i = 0; i < Types.Vanilla.values().length; i++)
+        {
+            OreDictionary.registerOre("oreBlock" + Types.Vanilla.values()[i].getName().substring(0, 1).toUpperCase() + Types.Vanilla.values()[i].getName().substring(1), new ItemStack(this, 1, i));
+        }
     }
 
     private void setHarvestLevels()
@@ -131,7 +140,7 @@ public class BlockOreVanilla extends Block
                     }
                 }
             }
-            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0 )
+            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0)
             {
                 int rng = random.nextInt(50);
                 if (rng == 0)
