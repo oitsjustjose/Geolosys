@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.cl.GuiScreenFieldManual;
+import com.oitsjustjose.geolosys.client.GuiScreenFieldManual;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import gnu.trove.map.hash.TIntObjectHashMap;

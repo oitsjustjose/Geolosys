@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.cl;
+package com.oitsjustjose.geolosys.client;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;

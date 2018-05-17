@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.cl;
+package com.oitsjustjose.geolosys.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
