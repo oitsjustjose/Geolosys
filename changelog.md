@@ -1,3 +1,6 @@
+### 1.9.2:
+* FIXED: Dimension Blacklisting issues with custom entries
+
 ### 1.9.1:
 * FIXED: Various crashes with field manual
 * CHANGED: Field Manual GUI: Now uses Unicode font (easier to read) and custom texture!
