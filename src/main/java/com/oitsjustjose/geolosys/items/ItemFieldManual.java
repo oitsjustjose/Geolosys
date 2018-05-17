@@ -97,7 +97,7 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ItemStack getBook(Book book)
     {
-        if(fontRenderer == null)
+        if (fontRenderer == null)
         {
             this.fontRenderer = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, true);
             this.fontRenderer.setUnicodeFlag(true);
@@ -151,18 +151,18 @@ public class ItemFieldManual extends Item
         int i = 2;
         for (final int key : keys)
         {
-            String line;
-            int a;
-
-
-
-            for (line = contents.get(key), a = key + offset; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1; line = line.substring(0, line.length() - 1))
+            String line = contents.get(key);
+            int a = key + offset;
+            while (fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1)
             {
-                ;
+                line = contents.get(key);
+                a = key + offset;
+                line = line.substring(0, line.length() - 1);
             }
-            for (line += " "; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1; line += " ")
+            line += " ";
+            while (fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1)
             {
-                ;
+                line += " ";
             }
             line += a;
             builder3.append(line).append('\n');
@@ -191,7 +191,7 @@ public class ItemFieldManual extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public String translatePageText(int pageNumber)
+    private String translatePageText(int pageNumber)
     {
         String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
@@ -214,14 +214,14 @@ public class ItemFieldManual extends Item
                 }
             }
         }
-        catch (IOException e)
+        catch (IOException ignored)
         {
         }
         return "ERROR READING PAGE " + pageNumber;
     }
 
     @SideOnly(Side.CLIENT)
-    public String translateTitle(int pageNumber)
+    private String translateTitle(int pageNumber)
     {
         String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
@@ -244,14 +244,14 @@ public class ItemFieldManual extends Item
                 }
             }
         }
-        catch (IOException e)
+        catch (IOException ignored)
         {
         }
         return "ERROR READING PAGE " + pageNumber;
     }
 
     @SideOnly(Side.CLIENT)
-    public int getNumEntries()
+    private int getNumEntries()
     {
         String langFile = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/book/" + langFile + ".lang");
@@ -286,7 +286,7 @@ public class ItemFieldManual extends Item
     {
         private List<Page> pages;
 
-        public Book(int pageCount)
+        Book(int pageCount)
         {
             pages = Lists.newArrayList();
             for (int i = 0; i < pageCount; i++)
@@ -302,18 +302,18 @@ public class ItemFieldManual extends Item
         private String title;
         private String text;
 
-        public Page(int pageNumber)
+        Page(int pageNumber)
         {
             title = translateTitle(pageNumber);
             text = translatePageText(pageNumber);
         }
 
-        public String getTitle()
+        String getTitle()
         {
             return title;
         }
 
-        public String getText()
+        String getText()
         {
             return text;
         }
