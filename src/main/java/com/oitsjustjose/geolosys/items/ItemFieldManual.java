@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.Client.GuiScreenFieldManual;
+import com.oitsjustjose.geolosys.cl.GuiScreenFieldManual;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -153,6 +153,9 @@ public class ItemFieldManual extends Item
         {
             String line;
             int a;
+
+
+
             for (line = contents.get(key), a = key + offset; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1; line = line.substring(0, line.length() - 1))
             {
                 ;

@@ -18,7 +18,7 @@ import com.oitsjustjose.geolosys.items.ItemCoal;
 import com.oitsjustjose.geolosys.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.items.ItemIngot;
 import com.oitsjustjose.geolosys.items.ItemProPick;
-import com.oitsjustjose.geolosys.Client.ClientRegistry;
+import com.oitsjustjose.geolosys.cl.ClientRegistry;
 import com.oitsjustjose.geolosys.util.DepthFinder;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.world.ChunkData;
