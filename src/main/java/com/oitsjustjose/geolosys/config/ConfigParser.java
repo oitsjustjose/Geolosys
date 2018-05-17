@@ -53,12 +53,28 @@ public class ConfigParser
                 }
                 IBlockState sampleState = HelperFunctions.getStateFromMeta(sampleBlock, toInt(parts[9]));
                 String blacklistString = s.substring(s.indexOf("["), s.indexOf("]") + 1).replace("[", "").replace("]", "").replace(" ", "").trim();
-                String[] blacklistParts = blacklistString.split(",");
-                int[] blacklist = new int[blacklistParts.length];
-                for (int i = 0; i < blacklistParts.length; i++)
+                int[] blacklist;
+                // Empty Blacklist
+                if (blacklistString.length() == 0)
                 {
-                    blacklist[i] = toInt(blacklistParts[i]);
+                    blacklist = new int[]{};
                 }
+                // Blacklist of only 1 dim
+                else if (blacklistString.length() == 1)
+                {
+                    blacklist = new int[]{toInt(blacklistString)};
+                }
+                // Anything else
+                else
+                {
+                    String[] blacklistParts = blacklistString.split(",");
+                    blacklist = new int[blacklistParts.length];
+                    for (int i = 0; i < blacklistParts.length; i++)
+                    {
+                        blacklist[i] = toInt(blacklistParts[i]);
+                    }
+                }
+                Geolosys.getInstance().LOGGER.info(Arrays.toString(blacklist));
                 GeolosysAPI.registerMineralDeposit(oreState, sampleState, toInt(parts[4]), toInt(parts[5]), toInt(parts[3]), toInt(parts[6]), blacklist);
             }
             catch (NumberFormatException e)
