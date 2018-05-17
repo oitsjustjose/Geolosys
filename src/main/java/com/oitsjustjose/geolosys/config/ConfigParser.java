@@ -74,12 +74,10 @@ public class ConfigParser
                         blacklist[i] = toInt(blacklistParts[i]);
                     }
                 }
-                Geolosys.getInstance().LOGGER.info(Arrays.toString(blacklist));
                 GeolosysAPI.registerMineralDeposit(oreState, sampleState, toInt(parts[4]), toInt(parts[5]), toInt(parts[3]), toInt(parts[6]), blacklist);
             }
             catch (NumberFormatException e)
             {
-                Geolosys.getInstance().LOGGER.info("NumberFormatException: " + e.getMessage());
                 printFormattingError(s);
             }
         }
