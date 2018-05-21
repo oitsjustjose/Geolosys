@@ -1,0 +1,55 @@
+# ------------------------------------ #
+#                Titres                #
+# ------------------------------------ #
+page_1_title=Introduction
+page_2_title=Pour commencer
+page_3_title=Échantillons
+page_4_title=Prospection
+page_5_title=Clusters
+page_6_title=Variantes de pierre
+page_7_title=Charbon
+page_8_title=Hématite
+page_9_title=Or
+page_10_title=Lapis lazuli
+page_11_title=Cinabre
+page_12_title=Kimberlite
+page_13_title=Béryl
+page_14_title=Quartz assorti
+page_15_title=Malachite
+page_16_title=Azurite
+page_17_title=Cassitérite
+page_18_title=Teallite
+page_19_title=Limonite
+page_20_title=Galène
+page_21_title=Bauxite
+page_22_title=Sphalérite
+page_23_title=Platine
+page_24_title=Autunite
+
+# ------------------------------------ #
+#                Pages                 #
+# ------------------------------------ #
+page_1_text=Geolosys est un mod destiné à ajouter de la difficulté à l'exploitation minière. La majeure partie de ce manuel supposera que les configurations sont par défaut, mais peut faire mention de possibles options de configuration si elles sont pertinentes.
+page_2_text=Geolosys fonctionne sur des mécaniques très similaires à celles de TerraFirmaCraft, dans le sens où les gisements minéraux sont rares et grands. Contrairement à TFC, il vise à être compatible avec autant de mods que possible. Les échantillons sous la couche §3Y=24§0 ont une chance de faire apparaître un §4bloc de magma§0, donc soyez prudents !
+page_3_text=Les échantillons se génèrent à la surface, dans le même tronçon que la veine de minerai correspondante. Si la configuration le permet, vous pouvez obtenir un petit échantillon de ce que la veine entière donnera en faisant un clic droit ou en cassant l'échantillon.
+page_4_text=Une fois que vous avez trouvé un échantillon du minéral que vous recherchez, il est temps de commencer à creuser. Il est fortement conseillé de vous fabriquer vous-mêmes une §7pioche du prospecteur§0 et une §7boussole§0. Reportez-vous à ce manuel pour savoir à quelle couche Y descendre, et utilisez la §7boussole§0 pour connaître votre profondeur actuelle et la §7pioche du prospecteur§0 pour scanner les zones dans la direction où vous l'utilisez (un cube de 5 blocs dans la configuration par défaut).
+page_5_text=Les clusters agissent comme les minéraux eux-mêmes ; le bloc de minerai que vous trouvez dans le monde est inutile, mais le cluster est ce qui peut être traité ! S'il est miné avec Toucher de soie, vous aurez toujours le cluster à moins de miner un remplacement du vanilla qui donnera plutôt le vrai bloc de minerai vanilla. Vous pouvez utiliser ces clusters dans n'importe quel type de machine, et si la configuration le permet, ils peuvent également être fondus.
+page_6_text=Les variantes de pierre vanilla sont maintenant regroupés en grands plutons, au lieu de se générer sporadiquement à travers le monde.
+page_7_text=Ajouté par Geolosys pour fonctionner de la même manière qu'en vanilla. Le charbon peut se générer entre les couches §3Y=8§0 et §3Y=78§0, et peut donner du soufre si un autre mod l'ajoute. Le charbon peut également donner de la tourbe, de la lignite, du bitume ou de l'anthracite (en plus du charbon normal) ; ce qu'il donne dépend de votre §lprofondeur§r§0. La liste précédente est ordonnée du plus élevé au plus bas en profondeur, et du plus bas et plus élevé en inflammabilité (dans un fourneau).
+page_8_text=Un minéral facile et petit qui est une bonne source de fer. Les veines sont plus petites que la limonite, mais elle se génère entre les couches §3Y=32§0 et §3Y=60§0.
+page_9_text=Ajouté par Geolosys pour fonctionner de la même manière qu'en vanilla. Il peut se générer entre les couches §3Y=5§0 et §3Y=30§0.
+page_10_text=Ajouté par Geolosys pour fonctionner de la même manière qu'en vanilla. Il peut se générer entre les couches §3Y=10§0 et §3Y=24§0.
+page_11_text=La chose la plus proche de la redstone dans la vraie vie (bien que ce soit récolté pour du mercure IRL). Il peut donner du §4cinabre de Thermal Expansion§0 si c'est installé, ainsi que des §4cristaux de redstone résonnants d'Extra Utilities§0. Il peut se générer entre les couches §3Y=5§0 et §3Y=12§0.
+page_12_text=Ajouté par Geolosys pour être identique aux diamants. Elle peut se générer entre les couches §3Y=2§0 et §3Y=15§0.
+page_13_text=Le béryl est la principale source d'émeraudes. Du béryl peut se générer dans n'importe quel biome, entre les couches §3Y=4§0 et §3Y=32§0.
+page_14_text=Vous évite de devoir faire un périple dans le Nether chaque fois que vous avez besoin de quartz. Il est donné à un taux similaire au quartz du Nether vanilla, cependant il a également une chance aléatoire de donner du quartz noir d'Actually Additions et du certus chargé et régulier d'Applied (Ener/Llama)gistics si l'un des deux (ou les deux) sont installés. Il peut se générer entre les couches §3Y=6§0 et §3Y=29§0.
+page_15_text=Une source de cuivre plus petite mais plus facile. Elle se génère entre les couches §3Y=39§0 et §3Y=44§0.
+page_16_text=Une source de cuivre plus grande mais plus profonde. Elle se génère entre les couches §3Y=12§0 et §3Y=44§0.
+page_17_text=Une source d'étain plus petite mais plus facile. Elle se génère entre les couches §3Y=44§0 et §3Y=68§0.
+page_18_text=Une source d'étain plus grande mais plus profonde. Elle se génère entre les couches §3Y=8§0 et §3Y=43§0.
+page_19_text=Une source de fer plus grande mais plus profonde, ainsi qu'une source de nickel. Elle se génère entre les couches §3Y=6§0 et §3Y=32§0, mais nécessite une pioche en fer pour être récoltée.
+page_20_text=Une source abondante d'argent et de plomb. Elle se génère entre les couches §3Y=16§0 et §3Y=50§0.
+page_21_text=Une grande source d'aluminium. Elle se génère entre les couches §3Y=45§0 et §3Y=70§0, et nécessite seulement une pioche en bois pour être récoltée.
+page_22_text=Une bonne source de zinc. Elle se génère entre les couches §3Y=35§0 et §3Y=55§0.
+page_23_text=Une bonne source de - attendez, vous pouvez probablement comprendre cela. Mais il donne également de l'§bosmium§0 si c'est activé dans la configuration. Il se génère entre les couches §3Y=3§0 et §3Y=25§0, et §4nécessite une pioche en fer ou mieux pour être récolté§0.
+page_24_text=Une source fiable d'uranium. Donne également du §ayellorium§0 si c'est activé dans la configuration. Il se génère entre les couches §3Y=8§0 et §3Y=33§0, et §4nécessite une pioche en fer ou mieux pour être récolté§0.
