@@ -3,10 +3,12 @@ package com.oitsjustjose.geolosys.items;
 import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.client.GuiScreenFieldManual;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,7 +75,14 @@ public class ItemFieldManual extends Item
     {
         if (world.isRemote)
         {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenFieldManual(player, getBook(new Book(getNumEntries()))));
+            if (ModConfig.client.enableASCIIFieldManualFont)
+            {
+                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenFieldManual(player, getBook(new Book(getNumEntries()))));
+            }
+            else
+            {
+                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
+            }
             return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
         }
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
@@ -97,13 +106,17 @@ public class ItemFieldManual extends Item
     @SideOnly(Side.CLIENT)
     public ItemStack getBook(Book book)
     {
-        if (fontRenderer == null)
+        NBTTagCompound tags = new NBTTagCompound();
+        List<NBTTagString> pages = Lists.newArrayList();
+        if (ModConfig.client.enableASCIIFieldManualFont)
         {
             this.fontRenderer = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, true);
             this.fontRenderer.setUnicodeFlag(true);
         }
-        NBTTagCompound tags = new NBTTagCompound();
-        List<NBTTagString> pages = Lists.newArrayList();
+        else
+        {
+            this.fontRenderer = Minecraft.getMinecraft().fontRenderer;
+        }
         TIntObjectHashMap<String> contents = new TIntObjectHashMap<>();
 
         for (Page page : book.pages)
@@ -120,7 +133,7 @@ public class ItemFieldManual extends Item
             contents.put(pages.size(), title);
             sb.append(TextFormatting.UNDERLINE).append(title).append(TextFormatting.RESET).append("\n\n").append(text);
             String formattedString = sb.toString();
-            List<String> splitStrings = fontRenderer.listFormattedStringToWidth(formattedString, 116);
+            List<String> splitStrings = this.fontRenderer.listFormattedStringToWidth(formattedString, 116);
 
             StringBuilder sb2 = new StringBuilder();
             int lineNumber = 0;
@@ -151,18 +164,15 @@ public class ItemFieldManual extends Item
         int i = 2;
         for (final int key : keys)
         {
-            String line = contents.get(key);
-            int a = key + offset;
-            while (fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1)
+            String line;
+            int a;
+            for (line = contents.get(key), a = key + offset; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() > 1; line = line.substring(0, line.length() - 1))
             {
-                line = contents.get(key);
-                a = key + offset;
-                line = line.substring(0, line.length() - 1);
+                ;
             }
-            line += " ";
-            while (fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1)
+            for (line += " "; fontRenderer.listFormattedStringToWidth(line + " " + a, 116).size() == 1; line += " ")
             {
-                line += " ";
+                ;
             }
             line += a;
             builder3.append(line).append('\n');

@@ -23,6 +23,10 @@ public class ModConfig
     @Config.Comment("Custom user entries")
     public static UserEntries userEntries = new UserEntries();
 
+    @Config.Name("Client")
+    @Config.Comment("Client-side settings")
+    public static Client client = new Client();
+
     public static class FeatureControl
     {
         @Config.Name("Replace Stone Variant Deposits")
@@ -111,6 +115,14 @@ public class ModConfig
 
         @Config.Name("Blocks mineral deposits can replace")
         public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0", "minecraft:netherrack:0"};
+    }
+
+    public static class Client
+    {
+        @Config.Name("Enable ASCII Font for Field Manual")
+        @Config.Comment("Disabling this makes the font in the field manual uglier, but allows for Optifine compatibility")
+        @Config.RequiresMcRestart
+        public boolean enableASCIIFieldManualFont = true;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)
