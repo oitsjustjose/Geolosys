@@ -121,7 +121,6 @@ public class ModConfig
     {
         @Config.Name("Enable ASCII Font for Field Manual")
         @Config.Comment("Disabling this makes the font in the field manual uglier, but allows for Optifine compatibility")
-        @Config.RequiresMcRestart
         public boolean enableASCIIFieldManualFont = true;
     }
 
