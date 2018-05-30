@@ -42,6 +42,10 @@ public class OreConverter
             {
                 for (int y = 0; y < world.getHeight(x + xMod, z + zMod); y++)
                 {
+                    if (world.getBlockState(new BlockPos(x + xMod, y, z + zMod)).getBlock().getRegistryName().toString().split(":")[0].equalsIgnoreCase("gravelores"))
+                    {
+                        continue;
+                    }
                     if (getConvertedOre(HelperFunctions.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
                     {
                         world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(HelperFunctions.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
