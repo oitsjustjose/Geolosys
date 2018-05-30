@@ -1,3 +1,15 @@
+### 1.9.3:
+* ADDED: Config option to disable Unicode font renderer in the Field Manual (allows for optifine compat)
+* ADDED: Elucent's GravelOres compatibility to the OreConverter (no longer converts gravel ores to Geolosys's)
+* ADDED: BetterWithMods smelting compatibility (attempts to smelt all clusters to nuggets)
+* REMOVED: Depth Finder feature from compass - this is mostly implemented in the prospector's pick now
+* CHANGED: Prospector's pick behavior:
+    * Now shows what ore is in the chunk if you're on the surface
+    * If beneath the surface, maintains normal functionality
+    * Shows chunk borders when held
+* FIXED: File saving with Geolosys Deposits & Regenned Chunks
+
+
 ### 1.9.2:
 * FIXED: Dimension Blacklisting issues with custom entries
 
