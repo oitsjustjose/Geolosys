@@ -116,9 +116,9 @@ public class ModConfig
 
     public static class Client
     {
-        @Config.Name("Enable ASCII Font for Field Manual")
-        @Config.Comment("Disabling this makes the font in the field manual uglier, but allows for Optifine compatibility")
-        public boolean enableASCIIFieldManualFont = true;
+        @Config.Name("Enable unicode Font for Field Manual")
+        @Config.Comment("Setting to false allows for Optifine compatibility ")
+        public boolean enableUnicodeFieldManual = true;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)

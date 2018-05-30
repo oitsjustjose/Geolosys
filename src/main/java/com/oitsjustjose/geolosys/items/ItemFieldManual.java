@@ -75,7 +75,7 @@ public class ItemFieldManual extends Item
     {
         if (world.isRemote)
         {
-            if (ModConfig.client.enableASCIIFieldManualFont)
+            if (ModConfig.client.enableUnicodeFieldManual)
             {
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenFieldManual(player, getBook(new Book(getNumEntries()))));
             }
@@ -108,7 +108,7 @@ public class ItemFieldManual extends Item
     {
         NBTTagCompound tags = new NBTTagCompound();
         List<NBTTagString> pages = Lists.newArrayList();
-        if (ModConfig.client.enableASCIIFieldManualFont)
+        if (ModConfig.client.enableUnicodeFieldManual)
         {
             this.fontRenderer = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, true);
             this.fontRenderer.setUnicodeFlag(true);
