@@ -32,7 +32,8 @@ public class GeolosysAPI
     // A K:V pair of IBlockStates with their sample sizes
     public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
     // Some local instance variables I don't want others having access to..
-    private static File fileLocation = null;
+    private static File depositFileLocation = null;
+    private static File regenFileLocation = null;
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
@@ -87,20 +88,29 @@ public class GeolosysAPI
         {
             return;
         }
-        else if (fileLocation == null)
+        if (depositFileLocation == null)
         {
-            fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+            depositFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+        }
+        if (regenFileLocation == null)
+        {
+            regenFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat");
         }
         try
         {
-            if (fileLocation.exists())
+            if (depositFileLocation.exists())
             {
-                FileInputStream fileIn = new FileInputStream(fileLocation);
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                currentWorldDeposits = (HashMap<ChunkPosSerializable, String>) in.readObject();
-                regennedChunks = (LinkedHashMap<ChunkPosSerializable, Boolean>) in.readObject();
-                in.close();
-                fileIn.close();
+                FileInputStream fileInDeposits = new FileInputStream(depositFileLocation);
+                ObjectInputStream inDeposits = new ObjectInputStream(fileInDeposits);
+                currentWorldDeposits = (HashMap<ChunkPosSerializable, String>) inDeposits.readObject();
+                inDeposits.close();
+                fileInDeposits.close();
+
+                FileInputStream fileInRegen = new FileInputStream(regenFileLocation);
+                ObjectInputStream inRegen = new ObjectInputStream(fileInRegen);
+                regennedChunks = (LinkedHashMap<ChunkPosSerializable, Boolean>) inRegen.readObject();
+                inRegen.close();
+                fileInRegen.close();
             }
         }
         catch (IOException i)
@@ -112,6 +122,9 @@ public class GeolosysAPI
             Geolosys.getInstance().LOGGER.error("There was an error in the code for deserialization. Please contact oitsjustjose on GitHub with a log");
             Geolosys.getInstance().LOGGER.error(c.getMessage());
         }
+        System.out.println("====================================================");
+        System.out.println(currentWorldDeposits);
+        System.out.println("====================================================");
     }
 
     /**
@@ -123,18 +136,27 @@ public class GeolosysAPI
         {
             return;
         }
-        else if (fileLocation == null)
+        if (depositFileLocation == null)
         {
-            fileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+            depositFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+        }
+        if (regenFileLocation == null)
+        {
+            regenFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat");
         }
         try
         {
-            FileOutputStream fileOut = new FileOutputStream(fileLocation);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(GeolosysAPI.getCurrentWorldDeposits());
-            out.writeObject(GeolosysAPI.getRegennedChunks());
-            out.close();
-            fileOut.close();
+            FileOutputStream fileOutDeposits = new FileOutputStream(depositFileLocation);
+            ObjectOutputStream outDeposits = new ObjectOutputStream(fileOutDeposits);
+            outDeposits.writeObject(GeolosysAPI.getCurrentWorldDeposits());
+            outDeposits.close();
+            fileOutDeposits.close();
+
+            FileOutputStream fileOutRegen = new FileOutputStream(regenFileLocation);
+            ObjectOutputStream outRegen = new ObjectOutputStream(fileOutRegen);
+            outRegen.writeObject(GeolosysAPI.getRegennedChunks());
+            outRegen.close();
+            fileOutRegen.close();
         }
         catch (IOException i)
         {
