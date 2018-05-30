@@ -16,6 +16,7 @@ import com.oitsjustjose.geolosys.config.ConfigParser;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.*;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
+import com.oitsjustjose.geolosys.util.Recipes;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
 import com.oitsjustjose.geolosys.world.StoneGenerator;
@@ -125,69 +126,13 @@ public class Geolosys
     {
         if (ModConfig.featureControl.enableSmelting)
         {
-            if (configOres.hematiteChance > 0 || configOres.limoniteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 0), "ingotIron");
-            }
-            if (configOres.goldChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 1), "ingotGold");
-            }
-            if (configOres.malachiteChance > 0 || configOres.azuriteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 2), "ingotCopper");
-            }
-            if (configOres.cassiteriteChance > 0 || configOres.tealliteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 3), "ingotTin");
-            }
-            if (configOres.galenaChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 4), "ingotSilver");
-                smeltSafely(new ItemStack(CLUSTER, 1, 5), "ingotLead");
-            }
-            if (configOres.bauxiteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 6), "ingotAluminum");
-            }
-            if (configOres.limoniteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 7), "ingotNickel");
-            }
-            if (configOres.platinumChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 8), "ingotPlatinum");
-            }
-            if (configOres.sphaleriteChance > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 10), "ingotZinc");
-            }
-            if (ModConfig.featureControl.enableYellorium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 11), "ingotYellorium");
-            }
-            if (ModConfig.featureControl.enableOsmium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 12), "ingotOsmium");
-            }
+            Recipes.addAllSmelting(configOres, CLUSTER);
         }
 
         ConfigParser.init();
         ModMaterials.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
-    }
-
-    private void smeltSafely(ItemStack input, String oreDictName)
-    {
-        try
-        {
-            GameRegistry.addSmelting(input, OreDictionary.getOres(oreDictName).get(0), 0.7F);
-        }
-        catch (IndexOutOfBoundsException | NullPointerException ex)
-        {
-            LOGGER.info(oreDictName + " has not been added already. Smelting has been skipped.");
-        }
     }
 
     private void registerVanillaOreGen()
