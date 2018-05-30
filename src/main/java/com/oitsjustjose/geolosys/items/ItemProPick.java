@@ -99,7 +99,16 @@ public class ItemProPick extends Item
 
         if (pos.getY() >= worldIn.getTopSolidOrLiquidBlock(pos).getY() - 1)
         {
-            String depositInChunk = HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.nonefound");
+            String depositInChunk;
+            try
+            {
+                depositInChunk = HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.nonefound");
+            }
+            // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
+            catch (NoSuchMethodError onServerError)
+            {
+                depositInChunk = "No deposits in this area";
+            }
             for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
             {
                 if (chunkPos.getX() == pos.getX() / 16)
@@ -115,6 +124,11 @@ public class ItemProPick extends Item
                             }
                             catch (NullPointerException ignored)
                             {
+                            }
+                            // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
+                            catch (NoSuchMethodError onServerError)
+                            {
+                                depositInChunk = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1])), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " found in this area";
                             }
                             break;
                         }
