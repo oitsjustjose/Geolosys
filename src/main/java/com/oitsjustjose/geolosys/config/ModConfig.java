@@ -119,6 +119,9 @@ public class ModConfig
         @Config.Name("Enable unicode Font for Field Manual")
         @Config.Comment("Setting to false allows for Optifine compatibility ")
         public boolean enableUnicodeFieldManual = true;
+
+        @Config.Name("Enable Prospector's Pickaxe Chunk Grid Functionality")
+        public boolean enableProPickExtras = true;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)
