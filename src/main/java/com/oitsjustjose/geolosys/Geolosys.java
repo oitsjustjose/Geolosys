@@ -25,7 +25,6 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -36,7 +35,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -126,9 +124,8 @@ public class Geolosys
     {
         if (ModConfig.featureControl.enableSmelting)
         {
-            Recipes.addAllSmelting(configOres, CLUSTER);
+            Recipes.init(configOres, CLUSTER);
         }
-
         ConfigParser.init();
         ModMaterials.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);

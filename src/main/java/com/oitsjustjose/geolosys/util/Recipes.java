@@ -11,7 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class Recipes
 {
-    public static void addAllSmelting(ConfigOres configOres, final Item CLUSTER)
+    public static void init(ConfigOres configOres, final Item CLUSTER)
     {
         if (Loader.isModLoaded("betterwithmods"))
         {
