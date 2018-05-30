@@ -7,19 +7,14 @@ import com.oitsjustjose.geolosys.blocks.BlockOre;
 import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.blocks.BlockSample;
 import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
+import com.oitsjustjose.geolosys.client.ClientRegistry;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ConfigParser;
 import com.oitsjustjose.geolosys.config.ModConfig;
-import com.oitsjustjose.geolosys.items.ItemCluster;
-import com.oitsjustjose.geolosys.items.ItemCoal;
-import com.oitsjustjose.geolosys.items.ItemFieldManual;
-import com.oitsjustjose.geolosys.items.ItemIngot;
-import com.oitsjustjose.geolosys.items.ItemProPick;
-import com.oitsjustjose.geolosys.client.ClientRegistry;
-import com.oitsjustjose.geolosys.util.DepthFinder;
+import com.oitsjustjose.geolosys.items.*;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.world.ChunkData;
 import com.oitsjustjose.geolosys.world.OreGenerator;
@@ -44,12 +39,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
 public class Geolosys
@@ -109,10 +99,6 @@ public class Geolosys
         if (ModConfig.featureControl.enableProPick)
         {
             PRO_PICK = new ItemProPick();
-        }
-        if (ModConfig.featureControl.enableEnhancedCompass)
-        {
-            MinecraftForge.EVENT_BUS.register(new DepthFinder());
         }
         if (ModConfig.featureControl.modDrops)
         {

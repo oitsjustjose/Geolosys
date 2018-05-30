@@ -91,22 +91,7 @@ public class ItemProPick extends Item
                 yEnd = 0;
                 zStart = -(confDmt / 2);
                 zEnd = (confDmt / 2);
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
             case DOWN:
                 xStart = -(confDmt / 2);
@@ -115,22 +100,7 @@ public class ItemProPick extends Item
                 yEnd = confAmt;
                 zStart = -(confDmt / 2);
                 zEnd = confDmt / 2;
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
             case NORTH:
                 xStart = -(confDmt / 2);
@@ -139,22 +109,7 @@ public class ItemProPick extends Item
                 yEnd = confDmt / 2;
                 zStart = 0;
                 zEnd = confAmt;
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
             case SOUTH:
                 xStart = -(confDmt / 2);
@@ -164,22 +119,7 @@ public class ItemProPick extends Item
                 zStart = -confAmt;
                 zEnd = 0;
 
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
             case EAST:
                 xStart = -(confAmt);
@@ -189,22 +129,7 @@ public class ItemProPick extends Item
                 zStart = -(confDmt / 2);
                 zEnd = confDmt / 2;
 
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
             case WEST:
                 xStart = 0;
@@ -213,22 +138,7 @@ public class ItemProPick extends Item
                 yEnd = confDmt / 2;
                 zStart = -(confDmt / 2);
                 zEnd = confDmt / 2;
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                    {
-                        for (int z = zStart; z <= zEnd; z++)
-                        {
-                            IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                            if (GeolosysAPI.oreBlocks.keySet().contains(state))
-                            {
-                                foundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                 break;
         }
 
@@ -239,6 +149,28 @@ public class ItemProPick extends Item
         }
         player.swingArm(hand);
         return EnumActionResult.SUCCESS;
+    }
+
+    private boolean isFound(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd)
+    {
+        boolean found = false;
+        for (int x = xStart; x <= xEnd; x++)
+        {
+            for (int y = yStart; y <= yEnd; y++)
+            {
+                for (int z = zStart; z <= zEnd; z++)
+                {
+                    IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
+                    if (GeolosysAPI.oreBlocks.keySet().contains(state))
+                    {
+                        foundMessage(player, state, facing);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return found;
     }
 
     private void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)

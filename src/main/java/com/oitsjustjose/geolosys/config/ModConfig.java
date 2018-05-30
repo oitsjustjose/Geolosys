@@ -65,9 +65,6 @@ public class ModConfig
         @Config.RangeInt(min = 0, max = 255)
         public int proPickDiameter = 5;
 
-        @Config.Name("Enable Extra Compass Features")
-        public boolean enableEnhancedCompass = true;
-
         @Config.Name("Enable Cluster Smelting")
         public boolean enableSmelting = true;
 
