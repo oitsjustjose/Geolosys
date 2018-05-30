@@ -74,6 +74,10 @@ public class ItemProPick extends Item
     @SideOnly(Side.CLIENT)
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
+        if (!ModConfig.client.enableProPickExtras)
+        {
+            return;
+        }
         if (isSelected && !showingChunkBorders)
         {
             showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
@@ -111,7 +115,6 @@ public class ItemProPick extends Item
                             }
                             catch (NullPointerException ignored)
                             {
-                                System.out.println("Fuck");
                             }
                             break;
                         }

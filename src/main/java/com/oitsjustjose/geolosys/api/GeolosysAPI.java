@@ -122,9 +122,6 @@ public class GeolosysAPI
             Geolosys.getInstance().LOGGER.error("There was an error in the code for deserialization. Please contact oitsjustjose on GitHub with a log");
             Geolosys.getInstance().LOGGER.error(c.getMessage());
         }
-        System.out.println("====================================================");
-        System.out.println(currentWorldDeposits);
-        System.out.println("====================================================");
     }
 
     /**
