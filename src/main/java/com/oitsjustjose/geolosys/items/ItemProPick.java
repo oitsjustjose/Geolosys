@@ -30,6 +30,7 @@ import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemProPick extends Item
 {
@@ -123,7 +124,7 @@ public class ItemProPick extends Item
                             String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
                             try
                             {
-                                depositInChunk = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1])), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.found");
+                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.found");
                             }
                             catch (NullPointerException ignored)
                             {
@@ -131,7 +132,7 @@ public class ItemProPick extends Item
                             // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
                             catch (NoSuchMethodError onServerError)
                             {
-                                depositInChunk = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1])), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " found in this area";
+                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " found in this area";
                             }
                             break;
                         }
