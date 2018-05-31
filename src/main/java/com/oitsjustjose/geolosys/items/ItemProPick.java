@@ -19,6 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -97,7 +98,8 @@ public class ItemProPick extends Item
             return EnumActionResult.PASS;
         }
 
-        if (pos.getY() >= worldIn.getTopSolidOrLiquidBlock(pos).getY() - 1)
+
+        if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
         {
             String depositInChunk;
             try
@@ -111,16 +113,17 @@ public class ItemProPick extends Item
             }
             for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
             {
-                if (chunkPos.getX() == pos.getX() / 16)
+                ChunkPos tempPos = new ChunkPos(pos);
+                if (chunkPos.getX() == tempPos.x)
                 {
-                    if (chunkPos.getZ() == pos.getZ() / 16)
+                    if (chunkPos.getZ() == tempPos.z)
                     {
                         if (chunkPos.getDimension() == worldIn.provider.getDimension())
                         {
                             String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
                             try
                             {
-                                depositInChunk = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1])), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.found");
+                                depositInChunk = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1])), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.found");
                             }
                             catch (NullPointerException ignored)
                             {
