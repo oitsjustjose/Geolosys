@@ -82,7 +82,7 @@ geolosys.coal.anthracite.name=Charbon anthracite
 # ------------------------------------ #
 #               Divers                 #
 # ------------------------------------ #
-geolosys.pro_pick.name=Choix du prospecteur
+geolosys.pro_pick.name=Pioche du prospecteur
 geolosys.field_manual.name=Manuel de terrain
 geolosys.field_manual.tooltip=Tout ce que vous devez savoir sur l'exploitation minière avec Geolosys !
 geolosys.pro_pick.tooltip=Utile lorsqu'il est associé à une boussole !
