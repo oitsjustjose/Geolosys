@@ -1,9 +1,3 @@
-### 1.9.3b:
-* ADDED: French Translation for the Field Manual (Thanks Yanis48!)
-* FIXED: French Translation for the Prospector's Pick (Thanks again to Yanis48)
-* FIXED: Chunk offset when using the Prospector's Pick on the surface
-* FIXED: Surface level (for the Prospector's Pick) is estimated better than previously
-
 ### 1.9.3:
 * ADDED: Config option to disable Unicode font renderer in the Field Manual (allows for optifine compat)
 * ADDED: Elucent's GravelOres compatibility to the OreConverter (no longer converts gravel ores to Geolosys's)
