@@ -4,10 +4,8 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.debug.DebugRendererChunkBorder;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -22,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -80,11 +77,16 @@ public class ItemProPick extends Item
         {
             return;
         }
-        if (isSelected && !showingChunkBorders)
+        boolean selected = isSelected;
+        if (entityIn instanceof EntityPlayer)
+        {
+            selected = ((EntityPlayer) entityIn).getHeldItemOffhand().getItem() == this || ((EntityPlayer) entityIn).getHeldItemMainhand().getItem() == this;
+        }
+        if (selected && !showingChunkBorders)
         {
             showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
         }
-        else if (!isSelected && showingChunkBorders)
+        else if (!selected && showingChunkBorders)
         {
             showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
         }
