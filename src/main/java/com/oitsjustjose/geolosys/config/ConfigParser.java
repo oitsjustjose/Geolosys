@@ -7,10 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import java.util.Arrays;
 
 public class ConfigParser
 {
@@ -19,6 +16,7 @@ public class ConfigParser
         parseOres();
         parseStones();
         parsePredicates();
+        parseConverterBlacklist();
     }
 
     public static void init()
@@ -143,6 +141,41 @@ public class ConfigParser
             }
         }
     }
+
+    private void parseConverterBlacklist()
+    {
+        for (String s : ModConfig.userEntries.convertBlacklistRaw)
+        {
+            String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
+            if (parts.length != 2 && parts.length != 3)
+            {
+                printFormattingError(s);
+                continue;
+            }
+            try
+            {
+                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+                if (block == null || block == Blocks.AIR)
+                {
+                    printFormattingError(s);
+                    continue;
+                }
+                if (parts.length == 2)
+                {
+                    GeolosysAPI.oreConverterBlacklist.add(block.getDefaultState());
+                }
+                else
+                {
+                    GeolosysAPI.oreConverterBlacklist.add(HelperFunctions.getStateFromMeta(block, toInt(parts[2])));
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                printFormattingError(s);
+            }
+        }
+    }
+
 
     private int toInt(String s)
     {

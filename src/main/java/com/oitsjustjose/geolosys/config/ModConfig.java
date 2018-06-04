@@ -111,7 +111,30 @@ public class ModConfig
         public String[] userStoneEntriesRaw = new String[]{};
 
         @Config.Name("Blocks mineral deposits can replace")
+        @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0", "minecraft:netherrack:0"};
+
+        @Config.Name("Blocks that the OreConverter featuer should ignore")
+        @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
+        public String[] convertBlacklistRaw = new String[]{
+                "gravelores:coal_gravel_ore",
+                "gravelores:iron_gravel_ore",
+                "gravelores:lapis_gravel_ore",
+                "gravelores:gold_gravel_ore",
+                "gravelores:redstone_gravel_ore",
+                "gravelores:diamond_gravel_ore",
+                "gravelores:emerald_gravel_ore",
+                "gravelores:tin_gravel_ore",
+                "gravelores:nickel_gravel_ore",
+                "gravelores:silver_gravel_ore",
+                "gravelores:lead_gravel_ore",
+                "gravelores:copper_gravel_ore",
+                "gravelores:aluminum_gravel_ore",
+                "nex:ore_quartz:0",
+                "nex:ore_quartz:1",
+                "nex:ore_quartz:2",
+                "nex:ore_quartz:3"
+        };
     }
 
     public static class Client

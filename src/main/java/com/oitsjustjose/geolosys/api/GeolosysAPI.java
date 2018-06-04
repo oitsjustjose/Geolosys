@@ -29,6 +29,8 @@ public class GeolosysAPI
     public static HashMap<IBlockState, IBlockState> oreBlocks = new HashMap<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
+    // A collection of blocks to ignore in the OreConverter feature
+    public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
     public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
     // Some local instance variables I don't want others having access to..
