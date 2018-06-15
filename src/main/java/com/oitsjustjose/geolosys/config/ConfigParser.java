@@ -31,7 +31,7 @@ public class ConfigParser
             String[] parts = s.trim().replace(" ", "").split("[\\W]");
             if (parts.length < 10)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
             try
@@ -39,14 +39,14 @@ public class ConfigParser
                 Block oreBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
                 if (oreBlock == null || oreBlock == Blocks.AIR)
                 {
-                    printFormattingError(s);
+                    Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: ore block does not exist");
                     continue;
                 }
                 IBlockState oreState = HelperFunctions.getStateFromMeta(oreBlock, toInt(parts[2]));
                 Block sampleBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[7], parts[8]));
                 if (sampleBlock == null || sampleBlock == Blocks.AIR)
                 {
-                    printFormattingError(s);
+                    Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: sample block does not exist");
                     continue;
                 }
                 IBlockState sampleState = HelperFunctions.getStateFromMeta(sampleBlock, toInt(parts[9]));
@@ -76,7 +76,13 @@ public class ConfigParser
             }
             catch (NumberFormatException e)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
+                Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
+            }
+            catch (StringIndexOutOfBoundsException e)
+            {
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: this entry doesn't have '[]' for the dimension blacklist. This is REQUIRED, even if empty.");
+                Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
             }
         }
     }
@@ -88,7 +94,7 @@ public class ConfigParser
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 6)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
             try
@@ -96,14 +102,15 @@ public class ConfigParser
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
                 if (block == null || block == Blocks.AIR)
                 {
-                    printFormattingError(s);
+                    Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: stone block does not exist");
                     continue;
                 }
                 GeolosysAPI.registerStoneDeposit(HelperFunctions.getStateFromMeta(block, toInt(parts[2])), toInt(parts[3]), toInt(parts[4]), toInt(parts[5]));
             }
             catch (NumberFormatException e)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
+                Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
             }
         }
     }
@@ -115,7 +122,7 @@ public class ConfigParser
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 2 && parts.length != 3)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
             try
@@ -123,7 +130,7 @@ public class ConfigParser
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
                 if (block == null || block == Blocks.AIR)
                 {
-                    printFormattingError(s);
+                    Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: predicate block does not exist");
                     continue;
                 }
                 if (parts.length == 2)
@@ -137,7 +144,8 @@ public class ConfigParser
             }
             catch (NumberFormatException e)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
+                Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
             }
         }
     }
@@ -149,7 +157,7 @@ public class ConfigParser
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
             if (parts.length != 2 && parts.length != 3)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
             try
@@ -157,7 +165,7 @@ public class ConfigParser
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
                 if (block == null || block == Blocks.AIR)
                 {
-                    printFormattingError(s);
+                    Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: ore swap blacklist block does not exist");
                     continue;
                 }
                 if (parts.length == 2)
@@ -171,7 +179,8 @@ public class ConfigParser
             }
             catch (NumberFormatException e)
             {
-                printFormattingError(s);
+                Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
+                Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
             }
         }
     }
@@ -182,8 +191,4 @@ public class ConfigParser
         return Integer.parseInt(s);
     }
 
-    private void printFormattingError(String s)
-    {
-        Geolosys.getInstance().LOGGER.info("Entry " + s + " is not valid and has been skipped. Please check your formatting.");
-    }
 }
