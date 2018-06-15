@@ -114,7 +114,7 @@ public class ModConfig
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0", "minecraft:netherrack:0"};
 
-        @Config.Name("Blocks that the OreConverter featuer should ignore")
+        @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] convertBlacklistRaw = new String[]{
                 "gravelores:coal_gravel_ore",
