@@ -1,8 +1,11 @@
-### 1.9.3b:
+### 1.9.4:
 * ADDED: French Translation for the Field Manual (Thanks Yanis48!)
+* ADDED: Blacklist config for the Ore Swapping feature (in case it breaks something you don't want it to)
 * FIXED: French Translation for the Prospector's Pick (Thanks again to Yanis48)
 * FIXED: Chunk offset when using the Prospector's Pick on the surface
 * FIXED: Surface level (for the Prospector's Pick) is estimated better than previously
+* CHANGED: ProPick chunk features now work in off-hand
+* CHANGED: Log outputs are more detailed for errors with custom entries
 
 ### 1.9.3:
 * ADDED: Config option to disable Unicode font renderer in the Field Manual (allows for optifine compat)
