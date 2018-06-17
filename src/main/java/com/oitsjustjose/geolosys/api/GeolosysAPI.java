@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist
@@ -126,6 +128,7 @@ public class GeolosysAPI
         }
     }
 
+    private static Executor ioExecutor = Executors.newSingleThreadExecutor();
     /**
      * Writes the currentWorldDeposits to GeolosysDeposits.dat
      */
@@ -143,24 +146,30 @@ public class GeolosysAPI
         {
             regenFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat");
         }
-        try
-        {
-            FileOutputStream fileOutDeposits = new FileOutputStream(depositFileLocation);
-            ObjectOutputStream outDeposits = new ObjectOutputStream(fileOutDeposits);
-            outDeposits.writeObject(GeolosysAPI.getCurrentWorldDeposits());
-            outDeposits.close();
-            fileOutDeposits.close();
 
-            FileOutputStream fileOutRegen = new FileOutputStream(regenFileLocation);
-            ObjectOutputStream outRegen = new ObjectOutputStream(fileOutRegen);
-            outRegen.writeObject(GeolosysAPI.getRegennedChunks());
-            outRegen.close();
-            fileOutRegen.close();
-        }
-        catch (IOException i)
-        {
-            i.printStackTrace();
-        }
+        final HashMap<ChunkPosSerializable, String> currentWorldDepositsCopy = GeolosysAPI.getCurrentWorldDeposits();
+        final HashMap<ChunkPosSerializable, Boolean> regennedChunksCopy = GeolosysAPI.getRegennedChunks();
+
+        ioExecutor.execute(()-> {
+            try
+            {
+                FileOutputStream fileOutDeposits = new FileOutputStream(depositFileLocation);
+                ObjectOutputStream outDeposits = new ObjectOutputStream(fileOutDeposits);
+                outDeposits.writeObject(currentWorldDepositsCopy);
+                outDeposits.close();
+                fileOutDeposits.close();
+
+                FileOutputStream fileOutRegen = new FileOutputStream(regenFileLocation);
+                ObjectOutputStream outRegen = new ObjectOutputStream(fileOutRegen);
+                outRegen.writeObject(regennedChunksCopy);
+                outRegen.close();
+                fileOutRegen.close();
+            }
+            catch (IOException i)
+            {
+                i.printStackTrace();
+            }
+        });
     }
 
     /**
