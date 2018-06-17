@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.world;
 
+import com.google.common.base.Predicate;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.state.IBlockState;
@@ -8,7 +9,6 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
@@ -22,7 +22,9 @@ import java.util.Random;
 
 public class StoneGenerator implements IWorldGenerator
 {
+    private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
     private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
+    private static final String dataID = "geolosysStoneGeneratorPending";
 
     public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
@@ -33,6 +35,7 @@ public class StoneGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStatePredicate);
         if (stoneSpawnList.size() > 0)
         {
             stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
@@ -41,7 +44,7 @@ public class StoneGenerator implements IWorldGenerator
 
     public static class StoneGen
     {
-        WorldGenMinable pluton;
+        WorldGenMinableSafe pluton;
         IBlockState state;
         int minY;
         int maxY;
@@ -50,7 +53,7 @@ public class StoneGenerator implements IWorldGenerator
 
         StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
-            this.pluton = new WorldGenMinable(state, 96, iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState)));
+            this.pluton = new WorldGenMinableSafe(state, 96, blockStatePredicate, dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
