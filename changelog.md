@@ -1,3 +1,8 @@
+### 1.9.5:
+* CHANGED: Updated Field Manual to correspond with the actual Pro Pick's featureset
+* CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (Thanks to thiakil <3)
+* CHANGED: How Geolosys saves some world data - this is now done on another thread (another thanks to thiakil <3)
+
 ### 1.9.4:
 * ADDED: French Translation for the Field Manual (Thanks Yanis48!)
 * ADDED: Blacklist config for the Ore Swapping feature (in case it breaks something you don't want it to)
