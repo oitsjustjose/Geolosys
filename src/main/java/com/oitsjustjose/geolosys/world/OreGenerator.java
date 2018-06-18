@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.world;
 
+import com.google.common.base.Predicate;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.state.IBlockState;
@@ -8,7 +9,6 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
@@ -23,8 +23,10 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator
 {
+    private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
     private static int biggestWeight = 0;
+    private static final String dataID = "geolosysOreGeneratorPending";
     private OreGen lastGenerated = null;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
@@ -40,6 +42,7 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStatePredicate);
         if (oreSpawnList.size() > 0)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
@@ -48,7 +51,7 @@ public class OreGenerator implements IWorldGenerator
 
     public static class OreGen
     {
-        WorldGenMinable pluton;
+        WorldGenMinableSafe pluton;
         IBlockState state;
         int minY;
         int maxY;
@@ -57,7 +60,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenMinable(state, maxVeinSize, iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState)));
+            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, blockStatePredicate, dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
