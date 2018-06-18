@@ -1,11 +1,9 @@
 package com.oitsjustjose.geolosys.compat.ie;
 
-import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.config.ConfigOres;
-import com.oitsjustjose.geolosys.config.ModConfig;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -110,23 +108,78 @@ public class IECompat
         }
 
         // Add custom Geolosys entries
-        ExcavatorHandler.addMineral("Coal", Geolosys.getInstance().configOres.coalChance, 0.1F, new String[]{"oreBlockCoal"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Cinnabar", Geolosys.getInstance().configOres.cinnabarChance, 0.05F, new String[]{"oreBlockCinnabar"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Gold", Geolosys.getInstance().configOres.goldChance, 0.05F, new String[]{"oreBlockGold"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Lapis", Geolosys.getInstance().configOres.lapisChance, 0.05F, new String[]{"oreBlockLapis"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Quartz", Geolosys.getInstance().configOres.quartzChance, 0.05F, new String[]{"oreBlockQuartz"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Kimberlite", Geolosys.getInstance().configOres.kimberliteChance, 0.05F, new String[]{"oreBlockKimberlite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Beryl", Geolosys.getInstance().configOres.berylChance, 0.05F, new String[]{"oreBlockBeryl"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Hematite", Geolosys.getInstance().configOres.hematiteChance, 0.25F, new String[]{"oreBlockHematite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Limonite", Geolosys.getInstance().configOres.limoniteChance, 0.05F, new String[]{"oreBlockLimonite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Malachite", Geolosys.getInstance().configOres.malachiteChance, 0.25F, new String[]{"oreBlockMalachite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Azurite", Geolosys.getInstance().configOres.azuriteChance, 0.05F, new String[]{"oreBlockAzurite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Cassiterite", Geolosys.getInstance().configOres.cassiteriteChance, 0.25F, new String[]{"oreBlockCassiterite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Teallite", Geolosys.getInstance().configOres.tealliteChance, 0.05F, new String[]{"oreBlockTeallite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Galena", Geolosys.getInstance().configOres.galenaChance, 0.05F, new String[]{"oreBlockGalena"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Bauxite", Geolosys.getInstance().configOres.bauxiteChance, 0.15F, new String[]{"oreBlockBauxite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Osmium", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"oreBlockPlatinum"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"oreBlockAutunite"}, new float[]{1.0F});
-        ExcavatorHandler.addMineral("Sphalerite", Geolosys.getInstance().configOres.sphaleriteChance, 0.05F, new String[]{"oreBlockSphalerite"}, new float[]{1.0F});
+        ConfigOres oreConf = Geolosys.getInstance().configOres;
+        if (oreConf.coalChance > 0)
+        {
+            ExcavatorHandler.addMineral("Coal", Geolosys.getInstance().configOres.coalChance, 0.1F, new String[]{"oreBlockCoal"}, new float[]{1.0F});
+        }
+        if (oreConf.cinnabarChance > 0)
+        {
+            ExcavatorHandler.addMineral("Cinnabar", Geolosys.getInstance().configOres.cinnabarChance, 0.05F, new String[]{"oreBlockCinnabar"}, new float[]{1.0F});
+        }
+        if (oreConf.goldChance > 0)
+        {
+            ExcavatorHandler.addMineral("Gold", Geolosys.getInstance().configOres.goldChance, 0.05F, new String[]{"oreBlockGold"}, new float[]{1.0F});
+        }
+        if (oreConf.lapisChance > 0)
+        {
+            ExcavatorHandler.addMineral("Lapis", Geolosys.getInstance().configOres.lapisChance, 0.05F, new String[]{"oreBlockLapis"}, new float[]{1.0F});
+        }
+        if (oreConf.quartzChance > 0)
+        {
+            ExcavatorHandler.addMineral("Quartz", Geolosys.getInstance().configOres.quartzChance, 0.05F, new String[]{"oreBlockQuartz"}, new float[]{1.0F});
+        }
+        if (oreConf.kimberliteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Kimberlite", Geolosys.getInstance().configOres.kimberliteChance, 0.05F, new String[]{"oreBlockKimberlite"}, new float[]{1.0F});
+        }
+        if (oreConf.berylChance > 0)
+        {
+            ExcavatorHandler.addMineral("Beryl", Geolosys.getInstance().configOres.berylChance, 0.05F, new String[]{"oreBlockBeryl"}, new float[]{1.0F});
+        }
+        if (oreConf.hematiteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Hematite", Geolosys.getInstance().configOres.hematiteChance, 0.25F, new String[]{"oreBlockHematite"}, new float[]{1.0F});
+        }
+        if (oreConf.limoniteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Limonite", Geolosys.getInstance().configOres.limoniteChance, 0.05F, new String[]{"oreBlockLimonite"}, new float[]{1.0F});
+        }
+        if (oreConf.malachiteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Malachite", Geolosys.getInstance().configOres.malachiteChance, 0.25F, new String[]{"oreBlockMalachite"}, new float[]{1.0F});
+        }
+        if (oreConf.azuriteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Azurite", Geolosys.getInstance().configOres.azuriteChance, 0.05F, new String[]{"oreBlockAzurite"}, new float[]{1.0F});
+        }
+        if (oreConf.cassiteriteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Cassiterite", Geolosys.getInstance().configOres.cassiteriteChance, 0.25F, new String[]{"oreBlockCassiterite"}, new float[]{1.0F});
+        }
+        if (oreConf.tealliteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Teallite", Geolosys.getInstance().configOres.tealliteChance, 0.05F, new String[]{"oreBlockTeallite"}, new float[]{1.0F});
+        }
+        if (oreConf.galenaChance > 0)
+        {
+            ExcavatorHandler.addMineral("Galena", Geolosys.getInstance().configOres.galenaChance, 0.05F, new String[]{"oreBlockGalena"}, new float[]{1.0F});
+        }
+        if (oreConf.bauxiteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Bauxite", Geolosys.getInstance().configOres.bauxiteChance, 0.15F, new String[]{"oreBlockBauxite"}, new float[]{1.0F});
+        }
+        if (oreConf.platinumChance > 0)
+        {
+            ExcavatorHandler.addMineral("Platinum", Geolosys.getInstance().configOres.platinumChance, 0.05F, new String[]{"oreBlockPlatinum"}, new float[]{1.0F});
+        }
+        if (oreConf.autuniteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Autunite", Geolosys.getInstance().configOres.autuniteChance, 0.05F, new String[]{"oreBlockAutunite"}, new float[]{1.0F});
+        }
+        if (oreConf.sphaleriteChance > 0)
+        {
+            ExcavatorHandler.addMineral("Sphalerite", Geolosys.getInstance().configOres.sphaleriteChance, 0.05F, new String[]{"oreBlockSphalerite"}, new float[]{1.0F});
+        }
     }
 }

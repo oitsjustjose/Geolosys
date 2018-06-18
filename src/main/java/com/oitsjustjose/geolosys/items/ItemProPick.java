@@ -90,6 +90,17 @@ public class ItemProPick extends Item
         {
             showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
         }
+        if (selected)
+        {
+            try
+            {
+                Objects.requireNonNull(this.getFontRenderer(stack)).drawString("" + entityIn.getPosition().getY(), 0, 0, 16777215);
+            }
+            catch (RuntimeException e)
+            {
+                Geolosys.getInstance().LOGGER.error("No OpenGL Instance available");
+            }
+        }
     }
 
     @Override
