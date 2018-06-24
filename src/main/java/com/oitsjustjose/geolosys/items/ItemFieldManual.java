@@ -1,14 +1,12 @@
 package com.oitsjustjose.geolosys.items;
 
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.client.GuiScreenFieldManual;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,22 +69,11 @@ public class ItemFieldManual extends Item
 
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+    @SuppressWarnings("unchecked")
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn)
     {
-        if (world.isRemote)
-        {
-            if (ModConfig.client.enableUnicodeFieldManual)
-            {
-                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenFieldManual(player, getBook(new Book(getNumEntries()))));
-            }
-            else
-            {
-                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, getBook(new Book(getNumEntries())), false));
-            }
-            return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
-        }
-        return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
+        playerIn.openGui(Geolosys.getInstance(), 0, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+        return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 
 

@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ConfigParser;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.*;
+import com.oitsjustjose.geolosys.proxy.CommonProxy;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import com.oitsjustjose.geolosys.util.Recipes;
 import com.oitsjustjose.geolosys.world.ChunkData;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -48,6 +50,9 @@ public class Geolosys
 
     @Instance(Geolosys.MODID)
     private static Geolosys instance;
+
+    @SidedProxy(clientSide = "com.oitsjustjose.geolosys.proxy.ClientProxy", serverSide = "com.oitsjustjose.geolosys.proxy.CommonProxy")
+    public static CommonProxy proxy;
 
     // Logger & Configs, statically accessible.
     public Logger LOGGER;
@@ -111,6 +116,7 @@ public class Geolosys
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
 
         if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
@@ -122,6 +128,7 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        proxy.postInit(event);
         if (ModConfig.featureControl.enableSmelting)
         {
             Recipes.init(configOres, CLUSTER);

@@ -90,3 +90,79 @@ geolosys.pro_pick.tooltip.nonefound=No deposits in this area
 geolosys.pro_pick.tooltip.found=found in this area
 shift.tooltip=Press Shift
 
+
+# ------------------------------------ #
+#               Book                   #
+# ------------------------------------ #
+
+geolosys.guide.page.home.name=Field Manual
+
+geolosys.guide.chapter.introduction.name=Introduction
+geolosys.guide.chapter.prospecting.name=Prospecting
+geolosys.guide.chapter.resources.name=Resources
+geolosys.guide.chapter.mod_compat.name=Inter-Mod Compat
+
+# ------------------------------------ #
+#           Introduction               #
+# ------------------------------------ #
+geolosys.guide.chapter.getting_started.name=Getting Started
+geolosys.guide.chapter.getting_started.text=Geolosys is a mod which is meant to add difficulty to mining, similar to TerraFirmaCraft. In essence, world ore deposits are more realistic. You'll start out by finding samples on the surface, which lie above the larger mineral deposit underground. When you do, start digging! Refer to "Prospecting" for more.
+geolosys.guide.chapter.vanilla_ores.name=Vanilla Resources
+geolosys.guide.chapter.vanilla_ores.text=If configured to be enabled by Geolosys, Geolosys will override any Vanilla ore generation. This means that it'll be your main source of vanilla materials like Iron, Coal, etc.. HINT: Quartz isn't in the nether anymore! Need a vanilla ore block for crafting? That's fine! You can silk-touch any Geolosys vanilla replacement to get the original vanilla variant.
+geolosys.guide.chapter.modded_ores.name=Modded Resources
+geolosys.guide.chapter.modded_ores.text=Geolosys also adds the basic modded materials to ore generation, with samples and clusters to correspond.
+
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.guide.chapter.samples.name=Samples
+geolosys.guide.chapter.samples_1.text=Samples (shown above) lie on the surface above a large, underground mineral deposit. These samples can (if not disabled) drop an item to help you figure out what the deposit beneath actually contains. You can break them either normally or via right-click.
+geolosys.guide.chapter.samples_2.text=Some samples drop clusters (as do mineral deposits). These can be smelted or processed just like any other ore.
+geolosys.guide.chapter.propick.name=Prospector's Pick
+geolosys.guide.chapter.propick_1.text=The Prospector's Pick is a useful tool after you've been rummaging around underground long enough. Made with a decent amount of iron, it can be used for a few things.
+geolosys.guide.chapter.propick_2.text=First, when held, it'll reveal chunk borders: this is useful for distinguishing where to start/stop digging, as mineral deposits start in the same chunk that you'll find their respective sample.
+geolosys.guide.chapter.propick_3.text=Additionally, when right-clicked above sea-level, it'll tell you what deposit is in that chunk (in case you can't find a sample around...). Once underground, it'll scan a configurable area (5x5x5 by default) in the direction you've clicked and tell you if it finds a mineral.
+
+
+# ------------------------------------ #
+#             Resources                #
+# ------------------------------------ #
+geolosys.guide.chapter.stones.name=Stone Variants
+geolosys.guide.chapter.stones.text=Vanilla stone variants can be (if enabled) clustered into large plutons, instead of generating sporadically throughout the world.
+geolosys.guide.chapter.coal.name=Coal
+geolosys.guide.chapter.coal.text=Coal can generate between §3Y=<minY>§0 and §3Y=<maxY>§0, and can drop sulfur if another mod adds it. Coal ore can also drop Peat, Lignite, Bitumen or Anthracite (in addition to normal coal); what it drops depends on your §ldepth§r§0. The previous list is in order from highest to lowest in depth, and lowest to highest in flamability (in a furnace).
+geolosys.guide.chapter.cinnabar.name=Cinnabar
+geolosys.guide.chapter.cinnabar.text=Cinnabar can generate between §3Y=<minY>§0 and §3Y=<maxY>§0, and can drop Redstone Crystals from Extra Utils 2 or Cinnabar from Thermal Expansion (random change based on Fortune). §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.gold.name=Gold
+geolosys.guide.chapter.gold.text=Gold from Geolosys behaves similarly to Vanilla, and can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.lapis.name=Lapis
+geolosys.guide.chapter.lapis.text=Lapis from Geolosys behaves similarly to Vanilla, and can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a stone pickaxe.§0
+geolosys.guide.chapter.quartz.name=Assorted Quartz
+geolosys.guide.chapter.quartz.text=Assorted Quartz drops a variety of different Quartzes if available. Such varieties include Actually Additions' Black Quartz and Applied Energistics' Charged and Uncharged Certus Quartz. Assorted Quartz can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a stone pickaxe.§0
+geolosys.guide.chapter.kimberlite.name=Kimberlite
+geolosys.guide.chapter.kimberlite.text=Kimberlite from Geolosys is the realistic alternative to Vanilla's diamond ore. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.beryl.name=Beryl
+geolosys.guide.chapter.beryl.text=Beryl from Geolosys is the realistic alternative to Vanilla's emerald ore. It can generate in any biome, between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+
+geolosys.guide.chapter.hematite.name=Hematite
+geolosys.guide.chapter.hematite.text=Hematite is (intended, at least) smaller, easier to access resource for Iron. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a stone pickaxe.§0
+geolosys.guide.chapter.limonite.name=Limonite
+geolosys.guide.chapter.limonite.text=Limonite is a larger, harder to access resource for both Iron and Nickel. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.malachite.name=Malachite
+geolosys.guide.chapter.malachite.text=Malachite is (intended, at least) smaller, easier to access resource for Copper. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a stone pickaxe.§0
+geolosys.guide.chapter.azurite.name=Azurite
+geolosys.guide.chapter.azurite.text=Azurite is a larger, harder to access resource for Copper. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.cassiterite.name=Cassiterite
+geolosys.guide.chapter.cassiterite.text=Cassiterite is (intended, at least) smaller, easier to access resource for Tin. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a stone pickaxe.§0
+geolosys.guide.chapter.teallite.name=Teallite
+geolosys.guide.chapter.teallite.text=Teallite is a larger, harder to access resource for Tin. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.galena.name=Galena
+geolosys.guide.chapter.galena.text=Galena is a large resource for Silver and Lead. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.bauxite.name=Bauxite
+geolosys.guide.chapter.bauxite.text=Bauxite is a large resource for Aluminum / Bauxite (depending on the mod). It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires a wooden pickaxe.§0
+geolosys.guide.chapter.platinum.name=Platinum
+geolosys.guide.chapter.platinum.text=Platinum is the primary resource for Platinum, and can drop Osmium if enabled. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.autunite.name=Autunite
+geolosys.guide.chapter.autunite.text=Autunite is the primary resource for Uranium, and can drop Yellorium if enabled. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+geolosys.guide.chapter.sphalerite.name=Sphalerite
+geolosys.guide.chapter.sphalerite.text=Sphalerite is the primary resource for Zinc. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
