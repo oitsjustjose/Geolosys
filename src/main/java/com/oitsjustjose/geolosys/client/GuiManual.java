@@ -141,8 +141,7 @@ public class GuiManual extends GuiScreen
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.applied_energistics.name", "applied_energistics"));
             chapters.put("applied_energistics", new BookChapter("applied_energistics", "mod_compat"));
-            chapters.get("applied_energistics").addPage(new BookPageText("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text"));
-//            chapters.get("applied_energistics").addPage(new BookPageItemDisplay("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text", new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0)));
+            chapters.get("applied_energistics").addPage(new BookPageItemDisplay("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text", new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0)));
         }
         if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients")) != null)
         {
