@@ -166,3 +166,29 @@ geolosys.guide.chapter.autunite.name=Autunite
 geolosys.guide.chapter.autunite.text=Autunite is the primary resource for Uranium, and can drop Yellorium if enabled. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
 geolosys.guide.chapter.sphalerite.name=Sphalerite
 geolosys.guide.chapter.sphalerite.text=Sphalerite is the primary resource for Zinc. It can generate between §3Y=<minY>§0 and §3Y=<maxY>§0. §4Requires an iron pickaxe.§0
+
+# ------------------------------------ #
+#              Mod Compat              #
+# ------------------------------------ #
+geolosys.guide.chapter.ore_converter.name=Ore Converter
+geolosys.guide.chapter.ore_converter.text=The Ore Converter feature converts ALL non-Geolosys ores to Geolosys ores in a chunk. This happens §oonce§r, when the player §ofirst§r visits a chunk.
+geolosys.guide.chapter.journeymap.name=JourneyMap
+geolosys.guide.chapter.journeymap.text=When right-clicking a sample, a waypoint named for what the objet is is added to your JourneyMap minimap.
+geolosys.guide.chapter.immersive_engineering.name=Immersive Engineering
+geolosys.guide.chapter.immersive_engineering.text=Aside from Coal dropping Sulfur, the Core Sample Drill and Excavator will detect and mine Geolosys §oore§r blocks.
+geolosys.guide.chapter.better_with_mods.name=Better with Mods
+geolosys.guide.chapter.better_with_mods.text=If Better With Mods is installed, all smelting recipes will output nuggets instead of ingots.
+geolosys.guide.chapter.twilight_forest.name=Twilight Forest
+geolosys.guide.chapter.twilight_forest.text=If in the Twilight Forest dimension, all ores will generate scaled to the Twilight Forest's shorter world height.
+geolosys.guide.chapter.applied_energistics.name=Applied Energistics
+geolosys.guide.chapter.applied_energistics.text=If AE is installed, Certus Quartz can drop from Assorted Quartz at an 8% chance. In addition, Charged Certus Quartz can drop at a 4% chance.
+geolosys.guide.chapter.extra_utils.name=Extra Utilities 2
+geolosys.guide.chapter.extra_utils.text=If Extra Utilities 2 is installed, Redstone Crystals can drop from Cinnabar at a 3.33% chance.
+geolosys.guide.chapter.actually_additions.name=Actually Additions
+geolosys.guide.chapter.actually_additions.text=If Actually Additions is installed, Black Quartz can drop from Assorted Quartz at an 8% chance.
+geolosys.guide.chapter.cofh_mods.name=Thermal Foundation
+geolosys.guide.chapter.cofh_mods.text=If Thermal Foundation is installed, then Cinnabar can drop from Cinnabar at a 3.33% chance.
+geolosys.guide.chapter.mekanism.name=Mekanism
+geolosys.guide.chapter.mekanism.text=If Osmium is enabled in the config, Platinum will split its drop chance 50% with Osmium. If Osmium is enabled §oexclusively§r, then Osmium will be the only drop from Platinum.
+geolosys.guide.chapter.extreme_reactors.name=Extreme Reactors
+geolosys.guide.chapter.extreme_reactors.text=If Yellorium is enabled in the config, Autunite will split its drop chance 50% with Yellorium.

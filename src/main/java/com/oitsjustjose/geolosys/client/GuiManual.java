@@ -2,8 +2,10 @@ package com.oitsjustjose.geolosys.client;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.Types;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ModConfig;
+import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.manual.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -12,6 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -20,6 +23,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -37,7 +41,7 @@ public class GuiManual extends GuiScreen
 
     public static void initPages()
     {
-        BookPageContents home = new BookPageContents("guide.page.home.name");
+        BookPageContents home = new BookPageContents("geolosys.guide.page.home.name");
         home.addLink(new ChapterLink("geolosys.guide.chapter.introduction.name", "introduction"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.prospecting.name", "prospecting"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.resources.name", "resources"));
@@ -104,85 +108,71 @@ public class GuiManual extends GuiScreen
         chapters.get("resources").addPage(resources);
         chapters.get("resources").addPage(resources2);
 
-
-        /**
-         * Order:
-         * - Ore Converter
-         * - JM
-         * - IE
-         * - BWM
-         * - TF
-         * - AE
-         * - ExU2
-         * - AA
-         * - CoFH
-         * - Mek
-         * - ExtrReactors
-         */
-
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
         modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.immersive_engineering.name", "immersive_engineering"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.twilight_forest.name", "twilight_forest"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extra_utils.name", "extra_utils"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.cofh_mods.name", "cofh_mods"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extreme_reactors.name", "extreme_reactors"));
-
-
         chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
         chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name", "geolosys.guide.chapter.ore_converter.text"));
-        if (true || Loader.isModLoaded("journeymap"))
+
+        if (Loader.isModLoaded("journeymap"))
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
             chapters.put("journeymap", new BookChapter("journeymap", "mod_compat"));
             chapters.get("journeymap").addPage(new BookPageText("geolosys.guide.chapter.journeymap.name", "geolosys.guide.chapter.journeymap.text"));
         }
         if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.immersive_engineering.name", "immersive_engineering"));
             chapters.put("immersive_engineering", new BookChapter("immersive_engineering", "mod_compat"));
-            chapters.get("immersive_engineering").addPage(new BookPageText("geolosys.guide.chapter.immersive_engineering.name", "geolosys.guide.chapter.immersive_engineering.text"));
+            chapters.get("immersive_engineering").addPage(new BookPageItemDisplay("geolosys.guide.chapter.immersive_engineering.name", "geolosys.guide.chapter.immersive_engineering.text", OreDictionary.getOres("dustSulfur").get(0)));
         }
-        if (true || Loader.isModLoaded("betterwithmods"))
+        if (Loader.isModLoaded("betterwithmods"))
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.better_with_mods.name", "better_with_mods"));
             chapters.put("better_with_mods", new BookChapter("better_with_mods", "mod_compat"));
-            chapters.get("better_with_mods").addPage(new BookPageText("geolosys.guide.chapter.better_with_mods.name", "geolosys.guide.chapter.better_with_mods.text"));
-
+            chapters.get("better_with_mods").addPage(new BookPageItemDisplay("geolosys.guide.chapter.better_with_mods.name", "geolosys.guide.chapter.better_with_mods.text", new ItemStack(Items.IRON_NUGGET)));
         }
-        if (true || Loader.isModLoaded("twilightforest"))
+        if (Loader.isModLoaded("twilightforest"))
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.twilight_forest.name", "twilight_forest"));
             chapters.put("twilight_forest", new BookChapter("twilight_forest", "mod_compat"));
             chapters.get("twilight_forest").addPage(new BookPageText("geolosys.guide.chapter.twilight_forest.name", "geolosys.guide.chapter.twilight_forest.text"));
         }
-        if (true || ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material")) != null)
+        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material")) != null)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.applied_energistics.name", "applied_energistics"));
             chapters.put("applied_energistics", new BookChapter("applied_energistics", "mod_compat"));
             chapters.get("applied_energistics").addPage(new BookPageText("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text"));
+//            chapters.get("applied_energistics").addPage(new BookPageItemDisplay("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text", new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0)));
         }
-        if (true || ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients")) != null)
+        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients")) != null)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extra_utils.name", "extra_utils"));
             chapters.put("extra_utils", new BookChapter("extra_utils", "mod_compat"));
             chapters.get("extra_utils").addPage(new BookPageText("geolosys.guide.chapter.extra_utils.name", "geolosys.guide.chapter.extra_utils.text"));
         }
-        if (true || ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc")) != null)
+        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc")) != null)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.actually_additions.name", "actually_additions"));
             chapters.put("actually_additions", new BookChapter("actually_additions", "mod_compat"));
             chapters.get("actually_additions").addPage(new BookPageText("geolosys.guide.chapter.actually_additions.name", "geolosys.guide.chapter.actually_additions.text"));
         }
-        if (true || ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material")) != null)
+        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material")) != null)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.cofh_mods.name", "cofh_mods"));
             chapters.put("cofh_mods", new BookChapter("cofh_mods", "mod_compat"));
             chapters.get("cofh_mods").addPage(new BookPageText("geolosys.guide.chapter.cofh_mods.name", "geolosys.guide.chapter.cofh_mods.text"));
         }
         if (ModConfig.featureControl.enableOsmium)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
             chapters.put("mekanism", new BookChapter("mekanism", "mod_compat"));
-            chapters.get("mekanism").addPage(new BookPageText("geolosys.guide.chapter.mekanism.name", "geolosys.guide.chapter.mekanism.text"));
+            chapters.get("mekanism").addPage(new BookPageItemDisplay("geolosys.guide.chapter.mekanism.name", "geolosys.guide.chapter.mekanism.text", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM)));
         }
         if (ModConfig.featureControl.enableYellorium)
         {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extreme_reactors.name", "extreme_reactors"));
             chapters.put("extreme_reactors", new BookChapter("extreme_reactors", "mod_compat"));
-            chapters.get("extreme_reactors").addPage(new BookPageText("geolosys.guide.chapter.extreme_reactors.name", "geolosys.guide.chapter.extreme_reactors.text"));
+            chapters.get("extreme_reactors").addPage(new BookPageItemDisplay("geolosys.guide.chapter.extreme_reactors.name", "geolosys.guide.chapter.extreme_reactors.text", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_YELLORIUM)));
         }
         chapters.get("mod_compat").addPage(modCompat);
 
