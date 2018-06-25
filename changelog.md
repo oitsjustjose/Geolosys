@@ -1,7 +1,19 @@
 ### 1.9.5:
+* NEW: Prospector's Pick *can* have a configurable durability if enabled!
+* NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him for saving me a week of cursing at GL rendering algorithms.
+ 	* Font Size is configurable via the mod's config.
+ 	* Images of game objects! This should make it easier to identify things.
+	* Field Manual values can be dynamic:
+		* Disabled ores will not appear.
+		* Disabled features will not appear.
+		* Mod compat that isn't enabled (either due to absence of mod or otherwise) will not appear.
+		* Y-values for ores matches what is configured
 * CHANGED: Updated Field Manual to correspond with the actual Pro Pick's featureset
 * CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (Thanks to thiakil <3)
 * CHANGED: How Geolosys saves some world data - this is now done on another thread (another thanks to thiakil <3)
+* CHANGED: IE Compatibility is only enabled for those ores that are enabled.
+* CHANGED: Samples category to Prospecting category; also, moved all ProPick things to here.
+* REMOVED: A couple of unnecessary / redundant config options... oops.
 
 ### 1.9.4:
 * ADDED: French Translation for the Field Manual (Thanks Yanis48!)
