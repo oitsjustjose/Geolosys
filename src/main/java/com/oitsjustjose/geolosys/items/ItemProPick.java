@@ -108,13 +108,29 @@ public class ItemProPick extends Item
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
+        if (ModConfig.prospecting.enableProPickDamage)
+        {
+            if (player.getHeldItem(hand).getItem() instanceof ItemProPick)
+            {
+                if (player.getHeldItem(hand).getTagCompound() == null)
+                {
+                    player.getHeldItem(hand).setTagCompound(new NBTTagCompound());
+                    player.getHeldItem(hand).getTagCompound().setInteger("damage", ModConfig.prospecting.proPickDurability);
+                }
+                int prevDmg = player.getHeldItem(hand).getTagCompound().getInteger("damage");
+                player.getHeldItem(hand).getTagCompound().setInteger("damage", (prevDmg - 1));
+                if (player.getHeldItem(hand).getTagCompound().getInteger("damage") <= 0)
+                {
+                    player.setHeldItem(hand, ItemStack.EMPTY);
+                    worldIn.playSound(player, pos, new SoundEvent(new ResourceLocation("entity.item.break")), SoundCategory.PLAYERS, 1.0F, 0.85F);
+                }
+            }
+        }
         if (worldIn.isRemote)
         {
             player.swingArm(hand);
             return EnumActionResult.PASS;
         }
-
-
         if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
         {
             String depositInChunk;
@@ -233,24 +249,7 @@ public class ItemProPick extends Item
                 player.sendStatusMessage(new TextComponentString("No deposits found"), true);
             }
         }
-        if (ModConfig.prospecting.enableProPickDamage)
-        {
-            if (player.getHeldItem(hand).getItem() instanceof ItemProPick)
-            {
-                if (player.getHeldItem(hand).getTagCompound() == null)
-                {
-                    player.getHeldItem(hand).setTagCompound(new NBTTagCompound());
-                    player.getHeldItem(hand).getTagCompound().setInteger("damage", ModConfig.prospecting.proPickDurability);
-                }
-                int prevDmg = player.getHeldItem(hand).getTagCompound().getInteger("damage");
-                player.getHeldItem(hand).getTagCompound().setInteger("damage", (prevDmg - 1));
-                if (player.getHeldItem(hand).getTagCompound().getInteger("damage") <= 0)
-                {
-                    player.setHeldItem(hand, ItemStack.EMPTY);
-                    player.playSound(Objects.requireNonNull(SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.item.break"))), 1.0F, 1.0F);
-                }
-            }
-        }
+
 
         player.swingArm(hand);
         return EnumActionResult.SUCCESS;
