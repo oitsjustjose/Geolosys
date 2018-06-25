@@ -121,7 +121,7 @@ public class GuiManual extends GuiScreen
         chapters.get("resources").addPage(resources2);
 
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
-        
+
         if (ModConfig.featureControl.retroReplace)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
