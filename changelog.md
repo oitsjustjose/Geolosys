@@ -1,5 +1,6 @@
 ### 1.9.5:
-* NEW: Prospector's Pick *can* have a configurable durability if enabled!
+* NEW: Prospector's Pick *can* have a configurable durability (if enabled!)
+* NEW: Prospector's Pick can show you your Y-Level (if enabled!)
 * NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him for saving me a week of cursing at GL rendering algorithms.
  	* Font Size is configurable via the mod's config.
  	* Images of game objects! This should make it easier to identify things.
