@@ -1,12 +1,13 @@
 package com.oitsjustjose.geolosys.manual;
-/**
- * @credits: Mangoose /  https://github.com/the-realest-stu/
- * Code taken directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
- */
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @author Mangoose /  https://github.com/the-realest-stu/
+ * Code taken directly from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ */
 
 public class BookChapter
 {
@@ -18,14 +19,14 @@ public class BookChapter
     {
         this.name = name;
         this.parent = name;
-        this.pages = new ArrayList<BookPage>();
+        this.pages = new ArrayList<>();
     }
 
     public BookChapter(String name, String parent)
     {
         this.name = name;
         this.parent = parent;
-        this.pages = new ArrayList<BookPage>();
+        this.pages = new ArrayList<>();
     }
 
     public void addPage(BookPage page)

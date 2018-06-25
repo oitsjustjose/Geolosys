@@ -1,11 +1,5 @@
 package com.oitsjustjose.geolosys.client;
 
-/**
- * @credits: Mangoose /  https://github.com/the-realest-stu/
- * Many aspects of code taken directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/blob/master/src/main/java/toolbox/client/gui/GuiBook.java
- */
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.Types;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
@@ -13,6 +7,7 @@ import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
 import com.oitsjustjose.geolosys.manual.*;
+import com.oitsjustjose.geolosys.util.HelperFunctions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -24,13 +19,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,11 +33,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author Mangoose /  https://github.com/the-realest-stu/
+ * Code taken directly from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ */
+
 @SideOnly(Side.CLIENT)
 public class GuiManual extends GuiScreen
 {
-    public static final int WIDTH = 146;
-    public static final int HEIGHT = 180;
+    private static final int WIDTH = 146;
+    private static final int HEIGHT = 180;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(Geolosys.MODID, "textures/gui/book.png");
     private static HashMap<String, BookChapter> chapters = new HashMap<>();
     private String currentChapter;
@@ -255,7 +256,7 @@ public class GuiManual extends GuiScreen
 
         if (currentPage != null)
         {
-            String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + I18n.translateToLocal(currentPage.getTitle());
+            String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + HelperFunctions.getTranslation(currentPage.getTitle());
             int headerWidth = this.fontRenderer.getStringWidth(header);
             this.fontRenderer.drawString(header, left + (WIDTH - headerWidth) / 2, top + 12, 0);
 
@@ -265,7 +266,7 @@ public class GuiManual extends GuiScreen
             }
             else if (currentPage instanceof BookPageText)
             {
-                renderTextPage((BookPageText) currentPage, mouseX, mouseY);
+                renderTextPage((BookPageText) currentPage);
             }
             else if (currentPage instanceof BookPageOre)
             {
@@ -316,7 +317,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        this.fontRenderer.drawSplitString(I18n.translateToLocal(page.getDescription()), (int) ((left + 18) / textScale),
+        this.fontRenderer.drawSplitString(HelperFunctions.getTranslation(page.getDescription()), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
         GlStateManager.popMatrix();
 
@@ -351,7 +352,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        this.fontRenderer.drawSplitString(I18n.translateToLocal(page.getDescription()).replace("<minY>", "" + getMinYFromString(page.getOreType())).replace("<maxY>", "" + getMaxYFromString(page.getOreType())), (int) ((left + 18) / textScale),
+        this.fontRenderer.drawSplitString(HelperFunctions.getTranslation(page.getDescription()).replace("<minY>", "" + getMinYFromString(page.getOreType())).replace("<maxY>", "" + getMaxYFromString(page.getOreType())), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
         GlStateManager.popMatrix();
 
@@ -372,15 +373,15 @@ public class GuiManual extends GuiScreen
         }
     }
 
-    private void renderTextPage(BookPageText page, int mouseX, int mouseY)
+    private void renderTextPage(BookPageText page)
     {
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        String text = I18n.translateToLocal(page.getText());
+        String text = HelperFunctions.getTranslation(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
-        while (text.indexOf("|") > -1)
+        while (text.contains("|"))
         {
             int i = text.indexOf("|");
             paragraphs.add("    " + text.substring(0, i));
@@ -436,12 +437,11 @@ public class GuiManual extends GuiScreen
         if (currentPageNum > 0)
         {
             this.addButton(new PageTurnButton(i, left + 18, top + 154, false));
-            i++;
         }
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException
+    protected void actionPerformed(GuiButton button)
     {
         if (button instanceof ChapterLinkButton)
         {
@@ -462,7 +462,7 @@ public class GuiManual extends GuiScreen
     }
 
     @Override
-    protected void keyTyped(char par1, int par2) throws IOException
+    protected void keyTyped(char par1, int par2)
     {
         if (mc.gameSettings.keyBindInventory.getKeyCode() == par2)
         {
@@ -502,9 +502,9 @@ public class GuiManual extends GuiScreen
     }
 
     @Override
-    public void onResize(Minecraft mcIn, int w, int h)
+    public void onResize(@Nonnull Minecraft mc, int w, int h)
     {
-        this.setWorldAndResolution(mcIn, w, h);
+        this.setWorldAndResolution(mc, w, h);
         this.resetPage();
     }
 
@@ -556,13 +556,13 @@ public class GuiManual extends GuiScreen
 
         public ChapterLinkButton(int buttonId, int x, int y, String buttonText, String chapter)
         {
-            super(buttonId, x, y, Minecraft.getMinecraft().fontRenderer.getStringWidth(I18n.translateToLocal(buttonText)),
+            super(buttonId, x, y, Minecraft.getMinecraft().fontRenderer.getStringWidth(HelperFunctions.getTranslation(buttonText)),
                     Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT, buttonText);
             this.chapter = chapter;
         }
 
         @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks)
         {
             if (this.visible)
             {
@@ -570,7 +570,6 @@ public class GuiManual extends GuiScreen
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 this.hovered = mouseX >= this.x && mouseY >= this.y
                         && mouseX < this.x + this.width && mouseY < this.y + this.height;
-                int i = this.getHoverState(this.hovered);
                 this.mouseDragged(mc, mouseX, mouseY);
                 int j = 0;
                 String p = "";
@@ -585,11 +584,11 @@ public class GuiManual extends GuiScreen
                     p += TextFormatting.UNDERLINE;
                 }
 
-                fontrenderer.drawString(p + I18n.translateToLocal(this.displayString), this.x, this.y, j);
+                fontrenderer.drawString(p + HelperFunctions.getTranslation(this.displayString), this.x, this.y, j);
             }
         }
 
-        public String getChapter()
+        String getChapter()
         {
             return this.chapter;
         }
@@ -602,14 +601,14 @@ public class GuiManual extends GuiScreen
 
         private final boolean isForward;
 
-        public PageTurnButton(int buttonId, int x, int y, boolean isForward)
+        PageTurnButton(int buttonId, int x, int y, boolean isForward)
         {
             super(buttonId, x, y, 23, 13, "");
             this.isForward = isForward;
         }
 
         @Override
-        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks)
         {
             if (this.visible)
             {
@@ -634,10 +633,9 @@ public class GuiManual extends GuiScreen
             }
         }
 
-        public boolean isForward()
+        boolean isForward()
         {
             return this.isForward;
         }
-
     }
 }

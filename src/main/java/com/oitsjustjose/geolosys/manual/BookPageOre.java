@@ -1,11 +1,13 @@
 package com.oitsjustjose.geolosys.manual;
-/**
- * @credits: Mangoose /  https://github.com/the-realest-stu/
- * Many aspects of code taken directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
- */
 
 import net.minecraft.item.ItemStack;
+
+/**
+ * @author oitsjustjose,
+ * @author Mangoose /  https://github.com/the-realest-stu/
+ * Code inspired directly from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ */
 
 public class BookPageOre extends BookPage
 {
@@ -20,7 +22,6 @@ public class BookPageOre extends BookPage
         this.displayStack = stack;
         this.oreType = type;
     }
-
 
     public ItemStack getDisplayStack()
     {
