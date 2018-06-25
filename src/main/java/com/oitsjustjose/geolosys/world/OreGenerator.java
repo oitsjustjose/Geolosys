@@ -24,9 +24,9 @@ import java.util.Random;
 public class OreGenerator implements IWorldGenerator
 {
     private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
+    private static final String dataID = "geolosysOreGeneratorPending";
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
     private static int biggestWeight = 0;
-    private static final String dataID = "geolosysOreGeneratorPending";
     private OreGen lastGenerated = null;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)

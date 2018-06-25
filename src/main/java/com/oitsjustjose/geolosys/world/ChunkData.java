@@ -34,7 +34,7 @@ public class ChunkData
             }
             if (ModConfig.samples.generateInWater || !isMoist(world, p))
             {
-                world.setBlockState(p, state, 2|16);
+                world.setBlockState(p, state, 2 | 16);
             }
         }
     }

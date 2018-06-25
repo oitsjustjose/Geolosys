@@ -23,8 +23,8 @@ import java.util.Random;
 public class StoneGenerator implements IWorldGenerator
 {
     private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
-    private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
     private static final String dataID = "geolosysStoneGeneratorPending";
+    private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
 
     public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {

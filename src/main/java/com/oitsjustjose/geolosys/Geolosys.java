@@ -47,13 +47,10 @@ public class Geolosys
 {
     public static final String MODID = "geolosys";
     public static final String VERSION = "@VERSION@";
-
-    @Instance(Geolosys.MODID)
-    private static Geolosys instance;
-
     @SidedProxy(clientSide = "com.oitsjustjose.geolosys.proxy.ClientProxy", serverSide = "com.oitsjustjose.geolosys.proxy.CommonProxy")
     public static CommonProxy proxy;
-
+    @Instance(Geolosys.MODID)
+    private static Geolosys instance;
     // Logger & Configs, statically accessible.
     public Logger LOGGER;
     public ConfigOres configOres;

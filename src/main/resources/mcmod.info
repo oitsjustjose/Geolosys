@@ -1,14 +1,18 @@
-[{
-	"modid": "geolosys",
-	"name": "Geolosys",
-	"description": "Ores in Geological Systems added to Minecraft, logically!",
-	"version": "${version}",
-	"mcversion": "${mcversion}",
-	"url": "",
-	"updateUrl": "",
-	"authorList": ["oitsjustjose"],
-	"credits": "BluSunrize",
-	"logoFile": "",
-	"screenshots": [],
-	"dependencies": []
-}]
+[
+  {
+    "modid": "geolosys",
+    "name": "Geolosys",
+    "description": "Ores in Geological Systems added to Minecraft, logically!",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "oitsjustjose"
+    ],
+    "credits": "BluSunrize",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

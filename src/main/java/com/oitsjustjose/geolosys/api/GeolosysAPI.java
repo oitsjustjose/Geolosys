@@ -8,13 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -40,6 +34,7 @@ public class GeolosysAPI
     private static File regenFileLocation = null;
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
+    private static Executor ioExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
@@ -128,7 +123,6 @@ public class GeolosysAPI
         }
     }
 
-    private static Executor ioExecutor = Executors.newSingleThreadExecutor();
     /**
      * Writes the currentWorldDeposits to GeolosysDeposits.dat
      */
@@ -150,7 +144,7 @@ public class GeolosysAPI
         final HashMap<ChunkPosSerializable, String> currentWorldDepositsCopy = GeolosysAPI.getCurrentWorldDeposits();
         final HashMap<ChunkPosSerializable, Boolean> regennedChunksCopy = GeolosysAPI.getRegennedChunks();
 
-        ioExecutor.execute(()-> {
+        ioExecutor.execute(() -> {
             try
             {
                 FileOutputStream fileOutDeposits = new FileOutputStream(depositFileLocation);

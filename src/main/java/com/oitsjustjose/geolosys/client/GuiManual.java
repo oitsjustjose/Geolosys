@@ -1,5 +1,11 @@
 package com.oitsjustjose.geolosys.client;
 
+/**
+ * @credits: Mangoose /  https://github.com/the-realest-stu/
+ * Many aspects of code taken directly from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/blob/master/src/main/java/toolbox/client/gui/GuiBook.java
+ */
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.Types;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
@@ -38,6 +44,20 @@ public class GuiManual extends GuiScreen
     public static final int WIDTH = 146;
     public static final int HEIGHT = 180;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(Geolosys.MODID, "textures/gui/book.png");
+    private static HashMap<String, BookChapter> chapters = new HashMap<>();
+    private String currentChapter;
+    private int currentPageNum;
+    private BookPage currentPage;
+    private String lastChapter;
+    private int lastPageNum;
+    private ItemStack display = ItemStack.EMPTY;
+    private int left, top;
+
+    public GuiManual()
+    {
+        currentChapter = "home";
+        currentPageNum = 0;
+    }
 
     public static void initPages()
     {
@@ -199,22 +219,24 @@ public class GuiManual extends GuiScreen
         }
     }
 
-    private static HashMap<String, BookChapter> chapters = new HashMap<>();
-
-    private String currentChapter;
-    private int currentPageNum;
-    private BookPage currentPage;
-    private String lastChapter;
-    private int lastPageNum;
-
-    private ItemStack display = ItemStack.EMPTY;
-
-    private int left, top;
-
-    public GuiManual()
+    private static int getChanceFromString(String type)
     {
-        currentChapter = "home";
-        currentPageNum = 0;
+        ConfigOres confOres = Geolosys.getInstance().configOres;
+        for (Field f : confOres.getClass().getFields())
+        {
+            if (f.getName().equals(type + "Chance"))
+            {
+                try
+                {
+                    return f.getInt(confOres);
+                }
+                catch (IllegalAccessException e)
+                {
+                    Geolosys.getInstance().LOGGER.error(e.getMessage());
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -486,6 +508,46 @@ public class GuiManual extends GuiScreen
         this.resetPage();
     }
 
+    private int getMinYFromString(String type)
+    {
+        ConfigOres confOres = Geolosys.getInstance().configOres;
+        for (Field f : confOres.getClass().getFields())
+        {
+            if (f.getName().equals(type + "MinY"))
+            {
+                try
+                {
+                    return f.getInt(confOres);
+                }
+                catch (IllegalAccessException e)
+                {
+                    Geolosys.getInstance().LOGGER.error(e.getMessage());
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int getMaxYFromString(String type)
+    {
+        ConfigOres confOres = Geolosys.getInstance().configOres;
+        for (Field f : confOres.getClass().getFields())
+        {
+            if (f.getName().equals(type + "MaxY"))
+            {
+                try
+                {
+                    return f.getInt(confOres);
+                }
+                catch (IllegalAccessException e)
+                {
+                    Geolosys.getInstance().LOGGER.error(e.getMessage());
+                }
+            }
+        }
+        return -1;
+    }
+
     @SideOnly(Side.CLIENT)
     public class ChapterLinkButton extends GuiButton
     {
@@ -577,65 +639,5 @@ public class GuiManual extends GuiScreen
             return this.isForward;
         }
 
-    }
-
-    private int getMinYFromString(String type)
-    {
-        ConfigOres confOres = Geolosys.getInstance().configOres;
-        for (Field f : confOres.getClass().getFields())
-        {
-            if (f.getName().equals(type + "MinY"))
-            {
-                try
-                {
-                    return f.getInt(confOres);
-                }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
-            }
-        }
-        return -1;
-    }
-
-    private int getMaxYFromString(String type)
-    {
-        ConfigOres confOres = Geolosys.getInstance().configOres;
-        for (Field f : confOres.getClass().getFields())
-        {
-            if (f.getName().equals(type + "MaxY"))
-            {
-                try
-                {
-                    return f.getInt(confOres);
-                }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
-            }
-        }
-        return -1;
-    }
-
-    private static int getChanceFromString(String type)
-    {
-        ConfigOres confOres = Geolosys.getInstance().configOres;
-        for (Field f : confOres.getClass().getFields())
-        {
-            if (f.getName().equals(type + "Chance"))
-            {
-                try
-                {
-                    return f.getInt(confOres);
-                }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
-            }
-        }
-        return -1;
     }
 }
