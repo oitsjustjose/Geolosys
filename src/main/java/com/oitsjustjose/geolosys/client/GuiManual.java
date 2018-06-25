@@ -69,50 +69,65 @@ public class GuiManual extends GuiScreen
 
         BookPageContents prospecting = new BookPageContents("geolosys.guide.chapter.prospecting.name");
         prospecting.addLink(new ChapterLink("geolosys.guide.chapter.samples.name", "samples"));
-        prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
         chapters.put("samples", new BookChapter("samples", "prospecting"));
-        chapters.put("propick", new BookChapter("propick", "prospecting"));
-
-        chapters.get("prospecting").addPage(prospecting);
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name", "geolosys.guide.chapter.samples_1.text", new ItemStack(Geolosys.getInstance().ORE_SAMPLE)));
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name", "geolosys.guide.chapter.samples_2.text", new ItemStack(Geolosys.getInstance().CLUSTER)));
-        chapters.get("propick").addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_1.text", new ItemStack(Geolosys.getInstance().PRO_PICK)));
-        chapters.get("propick").addPage(new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_2.text"));
-        chapters.get("propick").addPage(new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_3.text"));
+
+        if (ModConfig.featureControl.enableProPick)
+        {
+            prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
+            chapters.put("propick", new BookChapter("propick", "prospecting"));
+            chapters.get("propick").addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_1.text", new ItemStack(Geolosys.getInstance().PRO_PICK)));
+            chapters.get("propick").addPage(new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_2.text"));
+            chapters.get("propick").addPage(new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_3.text"));
+        }
+
+        chapters.get("prospecting").addPage(prospecting);
 
 
         BookPageContents resources = new BookPageContents("geolosys.guide.chapter.resources.name");
         BookPageContents resources2 = new BookPageContents("geolosys.guide.chapter.resources.name");
 
-        resources.addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
-        chapters.put("stones", new BookChapter("stones", "resources"));
-        chapters.get("stones").addPage(new BookPageItemDisplay("geolosys.guide.chapter.stones.name", "geolosys.guide.chapter.stones.text", new ItemStack(Blocks.STONE, 1, new Random().nextInt(3) + 1)));
+        if (ModConfig.featureControl.modStones)
+        {
+            resources.addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
+            chapters.put("stones", new BookChapter("stones", "resources"));
+            chapters.get("stones").addPage(new BookPageItemDisplay("geolosys.guide.chapter.stones.name", "geolosys.guide.chapter.stones.text", new ItemStack(Blocks.STONE, 1, new Random().nextInt(3) + 1)));
+        }
 
         String name;
         for (int i = 0; i < Types.Vanilla.values().length; i++)
         {
             name = Types.Vanilla.values()[i].getName();
-            resources.addLink(new ChapterLink("geolosys.guide.chapter." + name + ".name", name));
-            chapters.put(name, new BookChapter(name, "resources"));
-            chapters.get(name).addPage(new BookPageOre("geolosys.guide.chapter." + name + ".name", "geolosys.guide.chapter." + name + ".text", new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, i), name));
+            if (getChanceFromString(name) > 0)
+            {
+                resources.addLink(new ChapterLink("geolosys.guide.chapter." + name + ".name", name));
+                chapters.put(name, new BookChapter(name, "resources"));
+                chapters.get(name).addPage(new BookPageOre("geolosys.guide.chapter." + name + ".name", "geolosys.guide.chapter." + name + ".text", new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, i), name));
+            }
         }
-
         for (int i = 0; i < Types.Modded.values().length; i++)
         {
             name = Types.Modded.values()[i].getName();
-            resources2.addLink(new ChapterLink("geolosys.guide.chapter." + name + ".name", name));
-            chapters.put(name, new BookChapter(name, "resources"));
-            chapters.get(name).addPage(new BookPageOre("geolosys.guide.chapter." + name + ".name", "geolosys.guide.chapter." + name + ".text", new ItemStack(Geolosys.getInstance().ORE, 1, i), name));
+            if (getChanceFromString(name) > 0)
+            {
+                resources2.addLink(new ChapterLink("geolosys.guide.chapter." + name + ".name", name));
+                chapters.put(name, new BookChapter(name, "resources"));
+                chapters.get(name).addPage(new BookPageOre("geolosys.guide.chapter." + name + ".name", "geolosys.guide.chapter." + name + ".text", new ItemStack(Geolosys.getInstance().ORE, 1, i), name));
+            }
         }
 
         chapters.get("resources").addPage(resources);
         chapters.get("resources").addPage(resources2);
 
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
-        modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-        chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
-        chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name", "geolosys.guide.chapter.ore_converter.text"));
-
+        
+        if (ModConfig.featureControl.retroReplace)
+        {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
+            chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
+            chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name", "geolosys.guide.chapter.ore_converter.text"));
+        }
         if (Loader.isModLoaded("journeymap"))
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
@@ -212,7 +227,6 @@ public class GuiManual extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().renderEngine.bindTexture(BACKGROUND);
         this.drawTexturedModalRect(left, top, 0, 0, WIDTH, HEIGHT);
@@ -255,7 +269,6 @@ public class GuiManual extends GuiScreen
 
     private void renderItemDisplayPage(BookPageItemDisplay page, int mouseX, int mouseY)
     {
-
         ItemStack stack = page.getDisplayStack();
 
         if (stack.getMetadata() == 32767)
@@ -279,7 +292,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        float textScale = .85F;
+        float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
         this.fontRenderer.drawSplitString(I18n.translateToLocal(page.getDescription()), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
@@ -314,7 +327,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        float textScale = .85F;
+        float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
         this.fontRenderer.drawSplitString(I18n.translateToLocal(page.getDescription()).replace("<minY>", "" + getMinYFromString(page.getOreType())).replace("<maxY>", "" + getMaxYFromString(page.getOreType())), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
@@ -340,7 +353,7 @@ public class GuiManual extends GuiScreen
     private void renderTextPage(BookPageText page, int mouseX, int mouseY)
     {
         GlStateManager.pushMatrix();
-        float textScale = .85F;
+        float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
         String text = I18n.translateToLocal(page.getText());
         List<String> paragraphs = new ArrayList<>();
@@ -592,6 +605,26 @@ public class GuiManual extends GuiScreen
         for (Field f : confOres.getClass().getFields())
         {
             if (f.getName().equals(type + "MaxY"))
+            {
+                try
+                {
+                    return f.getInt(confOres);
+                }
+                catch (IllegalAccessException e)
+                {
+                    Geolosys.getInstance().LOGGER.error(e.getMessage());
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static int getChanceFromString(String type)
+    {
+        ConfigOres confOres = Geolosys.getInstance().configOres;
+        for (Field f : confOres.getClass().getFields())
+        {
+            if (f.getName().equals(type + "Chance"))
             {
                 try
                 {

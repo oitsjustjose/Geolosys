@@ -104,7 +104,7 @@ public class Geolosys
         {
             PRO_PICK = new ItemProPick();
         }
-        if (ModConfig.featureControl.modDrops)
+        if (ModConfig.featureControl.retroReplace)
         {
             MinecraftForge.EVENT_BUS.register(new OreConverter());
         }

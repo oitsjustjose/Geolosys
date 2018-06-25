@@ -57,20 +57,6 @@ public class ItemProPick extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
-        {
-            tooltip.add(HelperFunctions.getTranslation(this.getUnlocalizedName(stack) + ".tooltip"));
-        }
-        else
-        {
-            tooltip.add(HelperFunctions.getTranslation("shift.tooltip"));
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
         if (!ModConfig.client.enableProPickExtras)

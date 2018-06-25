@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.config;
 
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.client.GuiManual;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -31,9 +32,6 @@ public class ModConfig
     {
         @Config.Name("Replace Stone Variant Deposits")
         public boolean modStones = true;
-
-        @Config.Name("Replace non-Geolosys ore drops")
-        public boolean modDrops = true;
 
         @Config.Name("Enable Osmium")
         public boolean enableOsmium = true;
@@ -139,9 +137,9 @@ public class ModConfig
 
     public static class Client
     {
-        @Config.Name("Enable unicode Font for Field Manual")
-        @Config.Comment("Setting to false allows for Optifine compatibility ")
-        public boolean enableUnicodeFieldManual = true;
+        @Config.Name("Field Manual Font Scale")
+        @Config.RangeDouble(min = 0.1, max = 3.0)
+        public float manualFontScale = 0.85F;
 
         @Config.Name("Enable Prospector's Pickaxe Chunk Grid Functionality")
         public boolean enableProPickExtras = true;
@@ -156,6 +154,7 @@ public class ModConfig
             if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
             {
                 ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
+                GuiManual.initPages();
             }
         }
     }
