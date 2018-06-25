@@ -120,7 +120,7 @@ geolosys.guide.chapter.samples_1.text=Samples (shown above) lie on the surface a
 geolosys.guide.chapter.samples_2.text=Some samples drop clusters (as do mineral deposits). These can be smelted or processed just like any other ore.
 geolosys.guide.chapter.propick.name=Prospector's Pick
 geolosys.guide.chapter.propick_1.text=The Prospector's Pick is a useful tool after you've been rummaging around underground long enough. Made with a decent amount of iron, it can be used for a few things.
-geolosys.guide.chapter.propick_2.text=First, when held, it'll reveal chunk borders: this is useful for distinguishing where to start/stop digging, as mineral deposits start in the same chunk that you'll find their respective sample.
+geolosys.guide.chapter.propick_2.text=First, when held, it'll reveal chunk borders (if enabled): this is useful for distinguishing where to start/stop digging, as mineral deposits start in the same chunk that you'll find their respective sample. It'll also show you your current Y-level (if enabled).
 geolosys.guide.chapter.propick_3.text=Additionally, when right-clicked above sea-level, it'll tell you what deposit is in that chunk (in case you can't find a sample around...). Once underground, it'll scan a configurable area (5x5x5 by default) in the direction you've clicked and tell you if it finds a mineral.
 
 

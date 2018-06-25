@@ -181,15 +181,15 @@ public class BlockOreVanilla extends Block
                 int rng = random.nextInt(25);
                 // Compat for certus quartz & black quartz
 
-                if (ModMaterials.CERTUS_QUARTZ != null)
+                if (ModMaterials.AE_MATERIAL != null)
                 {
                     if (rng < 5) // 2 / 25
                     {
-                        drops.add(new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0));
+                        drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0));
                     }
                     else if (rng > 5 && rng < 7) // 1 / 25
                     {
-                        drops.add(new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 1));
+                        drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
                     }
                 }
                 if (ModMaterials.BLACK_QUARTZ != null)

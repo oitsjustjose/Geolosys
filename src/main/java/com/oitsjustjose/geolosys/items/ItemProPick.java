@@ -40,10 +40,7 @@ public class ItemProPick extends Item
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "PRO_PICK"));
         this.setUnlocalizedName(Objects.requireNonNull(this.getRegistryName()).toString().replaceAll(":", "."));
-        if (ModConfig.client.enableProPickYLevel)
-        {
-            MinecraftForge.EVENT_BUS.register(this);
-        }
+        MinecraftForge.EVENT_BUS.register(this);
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
     }
@@ -295,7 +292,7 @@ public class ItemProPick extends Item
     @SideOnly(Side.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL)
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || !ModConfig.client.enableProPickYLevel)
         {
             return;
         }

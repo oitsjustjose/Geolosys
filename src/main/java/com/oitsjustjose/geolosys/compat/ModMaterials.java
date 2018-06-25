@@ -16,7 +16,6 @@ public class ModMaterials
     public static Item AE_MATERIAL;
     public static Item EXU_MATERIAL;
     public static Item TE_MATERIAL;
-    public static Item CERTUS_QUARTZ;
     public static Item BLACK_QUARTZ;
     public static HashMap<String, ItemStack> clusterConverter;
     public static HashMap<String, IBlockState> blockConverter;
@@ -26,7 +25,6 @@ public class ModMaterials
         AE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
         EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
         TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
-        CERTUS_QUARTZ = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
         BLACK_QUARTZ = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
 
         clusterConverter = new HashMap<>();

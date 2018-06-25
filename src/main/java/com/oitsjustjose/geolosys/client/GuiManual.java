@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.client;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.blocks.Types;
-import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.config.ConfigOres;
 import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.items.ItemCluster;
@@ -28,10 +27,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Mangoose /  https://github.com/the-realest-stu/
@@ -177,25 +173,25 @@ public class GuiManual extends GuiScreen
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.applied_energistics.name", "applied_energistics"));
             chapters.put("applied_energistics", new BookChapter("applied_energistics", "mod_compat"));
-            chapters.get("applied_energistics").addPage(new BookPageItemDisplay("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text", new ItemStack(ModMaterials.CERTUS_QUARTZ, 1, 0)));
+            chapters.get("applied_energistics").addPage(new BookPageItemDisplay("geolosys.guide.chapter.applied_energistics.name", "geolosys.guide.chapter.applied_energistics.text", new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"))), 1, 0)));
         }
         if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients")) != null)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extra_utils.name", "extra_utils"));
             chapters.put("extra_utils", new BookChapter("extra_utils", "mod_compat"));
-            chapters.get("extra_utils").addPage(new BookPageText("geolosys.guide.chapter.extra_utils.name", "geolosys.guide.chapter.extra_utils.text"));
+            chapters.get("extra_utils").addPage(new BookPageItemDisplay("geolosys.guide.chapter.extra_utils.name", "geolosys.guide.chapter.extra_utils.text", new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"))))));
         }
         if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc")) != null)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.actually_additions.name", "actually_additions"));
             chapters.put("actually_additions", new BookChapter("actually_additions", "mod_compat"));
-            chapters.get("actually_additions").addPage(new BookPageText("geolosys.guide.chapter.actually_additions.name", "geolosys.guide.chapter.actually_additions.text"));
+            chapters.get("actually_additions").addPage(new BookPageItemDisplay("geolosys.guide.chapter.actually_additions.name", "geolosys.guide.chapter.actually_additions.text", new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"))), 1, 5)));
         }
         if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material")) != null)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.cofh_mods.name", "cofh_mods"));
             chapters.put("cofh_mods", new BookChapter("cofh_mods", "mod_compat"));
-            chapters.get("cofh_mods").addPage(new BookPageText("geolosys.guide.chapter.cofh_mods.name", "geolosys.guide.chapter.cofh_mods.text"));
+            chapters.get("cofh_mods").addPage(new BookPageItemDisplay("geolosys.guide.chapter.cofh_mods.name", "geolosys.guide.chapter.cofh_mods.text", new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"))), 1, 866)));
         }
         if (ModConfig.featureControl.enableOsmium)
         {
