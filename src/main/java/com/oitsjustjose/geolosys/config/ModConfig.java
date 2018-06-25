@@ -149,7 +149,10 @@ public class ModConfig
         public float manualFontScale = 0.85F;
 
         @Config.Name("Enable Prospector's Pickaxe Chunk Grid Functionality")
-        public boolean enableProPickExtras = true;
+        public boolean enableProPickChunkGrid = true;
+
+        @Config.Name("Enable Prospector's Pickaxe to show Y-Level")
+        public boolean enableProPickYLevel = true;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)

@@ -6,6 +6,7 @@ import com.oitsjustjose.geolosys.config.ModConfig;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,9 +18,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -35,6 +40,10 @@ public class ItemProPick extends Item
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "PRO_PICK"));
         this.setUnlocalizedName(Objects.requireNonNull(this.getRegistryName()).toString().replaceAll(":", "."));
+        if (ModConfig.client.enableProPickYLevel)
+        {
+            MinecraftForge.EVENT_BUS.register(this);
+        }
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
     }
@@ -86,7 +95,7 @@ public class ItemProPick extends Item
     @SideOnly(Side.CLIENT)
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
     {
-        if (!ModConfig.client.enableProPickExtras)
+        if (!ModConfig.client.enableProPickChunkGrid)
         {
             return;
         }
@@ -280,5 +289,24 @@ public class ItemProPick extends Item
     private void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
         player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onDrawScreen(RenderGameOverlayEvent.Post event)
+    {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL)
+        {
+            return;
+        }
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemProPick || mc.player.getHeldItemOffhand().getItem() instanceof ItemProPick)
+        {
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.disableLighting();
+            mc.fontRenderer.drawStringWithShadow("Y-Level: " + (int) mc.player.posY, 2, 2, 0xFFFFFFFF);
+            GlStateManager.color(1F, 1F, 1F, 1F);
+        }
     }
 }
