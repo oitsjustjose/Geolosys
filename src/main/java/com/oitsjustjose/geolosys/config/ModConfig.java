@@ -16,9 +16,9 @@ public class ModConfig
     @Config.Comment("Enable or disable Geolosys features entirely")
     public static FeatureControl featureControl = new FeatureControl();
 
-    @Config.Name("Samples")
-    @Config.Comment("Adjust settings specific to samples")
-    public static Samples samples = new Samples();
+    @Config.Name("Prospecting")
+    @Config.Comment("Adjust settings specific to prospecting")
+    public static Prospecting prospecting = new Prospecting();
 
     @Config.Name("User Entries")
     @Config.Comment("Custom user entries")
@@ -52,17 +52,6 @@ public class ModConfig
         @Config.Name("Enable Coals")
         public boolean enableCoals = true;
 
-        @Config.Name("Enable Prospector's Pickaxe")
-        public boolean enableProPick = true;
-
-        @Config.Name("Prospector's Pickaxe Range")
-        @Config.RangeInt(min = 0, max = 255)
-        public int proPickRange = 5;
-
-        @Config.Name("Prospector's Pickaxe Diameter")
-        @Config.RangeInt(min = 0, max = 255)
-        public int proPickDiameter = 5;
-
         @Config.Name("Enable Cluster Smelting")
         public boolean enableSmelting = true;
 
@@ -80,9 +69,9 @@ public class ModConfig
         public boolean retroReplace = true;
     }
 
-    public static class Samples
+    public static class Prospecting
     {
-        @Config.Name("Maximum Number of Samples per Chunk")
+        @Config.Name("Maximum Number of samples per Chunk")
         @Config.RangeInt(min = 1, max = 16)
         public int maxSamples = 10;
 
@@ -91,6 +80,24 @@ public class ModConfig
 
         @Config.Name("Samples drop nothing (contents revealed in chat)")
         public boolean boringSamples = false;
+
+        @Config.Name("Enable Prospector's Pickaxe")
+        public boolean enableProPick = true;
+
+        @Config.Name("Prospector's Pick Takes Damage")
+        public boolean enableProPickDamage = false;
+
+        @Config.Name("Prospector's Pick Durability")
+        @Config.RangeInt(min = 0)
+        public int proPickDurability = 256;
+
+        @Config.Name("Prospector's Pickaxe Range")
+        @Config.RangeInt(min = 0, max = 255)
+        public int proPickRange = 5;
+
+        @Config.Name("Prospector's Pickaxe Diameter")
+        @Config.RangeInt(min = 0, max = 255)
+        public int proPickDiameter = 5;
     }
 
     public static class UserEntries

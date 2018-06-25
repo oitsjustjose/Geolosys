@@ -32,7 +32,7 @@ public class ChunkData
             {
                 continue;
             }
-            if (ModConfig.samples.generateInWater || !isMoist(world, p))
+            if (ModConfig.prospecting.generateInWater || !isMoist(world, p))
             {
                 world.setBlockState(p, state, 2 | 16);
             }
@@ -56,12 +56,12 @@ public class ChunkData
 
     private int getSampleCount(IBlockState state)
     {
-        int count = GeolosysAPI.sampleCounts.get(state) / ModConfig.samples.maxSamples;
+        int count = GeolosysAPI.sampleCounts.get(state) / ModConfig.prospecting.maxSamples;
 
         // Normalize maximum sample counts
-        if (count > ModConfig.samples.maxSamples)
+        if (count > ModConfig.prospecting.maxSamples)
         {
-            count = ModConfig.samples.maxSamples;
+            count = ModConfig.prospecting.maxSamples;
         }
 
         return count;

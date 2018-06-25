@@ -91,7 +91,7 @@ public class BlockSampleVanilla extends Block
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (ModConfig.samples.boringSamples)
+        if (ModConfig.prospecting.boringSamples)
         {
             String resource = Types.Vanilla.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
             playerIn.sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
@@ -133,7 +133,7 @@ public class BlockSampleVanilla extends Block
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        if (ModConfig.samples.boringSamples)
+        if (ModConfig.prospecting.boringSamples)
         {
             drops.clear();
             return;
@@ -189,7 +189,7 @@ public class BlockSampleVanilla extends Block
     @SubscribeEvent
     public void registerEvent(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ModConfig.samples.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+        if (!ModConfig.prospecting.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
         {
             return;
         }

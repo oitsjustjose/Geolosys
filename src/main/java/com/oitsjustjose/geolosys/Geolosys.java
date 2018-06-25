@@ -97,7 +97,7 @@ public class Geolosys
         {
             COAL = new ItemCoal();
         }
-        if (ModConfig.featureControl.enableProPick)
+        if (ModConfig.prospecting.enableProPick)
         {
             PRO_PICK = new ItemProPick();
         }

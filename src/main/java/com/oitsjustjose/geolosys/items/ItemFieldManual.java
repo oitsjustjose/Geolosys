@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.util.HelperFunctions;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -49,6 +50,7 @@ public class ItemFieldManual extends Item
 
 
     @Override
+    @MethodsReturnNonnullByDefault
     @SuppressWarnings("unchecked")
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn)
     {

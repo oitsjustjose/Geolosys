@@ -94,7 +94,7 @@ public class GuiManual extends GuiScreen
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name", "geolosys.guide.chapter.samples_1.text", new ItemStack(Geolosys.getInstance().ORE_SAMPLE)));
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name", "geolosys.guide.chapter.samples_2.text", new ItemStack(Geolosys.getInstance().CLUSTER)));
 
-        if (ModConfig.featureControl.enableProPick)
+        if (ModConfig.prospecting.enableProPick)
         {
             prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
             chapters.put("propick", new BookChapter("propick", "prospecting"));
