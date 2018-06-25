@@ -1,12 +1,13 @@
 package com.oitsjustjose.geolosys.manual;
-/**
- * @credits: Mangoose /  https://github.com/the-realest-stu/
- * Code taken directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
- */
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @author Mangoose /  https://github.com/the-realest-stu/
+ * Code taken directly from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ */
 
 public class BookPageContents extends BookPage
 {

@@ -1,11 +1,12 @@
 package com.oitsjustjose.geolosys.manual;
+
+import net.minecraft.item.ItemStack;
+
 /**
- * @credits: Mangoose /  https://github.com/the-realest-stu/
+ * @author Mangoose /  https://github.com/the-realest-stu/
  * Code taken directly from:
  * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
-
-import net.minecraft.item.ItemStack;
 
 public class BookPageItemDisplay extends BookPage
 {
