@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -106,8 +107,12 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
+            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
             if (ModConfig.featureControl.enableCoals)
             {
+                /**************************
+                 *       Coal types       *
+                 **************************/
                 Item coal = Geolosys.getInstance().COAL;
                 int y = pos.getY();
                 int rng = random.nextInt(10) + fortune;
@@ -140,6 +145,20 @@ public class BlockOreVanilla extends Block
                     }
                 }
             }
+            /**************************
+             *      Nuclearcraft      *
+             **************************/
+            if (ModMaterials.NC_GEM != null)
+            {
+                int rng = random.nextInt(100);
+                if (rng < 18)
+                {
+                    drops.add(new ItemStack(ModMaterials.NC_DUST, 1, 9));
+                }
+            }
+            /**************************
+             *         Sulfur         *
+             **************************/
             if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0)
             {
                 int rng = random.nextInt(50);
@@ -148,20 +167,35 @@ public class BlockOreVanilla extends Block
                     drops.add(OreDictionary.getOres("dustSulfur").get(0));
                 }
             }
-            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
         }
         else if (meta == 1)
         {
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
             int rng = random.nextInt(60);
-            // Compat for ExtraUtils 2
+            /**************************
+             *          ExU2          *
+             **************************/
             if (ModMaterials.EXU_MATERIAL != null && rng < 2)
             {
                 drops.add(new ItemStack(ModMaterials.EXU_MATERIAL));
             }
+            /**************************
+             *           TE           *
+             **************************/
             if (ModMaterials.TE_MATERIAL != null && rng == 2)
             {
                 drops.add(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866));
+            }
+            /**************************
+             *      Nuclearcraft      *
+             **************************/
+            if (ModMaterials.NC_GEM != null)
+            {
+                rng = random.nextInt(100);
+                if (rng < 25)
+                {
+                    drops.add(new ItemStack(ModMaterials.NC_GEM, 1, 0));
+                }
             }
         }
         else if (meta == 2)
@@ -171,6 +205,17 @@ public class BlockOreVanilla extends Block
         else if (meta == 3)
         {
             drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
+            /**************************
+             *      Nuclearcraft      *
+             **************************/
+            if (ModMaterials.NC_GEM != null)
+            {
+                int rng = random.nextInt(100);
+                if (rng < 95)
+                {
+                    drops.add(new ItemStack(ModMaterials.NC_GEM, random.nextInt(2) + 1, 2));
+                }
+            }
         }
         else if (meta == 4)
         {
@@ -179,24 +224,39 @@ public class BlockOreVanilla extends Block
             for (int i = 0; i < fortuneDropCalc; i++)
             {
                 int rng = random.nextInt(25);
-                // Compat for certus quartz & black quartz
-
+                /**************************
+                 *           AE           *
+                 **************************/
                 if (ModMaterials.AE_MATERIAL != null)
                 {
-                    if (rng < 5) // 2 / 25
+                    if (rng < 5)
                     {
                         drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0));
                     }
-                    else if (rng > 5 && rng < 7) // 1 / 25
+                    else if (rng > 5 && rng < 7)
                     {
                         drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
                     }
                 }
+                /**************************
+                 *           AA           *
+                 **************************/
                 if (ModMaterials.BLACK_QUARTZ != null)
                 {
-                    if (rng >= 6 && rng < 10) // 2 / 25
+                    if (rng >= 6 && rng < 10)
                     {
                         drops.add(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5));
+                    }
+                }
+                /**************************
+                 *      Nuclearcraft      *
+                 **************************/
+                if (ModMaterials.NC_GEM != null)
+                {
+                    rng = random.nextInt(100);
+                    if (rng < 18)
+                    {
+                        drops.add(new ItemStack(ModMaterials.NC_DUST, 1, 10));
                     }
                 }
             }

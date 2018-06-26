@@ -192,3 +192,5 @@ geolosys.guide.chapter.mekanism.name=Mekanism
 geolosys.guide.chapter.mekanism.text=If Osmium is enabled in the config, Platinum will split its drop chance 50% with Osmium. If Osmium is enabled §oexclusively§r, then Osmium will be the only drop from Platinum.
 geolosys.guide.chapter.extreme_reactors.name=Extreme Reactors
 geolosys.guide.chapter.extreme_reactors.text=If Yellorium is enabled in the config, Autunite will split its drop chance 50% with Yellorium.
+geolosys.guide.chapter.nuclearcraft.name=NuclearCraft
+geolosys.guide.chapter.nuclearcraft.text=If NuclearCraft is installed, Geolosys's Vanilla Ore variants will drop NuclearCraft's usual added drops, with the same chance as NuclearCraft.

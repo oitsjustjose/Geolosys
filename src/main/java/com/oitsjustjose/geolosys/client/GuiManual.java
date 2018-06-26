@@ -205,6 +205,12 @@ public class GuiManual extends GuiScreen
             chapters.put("extreme_reactors", new BookChapter("extreme_reactors", "mod_compat"));
             chapters.get("extreme_reactors").addPage(new BookPageItemDisplay("geolosys.guide.chapter.extreme_reactors.name", "geolosys.guide.chapter.extreme_reactors.text", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_YELLORIUM)));
         }
+        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem")) != null)
+        {
+            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.nuclearcraft.name", "nuclearcraft"));
+            chapters.put("nuclearcraft", new BookChapter("nuclearcraft", "mod_compat"));
+            chapters.get("nuclearcraft").addPage(new BookPageItemDisplay("geolosys.guide.chapter.nuclearcraft.name", "geolosys.guide.chapter.nuclearcraft.text", new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem"))), 1, 0)));
+        }
         chapters.get("mod_compat").addPage(modCompat);
 
         for (BookChapter chapter : chapters.values())

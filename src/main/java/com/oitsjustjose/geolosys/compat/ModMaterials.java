@@ -17,6 +17,10 @@ public class ModMaterials
     public static Item EXU_MATERIAL;
     public static Item TE_MATERIAL;
     public static Item BLACK_QUARTZ;
+    public static Item NC_GEM;
+    public static Item NC_DUST;
+    public static Item NC_GEM_DUST;
+
     public static HashMap<String, ItemStack> clusterConverter;
     public static HashMap<String, IBlockState> blockConverter;
 
@@ -26,6 +30,10 @@ public class ModMaterials
         EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
         TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
         BLACK_QUARTZ = ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"));
+        NC_GEM = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem"));
+        NC_DUST = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "dust"));
+        NC_GEM_DUST = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem_dust"));
+
 
         clusterConverter = new HashMap<>();
         clusterConverter.put("oreIron", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_IRON));
