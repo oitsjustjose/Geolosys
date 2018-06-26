@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.compat.ie;
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
-import com.oitsjustjose.geolosys.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;

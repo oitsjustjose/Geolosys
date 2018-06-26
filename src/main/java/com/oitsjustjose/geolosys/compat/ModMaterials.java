@@ -1,8 +1,8 @@
 package com.oitsjustjose.geolosys.compat;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.config.ModConfig;
-import com.oitsjustjose.geolosys.items.ItemCluster;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.items.ItemCluster;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

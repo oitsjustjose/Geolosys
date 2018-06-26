@@ -12,10 +12,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ClientRegistry
 {
-    private HashMap<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap();
+    private HashMap<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap<>();
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -29,7 +30,7 @@ public class ClientRegistry
 
     public void register(Block block, String variant)
     {
-        LOCATIONS.put(new ItemStack(block), new ModelResourceLocation(block.getRegistryName(), variant));
+        LOCATIONS.put(new ItemStack(block), new ModelResourceLocation(Objects.requireNonNull(block.getRegistryName()), variant));
     }
 
     public void register(ItemStack itemstack, ResourceLocation resLoc, String variant)
@@ -39,6 +40,6 @@ public class ClientRegistry
 
     public void register(ItemStack stack, String variant)
     {
-        LOCATIONS.put(stack, new ModelResourceLocation(stack.getItem().getRegistryName(), variant));
+        LOCATIONS.put(stack, new ModelResourceLocation(Objects.requireNonNull(stack.getItem().getRegistryName()), variant));
     }
 }

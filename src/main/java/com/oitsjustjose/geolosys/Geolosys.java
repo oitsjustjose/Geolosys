@@ -2,26 +2,26 @@ package com.oitsjustjose.geolosys;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.blocks.BlockOre;
-import com.oitsjustjose.geolosys.blocks.BlockOreVanilla;
-import com.oitsjustjose.geolosys.blocks.BlockSample;
-import com.oitsjustjose.geolosys.blocks.BlockSampleVanilla;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.blocks.BlockOre;
+import com.oitsjustjose.geolosys.common.blocks.BlockOreVanilla;
+import com.oitsjustjose.geolosys.common.blocks.BlockSample;
+import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.client.ClientRegistry;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
-import com.oitsjustjose.geolosys.config.ConfigOres;
-import com.oitsjustjose.geolosys.config.ConfigParser;
-import com.oitsjustjose.geolosys.config.ModConfig;
-import com.oitsjustjose.geolosys.items.*;
-import com.oitsjustjose.geolosys.proxy.CommonProxy;
-import com.oitsjustjose.geolosys.util.HelperFunctions;
-import com.oitsjustjose.geolosys.util.Recipes;
-import com.oitsjustjose.geolosys.world.ChunkData;
-import com.oitsjustjose.geolosys.world.OreGenerator;
-import com.oitsjustjose.geolosys.world.StoneGenerator;
-import com.oitsjustjose.geolosys.world.VanillaWorldGenOverride;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ConfigParser;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.items.*;
+import com.oitsjustjose.geolosys.common.CommonProxy;
+import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.util.Recipes;
+import com.oitsjustjose.geolosys.common.world.ChunkData;
+import com.oitsjustjose.geolosys.common.world.OreGenerator;
+import com.oitsjustjose.geolosys.common.world.StoneGenerator;
+import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -47,7 +47,7 @@ public class Geolosys
 {
     public static final String MODID = "geolosys";
     public static final String VERSION = "@VERSION@";
-    @SidedProxy(clientSide = "com.oitsjustjose.geolosys.proxy.ClientProxy", serverSide = "com.oitsjustjose.geolosys.proxy.CommonProxy")
+    @SidedProxy(clientSide = "com.oitsjustjose.geolosys.client.ClientProxy", serverSide = "com.oitsjustjose.geolosys.common.CommonProxy")
     public static CommonProxy proxy;
     @Instance(Geolosys.MODID)
     private static Geolosys instance;

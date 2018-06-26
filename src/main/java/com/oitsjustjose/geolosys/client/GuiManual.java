@@ -1,12 +1,12 @@
 package com.oitsjustjose.geolosys.client;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.blocks.Types;
-import com.oitsjustjose.geolosys.config.ConfigOres;
-import com.oitsjustjose.geolosys.config.ModConfig;
-import com.oitsjustjose.geolosys.items.ItemCluster;
-import com.oitsjustjose.geolosys.manual.*;
-import com.oitsjustjose.geolosys.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.blocks.Types;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.items.ItemCluster;
+import com.oitsjustjose.geolosys.common.manual.*;
+import com.oitsjustjose.geolosys.common.util.HelperFunctions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
