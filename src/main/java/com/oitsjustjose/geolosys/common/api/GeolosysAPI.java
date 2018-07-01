@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
@@ -183,6 +184,19 @@ public class GeolosysAPI
         oreBlocks.put(oreBlock, sampleBlock);
         sampleCounts.put(sampleBlock, size);
     }
+
+    /**
+     * Adds a deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlock    The block you want UNDERGROUND as an ore
+     * @param sampleBlock The block you want ON THE SURFACE as a sample
+     * @param ore         The ore (wrapper object) containing the generation info
+     */
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, ConfigOres.Ore ore)
+    {
+        registerMineralDeposit(oreBlock, sampleBlock, ore.getMinY(), ore.getMaxY(), ore.getSize(), ore.getChance(), ore.getBlacklist());
+    }
+
 
     /**
      * Ads a stone type for Geolosys to handle the generation of.

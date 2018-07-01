@@ -227,16 +227,15 @@ public class GuiManual extends GuiScreen
         ConfigOres confOres = Geolosys.getInstance().configOres;
         for (Field f : confOres.getClass().getFields())
         {
-            if (f.getName().equals(type + "Chance"))
+            try
             {
-                try
+                if (f.getName().equalsIgnoreCase(type) && f.get(confOres) instanceof ConfigOres.Ore)
                 {
-                    return f.getInt(confOres);
+                    return ((ConfigOres.Ore) f.get(confOres)).getChance();
                 }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
+            }
+            catch (IllegalAccessException ignored)
+            {
             }
         }
         return -1;
@@ -515,16 +514,15 @@ public class GuiManual extends GuiScreen
         ConfigOres confOres = Geolosys.getInstance().configOres;
         for (Field f : confOres.getClass().getFields())
         {
-            if (f.getName().equals(type + "MinY"))
+            try
             {
-                try
+                if (f.getName().equalsIgnoreCase(type) && f.get(confOres) instanceof ConfigOres.Ore)
                 {
-                    return f.getInt(confOres);
+                    return ((ConfigOres.Ore) f.get(confOres)).getMinY();
                 }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
+            }
+            catch (IllegalAccessException ignored)
+            {
             }
         }
         return -1;
@@ -535,16 +533,15 @@ public class GuiManual extends GuiScreen
         ConfigOres confOres = Geolosys.getInstance().configOres;
         for (Field f : confOres.getClass().getFields())
         {
-            if (f.getName().equals(type + "MaxY"))
+            try
             {
-                try
+                if (f.getName().equalsIgnoreCase(type) && f.get(confOres) instanceof ConfigOres.Ore)
                 {
-                    return f.getInt(confOres);
+                    return ((ConfigOres.Ore) f.get(confOres)).getMaxY();
                 }
-                catch (IllegalAccessException e)
-                {
-                    Geolosys.getInstance().LOGGER.error(e.getMessage());
-                }
+            }
+            catch (IllegalAccessException ignored)
+            {
             }
         }
         return -1;

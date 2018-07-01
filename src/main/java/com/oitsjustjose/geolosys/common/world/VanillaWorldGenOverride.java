@@ -17,35 +17,35 @@ public class VanillaWorldGenOverride
     public void onOrePopulate(OreGenEvent.GenerateMinable event)
     {
         ConfigOres conf = Geolosys.getInstance().configOres;
-        if ((conf.hematiteChance > 0 || conf.limoniteChance > 0) && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
+        if ((conf.hematite.getChance() > 0 || conf.limonite.getChance() > 0) && event.getType() == OreGenEvent.GenerateMinable.EventType.IRON)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.goldChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.GOLD)
+        if (conf.gold.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.GOLD)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.kimberliteChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.DIAMOND)
+        if (conf.kimberlite.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.DIAMOND)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.coalChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.COAL)
+        if (conf.coal.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.COAL)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.cinnabarChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.REDSTONE)
+        if (conf.cinnabar.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.REDSTONE)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.lapisChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.LAPIS)
+        if (conf.lapis.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.LAPIS)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.quartzChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ)
+        if (conf.quartz.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.QUARTZ)
         {
             event.setResult(Event.Result.DENY);
         }
-        if (conf.berylChance > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.EMERALD)
+        if (conf.beryl.getChance() > 0 && event.getType() == OreGenEvent.GenerateMinable.EventType.EMERALD)
         {
             event.setResult(Event.Result.DENY);
         }
