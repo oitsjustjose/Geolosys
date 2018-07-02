@@ -9,6 +9,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
@@ -74,6 +75,8 @@ public class OreGenerator implements IWorldGenerator
             {
                 return;
             }
+            boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
+            ForgeModContainer.logCascadingWorldGeneration = false;
             for (int d : this.blacklistedDims)
             {
                 if (d == world.provider.getDimension())
@@ -90,11 +93,12 @@ public class OreGenerator implements IWorldGenerator
                     y /= 2;
                 }
 
-                pluton.generate(world, rand, new BlockPos(x + 8, y, z + 8));
+                pluton.generate(world, rand, new BlockPos(x, y, z));
                 GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
                 GeolosysAPI.writeToFile();
                 Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
             }
+            ForgeModContainer.logCascadingWorldGeneration = lastState;
         }
     }
 }

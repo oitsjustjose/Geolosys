@@ -28,7 +28,7 @@ public class WorldGenMinableSafe extends WorldGenerator
         this.dataName = dataName;
     }
 
-    private static boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
+    private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
     {
         int blockX = pos.getX();
         int blockZ = pos.getZ();

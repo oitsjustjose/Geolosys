@@ -3,12 +3,14 @@ package com.oitsjustjose.geolosys.common.world;
 import com.google.common.base.Predicate;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.sun.org.apache.bcel.internal.generic.LASTORE;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
@@ -66,11 +68,14 @@ public class StoneGenerator implements IWorldGenerator
             {
                 return;
             }
+            boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
+            ForgeModContainer.logCascadingWorldGeneration = false;
             if (rand.nextInt(100) < weight)
             {
                 int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
-                pluton.generate(world, rand, new BlockPos(x + 8, y, z + 8));
+                pluton.generate(world, rand, new BlockPos(x, y, z));
             }
+            ForgeModContainer.logCascadingWorldGeneration = lastState;
         }
     }
 }
