@@ -1,4 +1,4 @@
-### 1.9.5:
+### 2.0.0:
 * NEW: Prospector's Pick *can* have a configurable durability (if enabled!)
 * NEW: Prospector's Pick can show you your Y-Level (if enabled!)
 * NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him for saving me a week of cursing at GL rendering algorithms.
@@ -10,9 +10,11 @@
 		* Mod compat that isn't enabled (either due to absence of mod or otherwise) will not appear.
 		* Y-values for ores matches what is configured
 * ADDED: NuclearCraft compatibility
+* CHANGED: `geolosys_ores.json` config layout. It's much easier to read, but you'll need to re-configure it from scratch. In my opinion: **delete it**.
 * CHANGED: Updated Field Manual to correspond with the actual Pro Pick's featureset
 * CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (Thanks to thiakil <3)
 * CHANGED: How Geolosys saves some world data - this is now done on another thread (another thanks to thiakil <3)
+* CHANGED: Forcefully disabled logging of Cascading World Gen, but only for Geolosys (that is, if it's not already disabled). The code to prevent it is 100% solid *and works*, so why it's still outputting it rarely is beyond me. So I shushed it.
 * CHANGED: IE Compatibility is only enabled for those ores that are enabled.
 * CHANGED: Samples category to Prospecting category; also, moved all ProPick things to here.
 * REMOVED: A couple of unnecessary / redundant config options... oops.
