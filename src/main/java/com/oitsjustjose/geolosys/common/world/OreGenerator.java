@@ -61,7 +61,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, blockStatePredicate, dataID);
+            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, doesOreHaveSpecialPredicate(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStatePredicate, dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
@@ -101,4 +101,27 @@ public class OreGenerator implements IWorldGenerator
             ForgeModContainer.logCascadingWorldGeneration = lastState;
         }
     }
+
+    /**
+     * Finds out whether or not there's a special predicate for an ore block
+     *
+     * @param state The state to check with
+     * @return True if the keyset contains the state, false otherwise
+     */
+    private boolean doesOreHaveSpecialPredicate(IBlockState state)
+    {
+        for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
+        {
+            if (iBlockState.equals(state))
+            {
+                return true;
+            }
+            if (iBlockState.getBlock() == state.getBlock() && iBlockState.getBlock().getMetaFromState(iBlockState) == state.getBlock().getMetaFromState(state))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

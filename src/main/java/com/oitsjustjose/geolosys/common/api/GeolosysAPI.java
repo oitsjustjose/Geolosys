@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.api;
 
+import com.google.common.base.Predicate;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -26,6 +28,8 @@ public class GeolosysAPI
     public static HashMap<IBlockState, IBlockState> oreBlocks = new HashMap<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
+    // A matched pair of IBlockStates whose K:V = block:replacement
+    public static HashMap<IBlockState, Predicate> oreBlocksSpecific = new HashMap<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
@@ -195,6 +199,26 @@ public class GeolosysAPI
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, ConfigOres.Ore ore)
     {
         registerMineralDeposit(oreBlock, sampleBlock, ore.getMinY(), ore.getMaxY(), ore.getSize(), ore.getChance(), ore.getBlacklist());
+    }
+
+    /**
+     * Adds a deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlock        The block you want UNDERGROUND as an ore
+     * @param sampleBlock     The block you want ON THE SURFACE as a sample
+     * @param yMin            The minimum Y level this deposit can generate at
+     * @param yMax            The maximum Y level this deposit can generate at
+     * @param size            The size of the deposit
+     * @param chance          The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist    An array of dimension numbers in which this deposit cannot generate
+     * @param predicateBlocks A collection of blocks that this entry specifically can replace
+     */
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist, List<IBlockState> predicateBlocks)
+    {
+        oreBlocks.put(oreBlock, sampleBlock);
+        sampleCounts.put(sampleBlock, size);
+        oreBlocksSpecific.put(oreBlock, iBlockState -> iBlockState != null && (predicateBlocks.contains(iBlockState)));
+        OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
     }
 
 

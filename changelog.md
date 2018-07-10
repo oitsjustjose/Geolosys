@@ -10,6 +10,7 @@
 		* Mod compat that isn't enabled (either due to absence of mod or otherwise) will not appear.
 		* Y-values for ores matches what is configured
 * ADDED: NuclearCraft compatibility
+* [API] ADDED: Ability to register a mineral deposit with *specific* replacement blocks for that ore. 
 * CHANGED: `geolosys_ores.json` config layout. It's much easier to read, but you'll need to re-configure it from scratch. In my opinion: **delete it**.
 * CHANGED: Updated Field Manual to correspond with the actual Pro Pick's featureset
 * CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (Thanks to thiakil <3)
