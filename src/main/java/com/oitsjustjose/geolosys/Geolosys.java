@@ -2,26 +2,26 @@ package com.oitsjustjose.geolosys;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oitsjustjose.geolosys.client.ClientRegistry;
+import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.blocks.BlockOre;
 import com.oitsjustjose.geolosys.common.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.common.blocks.BlockSample;
 import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
-import com.oitsjustjose.geolosys.client.ClientRegistry;
-import com.oitsjustjose.geolosys.compat.ModMaterials;
-import com.oitsjustjose.geolosys.compat.OreConverter;
-import com.oitsjustjose.geolosys.compat.ie.IECompat;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ConfigParser;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.*;
-import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.util.HelperFunctions;
 import com.oitsjustjose.geolosys.common.util.Recipes;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
+import com.oitsjustjose.geolosys.compat.OreConverter;
+import com.oitsjustjose.geolosys.compat.ie.IECompat;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -41,8 +41,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);")
 public class Geolosys

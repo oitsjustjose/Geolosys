@@ -100,28 +100,27 @@ public class OreGenerator implements IWorldGenerator
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;
         }
-    }
 
-    /**
-     * Finds out whether or not there's a special predicate for an ore block
-     *
-     * @param state The state to check with
-     * @return True if the keyset contains the state, false otherwise
-     */
-    private boolean doesOreHaveSpecialPredicate(IBlockState state)
-    {
-        for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
+        /**
+         * Finds out whether or not there's a special predicate for an ore block
+         *
+         * @param state The state to check with
+         * @return True if the keyset contains the state, false otherwise
+         */
+        private boolean doesOreHaveSpecialPredicate(IBlockState state)
         {
-            if (iBlockState.equals(state))
+            for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
             {
-                return true;
+                if (iBlockState.equals(state))
+                {
+                    return true;
+                }
+                if (iBlockState.getBlock() == state.getBlock() && iBlockState.getBlock().getMetaFromState(iBlockState) == state.getBlock().getMetaFromState(state))
+                {
+                    return true;
+                }
             }
-            if (iBlockState.getBlock() == state.getBlock() && iBlockState.getBlock().getMetaFromState(iBlockState) == state.getBlock().getMetaFromState(state))
-            {
-                return true;
-            }
+            return false;
         }
-        return false;
     }
-
 }
