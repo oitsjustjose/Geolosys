@@ -1,6 +1,10 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.google.common.base.Predicate;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,12 +16,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 /**
  * Created by Thiakil on 17/06/2018.
+ * Minor edits by PersonTheCat
  */
 public class ToDoBlocks extends WorldSavedData
 {
@@ -46,7 +47,7 @@ public class ToDoBlocks extends WorldSavedData
         markDirty();
     }
 
-    public void processPending(ChunkPos pos, World world, Predicate<IBlockState> predicate)
+    public void processPending(ChunkPos pos, World world, List<IBlockState> matchers)
     {
         Map<BlockPos, IBlockState> pending = pendingBlocks.get(pos);
         if (pending != null && !pending.isEmpty())
@@ -58,7 +59,7 @@ public class ToDoBlocks extends WorldSavedData
                 BlockPos blockPos = e.getKey();
 
                 IBlockState state = world.getBlockState(blockPos);
-                if (state.getBlock().isReplaceableOreGen(state, world, blockPos, predicate))
+                if (state != null && matchers.contains(state))
                 {
                     world.setBlockState(blockPos, e.getValue(), 2 | 16);
                 }
