@@ -1,22 +1,28 @@
 package com.oitsjustjose.geolosys.common.api;
 
-import com.google.common.base.Predicate;
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.ConfigOres;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.world.OreGenerator;
-import com.oitsjustjose.geolosys.common.world.StoneGenerator;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraftforge.common.DimensionManager;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.world.OreGenerator;
+import com.oitsjustjose.geolosys.common.world.StoneGenerator;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraftforge.common.DimensionManager;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist
@@ -29,7 +35,7 @@ public class GeolosysAPI
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A matched pair of IBlockStates whose K:V = block:replacement
-    public static HashMap<IBlockState, Predicate> oreBlocksSpecific = new HashMap<>();
+    public static HashMap<IBlockState, List<IBlockState>> oreBlocksSpecific = new HashMap<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
@@ -204,20 +210,20 @@ public class GeolosysAPI
     /**
      * Adds a deposit for Geolosys to handle the generation of.
      *
-     * @param oreBlock        The block you want UNDERGROUND as an ore
-     * @param sampleBlock     The block you want ON THE SURFACE as a sample
-     * @param yMin            The minimum Y level this deposit can generate at
-     * @param yMax            The maximum Y level this deposit can generate at
-     * @param size            The size of the deposit
-     * @param chance          The chance of the deposit generating (higher = more likely)
-     * @param dimBlacklist    An array of dimension numbers in which this deposit cannot generate
-     * @param predicateBlocks A collection of blocks that this entry specifically can replace
+     * @param oreBlock           The block you want UNDERGROUND as an ore
+     * @param sampleBlock        The block you want ON THE SURFACE as a sample
+     * @param yMin               The minimum Y level this deposit can generate at
+     * @param yMax               The maximum Y level this deposit can generate at
+     * @param size               The size of the deposit
+     * @param chance             The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
      */
-    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist, List<IBlockState> predicateBlocks)
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers)
     {
         oreBlocks.put(oreBlock, sampleBlock);
         sampleCounts.put(sampleBlock, size);
-        oreBlocksSpecific.put(oreBlock, iBlockState -> iBlockState != null && (predicateBlocks.contains(iBlockState)));
+        oreBlocksSpecific.put(oreBlock, blockStateMatchers);
         OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
     }
 

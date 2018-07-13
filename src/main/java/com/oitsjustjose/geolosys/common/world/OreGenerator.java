@@ -1,8 +1,13 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.google.common.base.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -13,9 +18,6 @@ import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * A modified version of:
  * https://github.com/BluSunrize/ImmersiveEngineering/blob/master/src/main/java/blusunrize/immersiveengineering/common/world/IEWorldGen.java
@@ -24,7 +26,7 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator
 {
-    private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
+    private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysOreGeneratorPending";
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
     private static int biggestWeight = 0;
@@ -43,7 +45,7 @@ public class OreGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStatePredicate);
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (oreSpawnList.size() > 0)
         {
             oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
@@ -61,7 +63,7 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, doesOreHaveSpecialPredicate(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStatePredicate, dataID);
+            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, doesOreHaveSpecialMatchers(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStateMatchers, dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
@@ -107,18 +109,14 @@ public class OreGenerator implements IWorldGenerator
          * @param state The state to check with
          * @return True if the keyset contains the state, false otherwise
          */
-        private boolean doesOreHaveSpecialPredicate(IBlockState state)
+        private boolean doesOreHaveSpecialMatchers(IBlockState state)
         {
-            for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
+        	for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
             {
-                if (iBlockState.equals(state))
-                {
-                    return true;
-                }
-                if (iBlockState.getBlock() == state.getBlock() && iBlockState.getBlock().getMetaFromState(iBlockState) == state.getBlock().getMetaFromState(state))
-                {
-                    return true;
-                }
+        		if (HelperFunctions.doStatesMatch(iBlockState, state))
+        		{
+        			return true;
+        		}
             }
             return false;
         }

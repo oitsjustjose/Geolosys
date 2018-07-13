@@ -1,14 +1,16 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.google.common.base.Predicate;
+import java.util.List;
+import java.util.Random;
+
+import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-
-import java.util.Random;
 
 public class WorldGenMinableSafe extends WorldGenerator
 {
@@ -17,14 +19,14 @@ public class WorldGenMinableSafe extends WorldGenerator
      * The number of blocks to generate.
      */
     private final int numberOfBlocks;
-    private final Predicate<IBlockState> predicate;
+    private final List<IBlockState> matchers;
     private String dataName;
 
-    public WorldGenMinableSafe(IBlockState state, int blockCount, Predicate<IBlockState> p_i45631_3_, String dataName)
+    public WorldGenMinableSafe(IBlockState state, int blockCount, List<IBlockState> matchers, String dataName)
     {
         this.oreBlock = state;
         this.numberOfBlocks = blockCount;
-        this.predicate = p_i45631_3_;
+        this.matchers = matchers;
         this.dataName = dataName;
     }
 
@@ -87,9 +89,16 @@ public class WorldGenMinableSafe extends WorldGenerator
                                     if (isInChunk(thisChunk, blockpos) || worldIn.isChunkGeneratedAt(l1 >> 4, j2 >> 4))
                                     {
                                         IBlockState state = worldIn.getBlockState(blockpos);
-                                        if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.predicate))
+                                        if (state != null)
                                         {
-                                            worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
+                                        	for (IBlockState iBlockState : matchers)
+                                        	{
+                                        		if (HelperFunctions.doStatesMatch(iBlockState, state))
+                                        		{
+                                        			worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
+                                        			break;
+                                        		}
+                                        	}
                                         }
                                     }
                                     else

@@ -1,9 +1,12 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.google.common.base.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.sun.org.apache.bcel.internal.generic.LASTORE;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -13,9 +16,6 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * A modified version of:
  * https://github.com/BluSunrize/ImmersiveEngineering/blob/master/src/main/java/blusunrize/immersiveengineering/common/world/IEWorldGen.java
@@ -24,7 +24,7 @@ import java.util.Random;
 
 public class StoneGenerator implements IWorldGenerator
 {
-    private static final Predicate<IBlockState> blockStatePredicate = iBlockState -> iBlockState != null && (GeolosysAPI.replacementMats.contains(iBlockState));
+    private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysStoneGeneratorPending";
     private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class StoneGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
-        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStatePredicate);
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (stoneSpawnList.size() > 0)
         {
             stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
@@ -55,7 +55,7 @@ public class StoneGenerator implements IWorldGenerator
 
         StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
-            this.pluton = new WorldGenMinableSafe(state, 96, blockStatePredicate, dataID);
+            this.pluton = new WorldGenMinableSafe(state, 96, blockStateMatchers, dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
