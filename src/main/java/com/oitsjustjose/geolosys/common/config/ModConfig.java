@@ -117,7 +117,7 @@ public class ModConfig
 
         @Config.Name("Blocks mineral deposits can replace")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
-        public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:2", "minecraft:stone:3", "minecraft:dirt:0", "minecraft:netherrack:0"};
+        public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0", "minecraft:netherrack:0"};
 
         @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
