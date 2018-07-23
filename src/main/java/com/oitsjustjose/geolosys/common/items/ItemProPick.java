@@ -106,7 +106,7 @@ public class ItemProPick extends Item
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (ModConfig.prospecting.enableProPickDamage)
+        if (ModConfig.prospecting.enableProPickDamage && !player.capabilities.isCreativeMode)
         {
             if (player.getHeldItem(hand).getItem() instanceof ItemProPick)
             {
@@ -294,7 +294,19 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            mc.fontRenderer.drawStringWithShadow("Depth: " + (int) mc.player.posY, 2, 2, 0xFFFFFFFF);
+            int level = (int) (Minecraft.getMinecraft().world.getSeaLevel() - mc.player.posY);
+            if (level < 0)
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level", 2, 2, 0xFFFFFFFF);
+            }
+            else if (level == 0)
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", 2, 2, 0xFFFFFFFF);
+            }
+            else
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level", 2, 2, 0xFFFFFFFF);
+            }
             GlStateManager.color(1F, 1F, 1F, 1F);
         }
     }
