@@ -7,6 +7,7 @@ import com.oitsjustjose.geolosys.common.util.HelperFunctions;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,15 +28,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 public class ItemProPick extends Item
 {
-    private boolean showingChunkBorders;
-
     public ItemProPick()
     {
-        this.showingChunkBorders = false;
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "PRO_PICK"));
@@ -74,6 +74,22 @@ public class ItemProPick extends Item
         }
     }
 
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+        if (ModConfig.prospecting.enableProPickDamage && Minecraft.getMinecraft().gameSettings.advancedItemTooltips)
+        {
+            if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("damage"))
+            {
+                tooltip.add("Durability: " + ModConfig.prospecting.proPickDurability);
+            }
+            else
+            {
+                tooltip.add("Durability: " + stack.getTagCompound().getInteger("damage") + "/" + ModConfig.prospecting.proPickDurability);
+            }
+        }
+    }
+
     @Override
     public boolean showDurabilityBar(ItemStack stack)
     {
@@ -84,30 +100,6 @@ public class ItemProPick extends Item
         else
         {
             return false;
-        }
-    }
-
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        if (!ModConfig.client.enableProPickChunkGrid)
-        {
-            return;
-        }
-        boolean selected = isSelected;
-        if (entityIn instanceof EntityPlayer)
-        {
-            selected = ((EntityPlayer) entityIn).getHeldItemOffhand().getItem() == this || ((EntityPlayer) entityIn).getHeldItemMainhand().getItem() == this;
-        }
-        if (selected && !showingChunkBorders)
-        {
-            showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
-        }
-        else if (!selected && showingChunkBorders)
-        {
-            showingChunkBorders = Minecraft.getMinecraft().debugRenderer.toggleChunkBorders();
         }
     }
 
@@ -302,7 +294,7 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            mc.fontRenderer.drawStringWithShadow("Y-Level: " + (int) mc.player.posY, 2, 2, 0xFFFFFFFF);
+            mc.fontRenderer.drawStringWithShadow("Depth: " + (int) mc.player.posY, 2, 2, 0xFFFFFFFF);
             GlStateManager.color(1F, 1F, 1F, 1F);
         }
     }

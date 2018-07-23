@@ -148,9 +148,6 @@ public class ModConfig
         @Config.RangeDouble(min = 0.1, max = 3.0)
         public float manualFontScale = 0.85F;
 
-        @Config.Name("Enable Prospector's Pickaxe Chunk Grid Functionality")
-        public boolean enableProPickChunkGrid = true;
-
         @Config.Name("Enable Prospector's Pickaxe to show Y-Level")
         public boolean enableProPickYLevel = true;
     }
