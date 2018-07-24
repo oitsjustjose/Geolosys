@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.util.IStringSerializable;
 
 public class Types
@@ -33,7 +34,7 @@ public class Types
         {
             this.meta = meta;
             this.toolLevel = toolLevel;
-            this.unlocalizedName = name;
+            this.unlocalizedName = ModConfig.featureControl.vanillaMode ? name + "_vanilla" : name;
             this.resource = resource;
         }
 

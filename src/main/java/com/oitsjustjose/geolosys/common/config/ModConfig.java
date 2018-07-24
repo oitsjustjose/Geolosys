@@ -6,6 +6,7 @@ import com.oitsjustjose.geolosys.client.GuiManual;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -67,6 +68,14 @@ public class ModConfig
         @Config.Name("Retroactively replace existing ores in world")
         @Config.Comment("Happens when a player enters a chunk; changes other mod ores into Geolosys's")
         public boolean retroReplace = true;
+
+        @Config.Name("Disable Vanilla Ore Generation")
+        public boolean disableVanillaGeneration = true;
+
+        @Config.Name("Vanilla Mode")
+        @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
+        @Config.RequiresMcRestart
+        public boolean vanillaMode = false;
     }
 
     public static class Prospecting
@@ -121,25 +130,7 @@ public class ModConfig
 
         @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
-        public String[] convertBlacklistRaw = new String[]{
-                "gravelores:coal_gravel_ore",
-                "gravelores:iron_gravel_ore",
-                "gravelores:lapis_gravel_ore",
-                "gravelores:gold_gravel_ore",
-                "gravelores:redstone_gravel_ore",
-                "gravelores:diamond_gravel_ore",
-                "gravelores:emerald_gravel_ore",
-                "gravelores:tin_gravel_ore",
-                "gravelores:nickel_gravel_ore",
-                "gravelores:silver_gravel_ore",
-                "gravelores:lead_gravel_ore",
-                "gravelores:copper_gravel_ore",
-                "gravelores:aluminum_gravel_ore",
-                "nex:ore_quartz:0",
-                "nex:ore_quartz:1",
-                "nex:ore_quartz:2",
-                "nex:ore_quartz:3"
-        };
+        public String[] convertBlacklistRaw = getConvertBlacklist();
     }
 
     public static class Client
@@ -164,5 +155,63 @@ public class ModConfig
                 GuiManual.initPages();
             }
         }
+    }
+
+    private static String[] getConvertBlacklist()
+    {
+        if (Loader.isModLoaded("nex"))
+        {
+            if (Loader.isModLoaded("gravelores"))
+            {
+                return new String[]{
+                        "gravelores:coal_gravel_ore",
+                        "gravelores:iron_gravel_ore",
+                        "gravelores:lapis_gravel_ore",
+                        "gravelores:gold_gravel_ore",
+                        "gravelores:redstone_gravel_ore",
+                        "gravelores:diamond_gravel_ore",
+                        "gravelores:emerald_gravel_ore",
+                        "gravelores:tin_gravel_ore",
+                        "gravelores:nickel_gravel_ore",
+                        "gravelores:silver_gravel_ore",
+                        "gravelores:lead_gravel_ore",
+                        "gravelores:copper_gravel_ore",
+                        "gravelores:aluminum_gravel_ore",
+                        "nex:ore_quartz:0",
+                        "nex:ore_quartz:1",
+                        "nex:ore_quartz:2",
+                        "nex:ore_quartz:3"
+                };
+            }
+            else
+            {
+                return new String[]{
+                        "nex:ore_quartz:0",
+                        "nex:ore_quartz:1",
+                        "nex:ore_quartz:2",
+                        "nex:ore_quartz:3"
+                };
+            }
+        }
+        else if (Loader.isModLoaded("gravelores"))
+        {
+            return new String[]{
+                    "gravelores:coal_gravel_ore",
+                    "gravelores:iron_gravel_ore",
+                    "gravelores:lapis_gravel_ore",
+                    "gravelores:gold_gravel_ore",
+                    "gravelores:redstone_gravel_ore",
+                    "gravelores:diamond_gravel_ore",
+                    "gravelores:emerald_gravel_ore",
+                    "gravelores:tin_gravel_ore",
+                    "gravelores:nickel_gravel_ore",
+                    "gravelores:silver_gravel_ore",
+                    "gravelores:lead_gravel_ore",
+                    "gravelores:copper_gravel_ore",
+                    "gravelores:aluminum_gravel_ore",
+
+                    };
+        }
+        return new String[]{};
     }
 }

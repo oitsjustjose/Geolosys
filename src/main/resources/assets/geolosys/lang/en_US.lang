@@ -43,6 +43,27 @@ geolosys.ore_sample_vanilla.kimberlite.name=Kimberlite Sample
 geolosys.ore_sample_vanilla.beryl.name=Beryl Sample
 
 # ------------------------------------ #
+#           Vanilla Mode               #
+# ------------------------------------ #
+
+geolosys.ore_sample_vanilla.coal_vanilla.name=Coal Sample
+geolosys.ore_sample_vanilla.cinnabar_vanilla.name=Redstone Sample
+geolosys.ore_sample_vanilla.gold_vanilla.name=Gold Sample
+geolosys.ore_sample_vanilla.lapis_vanilla.name=Lapis Lazuli Sample
+geolosys.ore_sample_vanilla.quartz_vanilla.name=Quartz Sample
+geolosys.ore_sample_vanilla.kimberlite_vanilla.name=Diamond Sample
+geolosys.ore_sample_vanilla.beryl_vanilla.name=Emerald Sample
+
+
+geolosys.ore_vanilla.coal_vanilla.name=Coal Ore
+geolosys.ore_vanilla.cinnabar_vanilla.name=Redstone Ore
+geolosys.ore_vanilla.gold_vanilla.name=Gold Ore
+geolosys.ore_vanilla.lapis_vanilla.name=Lazuli Ore
+geolosys.ore_vanilla.quartz_vanilla.name=Quartz Ore
+geolosys.ore_vanilla.kimberlite_vanilla.name=Diamond Ore
+geolosys.ore_vanilla.beryl_vanilla.name=Emerald Ore
+
+# ------------------------------------ #
 #             Clusters                 #
 # ------------------------------------ #
 geolosys.cluster.iron.name=Iron Cluster

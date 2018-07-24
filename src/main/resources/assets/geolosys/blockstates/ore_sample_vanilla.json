@@ -15,6 +15,41 @@
       {}
     ],
     "variant": {
+      "coal_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/coal_ore"
+        }
+      },
+      "cinnabar_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/redstone_ore"
+        }
+      },
+      "gold_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/gold_ore"
+        }
+      },
+      "lapis_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/lapis_ore"
+        }
+      },
+      "quartz_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/quartz_ore"
+        }
+      },
+      "kimberlite_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/diamond_ore"
+        }
+      },
+      "beryl_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/emerald_ore"
+        }
+      },
       "coal": {
         "textures": {
           "all": "geolosys:blocks/coal"

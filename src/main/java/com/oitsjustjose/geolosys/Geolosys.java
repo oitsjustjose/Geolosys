@@ -96,11 +96,12 @@ public class Geolosys
         chunkOreGen = new ChunkData();
 
         ORE = new BlockOre();
-        ORE_VANILLA = new BlockOreVanilla();
         ORE_SAMPLE = new BlockSample();
+        ORE_VANILLA = new BlockOreVanilla();
         ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
+
         if (ModConfig.featureControl.enableIngots)
         {
             INGOT = new ItemIngot();
@@ -117,15 +118,15 @@ public class Geolosys
         {
             MinecraftForge.EVENT_BUS.register(new OreConverter());
         }
-        
+
         registerGeolosysOreGen();
-        registerVanillaOreGen();
+        registerVanillaOreGen(ModConfig.featureControl.vanillaMode);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
-    {    	
-    	proxy.init(event);
+    {
+        proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
 
         if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
@@ -148,35 +149,36 @@ public class Geolosys
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }
 
-    private void registerVanillaOreGen()
+    private void registerVanillaOreGen(boolean vanilla)
     {
+
         if (configOres.coal.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 0), configOres.coal);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.COAL_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 0), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 0), configOres.coal);
         }
         if (configOres.cinnabar.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), configOres.cinnabar);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.REDSTONE_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 1), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), configOres.cinnabar);
         }
         if (configOres.gold.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 2), configOres.gold);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.GOLD_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 2), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 2), configOres.gold);
         }
         if (configOres.lapis.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), configOres.lapis);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.LAPIS_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 3), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), configOres.lapis);
         }
         if (configOres.quartz.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 4), configOres.quartz);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.QUARTZ_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 4), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 4), configOres.quartz);
         }
         if (configOres.kimberlite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 5), configOres.kimberlite);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.DIAMOND_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 5), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 5), configOres.kimberlite);
         }
         if (configOres.beryl.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.beryl);
+            GeolosysAPI.registerMineralDeposit(vanilla ? Blocks.EMERALD_ORE.getDefaultState() : HelperFunctions.getStateFromMeta(ORE_VANILLA, 6), HelperFunctions.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.beryl);
         }
         if (ModConfig.featureControl.modStones)
         {
