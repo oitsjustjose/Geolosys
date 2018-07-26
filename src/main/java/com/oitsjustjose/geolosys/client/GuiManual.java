@@ -352,15 +352,30 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        int minDepthFromSeaLevel = Minecraft.getMinecraft().world.getSeaLevel() - getMinYFromString(page.getOreType());
-        int maxDepthFromSeaLevel = Minecraft.getMinecraft().world.getSeaLevel() - getMaxYFromString(page.getOreType());
-        this.fontRenderer.drawSplitString(TranslationManager.getInstance().translate(page.getDescription()).replace("<minY>", "" + minDepthFromSeaLevel).replace("<maxY>", "" + maxDepthFromSeaLevel), (int) ((left + 18) / textScale),
+        String minDepthFromSeaLevel = getFormattedSeaLevel(Minecraft.getMinecraft().world.getSeaLevel() - getMinYFromString(page.getOreType()));
+        String maxDepthFromSeaLevel = getFormattedSeaLevel(Minecraft.getMinecraft().world.getSeaLevel() - getMaxYFromString(page.getOreType()));
+        this.fontRenderer.drawSplitString(TranslationManager.getInstance().translate(page.getDescription()).replace("<minY>", minDepthFromSeaLevel).replace("<maxY>", maxDepthFromSeaLevel), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
         GlStateManager.popMatrix();
-
         renderTooltip(mouseX, mouseY, itemX, itemY, itemScale);
-
     }
+
+    private String getFormattedSeaLevel(int depth)
+    {
+        if (depth > 0)
+        {
+            return Math.abs(depth) + TranslationManager.getInstance().translate("geolosys.guide.generic.belowsealevel");
+        }
+        else if (depth < 0)
+        {
+            return Math.abs(depth) + TranslationManager.getInstance().translate("geolosys.guide.generic.abovesealevel");
+        }
+        else
+        {
+            return TranslationManager.getInstance().translate("geolosys.guide.generic.atsealevel");
+        }
+    }
+
 
     private void renderTooltip(int mouseX, int mouseY, int itemX, int itemY, float itemScale)
     {
