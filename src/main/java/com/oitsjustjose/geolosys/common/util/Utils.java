@@ -30,10 +30,6 @@ public class Utils
 
     public static boolean doStatesMatch(IBlockState state1, IBlockState state2)
     {
-        if (state1.getBlock() == state2.getBlock() && state1.getBlock().getMetaFromState(state1) == state2.getBlock().getMetaFromState(state2))
-        {
-            return true;
-        }
-        return false;
+        return (state1.getBlock() == state2.getBlock() && state1.getBlock().getMetaFromState(state1) == state2.getBlock().getMetaFromState(state2));
     }
 }
