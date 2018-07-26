@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.common.config;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -42,14 +42,14 @@ public class ConfigParser
                     Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: ore block does not exist");
                     continue;
                 }
-                IBlockState oreState = HelperFunctions.getStateFromMeta(oreBlock, toInt(parts[2]));
+                IBlockState oreState = Utils.getStateFromMeta(oreBlock, toInt(parts[2]));
                 Block sampleBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[7], parts[8]));
                 if (sampleBlock == null || sampleBlock == Blocks.AIR)
                 {
                     Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: sample block does not exist");
                     continue;
                 }
-                IBlockState sampleState = HelperFunctions.getStateFromMeta(sampleBlock, toInt(parts[9]));
+                IBlockState sampleState = Utils.getStateFromMeta(sampleBlock, toInt(parts[9]));
                 String blacklistString = s.substring(s.indexOf("["), s.indexOf("]") + 1).replace("[", "").replace("]", "").replace(" ", "").trim();
                 int[] blacklist;
                 // Empty Blacklist
@@ -105,7 +105,7 @@ public class ConfigParser
                     Geolosys.getInstance().LOGGER.error("Entry " + s + " is not valid. Reason: stone block does not exist");
                     continue;
                 }
-                GeolosysAPI.registerStoneDeposit(HelperFunctions.getStateFromMeta(block, toInt(parts[2])), toInt(parts[3]), toInt(parts[4]), toInt(parts[5]));
+                GeolosysAPI.registerStoneDeposit(Utils.getStateFromMeta(block, toInt(parts[2])), toInt(parts[3]), toInt(parts[4]), toInt(parts[5]));
             }
             catch (NumberFormatException e)
             {
@@ -139,7 +139,7 @@ public class ConfigParser
                 }
                 else
                 {
-                    GeolosysAPI.replacementMats.add(HelperFunctions.getStateFromMeta(block, toInt(parts[2])));
+                    GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, toInt(parts[2])));
                 }
             }
             catch (NumberFormatException e)
@@ -174,7 +174,7 @@ public class ConfigParser
                 }
                 else
                 {
-                    GeolosysAPI.oreConverterBlacklist.add(HelperFunctions.getStateFromMeta(block, toInt(parts[2])));
+                    GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, toInt(parts[2])));
                 }
             }
             catch (NumberFormatException e)

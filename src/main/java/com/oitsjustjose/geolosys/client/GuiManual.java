@@ -6,7 +6,6 @@ import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
 import com.oitsjustjose.geolosys.common.manual.*;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -257,7 +256,7 @@ public class GuiManual extends GuiScreen
 
         if (currentPage != null)
         {
-            String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + HelperFunctions.getTranslation(currentPage.getTitle());
+            String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + TranslationManager.getInstance().translate(currentPage.getTitle());
             int headerWidth = this.fontRenderer.getStringWidth(header);
             this.fontRenderer.drawString(header, left + (WIDTH - headerWidth) / 2, top + 12, 0);
 
@@ -318,7 +317,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        this.fontRenderer.drawSplitString(HelperFunctions.getTranslation(page.getDescription()), (int) ((left + 18) / textScale),
+        this.fontRenderer.drawSplitString(TranslationManager.getInstance().translate(page.getDescription()), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
         GlStateManager.popMatrix();
 
@@ -353,7 +352,9 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        this.fontRenderer.drawSplitString(HelperFunctions.getTranslation(page.getDescription()).replace("<minY>", "" + getMinYFromString(page.getOreType())).replace("<maxY>", "" + getMaxYFromString(page.getOreType())), (int) ((left + 18) / textScale),
+        int minDepthFromSeaLevel = Minecraft.getMinecraft().world.getSeaLevel() - getMinYFromString(page.getOreType());
+        int maxDepthFromSeaLevel = Minecraft.getMinecraft().world.getSeaLevel() - getMaxYFromString(page.getOreType());
+        this.fontRenderer.drawSplitString(TranslationManager.getInstance().translate(page.getDescription()).replace("<minY>", "" + minDepthFromSeaLevel).replace("<maxY>", "" + maxDepthFromSeaLevel), (int) ((left + 18) / textScale),
                 (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
         GlStateManager.popMatrix();
 
@@ -379,7 +380,7 @@ public class GuiManual extends GuiScreen
         GlStateManager.pushMatrix();
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
-        String text = HelperFunctions.getTranslation(page.getText());
+        String text = TranslationManager.getInstance().translate(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
         while (text.contains("|"))
@@ -555,7 +556,7 @@ public class GuiManual extends GuiScreen
 
         public ChapterLinkButton(int buttonId, int x, int y, String buttonText, String chapter)
         {
-            super(buttonId, x, y, Minecraft.getMinecraft().fontRenderer.getStringWidth(HelperFunctions.getTranslation(buttonText)),
+            super(buttonId, x, y, Minecraft.getMinecraft().fontRenderer.getStringWidth(TranslationManager.getInstance().translate(buttonText)),
                     Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT, buttonText);
             this.chapter = chapter;
         }
@@ -583,7 +584,7 @@ public class GuiManual extends GuiScreen
                     p += TextFormatting.UNDERLINE;
                 }
 
-                fontrenderer.drawString(p + HelperFunctions.getTranslation(this.displayString), this.x, this.y, j);
+                fontrenderer.drawString(p + TranslationManager.getInstance().translate(this.displayString), this.x, this.y, j);
             }
         }
 

@@ -2,8 +2,6 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.client.ClientGUIProxy;
-import com.oitsjustjose.geolosys.client.ClientRegistry;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,10 +13,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class ItemFieldManual extends Item
 {
@@ -38,16 +35,9 @@ public class ItemFieldManual extends Item
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
+    public String getUnlocalizedName(@Nonnull ItemStack stack)
     {
-        return stack.getItem().getRegistryName().toString().replaceAll(":", ".");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public String getItemStackDisplayName(@Nonnull ItemStack stack)
-    {
-        return HelperFunctions.getTranslation(getUnlocalizedName(stack));
+        return Objects.requireNonNull(stack.getItem().getRegistryName()).toString().replaceAll(":", ".");
     }
 
 

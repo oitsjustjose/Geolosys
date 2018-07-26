@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.common.world;
 import java.util.List;
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -93,7 +93,7 @@ public class WorldGenMinableSafe extends WorldGenerator
                                         {
                                         	for (IBlockState iBlockState : matchers)
                                         	{
-                                        		if (HelperFunctions.doStatesMatch(iBlockState, state))
+                                        		if (Utils.doStatesMatch(iBlockState, state))
                                         		{
                                         			worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
                                         			break;

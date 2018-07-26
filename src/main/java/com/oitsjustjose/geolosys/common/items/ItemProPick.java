@@ -3,13 +3,12 @@ package com.oitsjustjose.geolosys.common.items;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.client.TranslationManager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -134,7 +133,7 @@ public class ItemProPick extends Item
             String depositInChunk;
             try
             {
-                depositInChunk = HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.nonefound");
+                depositInChunk = TranslationManager.getInstance().translate("geolosys.pro_pick.tooltip.nonefound");
             }
             // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
             catch (NoSuchMethodError onServerError)
@@ -153,7 +152,7 @@ public class ItemProPick extends Item
                             String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
                             try
                             {
-                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + HelperFunctions.getTranslation("geolosys.pro_pick.tooltip.found");
+                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + TranslationManager.getInstance().translate("geolosys.pro_pick.tooltip.found");
                             }
                             catch (NullPointerException ignored)
                             {

@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -113,7 +113,7 @@ public class OreGenerator implements IWorldGenerator
         {
         	for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
             {
-        		if (HelperFunctions.doStatesMatch(iBlockState, state))
+        		if (Utils.doStatesMatch(iBlockState, state))
         		{
         			return true;
         		}

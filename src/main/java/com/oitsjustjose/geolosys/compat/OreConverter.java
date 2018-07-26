@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.compat;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.util.HelperFunctions;
+import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -46,9 +46,9 @@ public class OreConverter
                     {
                         continue;
                     }
-                    if (getConvertedOre(HelperFunctions.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
+                    if (getConvertedOre(Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
                     {
-                        world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(HelperFunctions.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
+                        world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
                     }
                 }
             }
