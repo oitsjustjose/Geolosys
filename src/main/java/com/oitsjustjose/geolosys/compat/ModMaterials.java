@@ -77,7 +77,7 @@ public class ModMaterials
         blockConverter.put("oreUranium", Geolosys.getInstance().ORE.getStateFromMeta(9));
         blockConverter.put("oreZinc", Geolosys.getInstance().ORE.getStateFromMeta(10));
         blockConverter.put("oreYellorium", Geolosys.getInstance().ORE.getStateFromMeta(9));
-        blockConverter.put("oreOsmium", Geolosys.getInstance().ORE.getStateFromMeta(9));
+        blockConverter.put("oreOsmium", Geolosys.getInstance().ORE.getStateFromMeta(8));
         blockConverter.put("oreSphalerite", Geolosys.getInstance().ORE.getStateFromMeta(10));
         if (ModConfig.featureControl.registerAsBauxite)
         {
