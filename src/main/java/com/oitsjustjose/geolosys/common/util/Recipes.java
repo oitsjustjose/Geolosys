@@ -13,101 +13,52 @@ public class Recipes
 {
     public static void init(ConfigOres configOres, final Item CLUSTER)
     {
-        if (Loader.isModLoaded("betterwithmods"))
+        boolean bwm = Loader.isModLoaded("betterwithmods");
+
+        if (configOres.hematite.getChance() > 0 || configOres.limonite.getChance() > 0)
         {
-            if (configOres.hematite.getChance() > 0 || configOres.limonite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 0), "nuggetIron");
-            }
-            if (configOres.gold.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 1), "nuggetGold");
-            }
-            if (configOres.malachite.getChance() > 0 || configOres.azurite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 2), "nuggetCopper");
-            }
-            if (configOres.cassiterite.getChance() > 0 || configOres.teallite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 3), "nuggetTin");
-            }
-            if (configOres.galena.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 4), "nuggetSilver");
-                smeltSafely(new ItemStack(CLUSTER, 1, 5), "nuggetLead");
-            }
-            if (configOres.bauxite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 6), "nuggetAluminum");
-            }
-            if (configOres.limonite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 7), "nuggetNickel");
-            }
-            if (configOres.platinum.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 8), "nuggetPlatinum");
-            }
-            if (configOres.sphalerite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 10), "nuggetZinc");
-            }
-            if (ModConfig.featureControl.enableYellorium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 11), "nuggetYellorium");
-            }
-            if (ModConfig.featureControl.enableOsmium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 12), "nuggetOsmium");
-            }
+            smeltSafely(new ItemStack(CLUSTER, 1, 0), bwm ? "nuggetIron" : "ingotIron");
         }
-        else
+        if (configOres.gold.getChance() > 0)
         {
-            if (configOres.hematite.getChance() > 0 || configOres.limonite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 0), "ingotIron");
-            }
-            if (configOres.gold.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 1), "ingotGold");
-            }
-            if (configOres.malachite.getChance() > 0 || configOres.azurite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 2), "ingotCopper");
-            }
-            if (configOres.cassiterite.getChance() > 0 || configOres.teallite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 3), "ingotTin");
-            }
-            if (configOres.galena.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 4), "ingotSilver");
-                smeltSafely(new ItemStack(CLUSTER, 1, 5), "ingotLead");
-            }
-            if (configOres.bauxite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 6), "ingotAluminum");
-            }
-            if (configOres.limonite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 7), "ingotNickel");
-            }
-            if (configOres.platinum.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 8), "ingotPlatinum");
-            }
-            if (configOres.sphalerite.getChance() > 0)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 10), "ingotZinc");
-            }
-            if (ModConfig.featureControl.enableYellorium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 11), "ingotYellorium");
-            }
-            if (ModConfig.featureControl.enableOsmium)
-            {
-                smeltSafely(new ItemStack(CLUSTER, 1, 12), "ingotOsmium");
-            }
+            smeltSafely(new ItemStack(CLUSTER, 1, 1), bwm ? "nuggetGold" : "ingotGold");
+        }
+        if (configOres.malachite.getChance() > 0 || configOres.azurite.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 2), bwm ? "nuggetCopper" : "ingotCopper");
+        }
+        if (configOres.cassiterite.getChance() > 0 || configOres.teallite.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 3), bwm ? "nuggetTin" : "ingotTin");
+        }
+        if (configOres.galena.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 4), bwm ? "nuggetSilver" : "ingotSilver");
+            smeltSafely(new ItemStack(CLUSTER, 1, 5), bwm ? "nuggetLead" : "ingotLead");
+        }
+        if (configOres.bauxite.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 6), bwm ? "nuggetAluminum" : "ingotAluminum");
+        }
+        if (configOres.limonite.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 7), bwm ? "nuggetNickel" : "ingotNickel");
+        }
+        if (configOres.platinum.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 8), bwm ? "nuggetPlatinum" : "ingotPlatinum");
+        }
+        if (configOres.sphalerite.getChance() > 0)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 10), bwm ? "nuggetZinc" : "ingotZinc");
+        }
+        if (ModConfig.featureControl.enableYellorium)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 11), bwm ? "nuggetYellorium" : "ingotYellorium");
+        }
+        if (ModConfig.featureControl.enableOsmium)
+        {
+            smeltSafely(new ItemStack(CLUSTER, 1, 12), bwm ? "nuggetOsmium" : "ingotOsmium");
         }
     }
 

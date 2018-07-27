@@ -12,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -34,6 +33,7 @@ import java.util.Random;
 public class BlockOre extends Block
 {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
+    public static final String[] oreDictByMeta = new String[]{"oreIron", "oreNickel", "oreCopper", "oreCopper", "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum", "oreUranium", "oreZinc"};
 
     public BlockOre()
     {
@@ -166,21 +166,41 @@ public class BlockOre extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        return state.getBlock().getMetaFromState(state) == 0 || state.getBlock().getMetaFromState(state) == 1;
+        if (state.getBlock().getMetaFromState(state) == 6)
+        {
+            return hasOreDictAlternative("oreSilver") && hasOreDictAlternative("oreLead");
+        }
+        return hasOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]) && !getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]).isEmpty();
     }
 
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state)
     {
-        switch (blockState.getBlock().getMetaFromState(state))
+        Random rand = new Random();
+
+        if (state.getBlock().getMetaFromState(state) == 6)
         {
-            case 0:
-                return new ItemStack(Blocks.IRON_ORE);
-            case 1:
-                return new ItemStack(Blocks.IRON_ORE);
-            default:
-                return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+            return rand.nextBoolean() ? getOreDictAlternative("oreSilver") : getOreDictAlternative("oreLead");
         }
+        return getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]);
+    }
+
+    private boolean hasOreDictAlternative(String oreName)
+    {
+        return OreDictionary.doesOreNameExist(oreName) && OreDictionary.getOres(oreName).size() > 1;
+    }
+
+    private ItemStack getOreDictAlternative(String oreName)
+    {
+        for (ItemStack i : OreDictionary.getOres(oreName))
+        {
+            if (i.getItem() instanceof ItemCluster)
+            {
+                continue;
+            }
+            return i;
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override
