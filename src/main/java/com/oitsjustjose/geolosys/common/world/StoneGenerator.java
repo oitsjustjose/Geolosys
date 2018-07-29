@@ -37,6 +37,10 @@ public class StoneGenerator implements IWorldGenerator
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
     {
+        if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
+        {
+            return;
+        }
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (stoneSpawnList.size() > 0)
         {

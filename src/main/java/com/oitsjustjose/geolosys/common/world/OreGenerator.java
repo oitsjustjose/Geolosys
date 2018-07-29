@@ -30,7 +30,6 @@ public class OreGenerator implements IWorldGenerator
     private static final String dataID = "geolosysOreGeneratorPending";
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
     private static int biggestWeight = 0;
-    private OreGen lastGenerated = null;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {

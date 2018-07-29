@@ -1,3 +1,15 @@
+### 2.0.1:
+* NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+ packs or newcomers), and generates ores with their respective Vanilla variants.
+* NEW: Silk Touching a mod-based material now drops the first entry in the ore dictionary not from Geolosys (i.e.: silk-touching Geolosys Uranium with other mods offering uranium will drop one of those mods' uranium ore instead)
+* NEW: Separate config option for disabling *all* default vanilla ore generation.
+* CHANGED: ProPick and guide book now use depth relative to sea-level instead of just Y level
+* CHANGED: How translations are done - new, hand-written solution that is much more efficient!
+* CHANGED: Ore Converter Blacklist default entries now created based on loaded mods.
+* REMOVED: Chunk boundaries no longer show when holding the prospector's pickaxe
+* FIXED: Ore converter converting Osmium to Uranium
+* FIXED: Propick doesn't take damage if creative
+* FIXED: Wrong metadata of stone defaulting in the replacement materials config (should be 0, 1, 3 and 5 - not 0, 1, 2 and 3).
+
 ### 2.0.0:
 * NEW: Prospector's Pick *can* have a configurable durability (if enabled!)
 * NEW: Prospector's Pick can show you your Y-Level (if enabled!)
