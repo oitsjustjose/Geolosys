@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
@@ -92,14 +93,7 @@ public class ItemProPick extends Item
     @Override
     public boolean showDurabilityBar(ItemStack stack)
     {
-        if (ModConfig.prospecting.enableProPickDamage)
-        {
-            return stack.hasTagCompound();
-        }
-        else
-        {
-            return false;
-        }
+        return (ModConfig.prospecting.enableProPickDamage && stack.hasTagCompound());
     }
 
     @Override
@@ -123,23 +117,10 @@ public class ItemProPick extends Item
                 }
             }
         }
-        if (worldIn.isRemote)
-        {
-            player.swingArm(hand);
-            return EnumActionResult.PASS;
-        }
+        player.swingArm(hand);
+
         if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
         {
-            String depositInChunk;
-            try
-            {
-                depositInChunk = TranslationManager.getInstance().translate("geolosys.pro_pick.tooltip.nonefound");
-            }
-            // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
-            catch (NoSuchMethodError onServerError)
-            {
-                depositInChunk = "No deposits in this area";
-            }
             for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
             {
                 ChunkPos tempPos = new ChunkPos(pos);
@@ -150,24 +131,13 @@ public class ItemProPick extends Item
                         if (chunkPos.getDimension() == worldIn.provider.getDimension())
                         {
                             String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
-                            try
-                            {
-                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + TranslationManager.getInstance().translate("geolosys.pro_pick.tooltip.found");
-                            }
-                            catch (NullPointerException ignored)
-                            {
-                            }
-                            // If on a dedicated server, getTranslation will throw a NSME because it's SideOnly(CLIENT)
-                            catch (NoSuchMethodError onServerError)
-                            {
-                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " found in this area";
-                            }
-                            break;
+                            Geolosys.proxy.sendProPickMessage(player, new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])), "geolosys.pro_pick.tooltip.found");
+                            return EnumActionResult.SUCCESS;
                         }
                     }
                 }
             }
-            player.sendStatusMessage(new TextComponentString(depositInChunk), true);
+            Geolosys.proxy.sendProPickMessage(player, ItemStack.EMPTY, "No deposits in this area");
         }
         else
         {
@@ -243,12 +213,9 @@ public class ItemProPick extends Item
             }
             if (!found)
             {
-                player.sendStatusMessage(new TextComponentString("No deposits found"), true);
+                Geolosys.proxy.sendProPickMessage(player, ItemStack.EMPTY, "geolosys.pro_pick.tooltip.nonefound");
             }
         }
-
-
-        player.swingArm(hand);
         return EnumActionResult.SUCCESS;
     }
 
@@ -264,7 +231,7 @@ public class ItemProPick extends Item
                     IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                     if (GeolosysAPI.oreBlocks.keySet().contains(state))
                     {
-                        foundMessage(player, state, facing);
+                        sendFoundMessage(player, state, facing);
                         found = true;
                         break;
                     }
@@ -274,7 +241,7 @@ public class ItemProPick extends Item
         return found;
     }
 
-    private void foundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
+    private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
         player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
     }

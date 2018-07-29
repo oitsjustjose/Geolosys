@@ -9,6 +9,7 @@
 * FIXED: Ore converter converting Osmium to Uranium
 * FIXED: Propick doesn't take damage if creative
 * FIXED: Wrong metadata of stone defaulting in the replacement materials config (should be 0, 1, 3 and 5 - not 0, 1, 2 and 3).
+* FIXED: Stone entries generating in the nether and end. I might eventually just use a dimension blacklist system for this too...
 
 ### 2.0.0:
 * NEW: Prospector's Pick *can* have a configurable durability (if enabled!)
