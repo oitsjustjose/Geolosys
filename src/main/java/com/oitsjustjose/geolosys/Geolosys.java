@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-import com.oitsjustjose.geolosys.client.TranslationManager;
+import com.oitsjustjose.geolosys.common.util.TranslationManager;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;

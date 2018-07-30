@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.client;
+package com.oitsjustjose.geolosys.common.util;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.client.Minecraft;

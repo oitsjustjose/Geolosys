@@ -3,7 +3,6 @@ package com.oitsjustjose.geolosys.common.items;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.client.TranslationManager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,10 +16,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,6 +29,7 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ItemProPick extends Item
@@ -96,8 +96,7 @@ public class ItemProPick extends Item
         return (ModConfig.prospecting.enableProPickDamage && stack.hasTagCompound());
     }
 
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public void attemptDamageItem(EntityPlayer player, BlockPos pos, EnumHand hand, World worldIn)
     {
         if (ModConfig.prospecting.enableProPickDamage && !player.capabilities.isCreativeMode)
         {
@@ -117,10 +116,21 @@ public class ItemProPick extends Item
                 }
             }
         }
-        player.swingArm(hand);
+    }
 
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        this.attemptDamageItem(player, pos, hand, worldIn);
+        // At surface or higher
+        if (worldIn.isRemote)
+        {
+            player.swingArm(hand);
+            return EnumActionResult.PASS;
+        }
         if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
         {
+            String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
             for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
             {
                 ChunkPos tempPos = new ChunkPos(pos);
@@ -131,13 +141,13 @@ public class ItemProPick extends Item
                         if (chunkPos.getDimension() == worldIn.provider.getDimension())
                         {
                             String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
-                            Geolosys.proxy.sendProPickMessage(player, new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])), "geolosys.pro_pick.tooltip.found");
-                            return EnumActionResult.SUCCESS;
+                            depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
+                            break;
                         }
                     }
                 }
             }
-            Geolosys.proxy.sendProPickMessage(player, ItemStack.EMPTY, "No deposits in this area");
+            player.sendStatusMessage(new TextComponentString(depositInChunk), true);
         }
         else
         {
@@ -188,7 +198,6 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = -confAmt;
                     zEnd = 0;
-
                     found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                     break;
                 case EAST:
@@ -198,7 +207,6 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-
                     found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                     break;
                 case WEST:
@@ -213,9 +221,10 @@ public class ItemProPick extends Item
             }
             if (!found)
             {
-                Geolosys.proxy.sendProPickMessage(player, ItemStack.EMPTY, "geolosys.pro_pick.tooltip.nonefound");
+                player.sendStatusMessage(new TextComponentString(I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound")), true);
             }
         }
+        player.swingArm(hand);
         return EnumActionResult.SUCCESS;
     }
 
