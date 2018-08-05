@@ -68,7 +68,7 @@ public class StoneGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
             {
                 return;
             }

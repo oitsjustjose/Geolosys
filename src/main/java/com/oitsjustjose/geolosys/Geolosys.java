@@ -292,10 +292,4 @@ public class Geolosys
         }
         return getOresConfig(configDir);
     }
-
-    @EventHandler
-    public void serverStarted(FMLServerStartedEvent event)
-    {
-        GeolosysAPI.readFromFile();
-    }
 }

@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.blocks.BlockSample;
 import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -39,9 +40,9 @@ public class ChunkData
         }
     }
 
-    public boolean canGenerateInChunk(ChunkPos pos, int dimension)
+    public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension)
     {
-        return !GeolosysAPI.getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
+        return !GeolosysSaveData.get(world).getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
     }
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)

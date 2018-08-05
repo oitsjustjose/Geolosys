@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
@@ -72,7 +73,7 @@ public class OreGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
             {
                 return;
             }
@@ -95,8 +96,8 @@ public class OreGenerator implements IWorldGenerator
                 }
 
                 pluton.generate(world, rand, new BlockPos(x, y, z));
-                GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
-                GeolosysAPI.writeToFile();
+                GeolosysSaveData.get(world).putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
+                GeolosysSaveData.get(world).markDirty();
                 Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;

@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,6 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class ItemProPick extends Item
@@ -128,10 +128,10 @@ public class ItemProPick extends Item
             player.swingArm(hand);
             return EnumActionResult.PASS;
         }
-        if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
+        if (pos.getY() >= worldIn.getSeaLevel())
         {
             String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
-            for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
+            for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().keySet())
             {
                 ChunkPos tempPos = new ChunkPos(pos);
                 if (chunkPos.getX() == tempPos.x)
@@ -140,7 +140,7 @@ public class ItemProPick extends Item
                     {
                         if (chunkPos.getDimension() == worldIn.provider.getDimension())
                         {
-                            String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
+                            String rawName = GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().get(chunkPos);
                             depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
                             break;
                         }

@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.compat;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
@@ -29,7 +30,7 @@ public class OreConverter
         {
             return;
         }
-        if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), event.getEntity().getEntityWorld().provider.getDimension()))
+        if (GeolosysSaveData.get(event.getEntity().getEntityWorld()).hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), event.getEntity().getEntityWorld().provider.getDimension()))
         {
             return;
         }
@@ -53,8 +54,8 @@ public class OreConverter
                 }
             }
         }
-        GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), world.provider.getDimension());
-        GeolosysAPI.writeToFile();
+        GeolosysSaveData.get(world).markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), world.provider.getDimension());
+        GeolosysSaveData.get(world).markDirty();
     }
 
 
