@@ -164,13 +164,11 @@ public class GeolosysSaveData extends WorldSavedData
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : currentWorldDepositsDeprecated.entrySet())
             {
-                Geolosys.getInstance().LOGGER.info(e.getKey() + "=" + e.getValue());
                 currentWorldDeposits.put(e.getKey(), e.getValue());
             }
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : regennedChunksDeprecated.entrySet())
             {
-                Geolosys.getInstance().LOGGER.info(e.getKey() + "=" + e.getValue());
                 regennedChunks.put(e.getKey(), e.getValue());
             }
 
@@ -181,13 +179,12 @@ public class GeolosysSaveData extends WorldSavedData
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        Geolosys.getInstance().LOGGER.info("Reading from NBT");
-
         if (hasOldFiles)
         {
-            Geolosys.getInstance().LOGGER.info("Converting old files");
-
+            Geolosys.getInstance().LOGGER.info("Geolosys is converting old persistent files into Forge World Data.");
             this.convertFromOld(compound);
+            Geolosys.getInstance().LOGGER.info("Geolosys World Data conversion complete!");
+
         }
         if (compound.hasKey("currentWorldDeposits"))
         {
@@ -206,15 +203,11 @@ public class GeolosysSaveData extends WorldSavedData
                 regennedChunks.put(GeolosysAPI.chunkPosSerializableFromString(s), compDeposits.getBoolean(s));
             }
         }
-
-        Geolosys.getInstance().LOGGER.info("Done reading");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
-        Geolosys.getInstance().LOGGER.info("Writing to NBT");
-
         if (!compound.hasKey("currentWorldDeposits"))
         {
             compound.setTag("currentWorldDeposits", new NBTTagCompound());
@@ -236,8 +229,6 @@ public class GeolosysSaveData extends WorldSavedData
         {
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
         }
-
-        Geolosys.getInstance().LOGGER.info("Done writing");
         return compound;
     }
 
