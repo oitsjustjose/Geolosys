@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import com.oitsjustjose.geolosys.common.util.MineralTracker;
 import com.oitsjustjose.geolosys.common.util.TranslationManager;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraftforge.fml.relauncher.Side;
@@ -95,6 +96,7 @@ public class Geolosys
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
+        MinecraftForge.EVENT_BUS.register(new MineralTracker());
         chunkOreGen = new ChunkData();
         if (event.getSide() == Side.CLIENT)
         {

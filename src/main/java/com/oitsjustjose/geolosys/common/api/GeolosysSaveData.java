@@ -2,7 +2,9 @@ package com.oitsjustjose.geolosys.common.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
@@ -10,6 +12,7 @@ import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +21,8 @@ public class GeolosysSaveData extends WorldSavedData
 {
     private HashMap<GeolosysAPI.ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private LinkedHashMap<GeolosysAPI.ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
+    public HashMap<ChunkPos, ArrayList<BlockPos>> mineralMap = new HashMap<>();
+
     private boolean hasOldFiles;
 
     /**
@@ -194,14 +199,30 @@ public class GeolosysSaveData extends WorldSavedData
                 currentWorldDeposits.put(GeolosysAPI.chunkPosSerializableFromString(s), compDeposits.getString(s));
             }
         }
-
         if (compound.hasKey("regennedChunks"))
         {
-            NBTTagCompound compDeposits = compound.getCompoundTag("regennedChunks");
-            for (String s : compDeposits.getKeySet())
+            NBTTagCompound compRegenned = compound.getCompoundTag("regennedChunks");
+            for (String s : compRegenned.getKeySet())
             {
-                regennedChunks.put(GeolosysAPI.chunkPosSerializableFromString(s), compDeposits.getBoolean(s));
+                regennedChunks.put(GeolosysAPI.chunkPosSerializableFromString(s), compRegenned.getBoolean(s));
             }
+        }
+        if (compound.hasKey("mineralMap"))
+        {
+            NBTTagCompound compMineralMap = compound.getCompoundTag("mineralMap");
+            for (String chunkPosAsString : compMineralMap.getKeySet())
+            {
+                ArrayList<BlockPos> posList = new ArrayList<>();
+
+                for (String s : compMineralMap.getCompoundTag(chunkPosAsString).getKeySet())
+                {
+                    int[] posArr = compMineralMap.getCompoundTag(chunkPosAsString).getIntArray(s);
+                    posList.add(new BlockPos(posArr[0], posArr[1], posArr[2]));
+                }
+                mineralMap.put(fromString(chunkPosAsString), posList);
+            }
+
+            System.out.println(mineralMap);
         }
     }
 
@@ -213,7 +234,6 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("currentWorldDeposits", new NBTTagCompound());
         }
         NBTTagCompound compDeposits = compound.getCompoundTag("currentWorldDeposits");
-
         for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : currentWorldDeposits.entrySet())
         {
             compDeposits.setString(e.getKey().toString(), e.getValue());
@@ -224,12 +244,32 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("regennedChunks", new NBTTagCompound());
         }
         NBTTagCompound regenDeposits = compound.getCompoundTag("regennedChunks");
-
         for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : regennedChunks.entrySet())
         {
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
         }
+
+        if (!compound.hasKey("mineralMap"))
+        {
+            compound.setTag("mineralMap", new NBTTagCompound());
+        }
+        NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
+        for (Map.Entry<ChunkPos, ArrayList<BlockPos>> e : mineralMap.entrySet())
+        {
+            minMap.setTag(e.getKey().toString(), new NBTTagCompound());
+            for (int i = 0; i < e.getValue().size(); i++)
+            {
+                minMap.getCompoundTag(e.getKey().toString()).setIntArray("" + i, new int[]{e.getValue().get(i).getX(), e.getValue().get(i).getY(), e.getValue().get(i).getZ()});
+            }
+        }
+
         return compound;
+    }
+
+    private ChunkPos fromString(String s)
+    {
+        String[] parts = s.replace("[", "").replace("]", "").replace(" ", "").split(",");
+        return new ChunkPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
     }
 
     public static GeolosysSaveData get(World world)

@@ -95,6 +95,7 @@ public class OreGenerator implements IWorldGenerator
                     y /= 2;
                 }
 
+                GeolosysSaveData.get(world).mineralMap.put(new ChunkPos(x / 16, z / 16), new ArrayList<>());
                 pluton.generate(world, rand, new BlockPos(x, y, z));
                 GeolosysSaveData.get(world).putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
                 GeolosysSaveData.get(world).markDirty();
@@ -111,12 +112,12 @@ public class OreGenerator implements IWorldGenerator
          */
         private boolean doesOreHaveSpecialMatchers(IBlockState state)
         {
-        	for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
+            for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
             {
-        		if (Utils.doStatesMatch(iBlockState, state))
-        		{
-        			return true;
-        		}
+                if (Utils.doStatesMatch(iBlockState, state))
+                {
+                    return true;
+                }
             }
             return false;
         }

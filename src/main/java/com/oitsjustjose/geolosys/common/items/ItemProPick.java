@@ -131,22 +131,27 @@ public class ItemProPick extends Item
         if (pos.getY() >= worldIn.getSeaLevel())
         {
             String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
-            for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().keySet())
+            ChunkPos tempPos = new ChunkPos(pos);
+
+            if (GeolosysSaveData.get(worldIn).mineralMap.get(tempPos) != null)
             {
-                ChunkPos tempPos = new ChunkPos(pos);
-                if (chunkPos.getX() == tempPos.x)
+                for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().keySet())
                 {
-                    if (chunkPos.getZ() == tempPos.z)
+                    if (chunkPos.getX() == tempPos.x)
                     {
-                        if (chunkPos.getDimension() == worldIn.provider.getDimension())
+                        if (chunkPos.getZ() == tempPos.z)
                         {
-                            String rawName = GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().get(chunkPos);
-                            depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
-                            break;
+                            if (chunkPos.getDimension() == worldIn.provider.getDimension())
+                            {
+                                String rawName = GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().get(chunkPos);
+                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
+                                break;
+                            }
                         }
                     }
                 }
             }
+
             player.sendStatusMessage(new TextComponentString(depositInChunk), true);
         }
         else

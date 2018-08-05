@@ -1,16 +1,16 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.List;
-import java.util.Random;
-
+import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+
+import java.util.List;
+import java.util.Random;
 
 public class WorldGenMinableSafe extends WorldGenerator
 {
@@ -91,14 +91,22 @@ public class WorldGenMinableSafe extends WorldGenerator
                                         IBlockState state = worldIn.getBlockState(blockpos);
                                         if (state != null)
                                         {
-                                        	for (IBlockState iBlockState : matchers)
-                                        	{
-                                        		if (Utils.doStatesMatch(iBlockState, state))
-                                        		{
-                                        			worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
-                                        			break;
-                                        		}
-                                        	}
+                                            for (IBlockState iBlockState : matchers)
+                                            {
+                                                if (Utils.doStatesMatch(iBlockState, state))
+                                                {
+                                                    if( GeolosysSaveData.get(worldIn).mineralMap.get(new ChunkPos(blockpos)) == null)
+                                                    {
+                                                        toDoBlocks.storePending(blockpos, this.oreBlock);
+                                                    }
+                                                    else
+                                                    {
+                                                        GeolosysSaveData.get(worldIn).mineralMap.get(new ChunkPos(blockpos)).add(blockpos);
+                                                        worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     else
