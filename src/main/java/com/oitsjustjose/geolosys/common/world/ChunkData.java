@@ -42,7 +42,7 @@ public class ChunkData
 
     public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension)
     {
-        return !GeolosysSaveData.get(world).getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
+        return !GeolosysAPI.getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
     }
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)

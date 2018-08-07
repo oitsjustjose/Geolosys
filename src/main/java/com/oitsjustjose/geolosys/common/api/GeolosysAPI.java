@@ -6,6 +6,7 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
 import java.io.*;
@@ -30,6 +31,134 @@ public class GeolosysAPI
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
     // A K:V pair of IBlockStates with their sample sizes
     public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
+
+    private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
+    private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
+    public static HashMap<ChunkPos, ArrayList<BlockPos>> mineralMap = new HashMap<>();
+
+
+    /**
+     * @param pos   The Mojang ChunkPos to act as a key
+     * @param state The String to act as a value
+     */
+    public static void putWorldDeposit(ChunkPos pos, int dimension, String state)
+    {
+        currentWorldDeposits.put(new ChunkPosSerializable(pos, dimension), state);
+        if (ModConfig.featureControl.debugGeneration)
+        {
+            int total = 0;
+            for (ChunkPosSerializable chunk : currentWorldDeposits.keySet())
+            {
+                if (currentWorldDeposits.get(chunk).equals(state))
+                {
+                    total++;
+                }
+            }
+            Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
+            Geolosys.getInstance().LOGGER.info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
+        }
+    }
+
+    /**
+     * @param pos   The ChunkPosSerializable to act as a key
+     * @param state The String to act as a value
+     */
+    public static void putWorldDeposit(ChunkPosSerializable pos, String state)
+    {
+        currentWorldDeposits.put(pos, state);
+    }
+
+    /**
+     * @param posAsString The ChunkPosSerializable in its toString() form
+     * @param state       The String to act as a value
+     */
+    public static void putWorldDeposit(String posAsString, String state)
+    {
+        String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
+        currentWorldDeposits.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])), state);
+    }
+
+    /**
+     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
+     */
+    @SuppressWarnings("unchecked")
+    public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits()
+    {
+        return (HashMap<ChunkPosSerializable, String>) currentWorldDeposits.clone();
+    }
+
+    /**
+     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
+     */
+    @SuppressWarnings("unchecked")
+    public static HashMap<ChunkPosSerializable, Boolean> getRegennedChunks()
+    {
+        return (HashMap<ChunkPosSerializable, Boolean>) regennedChunks.clone();
+    }
+
+    /**
+     * Marks a chunk as having been regenerated
+     * - this is for the "Retroactively replace existing ores in world" option
+     *
+     * @param posAsString The ChunkPosSerializeable in toString() form to add
+     */
+    public static void markChunkRegenned(String posAsString)
+    {
+        String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
+        markChunkRegenned(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+    }
+
+
+    /**
+     * Marks a chunk as having been regenerated
+     * - this is for the "Retroactively replace existing ores in world" option
+     *
+     * @param pos The ChunkPos to add to
+     */
+    public static void markChunkRegenned(ChunkPos pos, int dimension)
+    {
+        markChunkRegenned(new ChunkPosSerializable(pos, dimension));
+    }
+
+    /**
+     * Marks a chunk as having been regenerated
+     * - this is for the "Retroactively replace existing ores in world" option
+     *
+     * @param pos The ChunkPosSerializeable to add to
+     */
+    public static void markChunkRegenned(ChunkPosSerializable pos)
+    {
+        regennedChunks.put(pos, true);
+    }
+
+    /**
+     * Checks if a chunk has been retroactively replaced with Geolosys ores
+     *
+     * @param pos The ChunkPos to check
+     * @return True if the chunk is in the map and has been marked as regenned
+     */
+    public static boolean hasChunkRegenned(ChunkPos pos, int dimension)
+    {
+        return hasChunkRegenned(new ChunkPosSerializable(pos, dimension));
+    }
+
+    /**
+     * Checks if a chunk has been retroactively replaced with Geolosys ores
+     *
+     * @param pos The ChunkPos to check
+     * @return True if the chunk is in the map and has been marked as regenned
+     */
+    public static boolean hasChunkRegenned(ChunkPosSerializable pos)
+    {
+        for (ChunkPosSerializable c : regennedChunks.keySet())
+        {
+            if (c.getX() == pos.getX() && c.getZ() == pos.getZ() && c.getDimension() == pos.getDimension())
+            {
+                return regennedChunks.get(c);
+            }
+        }
+        return false;
+    }
 
 
     /**
@@ -133,12 +262,6 @@ public class GeolosysAPI
             e.printStackTrace();
         }
         return currentWorldDepositsDeprecated;
-    }
-
-    public static ChunkPosSerializable chunkPosSerializableFromString(String fromString)
-    {
-        String[] parts = fromString.replace("[", "").replace("]", "").split(",");
-        return new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
     }
 
     /**

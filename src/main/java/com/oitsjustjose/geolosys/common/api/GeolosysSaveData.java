@@ -1,8 +1,6 @@
 package com.oitsjustjose.geolosys.common.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -19,60 +17,7 @@ import java.util.Map;
 
 public class GeolosysSaveData extends WorldSavedData
 {
-    private HashMap<GeolosysAPI.ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
-    private LinkedHashMap<GeolosysAPI.ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
-    public HashMap<ChunkPos, ArrayList<BlockPos>> mineralMap = new HashMap<>();
-
     private boolean hasOldFiles;
-
-    /**
-     * @param pos   The Mojang ChunkPos to act as a key
-     * @param state The String to act as a value
-     */
-    public void putWorldDeposit(ChunkPos pos, int dimension, String state)
-    {
-        currentWorldDeposits.put(new GeolosysAPI.ChunkPosSerializable(pos, dimension), state);
-        if (ModConfig.featureControl.debugGeneration)
-        {
-            int total = 0;
-            for (GeolosysAPI.ChunkPosSerializable chunk : currentWorldDeposits.keySet())
-            {
-                if (currentWorldDeposits.get(chunk).equals(state))
-                {
-                    total++;
-                }
-            }
-            Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
-            Geolosys.getInstance().LOGGER.info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
-        }
-    }
-
-    /**
-     * @param pos   The ChunkPosSerializable to act as a key
-     * @param state The String to act as a value
-     */
-    public void putWorldDeposit(GeolosysAPI.ChunkPosSerializable pos, String state)
-    {
-        currentWorldDeposits.put(pos, state);
-    }
-
-    /**
-     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
-     */
-    @SuppressWarnings("unchecked")
-    public HashMap<GeolosysAPI.ChunkPosSerializable, String> getCurrentWorldDeposits()
-    {
-        return (HashMap<GeolosysAPI.ChunkPosSerializable, String>) currentWorldDeposits.clone();
-    }
-
-    /**
-     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
-     */
-    @SuppressWarnings("unchecked")
-    public HashMap<GeolosysAPI.ChunkPosSerializable, Boolean> getRegennedChunks()
-    {
-        return (HashMap<GeolosysAPI.ChunkPosSerializable, Boolean>) regennedChunks.clone();
-    }
 
     public GeolosysSaveData()
     {
@@ -86,57 +31,6 @@ public class GeolosysSaveData extends WorldSavedData
         super(s);
         this.markDirty();
         this.hasOldFiles = (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists() || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat")).exists();
-    }
-
-    /**
-     * Marks a chunk as having been regenerated
-     * - this is for the "Retroactively replace existing ores in world" option
-     *
-     * @param pos The ChunkPos to add to
-     */
-    public void markChunkRegenned(ChunkPos pos, int dimension)
-    {
-        markChunkRegenned(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
-    }
-
-    /**
-     * Marks a chunk as having been regenerated
-     * - this is for the "Retroactively replace existing ores in world" option
-     *
-     * @param pos The ChunkPosSerializeable to add to
-     */
-    public void markChunkRegenned(GeolosysAPI.ChunkPosSerializable pos)
-    {
-        regennedChunks.put(pos, true);
-    }
-
-    /**
-     * Checks if a chunk has been retroactively replaced with Geolosys ores
-     *
-     * @param pos The ChunkPos to check
-     * @return True if the chunk is in the map and has been marked as regenned
-     */
-    public boolean hasChunkRegenned(ChunkPos pos, int dimension)
-    {
-        return hasChunkRegenned(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
-    }
-
-    /**
-     * Checks if a chunk has been retroactively replaced with Geolosys ores
-     *
-     * @param pos The ChunkPos to check
-     * @return True if the chunk is in the map and has been marked as regenned
-     */
-    public boolean hasChunkRegenned(GeolosysAPI.ChunkPosSerializable pos)
-    {
-        for (GeolosysAPI.ChunkPosSerializable c : regennedChunks.keySet())
-        {
-            if (c.getX() == pos.getX() && c.getZ() == pos.getZ() && c.getDimension() == pos.getDimension())
-            {
-                return regennedChunks.get(c);
-            }
-        }
-        return false;
     }
 
     @SuppressWarnings("unchecked")
@@ -169,12 +63,15 @@ public class GeolosysSaveData extends WorldSavedData
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : currentWorldDepositsDeprecated.entrySet())
             {
-                currentWorldDeposits.put(e.getKey(), e.getValue());
+                GeolosysAPI.putWorldDeposit(e.getKey(), e.getValue());
             }
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : regennedChunksDeprecated.entrySet())
             {
-                regennedChunks.put(e.getKey(), e.getValue());
+                if (e.getValue())
+                {
+                    GeolosysAPI.markChunkRegenned(e.getKey());
+                }
             }
 
             this.writeToNBT(nbt);
@@ -196,7 +93,7 @@ public class GeolosysSaveData extends WorldSavedData
             NBTTagCompound compDeposits = compound.getCompoundTag("currentWorldDeposits");
             for (String s : compDeposits.getKeySet())
             {
-                currentWorldDeposits.put(GeolosysAPI.chunkPosSerializableFromString(s), compDeposits.getString(s));
+                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s));
             }
         }
         if (compound.hasKey("regennedChunks"))
@@ -204,7 +101,10 @@ public class GeolosysSaveData extends WorldSavedData
             NBTTagCompound compRegenned = compound.getCompoundTag("regennedChunks");
             for (String s : compRegenned.getKeySet())
             {
-                regennedChunks.put(GeolosysAPI.chunkPosSerializableFromString(s), compRegenned.getBoolean(s));
+                if (compRegenned.getBoolean(s))
+                {
+                    GeolosysAPI.markChunkRegenned(s);
+                }
             }
         }
         if (compound.hasKey("mineralMap"))
@@ -219,10 +119,8 @@ public class GeolosysSaveData extends WorldSavedData
                     int[] posArr = compMineralMap.getCompoundTag(chunkPosAsString).getIntArray(s);
                     posList.add(new BlockPos(posArr[0], posArr[1], posArr[2]));
                 }
-                mineralMap.put(fromString(chunkPosAsString), posList);
+                GeolosysAPI.mineralMap.put(fromString(chunkPosAsString), posList);
             }
-
-            System.out.println(mineralMap);
         }
     }
 
@@ -234,7 +132,7 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("currentWorldDeposits", new NBTTagCompound());
         }
         NBTTagCompound compDeposits = compound.getCompoundTag("currentWorldDeposits");
-        for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : currentWorldDeposits.entrySet())
+        for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : GeolosysAPI.getCurrentWorldDeposits().entrySet())
         {
             compDeposits.setString(e.getKey().toString(), e.getValue());
         }
@@ -244,7 +142,7 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("regennedChunks", new NBTTagCompound());
         }
         NBTTagCompound regenDeposits = compound.getCompoundTag("regennedChunks");
-        for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : regennedChunks.entrySet())
+        for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : GeolosysAPI.getRegennedChunks().entrySet())
         {
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
         }
@@ -254,7 +152,7 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("mineralMap", new NBTTagCompound());
         }
         NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
-        for (Map.Entry<ChunkPos, ArrayList<BlockPos>> e : mineralMap.entrySet())
+        for (Map.Entry<ChunkPos, ArrayList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
         {
             minMap.setTag(e.getKey().toString(), new NBTTagCompound());
             for (int i = 0; i < e.getValue().size(); i++)

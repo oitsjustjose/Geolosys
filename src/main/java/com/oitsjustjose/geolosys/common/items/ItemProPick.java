@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -128,14 +127,16 @@ public class ItemProPick extends Item
             player.swingArm(hand);
             return EnumActionResult.PASS;
         }
-        if (pos.getY() >= worldIn.getSeaLevel())
+        if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
         {
             String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
             ChunkPos tempPos = new ChunkPos(pos);
 
-            if (GeolosysSaveData.get(worldIn).mineralMap.get(tempPos) != null)
+            if (GeolosysAPI.mineralMap.get(tempPos) != null)
             {
-                for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().keySet())
+                System.out.println(GeolosysAPI.mineralMap.get(tempPos));
+
+                for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
                 {
                     if (chunkPos.getX() == tempPos.x)
                     {
@@ -143,7 +144,7 @@ public class ItemProPick extends Item
                         {
                             if (chunkPos.getDimension() == worldIn.provider.getDimension())
                             {
-                                String rawName = GeolosysSaveData.get(worldIn).getCurrentWorldDeposits().get(chunkPos);
+                                String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
                                 depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
                                 break;
                             }

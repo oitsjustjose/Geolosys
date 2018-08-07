@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -95,16 +96,12 @@ public class WorldGenMinableSafe extends WorldGenerator
                                             {
                                                 if (Utils.doStatesMatch(iBlockState, state))
                                                 {
-                                                    if( GeolosysSaveData.get(worldIn).mineralMap.get(new ChunkPos(blockpos)) == null)
+                                                    GeolosysAPI.mineralMap.computeIfAbsent(new ChunkPos(blockpos), k2 -> new ArrayList<>());
+                                                    if (worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16))
                                                     {
-                                                        toDoBlocks.storePending(blockpos, this.oreBlock);
+                                                        GeolosysAPI.mineralMap.get(new ChunkPos(blockpos)).add(blockpos);
                                                     }
-                                                    else
-                                                    {
-                                                        GeolosysSaveData.get(worldIn).mineralMap.get(new ChunkPos(blockpos)).add(blockpos);
-                                                        worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
-                                                        break;
-                                                    }
+                                                    break;
                                                 }
                                             }
                                         }

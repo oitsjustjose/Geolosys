@@ -30,7 +30,7 @@ public class OreConverter
         {
             return;
         }
-        if (GeolosysSaveData.get(event.getEntity().getEntityWorld()).hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), event.getEntity().getEntityWorld().provider.getDimension()))
+        if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), event.getEntity().getEntityWorld().provider.getDimension()))
         {
             return;
         }
@@ -54,7 +54,7 @@ public class OreConverter
                 }
             }
         }
-        GeolosysSaveData.get(world).markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), world.provider.getDimension());
+        GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), world.provider.getDimension());
         GeolosysSaveData.get(world).markDirty();
     }
 

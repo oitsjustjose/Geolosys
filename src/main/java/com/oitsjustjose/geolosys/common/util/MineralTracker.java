@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.util;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import net.minecraft.block.state.IBlockState;
@@ -14,14 +15,19 @@ public class MineralTracker
     {
         for (IBlockState state : GeolosysAPI.oreBlocks.keySet())
         {
-            if (state.getBlock() == event.getState().getBlock() && state.getBlock().getMetaFromState(state) == event.getState().getBlock().getMetaFromState(event.getState()))
+            if (Utils.doStatesMatch(state, event.getState()))
             {
-                GeolosysSaveData.get(event.getWorld()).mineralMap.get(new ChunkPos(event.getPos())).remove(event.getPos());
-                if (GeolosysSaveData.get(event.getWorld()).mineralMap.get(new ChunkPos(event.getPos())).size() == 0)
+                if(GeolosysAPI.mineralMap.get(new ChunkPos(event.getPos())) != null)
                 {
-                    GeolosysSaveData.get(event.getWorld()).mineralMap.remove(new ChunkPos(event.getPos()));
+                    GeolosysAPI.mineralMap.get(new ChunkPos(event.getPos())).remove(event.getPos());
+                    if (GeolosysAPI.mineralMap.get(new ChunkPos(event.getPos())).size() == 0)
+                    {
+                        GeolosysAPI.mineralMap.remove(new ChunkPos(event.getPos()));
+                        Geolosys.getInstance().LOGGER.info("Removed entire chunk from mineralMap");
+                    }
+                    Geolosys.getInstance().LOGGER.info("Removed thing from mineralMap, marking dirty");
+                    GeolosysSaveData.get(event.getWorld()).markDirty();
                 }
-                GeolosysSaveData.get(event.getWorld()).markDirty();
             }
         }
     }
