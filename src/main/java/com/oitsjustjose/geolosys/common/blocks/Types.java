@@ -108,9 +108,10 @@ public class Types
         {
             this.meta = meta;
             this.toolLevel = toolLevel;
-            this.serializedName = name;
-            this.unlocalizedName = unlocalizedName;
+            this.serializedName = (meta == 0 && ModConfig.featureControl.vanillaMode) ? name + "_vanilla" : name;
+            this.unlocalizedName = (meta == 0 && ModConfig.featureControl.vanillaMode) ? unlocalizedName + "_vanilla" : unlocalizedName;
             this.resource = resource;
+
         }
 
         public static Modded byMetadata(int meta)

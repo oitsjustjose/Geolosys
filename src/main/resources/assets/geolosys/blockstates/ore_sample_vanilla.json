@@ -37,7 +37,7 @@
       },
       "quartz_vanilla": {
         "textures": {
-          "all": "minecraft:blocks/quartz_ore"
+          "all": "geolosys:blocks/quartz_vanilla"
         }
       },
       "kimberlite_vanilla": {

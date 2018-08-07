@@ -53,7 +53,7 @@ geolosys.ore_sample_vanilla.lapis_vanilla.name=Lapis Lazuli Sample
 geolosys.ore_sample_vanilla.quartz_vanilla.name=Quartz Sample
 geolosys.ore_sample_vanilla.kimberlite_vanilla.name=Diamond Sample
 geolosys.ore_sample_vanilla.beryl_vanilla.name=Emerald Sample
-
+geolosys.ore_sample.hematite_vanilla.name=Iron Sample
 
 geolosys.ore_vanilla.coal_vanilla.name=Coal Ore
 geolosys.ore_vanilla.cinnabar_vanilla.name=Redstone Ore
@@ -62,6 +62,7 @@ geolosys.ore_vanilla.lapis_vanilla.name=Lazuli Ore
 geolosys.ore_vanilla.quartz_vanilla.name=Quartz Ore
 geolosys.ore_vanilla.kimberlite_vanilla.name=Diamond Ore
 geolosys.ore_vanilla.beryl_vanilla.name=Emerald Ore
+geolosys.ore.hematite_vanilla.name=Iron Ore
 
 # ------------------------------------ #
 #             Clusters                 #

@@ -12,6 +12,11 @@
       {}
     ],
     "variant": {
+      "hematite_vanilla": {
+        "textures": {
+          "all": "minecraft:blocks/iron_ore"
+        }
+      },
       "hematite": {
         "textures": {
           "all": "geolosys:blocks/hematite"
