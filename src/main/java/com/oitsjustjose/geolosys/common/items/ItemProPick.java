@@ -127,7 +127,7 @@ public class ItemProPick extends Item
             player.swingArm(hand);
             return EnumActionResult.PASS;
         }
-        if (pos.getY() >= worldIn.provider.getAverageGroundLevel())
+        if (player.getPosition().getY() >= player.world.getSeaLevel())
         {
             String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
             ChunkPos tempPos = new ChunkPos(pos);

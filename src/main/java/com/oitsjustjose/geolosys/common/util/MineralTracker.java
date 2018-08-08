@@ -23,9 +23,7 @@ public class MineralTracker
                     if (GeolosysAPI.mineralMap.get(new ChunkPos(event.getPos())).size() == 0)
                     {
                         GeolosysAPI.mineralMap.remove(new ChunkPos(event.getPos()));
-                        Geolosys.getInstance().LOGGER.info("Removed entire chunk from mineralMap");
                     }
-                    Geolosys.getInstance().LOGGER.info("Removed thing from mineralMap, marking dirty");
                     GeolosysSaveData.get(event.getWorld()).markDirty();
                 }
             }
