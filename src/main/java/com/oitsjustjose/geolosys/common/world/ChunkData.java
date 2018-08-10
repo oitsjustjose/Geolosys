@@ -42,7 +42,8 @@ public class ChunkData
 
     public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension)
     {
-        return !GeolosysAPI.getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
+        // Return true if the dimension is -9999; the default ExU Mining Dim
+        return dimension == -9999 || !GeolosysAPI.getCurrentWorldDeposits().keySet().contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
     }
 
     private BlockPos getSamplePos(World world, ChunkPos chunkPos)
