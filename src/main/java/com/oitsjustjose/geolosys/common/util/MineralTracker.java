@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.util;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import net.minecraft.block.state.IBlockState;
