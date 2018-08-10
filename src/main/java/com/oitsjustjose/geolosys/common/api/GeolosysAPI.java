@@ -8,6 +8,7 @@ import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -226,6 +227,10 @@ public class GeolosysAPI
         replacementMats.add(stoneBlock);
     }
 
+    /**
+     * @param file The file object used to load up the DEPRECATED regenned chunks
+     * @return the LinkedHashMap of regenned chunks for conversion to new WorldData model
+     */
     @SuppressWarnings("unchecked")
     public static LinkedHashMap<ChunkPosSerializable, Boolean> getRegennedChunks(File file)
     {
@@ -245,6 +250,10 @@ public class GeolosysAPI
         return regennedChunksDeprecated;
     }
 
+    /**
+     * @param file The file object used to load up the DEPRECATED deposits
+     * @return the HashMap of deposits for conversion to new WorldData model
+     */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, String> getDeposits(File file)
     {
@@ -263,6 +272,34 @@ public class GeolosysAPI
         }
         return currentWorldDepositsDeprecated;
     }
+
+    /**
+     * @param pos   The BlockPos (presumably an ore) to remove from the mineral map
+     * @param world The world object this occurs in
+     * @return true if able to remove the pos, false otherwise
+     */
+    public static boolean removeMineralFromMap(BlockPos pos, World world)
+    {
+        boolean ret = false;
+        ChunkPos chunkPos = new ChunkPos(pos);
+        if (mineralMap.get(chunkPos) != null)
+        {
+            ret = GeolosysAPI.mineralMap.get(chunkPos).remove(pos);
+            if (mineralMap.get(chunkPos).size() == 0)
+            {
+                mineralMap.remove(chunkPos);
+                Geolosys.getInstance().LOGGER.info("Removed chunkPos " + chunkPos + " from mineral map");
+            }
+            else
+            {
+                Geolosys.getInstance().LOGGER.info("Didn't remove it because the size was " + GeolosysAPI.mineralMap.get(chunkPos).size() + " expecting:");
+                Geolosys.getInstance().LOGGER.info(GeolosysAPI.mineralMap.get(chunkPos));
+            }
+            GeolosysSaveData.get(world).markDirty();
+        }
+        return ret;
+    }
+
 
     /**
      * ChunkPosSerializable is a serializable version of Mojang's ChunkPos
