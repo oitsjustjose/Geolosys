@@ -139,8 +139,15 @@ public class ModConfig
         @Config.RangeDouble(min = 0.1, max = 3.0)
         public float manualFontScale = 0.85F;
 
-        @Config.Name("Enable Prospector's Pickaxe to show Y-Level")
-        public boolean enableProPickYLevel = true;
+        @Config.Name("Prospector's Pick Depth HUD X")
+        @Config.Comment("The X coordinate that the Depth overlay displays at while holding a prospector's pick")
+        @Config.RangeInt(min = 0)
+        public int hudX = 2;
+
+        @Config.Name("Prospector's Pick Depth HUD Y")
+        @Config.Comment("The Y coordinate that the Depth overlay displays at while holding a prospector's pick")
+        @Config.RangeInt(min = 0)
+        public int hudY = 2;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)

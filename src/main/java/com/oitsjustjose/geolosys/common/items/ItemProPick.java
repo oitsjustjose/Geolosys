@@ -134,8 +134,6 @@ public class ItemProPick extends Item
 
             if (GeolosysAPI.mineralMap.get(tempPos) != null)
             {
-                System.out.println(GeolosysAPI.mineralMap.get(tempPos));
-
                 for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
                 {
                     if (chunkPos.getX() == tempPos.x)
@@ -265,7 +263,7 @@ public class ItemProPick extends Item
     @SideOnly(Side.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || !ModConfig.client.enableProPickYLevel)
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL)
         {
             return;
         }
@@ -275,18 +273,18 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            int level = (int) (Minecraft.getMinecraft().world.getSeaLevel() - mc.player.posY);
+            int level = (int) (mc.player.world.provider.getAverageGroundLevel() - mc.player.posY);
             if (level < 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level", 2, 2, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
             }
             else if (level == 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", 2, 2, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
             }
             else
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level", 2, 2, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
             }
             GlStateManager.color(1F, 1F, 1F, 1F);
         }
