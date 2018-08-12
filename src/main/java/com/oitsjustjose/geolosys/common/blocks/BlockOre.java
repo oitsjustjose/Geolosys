@@ -96,12 +96,12 @@ public class BlockOre extends Block
         else if (state.getBlock().getMetaFromState(state) == 6)
         {
             Random rand = new Random();
-            int rng = rand.nextInt(2);
-            if (rng == 0)
+            boolean rng = rand.nextBoolean();
+            if (rng)
             {
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER));
-                rng = rand.nextInt(2);
-                if (rng == 0)
+                rng = rand.nextBoolean();
+                if (rng)
                 {
                     drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
                 }
@@ -121,8 +121,8 @@ public class BlockOre extends Block
             else if (ModConfig.featureControl.enableOsmium)
             {
                 Random rand = new Random();
-                int rng = rand.nextInt(2);
-                if (rng == 0)
+                boolean rng = rand.nextBoolean();
+                if (rng)
                 {
                     drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
                 }
@@ -142,8 +142,8 @@ public class BlockOre extends Block
             if (ModConfig.featureControl.enableYellorium)
             {
                 Random rand = new Random();
-                int rng = rand.nextInt(2);
-                if (rng == 0)
+                boolean rng = rand.nextBoolean();
+                if (rng)
                 {
                     drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
                 }
