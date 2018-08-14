@@ -1,4 +1,4 @@
-![Logo](https://media.forgecdn.net/avatars/105/547/636353608904205710.png)
+![Logo](https://media.forgecdn.net/avatars/166/575/636698669149917062.png)
 
 Geolosys is a modpack-friendly version of TerraFirmaCraft ore generation. In essence, it is a simple mod that adds geological systems to Minecraft's world generation. It comes with an extensive config file (and GUI), and allows you to modify WorldGen greatly! With Geolosys, realistic mineral versions of common ores are added for many variants commonly used in modpacks.
 
