@@ -36,7 +36,7 @@ public class TranslationManager
             catch (StringIndexOutOfBoundsException e)
             {
                 in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/en_US.lang");
-                Geolosys.getInstance().LOGGER.info("Couldn't find langfile " + (lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase()) + ", defaulting to en_US");
+                Geolosys.getInstance().LOGGER.info("Couldn't find langfile " + lang.getLanguageCode() + ", defaulting to en_US");
             }
             if (in == null)
             {
