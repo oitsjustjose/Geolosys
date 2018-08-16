@@ -1,3 +1,6 @@
+### 2.1.1:
+* Fix Mojang's fuck ups
+
 ### 2.1.0:
 * NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+ packs or newcomers), and generates ores with their respective Vanilla variants.
 * NEW: Silk Touching a mod-based material now drops the first entry in the ore dictionary not from Geolosys (i.e.: silk-touching Geolosys Uranium with other mods offering uranium will drop one of those mods' uranium ore instead)

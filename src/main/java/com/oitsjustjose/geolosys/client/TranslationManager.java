@@ -28,7 +28,16 @@ public class TranslationManager
         for (Language lang : Minecraft.getMinecraft().getLanguageManager().getLanguages())
         {
             translations.put(lang.getLanguageCode(), new HashMap<>());
-            InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase() + ".lang");
+            InputStream in;
+            try
+            {
+                in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase() + ".lang");
+            }
+            catch (StringIndexOutOfBoundsException e)
+            {
+                in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/en_US.lang");
+                Geolosys.getInstance().LOGGER.info("Couldn't find langfile " + (lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase()) + ", defaulting to en_US");
+            }
             if (in == null)
             {
                 continue;
