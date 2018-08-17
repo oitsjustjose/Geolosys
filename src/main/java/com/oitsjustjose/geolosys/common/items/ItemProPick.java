@@ -263,7 +263,7 @@ public class ItemProPick extends Item
     @SideOnly(Side.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL)
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || Minecraft.getMinecraft().debugRenderer.shouldRender())
         {
             return;
         }
@@ -273,7 +273,7 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            int level = (int) (mc.player.world.provider.getAverageGroundLevel() - mc.player.posY);
+            int level = (int) (mc.player.world.getSeaLevel() - mc.player.posY);
             if (level < 0)
             {
                 mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
