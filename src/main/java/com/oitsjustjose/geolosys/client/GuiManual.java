@@ -6,7 +6,6 @@ import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
 import com.oitsjustjose.geolosys.common.manual.*;
-import com.oitsjustjose.geolosys.common.util.TranslationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;

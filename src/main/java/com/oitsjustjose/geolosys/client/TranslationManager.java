@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.util;
+package com.oitsjustjose.geolosys.client;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import net.minecraft.client.Minecraft;
@@ -24,20 +24,17 @@ public class TranslationManager
 
     private void loadLanguages()
     {
-        Geolosys.getInstance().LOGGER.info("[Geolosys] Caching languages");
+        Geolosys.getInstance().LOGGER.info("Caching languages");
         for (Language lang : Minecraft.getMinecraft().getLanguageManager().getLanguages())
         {
             translations.put(lang.getLanguageCode(), new HashMap<>());
-            InputStream in;
-            try
+            // Come on Mojang, how are you going to have a language code that doesn't correspond to the language?
+            if (!lang.getLanguageCode().contains("_"))
             {
-                in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase() + ".lang");
-            }
-            catch (StringIndexOutOfBoundsException e)
-            {
-                Geolosys.getInstance().LOGGER.info("Couldn't find langfile " + lang.getLanguageCode() + ", things may go badly.");
+                Geolosys.getInstance().LOGGER.info("Couldn't find langfile " + lang.getLanguageCode() + ", looks like Mojang messed up. This language's translations may not work correctly.");
                 continue;
             }
+            InputStream in = Geolosys.class.getResourceAsStream("/assets/geolosys/lang/" + lang.getLanguageCode().substring(0, lang.getLanguageCode().indexOf("_")) + lang.getLanguageCode().substring(lang.getLanguageCode().indexOf("_")).toUpperCase() + ".lang");
             if (in == null)
             {
                 continue;
@@ -57,7 +54,7 @@ public class TranslationManager
             {
             }
         }
-        Geolosys.getInstance().LOGGER.info("[Geolosys] Done caching languages!");
+        Geolosys.getInstance().LOGGER.info("Done caching languages!");
     }
 
     public String translate(String untranslated)
