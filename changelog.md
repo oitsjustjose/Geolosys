@@ -1,6 +1,7 @@
 ### 2.1.2:
 * FIX: broken imports that weren't actually crashing but absolutely should have (why not though? ¯\_(ツ)_/¯ )
 * FIX: log outputs with the Mineral tracking process; this was causing *lots* of lag.
+* CHANGED: storage method of internal variables to an almost-no-latency method; helps with mineral tracking too.
 
 ### 2.1.1:
 * FIX: Mojang's fuck ups
