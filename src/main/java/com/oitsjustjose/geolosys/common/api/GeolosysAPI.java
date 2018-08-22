@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.api;
 
-import com.google.common.collect.HashBiMap;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -37,8 +36,7 @@ public class GeolosysAPI
 
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
-    //    public static Hashtable<ChunkPos, ArrayList<BlockPos>> mineralMap = new Hashtable<>();
-    public static HashBiMap<ChunkPos, GlueList<BlockPos>> mineralMap = HashBiMap.create();
+    public static HashMap<ChunkPos, GlueList<BlockPos>> mineralMap = new HashMap<>();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
