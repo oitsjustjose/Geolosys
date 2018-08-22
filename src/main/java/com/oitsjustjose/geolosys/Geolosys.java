@@ -1,23 +1,9 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.annotation.Nonnull;
-
-import com.oitsjustjose.geolosys.common.util.MineralTracker;
-import com.oitsjustjose.geolosys.common.util.TranslationManager;
-import com.oitsjustjose.geolosys.common.util.Utils;
-import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oitsjustjose.geolosys.client.ClientRegistry;
+import com.oitsjustjose.geolosys.client.TranslationManager;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.blocks.BlockOre;
@@ -27,12 +13,10 @@ import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ConfigParser;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.items.ItemCluster;
-import com.oitsjustjose.geolosys.common.items.ItemCoal;
-import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
-import com.oitsjustjose.geolosys.common.items.ItemIngot;
-import com.oitsjustjose.geolosys.common.items.ItemProPick;
+import com.oitsjustjose.geolosys.common.items.*;
+import com.oitsjustjose.geolosys.common.util.MineralTracker;
 import com.oitsjustjose.geolosys.common.util.Recipes;
+import com.oitsjustjose.geolosys.common.util.Utils;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
@@ -40,7 +24,6 @@ import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
-
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -54,8 +37,12 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Nonnull;
+import java.io.*;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);after:contenttweaker;")
 public class Geolosys

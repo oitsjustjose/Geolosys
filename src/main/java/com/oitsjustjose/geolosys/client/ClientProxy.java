@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.client;
 
 import com.oitsjustjose.geolosys.common.CommonProxy;
-import com.oitsjustjose.geolosys.common.util.TranslationManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
