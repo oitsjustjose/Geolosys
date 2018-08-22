@@ -1,5 +1,9 @@
+### 2.1.2:
+* FIX: broken imports that weren't actually crashing but absolutely should have (why not though? ¯\_(ツ)_/¯ )
+* FIX: log outputs with the Mineral tracking process; this was causing *lots* of lag.
+
 ### 2.1.1:
-* Fix Mojang's fuck ups
+* FIX: Mojang's fuck ups
 
 ### 2.1.0:
 * NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+ packs or newcomers), and generates ores with their respective Vanilla variants.

@@ -19,6 +19,5 @@ public class MineralTracker
                 GeolosysAPI.removeMineralFromMap(event.getPos(), event.getWorld());
             }
         }
-        Geolosys.getInstance().LOGGER.info("Processing for " + event.getState() + " took " + (System.currentTimeMillis() - start) + "ms to process");
     }
 }
