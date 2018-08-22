@@ -1,8 +1,10 @@
 package com.oitsjustjose.geolosys.common.api;
 
+import com.google.common.collect.HashBiMap;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.util.GlueList;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
@@ -35,8 +37,8 @@ public class GeolosysAPI
 
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
-    public static HashMap<ChunkPos, ArrayList<BlockPos>> mineralMap = new HashMap<>();
-
+    //    public static Hashtable<ChunkPos, ArrayList<BlockPos>> mineralMap = new Hashtable<>();
+    public static HashBiMap<ChunkPos, GlueList<BlockPos>> mineralMap = HashBiMap.create();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
@@ -288,12 +290,6 @@ public class GeolosysAPI
             if (mineralMap.get(chunkPos).size() == 0)
             {
                 mineralMap.remove(chunkPos);
-                Geolosys.getInstance().LOGGER.info("Removed chunkPos " + chunkPos + " from mineral map");
-            }
-            else
-            {
-                Geolosys.getInstance().LOGGER.info("Didn't remove it because the size was " + GeolosysAPI.mineralMap.get(chunkPos).size() + " expecting:");
-                Geolosys.getInstance().LOGGER.info(GeolosysAPI.mineralMap.get(chunkPos));
             }
             GeolosysSaveData.get(world).markDirty();
         }

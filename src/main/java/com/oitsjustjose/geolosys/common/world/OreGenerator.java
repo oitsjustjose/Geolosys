@@ -1,14 +1,10 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
+import com.oitsjustjose.geolosys.common.util.GlueList;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -18,6 +14,11 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A modified version of:
@@ -95,7 +96,7 @@ public class OreGenerator implements IWorldGenerator
                     y /= 2;
                 }
 
-                GeolosysAPI.mineralMap.put(new ChunkPos(x / 16, z / 16), new ArrayList<>());
+                GeolosysAPI.mineralMap.put(new ChunkPos(x / 16, z / 16), new GlueList<>());
                 pluton.generate(world, rand, new BlockPos(x, y, z));
                 GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
                 GeolosysSaveData.get(world).markDirty();

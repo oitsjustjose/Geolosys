@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.util.GlueList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -10,10 +11,7 @@ import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GeolosysSaveData extends WorldSavedData
 {
@@ -112,7 +110,7 @@ public class GeolosysSaveData extends WorldSavedData
             NBTTagCompound compMineralMap = compound.getCompoundTag("mineralMap");
             for (String chunkPosAsString : compMineralMap.getKeySet())
             {
-                ArrayList<BlockPos> posList = new ArrayList<>();
+                GlueList<BlockPos> posList = new GlueList<>();
 
                 for (String s : compMineralMap.getCompoundTag(chunkPosAsString).getKeySet())
                 {
@@ -152,7 +150,7 @@ public class GeolosysSaveData extends WorldSavedData
             compound.setTag("mineralMap", new NBTTagCompound());
         }
         NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
-        for (Map.Entry<ChunkPos, ArrayList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
+        for (Map.Entry<ChunkPos, GlueList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
         {
             minMap.setTag(e.getKey().toString(), new NBTTagCompound());
             for (int i = 0; i < e.getValue().size(); i++)
