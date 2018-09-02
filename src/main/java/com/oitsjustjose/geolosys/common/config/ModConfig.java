@@ -76,6 +76,11 @@ public class ModConfig
         @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
         @Config.RequiresMcRestart
         public boolean vanillaMode = false;
+
+        @Config.Name("Track Location and Destruction of All Mineral Blocks")
+        @Config.Comment("If disabled, this means breaking all blocks in a deposit won't prevent the Prospector's Pick from saying it has found the deposit on the surface.\n" +
+                "On the otherhand, this may cause performance and/or storage improvements, as this list can get large as world sizes increase.")
+        public boolean shouldTrackOres = true;
     }
 
     public static class Prospecting

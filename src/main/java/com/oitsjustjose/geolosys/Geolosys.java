@@ -83,7 +83,6 @@ public class Geolosys
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
-        MinecraftForge.EVENT_BUS.register(new MineralTracker());
         chunkOreGen = new ChunkData();
         if (event.getSide() == Side.CLIENT)
         {
@@ -112,6 +111,10 @@ public class Geolosys
         if (ModConfig.featureControl.retroReplace)
         {
             MinecraftForge.EVENT_BUS.register(new OreConverter());
+        }
+        if (ModConfig.featureControl.shouldTrackOres)
+        {
+            MinecraftForge.EVENT_BUS.register(new MineralTracker());
         }
 
         registerGeolosysOreGen();

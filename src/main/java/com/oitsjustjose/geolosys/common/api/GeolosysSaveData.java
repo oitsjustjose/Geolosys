@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.api;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.GlueList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -105,19 +106,22 @@ public class GeolosysSaveData extends WorldSavedData
                 }
             }
         }
-        if (compound.hasKey("mineralMap"))
+        if (ModConfig.featureControl.shouldTrackOres)
         {
-            NBTTagCompound compMineralMap = compound.getCompoundTag("mineralMap");
-            for (String chunkPosAsString : compMineralMap.getKeySet())
+            if (compound.hasKey("mineralMap"))
             {
-                GlueList<BlockPos> posList = new GlueList<>();
-
-                for (String s : compMineralMap.getCompoundTag(chunkPosAsString).getKeySet())
+                NBTTagCompound compMineralMap = compound.getCompoundTag("mineralMap");
+                for (String chunkPosAsString : compMineralMap.getKeySet())
                 {
-                    int[] posArr = compMineralMap.getCompoundTag(chunkPosAsString).getIntArray(s);
-                    posList.add(new BlockPos(posArr[0], posArr[1], posArr[2]));
+                    GlueList<BlockPos> posList = new GlueList<>();
+
+                    for (String s : compMineralMap.getCompoundTag(chunkPosAsString).getKeySet())
+                    {
+                        int[] posArr = compMineralMap.getCompoundTag(chunkPosAsString).getIntArray(s);
+                        posList.add(new BlockPos(posArr[0], posArr[1], posArr[2]));
+                    }
+                    GeolosysAPI.mineralMap.put(fromString(chunkPosAsString), posList);
                 }
-                GeolosysAPI.mineralMap.put(fromString(chunkPosAsString), posList);
             }
         }
     }
@@ -145,17 +149,20 @@ public class GeolosysSaveData extends WorldSavedData
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
         }
 
-        if (!compound.hasKey("mineralMap"))
+        if (ModConfig.featureControl.shouldTrackOres)
         {
-            compound.setTag("mineralMap", new NBTTagCompound());
-        }
-        NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
-        for (Map.Entry<ChunkPos, GlueList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
-        {
-            minMap.setTag(e.getKey().toString(), new NBTTagCompound());
-            for (int i = 0; i < e.getValue().size(); i++)
+            if (!compound.hasKey("mineralMap"))
             {
-                minMap.getCompoundTag(e.getKey().toString()).setIntArray("" + i, new int[]{e.getValue().get(i).getX(), e.getValue().get(i).getY(), e.getValue().get(i).getZ()});
+                compound.setTag("mineralMap", new NBTTagCompound());
+            }
+            NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
+            for (Map.Entry<ChunkPos, GlueList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
+            {
+                minMap.setTag(e.getKey().toString(), new NBTTagCompound());
+                for (int i = 0; i < e.getValue().size(); i++)
+                {
+                    minMap.getCompoundTag(e.getKey().toString()).setIntArray("" + i, new int[]{e.getValue().get(i).getX(), e.getValue().get(i).getY(), e.getValue().get(i).getZ()});
+                }
             }
         }
 

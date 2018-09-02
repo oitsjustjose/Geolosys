@@ -132,7 +132,7 @@ public class ItemProPick extends Item
             String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
             ChunkPos tempPos = new ChunkPos(pos);
 
-            if (GeolosysAPI.mineralMap.get(tempPos) != null)
+            if (!ModConfig.featureControl.shouldTrackOres || GeolosysAPI.mineralMap.get(tempPos) != null)
             {
                 for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
                 {
