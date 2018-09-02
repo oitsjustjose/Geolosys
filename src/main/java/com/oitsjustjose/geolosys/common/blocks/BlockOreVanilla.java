@@ -82,19 +82,19 @@ public class BlockOreVanilla extends Block
         switch (blockState.getBlock().getMetaFromState(state))
         {
             case 0:
-                return new ItemStack(Blocks.COAL_ORE);
+                return new ItemStack(Blocks.COAL_ORE, 1);
             case 1:
-                return new ItemStack(Blocks.REDSTONE_ORE);
+                return new ItemStack(Blocks.REDSTONE_ORE, 1);
             case 2:
-                return new ItemStack(Blocks.GOLD_ORE);
+                return new ItemStack(Blocks.GOLD_ORE, 1);
             case 3:
-                return new ItemStack(Blocks.LAPIS_ORE);
+                return new ItemStack(Blocks.LAPIS_ORE, 1);
             case 4:
-                return new ItemStack(Blocks.QUARTZ_ORE);
+                return new ItemStack(Blocks.QUARTZ_ORE, 1);
             case 5:
-                return new ItemStack(Blocks.DIAMOND_ORE);
+                return new ItemStack(Blocks.DIAMOND_ORE, 1);
             case 6:
-                return new ItemStack(Blocks.EMERALD_ORE);
+                return new ItemStack(Blocks.EMERALD_ORE, 1);
             default:
                 return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
         }

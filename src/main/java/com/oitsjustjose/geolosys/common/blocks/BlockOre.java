@@ -198,7 +198,9 @@ public class BlockOre extends Block
             {
                 continue;
             }
-            return i;
+            ItemStack retStack = i.copy();
+            retStack.setCount(1);
+            return retStack;
         }
         return ItemStack.EMPTY;
     }
