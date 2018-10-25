@@ -15,7 +15,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,6 +30,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -217,8 +217,8 @@ public class ItemProPick extends Item
             }
             if (!found)
             {
-                player.sendStatusMessage(new TextComponentString(I18n.format("geolosys.pro_pick.tooltip.nonefound")),
-                        true);
+                player.sendStatusMessage(
+                        new TextComponentString(I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound")), true);
             }
         }
         player.swingArm(hand);
@@ -250,7 +250,7 @@ public class ItemProPick extends Item
 
     private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
-        String msg = I18n.format("geolosys.pro_pick.tooltip.found");
+        String msg = I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
         msg = msg.replace("%BLOCK%",
                 new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName());
         msg = msg.replace("%DIR%", "" + facing.getOpposite());
@@ -303,22 +303,16 @@ public class ItemProPick extends Item
             {
                 for (int z = tempPos.getZStart(); z < tempPos.getZEnd(); z++)
                 {
-                    if (world.getBlockState(new BlockPos(x, y, z)).getBlock() == Geolosys.getInstance().ORE)
+                    if (GeolosysAPI.oreBlocks.keySet().contains(world.getBlockState(new BlockPos(x, y, z))))
                     {
                         return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
-                                + I18n.format("geolosys.pro_pick.tooltip.found_surface");
-                    }
-                    else if (world.getBlockState(new BlockPos(x, y, z))
-                            .getBlock() == Geolosys.getInstance().ORE_VANILLA)
-                    {
-                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
-                                + I18n.format("geolosys.pro_pick.tooltip.found_surface");
+                                + I18n.translateToLocal("geolosys.pro_pick.tooltip.found_surface");
                     }
                 }
             }
         }
 
-        return I18n.format("geolosys.pro_pick.tooltip.nonefound_surface");
+        return I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
     }
 
     private String getNameForBlockState(IBlockState state)
