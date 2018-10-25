@@ -292,8 +292,6 @@ public class GeolosysAPI
      */
     public static class ChunkPosSerializable implements Serializable
     {
-        private static final long serialVersionUID = 8307434638180761006L;
-
         private int x;
         private int z;
         private int dim;
