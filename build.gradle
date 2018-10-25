@@ -48,7 +48,7 @@ configurations.all {
 }
 
 dependencies {
-	deobfCompile "blusunrize:ImmersiveEngineering:0.12-+:deobf"
+	deobfCompile "blusunrize:ImmersiveEngineering:${ie_version}"
     compile group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
 }
 
