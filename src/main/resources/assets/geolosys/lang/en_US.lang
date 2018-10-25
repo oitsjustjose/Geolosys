@@ -110,7 +110,8 @@ geolosys.field_manual.tooltip=Everything you need to know about mining with Geol
 geolosys.pro_pick.tooltip=Useful when paired with a compass!
 geolosys.pro_pick.tooltip.nonefound_surface=No deposits in this area
 geolosys.pro_pick.tooltip.nonefound=No deposits in this direction
-geolosys.pro_pick.tooltip.found=found in this area
+geolosys.pro_pick.tooltip.found_surface=found in this area
+geolosys.pro_pick.tooltip.found=Found %BLOCK% %DIR% from you
 shift.tooltip=Press Shift
 
 
