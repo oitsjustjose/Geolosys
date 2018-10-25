@@ -1,10 +1,10 @@
 package com.oitsjustjose.geolosys.client;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-
-import javax.annotation.Nullable;
 
 public class ClientGUIProxy implements IGuiHandler
 {

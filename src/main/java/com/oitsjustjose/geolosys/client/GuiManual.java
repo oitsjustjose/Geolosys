@@ -1,11 +1,28 @@
 package com.oitsjustjose.geolosys.client;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.blocks.Types;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
-import com.oitsjustjose.geolosys.common.manual.*;
+import com.oitsjustjose.geolosys.common.manual.BookChapter;
+import com.oitsjustjose.geolosys.common.manual.BookPage;
+import com.oitsjustjose.geolosys.common.manual.BookPageContents;
+import com.oitsjustjose.geolosys.common.manual.BookPageItemDisplay;
+import com.oitsjustjose.geolosys.common.manual.BookPageOre;
+import com.oitsjustjose.geolosys.common.manual.BookPageText;
+import com.oitsjustjose.geolosys.common.manual.ChapterLink;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -22,11 +39,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.*;
 
 /**
  * @author Mangoose /  https://github.com/the-realest-stu/
