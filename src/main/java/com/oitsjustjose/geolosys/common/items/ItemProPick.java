@@ -1,22 +1,36 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,12 +38,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Objects;
 
 public class ItemProPick extends Item
 {
@@ -46,7 +54,8 @@ public class ItemProPick extends Item
 
     private void registerModel()
     {
-        Geolosys.getInstance().clientRegistry.register(new ItemStack(this), new ResourceLocation(Objects.requireNonNull(this.getRegistryName()).toString()), "inventory");
+        Geolosys.getInstance().clientRegistry.register(new ItemStack(this),
+                new ResourceLocation(Objects.requireNonNull(this.getRegistryName()).toString()), "inventory");
     }
 
     @Override
@@ -65,7 +74,8 @@ public class ItemProPick extends Item
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("damage", ModConfig.prospecting.proPickDurability);
             }
-            return 1D - (double) stack.getTagCompound().getInteger("damage") / (double) ModConfig.prospecting.proPickDurability;
+            return 1D - (double) stack.getTagCompound().getInteger("damage")
+                    / (double) ModConfig.prospecting.proPickDurability;
         }
         else
         {
@@ -84,7 +94,8 @@ public class ItemProPick extends Item
             }
             else
             {
-                tooltip.add("Durability: " + stack.getTagCompound().getInteger("damage") + "/" + ModConfig.prospecting.proPickDurability);
+                tooltip.add("Durability: " + stack.getTagCompound().getInteger("damage") + "/"
+                        + ModConfig.prospecting.proPickDurability);
             }
         }
     }
@@ -104,21 +115,24 @@ public class ItemProPick extends Item
                 if (player.getHeldItem(hand).getTagCompound() == null)
                 {
                     player.getHeldItem(hand).setTagCompound(new NBTTagCompound());
-                    player.getHeldItem(hand).getTagCompound().setInteger("damage", ModConfig.prospecting.proPickDurability);
+                    player.getHeldItem(hand).getTagCompound().setInteger("damage",
+                            ModConfig.prospecting.proPickDurability);
                 }
                 int prevDmg = player.getHeldItem(hand).getTagCompound().getInteger("damage");
                 player.getHeldItem(hand).getTagCompound().setInteger("damage", (prevDmg - 1));
                 if (player.getHeldItem(hand).getTagCompound().getInteger("damage") <= 0)
                 {
                     player.setHeldItem(hand, ItemStack.EMPTY);
-                    worldIn.playSound(player, pos, new SoundEvent(new ResourceLocation("entity.item.break")), SoundCategory.PLAYERS, 1.0F, 0.85F);
+                    worldIn.playSound(player, pos, new SoundEvent(new ResourceLocation("entity.item.break")),
+                            SoundCategory.PLAYERS, 1.0F, 0.85F);
                 }
             }
         }
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+            EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         this.attemptDamageItem(player, pos, hand, worldIn);
         // At surface or higher
@@ -129,29 +143,7 @@ public class ItemProPick extends Item
         }
         if (player.getPosition().getY() >= player.world.getSeaLevel())
         {
-            String depositInChunk = I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
-            ChunkPos tempPos = new ChunkPos(pos);
-
-            if (!ModConfig.featureControl.shouldTrackOres || GeolosysAPI.mineralMap.get(tempPos) != null)
-            {
-                for (GeolosysAPI.ChunkPosSerializable chunkPos : GeolosysAPI.getCurrentWorldDeposits().keySet())
-                {
-                    if (chunkPos.getX() == tempPos.x)
-                    {
-                        if (chunkPos.getZ() == tempPos.z)
-                        {
-                            if (chunkPos.getDimension() == worldIn.provider.getDimension())
-                            {
-                                String rawName = GeolosysAPI.getCurrentWorldDeposits().get(chunkPos);
-                                depositInChunk = new ItemStack(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(rawName.split(":")[0], rawName.split(":")[1]))), 1, Integer.parseInt(rawName.split(":")[2])).getDisplayName() + " " + I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            player.sendStatusMessage(new TextComponentString(depositInChunk), true);
+            player.sendStatusMessage(new TextComponentString(findOreInChunk(worldIn, pos)), true);
         }
         else
         {
@@ -168,71 +160,73 @@ public class ItemProPick extends Item
 
             switch (facing)
             {
-                case UP:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -confAmt;
-                    yEnd = 0;
-                    zStart = -(confDmt / 2);
-                    zEnd = (confDmt / 2);
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case DOWN:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = 0;
-                    yEnd = confAmt;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case NORTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = 0;
-                    zEnd = confAmt;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case SOUTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -confAmt;
-                    zEnd = 0;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case EAST:
-                    xStart = -(confAmt);
-                    xEnd = 0;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case WEST:
-                    xStart = 0;
-                    xEnd = confAmt;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
+            case UP:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -confAmt;
+                yEnd = 0;
+                zStart = -(confDmt / 2);
+                zEnd = (confDmt / 2);
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case DOWN:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = 0;
+                yEnd = confAmt;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case NORTH:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = 0;
+                zEnd = confAmt;
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case SOUTH:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -confAmt;
+                zEnd = 0;
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case EAST:
+                xStart = -(confAmt);
+                xEnd = 0;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case WEST:
+                xStart = 0;
+                xEnd = confAmt;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
             }
             if (!found)
             {
-                player.sendStatusMessage(new TextComponentString(I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound")), true);
+                player.sendStatusMessage(new TextComponentString(I18n.format("geolosys.pro_pick.tooltip.nonefound")),
+                        true);
             }
         }
         player.swingArm(hand);
         return EnumActionResult.SUCCESS;
     }
 
-    private boolean isFound(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd)
+    private boolean isFound(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart, int xEnd,
+            int yStart, int yEnd, int zStart, int zEnd)
     {
         boolean found = false;
         for (int x = xStart; x <= xEnd; x++)
@@ -256,19 +250,25 @@ public class ItemProPick extends Item
 
     private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
-        player.sendStatusMessage(new TextComponentString("Found " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName() + " " + facing.getOpposite() + " from you."), true);
+        String msg = I18n.format("geolosys.pro_pick.tooltip.found");
+        msg = msg.replace("%BLOCK%",
+                new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName());
+        msg = msg.replace("%DIR%", "" + facing.getOpposite());
+        player.sendStatusMessage(new TextComponentString(msg), true);
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || Minecraft.getMinecraft().debugRenderer.shouldRender())
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
+                || Minecraft.getMinecraft().debugRenderer.shouldRender())
         {
             return;
         }
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemProPick || mc.player.getHeldItemOffhand().getItem() instanceof ItemProPick)
+        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemProPick
+                || mc.player.getHeldItemOffhand().getItem() instanceof ItemProPick)
         {
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -276,17 +276,53 @@ public class ItemProPick extends Item
             int level = (int) (mc.player.world.getSeaLevel() - mc.player.posY);
             if (level < 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
+                        ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
             }
             else if (level == 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.client.hudX,
+                        ModConfig.client.hudY, 0xFFFFFFFF);
             }
             else
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level", ModConfig.client.hudX, ModConfig.client.hudY, 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level", ModConfig.client.hudX,
+                        ModConfig.client.hudY, 0xFFFFFFFF);
             }
             GlStateManager.color(1F, 1F, 1F, 1F);
         }
+    }
+
+    private String findOreInChunk(World world, BlockPos pos)
+    {
+        ChunkPos tempPos = new ChunkPos(pos);
+
+        for (int x = tempPos.getXStart(); x < tempPos.getXEnd(); x++)
+        {
+            for (int y = 0; y < 255; y++)
+            {
+                for (int z = tempPos.getZStart(); z < tempPos.getZEnd(); z++)
+                {
+                    if (world.getBlockState(new BlockPos(x, y, z)).getBlock() == Geolosys.getInstance().ORE)
+                    {
+                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
+                                + I18n.format("geolosys.pro_pick.tooltip.found_surface");
+                    }
+                    else if (world.getBlockState(new BlockPos(x, y, z))
+                            .getBlock() == Geolosys.getInstance().ORE_VANILLA)
+                    {
+                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
+                                + I18n.format("geolosys.pro_pick.tooltip.found_surface");
+                    }
+                }
+            }
+        }
+
+        return I18n.format("geolosys.pro_pick.tooltip.nonefound_surface");
+    }
+
+    private String getNameForBlockState(IBlockState state)
+    {
+        return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
     }
 }
