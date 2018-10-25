@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.Geolosys;
+
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.display.DisplayType;
 import journeymap.client.api.display.Waypoint;
@@ -24,17 +25,21 @@ public class ForgeEventListener
         try
         {
             IBlockState state = event.getWorld().getBlockState(event.getPos());
-            if (state.getBlock() == Geolosys.getInstance().ORE_SAMPLE || state.getBlock() == Geolosys.getInstance().ORE_SAMPLE_VANILLA)
+            if (state.getBlock() == Geolosys.getInstance().ORE_SAMPLE
+                    || state.getBlock() == Geolosys.getInstance().ORE_SAMPLE_VANILLA)
             {
                 if (event.getEntityPlayer().isSneaking() && event.getWorld().isRemote)
                 {
                     if (jmAPI.playerAccepts(Geolosys.MODID, DisplayType.Waypoint))
                     {
-                        String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
-                        String id = Geolosys.MODID + " - " + name + " - " + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
+                        String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state))
+                                .getDisplayName();
+                        String id = Geolosys.MODID + " - " + name + " - "
+                                + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
                         try
                         {
-                            jmAPI.show(new Waypoint(Geolosys.MODID, id, name, event.getWorld().provider.getDimension(), event.getPos()));
+                            jmAPI.show(new Waypoint(Geolosys.MODID, id, name, event.getWorld().provider.getDimension(),
+                                    event.getPos()));
                         }
                         catch (Throwable t)
                         {

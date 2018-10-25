@@ -1,9 +1,9 @@
 package com.oitsjustjose.geolosys.common.manual;
 
 /**
- * @author Mangoose /  https://github.com/the-realest-stu/
- * Code taken directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
+ *         from:
+ *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPage

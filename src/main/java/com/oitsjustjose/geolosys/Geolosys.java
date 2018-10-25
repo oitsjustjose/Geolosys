@@ -1,5 +1,14 @@
 package com.oitsjustjose.geolosys;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.annotation.Nonnull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oitsjustjose.geolosys.client.ClientRegistry;
@@ -13,8 +22,11 @@ import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ConfigParser;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.items.*;
-import com.oitsjustjose.geolosys.common.util.MineralTracker;
+import com.oitsjustjose.geolosys.common.items.ItemCluster;
+import com.oitsjustjose.geolosys.common.items.ItemCoal;
+import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
+import com.oitsjustjose.geolosys.common.items.ItemIngot;
+import com.oitsjustjose.geolosys.common.items.ItemProPick;
 import com.oitsjustjose.geolosys.common.util.Recipes;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
@@ -24,6 +36,9 @@ import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
+
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -39,10 +54,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.Logger;
-
-import javax.annotation.Nonnull;
-import java.io.*;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);after:contenttweaker;")
 public class Geolosys
@@ -112,10 +123,6 @@ public class Geolosys
         {
             MinecraftForge.EVENT_BUS.register(new OreConverter());
         }
-        if (ModConfig.featureControl.shouldTrackOres)
-        {
-            MinecraftForge.EVENT_BUS.register(new MineralTracker());
-        }
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
@@ -152,37 +159,47 @@ public class Geolosys
 
         if (configOres.coal.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 0), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 0), configOres.coal);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 0),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 0), configOres.coal);
         }
         if (configOres.cinnabar.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 1), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), configOres.cinnabar);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 1),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), configOres.cinnabar);
         }
         if (configOres.gold.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 2), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 2), configOres.gold);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 2),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 2), configOres.gold);
         }
         if (configOres.lapis.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 3), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), configOres.lapis);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 3),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), configOres.lapis);
         }
         if (configOres.quartz.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 4), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 4), configOres.quartz);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 4),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 4), configOres.quartz);
         }
         if (configOres.kimberlite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 5), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 5), configOres.kimberlite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 5),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 5), configOres.kimberlite);
         }
         if (configOres.beryl.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 6), Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.beryl);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE_VANILLA, 6),
+                    Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 6), configOres.beryl);
         }
         if (ModConfig.featureControl.modStones)
         {
-            IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE);
-            IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE);
-            IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE);
+            IBlockState diorite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+                    BlockStone.EnumType.DIORITE);
+            IBlockState andesite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+                    BlockStone.EnumType.ANDESITE);
+            IBlockState granite = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+                    BlockStone.EnumType.GRANITE);
 
             GeolosysAPI.registerStoneDeposit(andesite, 2, 70, 40);
             GeolosysAPI.registerStoneDeposit(diorite, 2, 70, 40);
@@ -194,47 +211,58 @@ public class Geolosys
     {
         if (configOres.hematite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 0), Utils.getStateFromMeta(ORE_SAMPLE, 0), configOres.hematite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 0), Utils.getStateFromMeta(ORE_SAMPLE, 0),
+                    configOres.hematite);
         }
         if (configOres.lapis.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 1), Utils.getStateFromMeta(ORE_SAMPLE, 1), configOres.limonite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 1), Utils.getStateFromMeta(ORE_SAMPLE, 1),
+                    configOres.limonite);
         }
         if (configOres.malachite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 2), Utils.getStateFromMeta(ORE_SAMPLE, 2), configOres.malachite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 2), Utils.getStateFromMeta(ORE_SAMPLE, 2),
+                    configOres.malachite);
         }
         if (configOres.azurite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 3), Utils.getStateFromMeta(ORE_SAMPLE, 3), configOres.azurite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 3), Utils.getStateFromMeta(ORE_SAMPLE, 3),
+                    configOres.azurite);
         }
         if (configOres.cassiterite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 4), Utils.getStateFromMeta(ORE_SAMPLE, 4), configOres.cassiterite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 4), Utils.getStateFromMeta(ORE_SAMPLE, 4),
+                    configOres.cassiterite);
         }
         if (configOres.teallite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 5), Utils.getStateFromMeta(ORE_SAMPLE, 5), configOres.teallite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 5), Utils.getStateFromMeta(ORE_SAMPLE, 5),
+                    configOres.teallite);
         }
         if (configOres.galena.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 6), Utils.getStateFromMeta(ORE_SAMPLE, 6), configOres.galena);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 6), Utils.getStateFromMeta(ORE_SAMPLE, 6),
+                    configOres.galena);
         }
         if (configOres.bauxite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 7), Utils.getStateFromMeta(ORE_SAMPLE, 7), configOres.bauxite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 7), Utils.getStateFromMeta(ORE_SAMPLE, 7),
+                    configOres.bauxite);
         }
         if (configOres.platinum.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 8), Utils.getStateFromMeta(ORE_SAMPLE, 8), configOres.platinum);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 8), Utils.getStateFromMeta(ORE_SAMPLE, 8),
+                    configOres.platinum);
         }
         if (configOres.autunite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 9), Utils.getStateFromMeta(ORE_SAMPLE, 9), configOres.autunite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 9), Utils.getStateFromMeta(ORE_SAMPLE, 9),
+                    configOres.autunite);
         }
         if (configOres.sphalerite.getChance() > 0)
         {
-            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 10), Utils.getStateFromMeta(ORE_SAMPLE, 10), configOres.sphalerite);
+            GeolosysAPI.registerMineralDeposit(Utils.getStateFromMeta(ORE, 10), Utils.getStateFromMeta(ORE_SAMPLE, 10),
+                    configOres.sphalerite);
         }
     }
 
@@ -243,7 +271,8 @@ public class Geolosys
     {
         try
         {
-            FileReader fr = new FileReader(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
+            FileReader fr = new FileReader(
+                    configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
             BufferedReader br = new BufferedReader(fr);
             String line;
             StringBuilder json = new StringBuilder();
@@ -272,7 +301,8 @@ public class Geolosys
             String json = gson.toJson(props);
             try
             {
-                FileWriter fw = new FileWriter(configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
+                FileWriter fw = new FileWriter(
+                        configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
                 fw.write(json);
                 fw.close();
                 return props;

@@ -17,8 +17,7 @@ import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
 /**
- * Created by Thiakil on 17/06/2018.
- * Minor edits by PersonTheCat
+ * Created by Thiakil on 17/06/2018. Minor edits by PersonTheCat
  */
 public class ToDoBlocks extends WorldSavedData
 {
@@ -80,20 +79,24 @@ public class ToDoBlocks extends WorldSavedData
         for (String key : nbt.getKeySet())
         {
             NBTBase val = nbt.getTag(key);
-            if (val instanceof NBTTagList && ((NBTTagList) val).getTagType() == Constants.NBT.TAG_COMPOUND && !val.hasNoTags())
+            if (val instanceof NBTTagList && ((NBTTagList) val).getTagType() == Constants.NBT.TAG_COMPOUND
+                    && !val.hasNoTags())
             {
                 try
                 {
                     Long asLong = Long.parseLong(key);
                     NBTTagList list = (NBTTagList) val;
-                    ChunkPos chunkPos = new ChunkPos((int) (asLong & 4294967295L), (int) ((asLong >> 32) & 4294967295L));
+                    ChunkPos chunkPos = new ChunkPos((int) (asLong & 4294967295L),
+                            (int) ((asLong >> 32) & 4294967295L));
                     Map<BlockPos, IBlockState> entries = new HashMap<>();
                     for (NBTBase b : list)
                     {
-                        if (b instanceof NBTTagCompound && ((NBTTagCompound) b).hasKey("pos") && ((NBTTagCompound) b).hasKey("state"))
+                        if (b instanceof NBTTagCompound && ((NBTTagCompound) b).hasKey("pos")
+                                && ((NBTTagCompound) b).hasKey("state"))
                         {
                             NBTTagCompound e = (NBTTagCompound) b;
-                            entries.put(NBTUtil.getPosFromTag(e.getCompoundTag("pos")), NBTUtil.readBlockState(e.getCompoundTag("state")));
+                            entries.put(NBTUtil.getPosFromTag(e.getCompoundTag("pos")),
+                                    NBTUtil.readBlockState(e.getCompoundTag("state")));
                         }
                     }
                     if (!entries.isEmpty())
@@ -103,7 +106,7 @@ public class ToDoBlocks extends WorldSavedData
                 }
                 catch (NumberFormatException e)
                 {
-                    //bad key, carry on
+                    // bad key, carry on
                 }
             }
         }
@@ -117,7 +120,8 @@ public class ToDoBlocks extends WorldSavedData
             if (!chunkEntry.getValue().isEmpty())
             {
                 NBTTagList chunkEntries = new NBTTagList();
-                compound.setTag(Long.toString(ChunkPos.asLong(chunkEntry.getKey().x, chunkEntry.getKey().z)), chunkEntries);
+                compound.setTag(Long.toString(ChunkPos.asLong(chunkEntry.getKey().x, chunkEntry.getKey().z)),
+                        chunkEntries);
                 for (Map.Entry<BlockPos, IBlockState> blockEntry : chunkEntry.getValue().entrySet())
                 {
                     NBTTagCompound entry = new NBTTagCompound();

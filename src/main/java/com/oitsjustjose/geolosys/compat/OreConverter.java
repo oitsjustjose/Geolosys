@@ -1,9 +1,12 @@
 package com.oitsjustjose.geolosys.compat;
 
+import java.util.Objects;
+
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.Utils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,8 +18,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Objects;
-
 public class OreConverter
 {
     @SubscribeEvent
@@ -26,11 +27,13 @@ public class OreConverter
         {
             return;
         }
-        if (!(event.getEntity() instanceof EntityPlayer) || event.getEntity() instanceof FakePlayer || event.getEntity().getEntityWorld().isRemote)
+        if (!(event.getEntity() instanceof EntityPlayer) || event.getEntity() instanceof FakePlayer
+                || event.getEntity().getEntityWorld().isRemote)
         {
             return;
         }
-        if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), event.getEntity().getEntityWorld().provider.getDimension()))
+        if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()),
+                event.getEntity().getEntityWorld().provider.getDimension()))
         {
             return;
         }
@@ -43,21 +46,24 @@ public class OreConverter
             {
                 for (int y = 0; y < world.getHeight(x + xMod, z + zMod); y++)
                 {
-                    if (GeolosysAPI.oreConverterBlacklist.contains(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))
+                    if (GeolosysAPI.oreConverterBlacklist
+                            .contains(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))
                     {
                         continue;
                     }
-                    if (getConvertedOre(Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
+                    if (getConvertedOre(
+                            Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
                     {
-                        world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
+                        world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(
+                                Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
                     }
                 }
             }
         }
-        GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()), world.provider.getDimension());
+        GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()),
+                world.provider.getDimension());
         GeolosysSaveData.get(world).markDirty();
     }
-
 
     private IBlockState getConvertedOre(ItemStack stack)
     {

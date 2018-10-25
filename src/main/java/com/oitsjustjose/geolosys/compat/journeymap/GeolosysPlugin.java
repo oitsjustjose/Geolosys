@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.Geolosys;
+
 import journeymap.client.api.ClientPlugin;
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.IClientPlugin;

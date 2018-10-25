@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.blocks;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -14,7 +15,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -28,7 +33,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class BlockSample extends Block
 {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
@@ -67,7 +71,8 @@ public class BlockSample extends Block
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_)
+    public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_,
+            EnumFacing p_193383_4_)
     {
         return BlockFaceShape.UNDEFINED;
     }
@@ -89,7 +94,8 @@ public class BlockSample extends Block
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+            EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if (ModConfig.prospecting.boringSamples)
         {
@@ -155,13 +161,15 @@ public class BlockSample extends Block
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+            EntityPlayer player)
     {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+            float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
@@ -187,18 +195,21 @@ public class BlockSample extends Block
     @SubscribeEvent
     public void registerEvent(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ModConfig.prospecting.boringSamples || event.getHarvester() == null || event.getState() == null || event.getState().getBlock() != this)
+        if (!ModConfig.prospecting.boringSamples || event.getHarvester() == null || event.getState() == null
+                || event.getState().getBlock() != this)
         {
             return;
         }
-        String resource = Types.Modded.byMetadata(event.getState().getBlock().getMetaFromState(event.getState())).getResource();
-        event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
+        String resource = Types.Modded.byMetadata(event.getState().getBlock().getMetaFromState(event.getState()))
+                .getResource();
+        event.getHarvester().sendStatusMessage(new TextComponentString("You break the sample to find " + resource),
+                true);
         event.getDrops().clear();
     }
 
     /**
-     * An ItemBlock class for this block allowing it to
-     * support subtypes with proper placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper
+     * placement
      */
     public class ItemBlockOre extends ItemBlock
     {
@@ -220,7 +231,8 @@ public class BlockSample extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Modded.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
+                    + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -240,7 +252,8 @@ public class BlockSample extends Block
         {
             for (int i = 0; i < Types.Modded.values().length; i++)
             {
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
+                        VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
             }
         }
     }

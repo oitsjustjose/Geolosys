@@ -1,9 +1,12 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
+import com.oitsjustjose.geolosys.compat.ModMaterials;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,18 +28,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Random;
-
 public class BlockOreVanilla extends Block
 {
     public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
-
 
     public BlockOreVanilla()
     {
@@ -58,7 +57,8 @@ public class BlockOreVanilla extends Block
     {
         for (int i = 0; i < Types.Vanilla.values().length; i++)
         {
-            OreDictionary.registerOre("oreBlock" + Types.Vanilla.values()[i].getName().substring(0, 1).toUpperCase() + Types.Vanilla.values()[i].getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("oreBlock" + Types.Vanilla.values()[i].getName().substring(0, 1).toUpperCase()
+                    + Types.Vanilla.values()[i].getName().substring(1), new ItemStack(this, 1, i));
         }
     }
 
@@ -81,22 +81,22 @@ public class BlockOreVanilla extends Block
     {
         switch (blockState.getBlock().getMetaFromState(state))
         {
-            case 0:
-                return new ItemStack(Blocks.COAL_ORE, 1);
-            case 1:
-                return new ItemStack(Blocks.REDSTONE_ORE, 1);
-            case 2:
-                return new ItemStack(Blocks.GOLD_ORE, 1);
-            case 3:
-                return new ItemStack(Blocks.LAPIS_ORE, 1);
-            case 4:
-                return new ItemStack(Blocks.QUARTZ_ORE, 1);
-            case 5:
-                return new ItemStack(Blocks.DIAMOND_ORE, 1);
-            case 6:
-                return new ItemStack(Blocks.EMERALD_ORE, 1);
-            default:
-                return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+        case 0:
+            return new ItemStack(Blocks.COAL_ORE, 1);
+        case 1:
+            return new ItemStack(Blocks.REDSTONE_ORE, 1);
+        case 2:
+            return new ItemStack(Blocks.GOLD_ORE, 1);
+        case 3:
+            return new ItemStack(Blocks.LAPIS_ORE, 1);
+        case 4:
+            return new ItemStack(Blocks.QUARTZ_ORE, 1);
+        case 5:
+            return new ItemStack(Blocks.DIAMOND_ORE, 1);
+        case 6:
+            return new ItemStack(Blocks.EMERALD_ORE, 1);
+        default:
+            return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
         }
     }
 
@@ -107,11 +107,12 @@ public class BlockOreVanilla extends Block
         int meta = state.getBlock().getMetaFromState(state);
         if (meta == 0)
         {
-            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune), Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune),
+                    Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
             if (ModConfig.featureControl.enableCoals)
             {
                 /**************************
-                 *       Coal types       *
+                 * Coal types *
                  **************************/
                 Item coal = Geolosys.getInstance().COAL;
                 int y = pos.getY();
@@ -146,7 +147,7 @@ public class BlockOreVanilla extends Block
                 }
             }
             /**************************
-             *      Nuclearcraft      *
+             * Nuclearcraft *
              **************************/
             if (ModMaterials.NC_GEM != null)
             {
@@ -157,9 +158,10 @@ public class BlockOreVanilla extends Block
                 }
             }
             /**************************
-             *         Sulfur         *
+             * Sulfur *
              **************************/
-            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0)
+            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur")
+                    && OreDictionary.getOres("dustSulfur").size() > 0)
             {
                 int rng = random.nextInt(50);
                 if (rng == 0)
@@ -170,24 +172,26 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 1)
         {
-            drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune), Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random), Blocks.REDSTONE_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune),
+                    Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random),
+                    Blocks.REDSTONE_ORE.damageDropped(state)));
             int rng = random.nextInt(60);
             /**************************
-             *          ExU2          *
+             * ExU2 *
              **************************/
             if (ModMaterials.EXU_MATERIAL != null && rng < 2)
             {
                 drops.add(new ItemStack(ModMaterials.EXU_MATERIAL));
             }
             /**************************
-             *           TE           *
+             * TE *
              **************************/
             if (ModMaterials.TE_MATERIAL != null && rng == 2)
             {
                 drops.add(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866));
             }
             /**************************
-             *      Nuclearcraft      *
+             * Nuclearcraft *
              **************************/
             if (ModMaterials.NC_GEM != null)
             {
@@ -204,9 +208,10 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 3)
         {
-            drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune), Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune),
+                    Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
             /**************************
-             *      Nuclearcraft      *
+             * Nuclearcraft *
              **************************/
             if (ModMaterials.NC_GEM != null)
             {
@@ -219,13 +224,15 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 4)
         {
-            drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune), Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random), Blocks.QUARTZ_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune),
+                    Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random),
+                    Blocks.QUARTZ_ORE.damageDropped(state)));
             int fortuneDropCalc = 1 + random.nextInt(fortune + 1);
             for (int i = 0; i < fortuneDropCalc; i++)
             {
                 int rng = random.nextInt(25);
                 /**************************
-                 *           AE           *
+                 * AE *
                  **************************/
                 if (ModMaterials.AE_MATERIAL != null)
                 {
@@ -239,7 +246,7 @@ public class BlockOreVanilla extends Block
                     }
                 }
                 /**************************
-                 *           AA           *
+                 * AA *
                  **************************/
                 if (ModMaterials.BLACK_QUARTZ != null)
                 {
@@ -249,7 +256,7 @@ public class BlockOreVanilla extends Block
                     }
                 }
                 /**************************
-                 *      Nuclearcraft      *
+                 * Nuclearcraft *
                  **************************/
                 if (ModMaterials.NC_GEM != null)
                 {
@@ -263,51 +270,55 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 5)
         {
-            drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune), Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random), Blocks.DIAMOND_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune),
+                    Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random),
+                    Blocks.DIAMOND_ORE.damageDropped(state)));
         }
         else if (meta == 6)
         {
-            drops.add(new ItemStack(Blocks.EMERALD_ORE.getItemDropped(state, random, fortune), Blocks.EMERALD_ORE.quantityDroppedWithBonus(fortune, random), Blocks.EMERALD_ORE.damageDropped(state)));
+            drops.add(new ItemStack(Blocks.EMERALD_ORE.getItemDropped(state, random, fortune),
+                    Blocks.EMERALD_ORE.quantityDroppedWithBonus(fortune, random),
+                    Blocks.EMERALD_ORE.damageDropped(state)));
         }
     }
-
 
     @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
     {
         switch (state.getBlock().getMetaFromState(state))
         {
-            case 0:
-                return Blocks.COAL_ORE.getExpDrop(state, world, pos, fortune);
-            case 1:
-                return Blocks.REDSTONE_ORE.getExpDrop(state, world, pos, fortune);
-            case 3:
-                return Blocks.LAPIS_ORE.getExpDrop(state, world, pos, fortune);
-            case 4:
-                return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
-            case 5:
-                return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
-            case 6:
-                return Blocks.EMERALD_ORE.getExpDrop(state, world, pos, fortune);
-            default:
-                return 0;
+        case 0:
+            return Blocks.COAL_ORE.getExpDrop(state, world, pos, fortune);
+        case 1:
+            return Blocks.REDSTONE_ORE.getExpDrop(state, world, pos, fortune);
+        case 3:
+            return Blocks.LAPIS_ORE.getExpDrop(state, world, pos, fortune);
+        case 4:
+            return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
+        case 5:
+            return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
+        case 6:
+            return Blocks.EMERALD_ORE.getExpDrop(state, world, pos, fortune);
+        default:
+            return 0;
         }
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+            EntityPlayer player)
     {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+            float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
@@ -326,8 +337,8 @@ public class BlockOreVanilla extends Block
     }
 
     /**
-     * An ItemBlock class for this block allowing it to
-     * support subtypes with proper placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper
+     * placement
      */
     public class ItemBlockOre extends ItemBlock
     {
@@ -350,7 +361,8 @@ public class BlockOreVanilla extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Vanilla.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
+                    + Types.Vanilla.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -370,7 +382,8 @@ public class BlockOreVanilla extends Block
         {
             for (int i = 0; i < Types.Vanilla.values().length; i++)
             {
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
+                        VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
             }
         }
     }

@@ -6,9 +6,7 @@ public class Types
 {
     public enum Coal implements IStringSerializable
     {
-        PEAT(0, 12, "peat"),
-        LIGNITE(1, 16, "lignite"),
-        BITUMINOUS(2, 24, "bituminous"),
+        PEAT(0, 12, "peat"), LIGNITE(1, 16, "lignite"), BITUMINOUS(2, 24, "bituminous"),
         ANTHRACITE(3, 32, "anthracite");
 
         private static final Coal[] META_LOOKUP = new Coal[values().length];
@@ -69,14 +67,8 @@ public class Types
 
     public enum Ingot implements IStringSerializable
     {
-        COPPER(0, "copper"),
-        TIN(1, "tin"),
-        SILVER(2, "silver"),
-        LEAD(3, "lead"),
-        ALUMINUM(4, "aluminum"),
-        NICKEL(5, "nickel"),
-        PLATINUM(6, "platinum"),
-        ZINC(7, "zinc");
+        COPPER(0, "copper"), TIN(1, "tin"), SILVER(2, "silver"), LEAD(3, "lead"), ALUMINUM(4, "aluminum"),
+        NICKEL(5, "nickel"), PLATINUM(6, "platinum"), ZINC(7, "zinc");
 
         private static final Ingot[] META_LOOKUP = new Ingot[values().length];
 
@@ -127,19 +119,9 @@ public class Types
 
     public enum Cluster implements IStringSerializable
     {
-        IRON(0, "iron"),
-        GOLD(1, "gold"),
-        COPPER(2, "copper"),
-        TIN(3, "tin"),
-        SILVER(4, "silver"),
-        LEAD(5, "lead"),
-        ALUMINUM(6, "aluminum"),
-        NICKEL(7, "nickel"),
-        PLATINUM(8, "platinum"),
-        URANIUM(9, "uranium"),
-        ZINC(10, "zinc"),
-        YELLORIUM(11, "yellorium"),
-        OSMIUM(12, "osmium");
+        IRON(0, "iron"), GOLD(1, "gold"), COPPER(2, "copper"), TIN(3, "tin"), SILVER(4, "silver"), LEAD(5, "lead"),
+        ALUMINUM(6, "aluminum"), NICKEL(7, "nickel"), PLATINUM(8, "platinum"), URANIUM(9, "uranium"), ZINC(10, "zinc"),
+        YELLORIUM(11, "yellorium"), OSMIUM(12, "osmium");
 
         private static final Cluster[] META_LOOKUP = new Cluster[values().length];
 

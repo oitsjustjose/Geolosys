@@ -1,10 +1,14 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
-import com.oitsjustjose.geolosys.common.util.GlueList;
 import com.oitsjustjose.geolosys.common.util.Utils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -14,11 +18,6 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * A modified version of:
@@ -44,7 +43,8 @@ public class OreGenerator implements IWorldGenerator
     }
 
     @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
+            IChunkProvider chunkProvider)
     {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (oreSpawnList.size() > 0)
@@ -64,7 +64,9 @@ public class OreGenerator implements IWorldGenerator
 
         public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
         {
-            this.pluton = new WorldGenMinableSafe(state, maxVeinSize, doesOreHaveSpecialMatchers(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStateMatchers, dataID);
+            this.pluton = new WorldGenMinableSafe(state, maxVeinSize,
+                    doesOreHaveSpecialMatchers(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStateMatchers,
+                    dataID);
             this.state = state;
             this.minY = Math.min(minY, maxY);
             this.maxY = Math.max(minY, maxY);
@@ -74,7 +76,8 @@ public class OreGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16),
+                    world.provider.getDimension()))
             {
                 return;
             }
@@ -96,11 +99,12 @@ public class OreGenerator implements IWorldGenerator
                     y /= 2;
                 }
 
-                GeolosysAPI.mineralMap.put(new ChunkPos(x / 16, z / 16), new GlueList<>());
                 pluton.generate(world, rand, new BlockPos(x, y, z));
-                GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(), state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
+                GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
+                        state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
                 GeolosysSaveData.get(world).markDirty();
-                Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, GeolosysAPI.oreBlocks.get(state));
+                Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
+                        GeolosysAPI.oreBlocks.get(state));
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;
         }

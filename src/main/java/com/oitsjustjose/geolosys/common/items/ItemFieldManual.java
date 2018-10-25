@@ -1,7 +1,12 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.client.ClientGUIProxy;
+
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,9 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
 
 public class ItemFieldManual extends Item
 {
@@ -31,7 +33,8 @@ public class ItemFieldManual extends Item
 
     private void registerModel()
     {
-        Geolosys.getInstance().clientRegistry.register(new ItemStack(this), new ResourceLocation(this.getRegistryName().toString()), "inventory");
+        Geolosys.getInstance().clientRegistry.register(new ItemStack(this),
+                new ResourceLocation(this.getRegistryName().toString()), "inventory");
     }
 
     @Override
@@ -40,13 +43,12 @@ public class ItemFieldManual extends Item
         return Objects.requireNonNull(stack.getItem().getRegistryName()).toString().replaceAll(":", ".");
     }
 
-
     @Override
     @MethodsReturnNonnullByDefault
-    @SuppressWarnings({"unchecked", "NullableProblems"})
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn)
     {
-        playerIn.openGui(Geolosys.getInstance(), ClientGUIProxy.MANUAL_GUI_ID, worldIn, playerIn.getPosition().getX(), playerIn.getPosition().getY(), playerIn.getPosition().getZ());
-        return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        playerIn.openGui(Geolosys.getInstance(), ClientGUIProxy.MANUAL_GUI_ID, worldIn, playerIn.getPosition().getX(),
+                playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 }

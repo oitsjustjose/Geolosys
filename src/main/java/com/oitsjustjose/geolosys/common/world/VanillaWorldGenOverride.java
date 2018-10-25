@@ -1,8 +1,7 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -54,7 +53,9 @@ public class VanillaWorldGenOverride
 
         if (ModConfig.featureControl.modStones)
         {
-            if (event.getType() == OreGenEvent.GenerateMinable.EventType.ANDESITE || event.getType() == OreGenEvent.GenerateMinable.EventType.GRANITE || event.getType() == OreGenEvent.GenerateMinable.EventType.DIORITE)
+            if (event.getType() == OreGenEvent.GenerateMinable.EventType.ANDESITE
+                    || event.getType() == OreGenEvent.GenerateMinable.EventType.GRANITE
+                    || event.getType() == OreGenEvent.GenerateMinable.EventType.DIORITE)
             {
                 event.setResult(Event.Result.DENY);
             }

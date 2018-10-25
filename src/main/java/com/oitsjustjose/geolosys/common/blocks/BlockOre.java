@@ -1,8 +1,11 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -28,12 +31,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Random;
-
 public class BlockOre extends Block
 {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
-    public static final String[] oreDictByMeta = new String[]{"oreIron", "oreNickel", "oreCopper", "oreCopper", "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum", "oreUranium", "oreZinc"};
+    public static final String[] oreDictByMeta = new String[]
+    { "oreIron", "oreNickel", "oreCopper", "oreCopper", "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum",
+            "oreUranium", "oreZinc" };
 
     public BlockOre()
     {
@@ -55,7 +58,8 @@ public class BlockOre extends Block
     {
         for (int i = 0; i < Types.Modded.values().length; i++)
         {
-            OreDictionary.registerOre("oreBlock" + Types.Modded.values()[i].getName().substring(0, 1).toUpperCase() + Types.Modded.values()[i].getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("oreBlock" + Types.Modded.values()[i].getName().substring(0, 1).toUpperCase()
+                    + Types.Modded.values()[i].getName().substring(1), new ItemStack(this, 1, i));
         }
     }
 
@@ -80,7 +84,8 @@ public class BlockOre extends Block
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
         {
-            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
+            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to
+            // 20%:
             Random rand = new Random();
             int rng = rand.nextInt(5);
             if (rng == 0)
@@ -170,7 +175,8 @@ public class BlockOre extends Block
         {
             return hasOreDictAlternative("oreSilver") && hasOreDictAlternative("oreLead");
         }
-        return hasOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]) && !getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]).isEmpty();
+        return hasOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)])
+                && !getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]).isEmpty();
     }
 
     @Override
@@ -211,37 +217,39 @@ public class BlockOre extends Block
         int meta = state.getBlock().getMetaFromState(state);
         switch (meta)
         {
-            case 0:
-                return ItemCluster.META_IRON;
-            case 2:
-                return ItemCluster.META_COPPER;
-            case 3:
-                return ItemCluster.META_COPPER;
-            case 4:
-                return ItemCluster.META_TIN;
-            case 5:
-                return ItemCluster.META_TIN;
-            case 7:
-                return ItemCluster.META_ALUMINUM;
-            case 8:
-                return ItemCluster.META_PLATINUM;
-            case 9:
-                return ItemCluster.META_URANIUM;
-            case 10:
-                return ItemCluster.META_ZINC;
-            default:
-                return 0;
+        case 0:
+            return ItemCluster.META_IRON;
+        case 2:
+            return ItemCluster.META_COPPER;
+        case 3:
+            return ItemCluster.META_COPPER;
+        case 4:
+            return ItemCluster.META_TIN;
+        case 5:
+            return ItemCluster.META_TIN;
+        case 7:
+            return ItemCluster.META_ALUMINUM;
+        case 8:
+            return ItemCluster.META_PLATINUM;
+        case 9:
+            return ItemCluster.META_URANIUM;
+        case 10:
+            return ItemCluster.META_ZINC;
+        default:
+            return 0;
         }
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+            EntityPlayer player)
     {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+            float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
@@ -265,8 +273,8 @@ public class BlockOre extends Block
     }
 
     /**
-     * An ItemBlock class for this block allowing it to
-     * support subtypes with proper placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper
+     * placement
      */
     public class ItemBlockOre extends ItemBlock
     {
@@ -289,7 +297,8 @@ public class BlockOre extends Block
         @Override
         public String getUnlocalizedName(ItemStack stack)
         {
-            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Modded.byMetadata(stack.getMetadata()).getName();
+            return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
+                    + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
@@ -309,7 +318,8 @@ public class BlockOre extends Block
         {
             for (int i = 0; i < Types.Modded.values().length; i++)
             {
-                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
+                Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
+                        VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
             }
         }
     }

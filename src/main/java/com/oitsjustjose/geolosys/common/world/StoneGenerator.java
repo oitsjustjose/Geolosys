@@ -35,7 +35,8 @@ public class StoneGenerator implements IWorldGenerator
     }
 
     @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
+            IChunkProvider chunkProvider)
     {
         if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
         {
@@ -44,7 +45,8 @@ public class StoneGenerator implements IWorldGenerator
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (stoneSpawnList.size() > 0)
         {
-            stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16),
+                    (chunkZ * 16));
         }
     }
 
@@ -55,7 +57,6 @@ public class StoneGenerator implements IWorldGenerator
         int minY;
         int maxY;
         int weight;
-
 
         StoneGen(IBlockState state, int minY, int maxY, int weight)
         {
@@ -68,7 +69,8 @@ public class StoneGenerator implements IWorldGenerator
 
         public void generate(World world, Random rand, int x, int z)
         {
-            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16), world.provider.getDimension()))
+            if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16),
+                    world.provider.getDimension()))
             {
                 return;
             }

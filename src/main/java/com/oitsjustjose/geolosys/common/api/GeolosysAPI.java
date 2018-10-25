@@ -1,25 +1,28 @@
 package com.oitsjustjose.geolosys.common.api;
 
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.ConfigOres;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.util.GlueList;
-import com.oitsjustjose.geolosys.common.world.OreGenerator;
-import com.oitsjustjose.geolosys.common.world.StoneGenerator;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.world.OreGenerator;
+import com.oitsjustjose.geolosys.common.world.StoneGenerator;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.ChunkPos;
+
 /**
- * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist
- * Access is pretty easy, just reference this class's currentWorldDeposits HashMap
+ * The Geolosys API is intended for use by anyone who wants to tap into all the
+ * locations that deposits exist Access is pretty easy, just reference this
+ * class's currentWorldDeposits HashMap
  */
 public class GeolosysAPI
 {
@@ -36,7 +39,6 @@ public class GeolosysAPI
 
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
-    public static HashMap<ChunkPos, GlueList<BlockPos>> mineralMap = new HashMap<>();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
@@ -56,7 +58,8 @@ public class GeolosysAPI
                 }
             }
             Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
-            Geolosys.getInstance().LOGGER.info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
+            Geolosys.getInstance().LOGGER
+                    .info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
         }
     }
 
@@ -76,11 +79,13 @@ public class GeolosysAPI
     public static void putWorldDeposit(String posAsString, String state)
     {
         String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
-        currentWorldDeposits.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])), state);
+        currentWorldDeposits.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2])), state);
     }
 
     /**
-     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
+     * @return The world's current deposits throughout the world. The string is
+     *         formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits()
@@ -89,7 +94,8 @@ public class GeolosysAPI
     }
 
     /**
-     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
+     * @return The world's current deposits throughout the world. The string is
+     *         formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, Boolean> getRegennedChunks()
@@ -98,21 +104,21 @@ public class GeolosysAPI
     }
 
     /**
-     * Marks a chunk as having been regenerated
-     * - this is for the "Retroactively replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively
+     * replace existing ores in world" option
      *
      * @param posAsString The ChunkPosSerializeable in toString() form to add
      */
     public static void markChunkRegenned(String posAsString)
     {
         String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
-        markChunkRegenned(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+        markChunkRegenned(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2])));
     }
 
-
     /**
-     * Marks a chunk as having been regenerated
-     * - this is for the "Retroactively replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively
+     * replace existing ores in world" option
      *
      * @param pos The ChunkPos to add to
      */
@@ -122,8 +128,8 @@ public class GeolosysAPI
     }
 
     /**
-     * Marks a chunk as having been regenerated
-     * - this is for the "Retroactively replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively
+     * replace existing ores in world" option
      *
      * @param pos The ChunkPosSerializeable to add to
      */
@@ -161,7 +167,6 @@ public class GeolosysAPI
         return false;
     }
 
-
     /**
      * Adds a deposit for Geolosys to handle the generation of.
      *
@@ -170,10 +175,13 @@ public class GeolosysAPI
      * @param yMin         The minimum Y level this deposit can generate at
      * @param yMax         The maximum Y level this deposit can generate at
      * @param size         The size of the deposit
-     * @param chance       The chance of the deposit generating (higher = more likely)
-     * @param dimBlacklist An array of dimension numbers in which this deposit cannot generate
+     * @param chance       The chance of the deposit generating (higher = more
+     *                     likely)
+     * @param dimBlacklist An array of dimension numbers in which this deposit
+     *                     cannot generate
      */
-    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist)
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
+            int size, int chance, int[] dimBlacklist)
     {
         OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
         oreBlocks.put(oreBlock, sampleBlock);
@@ -189,7 +197,8 @@ public class GeolosysAPI
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, ConfigOres.Ore ore)
     {
-        registerMineralDeposit(oreBlock, sampleBlock, ore.getMinY(), ore.getMaxY(), ore.getSize(), ore.getChance(), ore.getBlacklist());
+        registerMineralDeposit(oreBlock, sampleBlock, ore.getMinY(), ore.getMaxY(), ore.getSize(), ore.getChance(),
+                ore.getBlacklist());
     }
 
     /**
@@ -200,18 +209,21 @@ public class GeolosysAPI
      * @param yMin               The minimum Y level this deposit can generate at
      * @param yMax               The maximum Y level this deposit can generate at
      * @param size               The size of the deposit
-     * @param chance             The chance of the deposit generating (higher = more likely)
-     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
-     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
+     * @param chance             The chance of the deposit generating (higher = more
+     *                           likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit
+     *                           cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically
+     *                           can replace
      */
-    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers)
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
+            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers)
     {
         oreBlocks.put(oreBlock, sampleBlock);
         sampleCounts.put(sampleBlock, size);
         oreBlocksSpecific.put(oreBlock, blockStateMatchers);
         OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
     }
-
 
     /**
      * Ads a stone type for Geolosys to handle the generation of.
@@ -229,7 +241,8 @@ public class GeolosysAPI
 
     /**
      * @param file The file object used to load up the DEPRECATED regenned chunks
-     * @return the LinkedHashMap of regenned chunks for conversion to new WorldData model
+     * @return the LinkedHashMap of regenned chunks for conversion to new WorldData
+     *         model
      */
     @SuppressWarnings("unchecked")
     public static LinkedHashMap<ChunkPosSerializable, Boolean> getRegennedChunks(File file)
@@ -274,33 +287,13 @@ public class GeolosysAPI
     }
 
     /**
-     * @param pos   The BlockPos (presumably an ore) to remove from the mineral map
-     * @param world The world object this occurs in
-     * @return true if able to remove the pos, false otherwise
-     */
-    public static boolean removeMineralFromMap(BlockPos pos, World world)
-    {
-        boolean ret = false;
-        ChunkPos chunkPos = new ChunkPos(pos);
-        if (mineralMap.get(chunkPos) != null)
-        {
-            ret = GeolosysAPI.mineralMap.get(chunkPos).remove(pos);
-            if (mineralMap.get(chunkPos).size() == 0)
-            {
-                mineralMap.remove(chunkPos);
-            }
-            GeolosysSaveData.get(world).markDirty();
-        }
-        return ret;
-    }
-
-
-    /**
-     * ChunkPosSerializable is a serializable version of Mojang's ChunkPos
-     * As such, it stores a chunk's X and Z position
+     * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such,
+     * it stores a chunk's X and Z position
      */
     public static class ChunkPosSerializable implements Serializable
     {
+        private static final long serialVersionUID = 8307434638180761006L;
+
         private int x;
         private int z;
         private int dim;

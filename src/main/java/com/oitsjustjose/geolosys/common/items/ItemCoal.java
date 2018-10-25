@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -42,14 +43,17 @@ public class ItemCoal extends Item
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Coal.byMetadata(stack.getMetadata()).getName();
+        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
+                + Types.Coal.byMetadata(stack.getMetadata()).getName();
     }
 
     private void registerModels()
     {
         for (int i = 0; i < Types.Coal.values().length; i++)
         {
-            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Coal.byMetadata(i).name()), "inventory");
+            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
+                    new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Coal.byMetadata(i).name()),
+                    "inventory");
         }
     }
 

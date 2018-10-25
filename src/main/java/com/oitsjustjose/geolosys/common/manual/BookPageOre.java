@@ -4,9 +4,9 @@ import net.minecraft.item.ItemStack;
 
 /**
  * @author oitsjustjose,
- * @author Mangoose /  https://github.com/the-realest-stu/
- * Code inspired directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly
+ *         from:
+ *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPageOre extends BookPage

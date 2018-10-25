@@ -1,8 +1,8 @@
 package com.oitsjustjose.geolosys.common.config;
 
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.client.GuiManual;
+
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -76,11 +76,6 @@ public class ModConfig
         @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
         @Config.RequiresMcRestart
         public boolean vanillaMode = false;
-
-        @Config.Name("Track Location and Destruction of All Mineral Blocks")
-        @Config.Comment("If disabled, this means breaking all blocks in a deposit won't prevent the Prospector's Pick from saying it has found the deposit on the surface.\n" +
-                "On the otherhand, this may cause performance and/or storage improvements, as this list can get large as world sizes increase.")
-        public boolean shouldTrackOres = true;
     }
 
     public static class Prospecting
@@ -117,21 +112,23 @@ public class ModConfig
     public static class UserEntries
     {
         @Config.Name("Custom Ore Entries")
-        @Config.Comment("Format is:\n" +
-                "modid:block:meta, deposit size, min Y, max Y, chance to gen in chunk, block to use as sample, [dimension blacklist] Example:\n" +
-                "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1, [1, -1]")
-        public String[] userOreEntriesRaw = new String[]{};
+        @Config.Comment("Format is:\n"
+                + "modid:block:meta, deposit size, min Y, max Y, chance to gen in chunk, block to use as sample, [dimension blacklist] Example:\n"
+                + "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1, [1, -1]")
+        public String[] userOreEntriesRaw = new String[]
+        {};
 
         @Config.Name("Custom Stone Entries")
-        @Config.Comment("Format is:\n" +
-                "modid:block:meta, min Y, max Y, chance to gen in chunk\n" +
-                "ALL DEPOSITS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" +
-                "rustic:slate:0, 27, 54, 10")
-        public String[] userStoneEntriesRaw = new String[]{};
+        @Config.Comment("Format is:\n" + "modid:block:meta, min Y, max Y, chance to gen in chunk\n"
+                + "ALL DEPOSITS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" + "rustic:slate:0, 27, 54, 10")
+        public String[] userStoneEntriesRaw = new String[]
+        {};
 
         @Config.Name("Blocks mineral deposits can replace")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
-        public String[] replacementMatsRaw = new String[]{"minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0", "minecraft:netherrack:0"};
+        public String[] replacementMatsRaw = new String[]
+        { "minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0",
+                "minecraft:netherrack:0" };
 
         @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
@@ -175,55 +172,32 @@ public class ModConfig
         {
             if (Loader.isModLoaded("gravelores"))
             {
-                return new String[]{
-                        "gravelores:coal_gravel_ore",
-                        "gravelores:iron_gravel_ore",
-                        "gravelores:lapis_gravel_ore",
-                        "gravelores:gold_gravel_ore",
-                        "gravelores:redstone_gravel_ore",
-                        "gravelores:diamond_gravel_ore",
-                        "gravelores:emerald_gravel_ore",
-                        "gravelores:tin_gravel_ore",
-                        "gravelores:nickel_gravel_ore",
-                        "gravelores:silver_gravel_ore",
-                        "gravelores:lead_gravel_ore",
-                        "gravelores:copper_gravel_ore",
-                        "gravelores:aluminum_gravel_ore",
-                        "nex:ore_quartz:0",
-                        "nex:ore_quartz:1",
-                        "nex:ore_quartz:2",
-                        "nex:ore_quartz:3"
-                };
+                return new String[]
+                { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore", "gravelores:lapis_gravel_ore",
+                        "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore", "gravelores:diamond_gravel_ore",
+                        "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore", "gravelores:nickel_gravel_ore",
+                        "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore", "gravelores:copper_gravel_ore",
+                        "gravelores:aluminum_gravel_ore", "nex:ore_quartz:0", "nex:ore_quartz:1", "nex:ore_quartz:2",
+                        "nex:ore_quartz:3" };
             }
             else
             {
-                return new String[]{
-                        "nex:ore_quartz:0",
-                        "nex:ore_quartz:1",
-                        "nex:ore_quartz:2",
-                        "nex:ore_quartz:3"
-                };
+                return new String[]
+                { "nex:ore_quartz:0", "nex:ore_quartz:1", "nex:ore_quartz:2", "nex:ore_quartz:3" };
             }
         }
         else if (Loader.isModLoaded("gravelores"))
         {
-            return new String[]{
-                    "gravelores:coal_gravel_ore",
-                    "gravelores:iron_gravel_ore",
-                    "gravelores:lapis_gravel_ore",
-                    "gravelores:gold_gravel_ore",
-                    "gravelores:redstone_gravel_ore",
-                    "gravelores:diamond_gravel_ore",
-                    "gravelores:emerald_gravel_ore",
-                    "gravelores:tin_gravel_ore",
-                    "gravelores:nickel_gravel_ore",
-                    "gravelores:silver_gravel_ore",
-                    "gravelores:lead_gravel_ore",
-                    "gravelores:copper_gravel_ore",
+            return new String[]
+            { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore", "gravelores:lapis_gravel_ore",
+                    "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore", "gravelores:diamond_gravel_ore",
+                    "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore", "gravelores:nickel_gravel_ore",
+                    "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore", "gravelores:copper_gravel_ore",
                     "gravelores:aluminum_gravel_ore",
 
-                    };
+            };
         }
-        return new String[]{};
+        return new String[]
+        {};
     }
 }

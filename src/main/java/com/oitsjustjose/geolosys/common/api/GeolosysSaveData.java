@@ -1,18 +1,17 @@
 package com.oitsjustjose.geolosys.common.api;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.util.GlueList;
+
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
-
-import java.io.File;
-import java.util.*;
 
 public class GeolosysSaveData extends WorldSavedData
 {
@@ -22,21 +21,28 @@ public class GeolosysSaveData extends WorldSavedData
     {
         super(Geolosys.MODID);
         this.markDirty();
-        this.hasOldFiles = (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists() || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat")).exists();
+        this.hasOldFiles = (new File(
+                DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists()
+                || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat"))
+                        .exists();
     }
 
     public GeolosysSaveData(String s)
     {
         super(s);
         this.markDirty();
-        this.hasOldFiles = (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists() || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat")).exists();
+        this.hasOldFiles = (new File(
+                DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists()
+                || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat"))
+                        .exists();
     }
 
-    @SuppressWarnings("unchecked")
     private void convertFromOld(NBTTagCompound nbt)
     {
-        File depositFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
-        File regenFileLocation = new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat");
+        File depositFileLocation = new File(
+                DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat");
+        File regenFileLocation = new File(
+                DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat");
         HashMap<GeolosysAPI.ChunkPosSerializable, String> currentWorldDepositsDeprecated = new HashMap<>();
         LinkedHashMap<GeolosysAPI.ChunkPosSerializable, Boolean> regennedChunksDeprecated = new LinkedHashMap<>();
         if (DimensionManager.getCurrentSaveRootDirectory() != null)
@@ -106,24 +112,6 @@ public class GeolosysSaveData extends WorldSavedData
                 }
             }
         }
-        if (ModConfig.featureControl.shouldTrackOres)
-        {
-            if (compound.hasKey("mineralMap"))
-            {
-                NBTTagCompound compMineralMap = compound.getCompoundTag("mineralMap");
-                for (String chunkPosAsString : compMineralMap.getKeySet())
-                {
-                    GlueList<BlockPos> posList = new GlueList<>();
-
-                    for (String s : compMineralMap.getCompoundTag(chunkPosAsString).getKeySet())
-                    {
-                        int[] posArr = compMineralMap.getCompoundTag(chunkPosAsString).getIntArray(s);
-                        posList.add(new BlockPos(posArr[0], posArr[1], posArr[2]));
-                    }
-                    GeolosysAPI.mineralMap.put(fromString(chunkPosAsString), posList);
-                }
-            }
-        }
     }
 
     @Override
@@ -149,35 +137,13 @@ public class GeolosysSaveData extends WorldSavedData
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
         }
 
-        if (ModConfig.featureControl.shouldTrackOres)
-        {
-            if (!compound.hasKey("mineralMap"))
-            {
-                compound.setTag("mineralMap", new NBTTagCompound());
-            }
-            NBTTagCompound minMap = compound.getCompoundTag("mineralMap");
-            for (Map.Entry<ChunkPos, GlueList<BlockPos>> e : GeolosysAPI.mineralMap.entrySet())
-            {
-                minMap.setTag(e.getKey().toString(), new NBTTagCompound());
-                for (int i = 0; i < e.getValue().size(); i++)
-                {
-                    minMap.getCompoundTag(e.getKey().toString()).setIntArray("" + i, new int[]{e.getValue().get(i).getX(), e.getValue().get(i).getY(), e.getValue().get(i).getZ()});
-                }
-            }
-        }
-
         return compound;
-    }
-
-    private ChunkPos fromString(String s)
-    {
-        String[] parts = s.replace("[", "").replace("]", "").replace(" ", "").split(",");
-        return new ChunkPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
     }
 
     public static GeolosysSaveData get(World world)
     {
-        // The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
+        // The IS_GLOBAL constant is there for clarity, and should be simplified into
+        // the right branch.
         MapStorage storage = world.getPerWorldStorage();
         GeolosysSaveData instance = (GeolosysSaveData) storage.getOrLoadData(GeolosysSaveData.class, Geolosys.MODID);
 

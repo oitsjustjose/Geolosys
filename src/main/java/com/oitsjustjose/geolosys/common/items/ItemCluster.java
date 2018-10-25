@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,14 +57,17 @@ public class ItemCluster extends Item
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "." + Types.Cluster.byMetadata(stack.getMetadata()).getName();
+        return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
+                + Types.Cluster.byMetadata(stack.getMetadata()).getName();
     }
 
     private void registerModels()
     {
         for (int i = 0; i < Types.Cluster.values().length; i++)
         {
-            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i), new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Cluster.byMetadata(i).name()), "inventory");
+            Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
+                    new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Cluster.byMetadata(i).name()),
+                    "inventory");
         }
     }
 
@@ -71,7 +75,8 @@ public class ItemCluster extends Item
     {
         for (int i = 0; i < Types.Cluster.values().length; i++)
         {
-            OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase() + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
+            OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase()
+                    + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
         }
         if (ModConfig.featureControl.registerAsBauxite)
         {

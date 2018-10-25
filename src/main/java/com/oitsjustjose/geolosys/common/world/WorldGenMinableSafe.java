@@ -1,17 +1,16 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.util.GlueList;
+import java.util.List;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.common.util.Utils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-
-import java.util.List;
-import java.util.Random;
 
 public class WorldGenMinableSafe extends WorldGenerator
 {
@@ -35,7 +34,8 @@ public class WorldGenMinableSafe extends WorldGenerator
     {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
-        return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart() && blockZ <= chunkPos.getZEnd();
+        return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
+                && blockZ <= chunkPos.getZEnd();
     }
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
@@ -96,11 +96,6 @@ public class WorldGenMinableSafe extends WorldGenerator
                                             {
                                                 if (Utils.doStatesMatch(iBlockState, state))
                                                 {
-                                                    GeolosysAPI.mineralMap.computeIfAbsent(new ChunkPos(blockpos), k2 -> new GlueList<>());
-                                                    if (worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16))
-                                                    {
-                                                        GeolosysAPI.mineralMap.get(new ChunkPos(blockpos)).add(blockpos);
-                                                    }
                                                     break;
                                                 }
                                             }

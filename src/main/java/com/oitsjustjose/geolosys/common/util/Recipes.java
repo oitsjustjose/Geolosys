@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.util;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
