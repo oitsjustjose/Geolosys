@@ -1,3 +1,10 @@
+### 2.1.3:
+* CHANGED: The way prospecting works again; looks for the first *Sample* in the chunk
+* CHANGED: Language localization system; uses less deprecated code, completely internal really
+* FIXED: Server lag in large worlds due to tracking every mineral mined and writing to a file
+* [API] REMOVED: MineralMap
+* [Internal]: Updated Forge and IE dependencies; still no requirement on a specific version yet :)
+
 ### 2.1.2:
 * FIX: broken imports that weren't actually crashing but absolutely should have (why not though? ¯\_(ツ)_/¯ )
 * FIX: log outputs with the Mineral tracking process; this was causing *lots* of lag.
