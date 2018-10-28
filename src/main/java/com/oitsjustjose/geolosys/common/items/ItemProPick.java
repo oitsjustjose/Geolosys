@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.items;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,7 +31,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -218,7 +218,7 @@ public class ItemProPick extends Item
             if (!found)
             {
                 player.sendStatusMessage(
-                        new TextComponentString(I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound")), true);
+                        new TextComponentString(Geolosys.proxy.translate("geolosys.pro_pick.tooltip.nonefound")), true);
             }
         }
         player.swingArm(hand);
@@ -250,7 +250,7 @@ public class ItemProPick extends Item
 
     private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
-        String msg = I18n.translateToLocal("geolosys.pro_pick.tooltip.found");
+        String msg = Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found");
         msg = msg.replace("%BLOCK%",
                 new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName());
         msg = msg.replace("%DIR%", "" + facing.getOpposite());
@@ -297,22 +297,25 @@ public class ItemProPick extends Item
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
-        for (int x = tempPos.getXStart(); x < tempPos.getXEnd(); x++)
+        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
         {
-            for (int y = 0; y < 255; y++)
+            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
-                for (int z = tempPos.getZStart(); z < tempPos.getZEnd(); z++)
+                for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                 {
-                    if (GeolosysAPI.oreBlocks.keySet().contains(world.getBlockState(new BlockPos(x, y, z))))
+                    for (Entry<IBlockState, IBlockState> e : GeolosysAPI.oreBlocks.entrySet())
                     {
-                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
-                                + I18n.translateToLocal("geolosys.pro_pick.tooltip.found_surface");
+                        if (e.getValue() == world.getBlockState(new BlockPos(x, y, z)))
+                        {
+                            return getNameForBlockState(e.getKey()) + " "
+                                    + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                        }
                     }
                 }
             }
         }
 
-        return I18n.translateToLocal("geolosys.pro_pick.tooltip.nonefound_surface");
+        return Geolosys.proxy.translate("geolosys.pro_pick.tooltip.nonefound_surface");
     }
 
     private String getNameForBlockState(IBlockState state)
