@@ -19,6 +19,7 @@ public class CommonProxy
     {
     }
 
+    @SuppressWarnings("deprecation")
     public String translate(String unlocalized, Object... args)
     {
         return I18n.translateToLocalFormatted(unlocalized, args);
