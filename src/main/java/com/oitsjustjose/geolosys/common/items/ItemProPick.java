@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
 
 import org.lwjgl.opengl.GL11;
 
@@ -297,18 +298,40 @@ public class ItemProPick extends Item
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
-        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
+        SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
+
+        if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
         {
-            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
+            for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
             {
-                for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
                 {
-                    for (Entry<IBlockState, IBlockState> e : GeolosysAPI.oreBlocks.entrySet())
+                    for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                     {
-                        if (e.getValue() == world.getBlockState(new BlockPos(x, y, z)))
+                        if (GeolosysAPI.oreBlocks.keySet().contains(world.getBlockState(new BlockPos(x, y, z))))
                         {
-                            return getNameForBlockState(e.getKey()) + " "
+                            return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
                                     + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
+            {
+                for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
+                {
+                    for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                    {
+                        for (Entry<IBlockState, IBlockState> e : GeolosysAPI.oreBlocks.entrySet())
+                        {
+                            if (e.getValue() == world.getBlockState(new BlockPos(x, y, z)))
+                            {
+                                return getNameForBlockState(e.getKey()) + " "
+                                        + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                            }
                         }
                     }
                 }

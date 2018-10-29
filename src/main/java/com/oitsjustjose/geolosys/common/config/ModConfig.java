@@ -107,6 +107,16 @@ public class ModConfig
         @Config.Name("Prospector's Pickaxe Diameter")
         @Config.RangeInt(min = 0, max = 255)
         public int proPickDiameter = 5;
+
+        @Config.Name("Surface Prospecting Results")
+        @Config.Comment("SAMPLES means prospecting on the surface returns the samples found\n"
+                + "OREBLOCKS means prospecting on the surface returns the first Geolosys-registered Ore Block it finds")
+        public SURFACE_PROSPECTING_TYPE surfaceProspectingResults = SURFACE_PROSPECTING_TYPE.SAMPLES;
+
+        public enum SURFACE_PROSPECTING_TYPE
+        {
+            SAMPLES, OREBLOCKS;
+        }
     }
 
     public static class UserEntries
