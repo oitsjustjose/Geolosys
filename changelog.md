@@ -1,4 +1,12 @@
+# Geolosys Changelog
+
+### 2.1.3.1:
+
+* ADDED: Config Option for new Propector's Pick surface functionality
+* FIXED: Ores not generating 🤔
+
 ### 2.1.3:
+
 * CHANGED: The way prospecting works again; looks for the first *Sample* in the chunk
 * CHANGED: Language localization system; uses less deprecated code, completely internal really
 * FIXED: Server lag in large worlds due to tracking every mineral mined and writing to a file
@@ -6,14 +14,17 @@
 * [Internal]: Updated Forge and IE dependencies; still no requirement on a specific version yet :)
 
 ### 2.1.2:
+
 * FIX: broken imports that weren't actually crashing but absolutely should have (why not though? ¯\_(ツ)_/¯ )
 * FIX: log outputs with the Mineral tracking process; this was causing *lots* of lag.
 * CHANGED: storage method of internal variables to an almost-no-latency method; helps with mineral tracking too.
 
 ### 2.1.1:
+
 * FIX: Mojang's fuck ups
 
 ### 2.1.0:
+
 * NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+ packs or newcomers), and generates ores with their respective Vanilla variants.
 * NEW: Silk Touching a mod-based material now drops the first entry in the ore dictionary not from Geolosys (i.e.: silk-touching Geolosys Uranium with other mods offering uranium will drop one of those mods' uranium ore instead)
 * NEW: Separate config option for disabling *all* default vanilla ore generation.
@@ -29,11 +40,12 @@
 * FIXED: Stone entries generating in the nether and end. I might eventually just use a dimension blacklist system for this too...
 
 ### 2.0.0:
+
 * NEW: Prospector's Pick *can* have a configurable durability (if enabled!)
 * NEW: Prospector's Pick can show you your Y-Level (if enabled!)
 * NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him for saving me a week of cursing at GL rendering algorithms.
  	* Font Size is configurable via the mod's config.
- 	* Images of game objects! This should make it easier to identify things.
+	* Images of game objects! This should make it easier to identify things.
 	* Field Manual values can be dynamic:
 		* Disabled ores will not appear.
 		* Disabled features will not appear.
@@ -51,6 +63,7 @@
 * REMOVED: A couple of unnecessary / redundant config options... oops.
 
 ### 1.9.4:
+
 * ADDED: French Translation for the Field Manual (Thanks Yanis48!)
 * ADDED: Blacklist config for the Ore Swapping feature (in case it breaks something you don't want it to)
 * FIXED: French Translation for the Prospector's Pick (Thanks again to Yanis48)
@@ -60,6 +73,7 @@
 * CHANGED: Log outputs are more detailed for errors with custom entries
 
 ### 1.9.3:
+
 * ADDED: Config option to disable Unicode font renderer in the Field Manual (allows for optifine compat)
 * ADDED: Elucent's GravelOres compatibility to the OreConverter (no longer converts gravel ores to Geolosys's)
 * ADDED: BetterWithMods smelting compatibility (attempts to smelt all clusters to nuggets)
@@ -72,13 +86,16 @@
 
 
 ### 1.9.2:
+
 * FIXED: Dimension Blacklisting issues with custom entries
 
 ### 1.9.1:
+
 * FIXED: Various crashes with field manual
 * CHANGED: Field Manual GUI: Now uses Unicode font (easier to read) and custom texture!
 
 ### 1.9:
+
 * ADDED: Extra Prospector's Pick settings (Thanks agentgoblin!)
 * ADDED: Ore-swapping: replaces other mod ores with Geolosys ones *after* they've generated (like for Twilight Forest). This only happens **once** per chunk visited, when the player visits it
 * ADDED: Compatibility for Astral Sorcery's Infused Crystal Pickaxe
@@ -91,16 +108,19 @@
 * FIXED: Field manual opening for all users on LAN Multiplayer
 
 ### 1.8.10c:
+
 * ADDED: Config option for the IE compat module
 * FIXED: Inter-mod compat with drops not working
 * FIXED: Crashing for blocks with odd names
 * FIXED: Occasional print statements from debugging
 
 ### 1.8.10b:
+
 * ADDED: Debug print statements for Darkosto (configurable, OFF by default)
 
 ### 1.8.10:
 #### This is a big update. Read carefully.
+
 * [API] ADDED: Ability to add your own minerals and stones yourself
 * ADDED: Lava to the replacement mats defaults (this is a good idea, just saying...)
 * FIXED: World generation issues. Things should be good now. I promise.
@@ -112,21 +132,26 @@
 * CHANGED: **THIS IS IMPORTANT**: Config Layout. Forge came out with a new one that is much nicer. Unfortunately this means you'll need to **UPDATE YOUR CONFIG**. I'd suggest moving your old one to a new folder (or renaming it), letting a new one get created, and copying entries side-by-side. 
 
 ### 1.8.9c:
+
 * FIXED: Console spam. Sorry. Thanks AmazigJj :)
 
 ### 1.8.9b:
+
 * FIXED: `NullPointerException` on line 54 of GeolosysAPI (NPE for `fileLocation`)
 
 ### 1.8.9:
+
 * ADDED: API for Geolosys, so that other mods can see where mineral deposits have generated and even do some simple trickery to basically control Geolosys.
 
 ### 1.8.8c:
+
 * ADDED: New Compass Enchancement (configurable) that helps you find mineral deposits without F3
 * CHANGED: Minor touchy things for the IE compat layer
 * CHANGED: Textures for coal variants (except for peat)
 * FIXED: Worldgen stall / crash
 
 ### 1.8.8b:
+
 * CHANGED: Major improvement to the JSON validator for geolosys_ores.json - it'll now add new entries you don't have!!
 
 ### 1.8.8:
@@ -220,7 +245,6 @@
 * CHANGED: New textures by Wiiv!!
 * FIXED: Samples on samples not spawning samples at all
 * FIXED: Snow and other things spawning on top of samples
-
 
 ### 1.5:
 
