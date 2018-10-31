@@ -96,6 +96,7 @@ public class WorldGenMinableSafe extends WorldGenerator
                                             {
                                                 if (Utils.doStatesMatch(iBlockState, state))
                                                 {
+                                                    worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
                                                     break;
                                                 }
                                             }
