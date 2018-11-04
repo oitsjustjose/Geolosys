@@ -113,6 +113,10 @@ public class ModConfig
                 + "OREBLOCKS means prospecting on the surface returns the first Geolosys-registered Ore Block it finds")
         public SURFACE_PROSPECTING_TYPE surfaceProspectingResults = SURFACE_PROSPECTING_TYPE.SAMPLES;
 
+        @Config.Name("Blocks Samples can Generate On")
+        @Config.Comment("Formatted <modid:block:meta>; this list contains blocks that samples should not generate on.")
+        public String[] samplePlaceBlacklist = new String[]{"minecraft:ice:0", "minecraft:packed_ice:0", "minecraft:frosted_ice"};
+
         public enum SURFACE_PROSPECTING_TYPE
         {
             SAMPLES, OREBLOCKS;

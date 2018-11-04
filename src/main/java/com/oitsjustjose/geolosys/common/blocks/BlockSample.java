@@ -1,7 +1,10 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.ArrayList;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -36,6 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockSample extends Block
 {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
+    private ArrayList<IBlockState> canPlaceBlacklist;
 
     public BlockSample()
     {
@@ -50,6 +54,36 @@ public class BlockSample extends Block
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
         MinecraftForge.EVENT_BUS.register(this);
+        this.parsePlaceBlacklist();
+    }
+
+    private void parsePlaceBlacklist()
+    {
+        this.canPlaceBlacklist = new ArrayList<IBlockState>();
+        for (String s : ModConfig.prospecting.samplePlaceBlacklist)
+        {
+            String[] parts = s.split(":");
+            if (parts.length < 2 || parts.length > 3)
+            {
+                Geolosys.getInstance().LOGGER
+                        .info("Entry " + s + " has incorrect formatting in samplePlaceBlacklist; skipping.");
+                continue;
+            }
+            Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+            if (b == null)
+            {
+                Geolosys.getInstance().LOGGER.info("Entry " + s + " does not seem to exist; skipping.");
+                continue;
+            }
+            if (parts.length == 3)
+            {
+                canPlaceBlacklist.add(Utils.getStateFromMeta(b, Integer.parseInt(parts[2])));
+            }
+            else
+            {
+                canPlaceBlacklist.add(b.getDefaultState());
+            }
+        }
     }
 
     @Override
@@ -90,6 +124,14 @@ public class BlockSample extends Block
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
+        for (IBlockState state : canPlaceBlacklist)
+        {
+            if (Utils.doStatesMatch(state, worldIn.getBlockState(pos)))
+            {
+                return false;
+            }
+        }
+
         return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
     }
 
@@ -208,8 +250,7 @@ public class BlockSample extends Block
     }
 
     /**
-     * An ItemBlock class for this block allowing it to support subtypes with proper
-     * placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper placement
      */
     public class ItemBlockOre extends ItemBlock
     {
