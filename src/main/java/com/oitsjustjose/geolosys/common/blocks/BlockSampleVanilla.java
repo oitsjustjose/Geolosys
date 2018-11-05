@@ -126,7 +126,7 @@ public class BlockSampleVanilla extends Block
     {
         for (IBlockState state : canPlaceBlacklist)
         {
-            if (Utils.doStatesMatch(state, worldIn.getBlockState(pos)))
+            if (Utils.doStatesMatch(state, worldIn.getBlockState(pos.down())))
             {
                 return false;
             }
