@@ -91,7 +91,7 @@ public class BlockOreVanilla extends Block
             return new ItemStack(Blocks.LAPIS_ORE, 1);
         case 4:
         {
-			Random random = new Random();
+            Random random = new Random();
             int rng = random.nextInt(25);
             /**************************
              * AE *
