@@ -183,12 +183,48 @@ public class BlockOre extends Block
     protected ItemStack getSilkTouchDrop(IBlockState state)
     {
         Random rand = new Random();
+        int met = state.getBlock().getMetaFromState(state);
+        switch (state.getBlock().getMetaFromState(state)) {
+            // Limonite; iron and nickel
+            case 1: {
+                return rand.nextInt(5) == 0? getOreDictAlternative("oreNickel")
+                        : getOreDictAlternative("oreIron");
 
-        if (state.getBlock().getMetaFromState(state) == 6)
-        {
-            return rand.nextBoolean() ? getOreDictAlternative("oreSilver") : getOreDictAlternative("oreLead");
+            }
+
+            // Galena; lead and silver
+            case 6: {
+                return rand.nextBoolean() ? getOreDictAlternative("oreSilver")
+                        : getOreDictAlternative("oreLead");
+            }
+
+            // Platinum + Osmium
+            case 8: {
+                if (ModConfig.featureControl.enableOsmiumExclusively)
+                {
+                    getOreDictAlternative("oreOsmium");
+                }
+                else if (ModConfig.featureControl.enableOsmium)
+                {
+                    return rand.nextBoolean()? getOreDictAlternative("orePlatinum")
+                            : getOreDictAlternative("oreOsmium");
+                }
+                else
+                {
+                    getOreDictAlternative("orePlatinum");
+                }
+            }
+
+            // Autunite; Uranium and Yellorium
+            case 9: {
+                return rand.nextBoolean() ? getOreDictAlternative("oreUranium")
+                        : getOreDictAlternative("oreYellorium");
+            }
+
+            default:
+                return getOreDictAlternative(oreDictByMeta[met]);
         }
-        return getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]);
+
     }
 
     private boolean hasOreDictAlternative(String oreName)
