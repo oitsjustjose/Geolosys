@@ -90,7 +90,38 @@ public class BlockOreVanilla extends Block
         case 3:
             return new ItemStack(Blocks.LAPIS_ORE, 1);
         case 4:
+        {
+			Random random = new Random();
+            int rng = random.nextInt(25);
+            /**************************
+             * AE *
+             **************************/
+            if (ModMaterials.AE_MATERIAL != null)
+            {
+                if (rng < 7)
+                {
+                    ItemStack oreCert = OreDictionary.getOres("oreCertusQuartz").get(0);
+                    oreCert = oreCert.copy();
+                    oreCert.setCount(1);
+                    return oreCert;
+                }
+            }
+            /**************************
+             * AA *
+             **************************/
+            if (ModMaterials.BLACK_QUARTZ != null)
+            {
+                if (rng >= 7 && rng < 12)
+                {
+                    ItemStack oreBlack = OreDictionary.getOres("oreQuartzBlack").get(0);
+                    oreBlack = oreBlack.copy();
+                    oreBlack.setCount(1);
+                    return oreBlack;
+                }
+            }
+            
             return new ItemStack(Blocks.QUARTZ_ORE, 1);
+        }
         case 5:
             return new ItemStack(Blocks.DIAMOND_ORE, 1);
         case 6:
