@@ -96,7 +96,7 @@ public class BlockOreVanilla extends Block
             /**************************
              * AE *
              **************************/
-            if (ModMaterials.AE_MATERIAL != null)
+            if (OreDictionary.doesOreNameExist("oreCertusQuartz"))
             {
                 if (rng < 7)
                 {
@@ -109,7 +109,7 @@ public class BlockOreVanilla extends Block
             /**************************
              * AA *
              **************************/
-            if (ModMaterials.BLACK_QUARTZ != null)
+            if (OreDictionary.doesOreNameExist("oreQuartzBlack"))
             {
                 if (rng >= 7 && rng < 12)
                 {
