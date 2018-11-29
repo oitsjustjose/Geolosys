@@ -171,29 +171,81 @@ public class BlockOre extends Block
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        if (state.getBlock().getMetaFromState(state) == 6)
-        {
-            return hasOreDictAlternative("oreSilver") && hasOreDictAlternative("oreLead");
-        }
-        return hasOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)])
-                && !getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]).isEmpty();
+        return !getSilkTouchDrop(state).isEmpty();
     }
 
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state)
     {
         Random rand = new Random();
-
-        if (state.getBlock().getMetaFromState(state) == 6)
+        int meta = state.getBlock().getMetaFromState(state);
+        // Limonite:
+        if (meta == 1)
         {
-            return rand.nextBoolean() ? getOreDictAlternative("oreSilver") : getOreDictAlternative("oreLead");
+            if (rand.nextInt(5) == 0)
+            {
+                return getOreDictAlternative("oreNickel");
+            }
+            else
+            {
+                return getOreDictAlternative("oreIron");
+            }
         }
-        return getOreDictAlternative(oreDictByMeta[state.getBlock().getMetaFromState(state)]);
-    }
-
-    private boolean hasOreDictAlternative(String oreName)
-    {
-        return OreDictionary.doesOreNameExist(oreName) && OreDictionary.getOres(oreName).size() > 1;
+        // Galena:
+        else if (meta == 6)
+        {
+            if (rand.nextBoolean())
+            {
+                return getOreDictAlternative("oreSilver");
+            }
+            else
+            {
+                return getOreDictAlternative("oreLead");
+            }
+        }
+        // Platinum:
+        else if (meta == 8)
+        {
+            if (ModConfig.featureControl.enableOsmiumExclusively)
+            {
+                return getOreDictAlternative("oreOsmium");
+            }
+            else if (ModConfig.featureControl.enableOsmium)
+            {
+                if (rand.nextBoolean())
+                {
+                    return getOreDictAlternative("oreOsmium");
+                }
+                else
+                {
+                    return getOreDictAlternative("orePlatinum");
+                }
+            }
+            else
+            {
+                return getOreDictAlternative("orePlatinum");
+            }
+        }
+        // Autunite:
+        else if (meta == 9)
+        {
+            if (ModConfig.featureControl.enableYellorium)
+            {
+                if (rand.nextBoolean())
+                {
+                    return getOreDictAlternative("oreYellorium");
+                }
+                else
+                {
+                    return getOreDictAlternative("oreUranium");
+                }
+            }
+            else
+            {
+                return getOreDictAlternative("oreUranium");
+            }
+        }
+        return getOreDictAlternative(oreDictByMeta[meta]);
     }
 
     private ItemStack getOreDictAlternative(String oreName)
@@ -273,8 +325,7 @@ public class BlockOre extends Block
     }
 
     /**
-     * An ItemBlock class for this block allowing it to support subtypes with proper
-     * placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper placement
      */
     public class ItemBlockOre extends ItemBlock
     {
