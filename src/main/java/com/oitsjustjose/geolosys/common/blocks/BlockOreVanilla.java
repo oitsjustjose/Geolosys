@@ -76,6 +76,38 @@ public class BlockOreVanilla extends Block
         return true;
     }
 
+    private ItemStack getQuartzSilkTouchDrop()
+    {
+        /******************************************************
+         * Many thanks to github.com/Paul17041993 for the code*
+         *****************************************************/
+        Random random = new Random();
+        int rng = random.nextInt(25);
+        // AE Compatibility
+        if (OreDictionary.doesOreNameExist("oreCertusQuartz") && OreDictionary.getOres("oreCertusQuartz").size() > 0)
+        {
+            if (rng < 7)
+            {
+                ItemStack oreCert = OreDictionary.getOres("oreCertusQuartz").get(0);
+                oreCert = oreCert.copy();
+                oreCert.setCount(1);
+                return oreCert;
+            }
+        }
+        // AA Compat
+        if (OreDictionary.doesOreNameExist("oreQuartzBlack") && OreDictionary.getOres("oreQuartzBlack").size() > 0)
+        {
+            if (rng >= 7 && rng < 12)
+            {
+                ItemStack oreBlack = OreDictionary.getOres("oreQuartzBlack").get(0);
+                oreBlack = oreBlack.copy();
+                oreBlack.setCount(1);
+                return oreBlack;
+            }
+        }
+        return new ItemStack(Blocks.QUARTZ_ORE, 1);
+    }
+
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state)
     {
@@ -90,7 +122,7 @@ public class BlockOreVanilla extends Block
         case 3:
             return new ItemStack(Blocks.LAPIS_ORE, 1);
         case 4:
-            return new ItemStack(Blocks.QUARTZ_ORE, 1);
+            return getQuartzSilkTouchDrop();
         case 5:
             return new ItemStack(Blocks.DIAMOND_ORE, 1);
         case 6:
@@ -337,8 +369,7 @@ public class BlockOreVanilla extends Block
     }
 
     /**
-     * An ItemBlock class for this block allowing it to support subtypes with proper
-     * placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper placement
      */
     public class ItemBlockOre extends ItemBlock
     {
