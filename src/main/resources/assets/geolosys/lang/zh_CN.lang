@@ -110,8 +110,8 @@ geolosys.field_manual.tooltip=一切关于在 Geolosys 中挖矿的内容，尽�
 geolosys.pro_pick.tooltip=和指南针搭配使用效果更佳
 geolosys.pro_pick.tooltip.nonefound_surface=在这片区域中没有找到矿藏。
 geolosys.pro_pick.tooltip.nonefound=在这个方向上没有找到矿藏
-geolosys.pro_pick.tooltip.found_surface=found in this area
-geolosys.pro_pick.tooltip.found=Found %BLOCK% %DIR% from you
+geolosys.pro_pick.tooltip.found_surface=在这片区域中被发现
+geolosys.pro_pick.tooltip.found=在你的 %DIR% 方向上发现了 %BLOCK%
 shift.tooltip=按 Shift
 
 
@@ -160,7 +160,7 @@ geolosys.guide.chapter.stones.text=原版的几种岩石现在以深埋地下的
 geolosys.guide.chapter.coal.name=煤炭
 geolosys.guide.chapter.coal.text=煤炭可在§3海拔 Y = <maxY> 到 Y = <minY> §0之间找到；若有其他 Mod 添加了硫磺，煤炭矿脉也会产出硫磺。除普通煤炭外，煤矿石也会掉落泥炭、褐煤、烟煤或无烟煤，具体掉落哪一种与你所在的§l深度§r§0有关。上文中掉落物是按出现高度从高到低，以及在熔炉中燃烧时间从短到长的顺序排列的。
 geolosys.guide.chapter.cinnabar.name=朱砂
-geolosys.guide.chapter.cinnabar.text=朱砂可在§3海拔 Y = <maxY> 到 Y = <minY> §0之间找到；安装有热能扩展时会掉落朱砂,而安装有更多实用设备时则会掉落谐振红石水晶，掉落受时运影响。§4需要铁镐挖掘。§0
+geolosys.guide.chapter.cinnabar.text=朱砂可在§3海拔 Y = <maxY> 到 Y = <minY> §0之间找到；安装有热能扩展时会掉落朱砂,而安装有更多实用设备时则会掉落共振红石水晶，掉落受时运影响。§4需要铁镐挖掘。§0
 geolosys.guide.chapter.gold.name=金矿
 geolosys.guide.chapter.gold.text=Geolosys 的金矿与原版的金矿相像，可在§3海拔 Y = <maxY> 到 Y = <minY> §0之间找到。 §4需要铁镐挖掘。§0
 geolosys.guide.chapter.lapis.name=青金石
@@ -211,7 +211,7 @@ geolosys.guide.chapter.twilight_forest.text=在暮色森林中，所有矿石的
 geolosys.guide.chapter.applied_energistics.name=Applied Energistics
 geolosys.guide.chapter.applied_energistics.text=若安装了 Applied Energistics，石英矿会有 8% 概率掉落赛特斯石英，以及 4% 的概率掉落充能赛特斯石英。
 geolosys.guide.chapter.extra_utils.name=Extra Utilities 2
-geolosys.guide.chapter.extra_utils.text=若安装了 Extra Utilities 2，朱砂矿会有 3.33% 概率掉落谐振红石水晶。
+geolosys.guide.chapter.extra_utils.text=若安装了 Extra Utilities 2，朱砂矿会有 3.33% 概率掉落共振红石水晶。
 geolosys.guide.chapter.actually_additions.name=Actually Additions
 geolosys.guide.chapter.actually_additions.text=若安装了 Actually Additions，石英矿会有 8% 概率掉落焦黑石英。
 geolosys.guide.chapter.cofh_mods.name=Thermal Foundation
