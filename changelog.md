@@ -1,5 +1,11 @@
 # Geolosys Changelog
 
+### 2.1.4:
+
+* ADDED: Sample Blacklist config (control what block samples can generate on)
+* FIXED: Implemented Paul17041993's solution for Quartz Silk Touch Drops
+* CHANGED: Ore Converter now converts the chunks around the player to visually smooth out the process.
+
 ### 2.1.3.1:
 
 * ADDED: Config Option for new Propector's Pick surface functionality

@@ -37,9 +37,19 @@ public class OreConverter
         {
             return;
         }
-        int x = event.getNewChunkX() * 16;
-        int z = event.getNewChunkZ() * 16;
-        World world = event.getEntity().getEntityWorld();
+        int x = event.getNewChunkX();
+        int z = event.getNewChunkZ();
+        convertChunk(event.getEntity().getEntityWorld(), event, x * 16, z * 16);
+        convertChunk(event.getEntity().getEntityWorld(), event, (x + 1) * 16, z * 16);
+        convertChunk(event.getEntity().getEntityWorld(), event, (x - 1) * 16, z * 16);
+        convertChunk(event.getEntity().getEntityWorld(), event, x * 16, (z + 1) * 16);
+        convertChunk(event.getEntity().getEntityWorld(), event, x * 16, (z - 1) * 16);
+
+        GeolosysSaveData.get(event.getEntity().getEntityWorld()).markDirty();
+    }
+
+    private void convertChunk(World world, PlayerEvent.EnteringChunk event, int x, int z)
+    {
         for (int xMod = 0; xMod < 16; xMod++)
         {
             for (int zMod = 0; zMod < 16; zMod++)
@@ -62,7 +72,6 @@ public class OreConverter
         }
         GeolosysAPI.markChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()),
                 world.provider.getDimension());
-        GeolosysSaveData.get(world).markDirty();
     }
 
     private IBlockState getConvertedOre(ItemStack stack)
