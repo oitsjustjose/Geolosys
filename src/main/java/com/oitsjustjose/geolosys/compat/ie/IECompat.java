@@ -124,6 +124,12 @@ public class IECompat
 
             crusherRecipe = new CrusherRecipe(new ItemStack(Items.COAL, 1, 0),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 0), 1000);
+            // The next 4 secondary drops are to add some randomization to output number of coal
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
+
             if (OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0)
             {
                 crusherRecipe = crusherRecipe.addToSecondaryOutput(OreDictionary.getOres("dustSulfur").get(0), .02F);
@@ -137,8 +143,15 @@ public class IECompat
                     { "oreBlockCinnabar" }, new float[]
                     { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 1, 0),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 2),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 1), 1000);
+            // The next 6 secondary drops are to add some randomization to output number of redstone
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
 
             if (ModMaterials.EXU_MATERIAL != null)
             {
@@ -174,8 +187,15 @@ public class IECompat
                     { "oreBlockLapis" }, new float[]
                     { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.DYE, 10, 4),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.DYE, 5, 4),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 3), 1000);
+            // The next 5 secondary drops are to add some randomization to output number of lapis
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
+
             if (ModMaterials.NC_GEM != null)
             {
                 crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_GEM, 1, 2), .95F);
@@ -189,22 +209,27 @@ public class IECompat
                     { "oreBlockQuartz" }, new float[]
                     { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.QUARTZ, 9, 0),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.QUARTZ, 3, 0),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 4), 1000);
+            // The next 5 secondary drops are to add some randomization to output number of quartz
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
 
             if (ModMaterials.AE_MATERIAL != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0), .2F);
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1), .08F);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0), .3F);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1), .12F);
             }
             if (ModMaterials.BLACK_QUARTZ != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5),
-                        .16F);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32);
             }
             if (ModMaterials.NC_GEM != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10), .18F);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10), .24);
             }
             CrusherRecipe.recipeList.add(crusherRecipe);
         }
@@ -251,7 +276,7 @@ public class IECompat
             crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 0),
                     new ItemStack(Geolosys.getInstance().ORE, 1, 1), 1000);
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 7),
-                    .2F);
+                    .4F);
 
             CrusherRecipe.recipeList.add(crusherRecipe);
 
@@ -350,7 +375,7 @@ public class IECompat
                 crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 8),
                         new ItemStack(Geolosys.getInstance().ORE, 1, 8), 1000);
                 crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 12),
-                        .5F);
+                        1F);
             }
             else
             {
@@ -372,7 +397,7 @@ public class IECompat
                 crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 9),
                         new ItemStack(Geolosys.getInstance().ORE, 1, 9), 1000);
                 crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 11),
-                        .5F);
+                        1F);
             }
             else
             {
