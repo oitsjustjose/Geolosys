@@ -122,7 +122,7 @@ public class IECompat
             { "oreBlockCoal" }, new float[]
             { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.COAL, 1, 0),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.COAL, 3, 0),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 0), 1000);
             // The next 4 secondary drops are to add some randomization to output number of coal
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
@@ -143,7 +143,7 @@ public class IECompat
                     { "oreBlockCinnabar" }, new float[]
                     { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 2),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 5),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 1), 1000);
             // The next 6 secondary drops are to add some randomization to output number of redstone
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.REDSTONE), 0.4F);
@@ -187,7 +187,7 @@ public class IECompat
                     { "oreBlockLapis" }, new float[]
                     { 1.0F });
 
-            crusherRecipe = new CrusherRecipe(new ItemStack(Items.DYE, 5, 4),
+            crusherRecipe = new CrusherRecipe(new ItemStack(Items.DYE, 6, 4),
                     new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 3), 1000);
             // The next 5 secondary drops are to add some randomization to output number of lapis
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.DYE, 1, 4), 0.25F);
