@@ -3,6 +3,7 @@
 ### 2.1.4:
 
 * ADDED: Sample Blacklist config (control what block samples can generate on)
+* ADDED: Raw ore blocks excavated by the Immersive Engineering excavator can be crushed to get their drops (with improved bonuses)
 * FIXED: Implemented Paul17041993's solution for Quartz Silk Touch Drops
 * CHANGED: Ore Converter now converts the chunks around the player to visually smooth out the process.
 
