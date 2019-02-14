@@ -98,13 +98,15 @@ public class OreGenerator implements IWorldGenerator
                     y /= 2;
                     y /= 2;
                 }
-
-                pluton.generate(world, rand, new BlockPos(x, y, z));
-                GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
-                        state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
-                GeolosysSaveData.get(world).markDirty();
-                Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
-                        GeolosysAPI.oreBlocks.get(state), y);
+                // If the pluton placed any ores at all
+                if (pluton.generate(world, rand, new BlockPos(x, y, z)))
+                {
+                    GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
+                            state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
+                    GeolosysSaveData.get(world).markDirty();
+                    Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
+                            GeolosysAPI.oreBlocks.get(state), y);
+                }
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;
         }
