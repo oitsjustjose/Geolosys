@@ -20,9 +20,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
 
 /**
- * The Geolosys API is intended for use by anyone who wants to tap into all the
- * locations that deposits exist Access is pretty easy, just reference this
- * class's currentWorldDeposits HashMap
+ * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist Access is pretty
+ * easy, just reference this class's currentWorldDeposits HashMap
  */
 public class GeolosysAPI
 {
@@ -39,6 +38,9 @@ public class GeolosysAPI
 
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
+
+    // An arraylist of IBlockState of all stones registered
+    public static ArrayList<IBlockState> stones = new ArrayList<>();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
@@ -84,8 +86,7 @@ public class GeolosysAPI
     }
 
     /**
-     * @return The world's current deposits throughout the world. The string is
-     *         formatted as modid:block:meta
+     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits()
@@ -94,8 +95,7 @@ public class GeolosysAPI
     }
 
     /**
-     * @return The world's current deposits throughout the world. The string is
-     *         formatted as modid:block:meta
+     * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, Boolean> getRegennedChunks()
@@ -104,8 +104,7 @@ public class GeolosysAPI
     }
 
     /**
-     * Marks a chunk as having been regenerated - this is for the "Retroactively
-     * replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively replace existing ores in world" option
      *
      * @param posAsString The ChunkPosSerializeable in toString() form to add
      */
@@ -117,8 +116,7 @@ public class GeolosysAPI
     }
 
     /**
-     * Marks a chunk as having been regenerated - this is for the "Retroactively
-     * replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively replace existing ores in world" option
      *
      * @param pos The ChunkPos to add to
      */
@@ -128,8 +126,7 @@ public class GeolosysAPI
     }
 
     /**
-     * Marks a chunk as having been regenerated - this is for the "Retroactively
-     * replace existing ores in world" option
+     * Marks a chunk as having been regenerated - this is for the "Retroactively replace existing ores in world" option
      *
      * @param pos The ChunkPosSerializeable to add to
      */
@@ -175,10 +172,8 @@ public class GeolosysAPI
      * @param yMin         The minimum Y level this deposit can generate at
      * @param yMax         The maximum Y level this deposit can generate at
      * @param size         The size of the deposit
-     * @param chance       The chance of the deposit generating (higher = more
-     *                     likely)
-     * @param dimBlacklist An array of dimension numbers in which this deposit
-     *                     cannot generate
+     * @param chance       The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist An array of dimension numbers in which this deposit cannot generate
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
             int size, int chance, int[] dimBlacklist)
@@ -209,12 +204,9 @@ public class GeolosysAPI
      * @param yMin               The minimum Y level this deposit can generate at
      * @param yMax               The maximum Y level this deposit can generate at
      * @param size               The size of the deposit
-     * @param chance             The chance of the deposit generating (higher = more
-     *                           likely)
-     * @param dimBlacklist       An array of dimension numbers in which this deposit
-     *                           cannot generate
-     * @param blockStateMatchers A collection of blocks that this entry specifically
-     *                           can replace
+     * @param chance             The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
             int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers)
@@ -237,12 +229,12 @@ public class GeolosysAPI
     {
         StoneGenerator.addStoneGen(stoneBlock, yMin, yMax, chance);
         replacementMats.add(stoneBlock);
+        stones.add(stoneBlock);
     }
 
     /**
      * @param file The file object used to load up the DEPRECATED regenned chunks
-     * @return the LinkedHashMap of regenned chunks for conversion to new WorldData
-     *         model
+     * @return the LinkedHashMap of regenned chunks for conversion to new WorldData model
      */
     @SuppressWarnings("unchecked")
     public static LinkedHashMap<ChunkPosSerializable, Boolean> getRegennedChunks(File file)
@@ -287,8 +279,7 @@ public class GeolosysAPI
     }
 
     /**
-     * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such,
-     * it stores a chunk's X and Z position
+     * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such, it stores a chunk's X and Z position
      */
     public static class ChunkPosSerializable implements Serializable
     {
