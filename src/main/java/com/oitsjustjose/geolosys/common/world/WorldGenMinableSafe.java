@@ -50,6 +50,7 @@ public class WorldGenMinableSafe extends WorldGenerator
 
         ToDoBlocks toDoBlocks = ToDoBlocks.getForWorld(worldIn, dataName);
         ChunkPos thisChunk = new ChunkPos(position);
+        boolean placedOre = False
 
         for (int i = 0; i < this.numberOfBlocks; ++i)
         {
@@ -97,6 +98,7 @@ public class WorldGenMinableSafe extends WorldGenerator
                                                 if (Utils.doStatesMatch(iBlockState, state))
                                                 {
                                                     worldIn.setBlockState(blockpos, this.oreBlock, 2 | 16);
+                                                    placedOre = true;
                                                     break;
                                                 }
                                             }
@@ -114,6 +116,6 @@ public class WorldGenMinableSafe extends WorldGenerator
             }
         }
 
-        return true;
+        return placedOre;
     }
 }
