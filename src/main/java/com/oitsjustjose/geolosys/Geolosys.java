@@ -35,6 +35,7 @@ import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
+import com.oitsjustjose.geolosys.compat.ThaumcraftCompat;
 import com.oitsjustjose.geolosys.compat.ie.IECompat;
 
 import org.apache.logging.log4j.Logger;
@@ -122,6 +123,10 @@ public class Geolosys
         if (ModConfig.featureControl.retroReplace)
         {
             MinecraftForge.EVENT_BUS.register(new OreConverter());
+        }
+        if (Loader.isModLoaded("thaumcraft"))
+        {
+            MinecraftForge.EVENT_BUS.register(new ThaumcraftCompat());
         }
 
         registerGeolosysOreGen();

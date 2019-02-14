@@ -21,6 +21,7 @@ public class ModMaterials
     public static Item NC_GEM;
     public static Item NC_DUST;
     public static Item NC_GEM_DUST;
+    public static Item TC_ITEM;
 
     public static HashMap<String, ItemStack> clusterConverter;
     public static HashMap<String, IBlockState> blockConverter;
@@ -34,6 +35,7 @@ public class ModMaterials
         NC_GEM = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem"));
         NC_DUST = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "dust"));
         NC_GEM_DUST = ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem_dust"));
+        TC_ITEM = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thaumcraft", "nugget"));
 
         clusterConverter = new HashMap<>();
         clusterConverter.put("oreIron", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_IRON));
