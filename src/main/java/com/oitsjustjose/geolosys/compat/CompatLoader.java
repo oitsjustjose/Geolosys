@@ -19,9 +19,9 @@ public class CompatLoader
 
     public CompatLoader()
     {
-        this.initCompats();
-        this.logger = Geolosys.getInstance().LOGGER;
         ModMaterials.init();
+        this.logger = Geolosys.getInstance().LOGGER;
+        this.initCompats();
     }
 
     private void initCompats()
