@@ -50,7 +50,7 @@ public class WorldGenMinableSafe extends WorldGenerator
 
         ToDoBlocks toDoBlocks = ToDoBlocks.getForWorld(worldIn, dataName);
         ChunkPos thisChunk = new ChunkPos(position);
-        boolean placedOre = False
+        boolean placedOre = false;
 
         for (int i = 0; i < this.numberOfBlocks; ++i)
         {
