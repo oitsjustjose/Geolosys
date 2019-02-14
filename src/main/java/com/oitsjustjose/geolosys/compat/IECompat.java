@@ -225,11 +225,11 @@ public class IECompat
             }
             if (ModMaterials.BLACK_QUARTZ != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32F);
             }
             if (ModMaterials.NC_GEM != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10), .24);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10), .24F);
             }
             CrusherRecipe.recipeList.add(crusherRecipe);
         }
