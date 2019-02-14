@@ -30,16 +30,13 @@ public class OreGenerator implements IWorldGenerator
     private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysOreGeneratorPending";
     private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
-    private static int biggestWeight = 0;
+    private static int overallWeight = 0;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
-        if (weight > biggestWeight)
-        {
-            biggestWeight = weight;
-        }
         OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
         oreSpawnList.add(gen);
+        overallWeight += weight;
     }
 
     @Override
@@ -47,9 +44,19 @@ public class OreGenerator implements IWorldGenerator
             IChunkProvider chunkProvider)
     {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
-        if (oreSpawnList.size() > 0)
+        if (overallWeight > 0)
         {
-            oreSpawnList.get(random.nextInt(oreSpawnList.size())).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            boolean generated = false;
+            while (!generated)
+            {
+                int rng = random.nextInt(overallWeight);
+                OreGen og = oreSpawnList.get(random.nextInt(oreSpawnList.size()));
+                if (og.weight >= rng)
+                {
+                    og.generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    generated = true;
+                }
+            }
         }
     }
 

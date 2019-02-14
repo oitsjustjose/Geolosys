@@ -27,26 +27,37 @@ public class StoneGenerator implements IWorldGenerator
     private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysStoneGeneratorPending";
     private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
+    private static int overallWeight = 0;
 
     public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
         StoneGen gen = new StoneGen(state, minY, maxY, weight);
         stoneSpawnList.add(gen);
+        overallWeight += weight;
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
             IChunkProvider chunkProvider)
     {
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
         if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
         {
             return;
         }
-        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
-        if (stoneSpawnList.size() > 0)
+        if (overallWeight > 0)
         {
-            stoneSpawnList.get(random.nextInt(stoneSpawnList.size())).generate(world, random, (chunkX * 16),
-                    (chunkZ * 16));
+            boolean generated = false;
+            while (!generated)
+            {
+                int rng = random.nextInt(overallWeight);
+                StoneGen sg = stoneSpawnList.get(random.nextInt(stoneSpawnList.size()));
+                if (sg.weight >= rng)
+                {
+                    sg.generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    generated = true;
+                }
+            }
         }
     }
 
