@@ -218,8 +218,7 @@ public class ItemProPick extends Item
             }
             if (!found)
             {
-                player.sendStatusMessage(
-                        new TextComponentString(Geolosys.proxy.translate("geolosys.pro_pick.tooltip.nonefound")), true);
+                player.sendStatusMessage(new TextComponentString(findOreInChunk(worldIn, pos)), true);
             }
         }
         player.swingArm(hand);
