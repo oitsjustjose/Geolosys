@@ -19,7 +19,7 @@ public class ThaumcraftCompat
             return;
         }
         Random rand = new Random();
-        if (rand.nextInt(10) == 0)
+        if (rand.nextInt(20) == 0)
         {
             event.getDrops().add(new ItemStack(ModMaterials.TC_ITEM, 1, 10));
         }
