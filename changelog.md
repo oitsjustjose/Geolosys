@@ -1,5 +1,14 @@
 # Geolosys Changelog
 
+### 2.2.0:
+* ADDED: Thaumcraft rare earth drop to all geolosys ores (10% chance - let me know if that's too high)
+* ADDED: Ability for the prospector's pick to search for specialty stones instead of just ores - this mode is changed via shift-Rclick
+* CHANGED **IMPORTANT**: How ores and stones generate. They are now based off of local chance. That is to say, if all chances add up to 20 and the chance of a particular ore is set to 1, then it's closer to a 1 out of 20 chance it'll generate. **Keep this in mind**
+* CHANGED: How samples are placed; they are only placed if the pluton DEFINITELY generated, and they generate in a way that supports other dimensions MUCH beter now (Starting from 0 and going up, instead of using vanilla logic)
+* CHANGED: Ores don't have to be enabled in order for their cluster smelting recipe to be registered
+* CHANGED: If below sea-level, instead of saying "Nothing found this direction" the ore found in that chunk is just repeated to let you know you're still in the right area (and more useful for ores in the nether or end)
+
+
 ### 2.1.4:
 
 * ADDED: Sample Blacklist config (control what block samples can generate on)
