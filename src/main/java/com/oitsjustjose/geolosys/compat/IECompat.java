@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.compat.ie;
+package com.oitsjustjose.geolosys.compat;
 
 import java.util.LinkedHashMap;
 

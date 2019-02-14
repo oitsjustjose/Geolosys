@@ -33,10 +33,10 @@ import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
+import com.oitsjustjose.geolosys.compat.IECompat;
 import com.oitsjustjose.geolosys.compat.ModMaterials;
 import com.oitsjustjose.geolosys.compat.OreConverter;
 import com.oitsjustjose.geolosys.compat.ThaumcraftCompat;
-import com.oitsjustjose.geolosys.compat.ie.IECompat;
 
 import org.apache.logging.log4j.Logger;
 
@@ -120,14 +120,6 @@ public class Geolosys
         {
             PRO_PICK = new ItemProPick();
         }
-        if (ModConfig.featureControl.retroReplace)
-        {
-            MinecraftForge.EVENT_BUS.register(new OreConverter());
-        }
-        if (Loader.isModLoaded("thaumcraft"))
-        {
-            MinecraftForge.EVENT_BUS.register(new ThaumcraftCompat());
-        }
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
@@ -138,11 +130,7 @@ public class Geolosys
     {
         proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
-
-        if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
-        {
-            IECompat.init();
-        }
+        CompatLoader.init();
     }
 
     @EventHandler

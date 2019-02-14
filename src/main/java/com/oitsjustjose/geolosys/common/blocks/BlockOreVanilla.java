@@ -179,17 +179,6 @@ public class BlockOreVanilla extends Block
                 }
             }
             /**************************
-             * Nuclearcraft *
-             **************************/
-            if (ModMaterials.NC_GEM != null)
-            {
-                int rng = random.nextInt(100);
-                if (rng < 18)
-                {
-                    drops.add(new ItemStack(ModMaterials.NC_DUST, 1, 9));
-                }
-            }
-            /**************************
              * Sulfur *
              **************************/
             if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur")
@@ -207,32 +196,6 @@ public class BlockOreVanilla extends Block
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune),
                     Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.REDSTONE_ORE.damageDropped(state)));
-            int rng = random.nextInt(60);
-            /**************************
-             * ExU2 *
-             **************************/
-            if (ModMaterials.EXU_MATERIAL != null && rng < 2)
-            {
-                drops.add(new ItemStack(ModMaterials.EXU_MATERIAL));
-            }
-            /**************************
-             * TE *
-             **************************/
-            if (ModMaterials.TE_MATERIAL != null && rng == 2)
-            {
-                drops.add(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866));
-            }
-            /**************************
-             * Nuclearcraft *
-             **************************/
-            if (ModMaterials.NC_GEM != null)
-            {
-                rng = random.nextInt(100);
-                if (rng < 25)
-                {
-                    drops.add(new ItemStack(ModMaterials.NC_GEM, 1, 0));
-                }
-            }
         }
         else if (meta == 2)
         {
@@ -242,63 +205,12 @@ public class BlockOreVanilla extends Block
         {
             drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune),
                     Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
-            /**************************
-             * Nuclearcraft *
-             **************************/
-            if (ModMaterials.NC_GEM != null)
-            {
-                int rng = random.nextInt(100);
-                if (rng < 95)
-                {
-                    drops.add(new ItemStack(ModMaterials.NC_GEM, random.nextInt(2) + 1, 2));
-                }
-            }
         }
         else if (meta == 4)
         {
             drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune),
                     Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.QUARTZ_ORE.damageDropped(state)));
-            int fortuneDropCalc = 1 + random.nextInt(fortune + 1);
-            for (int i = 0; i < fortuneDropCalc; i++)
-            {
-                int rng = random.nextInt(25);
-                /**************************
-                 * AE *
-                 **************************/
-                if (ModMaterials.AE_MATERIAL != null)
-                {
-                    if (rng < 5)
-                    {
-                        drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0));
-                    }
-                    else if (rng > 5 && rng < 7)
-                    {
-                        drops.add(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
-                    }
-                }
-                /**************************
-                 * AA *
-                 **************************/
-                if (ModMaterials.BLACK_QUARTZ != null)
-                {
-                    if (rng >= 6 && rng < 10)
-                    {
-                        drops.add(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5));
-                    }
-                }
-                /**************************
-                 * Nuclearcraft *
-                 **************************/
-                if (ModMaterials.NC_GEM != null)
-                {
-                    rng = random.nextInt(100);
-                    if (rng < 18)
-                    {
-                        drops.add(new ItemStack(ModMaterials.NC_DUST, 1, 10));
-                    }
-                }
-            }
         }
         else if (meta == 5)
         {

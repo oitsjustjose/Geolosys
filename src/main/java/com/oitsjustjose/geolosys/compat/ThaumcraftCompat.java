@@ -6,7 +6,7 @@ import com.oitsjustjose.geolosys.common.blocks.BlockOreVanilla;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import scala.util.Random;
+import java.util.Random;
 
 public class ThaumcraftCompat
 {
