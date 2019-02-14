@@ -33,10 +33,7 @@ import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
-import com.oitsjustjose.geolosys.compat.IECompat;
-import com.oitsjustjose.geolosys.compat.ModMaterials;
-import com.oitsjustjose.geolosys.compat.OreConverter;
-import com.oitsjustjose.geolosys.compat.ThaumcraftCompat;
+import com.oitsjustjose.geolosys.compat.CompatLoader;
 
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +42,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -130,9 +126,8 @@ public class Geolosys
     {
         proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
-        CompatLoader.init();
     }
-
+    
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
@@ -142,7 +137,7 @@ public class Geolosys
             Recipes.init(configOres, CLUSTER);
         }
         ConfigParser.init();
-        ModMaterials.init();
+        CompatLoader.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }
