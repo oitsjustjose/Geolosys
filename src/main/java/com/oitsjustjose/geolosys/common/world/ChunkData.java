@@ -39,6 +39,7 @@ public class ChunkData
             }
             if (ModConfig.prospecting.generateInWater || !isMoist(world, p))
             {
+                world.setBlockState(p.up(), Blocks.AIR.getDefaultState(), 2 | 16);
                 world.setBlockState(p, state, 2 | 16);
             }
         }
@@ -72,16 +73,12 @@ public class ChunkData
                         // If it's above sea level it's fine
                         if (searchPos.getY() > world.getSeaLevel())
                         {
-                            // Set the block above to air because we have a whitelist system
-                            world.setBlockState(searchPos.up(), Blocks.AIR.getDefaultState(), 2 | 16);
                             return searchPos;
                         }
                         // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at least above the deposit
                         else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
                                 && searchPos.getY() < depositHeight)
                         {
-                            // Set the block above to air because we have a whitelist system
-                            world.setBlockState(searchPos.up(), Blocks.AIR.getDefaultState(), 2 | 16);
                             return searchPos;
                         }
                     }
