@@ -1,5 +1,8 @@
 # Geolosys Changelog
 
+### 2.2.1:
+* FIXED: Samples that don't generate setting the above block to air anyways (mostly visible in water but still)
+
 ### 2.2.0:
 * ADDED: Thaumcraft rare earth drop to all geolosys ores (10% chance - let me know if that's too high)
 * ADDED: Ability for the prospector's pick to search for specialty stones instead of just ores - this mode is changed via shift-Rclick
