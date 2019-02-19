@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -29,14 +30,17 @@ public class OreGenerator implements IWorldGenerator
 {
     private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysOreGeneratorPending";
-    private static ArrayList<OreGen> oreSpawnList = new ArrayList<>();
-    private static int overallWeight = 0;
+    private static HashMap<Integer, OreGen> oreSpawnWeights = new HashMap<>();
+    private static int last = 0;
 
     public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
     {
         OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
-        oreSpawnList.add(gen);
-        overallWeight += weight;
+        for (int i = last; i < last + weight; i++)
+        {
+            oreSpawnWeights.put(i, gen);
+        }
+        last = last + weight;
     }
 
     @Override
@@ -44,20 +48,9 @@ public class OreGenerator implements IWorldGenerator
             IChunkProvider chunkProvider)
     {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
-        if (overallWeight > 0)
-        {
-            boolean generated = false;
-            while (!generated)
-            {
-                int rng = random.nextInt(overallWeight);
-                OreGen og = oreSpawnList.get(random.nextInt(oreSpawnList.size()));
-                if (og.weight >= rng)
-                {
-                    og.generate(world, random, (chunkX * 16), (chunkZ * 16));
-                    generated = true;
-                }
-            }
-        }
+
+        int rng = random.nextInt(oreSpawnWeights.keySet().size());
+        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
     }
 
     public static class OreGen

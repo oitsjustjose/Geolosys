@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -26,14 +26,17 @@ public class StoneGenerator implements IWorldGenerator
 {
     private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysStoneGeneratorPending";
-    private static ArrayList<StoneGen> stoneSpawnList = new ArrayList<>();
-    private static int overallWeight = 0;
+    private static HashMap<Integer, StoneGen> stoneSpawnWeights = new HashMap<>();
+    private static int last = 0;
 
     public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
     {
         StoneGen gen = new StoneGen(state, minY, maxY, weight);
-        stoneSpawnList.add(gen);
-        overallWeight += weight;
+        for (int i = last; i < last + weight; i++)
+        {
+            stoneSpawnWeights.put(i, gen);
+        }
+        last = last + weight;
     }
 
     @Override
@@ -45,20 +48,8 @@ public class StoneGenerator implements IWorldGenerator
         {
             return;
         }
-        if (overallWeight > 0)
-        {
-            boolean generated = false;
-            while (!generated)
-            {
-                int rng = random.nextInt(overallWeight);
-                StoneGen sg = stoneSpawnList.get(random.nextInt(stoneSpawnList.size()));
-                if (sg.weight >= rng)
-                {
-                    sg.generate(world, random, (chunkX * 16), (chunkZ * 16));
-                    generated = true;
-                }
-            }
-        }
+        int rng = random.nextInt(stoneSpawnWeights.keySet().size());
+        stoneSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
     }
 
     public static class StoneGen
