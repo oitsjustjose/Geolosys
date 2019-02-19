@@ -201,11 +201,12 @@ public class ItemProPick extends Item
             {
                 if (searchForStone)
                 {
-                    String found = findStoneInChunk(worldIn, pos);
-                    if (found != null)
+                    String oreFound = findStoneInChunk(worldIn, pos);
+                    if (oreFound != null)
                     {
                         player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
+                                true);
                     }
                     else
                     {
@@ -216,11 +217,12 @@ public class ItemProPick extends Item
                 }
                 else
                 {
-                    String found = findOreInChunk(worldIn, pos);
-                    if (found != null)
+                    String oreFound = findOreInChunk(worldIn, pos);
+                    if (oreFound != null)
                     {
                         player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
+                                true);
                     }
                     else
                     {
@@ -306,7 +308,8 @@ public class ItemProPick extends Item
                     if (oreFound != null)
                     {
                         player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound), true);
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
+                                true);
                     }
                     else
                     {
