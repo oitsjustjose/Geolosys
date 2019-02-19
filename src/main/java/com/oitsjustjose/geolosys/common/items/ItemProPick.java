@@ -306,7 +306,7 @@ public class ItemProPick extends Item
                     if (oreFound != null)
                     {
                         player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound), true);
                     }
                     else
                     {
