@@ -32,7 +32,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -156,8 +156,14 @@ public class ItemProPick extends Item
 
             TextFormatting color = searchForStone ? TextFormatting.AQUA : TextFormatting.GOLD;
 
-            player.sendStatusMessage(new TextComponentString(
-                    color + "Prospecting for " + (searchForStone ? "stone deposits" : "ore deposits")), true);
+            if (searchForStone)
+            {
+                player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.mode.stones"), true);
+            }
+            else
+            {
+                player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.mode.ores"), true);
+            }
         }
         return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
     }
@@ -195,12 +201,32 @@ public class ItemProPick extends Item
             {
                 if (searchForStone)
                 {
-                    player.sendStatusMessage(new TextComponentString(findStoneInChunk(worldIn, pos)), true);
-
+                    String found = findStoneInChunk(worldIn, pos);
+                    if (found != null)
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
+                    }
+                    else
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_stone_surface"),
+                                true);
+                    }
                 }
                 else
                 {
-                    player.sendStatusMessage(new TextComponentString(findOreInChunk(worldIn, pos)), true);
+                    String found = findOreInChunk(worldIn, pos);
+                    if (found != null)
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
+                    }
+                    else
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"), true);
+                    }
                 }
             }
             else
@@ -273,9 +299,20 @@ public class ItemProPick extends Item
                     found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
                     break;
                 }
+                // If right clicking yielded nothing, then find the ore in the chunk again
                 if (!found)
                 {
-                    player.sendStatusMessage(new TextComponentString(findOreInChunk(worldIn, pos)), true);
+                    String oreFound = findOreInChunk(worldIn, pos);
+                    if (oreFound != null)
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound), true);
+                    }
+                    else
+                    {
+                        player.sendStatusMessage(
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"), true);
+                    }
                 }
             }
             player.swingArm(hand);
@@ -308,11 +345,9 @@ public class ItemProPick extends Item
 
     private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
     {
-        String msg = Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found");
-        msg = msg.replace("%BLOCK%",
-                new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName());
-        msg = msg.replace("%DIR%", "" + facing.getOpposite());
-        player.sendStatusMessage(new TextComponentString(msg), true);
+        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
+                new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName(),
+                facing.getOpposite()), true);
     }
 
     @SubscribeEvent
@@ -367,8 +402,7 @@ public class ItemProPick extends Item
                     {
                         if (GeolosysAPI.oreBlocks.keySet().contains(world.getBlockState(new BlockPos(x, y, z))))
                         {
-                            return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
-                                    + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                            return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z)));
                         }
                     }
                 }
@@ -386,8 +420,7 @@ public class ItemProPick extends Item
                         {
                             if (e.getValue() == world.getBlockState(new BlockPos(x, y, z)))
                             {
-                                return getNameForBlockState(e.getKey()) + " "
-                                        + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                                return getNameForBlockState(e.getKey());
                             }
                         }
                     }
@@ -395,7 +428,7 @@ public class ItemProPick extends Item
             }
         }
 
-        return Geolosys.proxy.translate("geolosys.pro_pick.tooltip.nonefound_surface");
+        return null;
     }
 
     private String findStoneInChunk(World world, BlockPos pos)
@@ -410,14 +443,13 @@ public class ItemProPick extends Item
                 {
                     if (GeolosysAPI.stones.contains(world.getBlockState(new BlockPos(x, y, z))))
                     {
-                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z))) + " "
-                                + Geolosys.proxy.translate("geolosys.pro_pick.tooltip.found_surface");
+                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z)));
                     }
                 }
             }
         }
 
-        return Geolosys.proxy.translate("geolosys.pro_pick.tooltip.nonefound_stone_surface");
+        return null;
 
     }
 

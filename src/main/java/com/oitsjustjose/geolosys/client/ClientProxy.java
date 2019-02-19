@@ -20,9 +20,4 @@ public class ClientProxy extends CommonProxy
         GuiManual.initPages();
     }
 
-    @Override
-    public String translate(String untranslated, Object... args)
-    {
-        return TranslationManager.getInstance().translate(untranslated);
-    }
 }
