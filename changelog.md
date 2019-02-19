@@ -1,5 +1,11 @@
 # Geolosys Changelog
 
+### 2.2.2:
+* FIXED: How translations for the prospector's pick work. They now use native Vanilla code that I didn't even know existed and worked exactly how I've been wanting.
+* CHANGED **IMPORTANT**: How ores and stones generate. Again. Yes. I'm sorry, but this time it MAKES SENSE OK?! The larger the number for "chance" the more likely it is to generate. End of story. That's how it works and there's no real special math around it this time. Here's a visualization of how it works if you want it.
+
+!["graphs"](generation.png)
+
 ### 2.2.1:
 * FIXED: Samples that don't generate setting the above block to air anyways (mostly visible in water but still)
 
