@@ -48,8 +48,11 @@ public class StoneGenerator implements IWorldGenerator
         {
             return;
         }
-        int rng = random.nextInt(stoneSpawnWeights.keySet().size());
-        stoneSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        if (stoneSpawnWeights.keySet().size() > 0)
+        {
+            int rng = random.nextInt(stoneSpawnWeights.keySet().size());
+            stoneSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        }
     }
 
     public static class StoneGen

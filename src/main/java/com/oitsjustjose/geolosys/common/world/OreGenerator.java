@@ -49,8 +49,11 @@ public class OreGenerator implements IWorldGenerator
     {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
 
-        int rng = random.nextInt(oreSpawnWeights.keySet().size());
-        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        if (oreSpawnWeights.keySet().size() > 0)
+        {
+            int rng = random.nextInt(oreSpawnWeights.keySet().size());
+            oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+        }
     }
 
     public static class OreGen
