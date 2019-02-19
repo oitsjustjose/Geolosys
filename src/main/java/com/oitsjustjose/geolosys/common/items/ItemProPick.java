@@ -306,7 +306,7 @@ public class ItemProPick extends Item
                     if (oreFound != null)
                     {
                         player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound), true);
+                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", found), true);
                     }
                     else
                     {
@@ -355,7 +355,9 @@ public class ItemProPick extends Item
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
-                || Minecraft.getMinecraft().debugRenderer.shouldRender())
+                || Minecraft.getMinecraft().debugRenderer.shouldRender()
+                || Minecraft.getMinecraft().gameSettings.showDebugInfo
+                || Minecraft.getMinecraft().gameSettings.showDebugProfilerChart)
         {
             return;
         }
