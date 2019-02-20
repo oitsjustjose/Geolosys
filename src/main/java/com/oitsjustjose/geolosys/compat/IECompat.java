@@ -9,13 +9,15 @@ import com.oitsjustjose.geolosys.compat.ModMaterials;
 
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
+import blusunrize.immersiveengineering.api.crafting.IngredientStack;
+import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe;
+import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe.BlastFurnaceFuel;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class IECompat
 {
-    @SuppressWarnings("unchecked")
     public static void init()
     {
         ConfigOres conf = Geolosys.getInstance().configOres;
@@ -24,7 +26,13 @@ public class IECompat
         {
             OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
         }
+        initExcavatorCompat(conf);
+        initCrusherCompat(conf);
+        initBlastCompat();
+    }
 
+    private static void initExcavatorCompat(ConfigOres conf)
+    {
         // Remove the vanilla ones
         LinkedHashMap<ExcavatorHandler.MineralMix, Integer> list = (LinkedHashMap<ExcavatorHandler.MineralMix, Integer>) ExcavatorHandler.mineralList
                 .clone();
@@ -112,7 +120,10 @@ public class IECompat
                 ExcavatorHandler.mineralList.remove(mix);
             }
         }
+    }
 
+    private static void initCrusherCompat(ConfigOres conf)
+    {
         // Add custom Geolosys entries
         ConfigOres oreConf = Geolosys.getInstance().configOres;
         CrusherRecipe crusherRecipe;
@@ -225,7 +236,8 @@ public class IECompat
             }
             if (ModMaterials.BLACK_QUARTZ != null)
             {
-                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32F);
+                crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5),
+                        .32F);
             }
             if (ModMaterials.NC_GEM != null)
             {
@@ -416,7 +428,22 @@ public class IECompat
             crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 10),
                     new ItemStack(Geolosys.getInstance().ORE, 1, 10), 1000);
             CrusherRecipe.recipeList.add(crusherRecipe);
+        }
 
+    }
+
+    private static void initBlastCompat()
+    {
+        if (ModConfig.featureControl.enableCoals)
+        {
+            BlastFurnaceRecipe.blastFuels.add(
+                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 0)), 900));
+            BlastFurnaceRecipe.blastFuels.add(
+                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 1)), 1200));
+            BlastFurnaceRecipe.blastFuels.add(
+                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 2)), 1800));
+            BlastFurnaceRecipe.blastFuels.add(
+                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 3)), 2400));
         }
     }
 }
