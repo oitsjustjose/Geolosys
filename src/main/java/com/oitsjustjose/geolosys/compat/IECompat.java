@@ -12,6 +12,7 @@ import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe;
 import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe.BlastFurnaceFuel;
+import blusunrize.immersiveengineering.api.crafting.CokeOvenRecipe;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -29,6 +30,7 @@ public class IECompat
         initExcavatorCompat(conf);
         initCrusherCompat(conf);
         initBlastCompat();
+        initCokeCompat();
     }
 
     private static void initExcavatorCompat(ConfigOres conf)
@@ -437,13 +439,28 @@ public class IECompat
         if (ModConfig.featureControl.enableCoals)
         {
             BlastFurnaceRecipe.blastFuels.add(
-                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 0)), 900));
-            BlastFurnaceRecipe.blastFuels.add(
-                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 1)), 1200));
-            BlastFurnaceRecipe.blastFuels.add(
-                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 2)), 1800));
-            BlastFurnaceRecipe.blastFuels.add(
                     new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 3)), 2400));
+            if (Geolosys.getInstance().COAL_COKE != null)
+            {
+                BlastFurnaceRecipe.blastFuels.add(new BlastFurnaceFuel(
+                        new IngredientStack(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 0)), 1600));
+                BlastFurnaceRecipe.blastFuels.add(new BlastFurnaceFuel(
+                        new IngredientStack(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 1)), 2400));
+            }
+        }
+    }
+
+    private static void initCokeCompat()
+    {
+        if (ModConfig.featureControl.enableCoals)
+        {
+            if (Geolosys.getInstance().COAL_COKE != null)
+            {
+                CokeOvenRecipe.addRecipe(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 0),
+                        new ItemStack(Geolosys.getInstance().COAL, 1, 1), 1500, 750);
+                CokeOvenRecipe.addRecipe(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 1),
+                        new ItemStack(Geolosys.getInstance().COAL, 1, 2), 3000, 1000);
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ import com.oitsjustjose.geolosys.common.config.ConfigParser;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
 import com.oitsjustjose.geolosys.common.items.ItemCoal;
+import com.oitsjustjose.geolosys.common.items.ItemCoalCoke;
 import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.common.items.ItemIngot;
 import com.oitsjustjose.geolosys.common.items.ItemProPick;
@@ -42,6 +43,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -75,6 +77,7 @@ public class Geolosys
     public Item CLUSTER;
     public Item INGOT;
     public Item COAL;
+    public Item COAL_COKE;
     public Item PRO_PICK;
     public Item ALMANAC;
 
@@ -116,6 +119,11 @@ public class Geolosys
         {
             PRO_PICK = new ItemProPick();
         }
+        if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat
+                && ModConfig.featureControl.enableCoals)
+        {
+            COAL_COKE = new ItemCoalCoke();
+        }
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
@@ -128,7 +136,7 @@ public class Geolosys
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
         CompatLoader.init();
     }
-    
+
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {

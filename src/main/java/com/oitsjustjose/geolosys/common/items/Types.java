@@ -65,6 +65,66 @@ public class Types
 
     }
 
+    public enum CoalCoke implements IStringSerializable
+    {
+        LIGNITE(0, 24, "lignite"), BITUMINOUS(1, 32, "bituminous");
+
+        private static final CoalCoke[] META_LOOKUP = new CoalCoke[values().length];
+
+        static
+        {
+            for (CoalCoke type : values())
+            {
+                META_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
+        private final int meta;
+        private final int burnTime;
+        private final String serializedName;
+        private final String unlocalizedName;
+
+        CoalCoke(int meta, int burnTime, String name)
+        {
+            this.meta = meta;
+            this.burnTime = burnTime;
+            this.serializedName = name;
+            this.unlocalizedName = name;
+        }
+
+        public static CoalCoke byMetadata(int meta)
+        {
+            if (meta < 0 || meta >= META_LOOKUP.length)
+            {
+                meta = 0;
+            }
+
+            return META_LOOKUP[meta];
+        }
+
+        public int getMetadata()
+        {
+            return this.meta;
+        }
+
+        public String toString()
+        {
+            return this.unlocalizedName;
+        }
+
+        public String getName()
+        {
+            return this.serializedName;
+        }
+
+        public int getBurnTime()
+
+        {
+            return this.burnTime;
+        }
+
+    }
+
     public enum Ingot implements IStringSerializable
     {
         COPPER(0, "copper"), TIN(1, "tin"), SILVER(2, "silver"), LEAD(3, "lead"), ALUMINUM(4, "aluminum"),

@@ -100,6 +100,8 @@ geolosys.coal.peat.name=Peat
 geolosys.coal.lignite.name=Lignite Coal
 geolosys.coal.bituminous.name=Bituminous Coal
 geolosys.coal.anthracite.name=Anthracite Coal
+geolosys.coal_coke.lignite.name=Lignite Coal Coke
+geolosys.coal_coke.bituminous.name=Bituminous Coal Coke
 
 # ------------------------------------ #
 #               Misc                   #
