@@ -78,7 +78,7 @@ public class Geolosys
     public Item INGOT;
     public Item COAL;
     public Item COAL_COKE;
-    public Item PRO_PICK;
+    public ItemProPick PRO_PICK;
     public Item ALMANAC;
 
     public static Geolosys getInstance()
