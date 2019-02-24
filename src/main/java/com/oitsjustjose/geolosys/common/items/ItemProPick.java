@@ -381,7 +381,7 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            int level = (int) (mc.player.world.getSeaLevel() - mc.player.posY);
+            int level = (int) (this.dimensionSeaLevels.get(mc.player.dimension) - mc.player.posY);
             if (level < 0)
             {
                 mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
