@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -44,6 +45,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemProPick extends Item
 {
+    private HashMap<Integer, Integer> dimensionSeaLevels;
 
     public ItemProPick()
     {
@@ -60,6 +62,14 @@ public class ItemProPick extends Item
     {
         Geolosys.getInstance().clientRegistry.register(new ItemStack(this),
                 new ResourceLocation(Objects.requireNonNull(this.getRegistryName()).toString()), "inventory");
+    }
+
+    /**
+     * @param dimensionSeaLevels the dimensionSeaLevels to set
+     */
+    public void setDimensionSeaLevels(HashMap<Integer, Integer> dimensionSeaLevels)
+    {
+        this.dimensionSeaLevels = dimensionSeaLevels;
     }
 
     @Override
@@ -197,7 +207,7 @@ public class ItemProPick extends Item
 
             boolean searchForStone = stack.getTagCompound().getBoolean("stone");
 
-            if (player.getPosition().getY() >= player.world.getSeaLevel())
+            if (player.getPosition().getY() >= this.dimensionSeaLevels.get(player.dimension))
             {
                 if (searchForStone)
                 {

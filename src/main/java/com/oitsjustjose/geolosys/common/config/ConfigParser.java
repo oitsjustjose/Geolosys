@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.config;
 
+import java.util.HashMap;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
@@ -12,17 +14,36 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigParser
 {
+
     public ConfigParser()
     {
         parseOres();
         parseStones();
         parsePredicates();
         parseConverterBlacklist();
+        parseDimensions();
     }
 
     public static void init()
     {
         new ConfigParser();
+    }
+
+    private void parseDimensions()
+    {
+        HashMap<Integer, Integer> dimensionSeaLevels = new HashMap<>();
+        for (String s : ModConfig.prospecting.proPickDimensionSeaLevels)
+        {
+            String[] parts = s.trim().replace(" ", "").split(":");
+            if (parts.length != 2)
+            {
+                Geolosys.getInstance().LOGGER.info("Entry " + s
+                        + " is not a valid entry for proPickDimensionSeaLevels. Reason: Wrong number of args.");
+                continue;
+            }
+            dimensionSeaLevels.put(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+        }
+        Geolosys.getInstance().PRO_PICK.setDimensionSeaLevels(dimensionSeaLevels);
     }
 
     private void parseOres()

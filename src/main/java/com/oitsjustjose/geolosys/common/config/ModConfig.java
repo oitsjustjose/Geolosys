@@ -108,6 +108,10 @@ public class ModConfig
         @Config.RangeInt(min = 0, max = 255)
         public int proPickDiameter = 5;
 
+        @Config.Name("Prospector's Pick Sea Levels per Dimension")
+        @Config.Comment("The prospector's pick will show what's in a direction only when below this level, per dimension. Add custom dimension ID's and their corresponding Y depth below, format: <dim_id>:<y_level>")
+        public String[] proPickDimensionSeaLevels = getDefaultSeaLevels();
+
         @Config.Name("Surface Prospecting Results")
         @Config.Comment("SAMPLES means prospecting on the surface returns the samples found\n"
                 + "OREBLOCKS means prospecting on the surface returns the first Geolosys-registered Ore Block it finds")
@@ -115,7 +119,8 @@ public class ModConfig
 
         @Config.Name("Blocks Samples can Generate On")
         @Config.Comment("Formatted <modid:block:meta>; this list contains blocks that samples should not generate on.")
-        public String[] samplePlaceBlacklist = new String[]{"minecraft:ice:0", "minecraft:packed_ice:0", "minecraft:frosted_ice"};
+        public String[] samplePlaceBlacklist = new String[]
+        { "minecraft:ice:0", "minecraft:packed_ice:0", "minecraft:frosted_ice" };
 
         public enum SURFACE_PROSPECTING_TYPE
         {
@@ -175,9 +180,18 @@ public class ModConfig
             if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
             {
                 ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
+                ConfigParser.init();
                 GuiManual.initPages();
             }
         }
+    }
+
+    private static String[] getDefaultSeaLevels()
+    {
+        String[] ret = new String[]
+        { "-1:128", "0:64", "1:128" };
+
+        return ret;
     }
 
     private static String[] getConvertBlacklist()
