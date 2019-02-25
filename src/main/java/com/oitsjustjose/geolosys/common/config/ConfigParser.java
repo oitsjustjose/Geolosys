@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigParser
 {
+    private static ConfigParser instance;
 
     public ConfigParser()
     {
@@ -26,7 +27,17 @@ public class ConfigParser
 
     public static void init()
     {
-        new ConfigParser();
+        instance = new ConfigParser();
+    }
+
+    /**
+     * A special case where we don't want to re-add custom ores ore stones, but want to reset the dimensions and ore converter
+     * blacklist.
+     */
+    public static void reinit()
+    {
+        instance.parseDimensions();
+        instance.parseConverterBlacklist();
     }
 
     private void parseDimensions()
@@ -41,7 +52,7 @@ public class ConfigParser
                         + " is not a valid entry for proPickDimensionSeaLevels. Reason: Wrong number of args.");
                 continue;
             }
-            dimensionSeaLevels.put(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            dimensionSeaLevels.put(toInt(parts[0]), toInt(parts[1]));
         }
         Geolosys.getInstance().PRO_PICK.setDimensionSeaLevels(dimensionSeaLevels);
     }
