@@ -180,7 +180,7 @@ public class ModConfig
             if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
             {
                 ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
-                ConfigParser.init();
+                ConfigParser.reinit();
                 GuiManual.initPages();
             }
         }
