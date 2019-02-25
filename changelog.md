@@ -1,8 +1,16 @@
 # Geolosys Changelog
 
+### 2.2.4:
+* ADDED: Config option for the "sea level" for each dimension
+* ADDED: Compat for IE Coal Cokes:
+    * Anthracite coal can be used directly in the blast furnace
+    * Bituminous and Lignite Coals can be coked for more creosote & smelting time plus the ability to be used in the blast furnace
+* CHANGED: Configs regarding the new sea level option and the ore converter blacklist now take effect immediately
+
+
 ### 2.2.3:
-* Fixed "false found in this area" with prospector's pick below sea level
-* Fixed IllegalArgumentException with generation if either were set to 0
+* FIXED: "false found in this area" with prospector's pick below sea level
+* FIXED: IllegalArgumentException with generation if either were set to 0
 
 ### 2.2.2:
 * FIXED: How translations for the prospector's pick work. They now use native Vanilla code that I didn't even know existed and worked exactly how I've been wanting.
