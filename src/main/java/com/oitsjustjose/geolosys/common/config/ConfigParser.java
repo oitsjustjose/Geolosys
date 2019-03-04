@@ -42,6 +42,10 @@ public class ConfigParser
 
     private void parseDimensions()
     {
+        if (Geolosys.getInstance().PRO_PICK != null)
+        {
+            return;
+        }
         HashMap<Integer, Integer> dimensionSeaLevels = new HashMap<>();
         for (String s : ModConfig.prospecting.proPickDimensionSeaLevels)
         {
@@ -53,10 +57,6 @@ public class ConfigParser
                 continue;
             }
             dimensionSeaLevels.put(toInt(parts[0]), toInt(parts[1]));
-        }
-        if (Geolosys.getInstance().PRO_PICK != null)
-        {
-            Geolosys.getInstance().PRO_PICK.setDimensionSeaLevels(dimensionSeaLevels);
         }
     }
 
