@@ -54,7 +54,10 @@ public class ConfigParser
             }
             dimensionSeaLevels.put(toInt(parts[0]), toInt(parts[1]));
         }
-        Geolosys.getInstance().PRO_PICK.setDimensionSeaLevels(dimensionSeaLevels);
+        if (Geolosys.getInstance().PRO_PICK != null)
+        {
+            Geolosys.getInstance().PRO_PICK.setDimensionSeaLevels(dimensionSeaLevels);
+        }
     }
 
     private void parseOres()
