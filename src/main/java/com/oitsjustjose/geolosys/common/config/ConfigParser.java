@@ -42,7 +42,7 @@ public class ConfigParser
 
     private void parseDimensions()
     {
-        if (Geolosys.getInstance().PRO_PICK != null)
+        if (Geolosys.getInstance().PRO_PICK == null)
         {
             return;
         }
