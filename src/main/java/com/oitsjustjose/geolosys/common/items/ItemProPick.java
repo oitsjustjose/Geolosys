@@ -207,8 +207,16 @@ public class ItemProPick extends Item
 
             boolean searchForStone = stack.getTagCompound().getBoolean("stone");
 
-            int seaLvl = this.dimensionSeaLevels.get(player.dimension) == null ? worldIn.getSeaLevel()
-                    : this.dimensionSeaLevels.get(player.dimension);
+            int seaLvl;
+            try
+            {
+                seaLvl = this.dimensionSeaLevels.get(player.dimension);
+            }
+            catch (NullPointerException e)
+            {
+                seaLvl = worldIn.getSeaLevel();
+            }
+
             if (player.getPosition().getY() >= seaLvl)
             {
                 if (searchForStone)
@@ -383,9 +391,15 @@ public class ItemProPick extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            int seaLvl = this.dimensionSeaLevels.get(mc.player.dimension) == null
-                    ? mc.player.getEntityWorld().getSeaLevel()
-                    : this.dimensionSeaLevels.get(mc.player.dimension);
+            int seaLvl;
+            try
+            {
+                seaLvl = this.dimensionSeaLevels.get(mc.player.dimension);
+            }
+            catch (NullPointerException e)
+            {
+                seaLvl = mc.player.getEntityWorld().getSeaLevel();
+            }
             int level = (int) (seaLvl - mc.player.posY);
             if (level < 0)
             {
