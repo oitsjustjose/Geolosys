@@ -1,7 +1,11 @@
 # Geolosys Changelog
+
+### 2.2.6:
+* FIXED: ***Actually*** fix crash when holding the Pro Pick if a dimension's sea level wasn't set
+
 ### 2.2.5:
 * FIXED: NPE when the Prospector's Pick was disabled
-* FIXED: Crash when holding the Pro Pick if a dimensions' sea level wasn't set
+* FIXED: Crash when holding the Pro Pick if a dimension's sea level wasn't set
 
 ### 2.2.4:
 * ADDED: Config option for the "sea level" for each dimension
