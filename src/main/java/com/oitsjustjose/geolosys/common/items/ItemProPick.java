@@ -1,8 +1,8 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
@@ -10,11 +10,12 @@ import javax.annotation.Nullable;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
 import com.oitsjustjose.geolosys.common.world.util.DepositStone;
-import com.oitsjustjose.geolosys.common.api.IOre;
 
 import org.lwjgl.opengl.GL11;
 
@@ -442,26 +443,68 @@ public class ItemProPick extends Item
     private String findOreInChunk(World world, BlockPos pos)
     {
         ChunkPos tempPos = new ChunkPos(pos);
-        BlockPos searchPos = new BlockPos(tempPos.getXStart(), 0, tempPos.getZStart());
+        ArrayList<IBlockState> query = new ArrayList<>();
 
         SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
 
-        // if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
-        // {
         for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
         {
             for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
                 for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                 {
-                    IOre ore = GeolosysAPI.getCurrentIOres().get(new GeolosysAPI.ChunkPosSerializable(
-                            new ChunkPos(searchPos.add(x, y, z)), world.provider.getDimension()));
-                    if (ore.oreMatches(world.getBlockState(searchPos.add(x, y, z)))
-                            && searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
+                    IBlockState b = world.getBlockState(new BlockPos(x, y, z));
+                    if (query.contains(b))
+                    {
+                        continue;
+                    }
+                    for (IOre ore : GeolosysAPI.oreBlocks)
+                    {
+                        if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
+                        {
+                            if (Utils.doStatesMatch(ore.getOre(), b))
+                            {
+                                query.add(b);
+                            }
+                        }
+                        else if (searchType == SURFACE_PROSPECTING_TYPE.SAMPLES)
+                        {
+                            if (Utils.doStatesMatch(ore.getSample(), b))
+                            {
+                                query.add(b);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Only one item:
+        if (query.size() == 1)
+        {
+            for (IOre ore : GeolosysAPI.oreBlocks)
+            {
+                if (ore.oreMatches(query.get(0)) && searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
+                {
+                    return ore.getFriendlyName();
+                }
+                else if (ore.sampleMatches(query.get(0)) && searchType == SURFACE_PROSPECTING_TYPE.SAMPLES)
+                {
+                    return ore.getFriendlyName();
+                }
+            }
+        }
+        else
+        {
+            for (IOre ore : GeolosysAPI.oreBlocks)
+            {
+                if (ore instanceof DepositMultiOre)
+                {
+                    if (((DepositMultiOre) ore).oreMatches(query) && searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
                     {
                         return ore.getFriendlyName();
                     }
-                    else if (ore.sampleMatches(world.getBlockState(searchPos.add(x, y, z)))
+                    else if (((DepositMultiOre) ore).sampleMatches(query)
                             && searchType == SURFACE_PROSPECTING_TYPE.SAMPLES)
                     {
                         return ore.getFriendlyName();

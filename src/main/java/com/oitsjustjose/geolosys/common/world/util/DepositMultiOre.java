@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.IOre;
@@ -16,6 +17,8 @@ public class DepositMultiOre implements IOre
 {
     private ArrayList<IBlockState> ores = new ArrayList<>();
     private ArrayList<IBlockState> samples = new ArrayList<>();
+    private Set<IBlockState> oreBlocks;
+    private Set<IBlockState> sampleBlocks;
     private int yMin;
     private int yMax;
     private int size;
@@ -40,7 +43,6 @@ public class DepositMultiOre implements IOre
         }
         assert sum == 100 : "Sums of chances should equal 100";
 
-        Geolosys.getInstance().LOGGER.info("Creating object...");
         int last = 0;
         for (IBlockState key : oreBlocks.keySet())
         {
@@ -50,7 +52,6 @@ public class DepositMultiOre implements IOre
             }
             last += oreBlocks.get(key);
         }
-        Geolosys.getInstance().LOGGER.info("Done creating the ores arraylist");
 
         last = 0;
         for (IBlockState key : sampleBlocks.keySet())
@@ -62,8 +63,8 @@ public class DepositMultiOre implements IOre
             last += sampleBlocks.get(key);
         }
 
-        Geolosys.getInstance().LOGGER.info("Done creating the samples arraylist");
-
+        this.oreBlocks = oreBlocks.keySet();
+        this.sampleBlocks = sampleBlocks.keySet();
         this.yMin = yMin;
         this.yMax = yMax;
         this.size = size;
@@ -154,6 +155,49 @@ public class DepositMultiOre implements IOre
     public List<IBlockState> getBlockStateMatchers()
     {
         return this.blockStateMatchers;
+    }
+
+    public boolean oreMatches(ArrayList<IBlockState> other)
+    {
+        for (IBlockState state1 : this.oreBlocks)
+        {
+            boolean isMatchInOtherArrayList = false;
+            for (IBlockState state2 : other)
+            {
+                if (Utils.doStatesMatch(state1, state2))
+                {
+                    isMatchInOtherArrayList = true;
+                    break;
+                }
+            }
+            if (!isMatchInOtherArrayList)
+            {
+                return false;
+            }
+        }
+
+        return this.oreBlocks.size() == other.size();
+    }
+
+    public boolean sampleMatches(ArrayList<IBlockState> other)
+    {
+        for (IBlockState state1 : this.sampleBlocks)
+        {
+            boolean isMatchInOtherArrayList = false;
+            for (IBlockState state2 : other)
+            {
+                if (Utils.doStatesMatch(state1, state2))
+                {
+                    isMatchInOtherArrayList = true;
+                    break;
+                }
+            }
+            if (!isMatchInOtherArrayList)
+            {
+                return false;
+            }
+        }
+        return this.sampleBlocks.size() == other.size();
     }
 
     public boolean oreMatches(IBlockState other)

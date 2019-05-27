@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.util;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -30,4 +32,5 @@ public class Utils
         return (state1.getBlock() == state2.getBlock()
                 && state1.getBlock().getMetaFromState(state1) == state2.getBlock().getMetaFromState(state2));
     }
+
 }

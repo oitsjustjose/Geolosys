@@ -32,13 +32,12 @@ import net.minecraft.world.biome.Biome;
  */
 public class GeolosysAPI
 {
-    // A K:V pair of block states to pair deposits with their samples
+    // An arraylist of IOres that may generate
     public static ArrayList<IOre> oreBlocks = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
-    private static HashMap<ChunkPosSerializable, IOre> currentIOres = new HashMap<>();
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
@@ -50,10 +49,9 @@ public class GeolosysAPI
      * @param state The String to act as a value
      * @param ore   The iOre object being placed there
      */
-    public static void putWorldDeposit(ChunkPos pos, int dimension, String state, IOre ore)
+    public static void putWorldDeposit(ChunkPos pos, int dimension, String state)
     {
         currentWorldDeposits.put(new ChunkPosSerializable(pos, dimension), state);
-        currentIOres.put(new ChunkPosSerializable(pos, dimension), ore);
         if (ModConfig.featureControl.debugGeneration)
         {
             int total = 0;
@@ -73,40 +71,23 @@ public class GeolosysAPI
     /**
      * @param pos   The ChunkPosSerializable to act as a key
      * @param state The String to act as a value
-     * @param ore   The iOre object being placed there
      */
-    public static void putWorldDeposit(ChunkPosSerializable pos, String state, IOre ore)
+    public static void putWorldDeposit(ChunkPosSerializable pos, String state)
     {
         currentWorldDeposits.put(pos, state);
-        currentIOres.put(pos, ore);
     }
 
     /**
      * @param posAsString The ChunkPosSerializable in its toString() form
      * @param state       The String to act as a value
-     * @param ore         The iOre object being placed there
      */
-    public static void putWorldDeposit(String posAsString, String state, IOre ore)
+    public static void putWorldDeposit(String posAsString, String state)
     {
         String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
         currentWorldDeposits.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
                 Integer.parseInt(parts[2])), state);
-        currentIOres.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
-                Integer.parseInt(parts[2])), ore);
     }
 
-    /**
-     * Deprecated as it's only for OLD conversion of ores.
-     * 
-     * @param pos   The ChunkPosSerializable to act as a key
-     * @param state The String to act as a value
-     * @param ore   The iOre object being placed there
-     */
-    @Deprecated
-    public static void putWorldDeposit(ChunkPosSerializable pos, String state)
-    {
-        currentWorldDeposits.put(pos, state);
-    }
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
@@ -117,14 +98,6 @@ public class GeolosysAPI
         return (HashMap<ChunkPosSerializable, String>) currentWorldDeposits.clone();
     }
 
-    /**
-     * @return The world's current IOre instances and where they are located in the world.
-     */
-    @SuppressWarnings("unchecked")
-    public static HashMap<ChunkPosSerializable, IOre> getCurrentIOres()
-    {
-        return (HashMap<ChunkPosSerializable, IOre>) currentIOres.clone();
-    }
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta

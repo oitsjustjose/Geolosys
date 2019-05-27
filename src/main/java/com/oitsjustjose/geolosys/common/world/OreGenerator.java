@@ -125,8 +125,7 @@ public class OreGenerator implements IWorldGenerator
                     GeolosysAPI
                             .putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
                                     this.ore.getOre().getBlock().getRegistryName() + ":"
-                                            + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()),
-                                    this.ore);
+                                            + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()));
                     GeolosysSaveData.get(world).markDirty();
                     Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
                             this.ore.getSample(), y, this.ore.getSize());
