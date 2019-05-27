@@ -98,7 +98,7 @@ public class DepositMultiOre implements IOre
         {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
             // The name hasn't already been added
-            if (sb.indexOf(name) != -1)
+            if (sb.toString().indexOf(name) == -1)
             {
                 sb.append(" & ");
                 sb.append(name);
