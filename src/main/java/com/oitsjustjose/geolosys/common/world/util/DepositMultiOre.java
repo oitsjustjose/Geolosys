@@ -94,17 +94,19 @@ public class DepositMultiOre implements IOre
     {
         StringBuilder sb = new StringBuilder();
 
+
         for (IBlockState state : this.ores)
         {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
             // The name hasn't already been added
-            if (sb.toString().indexOf(name) == -1)
+            if (sb.indexOf(name) == -1)
             {
                 sb.append(" & ");
                 sb.append(name);
             }
         }
-        return sb.toString();
+        // Return substr(3) to ignore the first " & "
+        return sb.toString().substring(3);
     }
 
     public int getYMin()
