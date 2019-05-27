@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
@@ -36,24 +38,29 @@ public class DepositMultiOre implements IOre
         }
         assert sum == 100 : "Sums of chances should equal 100";
 
-        // Convert to my cool range stylization:
+        Geolosys.getInstance().LOGGER.info("Creating object...");
+        int last = 0;
         for (IBlockState key : oreBlocks.keySet())
         {
-            int prog = 0;
-            while (prog < oreBlocks.get(key))
+            for (int i = last; i < last + oreBlocks.get(key); i++)
             {
-                this.ores.add(key);
+                this.ores.add(i, key);
             }
+            last += oreBlocks.get(key);
         }
+        Geolosys.getInstance().LOGGER.info("Done creating the ores arraylist");
 
+        last = 0;
         for (IBlockState key : sampleBlocks.keySet())
         {
-            int prog = 0;
-            while (prog < sampleBlocks.get(key))
+            for (int i = last; i < last + sampleBlocks.get(key); i++)
             {
-                this.samples.add(key);
+                this.samples.add(i, key);
             }
+            last += sampleBlocks.get(key);
         }
+
+        Geolosys.getInstance().LOGGER.info("Done creating the samples arraylist");
 
         this.yMin = yMin;
         this.yMax = yMax;
