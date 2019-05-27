@@ -123,7 +123,7 @@ public class GeolosysAPI
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, IOre> getCurrentIOres()
     {
-        return (HashMap<ChunkPosSerializable, IOre>) currentWorldDeposits.clone();
+        return (HashMap<ChunkPosSerializable, IOre>) currentIOres.clone();
     }
 
     /**
