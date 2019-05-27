@@ -5,18 +5,16 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.biome.Biome;
 
-public class DepositBiomeRestricted extends Deposit implements IBiomeRestricted
+public class DepositBiomeRestricted extends Deposit
 {
-    private IBlockState oreBlock;
-    private IBlockState sampleBlock;
     private List<Biome> biomes;
     private boolean useWhitelist;
 
-    public DepositBiomeRestricted(IBlockState oreBlock, IBlockState sampleBlock, List<Biome> biomes,
+    public DepositBiomeRestricted(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size,
+            int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes,
             boolean useWhitelist)
     {
-        this.oreBlock = oreBlock;
-        this.sampleBlock = sampleBlock;
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers);
         this.biomes = biomes;
         this.useWhitelist = useWhitelist;
     }
