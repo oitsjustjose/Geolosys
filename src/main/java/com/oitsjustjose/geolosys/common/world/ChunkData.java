@@ -20,14 +20,14 @@ public class ChunkData
 {
     private Random random = new Random();
 
-    public void addChunk(ChunkPos pos, World world, IBlockState state, int depositHeight)
+    public void addChunk(ChunkPos pos, World world, IBlockState state, int depositHeight, int depositSize)
     {
         if (world.getWorldType() == WorldType.FLAT)
         {
             return;
         }
 
-        int cap = getSampleCount(state);
+        int cap = getSampleCount(state, depositSize);
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos, depositHeight);
@@ -118,9 +118,9 @@ public class ChunkData
                 || world.getBlockState(pos.south()).getMaterial().isLiquid();
     }
 
-    private int getSampleCount(IBlockState state)
+    private int getSampleCount(IBlockState state, int depositSize)
     {
-        int count = GeolosysAPI.sampleCounts.get(state) / ModConfig.prospecting.maxSamples;
+        int count = depositSize / ModConfig.prospecting.maxSamples;
 
         // Normalize maximum sample counts
         if (count > ModConfig.prospecting.maxSamples)

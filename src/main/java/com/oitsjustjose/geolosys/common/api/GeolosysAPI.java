@@ -15,10 +15,17 @@ import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
+import com.oitsjustjose.geolosys.common.world.StoneGenerator.StoneGen;
+import com.oitsjustjose.geolosys.common.world.util.Deposit;
+import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.DepositStone;
 import com.oitsjustjose.geolosys.common.world.util.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.biome.Biome;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist Access is pretty
@@ -30,18 +37,14 @@ public class GeolosysAPI
     public static ArrayList<IOre> oreBlocks = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
-    // A matched pair of IBlockStates whose K:V = block:replacement
-    public static HashMap<IBlockState, List<IBlockState>> oreBlocksSpecific = new HashMap<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
-    // A K:V pair of IBlockStates with their sample sizes
-    public static HashMap<IBlockState, Integer> sampleCounts = new HashMap<>();
 
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
     // An arraylist of IBlockState of all stones registered
-    public static ArrayList<IBlockState> stones = new ArrayList<>();
+    public static ArrayList<DepositStone> stones = new ArrayList<>();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
@@ -165,27 +168,9 @@ public class GeolosysAPI
         return false;
     }
 
-    /**
-     * Adds a deposit for Geolosys to handle the generation of.
-     *
-     * @param oreBlock     The block you want UNDERGROUND as an ore
-     * @param sampleBlock  The block you want ON THE SURFACE as a sample
-     * @param yMin         The minimum Y level this deposit can generate at
-     * @param yMax         The maximum Y level this deposit can generate at
-     * @param size         The size of the deposit
-     * @param chance       The chance of the deposit generating (higher = more likely)
-     * @param dimBlacklist An array of dimension numbers in which this deposit cannot generate
-     */
-    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
-            int size, int chance, int[] dimBlacklist)
-    {
-        OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
-        oreBlocks.put(oreBlock, sampleBlock);
-        sampleCounts.put(sampleBlock, size);
-    }
 
     /**
-     * Adds a deposit for Geolosys to handle the generation of.
+     * Adds a deposit for Geolosys to handle the generation of. Mostly internal usage for the ConfigOres JSON
      *
      * @param oreBlock    The block you want UNDERGROUND as an ore
      * @param sampleBlock The block you want ON THE SURFACE as a sample
@@ -194,11 +179,11 @@ public class GeolosysAPI
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, ConfigOres.Ore ore)
     {
         registerMineralDeposit(oreBlock, sampleBlock, ore.getMinY(), ore.getMaxY(), ore.getSize(), ore.getChance(),
-                ore.getBlacklist());
+                ore.getBlacklist(), null);
     }
 
     /**
-     * Adds a deposit for Geolosys to handle the generation of.
+     * Adds a GENERIC deposit for Geolosys to handle the generation of.
      *
      * @param oreBlock           The block you want UNDERGROUND as an ore
      * @param sampleBlock        The block you want ON THE SURFACE as a sample
@@ -212,11 +197,82 @@ public class GeolosysAPI
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
             int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers)
     {
-        oreBlocks.put(oreBlock, sampleBlock);
-        sampleCounts.put(sampleBlock, size);
-        oreBlocksSpecific.put(oreBlock, blockStateMatchers);
-        OreGenerator.addOreGen(oreBlock, size, yMin, yMax, chance, dimBlacklist);
+        Deposit tempDeposit = new Deposit(oreBlock, sampleBlock, yMin, yMax, size, chance, dimBlacklist,
+                blockStateMatchers);
+        OreGenerator.addOreGen(tempDeposit);
+        oreBlocks.add(tempDeposit);
     }
+
+    /**
+     * Adds a multi-ore deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlockMap        A HashMap of IBlockState:Integer where the integer represents the chance of that ore.
+     * @param sampleBlockMap     A HashMap of IBlockState:Integer where the integer represents the chance of that sample.
+     * @param yMin               The minimum Y level this deposit can generate at
+     * @param yMax               The maximum Y level this deposit can generate at
+     * @param size               The size of the deposit
+     * @param chance             The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
+     */
+    public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
+            HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+            List<IBlockState> blockStateMatchers)
+    {
+        DepositMultiOre tempDeposit = new DepositMultiOre(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance,
+                dimBlacklist, blockStateMatchers);
+        OreGenerator.addOreGen(tempDeposit);
+        oreBlocks.add(tempDeposit);
+    }
+
+    /**
+     * Adds a biome-restricted deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlockMap        A HashMap of IBlockState:Integer where the integer represents the chance of that ore.
+     * @param sampleBlockMap     A HashMap of IBlockState:Integer where the integer represents the chance of that sample.
+     * @param yMin               The minimum Y level this deposit can generate at
+     * @param yMax               The maximum Y level this deposit can generate at
+     * @param size               The size of the deposit
+     * @param chance             The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
+     * @param biomeList          A List of Biomes which are to be black or whitelisted
+     * @param isWhitelist        A boolean to determine is the biomeList a blacklist or whitelist
+     */
+    public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
+            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomeList,
+            boolean isWhitelist)
+    {
+        DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
+                dimBlacklist, blockStateMatchers, biomeList, isWhitelist);
+        OreGenerator.addOreGen(tempDeposit);
+        oreBlocks.add(tempDeposit);
+    }
+
+    /**
+     * Adds a biome-restricted multi-ore deposit for Geolosys to handle the generation of.
+     *
+     * @param oreBlockMap        A HashMap of IBlockState:Integer where the integer represents the chance of that ore.
+     * @param sampleBlockMap     A HashMap of IBlockState:Integer where the integer represents the chance of that sample.
+     * @param yMin               The minimum Y level this deposit can generate at
+     * @param yMax               The maximum Y level this deposit can generate at
+     * @param size               The size of the deposit
+     * @param chance             The chance of the deposit generating (higher = more likely)
+     * @param dimBlacklist       An array of dimension numbers in which this deposit cannot generate
+     * @param blockStateMatchers A collection of blocks that this entry specifically can replace
+     * @param biomeList          A List of Biomes which are to be black or whitelisted
+     * @param isWhitelist        A boolean to determine is the biomeList a blacklist or whitelist
+     */
+    public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
+            HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+            List<IBlockState> blockStateMatchers, List<Biome> biomeList, boolean isWhitelist)
+    {
+        DepositMultiOreBiomeRestricted tempDeposit = new DepositMultiOreBiomeRestricted(oreBlockMap, sampleBlockMap,
+                yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, isWhitelist);
+        OreGenerator.addOreGen(tempDeposit);
+        oreBlocks.add(tempDeposit);
+    }
+
 
     /**
      * Ads a stone type for Geolosys to handle the generation of.
@@ -228,9 +284,9 @@ public class GeolosysAPI
      */
     public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance)
     {
-        StoneGenerator.addStoneGen(stoneBlock, yMin, yMax, chance);
-        replacementMats.add(stoneBlock);
-        stones.add(stoneBlock);
+        DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance);
+        StoneGenerator.addStoneGen(tempDeposit);
+        stones.add(tempDeposit);
     }
 
     /**

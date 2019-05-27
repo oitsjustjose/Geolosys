@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.world.util;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 
 public interface IOre
@@ -21,4 +23,6 @@ public interface IOre
     public int[] getDimensionBlacklist();
 
     public boolean canReplace(IBlockState state);
+
+    public List<IBlockState> getBlockStateMatchers();
 }

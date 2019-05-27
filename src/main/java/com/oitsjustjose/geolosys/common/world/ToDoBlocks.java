@@ -5,6 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.world.util.IOre;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,7 +51,19 @@ public class ToDoBlocks extends WorldSavedData
         markDirty();
     }
 
-    public void processPending(ChunkPos pos, World world, List<IBlockState> matchers)
+    public List<IBlockState> findMatcher(IBlockState state)
+    {
+        for (IOre ore : GeolosysAPI.oreBlocks)
+        {
+            if (Utils.doStatesMatch(state, ore.getOre()))
+            {
+                return ore.getBlockStateMatchers();
+            }
+        }
+        return GeolosysAPI.replacementMats;
+    }
+
+    public void processPending(ChunkPos pos, World world)
     {
         Map<BlockPos, IBlockState> pending = pendingBlocks.get(pos);
         if (pending != null && !pending.isEmpty())
@@ -58,7 +75,7 @@ public class ToDoBlocks extends WorldSavedData
                 BlockPos blockPos = e.getKey();
 
                 IBlockState state = world.getBlockState(blockPos);
-                if (state != null && matchers.contains(state))
+                if (state != null && findMatcher(e.getValue()).contains(state))
                 {
                     world.setBlockState(blockPos, e.getValue(), 2 | 16);
                 }

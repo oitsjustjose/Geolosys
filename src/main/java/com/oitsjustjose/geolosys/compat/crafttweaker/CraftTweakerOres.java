@@ -36,7 +36,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist);
+                                        dimBlacklist, null);
                 }
         }
 

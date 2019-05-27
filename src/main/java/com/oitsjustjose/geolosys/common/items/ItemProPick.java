@@ -12,6 +12,9 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
+import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.world.util.DepositStone;
+import com.oitsjustjose.geolosys.common.world.util.IOre;
 
 import org.lwjgl.opengl.GL11;
 
@@ -354,13 +357,29 @@ public class ItemProPick extends Item
                 for (int z = zStart; z <= zEnd; z++)
                 {
                     IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                    if (GeolosysAPI.oreBlocks.keySet().contains(state))
+                    // if (GeolosysAPI.oreBlocks.keySet().contains(state))
+                    for (IOre ore : GeolosysAPI.oreBlocks)
                     {
-                        sendFoundMessage(player, state, facing);
-                        found = true;
+                        if (Utils.doStatesMatch(ore.getOre(), state))
+                        {
+                            sendFoundMessage(player, state, facing);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
                         break;
                     }
                 }
+                if (found)
+                {
+                    break;
+                }
+            }
+            if (found)
+            {
+                break;
             }
         }
         return found;
@@ -434,9 +453,12 @@ public class ItemProPick extends Item
                 {
                     for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                     {
-                        if (GeolosysAPI.oreBlocks.keySet().contains(world.getBlockState(new BlockPos(x, y, z))))
+                        for (IOre ore : GeolosysAPI.oreBlocks)
                         {
-                            return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z)));
+                            if (Utils.doStatesMatch(ore.getOre(), world.getBlockState(new BlockPos(x, y, z))))
+                            {
+                                return ore.getFriendlyName();
+                            }
                         }
                     }
                 }
@@ -450,11 +472,11 @@ public class ItemProPick extends Item
                 {
                     for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                     {
-                        for (Entry<IBlockState, IBlockState> e : GeolosysAPI.oreBlocks.entrySet())
+                        for (IOre ore : GeolosysAPI.oreBlocks)
                         {
-                            if (e.getValue() == world.getBlockState(new BlockPos(x, y, z)))
+                            if (Utils.doStatesMatch(ore.getSample(), world.getBlockState(new BlockPos(x, y, z))))
                             {
-                                return getNameForBlockState(e.getKey());
+                                return ore.getFriendlyName();
                             }
                         }
                     }
@@ -475,9 +497,12 @@ public class ItemProPick extends Item
             {
                 for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                 {
-                    if (GeolosysAPI.stones.contains(world.getBlockState(new BlockPos(x, y, z))))
+                    for (DepositStone s : GeolosysAPI.stones)
                     {
-                        return getNameForBlockState(world.getBlockState(new BlockPos(x, y, z)));
+                        if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
+                        {
+                            return s.getFriendlyName();
+                        }
                     }
                 }
             }
@@ -485,10 +510,5 @@ public class ItemProPick extends Item
 
         return null;
 
-    }
-
-    private String getNameForBlockState(IBlockState state)
-    {
-        return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
     }
 }

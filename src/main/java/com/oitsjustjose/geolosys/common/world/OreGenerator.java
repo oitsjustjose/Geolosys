@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -8,12 +7,14 @@ import java.util.Random;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
-import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
@@ -28,30 +29,41 @@ import net.minecraftforge.fml.common.Loader;
 
 public class OreGenerator implements IWorldGenerator
 {
-    private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysOreGeneratorPending";
     private static HashMap<Integer, OreGen> oreSpawnWeights = new HashMap<>();
     private static int last = 0;
 
-    public static void addOreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
+    public static void addOreGen(IOre ore)
     {
-        OreGen gen = new OreGen(state, maxVeinSize, minY, maxY, weight, blacklist);
-        for (int i = last; i < last + weight; i++)
+        OreGen gen = new OreGen(ore);
+        for (int i = last; i < last + ore.getChance(); i++)
         {
             oreSpawnWeights.put(i, gen);
         }
-        last = last + weight;
+        last = last + ore.getChance();
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
             IChunkProvider chunkProvider)
     {
-        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world);
 
         if (oreSpawnWeights.keySet().size() > 0)
         {
             int rng = random.nextInt(oreSpawnWeights.keySet().size());
+            // Check the biome
+            if (oreSpawnWeights.get(rng).ore instanceof DepositBiomeRestricted)
+            {
+                DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                for (Biome b : deposit.getBiomeList())
+                {
+                    if (world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))) == b)
+                    {
+                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    }
+                }
+            }
             oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
         }
     }
@@ -59,22 +71,12 @@ public class OreGenerator implements IWorldGenerator
     public static class OreGen
     {
         WorldGenMinableSafe pluton;
-        IBlockState state;
-        int minY;
-        int maxY;
-        int weight;
-        int[] blacklistedDims;
+        IOre ore;
 
-        public OreGen(IBlockState state, int maxVeinSize, int minY, int maxY, int weight, int[] blacklist)
+        public OreGen(IOre ore)
         {
-            this.pluton = new WorldGenMinableSafe(state, maxVeinSize,
-                    doesOreHaveSpecialMatchers(state) ? GeolosysAPI.oreBlocksSpecific.get(state) : blockStateMatchers,
-                    dataID);
-            this.state = state;
-            this.minY = Math.min(minY, maxY);
-            this.maxY = Math.max(minY, maxY);
-            this.weight = weight;
-            this.blacklistedDims = blacklist;
+            this.pluton = new WorldGenMinableSafe(ore, dataID);
+            this.ore = ore;
         }
 
         public void generate(World world, Random rand, int x, int z)
@@ -86,16 +88,18 @@ public class OreGenerator implements IWorldGenerator
             }
             boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
             ForgeModContainer.logCascadingWorldGeneration = false;
-            for (int d : this.blacklistedDims)
+            for (int d : this.ore.getDimensionBlacklist())
             {
                 if (d == world.provider.getDimension())
                 {
                     return;
                 }
             }
-            if (rand.nextInt(100) < weight)
+            if (rand.nextInt(100) < this.ore.getChance())
             {
-                int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+                int y = this.ore.getYMin() != this.ore.getYMax()
+                        ? this.ore.getYMin() + rand.nextInt(this.ore.getYMax() - this.ore.getYMin())
+                        : this.ore.getYMin();
                 if (Loader.isModLoaded("twilightforest") && world.provider.getDimension() == 7)
                 {
                     y /= 2;
@@ -105,31 +109,14 @@ public class OreGenerator implements IWorldGenerator
                 if (pluton.generate(world, rand, new BlockPos(x, y, z)))
                 {
                     GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
-                            state.getBlock().getRegistryName() + ":" + state.getBlock().getMetaFromState(state));
+                            this.ore.getOre().getBlock().getRegistryName() + ":"
+                                    + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()));
                     GeolosysSaveData.get(world).markDirty();
                     Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
-                            GeolosysAPI.oreBlocks.get(state), y);
+                            this.ore.getSample(), y, this.ore.getSize());
                 }
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;
-        }
-
-        /**
-         * Finds out whether or not there's a special predicate for an ore block
-         *
-         * @param state The state to check with
-         * @return True if the keyset contains the state, false otherwise
-         */
-        private boolean doesOreHaveSpecialMatchers(IBlockState state)
-        {
-            for (IBlockState iBlockState : GeolosysAPI.oreBlocksSpecific.keySet())
-            {
-                if (Utils.doStatesMatch(iBlockState, state))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

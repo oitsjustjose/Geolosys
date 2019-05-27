@@ -139,4 +139,9 @@ public class DepositMultiOre implements IOre
         }
         return this.blockStateMatchers.contains(state);
     }
+
+    public List<IBlockState> getBlockStateMatchers()
+    {
+        return this.blockStateMatchers;
+    }
 }

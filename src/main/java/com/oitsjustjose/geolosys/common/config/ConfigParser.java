@@ -115,7 +115,7 @@ public class ConfigParser
                     }
                 }
                 GeolosysAPI.registerMineralDeposit(oreState, sampleState, toInt(parts[4]), toInt(parts[5]),
-                        toInt(parts[3]), toInt(parts[6]), blacklist);
+                        toInt(parts[3]), toInt(parts[6]), blacklist, null);
             }
             catch (NumberFormatException e)
             {

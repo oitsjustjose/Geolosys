@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.world.util.DepositStone;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -29,21 +30,21 @@ public class StoneGenerator implements IWorldGenerator
     private static HashMap<Integer, StoneGen> stoneSpawnWeights = new HashMap<>();
     private static int last = 0;
 
-    public static void addStoneGen(IBlockState state, int minY, int maxY, int weight)
+    public static void addStoneGen(DepositStone stone)
     {
-        StoneGen gen = new StoneGen(state, minY, maxY, weight);
-        for (int i = last; i < last + weight; i++)
+        StoneGen gen = new StoneGen(stone);
+        for (int i = last; i < last + stone.getChance(); i++)
         {
             stoneSpawnWeights.put(i, gen);
         }
-        last = last + weight;
+        last = last + stone.getChance();
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
             IChunkProvider chunkProvider)
     {
-        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world, blockStateMatchers);
+        ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world);
         if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1)
         {
             return;
@@ -58,18 +59,12 @@ public class StoneGenerator implements IWorldGenerator
     public static class StoneGen
     {
         WorldGenMinableSafe pluton;
-        IBlockState state;
-        int minY;
-        int maxY;
-        int weight;
+        DepositStone depositStone;
 
-        StoneGen(IBlockState state, int minY, int maxY, int weight)
+        StoneGen(DepositStone depositStone)
         {
-            this.pluton = new WorldGenMinableSafe(state, 96, blockStateMatchers, dataID);
-            this.state = state;
-            this.minY = Math.min(minY, maxY);
-            this.maxY = Math.max(minY, maxY);
-            this.weight = weight;
+            this.pluton = new WorldGenMinableSafe(depositStone, dataID);
+            this.depositStone = depositStone;
         }
 
         public void generate(World world, Random rand, int x, int z)
@@ -81,9 +76,12 @@ public class StoneGenerator implements IWorldGenerator
             }
             boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
             ForgeModContainer.logCascadingWorldGeneration = false;
-            if (rand.nextInt(100) < weight)
+            if (rand.nextInt(100) < this.depositStone.getChance())
             {
-                int y = minY != maxY ? minY + rand.nextInt(maxY - minY) : minY;
+                int y = this.depositStone.getYMin() != this.depositStone.getYMax()
+                        ? this.depositStone.getYMin()
+                                + rand.nextInt(this.depositStone.getYMax() - this.depositStone.getYMin())
+                        : this.depositStone.getYMin();
                 pluton.generate(world, rand, new BlockPos(x, y, z));
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;
