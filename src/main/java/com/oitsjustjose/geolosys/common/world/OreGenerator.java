@@ -1,16 +1,15 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.common.world.util.IOre;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -64,7 +63,22 @@ public class OreGenerator implements IWorldGenerator
                     }
                 }
             }
-            oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            else if (oreSpawnWeights.get(rng).ore instanceof DepositMultiOreBiomeRestricted)
+            {
+                DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                for (Biome b : deposit.getBiomeList())
+                {
+                    if (world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))) == b)
+                    {
+                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    }
+                }
+            }
+            // Not special
+            else
+            {
+                oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+            }
         }
     }
 
