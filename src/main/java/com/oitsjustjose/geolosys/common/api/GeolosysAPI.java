@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
+import com.oitsjustjose.geolosys.common.world.util.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
@@ -26,7 +27,7 @@ import net.minecraft.util.math.ChunkPos;
 public class GeolosysAPI
 {
     // A K:V pair of block states to pair deposits with their samples
-    public static HashMap<IBlockState, IBlockState> oreBlocks = new HashMap<>();
+    public static ArrayList<IOre> oreBlocks = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A matched pair of IBlockStates whose K:V = block:replacement
