@@ -49,6 +49,7 @@ configurations.all {
 
 dependencies {
 	deobfCompile "blusunrize:ImmersiveEngineering:${ie_version}"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
     compile group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
 }
 
