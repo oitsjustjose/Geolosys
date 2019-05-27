@@ -127,8 +127,7 @@ public class OreGenerator implements IWorldGenerator
                                     this.ore.getOre().getBlock().getRegistryName() + ":"
                                             + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()));
                     GeolosysSaveData.get(world).markDirty();
-                    Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
-                            this.ore.getSample(), y, this.ore.getSize());
+                    Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world, y, this.ore);
                 }
             }
             ForgeModContainer.logCascadingWorldGeneration = lastState;

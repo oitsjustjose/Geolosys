@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.world;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.blocks.BlockSample;
 import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -20,14 +21,14 @@ public class ChunkData
 {
     private Random random = new Random();
 
-    public void addChunk(ChunkPos pos, World world, IBlockState state, int depositHeight, int depositSize)
+    public void addChunk(ChunkPos pos, World world, int depositHeight, IOre ore)
     {
         if (world.getWorldType() == WorldType.FLAT)
         {
             return;
         }
 
-        int cap = getSampleCount(state, depositSize);
+        int cap = getSampleCount(ore.getSize());
         for (int i = 0; i < cap; i++)
         {
             BlockPos p = getSamplePos(world, pos, depositHeight);
@@ -40,7 +41,7 @@ public class ChunkData
             if (ModConfig.prospecting.generateInWater || !isMoist(world, p))
             {
                 world.setBlockState(p.up(), Blocks.AIR.getDefaultState(), 2 | 16);
-                world.setBlockState(p, state, 2 | 16);
+                world.setBlockState(p, ore.getSample(), 2 | 16);
             }
         }
     }
@@ -118,7 +119,7 @@ public class ChunkData
                 || world.getBlockState(pos.south()).getMaterial().isLiquid();
     }
 
-    private int getSampleCount(IBlockState state, int depositSize)
+    private int getSampleCount(int depositSize)
     {
         int count = depositSize / ModConfig.prospecting.maxSamples;
 
