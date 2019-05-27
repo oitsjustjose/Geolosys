@@ -8,7 +8,7 @@ import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
-import com.oitsjustjose.geolosys.common.world.util.IOre;
+import com.oitsjustjose.geolosys.common.api.IOre;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -122,9 +122,11 @@ public class OreGenerator implements IWorldGenerator
                 // If the pluton placed any ores at all
                 if (pluton.generate(world, rand, new BlockPos(x, y, z)))
                 {
-                    GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
-                            this.ore.getOre().getBlock().getRegistryName() + ":"
-                                    + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()));
+                    GeolosysAPI
+                            .putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
+                                    this.ore.getOre().getBlock().getRegistryName() + ":"
+                                            + this.ore.getOre().getBlock().getMetaFromState(this.ore.getOre()),
+                                    this.ore);
                     GeolosysSaveData.get(world).markDirty();
                     Geolosys.getInstance().chunkOreGen.addChunk(new ChunkPos(x / 16, z / 16), world,
                             this.ore.getSample(), y, this.ore.getSize());

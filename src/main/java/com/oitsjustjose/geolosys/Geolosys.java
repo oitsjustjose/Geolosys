@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -40,8 +42,10 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -125,8 +129,19 @@ public class Geolosys
             COAL_COKE = new ItemCoalCoke();
         }
 
-        registerGeolosysOreGen();
-        registerVanillaOreGen();
+        // registerGeolosysOreGen();
+        // registerVanillaOreGen();
+        HashMap<IBlockState, Integer> ores = new HashMap<>();
+        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
+        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 75);
+        HashMap<IBlockState, Integer> samples = new HashMap<>();
+        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), 40);
+        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), 60);
+        ArrayList<Biome> biomes = new ArrayList<>();
+        biomes.add(Biomes.DESERT);
+        biomes.add(Biomes.PLAINS);
+
+        GeolosysAPI.registerMineralDeposit(ores, samples, 23, 66, 23, 100, new int[]{-1, 1}, null, biomes, true);
     }
 
     @EventHandler

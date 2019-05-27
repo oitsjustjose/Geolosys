@@ -15,13 +15,12 @@ import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
-import com.oitsjustjose.geolosys.common.world.StoneGenerator.StoneGen;
 import com.oitsjustjose.geolosys.common.world.util.Deposit;
 import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
 import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.common.world.util.DepositStone;
-import com.oitsjustjose.geolosys.common.world.util.IOre;
+import com.oitsjustjose.geolosys.common.api.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
@@ -39,7 +38,7 @@ public class GeolosysAPI
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
-
+    private static HashMap<ChunkPosSerializable, IOre> currentIOres = new HashMap<>();
     private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
     private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
@@ -49,10 +48,12 @@ public class GeolosysAPI
     /**
      * @param pos   The Mojang ChunkPos to act as a key
      * @param state The String to act as a value
+     * @param ore   The iOre object being placed there
      */
-    public static void putWorldDeposit(ChunkPos pos, int dimension, String state)
+    public static void putWorldDeposit(ChunkPos pos, int dimension, String state, IOre ore)
     {
         currentWorldDeposits.put(new ChunkPosSerializable(pos, dimension), state);
+        currentIOres.put(new ChunkPosSerializable(pos, dimension), ore);
         if (ModConfig.featureControl.debugGeneration)
         {
             int total = 0;
@@ -72,21 +73,39 @@ public class GeolosysAPI
     /**
      * @param pos   The ChunkPosSerializable to act as a key
      * @param state The String to act as a value
+     * @param ore   The iOre object being placed there
      */
-    public static void putWorldDeposit(ChunkPosSerializable pos, String state)
+    public static void putWorldDeposit(ChunkPosSerializable pos, String state, IOre ore)
     {
         currentWorldDeposits.put(pos, state);
+        currentIOres.put(pos, ore);
     }
 
     /**
      * @param posAsString The ChunkPosSerializable in its toString() form
      * @param state       The String to act as a value
+     * @param ore         The iOre object being placed there
      */
-    public static void putWorldDeposit(String posAsString, String state)
+    public static void putWorldDeposit(String posAsString, String state, IOre ore)
     {
         String[] parts = posAsString.replace("[", "").replace("]", "").split(",");
         currentWorldDeposits.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
                 Integer.parseInt(parts[2])), state);
+        currentIOres.put(new ChunkPosSerializable(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2])), ore);
+    }
+
+    /**
+     * Deprecated as it's only for OLD conversion of ores.
+     * 
+     * @param pos   The ChunkPosSerializable to act as a key
+     * @param state The String to act as a value
+     * @param ore   The iOre object being placed there
+     */
+    @Deprecated
+    public static void putWorldDeposit(ChunkPosSerializable pos, String state)
+    {
+        currentWorldDeposits.put(pos, state);
     }
 
     /**
@@ -96,6 +115,15 @@ public class GeolosysAPI
     public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits()
     {
         return (HashMap<ChunkPosSerializable, String>) currentWorldDeposits.clone();
+    }
+
+    /**
+     * @return The world's current IOre instances and where they are located in the world.
+     */
+    @SuppressWarnings("unchecked")
+    public static HashMap<ChunkPosSerializable, IOre> getCurrentIOres()
+    {
+        return (HashMap<ChunkPosSerializable, IOre>) currentWorldDeposits.clone();
     }
 
     /**
@@ -167,7 +195,6 @@ public class GeolosysAPI
         }
         return false;
     }
-
 
     /**
      * Adds a deposit for Geolosys to handle the generation of. Mostly internal usage for the ConfigOres JSON
@@ -272,7 +299,6 @@ public class GeolosysAPI
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
-
 
     /**
      * Ads a stone type for Geolosys to handle the generation of.

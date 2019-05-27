@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
-import com.oitsjustjose.geolosys.common.world.util.IOre;
+import com.oitsjustjose.geolosys.common.api.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;

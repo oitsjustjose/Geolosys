@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.world.util;
 import java.util.List;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
@@ -24,57 +25,48 @@ public class DepositStone implements IOre
         this.chance = chance;
     }
 
-    @Override
     public IBlockState getOre()
     {
         return this.block;
     }
 
-    @Override
     public IBlockState getSample()
     {
         return null;
     }
 
-    @Override
     public String getFriendlyName()
     {
         return new ItemStack(this.block.getBlock(), 1, this.block.getBlock().getMetaFromState(this.block))
                 .getDisplayName();
     }
 
-    @Override
     public int getYMin()
     {
         return this.yMin;
     }
 
-    @Override
     public int getYMax()
     {
         return this.yMax;
     }
 
-    @Override
     public int getChance()
     {
         return this.chance;
     }
 
-    @Override
     public int getSize()
     {
         return this.size;
     }
 
-    @Override
     public int[] getDimensionBlacklist()
     {
         return new int[]
         { -1, 1 };
     }
 
-    @Override
     public boolean canReplace(IBlockState state)
     {
         for (IBlockState s : GeolosysAPI.replacementMats)
@@ -87,9 +79,18 @@ public class DepositStone implements IOre
         return false;
     }
 
-    @Override
     public List<IBlockState> getBlockStateMatchers()
     {
         return null;
+    }
+
+    public boolean oreMatches(IBlockState other)
+    {
+        return Utils.doStatesMatch(other, this.block);
+    }
+
+    public boolean sampleMatches(IBlockState other)
+    {
+        return true;
     }
 }

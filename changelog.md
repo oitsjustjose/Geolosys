@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 3.0:
+* ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
+* ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
+* [API] ADDED: New options for generating using the new options (MultiOre, BiomeRestricted, and MultiOreBiomeRestricted)
+* [API] DEPRECATED: putWorldDeposit(ChunkPosSerializable, String) - this method always requires an IOre now ore else the ProPick (and other things) wont' know that the ore is in that chunkpos. You should move away from this if possible.
+* [API] CHANGED: Generation rules now follow an Interface IOre. If you were making a custom ore directly before, you should start implementing
+
 ### 2.2.6:
 * FIXED: ***Actually*** fix crash when holding the Pro Pick if a dimension's sea level wasn't set
 

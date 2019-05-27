@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -94,7 +96,6 @@ public class DepositMultiOre implements IOre
     {
         StringBuilder sb = new StringBuilder();
 
-
         for (IBlockState state : this.ores)
         {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
@@ -153,5 +154,29 @@ public class DepositMultiOre implements IOre
     public List<IBlockState> getBlockStateMatchers()
     {
         return this.blockStateMatchers;
+    }
+
+    public boolean oreMatches(IBlockState other)
+    {
+        for (IBlockState s : this.ores)
+        {
+            if (Utils.doStatesMatch(s, other))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean sampleMatches(IBlockState other)
+    {
+        for (IBlockState s : this.samples)
+        {
+            if (Utils.doStatesMatch(s, other))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

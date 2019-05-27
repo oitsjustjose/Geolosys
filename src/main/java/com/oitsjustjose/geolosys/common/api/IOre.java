@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.util;
+package com.oitsjustjose.geolosys.common.api;
 
 import java.util.List;
 
@@ -23,6 +23,10 @@ public interface IOre
     public int[] getDimensionBlacklist();
 
     public boolean canReplace(IBlockState state);
+
+    public boolean oreMatches(IBlockState other);
+
+    public boolean sampleMatches(IBlockState other);
 
     public List<IBlockState> getBlockStateMatchers();
 }

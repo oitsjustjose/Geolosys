@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.util;
 
 import java.util.List;
 
+import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
@@ -91,5 +92,15 @@ public class Deposit implements IOre
     public List<IBlockState> getBlockStateMatchers()
     {
         return this.blockStateMatchers;
+    }
+
+    public boolean oreMatches(IBlockState other)
+    {
+        return Utils.doStatesMatch(this.oreBlock, other);
+    }
+
+    public boolean sampleMatches(IBlockState other)
+    {
+        return Utils.doStatesMatch(this.sampleBlock, other);
     }
 }

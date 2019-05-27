@@ -14,7 +14,7 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.util.Utils;
 import com.oitsjustjose.geolosys.common.world.util.DepositStone;
-import com.oitsjustjose.geolosys.common.world.util.IOre;
+import com.oitsjustjose.geolosys.common.api.IOre;
 
 import org.lwjgl.opengl.GL11;
 
@@ -442,43 +442,29 @@ public class ItemProPick extends Item
     private String findOreInChunk(World world, BlockPos pos)
     {
         ChunkPos tempPos = new ChunkPos(pos);
+        BlockPos searchPos = new BlockPos(tempPos.getXStart(), 0, tempPos.getZStart());
 
         SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
 
-        if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
+        // if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
+        // {
+        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
         {
-            for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
+            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
-                for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
+                for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
                 {
-                    for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                    IOre ore = GeolosysAPI.getCurrentIOres().get(new GeolosysAPI.ChunkPosSerializable(
+                            new ChunkPos(searchPos.add(x, y, z)), world.provider.getDimension()));
+                    if (ore.oreMatches(world.getBlockState(searchPos.add(x, y, z)))
+                            && searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
                     {
-                        for (IOre ore : GeolosysAPI.oreBlocks)
-                        {
-                            if (Utils.doStatesMatch(ore.getOre(), world.getBlockState(new BlockPos(x, y, z))))
-                            {
-                                return ore.getFriendlyName();
-                            }
-                        }
+                        return ore.getFriendlyName();
                     }
-                }
-            }
-        }
-        else
-        {
-            for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
-            {
-                for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
-                {
-                    for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                    else if (ore.sampleMatches(world.getBlockState(searchPos.add(x, y, z)))
+                            && searchType == SURFACE_PROSPECTING_TYPE.SAMPLES)
                     {
-                        for (IOre ore : GeolosysAPI.oreBlocks)
-                        {
-                            if (Utils.doStatesMatch(ore.getSample(), world.getBlockState(new BlockPos(x, y, z))))
-                            {
-                                return ore.getFriendlyName();
-                            }
-                        }
+                        return ore.getFriendlyName();
                     }
                 }
             }

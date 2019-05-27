@@ -6,6 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.world.util.Deposit;
+import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.IOre;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -68,7 +73,26 @@ public class GeolosysSaveData extends WorldSavedData
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, String> e : currentWorldDepositsDeprecated.entrySet())
             {
-                GeolosysAPI.putWorldDeposit(e.getKey(), e.getValue());
+                boolean matchedToIore = false;
+                for (IOre ore : GeolosysAPI.oreBlocks)
+                {
+                    if (e.getValue().contains(ore.getOre().getBlock().getRegistryName().toString()))
+                    {
+                        if (e.getValue().contains("" + ore.getOre().getBlock().getMetaFromState(ore.getOre())))
+                        {
+                            GeolosysAPI.putWorldDeposit(e.getKey(), e.getValue(), ore);
+                            matchedToIore = true;
+                        }
+                    }
+                }
+                if (!matchedToIore)
+                {
+                    Geolosys.getInstance().LOGGER.info(
+                            "Couldn't match up any IOre (A new Geolosys construct as of v3.0.x) with a a VERY old entry."
+                                    + "Using the old deprecated method instead."
+                                    + "This data may not work with the prospector's pick as expected.");
+                    GeolosysAPI.putWorldDeposit(e.getKey(), e.getValue());
+                }
             }
 
             for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : regennedChunksDeprecated.entrySet())
@@ -91,14 +115,61 @@ public class GeolosysSaveData extends WorldSavedData
             Geolosys.getInstance().LOGGER.info("Geolosys is converting old persistent files into Forge World Data.");
             this.convertFromOld(compound);
             Geolosys.getInstance().LOGGER.info("Geolosys World Data conversion complete!");
-
         }
         if (compound.hasKey("currentWorldDeposits"))
         {
             NBTTagCompound compDeposits = compound.getCompoundTag("currentWorldDeposits");
+            NBTTagCompound compIOres = compound.getCompoundTag("currentIOres");
             for (String s : compDeposits.getKeySet())
             {
-                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s));
+
+                NBTTagCompound iore = (NBTTagCompound) compIOres.getTag(s);
+
+                // Search for the IOre using what we know:
+                for (IOre ore : GeolosysAPI.oreBlocks)
+                {
+                    if (iore.getString("type") == "DepositMultiOreBiomeRestricted")
+                    {
+                        if (ore instanceof DepositMultiOreBiomeRestricted)
+                        {
+                            if (ore.getFriendlyName() == iore.getString("name"))
+                            {
+                                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s), ore);
+                            }
+                        }
+                    }
+                    else if (iore.getString("type") == "DepositBiomeRestricted")
+                    {
+                        if (ore instanceof DepositBiomeRestricted)
+                        {
+                            if (ore.getFriendlyName() == iore.getString("name"))
+                            {
+                                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s), ore);
+                            }
+                        }
+                    }
+                    else if (iore.getString("type") == "DepositMultiOre")
+                    {
+                        if (ore instanceof DepositMultiOre)
+                        {
+                            if (ore.getFriendlyName() == iore.getString("name"))
+                            {
+                                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s), ore);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ore instanceof Deposit)
+                        {
+                            if (ore.getFriendlyName() == iore.getString("name"))
+                            {
+                                GeolosysAPI.putWorldDeposit(s, compDeposits.getString(s), ore);
+                            }
+                        }
+                    }
+                }
+
             }
         }
         if (compound.hasKey("regennedChunks"))
@@ -135,6 +206,37 @@ public class GeolosysSaveData extends WorldSavedData
         for (Map.Entry<GeolosysAPI.ChunkPosSerializable, Boolean> e : GeolosysAPI.getRegennedChunks().entrySet())
         {
             regenDeposits.setBoolean(e.getKey().toString(), e.getValue());
+        }
+
+        if (!compound.hasKey("currentIOres"))
+        {
+            compound.setTag("currentIOres", new NBTTagCompound());
+        }
+        NBTTagCompound compIOres = compound.getCompoundTag("currentIOres");
+        for (Map.Entry<GeolosysAPI.ChunkPosSerializable, IOre> e : GeolosysAPI.getCurrentIOres().entrySet())
+        {
+            NBTTagCompound iOreTag = new NBTTagCompound();
+            if (e.getValue() instanceof DepositMultiOreBiomeRestricted)
+            {
+                iOreTag.setString("type", "DepositMultiOreBiomeRestricted");
+
+            }
+            else if (e.getValue() instanceof DepositBiomeRestricted)
+            {
+                iOreTag.setString("type", "DepositBiomeRestricted");
+            }
+            else if (e.getValue() instanceof DepositMultiOre)
+            {
+                iOreTag.setString("type", "DepositMultiOre");
+            }
+            else
+            {
+                iOreTag.setString("type", "Deposit");
+            }
+            // We just need these two to determine what kind of IOre we have
+            iOreTag.setString("name", e.getValue().getFriendlyName());
+
+            compIOres.setTag(e.getKey().toString(), iOreTag);
         }
 
         return compound;
