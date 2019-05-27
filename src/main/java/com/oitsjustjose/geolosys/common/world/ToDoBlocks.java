@@ -57,7 +57,14 @@ public class ToDoBlocks extends WorldSavedData
         {
             if (Utils.doStatesMatch(state, ore.getOre()))
             {
-                return ore.getBlockStateMatchers();
+                if (ore.getBlockStateMatchers() == null)
+                {
+                    return GeolosysAPI.replacementMats;
+                }
+                else
+                {
+                    return ore.getBlockStateMatchers();
+                }
             }
         }
         return GeolosysAPI.replacementMats;

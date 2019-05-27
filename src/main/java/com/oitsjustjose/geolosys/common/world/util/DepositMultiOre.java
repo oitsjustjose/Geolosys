@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 
 public class DepositMultiOre implements IOre
 {
-    private ArrayList<IBlockState> ores;
-    private ArrayList<IBlockState> samples;
+    private ArrayList<IBlockState> ores = new ArrayList<>();
+    private ArrayList<IBlockState> samples = new ArrayList<>();
     private int yMin;
     private int yMax;
     private int size;
@@ -91,7 +91,8 @@ public class DepositMultiOre implements IOre
         {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
             // The name hasn't already been added
-            if(sb.indexOf(name) != -1) {
+            if (sb.indexOf(name) != -1)
+            {
                 sb.append(" & ");
                 sb.append(name);
             }
