@@ -25,7 +25,6 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class StoneGenerator implements IWorldGenerator
 {
-    private static final List<IBlockState> blockStateMatchers = GeolosysAPI.replacementMats;
     private static final String dataID = "geolosysStoneGeneratorPending";
     private static HashMap<Integer, StoneGen> stoneSpawnWeights = new HashMap<>();
     private static int last = 0;
