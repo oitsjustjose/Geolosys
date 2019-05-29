@@ -129,19 +129,19 @@ public class Geolosys
             COAL_COKE = new ItemCoalCoke();
         }
 
-        // registerGeolosysOreGen();
-        // registerVanillaOreGen();
-        HashMap<IBlockState, Integer> ores = new HashMap<>();
-        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
-        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 75);
-        HashMap<IBlockState, Integer> samples = new HashMap<>();
-        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), 40);
-        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), 60);
-        ArrayList<Biome> biomes = new ArrayList<>();
-        biomes.add(Biomes.DESERT);
-        biomes.add(Biomes.PLAINS);
+        registerGeolosysOreGen();
+        registerVanillaOreGen();
+        // HashMap<IBlockState, Integer> ores = new HashMap<>();
+        // ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
+        // ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 75);
+        // HashMap<IBlockState, Integer> samples = new HashMap<>();
+        // samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), 40);
+        // samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), 60);
+        // ArrayList<Biome> biomes = new ArrayList<>();
+        // biomes.add(Biomes.DESERT);
+        // biomes.add(Biomes.PLAINS);
 
-        GeolosysAPI.registerMineralDeposit(ores, samples, 23, 66, 23, 100, new int[]{-1, 1}, null, biomes, true);
+        // GeolosysAPI.registerMineralDeposit(ores, samples, 23, 66, 23, 100, new int[]{-1, 1}, null, biomes, true);
     }
 
     @EventHandler
