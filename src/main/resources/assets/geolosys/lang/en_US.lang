@@ -163,9 +163,9 @@ geolosys.guide.generic.atsealevel=at sea level
 geolosys.guide.chapter.stones.name=Stone Variants
 geolosys.guide.chapter.stones.text=Vanilla stone variants can be (if enabled) clustered into large plutons, instead of generating sporadically throughout the world.
 
-geolosys.guide.chapter.ore.description=%1$s can be found between %2$s and %3$s. It has a %4$s percent chance of generating and comes in plutons of sizes around %5$s blocks. The harvest level of this deposit is %6$s.
-geolosys.guide.chapter.ore.multi.description=%1$s can be found between %2$s and %3$s. The deposit as a whole has a %4$s percent chance of generating and comes in plutons of sizes around %5$s blocks. The highest arvest level of this deposit is %6$s.
-geolosys.guide.chapter.ore.biome.description=%1$s can be found between %2$s and %3$s, and only in %4$s biomes. It has a %4$s percent chance of generating and comes in plutons of sizes around %5$s blocks. The harvest level of this deposit is %6$s.
+geolosys.guide.chapter.ore.description=%1$s can be found between %2$s and %3$s, in any biome. It has a %4$s percent chance of generating and comes in plutons of sizes around %5$s blocks. The harvest level of this deposit is %6$s.
+geolosys.guide.chapter.ore.multi.description=%1$s can be found between %2$s and %3$s, in any biome. The deposit as a whole has a %4$s percent chance of generating and comes in plutons of sizes around %5$s blocks. The highest arvest level of this deposit is %6$s.
+geolosys.guide.chapter.ore.biome.description=%1$s can be found between %2$s and %3$s, and only in %4$s biomes. It has a %5$s percent chance of generating and comes in plutons of sizes around %6$s blocks. The harvest level of this deposit is %7$s.
 geolosys.guide.chapter.ore.mutli.biome.description=%1$s can be found between %2$s and %3$s, and only in %4$s biomes. The deposit as a whole has a %5$s percent chance of generating and comes in plutons of sizes around %6$s blocks. The highest harvest level of this deposit is %7$s.
 
 # ------------------------------------ #

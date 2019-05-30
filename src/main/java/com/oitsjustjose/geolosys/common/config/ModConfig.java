@@ -158,7 +158,7 @@ public class ModConfig
     {
         @Config.Name("Field Manual Font Scale")
         @Config.RangeDouble(min = 0.1, max = 3.0)
-        public float manualFontScale = 0.85F;
+        public float manualFontScale = 0.75F;
 
         @Config.Name("Prospector's Pick Depth HUD X")
         @Config.Comment("The X coordinate that the Depth overlay displays at while holding a prospector's pick")
