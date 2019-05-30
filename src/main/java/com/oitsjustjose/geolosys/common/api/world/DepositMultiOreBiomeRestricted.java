@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.util;
+package com.oitsjustjose.geolosys.common.api.world;
 
 import java.util.HashMap;
 import java.util.List;

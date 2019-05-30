@@ -3,8 +3,8 @@ package com.oitsjustjose.geolosys.compat;
 import java.util.Objects;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;

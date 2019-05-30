@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTBase;

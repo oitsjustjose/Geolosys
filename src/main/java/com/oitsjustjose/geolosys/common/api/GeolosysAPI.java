@@ -11,16 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.world.Deposit;
+import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositStone;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
-import com.oitsjustjose.geolosys.common.world.util.Deposit;
-import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
-import com.oitsjustjose.geolosys.common.world.util.DepositStone;
-import com.oitsjustjose.geolosys.common.api.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
@@ -88,7 +88,6 @@ public class GeolosysAPI
                 Integer.parseInt(parts[2])), state);
     }
 
-
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta
      */
@@ -97,7 +96,6 @@ public class GeolosysAPI
     {
         return (HashMap<ChunkPosSerializable, String>) currentWorldDeposits.clone();
     }
-
 
     /**
      * @return The world's current deposits throughout the world. The string is formatted as modid:block:meta

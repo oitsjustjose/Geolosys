@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.api;
+package com.oitsjustjose.geolosys.common.util;
 
 import java.io.File;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

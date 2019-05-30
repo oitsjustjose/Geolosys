@@ -1,9 +1,9 @@
 package com.oitsjustjose.geolosys.common.manual;
 
-import com.oitsjustjose.geolosys.common.api.IOre;
-import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;

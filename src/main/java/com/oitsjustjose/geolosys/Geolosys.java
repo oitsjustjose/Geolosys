@@ -125,7 +125,7 @@ public class Geolosys
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
-        
+
         HashMap<IBlockState, Integer> ores = new HashMap<>();
         ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
         ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 50);

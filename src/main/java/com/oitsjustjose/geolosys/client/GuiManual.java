@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
 import com.oitsjustjose.geolosys.common.manual.BookChapter;

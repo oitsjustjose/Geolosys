@@ -1,9 +1,8 @@
-package com.oitsjustjose.geolosys.common.world.util;
+package com.oitsjustjose.geolosys.common.api.world;
 
 import java.util.List;
 
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;

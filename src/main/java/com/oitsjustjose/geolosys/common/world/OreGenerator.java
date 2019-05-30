@@ -5,10 +5,10 @@ import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.GeolosysSaveData;
-import com.oitsjustjose.geolosys.common.api.IOre;
-import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
+import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;

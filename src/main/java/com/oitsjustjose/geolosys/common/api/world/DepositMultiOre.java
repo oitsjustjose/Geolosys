@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.util;
+package com.oitsjustjose.geolosys.common.api.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Set;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.api.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;

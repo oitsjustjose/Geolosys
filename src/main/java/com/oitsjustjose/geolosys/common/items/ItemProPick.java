@@ -10,12 +10,12 @@ import javax.annotation.Nullable;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.api.world.DepositStone;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.util.Utils;
-import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
-import com.oitsjustjose.geolosys.common.world.util.DepositStone;
 
 import org.lwjgl.opengl.GL11;
 

@@ -1,14 +1,11 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.world.util.DepositStone;
+import com.oitsjustjose.geolosys.common.api.world.DepositStone;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
