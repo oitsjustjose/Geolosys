@@ -361,20 +361,7 @@ public class ItemProPick extends Item
 
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
-                        if (ore instanceof DepositMultiOre)
-                        {
-                            DepositMultiOre multiOre = (DepositMultiOre) ore;
-                            for (IBlockState oreState : multiOre.getOres())
-                            {
-                                if (Utils.doStatesMatch(oreState, state))
-                                {
-                                    sendFoundMessage(player, state, facing);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                        else if (Utils.doStatesMatch(ore.getOre(), state))
+                        if (Utils.doStatesMatch(ore.getOre(), state))
                         {
                             sendFoundMessage(player, state, facing);
                             found = true;
@@ -475,38 +462,14 @@ public class ItemProPick extends Item
                     {
                         if (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
                         {
-                            if (ore instanceof DepositMultiOre)
-                            {
-                                DepositMultiOre multiOre = (DepositMultiOre) ore;
-                                for (IBlockState oreState : multiOre.getOres())
-                                {
-                                    if (Utils.doStatesMatch(oreState, b))
-                                    {
-                                        query.add(b);
-                                    }
-                                }
-
-                            }
-                            else if (Utils.doStatesMatch(ore.getOre(), b))
+                            if (Utils.doStatesMatch(ore.getOre(), b))
                             {
                                 query.add(b);
                             }
                         }
                         else if (searchType == SURFACE_PROSPECTING_TYPE.SAMPLES)
                         {
-                            if (ore instanceof DepositMultiOre)
-                            {
-                                DepositMultiOre multiOre = (DepositMultiOre) ore;
-                                for (IBlockState depState : multiOre.getSamples())
-                                {
-                                    if (Utils.doStatesMatch(depState, b))
-                                    {
-                                        query.add(b);
-                                    }
-                                }
-
-                            }
-                            else if (Utils.doStatesMatch(ore.getSample(), b))
+                            if (Utils.doStatesMatch(ore.getSample(), b))
                             {
                                 query.add(b);
                             }
