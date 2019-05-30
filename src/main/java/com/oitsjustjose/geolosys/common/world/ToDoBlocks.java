@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.util.Utils;
 import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTBase;
@@ -55,7 +55,25 @@ public class ToDoBlocks extends WorldSavedData
     {
         for (IOre ore : GeolosysAPI.oreBlocks)
         {
-            if (Utils.doStatesMatch(state, ore.getOre()))
+            if (ore instanceof DepositMultiOre)
+            {
+                DepositMultiOre multiOre = (DepositMultiOre) ore;
+                for (IBlockState oreState : multiOre.getOres())
+                {
+                    if (Utils.doStatesMatch(oreState, state))
+                    {
+                        if (ore.getBlockStateMatchers() == null)
+                        {
+                            return GeolosysAPI.replacementMats;
+                        }
+                        else
+                        {
+                            return ore.getBlockStateMatchers();
+                        }
+                    }
+                }
+            }
+            else if (Utils.doStatesMatch(state, ore.getOre()))
             {
                 if (ore.getBlockStateMatchers() == null)
                 {
