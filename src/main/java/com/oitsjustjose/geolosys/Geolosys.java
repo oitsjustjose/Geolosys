@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.oitsjustjose.geolosys.client.ClientRegistry;
-import com.oitsjustjose.geolosys.client.TranslationManager;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.blocks.BlockOre;
@@ -56,7 +55,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);after:contenttweaker;")
 public class Geolosys
@@ -99,10 +97,6 @@ public class Geolosys
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
         chunkOreGen = new ChunkData();
-        if (event.getSide() == Side.CLIENT)
-        {
-            TranslationManager.init();
-        }
 
         ORE = new BlockOre();
         ORE_SAMPLE = new BlockSample();
@@ -131,17 +125,20 @@ public class Geolosys
 
         registerGeolosysOreGen();
         registerVanillaOreGen();
-        // HashMap<IBlockState, Integer> ores = new HashMap<>();
-        // ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
-        // ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 75);
-        // HashMap<IBlockState, Integer> samples = new HashMap<>();
-        // samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), 40);
-        // samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), 60);
-        // ArrayList<Biome> biomes = new ArrayList<>();
-        // biomes.add(Biomes.DESERT);
+        
+        HashMap<IBlockState, Integer> ores = new HashMap<>();
+        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 4), 25);
+        ores.put(Utils.getStateFromMeta(ORE_VANILLA, 0), 50);
+        ores.put(Utils.getStateFromMeta(ORE, 0), 25);
+        HashMap<IBlockState, Integer> samples = new HashMap<>();
+        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 1), 40);
+        samples.put(Utils.getStateFromMeta(ORE_SAMPLE_VANILLA, 3), 60);
+        ArrayList<Biome> biomes = new ArrayList<>();
+        biomes.add(Biomes.DESERT);
         // biomes.add(Biomes.PLAINS);
 
-        // GeolosysAPI.registerMineralDeposit(ores, samples, 23, 66, 23, 100, new int[]{-1, 1}, null, biomes, true);
+        GeolosysAPI.registerMineralDeposit(ores, samples, 23, 66, 23, 100, new int[]
+        { -1, 1 }, null, biomes, true);
     }
 
     @EventHandler

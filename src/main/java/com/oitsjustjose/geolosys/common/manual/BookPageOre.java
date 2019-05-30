@@ -1,41 +1,138 @@
 package com.oitsjustjose.geolosys.common.manual;
 
+import com.oitsjustjose.geolosys.common.api.IOre;
+import com.oitsjustjose.geolosys.common.world.util.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.world.util.DepositMultiOreBiomeRestricted;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.biome.Biome;
 
 /**
  * @author oitsjustjose,
- * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly
- *         from:
+ * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly from:
  *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPageOre extends BookPage
 {
-    private final String description;
+    private IOre ore;
+    private long lastUpdate;
     private ItemStack displayStack;
-    private String oreType;
 
-    public BookPageOre(String title, String desc, ItemStack stack, String type)
+    public BookPageOre(IOre ore)
     {
-        super(title);
-        this.description = desc;
-        this.displayStack = stack;
-        this.oreType = type;
+        super(ore.getFriendlyName());
+        this.ore = ore;
+        this.lastUpdate = System.currentTimeMillis();
+        IBlockState tmp = ore.getOre();
+        this.displayStack = new ItemStack(tmp.getBlock(), 1, tmp.getBlock().getMetaFromState(tmp));
     }
 
     public ItemStack getDisplayStack()
     {
-        return displayStack.copy();
+        if (this.isMultiOre())
+        {
+            if (System.currentTimeMillis() - this.lastUpdate >= 1000)
+            {
+                IBlockState tmp = ore.getOre();
+                this.displayStack = new ItemStack(tmp.getBlock(), 1, tmp.getBlock().getMetaFromState(tmp));
+                this.lastUpdate = System.currentTimeMillis();
+            }
+        }
+        return this.displayStack;
     }
 
-    public String getDescription()
+    public int getMinY()
     {
-        return description;
+        return this.ore.getYMin();
     }
 
-    public String getOreType()
+    public int getMaxY()
     {
-        return this.oreType;
+        return this.ore.getYMax();
     }
 
+    public int getSize()
+    {
+        return this.ore.getSize();
+    }
+
+    public int getChance()
+    {
+        return this.ore.getChance();
+    }
+
+    public boolean isMultiOre()
+    {
+        return this.ore instanceof DepositMultiOre;
+    }
+
+    public boolean isBiomeRestricted()
+    {
+        return this.ore instanceof DepositBiomeRestricted || this.ore instanceof DepositMultiOreBiomeRestricted;
+    }
+
+    public String getFriendlyName()
+    {
+        return this.ore.getFriendlyName();
+    }
+
+    public String getBiomes()
+    {
+        if (this.ore instanceof DepositBiomeRestricted)
+        {
+            DepositBiomeRestricted biomeRestricted = (DepositBiomeRestricted) this.ore;
+            if (biomeRestricted.getBiomeList().size() > 1)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (Biome b : biomeRestricted.getBiomeList())
+                {
+                    sb.append(", ");
+                    sb.append(b.getBiomeName());
+                }
+                String retVal = sb.toString();
+                return retVal.substring(2, retVal.lastIndexOf(",")) + " &"
+                        + retVal.substring(retVal.lastIndexOf(",") + 1);
+            }
+            return biomeRestricted.getBiomeList().get(0).getBiomeName();
+        }
+        else if (this.ore instanceof DepositMultiOreBiomeRestricted)
+        {
+            DepositMultiOreBiomeRestricted biomeRestricted = (DepositMultiOreBiomeRestricted) this.ore;
+            if (biomeRestricted.getBiomeList().size() > 1)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (Biome b : biomeRestricted.getBiomeList())
+                {
+                    sb.append(", ");
+                    sb.append(b.getBiomeName());
+                }
+                String retVal = sb.toString();
+                return retVal.substring(2, retVal.lastIndexOf(",")) + " &"
+                        + retVal.substring(retVal.lastIndexOf(",") + 1);
+            }
+            return biomeRestricted.getBiomeList().get(0).getBiomeName();
+        }
+        return null;
+    }
+
+    public int getHarvestLevel()
+    {
+        if (this.isMultiOre())
+        {
+            DepositMultiOre multiOre = (DepositMultiOre) this.ore;
+            int highest = 0;
+            for (IBlockState state : multiOre.getOres())
+            {
+                if (state.getBlock().getHarvestLevel(state) > highest)
+                {
+                    highest = state.getBlock().getHarvestLevel(state);
+                }
+            }
+            return highest;
+        }
+        return this.ore.getOre().getBlock().getHarvestLevel(this.ore.getOre());
+    }
 }
