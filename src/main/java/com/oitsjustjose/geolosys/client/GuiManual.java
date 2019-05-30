@@ -642,7 +642,7 @@ public class GuiManual extends GuiScreen
                 else if (this.hovered)
                 {
                     j = 8308926;
-                    p += TextFormatting.UNDERLINE;
+                    p += TextFormatting.BOLD;
                 }
 
                 fontrenderer.drawSplitString(p + "• " + I18n.format(this.displayString), this.x, this.y,
