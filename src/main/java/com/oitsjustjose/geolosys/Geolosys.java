@@ -72,19 +72,18 @@ public class Geolosys
     public void preInit(FMLPreInitializationEvent event)
     {
         LOGGER = event.getModLog();
-        configOres = new ConfigOres(event.getModConfigurationDirectory());
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
         chunkOreGen = new ChunkData();
-
+        
         ORE = new BlockOre();
         ORE_SAMPLE = new BlockSample();
         ORE_VANILLA = new BlockOreVanilla();
         ORE_SAMPLE_VANILLA = new BlockSampleVanilla();
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
-
+        
         if (ModConfig.featureControl.enableIngots)
         {
             INGOT = new ItemIngot();
@@ -98,10 +97,11 @@ public class Geolosys
             PRO_PICK = new ItemProPick();
         }
         if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat
-                && ModConfig.featureControl.enableCoals)
+        && ModConfig.featureControl.enableCoals)
         {
             COAL_COKE = new ItemCoalCoke();
         }
+        configOres = new ConfigOres(event.getModConfigurationDirectory());
     }
 
     @EventHandler
