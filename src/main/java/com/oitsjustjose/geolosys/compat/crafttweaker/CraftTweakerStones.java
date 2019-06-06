@@ -16,11 +16,11 @@ public class CraftTweakerStones
 {
 
     @ZenMethod
-    public static void addStone(crafttweaker.api.block.IBlockState stoneBlock, int yMin, int yMax, int chance)
+    public static void addStone(crafttweaker.api.block.IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
     {
         if (CraftTweakerMC.getBlockState(stoneBlock) != null)
         {
-            GeolosysAPI.registerStoneDeposit(CraftTweakerMC.getBlockState(stoneBlock), yMin, yMax, chance);
+            GeolosysAPI.registerStoneDeposit(CraftTweakerMC.getBlockState(stoneBlock), yMin, yMax, chance, size, dimBlacklist);
         }
         else
         {

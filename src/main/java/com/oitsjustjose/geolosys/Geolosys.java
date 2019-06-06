@@ -1,21 +1,7 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.annotation.Nonnull;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.oitsjustjose.geolosys.client.ClientRegistry;
 import com.oitsjustjose.geolosys.common.CommonProxy;
-import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.blocks.BlockOre;
 import com.oitsjustjose.geolosys.common.blocks.BlockOreVanilla;
 import com.oitsjustjose.geolosys.common.blocks.BlockSample;
@@ -30,9 +16,7 @@ import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.common.items.ItemIngot;
 import com.oitsjustjose.geolosys.common.items.ItemProPick;
 import com.oitsjustjose.geolosys.common.util.Recipes;
-import com.oitsjustjose.geolosys.common.util.Utils;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
-import com.oitsjustjose.geolosys.common.world.Deposits;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
@@ -40,12 +24,7 @@ import com.oitsjustjose.geolosys.compat.CompatLoader;
 
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -93,7 +72,7 @@ public class Geolosys
     public void preInit(FMLPreInitializationEvent event)
     {
         LOGGER = event.getModLog();
-        configOres = getOresConfig(event.getModConfigurationDirectory());
+        configOres = new ConfigOres(event.getModConfigurationDirectory());
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
         MinecraftForge.EVENT_BUS.register(new ModConfig.EventHandler());
@@ -123,8 +102,6 @@ public class Geolosys
         {
             COAL_COKE = new ItemCoalCoke();
         }
-
-        Deposits.register();
     }
 
     @EventHandler
@@ -146,54 +123,5 @@ public class Geolosys
         ConfigParser.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
-    }
-
-    @Nonnull
-    private ConfigOres getOresConfig(File configDir)
-    {
-        try
-        {
-            FileReader fr = new FileReader(
-                    configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-            StringBuilder json = new StringBuilder();
-            try
-            {
-                while ((line = br.readLine()) != null)
-                {
-                    json.append(line);
-                }
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                ConfigOres ret = gson.fromJson(json.toString(), ConfigOres.class);
-                ret.validate(configDir);
-                br.close();
-                return ret;
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            ConfigOres props = new ConfigOres();
-            props.populateConfigs();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(props);
-            try
-            {
-                FileWriter fw = new FileWriter(
-                        configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
-                fw.write(json);
-                fw.close();
-                return props;
-            }
-            catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-        return getOresConfig(configDir);
     }
 }

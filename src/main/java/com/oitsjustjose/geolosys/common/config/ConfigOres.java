@@ -1,153 +1,297 @@
 package com.oitsjustjose.geolosys.common.config;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.util.Utils;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigOres
 {
-    public Ore coal;
-    public Ore cinnabar;
-    public Ore gold;
-    public Ore lapis;
-    public Ore quartz;
-    public Ore kimberlite;
-    public Ore beryl;
-    public Ore hematite;
-    public Ore limonite;
-    public Ore malachite;
-    public Ore azurite;
-    public Ore cassiterite;
-    public Ore teallite;
-    public Ore galena;
-    public Ore bauxite;
-    public Ore platinum;
-    public Ore autunite;
-    public Ore sphalerite;
-
-    public void populateConfigs()
+    public ConfigOres(File configRoot)
     {
-        coal = new ConfigOres.Ore(8, 78, 8, 64, new int[]
-        { -1, 1 });
-        cinnabar = new ConfigOres.Ore(5, 12, 6, 40, new int[]
-        { -1, 1 });
-        gold = new ConfigOres.Ore(5, 30, 4, 40, new int[]
-        { -1, 1 });
-        lapis = new ConfigOres.Ore(10, 24, 5, 32, new int[]
-        { -1, 1 });
-        quartz = new ConfigOres.Ore(6, 29, 6, 40, new int[]
-        { -1, 1 });
-        kimberlite = new ConfigOres.Ore(2, 15, 3, 20, new int[]
-        { -1, 1 });
-        beryl = new ConfigOres.Ore(4, 32, 3, 16, new int[]
-        { -1, 1 });
-        hematite = new ConfigOres.Ore(32, 60, 6, 24, new int[]
-        { -1, 1 });
-        limonite = new ConfigOres.Ore(6, 32, 5, 80, new int[]
-        { -1, 1 });
-        malachite = new ConfigOres.Ore(39, 44, 6, 24, new int[]
-        { -1, 1 });
-        azurite = new ConfigOres.Ore(12, 44, 5, 80, new int[]
-        { -1, 1 });
-        cassiterite = new ConfigOres.Ore(44, 68, 6, 24, new int[]
-        { -1, 1 });
-        teallite = new ConfigOres.Ore(8, 43, 5, 80, new int[]
-        { -1, 1 });
-        galena = new ConfigOres.Ore(16, 50, 5, 72, new int[]
-        { -1, 1 });
-        bauxite = new ConfigOres.Ore(45, 70, 4, 64, new int[]
-        { -1, 1 });
-        platinum = new ConfigOres.Ore(3, 25, 4, 32, new int[]
-        { -1, 1 });
-        autunite = new ConfigOres.Ore(8, 33, 5, 24, new int[]
-        { -1, 1 });
-        sphalerite = new ConfigOres.Ore(35, 55, 4, 24, new int[]
-        { -1, 1 });
+
+        final File jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys_ores.json");
+        try
+        {
+            InputStream jsonStream = new FileInputStream(jsonFile);
+            this.read(jsonStream);
+        }
+        catch (IOException e)
+        {
+            System.out.println("File " + configRoot.getAbsolutePath() + "/geolosys_ores.json could not be found.");
+        }
     }
 
-    public void validate(File configDir)
+    public void read(InputStream in) throws IOException
     {
-        boolean dirty = false;
-        for (Field f : this.getClass().getFields())
+        JsonReader jReader = new JsonReader(new InputStreamReader(in));
+        try
         {
-            try
+            jReader.beginObject();
+            while (jReader.hasNext())
             {
-                Field field = this.getClass().getField(f.getName());
-                Ore val = (Ore) field.get(this);
-                // If the value hasn't been initialized....
-                if (val == null)
+                String name = jReader.nextName();
+                if (name.equalsIgnoreCase("ores"))
                 {
-                    f.set(this, new ConfigOres.Ore(0, 0, 0, 0, new int[]
-                    {}));
-                    dirty = true;
+                    jReader.beginArray();
+                    while (jReader.hasNext())
+                    {
+                        HashMap<IBlockState, Integer> oreBlocks = new HashMap<>();
+                        HashMap<IBlockState, Integer> sampleBlocks = new HashMap<>();
+                        int yMin = -1;
+                        int yMax = -1;
+                        int size = -1;
+                        int chance = -1;
+                        int[] dimBlacklist = new int[]
+                        {};
+                        ArrayList<IBlockState> blockStateMatchers = new ArrayList<>();
+                        ArrayList<Biome> biomes = new ArrayList<>();
+                        boolean isWhitelist = false;
+                        boolean hasIsWhitelist = false;
+                        jReader.beginObject();
+                        while (jReader.hasNext())
+                        {
+                            String subName = jReader.nextName();
+                            if (subName.equalsIgnoreCase("blocks"))
+                            {
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    oreBlocks.put(fromString(jReader.nextString()), jReader.nextInt());
+                                }
+                                jReader.endArray();
+                            }
+                            else if (subName.equalsIgnoreCase("samples"))
+                            {
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    sampleBlocks.put(fromString(jReader.nextString()), jReader.nextInt());
+                                }
+                                jReader.endArray();
+                            }
+                            else if (subName.equalsIgnoreCase("yMin"))
+                            {
+                                yMin = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("yMax"))
+                            {
+                                yMax = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("size"))
+                            {
+                                size = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("chance"))
+                            {
+                                chance = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("dimBlacklist"))
+                            {
+                                ArrayList<Integer> tmp = new ArrayList<>();
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    tmp.add(jReader.nextInt());
+                                }
+                                jReader.endArray();
+                                dimBlacklist = fromArrayList(tmp);
+                            }
+                            else if (subName.equalsIgnoreCase("blockStateMatchers"))
+                            {
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    String toString = jReader.nextString();
+                                    if (fromString(toString) != null)
+                                    {
+                                        blockStateMatchers.add(fromString(toString));
+                                    }
+                                }
+                                jReader.endArray();
+                            }
+                            else if (subName.equalsIgnoreCase("biomes"))
+                            {
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    Biome b = ForgeRegistries.BIOMES
+                                            .getValue(new ResourceLocation(jReader.nextString()));
+                                    if (b != null)
+                                    {
+                                        biomes.add(b);
+                                    }
+                                }
+                                jReader.endArray();
+                            }
+                            else if (subName.equalsIgnoreCase("isWhitelist"))
+                            {
+                                isWhitelist = jReader.nextBoolean();
+                                hasIsWhitelist = true;
+                            }
+                            else
+                            {
+                                Geolosys.getInstance().LOGGER
+                                        .info("Unknown property found in geolosys_ores.json file. Skipping it.");
+                                jReader.skipValue();
+
+                            }
+                        }
+                        register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
+                                biomes, isWhitelist, hasIsWhitelist);
+                        jReader.endObject();
+                    }
+                    jReader.endArray();
+                }
+                else if (name.equalsIgnoreCase("stones"))
+                {
+                    System.out.println("In stones section");
+
+                    jReader.beginArray();
+                    while (jReader.hasNext())
+                    {
+                        jReader.beginObject();
+                        IBlockState stone = null;
+                        int yMin = -1;
+                        int yMax = -1;
+                        int chance = -1;
+                        int size = -1;
+                        int[] dimBlacklist = new int[]
+                        {};
+                        while (jReader.hasNext())
+                        {
+                            String subName = jReader.nextName();
+                            if (subName.equalsIgnoreCase("block"))
+                            {
+                                stone = fromString(jReader.nextString());
+                            }
+                            else if (subName.equalsIgnoreCase("yMin"))
+                            {
+                                yMin = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("yMax"))
+                            {
+                                yMax = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("size"))
+                            {
+                                size = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("chance"))
+                            {
+                                chance = jReader.nextInt();
+                            }
+                            else if (subName.equalsIgnoreCase("dimBlacklist"))
+                            {
+                                ArrayList<Integer> tmp = new ArrayList<>();
+                                jReader.beginArray();
+                                while (jReader.hasNext())
+                                {
+                                    tmp.add(jReader.nextInt());
+                                }
+                                jReader.endArray();
+                                dimBlacklist = fromArrayList(tmp);
+                            }
+                        }
+                        register(stone, yMin, yMax, chance, size, dimBlacklist);
+                        jReader.endObject();
+                    }
+                    jReader.endArray();
+                }
+                else
+                {
+                    jReader.skipValue();
                 }
             }
-            catch (IllegalAccessException | NoSuchFieldException ignored)
-            {
-            }
+            jReader.endObject();
         }
-        if (dirty)
+        catch (Exception e)
         {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(this);
-            try
-            {
-                FileWriter fw = new FileWriter(
-                        configDir.getAbsolutePath() + "/geolosys_ores.json".replace("/", File.separator));
-                fw.write(json);
-                fw.close();
-            }
-            catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
+            Geolosys.getInstance().LOGGER.error(
+                    "There was a parsing error with the geolosys_ores.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
+            e.printStackTrace();
+        }
+        finally
+        {
+            jReader.close();
         }
     }
 
-    public static class Ore
+    private void register(IBlockState stone, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
     {
-        private int minY;
-        private int maxY;
-        private int chance;
-        private int size;
-        private int[] blacklist;
+        GeolosysAPI.registerStoneDeposit(stone, yMin, yMax, chance, size, dimBlacklist);
+    }
 
-        public Ore(int minY, int maxY, int chance, int size, int[] blacklist)
+    private void register(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks, int yMin,
+            int yMax, int size, int chance, int[] dimBlacklist, ArrayList<IBlockState> blockStateMatchers,
+            ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist)
+    {
+        if (biomes.size() > 0)
         {
-            this.minY = minY;
-            this.maxY = maxY;
-            this.chance = chance;
-            this.size = size;
-            this.blacklist = blacklist;
+            if (hasIsWhitelist)
+            {
+                GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
+                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers), biomes, isWhitelist);
+            }
+            else
+            {
+                Geolosys.getInstance().LOGGER.info(
+                        "Received a biome list but no isWhitelist variable to define if the biome list is whitelist or blacklist.\n"
+                                + "Registering it as a normal ore with no biome restrictions");
+                GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
+                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers));
+            }
         }
+        else
+        {
+            GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
+                    (blockStateMatchers.size() == 0 ? null : blockStateMatchers));
+        }
+    }
 
-        public int getMinY()
+    private IBlockState fromString(String iBlockState)
+    {
+        String[] parts = iBlockState.split(":");
+        if (parts.length == 2)
         {
-            return this.minY;
+            Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+            return b.getDefaultState();
         }
+        else if (parts.length == 3)
+        {
+            Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+            return Utils.getStateFromMeta(b, Integer.parseInt(parts[2]));
+        }
+        else
+        {
+            Geolosys.getInstance().LOGGER.info(
+                    "String " + iBlockState + " is not a valid block with or without metadata. It has been skipped");
+            return null;
+        }
+    }
 
-        public int getMaxY()
+    private int[] fromArrayList(ArrayList<Integer> arrList)
+    {
+        int[] retVal = new int[arrList.size()];
+        for (int i = 0; i < arrList.size(); i++)
         {
-            return this.maxY;
+            retVal[i] = arrList.get(i);
         }
-
-        public int getChance()
-        {
-            return this.chance;
-        }
-
-        public int getSize()
-        {
-            return this.size;
-        }
-
-        public int[] getBlacklist()
-        {
-            return this.blacklist;
-        }
+        return retVal;
     }
 }

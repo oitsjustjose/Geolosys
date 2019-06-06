@@ -265,9 +265,9 @@ public class GeolosysAPI
      * @param yMax       The maximum Y level this deposit can generate at
      * @param chance     The chance of the deposit generating (higher = more likely)
      */
-    public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance)
+    public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
     {
-        DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance);
+        DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
         StoneGenerator.addStoneGen(tempDeposit);
         stones.add(tempDeposit);
     }

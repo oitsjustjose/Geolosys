@@ -14,14 +14,22 @@ public class DepositStone implements IOre
     private int yMin;
     private int yMax;
     private int chance;
-    private int size = 96;
+    private int size;
+    private int[] dimBlacklist;
 
-    public DepositStone(IBlockState stoneBlock, int yMin, int yMax, int chance)
+    public DepositStone(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
     {
         this.block = stoneBlock;
         this.yMin = yMin;
         this.yMax = yMax;
         this.chance = chance;
+        this.size = size;
+        this.dimBlacklist = dimBlacklist;
+    }
+
+    public int[] getDimensionBlacklist()
+    {
+        return this.dimBlacklist;
     }
 
     public IBlockState getOre()
@@ -58,12 +66,6 @@ public class DepositStone implements IOre
     public int getSize()
     {
         return this.size;
-    }
-
-    public int[] getDimensionBlacklist()
-    {
-        return new int[]
-        { -1, 1 };
     }
 
     public boolean canReplace(IBlockState state)

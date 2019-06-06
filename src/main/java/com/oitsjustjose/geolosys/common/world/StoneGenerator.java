@@ -72,6 +72,14 @@ public class StoneGenerator implements IWorldGenerator
             }
             boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
             ForgeModContainer.logCascadingWorldGeneration = false;
+            for (int d : this.depositStone.getDimensionBlacklist())
+            {
+                if (d == world.provider.getDimension())
+                {
+                    return;
+                }
+            }
+
             if (rand.nextInt(100) < this.depositStone.getChance())
             {
                 int y = this.depositStone.getYMin() != this.depositStone.getYMax()
