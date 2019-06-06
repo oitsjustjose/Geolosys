@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import com.google.gson.stream.JsonReader;
@@ -33,7 +32,8 @@ public class ConfigOres
         }
         catch (IOException e)
         {
-            System.out.println("File " + configRoot.getAbsolutePath() + "/geolosys_ores.json could not be found.");
+            Geolosys.getInstance().LOGGER
+                    .info("File " + configRoot.getAbsolutePath() + "/geolosys_ores.json could not be found.");
         }
     }
 
@@ -160,8 +160,6 @@ public class ConfigOres
                 }
                 else if (name.equalsIgnoreCase("stones"))
                 {
-                    System.out.println("In stones section");
-
                     jReader.beginArray();
                     while (jReader.hasNext())
                     {
@@ -241,6 +239,7 @@ public class ConfigOres
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<IBlockState> blockStateMatchers,
             ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist)
     {
+        System.out.println("Registered " + oreBlocks + ", " + sampleBlocks);
         if (biomes.size() > 0)
         {
             if (hasIsWhitelist)
