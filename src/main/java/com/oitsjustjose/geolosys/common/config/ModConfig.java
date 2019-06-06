@@ -130,19 +130,6 @@ public class ModConfig
 
     public static class UserEntries
     {
-        @Config.Name("Custom Ore Entries")
-        @Config.Comment("Format is:\n"
-                + "modid:block:meta, deposit size, min Y, max Y, chance to gen in chunk, block to use as sample, [dimension blacklist] Example:\n"
-                + "actuallyadditions:block_misc:3, 32, 13, 42, 20, actuallyadditions:block_misc:1, [1, -1]")
-        public String[] userOreEntriesRaw = new String[]
-        {};
-
-        @Config.Name("Custom Stone Entries")
-        @Config.Comment("Format is:\n" + "modid:block:meta, min Y, max Y, chance to gen in chunk\n"
-                + "ALL DEPOSITS ARE APPROX. THE SAME SIZE & AREN'T CONFIGURABLE.\n" + "rustic:slate:0, 27, 54, 10")
-        public String[] userStoneEntriesRaw = new String[]
-        {};
-
         @Config.Name("Blocks mineral deposits can replace")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] replacementMatsRaw = new String[]
@@ -188,10 +175,8 @@ public class ModConfig
 
     private static String[] getDefaultSeaLevels()
     {
-        String[] ret = new String[]
+        return new String[]
         { "-1:128", "0:64", "1:128" };
-
-        return ret;
     }
 
     private static String[] getConvertBlacklist()
@@ -221,9 +206,7 @@ public class ModConfig
                     "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore", "gravelores:diamond_gravel_ore",
                     "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore", "gravelores:nickel_gravel_ore",
                     "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore", "gravelores:copper_gravel_ore",
-                    "gravelores:aluminum_gravel_ore",
-
-            };
+                    "gravelores:aluminum_gravel_ore", };
         }
         return new String[]
         {};
