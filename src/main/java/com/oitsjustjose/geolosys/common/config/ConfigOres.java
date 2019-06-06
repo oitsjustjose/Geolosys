@@ -1,10 +1,15 @@
 package com.oitsjustjose.geolosys.common.config;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,7 +29,7 @@ public class ConfigOres
     public ConfigOres(File configRoot)
     {
 
-        final File jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys_ores.json");
+        final File jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys.json");
         try
         {
             InputStream jsonStream = new FileInputStream(jsonFile);
@@ -32,8 +37,25 @@ public class ConfigOres
         }
         catch (IOException e)
         {
-            Geolosys.getInstance().LOGGER
-                    .info("File " + configRoot.getAbsolutePath() + "/geolosys_ores.json could not be found.");
+            // Download the file from GitHub if it can't be found
+            try
+            {
+                Geolosys.getInstance().LOGGER.info("Could not find geolosys.json. Downloading it from GitHub...");
+                BufferedInputStream in = new BufferedInputStream(
+                        new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/master/geolosys_ores.json")
+                                .openStream());
+                Files.copy(in, Paths.get((configRoot.getAbsolutePath() + "/geolosys.json")),
+                        StandardCopyOption.REPLACE_EXISTING);
+                Geolosys.getInstance().LOGGER.info("Done downloading geolosys.json from GitHub!");
+                InputStream jsonStream = new FileInputStream(jsonFile);
+                this.read(jsonStream);
+
+            }
+            catch (IOException f)
+            {
+                Geolosys.getInstance().LOGGER.error("File " + configRoot.getAbsolutePath()
+                        + "/geolosys.json could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
+            }
         }
     }
 
@@ -222,7 +244,6 @@ public class ConfigOres
         {
             Geolosys.getInstance().LOGGER.error(
                     "There was a parsing error with the geolosys_ores.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
-            e.printStackTrace();
         }
         finally
         {
@@ -239,7 +260,7 @@ public class ConfigOres
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<IBlockState> blockStateMatchers,
             ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist)
     {
-        System.out.println("Registered " + oreBlocks + ", " + sampleBlocks);
+        Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks);
         if (biomes.size() > 0)
         {
             if (hasIsWhitelist)
