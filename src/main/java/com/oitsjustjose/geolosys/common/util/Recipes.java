@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.util;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,7 @@ public class Recipes
 {
     public static void init(ConfigOres configOres, final Item CLUSTER)
     {
-        boolean bwm = Loader.isModLoaded("betterwithmods");
+        boolean bwm = Loader.isModLoaded("betterwithmods") && ModConfig.compat.enableBWMCompat;
 
         smeltSafely(new ItemStack(CLUSTER, 1, 0), bwm ? "nuggetIron" : "ingotIron");
         smeltSafely(new ItemStack(CLUSTER, 1, 1), bwm ? "nuggetGold" : "ingotGold");

@@ -157,6 +157,10 @@ public class ModConfig
         @Config.RequiresMcRestart
         public boolean registerAsBauxite = false;
 
+        @Config.Name("Enable BetterWithMods Integration")
+        @Config.RequiresMcRestart
+        public boolean enableBWMCompat = true;
+
         @Config.Name("Enable IE Integration")
         @Config.RequiresMcRestart
         public boolean enableIECompat = true;
