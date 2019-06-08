@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.compat;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -55,8 +56,8 @@ public class IECompat
             if (ore instanceof DepositMultiOre)
             {
                 DepositMultiOre tmp = (DepositMultiOre) ore;
-                String oreNames[] = new String[tmp.getOres().size()];
-                float oreChances[] = new float[tmp.getOres().size()];
+                String oreNames[] = new String[tmp.oreBlocks.size()];
+                float oreChances[] = new float[tmp.oreBlocks.size()];
                 int tally = 0;
                 for (IBlockState state : tmp.oreBlocks.keySet())
                 {
@@ -98,6 +99,7 @@ public class IECompat
         {
             crusherRecipe = crusherRecipe.addToSecondaryOutput(OreDictionary.getOres("dustSulfur").get(0), .02F);
         }
+
         CrusherRecipe.recipeList.add(crusherRecipe);
         crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 5),
                 new ItemStack(Geolosys.getInstance().ORE_VANILLA, 1, 1), 1000);
