@@ -474,8 +474,8 @@ public class ItemProPick extends Item
                         {
                             DepositMultiOre multiOre = (DepositMultiOre) ore;
                             for (IBlockState multiOreState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-                                    ? multiOre.getOres()
-                                    : multiOre.getSamples()))
+                                    ? multiOre.oreBlocks.keySet()
+                                    : multiOre.sampleBlocks.keySet()))
                             {
                                 if (Utils.doStatesMatch(state, multiOreState))
                                 {
