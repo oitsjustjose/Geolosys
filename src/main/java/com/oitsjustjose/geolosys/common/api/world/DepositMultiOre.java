@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unchecked")
 public class DepositMultiOre implements IOre
 {
     private ArrayList<IBlockState> ores = new ArrayList<>();
     private ArrayList<IBlockState> samples = new ArrayList<>();
-    private Set<IBlockState> oreBlocks;
-    private Set<IBlockState> sampleBlocks;
+    public HashMap<IBlockState, Integer> oreBlocks;
+    public HashMap<IBlockState, Integer> sampleBlocks;
     private int yMin;
     private int yMax;
     private int size;
@@ -62,8 +61,8 @@ public class DepositMultiOre implements IOre
             last += sampleBlocks.get(key);
         }
 
-        this.oreBlocks = oreBlocks.keySet();
-        this.sampleBlocks = sampleBlocks.keySet();
+        this.oreBlocks = (HashMap<IBlockState, Integer>) oreBlocks.clone();
+        this.sampleBlocks = (HashMap<IBlockState, Integer>) sampleBlocks.clone();
         this.yMin = yMin;
         this.yMax = yMax;
         this.size = size;
@@ -158,7 +157,7 @@ public class DepositMultiOre implements IOre
 
     public boolean oreMatches(ArrayList<IBlockState> other)
     {
-        for (IBlockState state1 : this.oreBlocks)
+        for (IBlockState state1 : this.oreBlocks.keySet())
         {
             boolean isMatchInOtherArrayList = false;
             for (IBlockState state2 : other)
@@ -180,7 +179,7 @@ public class DepositMultiOre implements IOre
 
     public boolean sampleMatches(ArrayList<IBlockState> other)
     {
-        for (IBlockState state1 : this.sampleBlocks)
+        for (IBlockState state1 : this.sampleBlocks.keySet())
         {
             boolean isMatchInOtherArrayList = false;
             for (IBlockState state2 : other)
