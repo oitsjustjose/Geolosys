@@ -181,7 +181,7 @@ public class BlockOreVanilla extends Block
             /**************************
              * Sulfur *
              **************************/
-            if (ModConfig.featureControl.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur")
+            if (ModConfig.compat.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur")
                     && OreDictionary.getOres("dustSulfur").size() > 0)
             {
                 int rng = random.nextInt(50);

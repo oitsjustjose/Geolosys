@@ -78,7 +78,7 @@ public class ItemCluster extends Item
             OreDictionary.registerOre("ore" + Types.Cluster.byMetadata(i).getName().substring(0, 1).toUpperCase()
                     + Types.Cluster.byMetadata(i).getName().substring(1), new ItemStack(this, 1, i));
         }
-        if (ModConfig.featureControl.registerAsBauxite)
+        if (ModConfig.compat.registerAsBauxite)
         {
             OreDictionary.registerOre("oreBauxite", new ItemStack(this, 1, META_ALUMINUM));
         }

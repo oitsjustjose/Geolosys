@@ -119,11 +119,11 @@ public class BlockOre extends Block
         // Special case for Osmium
         else if (state.getBlock().getMetaFromState(state) == 8)
         {
-            if (ModConfig.featureControl.enableOsmiumExclusively)
+            if (ModConfig.compat.enableOsmiumExclusively)
             {
                 drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
             }
-            else if (ModConfig.featureControl.enableOsmium)
+            else if (ModConfig.compat.enableOsmium)
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
@@ -144,7 +144,7 @@ public class BlockOre extends Block
         // Special case for Autunite to drop yellorium
         else if (state.getBlock().getMetaFromState(state) == 9)
         {
-            if (ModConfig.featureControl.enableYellorium)
+            if (ModConfig.compat.enableYellorium)
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
@@ -206,11 +206,11 @@ public class BlockOre extends Block
         // Platinum:
         else if (meta == 8)
         {
-            if (ModConfig.featureControl.enableOsmiumExclusively)
+            if (ModConfig.compat.enableOsmiumExclusively)
             {
                 return getOreDictAlternative("oreOsmium");
             }
-            else if (ModConfig.featureControl.enableOsmium)
+            else if (ModConfig.compat.enableOsmium)
             {
                 if (rand.nextBoolean())
                 {
@@ -229,7 +229,7 @@ public class BlockOre extends Block
         // Autunite:
         else if (meta == 9)
         {
-            if (ModConfig.featureControl.enableYellorium)
+            if (ModConfig.compat.enableYellorium)
             {
                 if (rand.nextBoolean())
                 {

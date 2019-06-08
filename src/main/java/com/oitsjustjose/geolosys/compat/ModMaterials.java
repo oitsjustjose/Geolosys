@@ -58,7 +58,7 @@ public class ModMaterials
         clusterConverter.put("oreOsmium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM));
         clusterConverter.put("oreSphalerite",
                 new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_SPHALERITE));
-        if (ModConfig.featureControl.registerAsBauxite)
+        if (ModConfig.compat.registerAsBauxite)
         {
             clusterConverter.put("oreBauxite",
                     new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
@@ -87,7 +87,7 @@ public class ModMaterials
         blockConverter.put("oreYellorium", Geolosys.getInstance().ORE.getStateFromMeta(9));
         blockConverter.put("oreOsmium", Geolosys.getInstance().ORE.getStateFromMeta(8));
         blockConverter.put("oreSphalerite", Geolosys.getInstance().ORE.getStateFromMeta(10));
-        if (ModConfig.featureControl.registerAsBauxite)
+        if (ModConfig.compat.registerAsBauxite)
         {
             blockConverter.put("oreBauxite", Geolosys.getInstance().ORE.getStateFromMeta(7));
         }

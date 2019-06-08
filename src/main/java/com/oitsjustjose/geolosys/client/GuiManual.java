@@ -172,7 +172,7 @@ public class GuiManual extends GuiScreen
             chapters.get("journeymap").addPage(new BookPageText("geolosys.guide.chapter.journeymap.name",
                     "geolosys.guide.chapter.journeymap.text"));
         }
-        if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
+        if (Loader.isModLoaded("immersiveengineering") && ModConfig.compat.enableIECompat)
         {
             modCompat.addLink(
                     new ChapterLink("geolosys.guide.chapter.immersive_engineering.name", "immersive_engineering"));
@@ -237,7 +237,7 @@ public class GuiManual extends GuiScreen
                             ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"))), 1,
                             866)));
         }
-        if (ModConfig.featureControl.enableOsmium)
+        if (ModConfig.compat.enableOsmium)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
             chapters.put("mekanism", new BookChapter("mekanism", "mod_compat"));
@@ -246,7 +246,7 @@ public class GuiManual extends GuiScreen
                             "geolosys.guide.chapter.mekanism.text",
                             new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM)));
         }
-        if (ModConfig.featureControl.enableYellorium)
+        if (ModConfig.compat.enableYellorium)
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extreme_reactors.name", "extreme_reactors"));
             chapters.put("extreme_reactors", new BookChapter("extreme_reactors", "mod_compat"));

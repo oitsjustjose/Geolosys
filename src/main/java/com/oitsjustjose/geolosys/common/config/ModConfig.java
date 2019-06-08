@@ -25,6 +25,10 @@ public class ModConfig
     @Config.Comment("Custom user entries")
     public static UserEntries userEntries = new UserEntries();
 
+    @Config.Name("Compat")
+    @Config.Comment("Inter-mod compatibility configs")
+    public static Compat compat = new Compat();
+
     @Config.Name("Client")
     @Config.Comment("Client-side settings")
     public static Client client = new Client();
@@ -33,19 +37,6 @@ public class ModConfig
     {
         @Config.Name("Replace Stone Variant Deposits")
         public boolean modStones = true;
-
-        @Config.Name("Enable Osmium")
-        public boolean enableOsmium = true;
-
-        @Config.Name("Enable Osmium Exclusively")
-        @Config.Comment("Allows Osmium to be enabled, without enabling Platinum")
-        public boolean enableOsmiumExclusively = false;
-
-        @Config.Name("Enable Yellorium")
-        public boolean enableYellorium = true;
-
-        @Config.Name("Enable Sulfur")
-        public boolean enableSulfur = true;
 
         @Config.Name("Enable Ingots")
         public boolean enableIngots = true;
@@ -56,14 +47,8 @@ public class ModConfig
         @Config.Name("Enable Cluster Smelting")
         public boolean enableSmelting = true;
 
-        @Config.Name("Register Aluminum as oreBauxite")
-        public boolean registerAsBauxite = false;
-
         @Config.Name("Enable debug print statements for generation")
         public boolean debugGeneration = false;
-
-        @Config.Name("Enable IE Integration")
-        public boolean enableIECompat = true;
 
         @Config.Name("Retroactively replace existing ores in world")
         @Config.Comment("Happens when a player enters a chunk; changes other mod ores into Geolosys's")
@@ -71,11 +56,6 @@ public class ModConfig
 
         @Config.Name("Disable Vanilla Ore Generation")
         public boolean disableVanillaGeneration = true;
-
-        @Config.Name("Vanilla Mode")
-        @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
-        @Config.RequiresMcRestart
-        public boolean vanillaMode = false;
     }
 
     public static class Prospecting
@@ -156,6 +136,43 @@ public class ModConfig
         @Config.Comment("The Y coordinate that the Depth overlay displays at while holding a prospector's pick")
         @Config.RangeInt(min = 0)
         public int hudY = 2;
+    }
+
+    public static class Compat
+    {
+        @Config.Name("Enable Osmium")
+        public boolean enableOsmium = true;
+
+        @Config.Name("Enable Osmium Exclusively")
+        @Config.Comment("Allows Osmium to be enabled, without enabling Platinum")
+        public boolean enableOsmiumExclusively = false;
+
+        @Config.Name("Enable Yellorium")
+        public boolean enableYellorium = true;
+
+        @Config.Name("Enable Sulfur")
+        public boolean enableSulfur = true;
+
+        @Config.Name("Register Aluminum as oreBauxite")
+        @Config.RequiresMcRestart
+        public boolean registerAsBauxite = false;
+
+        @Config.Name("Enable IE Integration")
+        @Config.RequiresMcRestart
+        public boolean enableIECompat = true;
+
+        @Config.Name("IE Excavation Recipes to Remove")
+        @Config.Comment("If Enable IE Integration is True, then I register my own excavation \"recipes\","
+                + " leading to potential redundancy. This config is a list of strings to remove from IE")
+        @Config.RequiresMcRestart
+        public String[] ieExcavatorRecipesToRemove = new String[]
+        { "Iron", "Bauxite", "Cassiterite", "Coal", "Copper", "Galena", "Gold", "Lapis", "Lead", "Magnetite", "Nickel",
+                "Platinum", "Pyrite", "Quartzite", "Silver", "Uranium" };
+
+        @Config.Name("Vanilla Mode")
+        @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
+        @Config.RequiresMcRestart
+        public boolean vanillaMode = false;
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)

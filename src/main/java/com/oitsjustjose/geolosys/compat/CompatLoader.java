@@ -56,7 +56,7 @@ public class CompatLoader
             this.logger.info("Loading Actually Additions compatibility");
             MinecraftForge.EVENT_BUS.register(new ActAddCompat());
         }
-        if (Loader.isModLoaded("immersiveengineering") && ModConfig.featureControl.enableIECompat)
+        if (Loader.isModLoaded("immersiveengineering") && ModConfig.compat.enableIECompat)
         {
             this.logger.info("Loading Immersive Engineering compatibility");
             IECompat.init();
