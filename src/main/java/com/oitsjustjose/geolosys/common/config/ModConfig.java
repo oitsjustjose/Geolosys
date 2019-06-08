@@ -93,9 +93,9 @@ public class ModConfig
         public String[] proPickDimensionSeaLevels = getDefaultSeaLevels();
 
         @Config.Name("Surface Prospecting Results")
-        @Config.Comment("SAMPLES means prospecting on the surface returns the samples found\n"
-                + "OREBLOCKS means prospecting on the surface returns the first Geolosys-registered Ore Block it finds")
-        public SURFACE_PROSPECTING_TYPE surfaceProspectingResults = SURFACE_PROSPECTING_TYPE.SAMPLES;
+        @Config.Comment("SAMPLES means prospecting on the surface returns the samples found in that chunk (so if returns 'nothing' there may still be something\n"
+                + "OREBLOCKS means prospecting on the surface returns the first Geolosys-registered Ore Block it finds. If it returns something, it's there.")
+        public SURFACE_PROSPECTING_TYPE surfaceProspectingResults = SURFACE_PROSPECTING_TYPE.OREBLOCKS;
 
         @Config.Name("Blocks Samples can Generate On")
         @Config.Comment("Formatted <modid:block:meta>; this list contains blocks that samples should not generate on.")
