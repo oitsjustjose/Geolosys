@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.compat;
 
+import java.util.LinkedHashMap;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
@@ -24,8 +26,7 @@ public class IECompat
         OreDictionary.registerOre("clumpCoal", Items.COAL);
         if (ModMaterials.AE_MATERIAL != null)
         {
-            OreDictionary.registerOre("crystalCertusQuartzCharged",
-                    new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
+            OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
         }
         initExcavatorCompat();
         initCrusherCompat();
@@ -33,9 +34,22 @@ public class IECompat
         initCokeCompat();
     }
 
-
+    @SuppressWarnings("unchecked")
     private static void initExcavatorCompat()
     {
+        // Remove the vanilla ones
+        LinkedHashMap<ExcavatorHandler.MineralMix, Integer> list = (LinkedHashMap<ExcavatorHandler.MineralMix, Integer>) ExcavatorHandler.mineralList
+                .clone();
+        for (ExcavatorHandler.MineralMix mix : list.keySet())
+        {
+            for (String name : ModConfig.compat.ieExcavatorRecipesToRemove)
+            {
+                if (mix.name.equalsIgnoreCase(name))
+                {
+                    ExcavatorHandler.mineralList.remove(mix);
+                }
+            }
+        }
         for (IOre ore : GeolosysAPI.oreBlocks)
         {
             if (ore instanceof DepositMultiOre)
@@ -46,16 +60,14 @@ public class IECompat
                 int tally = 0;
                 for (IBlockState state : tmp.oreBlocks.keySet())
                 {
-                    ItemStack tempStack = new ItemStack(state.getBlock(), 1,
-                            state.getBlock().getMetaFromState(state));
+                    ItemStack tempStack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
                     String oreName = "depositOre" + tempStack.getDisplayName();
                     OreDictionary.registerOre(oreName, tempStack);
                     oreNames[tally] = oreName;
                     oreChances[tally] = tmp.oreBlocks.get(state);
                     tally++;
                 }
-                ExcavatorHandler.addMineral(ore.getFriendlyName(), ore.getChance(), .05F, oreNames,
-                        oreChances);
+                ExcavatorHandler.addMineral(ore.getFriendlyName(), ore.getChance(), .05F, oreNames, oreChances);
             }
             else
             {
@@ -84,8 +96,7 @@ public class IECompat
 
         if (OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0)
         {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(OreDictionary.getOres("dustSulfur").get(0),
-                    .02F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(OreDictionary.getOres("dustSulfur").get(0), .02F);
         }
         CrusherRecipe.recipeList.add(crusherRecipe);
         crusherRecipe = new CrusherRecipe(new ItemStack(Items.REDSTONE, 5),
@@ -100,18 +111,15 @@ public class IECompat
 
         if (ModMaterials.EXU_MATERIAL != null)
         {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.EXU_MATERIAL),
-                    .033F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.EXU_MATERIAL), .033F);
         }
         if (ModMaterials.TE_MATERIAL != null)
         {
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866), .0166F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.TE_MATERIAL, 1, 866), .0166F);
         }
         if (ModMaterials.NC_GEM != null)
         {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_GEM, 1, 0),
-                    0.25F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_GEM, 1, 0), 0.25F);
         }
 
         CrusherRecipe.recipeList.add(crusherRecipe);
@@ -130,8 +138,7 @@ public class IECompat
 
         if (ModMaterials.NC_GEM != null)
         {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_GEM, 1, 2),
-                    .95F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_GEM, 1, 2), .95F);
         }
         CrusherRecipe.recipeList.add(crusherRecipe);
 
@@ -146,20 +153,16 @@ public class IECompat
 
         if (ModMaterials.AE_MATERIAL != null)
         {
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0), .3F);
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1), .12F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0), .3F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1), .12F);
         }
         if (ModMaterials.BLACK_QUARTZ != null)
         {
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.BLACK_QUARTZ, 1, 5), .32F);
         }
         if (ModMaterials.NC_GEM != null)
         {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10),
-                    .24F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.NC_DUST, 1, 10), .24F);
         }
         CrusherRecipe.recipeList.add(crusherRecipe);
 
@@ -177,8 +180,7 @@ public class IECompat
 
         crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 0),
                 new ItemStack(Geolosys.getInstance().ORE, 1, 1), 1000);
-        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 7),
-                .4F);
+        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 7), .4F);
 
         CrusherRecipe.recipeList.add(crusherRecipe);
 
@@ -188,22 +190,19 @@ public class IECompat
         CrusherRecipe.recipeList.add(crusherRecipe);
         crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 2),
                 new ItemStack(Geolosys.getInstance().ORE, 1, 3), 1000);
-        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 2),
-                .4F);
+        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 2), .4F);
         CrusherRecipe.recipeList.add(crusherRecipe);
         crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 3),
                 new ItemStack(Geolosys.getInstance().ORE, 1, 4), 1000);
         CrusherRecipe.recipeList.add(crusherRecipe);
         crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 3),
                 new ItemStack(Geolosys.getInstance().ORE, 1, 5), 1000);
-        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 3),
-                .4F);
+        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 3), .4F);
         CrusherRecipe.recipeList.add(crusherRecipe);
 
         crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 4),
                 new ItemStack(Geolosys.getInstance().ORE, 1, 6), 1000);
-        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 5),
-                1F);
+        crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 5), 1F);
 
         CrusherRecipe.recipeList.add(crusherRecipe);
 
@@ -221,8 +220,8 @@ public class IECompat
         {
             crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 8),
                     new ItemStack(Geolosys.getInstance().ORE, 1, 8), 1000);
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 12), 1F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 12),
+                    1F);
         }
         else
         {
@@ -235,8 +234,8 @@ public class IECompat
         {
             crusherRecipe = new CrusherRecipe(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 9),
                     new ItemStack(Geolosys.getInstance().ORE, 1, 9), 1000);
-            crusherRecipe = crusherRecipe
-                    .addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 11), 1F);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Geolosys.getInstance().CLUSTER, 1, 11),
+                    1F);
         }
         else
         {
@@ -254,18 +253,14 @@ public class IECompat
     {
         if (ModConfig.featureControl.enableCoals)
         {
-            BlastFurnaceRecipe.blastFuels.add(new BlastFurnaceFuel(
-                    new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 3)), 2400));
+            BlastFurnaceRecipe.blastFuels.add(
+                    new BlastFurnaceFuel(new IngredientStack(new ItemStack(Geolosys.getInstance().COAL, 1, 3)), 2400));
             if (Geolosys.getInstance().COAL_COKE != null)
             {
                 BlastFurnaceRecipe.blastFuels.add(new BlastFurnaceFuel(
-                        new IngredientStack(
-                                new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 0)),
-                        1600));
+                        new IngredientStack(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 0)), 1600));
                 BlastFurnaceRecipe.blastFuels.add(new BlastFurnaceFuel(
-                        new IngredientStack(
-                                new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 1)),
-                        2400));
+                        new IngredientStack(new ItemStack(Geolosys.getInstance().COAL_COKE, 1, 1)), 2400));
             }
         }
     }
