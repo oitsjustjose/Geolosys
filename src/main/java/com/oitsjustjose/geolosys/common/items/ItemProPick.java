@@ -360,11 +360,39 @@ public class ItemProPick extends Item
                     // if (GeolosysAPI.oreBlocks.keySet().contains(state))
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
-                        if (Utils.doStatesMatch(ore.getOre(), state))
+                        if (ore instanceof DepositMultiOre)
                         {
-                            sendFoundMessage(player, state, facing);
-                            found = true;
-                            break;
+                            DepositMultiOre tmp = (DepositMultiOre) ore;
+                            for (IBlockState tmpState : tmp.oreBlocks.keySet())
+                            {
+                                if (Utils.doStatesMatch(tmpState, state))
+                                {
+                                    sendFoundMessage(player, state, facing);
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Utils.doStatesMatch(ore.getOre(), state))
+                            {
+                                sendFoundMessage(player, state, facing);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!found)
+                    {
+                        for (IBlockState state2 : GeolosysAPI.proPickExtras)
+                        {
+                            if (Utils.doStatesMatch(state2, state))
+                            {
+                                sendFoundMessage(player, state, facing);
+                                found = true;
+                                break;
+                            }
                         }
                     }
                     if (found)
@@ -491,6 +519,14 @@ public class ItemProPick extends Item
                             {
                                 return ore.getFriendlyName();
                             }
+                        }
+                    }
+                    for (IBlockState state2 : GeolosysAPI.proPickExtras)
+                    {
+                        if (Utils.doStatesMatch(state, state2))
+                        {
+                            return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state))
+                                    .getDisplayName();
                         }
                     }
                 }

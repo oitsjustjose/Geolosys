@@ -102,6 +102,12 @@ public class ModConfig
         public String[] samplePlaceBlacklist = new String[]
         { "minecraft:ice:0", "minecraft:packed_ice:0", "minecraft:frosted_ice" };
 
+        @Config.Name("Extra Ores the Prospector's Pick should search for")
+        @Config.Comment("Ores here will be able to be detected by the prospector's pick.\n"
+                + "In the form of one of these two:\n" + "    modid:block\n" + "    modid:block:metadata")
+        public String[] extraProPickEntries = new String[]
+        {};
+
         public enum SURFACE_PROSPECTING_TYPE
         {
             SAMPLES, OREBLOCKS;

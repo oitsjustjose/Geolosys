@@ -31,8 +31,10 @@ import net.minecraft.world.biome.Biome;
  */
 public class GeolosysAPI
 {
-    // An arraylist of IOres that may generate
+    // An collection of IOres that may generate
     public static ArrayList<IOre> oreBlocks = new ArrayList<>();
+    // A collection of IBlockStates that can trigger the prospector's pick
+    public static ArrayList<IBlockState> proPickExtras = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A collection of blocks to ignore in the OreConverter feature
@@ -265,7 +267,8 @@ public class GeolosysAPI
      * @param yMax       The maximum Y level this deposit can generate at
      * @param chance     The chance of the deposit generating (higher = more likely)
      */
-    public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
+    public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance, int size,
+            int[] dimBlacklist)
     {
         DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
         StoneGenerator.addStoneGen(tempDeposit);

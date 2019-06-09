@@ -21,6 +21,7 @@ public class ConfigParser
         parsePredicates();
         parseConverterBlacklist();
         parseDimensions();
+        parseProPickExtras();
     }
 
     public static void init()
@@ -36,6 +37,40 @@ public class ConfigParser
     {
         instance.parseDimensions();
         instance.parseConverterBlacklist();
+        instance.parseProPickExtras();
+    }
+
+    private void parseProPickExtras()
+    {
+        for (String str : ModConfig.prospecting.extraProPickEntries)
+        {
+            String[] parts = str.split(":");
+            if (parts.length == 2 || parts.length == 3)
+            {
+                Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
+                if (b != null)
+                {
+                    if (parts.length == 3)
+                    {
+                        GeolosysAPI.proPickExtras.add(Utils.getStateFromMeta(b, Integer.parseInt(parts[2])));
+                    }
+                    else
+                    {
+                        GeolosysAPI.proPickExtras.add(b.getDefaultState());
+                    }
+                }
+                else
+                {
+                    Geolosys.getInstance().LOGGER
+                            .info("ProPick extra entry " + str + " does not exist or hasn't been registered yet");
+                }
+            }
+            else
+            {
+                Geolosys.getInstance().LOGGER.info("ProPick extra entry " + str
+                        + " is not valid. Please ensure it's in form modid:block or modid:block:metadata");
+            }
+        }
     }
 
     private void parseDimensions()
