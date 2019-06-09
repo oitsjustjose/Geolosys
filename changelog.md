@@ -3,8 +3,13 @@
 ## 3.0:
 * ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
 * ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
+* ADDED: Users can now configure extra blocks for the Prospector's Pick to search for (allows for compat with other ores not registered in Geolosys at all).
 * CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire entries on your own instead of doing so in the config file**. 
+* CHANGED: `geolosys_ores.json` is now called `geolosys.json` and downloads from GitHub pre-configured if you don't already have it.
 * CHANGED: You can now define the size and dim blacklist of stone deposits
+* CHANGED: The configs for inter-mod type things have been moved to a new section called Compat
+* CHANGED IE Compat: now removes recipes from Geolosys's Config file instead of dynamically, as there's not an easy way to do that.
+* CHANGED IE Compat: now adds all oreBlocks from the API as excavator recipes.
 * [API] ADDED: New options for generating using the new options (MultiOre, BiomeRestricted, and MultiOreBiomeRestricted)
 * [API] ADDED: IOre interface for creating your own deposit type.
 * [API] DEPRECATED: putWorldDeposit(ChunkPosSerializable, String) - this method always requires an IOre now ore else the ProPick (and other things) wont' know that the ore is in that chunkpos. You should move away from this if possible.
