@@ -171,7 +171,7 @@ public class ModConfig
         @Config.RequiresMcRestart
         public String[] ieExcavatorRecipesToRemove = new String[]
         { "Iron", "Bauxite", "Cassiterite", "Coal", "Copper", "Galena", "Gold", "Lapis", "Lead", "Magnetite", "Nickel",
-                "Platinum", "Pyrite", "Quartzite", "Silver", "Uranium" };
+                "Platinum", "Pyrite", "Quartzite", "Silver", "Uranium", "Cinnabar" };
 
         @Config.Name("Vanilla Mode")
         @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
