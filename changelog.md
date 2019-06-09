@@ -12,7 +12,6 @@
 * CHANGED IE Compat: now adds all oreBlocks from the API as excavator recipes.
 * [API] ADDED: New options for generating using the new options (MultiOre, BiomeRestricted, and MultiOreBiomeRestricted)
 * [API] ADDED: IOre interface for creating your own deposit type.
-* [API] DEPRECATED: putWorldDeposit(ChunkPosSerializable, String) - this method always requires an IOre now ore else the ProPick (and other things) wont' know that the ore is in that chunkpos. You should move away from this if possible.
 * [API] CHANGED: Generation rules now follow an Interface IOre. If you were making a custom ore directly before, you should start implementing
 
 ### 2.2.6:
