@@ -357,6 +357,18 @@ public class ItemProPick extends Item
                 for (int z = zStart; z <= zEnd; z++)
                 {
                     IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
+                    boolean shouldSkip = false;
+                    for (IOre stone : GeolosysAPI.stones)
+                    {
+                        if (Utils.doStatesMatch(state, stone.getOre()))
+                        {
+                            shouldSkip = true;
+                        }
+                    }
+                    if (shouldSkip)
+                    {
+                        continue;
+                    }
                     // if (GeolosysAPI.oreBlocks.keySet().contains(state))
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
