@@ -121,6 +121,7 @@ public class Geolosys
             Recipes.init(configOres, CLUSTER);
         }
         ConfigParser.init();
+        configOres.init();
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }

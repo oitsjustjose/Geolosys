@@ -26,10 +26,15 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigOres
 {
+    private File jsonFile;
+
     public ConfigOres(File configRoot)
     {
+        this.jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys.json");
+    }
 
-        final File jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys.json");
+    public void init()
+    {
         try
         {
             InputStream jsonStream = new FileInputStream(jsonFile);
@@ -44,8 +49,7 @@ public class ConfigOres
                 BufferedInputStream in = new BufferedInputStream(
                         new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/master/geolosys_ores.json")
                                 .openStream());
-                Files.copy(in, Paths.get((configRoot.getAbsolutePath() + "/geolosys.json")),
-                        StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(in, Paths.get(jsonFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
                 Geolosys.getInstance().LOGGER.info("Done downloading geolosys.json from GitHub!");
                 InputStream jsonStream = new FileInputStream(jsonFile);
                 this.read(jsonStream);
@@ -53,8 +57,8 @@ public class ConfigOres
             }
             catch (IOException f)
             {
-                Geolosys.getInstance().LOGGER.error("File " + configRoot.getAbsolutePath()
-                        + "/geolosys.json could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
+                Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
+                        + "could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
             }
         }
     }
@@ -265,7 +269,8 @@ public class ConfigOres
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<IBlockState> blockStateMatchers,
             ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist, float density)
     {
-        Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks);
+        Geolosys.getInstance().LOGGER
+                .info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density);
         if (biomes.size() > 0)
         {
             if (hasIsWhitelist)
