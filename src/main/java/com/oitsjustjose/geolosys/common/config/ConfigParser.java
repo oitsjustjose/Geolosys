@@ -119,7 +119,17 @@ public class ConfigParser
                 }
                 else
                 {
-                    GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, toInt(parts[2])));
+                    if (parts[2].equals("*"))
+                    {
+                        for (int i = 0; i < 16; i++)
+                        {
+                            GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, i));
+                        }
+                    }
+                    else
+                    {
+                        GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, toInt(parts[2])));
+                    }
                 }
             }
             catch (NumberFormatException e)
@@ -157,7 +167,17 @@ public class ConfigParser
                 }
                 else
                 {
-                    GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, toInt(parts[2])));
+                    if (parts[2].equals("*"))
+                    {
+                        for (int i = 0; i < 16; i++)
+                        {
+                            GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, i));
+                        }
+                    }
+                    else
+                    {
+                        GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, toInt(parts[2])));
+                    }
                 }
             }
             catch (NumberFormatException e)
