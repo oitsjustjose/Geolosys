@@ -94,7 +94,7 @@ public class ChunkData
     {
         IBlockState state = world.getBlockState(pos);
         Material mat = state.getMaterial();
-        return mat == Material.AIR || mat == Material.PLANTS || state.getBlock().isLeaves(state, world, pos)
+        return mat == Material.AIR || state.getBlock().isLeaves(state, world, pos)
                 || state.getBlock().isFoliage(world, pos) || mat.isReplaceable();
     }
 
