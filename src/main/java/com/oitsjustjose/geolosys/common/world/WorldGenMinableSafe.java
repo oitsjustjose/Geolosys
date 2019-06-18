@@ -86,7 +86,7 @@ public class WorldGenMinableSafe extends WorldGenerator
                                     {
                                         float density = this.ore.getDensity() > 1.0F ? 1.0F : this.ore.getDensity();
 
-                                        if (rand.nextFloat() <= density)
+                                        if (rand.nextFloat() > density)
                                         {
                                             continue;
                                         }
