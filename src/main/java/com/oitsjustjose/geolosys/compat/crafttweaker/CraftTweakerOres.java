@@ -35,7 +35,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist)
+                        int[] dimBlacklist, float density)
         {
                 if (CraftTweakerMC.getBlockState(oreBlock) == null)
                 {
@@ -50,7 +50,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, null);
+                                        dimBlacklist, null, density);
                 }
         }
 
@@ -69,7 +69,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, crafttweaker.api.block.IBlockState[] blockStateMatchers)
+                        int[] dimBlacklist, crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 for (crafttweaker.api.block.IBlockState state : blockStateMatchers)
@@ -94,7 +94,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, toMCStates);
+                                        dimBlacklist, toMCStates, density);
                 }
         }
 
@@ -114,7 +114,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, String[] biomes, boolean isWhitelist)
+                        int[] dimBlacklist, String[] biomes, boolean isWhitelist, float density)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
@@ -145,7 +145,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, null, toMCBiomes, isWhitelist);
+                                        dimBlacklist, null, toMCBiomes, isWhitelist, density);
                 }
         }
 
@@ -167,7 +167,7 @@ public class CraftTweakerOres
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
                         int[] dimBlacklist, String[] biomes, boolean isWhitelist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
@@ -211,7 +211,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, toMCStates, toMCBiomes, isWhitelist);
+                                        dimBlacklist, toMCStates, toMCBiomes, isWhitelist, density);
                 }
         }
 
@@ -231,7 +231,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist)
+                        int size, int chance, int[] dimBlacklist, float density)
         {
                 HashMap<IBlockState, Integer> oreBlockMap = new HashMap<>();
                 HashMap<IBlockState, Integer> sampleBlockMap = new HashMap<>();
@@ -256,7 +256,7 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                null);
+                                null, density);
         }
 
         /**
@@ -277,7 +277,7 @@ public class CraftTweakerOres
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
                         int size, int chance, int[] dimBlacklist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 for (crafttweaker.api.block.IBlockState state : blockStateMatchers)
@@ -312,7 +312,7 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                toMCStates);
+                                toMCStates, density);
         }
 
         /**
@@ -333,7 +333,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist, String[] biomes, boolean isWhitelist)
+                        int size, int chance, int[] dimBlacklist, String[] biomes, boolean isWhitelist, float density)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
@@ -374,7 +374,7 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                null, toMCBiomes, isWhitelist);
+                                null, toMCBiomes, isWhitelist, density);
         }
 
         /**
@@ -397,7 +397,7 @@ public class CraftTweakerOres
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
                         int size, int chance, int[] dimBlacklist, String[] biomes, boolean isWhitelist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
@@ -448,6 +448,6 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                toMCStates, toMCBiomes, isWhitelist);
+                                toMCStates, toMCBiomes, isWhitelist, density);
         }
 }

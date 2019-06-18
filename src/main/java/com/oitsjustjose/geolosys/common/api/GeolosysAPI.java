@@ -63,9 +63,9 @@ public class GeolosysAPI
                     total++;
                 }
             }
-            // Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
-            // Geolosys.getInstance().LOGGER
-            //         .info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
+            Geolosys.getInstance().LOGGER.info(state + ": " + total + "/" + currentWorldDeposits.keySet().size());
+            Geolosys.getInstance().LOGGER
+                    .info(state + ": " + (100 * (total / (1f * currentWorldDeposits.keySet().size()))) + "%");
         }
     }
 

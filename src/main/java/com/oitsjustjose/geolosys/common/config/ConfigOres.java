@@ -180,7 +180,7 @@ public class ConfigOres
                             }
                         }
                         register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
-                                biomes, isWhitelist, hasIsWhitelist);
+                                biomes, isWhitelist, hasIsWhitelist, density);
                         jReader.endObject();
                     }
                     jReader.endArray();
@@ -263,7 +263,7 @@ public class ConfigOres
 
     private void register(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<IBlockState> blockStateMatchers,
-            ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist)
+            ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist, float density)
     {
         Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks);
         if (biomes.size() > 0)
@@ -271,7 +271,7 @@ public class ConfigOres
             if (hasIsWhitelist)
             {
                 GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers), biomes, isWhitelist);
+                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers), biomes, isWhitelist, density);
             }
             else
             {
@@ -279,13 +279,13 @@ public class ConfigOres
                         "Received a biome list but no isWhitelist variable to define if the biome list is whitelist or blacklist.\n"
                                 + "Registering it as a normal ore with no biome restrictions");
                 GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers));
+                        (blockStateMatchers.size() == 0 ? null : blockStateMatchers), density);
             }
         }
         else
         {
             GeolosysAPI.registerMineralDeposit(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                    (blockStateMatchers.size() == 0 ? null : blockStateMatchers));
+                    (blockStateMatchers.size() == 0 ? null : blockStateMatchers), density);
         }
     }
 
