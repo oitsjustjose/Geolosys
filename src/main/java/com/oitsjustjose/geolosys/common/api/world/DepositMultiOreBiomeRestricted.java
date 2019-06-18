@@ -13,9 +13,10 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
 
     public DepositMultiOreBiomeRestricted(HashMap<IBlockState, Integer> oreBlocks,
             HashMap<IBlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes, boolean useWhitelist)
+            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes, boolean useWhitelist,
+            float density)
     {
-        super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers);
+        super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density);
         this.biomes = biomes;
         this.useWhitelist = useWhitelist;
     }

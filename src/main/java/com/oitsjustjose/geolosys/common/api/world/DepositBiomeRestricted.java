@@ -12,9 +12,9 @@ public class DepositBiomeRestricted extends Deposit
 
     public DepositBiomeRestricted(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size,
             int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes,
-            boolean useWhitelist)
+            boolean useWhitelist, float density)
     {
-        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers);
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density);
         this.biomes = biomes;
         this.useWhitelist = useWhitelist;
     }
@@ -46,5 +46,4 @@ public class DepositBiomeRestricted extends Deposit
     {
         return this.biomes;
     }
-
 }

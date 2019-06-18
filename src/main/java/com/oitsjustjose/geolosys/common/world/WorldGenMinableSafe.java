@@ -16,9 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class WorldGenMinableSafe extends WorldGenerator
 {
     private IOre ore;
-    /**
-     * The number of blocks to generate.
-     */
     private String dataName;
 
     public WorldGenMinableSafe(IOre ore, String dataName)
@@ -87,6 +84,12 @@ public class WorldGenMinableSafe extends WorldGenerator
 
                                     if (isInChunk(thisChunk, blockpos) || worldIn.isChunkGeneratedAt(l1 >> 4, j2 >> 4))
                                     {
+                                        float density = this.ore.getDensity() > 1.0F ? 1.0F : this.ore.getDensity();
+
+                                        if (rand.nextFloat() <= density)
+                                        {
+                                            continue;
+                                        }
                                         IBlockState state = worldIn.getBlockState(blockpos);
                                         if (state != null)
                                         {

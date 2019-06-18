@@ -17,9 +17,10 @@ public class Deposit implements IOre
     private int chance;
     private int[] dimensionBlacklist;
     private List<IBlockState> blockStateMatchers;
+    private float density;
 
     public Deposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers)
+            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, float density)
     {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
@@ -29,6 +30,7 @@ public class Deposit implements IOre
         this.chance = chance;
         this.dimensionBlacklist = dimensionBlacklist;
         this.blockStateMatchers = blockStateMatchers;
+        this.density = density;
     }
 
     public IBlockState getOre()
@@ -101,5 +103,10 @@ public class Deposit implements IOre
     public boolean sampleMatches(IBlockState other)
     {
         return Utils.doStatesMatch(this.sampleBlock, other);
+    }
+
+    public float getDensity()
+    {
+        return this.density;
     }
 }

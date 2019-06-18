@@ -85,6 +85,7 @@ public class ConfigOres
                         ArrayList<Biome> biomes = new ArrayList<>();
                         boolean isWhitelist = false;
                         boolean hasIsWhitelist = false;
+                        float density = 1.0F;
                         jReader.beginObject();
                         while (jReader.hasNext())
                         {
@@ -165,6 +166,10 @@ public class ConfigOres
                             {
                                 isWhitelist = jReader.nextBoolean();
                                 hasIsWhitelist = true;
+                            }
+                            else if (subName.equalsIgnoreCase("density"))
+                            {
+                                density = (float) jReader.nextDouble();
                             }
                             else
                             {

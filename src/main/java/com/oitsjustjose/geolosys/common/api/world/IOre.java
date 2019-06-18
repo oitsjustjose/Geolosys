@@ -29,4 +29,6 @@ public interface IOre
     public boolean sampleMatches(IBlockState other);
 
     public List<IBlockState> getBlockStateMatchers();
+
+    public float getDensity();
 }

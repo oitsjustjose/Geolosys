@@ -23,9 +23,11 @@ public class DepositMultiOre implements IOre
     private int chance;
     private int[] dimensionBlacklist;
     private List<IBlockState> blockStateMatchers;
+    private float density;
 
     public DepositMultiOre(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks,
-            int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers)
+            int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers,
+            float density)
     {
         // Sanity checking:
         int sum = 0;
@@ -69,6 +71,7 @@ public class DepositMultiOre implements IOre
         this.chance = chance;
         this.dimensionBlacklist = dimensionBlacklist;
         this.blockStateMatchers = blockStateMatchers;
+        this.density = density;
     }
 
     public ArrayList<IBlockState> getOres()
@@ -220,5 +223,10 @@ public class DepositMultiOre implements IOre
             }
         }
         return false;
+    }
+
+    public float getDensity()
+    {
+        return this.density;
     }
 }

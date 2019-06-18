@@ -94,4 +94,9 @@ public class DepositStone implements IOre
     {
         return true;
     }
+
+    public float getDensity()
+    {
+        return 1.0F;
+    }
 }
