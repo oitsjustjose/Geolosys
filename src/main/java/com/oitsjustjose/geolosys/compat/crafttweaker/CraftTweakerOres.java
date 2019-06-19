@@ -30,12 +30,13 @@ public class CraftTweakerOres
          * @param yMax         The maximum Y level this deposit should be found
          * @param size         The approximate size of this deposit
          * @param chance       The relative chance of this deposit's occurance in the world
+         * @param density      The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original contents.
          * @param dimBlacklist A blacklist of dimension IDs which the deposit may not appear in
          */
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, float density)
+                        float density, int[] dimBlacklist)
         {
                 if (CraftTweakerMC.getBlockState(oreBlock) == null)
                 {
@@ -63,13 +64,15 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          * @param blockStateMatchers An array of Blockstates which the deposit can replace during generation
          */
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
+                        float density, int[] dimBlacklist, crafttweaker.api.block.IBlockState[] blockStateMatchers)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 for (crafttweaker.api.block.IBlockState state : blockStateMatchers)
@@ -107,6 +110,7 @@ public class CraftTweakerOres
          * @param yMax         The maximum Y level this deposit should be found
          * @param size         The approximate size of this deposit
          * @param chance       The relative chance of this deposit's occurance in the world
+         * @param density      The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original contents.
          * @param dimBlacklist A blacklist of dimension IDs which the deposit may not appear in
          * @param biomes       A list of strings which represent the Biome registry names (from /ct biomes)
          * @param isWhitelist  A boolean value describing whether or not the biomes list is a whitelist or not.
@@ -114,7 +118,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, String[] biomes, boolean isWhitelist, float density)
+                        float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
@@ -158,6 +162,8 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          * @param blockStateMatchers An array of Blockstates which the deposit can replace during generation
          * @param biomes             A list of strings which represent the Biome registry names (from /ct biomes)
@@ -166,8 +172,8 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState oreBlock,
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-                        int[] dimBlacklist, String[] biomes, boolean isWhitelist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
+                        float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist,
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
@@ -226,12 +232,14 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          */
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist, float density)
+                        int size, int chance, float density, int[] dimBlacklist)
         {
                 HashMap<IBlockState, Integer> oreBlockMap = new HashMap<>();
                 HashMap<IBlockState, Integer> sampleBlockMap = new HashMap<>();
@@ -270,14 +278,16 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          * @param blockStateMatchers An array of Blockstates which the deposit can replace during generation
          */
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
+                        int size, int chance, float density, int[] dimBlacklist,
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 for (crafttweaker.api.block.IBlockState state : blockStateMatchers)
@@ -326,6 +336,8 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          * @param biomes             A list of strings which represent the Biome registry names (from /ct biomes)
          * @param isWhitelist        A boolean value describing whether or not the biomes list is a whitelist or not.
@@ -333,7 +345,7 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist, String[] biomes, boolean isWhitelist, float density)
+                        int size, int chance, float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
@@ -388,6 +400,8 @@ public class CraftTweakerOres
          * @param yMax               The maximum Y level this deposit should be found
          * @param size               The approximate size of this deposit
          * @param chance             The relative chance of this deposit's occurance in the world
+         * @param density            The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original
+         *                           contents.
          * @param dimBlacklist       A blacklist of dimension IDs which the deposit may not appear in
          * @param biomes             A list of strings which represent the Biome registry names (from /ct biomes)
          * @param isWhitelist        A boolean value describing whether or not the biomes list is a whitelist or not.
@@ -396,8 +410,8 @@ public class CraftTweakerOres
         @ZenMethod
         public static void addOre(crafttweaker.api.block.IBlockState[] oreBlocks, int[] oreBlockChances,
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
-                        int size, int chance, int[] dimBlacklist, String[] biomes, boolean isWhitelist,
-                        crafttweaker.api.block.IBlockState[] blockStateMatchers, float density)
+                        int size, int chance, float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist,
+                        crafttweaker.api.block.IBlockState[] blockStateMatchers)
         {
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
 
