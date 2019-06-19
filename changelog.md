@@ -1,9 +1,11 @@
 # Geolosys Changelog
 
 ## 3.0:
+* ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
 * ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
 * ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
 * ADDED: Users can now configure extra blocks for the Prospector's Pick to search for (allows for compat with other ores not registered in Geolosys at all).
+* ADDED: The ability for config options to use the `*` wildcard for the predicates and converter blacklist config options
 * CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire entries on your own instead of doing so in the config file**. 
 * CHANGED: `geolosys_ores.json` is now called `geolosys.json` and downloads from GitHub pre-configured if you don't already have it.
 * CHANGED: You can now define the size and dim blacklist of stone deposits
