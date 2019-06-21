@@ -115,13 +115,13 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        proxy.postInit(event);
         if (ModConfig.featureControl.enableSmelting)
         {
             Recipes.init(configOres, CLUSTER);
         }
         ConfigParser.init();
         configOres.init();
+        proxy.postInit(event);
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
     }
