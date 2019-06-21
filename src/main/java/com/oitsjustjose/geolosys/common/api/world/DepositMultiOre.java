@@ -86,12 +86,38 @@ public class DepositMultiOre implements IOre
 
     public IBlockState getOre()
     {
-        return this.ores.get(new Random().nextInt(100));
+        IBlockState backup = null;
+        try
+        {
+            return this.ores.get(new Random().nextInt(100));
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            for (IBlockState s : this.oreBlocks.keySet())
+            {
+                backup = s;
+                break;
+            }
+        }
+        return backup;
     }
 
     public IBlockState getSample()
     {
-        return this.samples.get(new Random().nextInt(100));
+        IBlockState backup = null;
+        try
+        {
+            return this.samples.get(new Random().nextInt(100));
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            for (IBlockState s : this.sampleBlocks.keySet())
+            {
+                backup = s;
+                break;
+            }
+        }
+        return backup;
     }
 
     public String getFriendlyName()
