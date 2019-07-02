@@ -1,6 +1,6 @@
 # Geolosys Changelog
 
-## 3.0:
+## 3.0.0:
 * ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
 * ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
 * ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
