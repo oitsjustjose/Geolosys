@@ -250,7 +250,7 @@
 			],
 			"samples": [
 				"geolosys:ore_sample:5",
-				90
+				100
 			],
 			"yMin": 8,
 			"yMax": 43,
