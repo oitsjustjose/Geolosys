@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 3.0.1:
+* ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). **This requires UBC 1.3.6 or greater**
+* ADDED: Config option to disable AE2 compat
+* CHANGED: Cassiterite now generates in Rivers by default -- this will not be changed unless you change it manually in your config (or start over with a new config).
+* FIXED: Wonky manual rendering with multi-line entries. 
+* FIXED: Various issues with the default config. If you were having issues with it before (crashing or not working), try resetting it to this new one.
+
 ## 3.0.0:
 * ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
 * ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
