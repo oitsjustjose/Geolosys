@@ -84,7 +84,7 @@ public class BlockOreVanilla extends Block
         Random random = new Random();
         int rng = random.nextInt(25);
         // AE Compatibility
-        if (OreDictionary.doesOreNameExist("oreCertusQuartz") && OreDictionary.getOres("oreCertusQuartz").size() > 0)
+        if (ModConfig.compat.enableAE2Compat && OreDictionary.doesOreNameExist("oreCertusQuartz") && OreDictionary.getOres("oreCertusQuartz").size() > 0)
         {
             if (rng < 7)
             {
