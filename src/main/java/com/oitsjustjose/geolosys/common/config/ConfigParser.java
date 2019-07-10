@@ -52,7 +52,24 @@ public class ConfigParser
                 {
                     if (parts.length == 3)
                     {
-                        GeolosysAPI.proPickExtras.add(Utils.getStateFromMeta(b, Integer.parseInt(parts[2])));
+                        if (parts[2].equals("*"))
+                        {
+                            for (int i = 0; i < 16; i++)
+                            {
+                                try
+                                {
+                                    GeolosysAPI.proPickExtras.add(b.getStateFromMeta(i));
+                                }
+                                catch (ArrayIndexOutOfBoundsException e)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            GeolosysAPI.proPickExtras.add(Utils.getStateFromMeta(b, Integer.parseInt(parts[2])));
+                        }
                     }
                     else
                     {
