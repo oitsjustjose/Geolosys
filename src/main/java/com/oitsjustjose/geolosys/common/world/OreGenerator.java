@@ -18,6 +18,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
@@ -81,6 +83,8 @@ public class OreGenerator implements IWorldGenerator
                 oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
         }
+        // Call it here, and call it anyways in case ToDoBlocks did something too
+        ForgeEventFactory.onChunkPopulate(false, chunkGenerator, world, random, chunkX, chunkZ, true);
     }
 
     public static class OreGen
