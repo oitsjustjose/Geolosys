@@ -642,10 +642,19 @@ public class GuiManual extends GuiScreen
                 else if (this.hovered)
                 {
                     j = 8308926;
-                    p += TextFormatting.BOLD;
+                    p += TextFormatting.UNDERLINE;
+                }
+                String toDraw = I18n.format(this.displayString);
+                if (fontrenderer.getStringWidth(
+                        p + "• " + toDraw) > (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale))
+                {
+                    toDraw = fontRenderer.trimStringToWidth(toDraw,
+                            (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale));
+                    toDraw = toDraw.substring(0, toDraw.length() - 7);
+                    toDraw += "...";
                 }
 
-                fontrenderer.drawSplitString(p + "• " + I18n.format(this.displayString), this.x, this.y,
+                fontrenderer.drawSplitString(p + "• " + toDraw, this.x, this.y,
                         (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale), j);
             }
         }
