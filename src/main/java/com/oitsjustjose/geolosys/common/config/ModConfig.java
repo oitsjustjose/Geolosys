@@ -52,7 +52,7 @@ public class ModConfig
 
         @Config.Name("Retroactively replace existing ores in world")
         @Config.Comment("Happens when a player enters a chunk; changes other mod ores into Geolosys's")
-        public boolean retroReplace = true;
+        public boolean retroReplace = false;
 
         @Config.Name("Disable Vanilla Ore Generation")
         public boolean disableVanillaGeneration = true;
@@ -106,7 +106,60 @@ public class ModConfig
         @Config.Comment("Ores here will be able to be detected by the prospector's pick.\n"
                 + "In the form of one of these two:\n" + "    modid:block\n" + "    modid:block:metadata")
         public String[] extraProPickEntries = new String[]
-        {};
+        { "undergroundbiomes:igneous_stone_geolosys.ore.autunite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.azurite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.bauxite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.cassiterite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.galena:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.limonite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.malachite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.platinum:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.sphalerite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore.teallite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.beryl:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.cinnabar:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.gold:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.kimberlite:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.lapis:*",
+                "undergroundbiomes:igneous_stone_geolosys.ore_vanilla.quartz:*",
+                "undergroundbiomes:igneous_stone_geolosys_ore:*",
+                "undergroundbiomes:igneous_stone_geolosys_ore_vanilla:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.autunite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.azurite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.bauxite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.cassiterite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.galena:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.limonite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.malachite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.platinum:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.sphalerite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore.teallite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.beryl:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.cinnabar:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.gold:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.kimberlite:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.lapis:*",
+                "undergroundbiomes:metamorphic_stone_geolosys.ore_vanilla.quartz:*",
+                "undergroundbiomes:metamorphic_stone_geolosys_ore:*",
+                "undergroundbiomes:metamorphic_stone_geolosys_ore_vanilla:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.autunite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.azurite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.bauxite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.cassiterite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.galena:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.limonite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.malachite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.platinum:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.sphalerite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore.teallite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.beryl:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.cinnabar:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.gold:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.kimberlite:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.lapis:*",
+                "undergroundbiomes:sedimentary_stone_geolosys.ore_vanilla.quartz:*",
+                "undergroundbiomes:sedimentary_stone_geolosys_ore:*",
+                "undergroundbiomes:sedimentary_stone_geolosys_ore_vanilla:*" };
 
         public enum SURFACE_PROSPECTING_TYPE
         {
@@ -120,7 +173,18 @@ public class ModConfig
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] replacementMatsRaw = new String[]
         { "minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0",
-                "minecraft:netherrack:0" };
+                "minecraft:netherrack:0", "undergroundbiomes:igneous_cobble:*",
+                "undergroundbiomes:igneous_cobble_mossy:*", "undergroundbiomes:igneous_gravel:*",
+                "undergroundbiomes:igneous_monster_stone:*", "undergroundbiomes:igneous_overgrown:*",
+                "undergroundbiomes:igneous_overgrown_snowed:*", "undergroundbiomes:igneous_sand:*",
+                "undergroundbiomes:igneous_stone:*", "undergroundbiomes:metamorphic_cobble:*",
+                "undergroundbiomes:metamorphic_cobble_mossy:*", "undergroundbiomes:metamorphic_gravel:*",
+                "undergroundbiomes:metamorphic_monster_stone:*", "undergroundbiomes:metamorphic_overgrown:*",
+                "undergroundbiomes:metamorphic_overgrown_snowed:*", "undergroundbiomes:metamorphic_sand:*",
+                "undergroundbiomes:metamorphic_stone:*", "undergroundbiomes:sedimentary_gravel:*",
+                "undergroundbiomes:sedimentary_monster_stone:*", "undergroundbiomes:sedimentary_overgrown:*",
+                "undergroundbiomes:sedimentary_overgrown_snowed:*", "undergroundbiomes:sedimentary_sand:*",
+                "undergroundbiomes:sedimentary_stone:*", "undergroundbiomes:sedimentary_stone_mossy:*" };
 
         @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
