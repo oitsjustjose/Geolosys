@@ -4,6 +4,7 @@
 * ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). **This requires UBC 1.3.6 or greater**
 * ADDED: Config option to disable AE2 compat
 * CHANGED: Cassiterite now generates in Rivers by default -- this will not be changed unless you change it manually in your config (or start over with a new config).
+* CHANGED: Default config options (for UBC compat). If you want these to be in effect, back up your old config and delete existing configs for `Extra Ores the Prospector's Pick should search for` and `Blocks mineral deposits can replace`.
 * FIXED: Wonky manual rendering with multi-line entries. 
 * FIXED: Various issues with the default config. If you were having issues with it before (crashing or not working), try resetting it to this new one.
 
