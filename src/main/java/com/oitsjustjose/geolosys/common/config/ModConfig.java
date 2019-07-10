@@ -171,6 +171,10 @@ public class ModConfig
         @Config.RequiresMcRestart
         public boolean enableIECompat = true;
 
+        @Config.Name("Enable AE2 Integration")
+        @Config.RequiresMcRestart
+        public boolean enableAE2Compat = true;
+
         @Config.Name("IE Excavation Recipes to Remove")
         @Config.Comment("If Enable IE Integration is True, then I register my own excavation \"recipes\","
                 + " leading to potential redundancy. This config is a list of strings to remove from IE")
