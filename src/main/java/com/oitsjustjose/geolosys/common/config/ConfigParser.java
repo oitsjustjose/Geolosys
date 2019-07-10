@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.config;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -7,7 +8,6 @@ import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -97,7 +97,7 @@ public class ConfigParser
     {
         for (String s : ModConfig.userEntries.replacementMatsRaw)
         {
-            String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
+            String[] parts = s.trim().replaceAll(" ", "").replaceAll("<", "").replaceAll(">", "").split(":");
             if (parts.length != 2 && parts.length != 3)
             {
                 Geolosys.getInstance().LOGGER
