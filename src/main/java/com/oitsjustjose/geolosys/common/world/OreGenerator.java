@@ -8,8 +8,10 @@ import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
 
+import exterminatorjeff.undergroundbiomes.api.event.UBForceReProcessEvent;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -18,7 +20,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
@@ -82,8 +84,10 @@ public class OreGenerator implements IWorldGenerator
                 oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
         }
-        // Call it here, and call it anyways in case ToDoBlocks did something too
-        ForgeEventFactory.onChunkPopulate(false, chunkGenerator, world, random, chunkX, chunkZ, true);
+        // Call UBG's event to make sure those are correctly processed
+        if (Loader.isModLoaded("undergroundbiomes") && ModConfig.compat.enableUBGCompat) {
+            MinecraftForge.EVENT_BUS.post(new UBForceReProcessEvent(chunkGenerator, world, random, chunkX, chunkZ, true));
+        }
     }
 
     public static class OreGen

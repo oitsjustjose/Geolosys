@@ -175,6 +175,10 @@ public class ModConfig
         @Config.RequiresMcRestart
         public boolean enableAE2Compat = true;
 
+        @Config.Name("Underground Biomes Integration")
+        @Config.RequiresMcRestart
+        public boolean enableUBGCompat = true;
+
         @Config.Name("IE Excavation Recipes to Remove")
         @Config.Comment("If Enable IE Integration is True, then I register my own excavation \"recipes\","
                 + " leading to potential redundancy. This config is a list of strings to remove from IE")
