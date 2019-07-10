@@ -1,6 +1,5 @@
 {
-	"ores": [
-		{
+	"ores": [{
 			"blocks": [
 				"geolosys:ore_vanilla:0",
 				100
@@ -404,8 +403,7 @@
 			"density": 1.0
 		}
 	],
-	"stones": [
-		{
+	"stones": [{
 			"block": "minecraft:stone:1",
 			"size": 40,
 			"chance": 10,
@@ -414,8 +412,7 @@
 			"dimBlacklist": [
 				-1,
 				1
-			],
-			"density": 1.0
+			]
 		},
 		{
 			"block": "minecraft:stone:3",
@@ -426,8 +423,7 @@
 			"dimBlacklist": [
 				-1,
 				1
-			],
-			"density": 1.0
+			]
 		},
 		{
 			"block": "minecraft:stone:5",
@@ -438,8 +434,7 @@
 			"dimBlacklist": [
 				-1,
 				1
-			],
-			"density": 1.0
+			]
 		}
 	]
 }

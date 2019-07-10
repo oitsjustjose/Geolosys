@@ -253,6 +253,7 @@ public class ConfigOres
         {
             Geolosys.getInstance().LOGGER.error(
                     "There was a parsing error with the geolosys_ores.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
+            Geolosys.getInstance().LOGGER.error(e.getMessage());
         }
         finally
         {
