@@ -25,7 +25,7 @@ public class IECompat
     public static void init()
     {
         OreDictionary.registerOre("clumpCoal", Items.COAL);
-        if (ModMaterials.AE_MATERIAL != null)
+        if (ModConfig.compat.enableAE2Compat && ModMaterials.AE_MATERIAL != null)
         {
             OreDictionary.registerOre("crystalCertusQuartzCharged", new ItemStack(ModMaterials.AE_MATERIAL, 1, 1));
         }
@@ -153,7 +153,7 @@ public class IECompat
         crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
         crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.QUARTZ), .2F);
 
-        if (ModMaterials.AE_MATERIAL != null)
+        if (ModConfig.compat.enableAE2Compat && ModMaterials.AE_MATERIAL != null)
         {
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 0), .3F);
             crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(ModMaterials.AE_MATERIAL, 1, 1), .12F);

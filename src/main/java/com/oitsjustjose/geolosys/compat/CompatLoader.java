@@ -36,7 +36,7 @@ public class CompatLoader
             this.logger.info("Loading Extra Utilities compatibility");
             MinecraftForge.EVENT_BUS.register(new ExUtilsCompat());
         }
-        if (Loader.isModLoaded("appliedenergistics2"))
+        if (Loader.isModLoaded("appliedenergistics2") && ModConfig.compat.enableAE2Compat)
         {
             this.logger.info("Loading Applied Energistics compatibility");
             MinecraftForge.EVENT_BUS.register(new AppEngCompat());
