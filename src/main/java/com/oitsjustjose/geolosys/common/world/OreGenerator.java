@@ -10,8 +10,8 @@ import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
+import com.oitsjustjose.geolosys.compat.UBCompat;
 
-import exterminatorjeff.undergroundbiomes.api.event.UBForceReProcessEvent;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -20,7 +20,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.Loader;
 
@@ -85,8 +84,9 @@ public class OreGenerator implements IWorldGenerator
             }
         }
         // Call UBG's event to make sure those are correctly processed
-        if (Loader.isModLoaded("undergroundbiomes") && ModConfig.compat.enableUBGCompat) {
-            MinecraftForge.EVENT_BUS.post(new UBForceReProcessEvent(chunkGenerator, world, random, chunkX, chunkZ, true));
+        if (Loader.isModLoaded("undergroundbiomes") && ModConfig.compat.enableUBGCompat)
+        {
+            UBCompat.forceReprocess(chunkGenerator, world, random, chunkX, chunkZ);
         }
     }
 
