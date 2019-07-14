@@ -48,7 +48,7 @@ public class ConfigParser
             if (parts.length == 2 || parts.length == 3)
             {
                 Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
-                if (b != null)
+                if (b != null && b != Blocks.AIR)
                 {
                     if (parts.length == 3)
                     {
