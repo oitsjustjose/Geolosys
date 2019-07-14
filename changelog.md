@@ -1,5 +1,8 @@
 # Geolosys Changelog
 
+## 3.0.2:
+* FIXED: Air being detected when UBC is not installed
+
 ## 3.0.1:
 * ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). **This requires UBC 1.3.6 or greater**
 * ADDED: Config option to disable AE2 compat
