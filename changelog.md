@@ -1,5 +1,8 @@
 # Geolosys Changelog
 
+## 3.0.2b:
+* Hotfix for the field manual rendering bullet points oddly
+
 ## 3.0.2:
 * FIXED: Air being detected when UBC is not installed
 
