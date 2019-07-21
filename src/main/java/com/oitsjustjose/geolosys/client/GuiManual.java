@@ -646,7 +646,7 @@ public class GuiManual extends GuiScreen
                 }
                 String toDraw = I18n.format(this.displayString);
                 if (fontrenderer.getStringWidth(
-                        p + "• " + toDraw) > (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale))
+                        p + "\u2022 " + toDraw) > (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale))
                 {
                     toDraw = fontRenderer.trimStringToWidth(toDraw,
                             (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale));
@@ -654,7 +654,7 @@ public class GuiManual extends GuiScreen
                     toDraw += "...";
                 }
 
-                fontrenderer.drawSplitString(p + "• " + toDraw, this.x, this.y,
+                fontrenderer.drawSplitString(p + "\u2022 " + toDraw, this.x, this.y,
                         (int) ((WIDTH - (18 * 2)) / ModConfig.client.manualFontScale), j);
             }
         }
