@@ -310,8 +310,11 @@ public class ConfigOres
         }
         else
         {
-            Geolosys.getInstance().LOGGER.info(
-                    "String " + iBlockState + " is not a valid block with or without metadata. It has been skipped");
+            Geolosys.getInstance().LOGGER.error(parts[1] + (parts.length == 3 ? ("@" + parts[2]) : "")
+                    + " is not a valid block entry so it has been skipped.\n"
+                    + "If you're sure it's correct, make a bug report at \n"
+                    + " https://github.com/oitsjustjose/geolosys/issues and be sure to include that " + parts[0]
+                    + " is the issue.");
             return null;
         }
     }
