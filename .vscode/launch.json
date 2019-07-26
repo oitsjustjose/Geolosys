@@ -1,19 +1,27 @@
 {
-    "configurations": [{
+    "configurations": [
+        {
             "type": "java",
             "name": "Debug (Attach)",
             "request": "attach",
             "hostName": "localhost",
             "port": 5005
         },
-
         {
             "type": "java",
             "name": "Debug Client",
             "request": "launch",
             "mainClass": "GradleStart",
-            "args": ["--debug-jvm"],
+            "args": [
+                "--debug-jvm"
+            ],
             // "debugServer": 5005
         },
+        {
+            "type": "java",
+            "name": "Run Client",
+            "request": "launch",
+            "mainClass": "GradleStart"
+        }
     ]
 }
