@@ -109,6 +109,8 @@ public class Geolosys
     {
         proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
+        configOres.init();
+        ConfigParser.init();
         CompatLoader.init();
     }
 
@@ -119,8 +121,6 @@ public class Geolosys
         {
             Recipes.init(configOres, CLUSTER);
         }
-        ConfigParser.init();
-        configOres.init();
         proxy.postInit(event);
         GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
         GameRegistry.registerWorldGenerator(new StoneGenerator(), 100);
