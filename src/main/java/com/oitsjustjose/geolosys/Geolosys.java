@@ -117,6 +117,7 @@ public class Geolosys
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        configOres.postInit();
         if (ModConfig.featureControl.enableSmelting)
         {
             Recipes.init(configOres, CLUSTER);
