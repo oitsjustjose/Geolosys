@@ -43,7 +43,7 @@ repositories {
 	}
     // UBC 
     maven {
-        url "http://www.altillimity.com/nexus/content/repositories/releases"
+        url "https://maven.altillimity.com/content/groups/maven/"
     }
 }
 
