@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.google.gson.stream.JsonReader;
@@ -23,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ConfigOres
@@ -128,6 +130,7 @@ public class ConfigOres
                         {};
                         ArrayList<String> blockStateMatchers = new ArrayList<>();
                         ArrayList<Biome> biomes = new ArrayList<>();
+                        ArrayList<BiomeDictionary.Type> biomeTypes = new ArrayList<>();
                         boolean isWhitelist = false;
                         boolean hasIsWhitelist = false;
                         float density = 1.0F;
@@ -194,11 +197,22 @@ public class ConfigOres
                                 jReader.beginArray();
                                 while (jReader.hasNext())
                                 {
-                                    Biome b = ForgeRegistries.BIOMES
-                                            .getValue(new ResourceLocation(jReader.nextString()));
+                                    String testFor = jReader.nextString();
+                                    Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(testFor));
                                     if (b != null)
                                     {
                                         biomes.add(b);
+                                    }
+                                    else
+                                    {
+                                        for (BiomeDictionary.Type biomeType : BiomeDictionary.Type.getAll())
+                                        {
+                                            if (biomeType.getName().equalsIgnoreCase(testFor))
+                                            {
+                                                                                                biomeTypes.add(biomeType);
+                                                break;
+                                            }
+                                        }
                                     }
                                 }
                                 jReader.endArray();
@@ -221,10 +235,11 @@ public class ConfigOres
                             }
                         }
                         if (!register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                                blockStateMatchers, biomes, isWhitelist, hasIsWhitelist, density))
+                                blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, density))
                         {
                             this.pendingOres.add(new PendingOre(oreBlocks, sampleBlocks, yMin, yMax, size, chance,
-                                    dimBlacklist, blockStateMatchers, biomes, isWhitelist, hasIsWhitelist, density));
+                                    dimBlacklist, blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist,
+                                    density));
                         }
                         jReader.endObject();
                     }
@@ -345,7 +360,7 @@ public class ConfigOres
     private boolean register(PendingOre ore)
     {
         return register(ore.oreBlocks, ore.sampleBlocks, ore.yMin, ore.yMax, ore.size, ore.chance, ore.dimBlacklist,
-                ore.blockStateMatchers, ore.biomes, ore.isWhitelist, ore.hasIsWhitelist, ore.density);
+                ore.blockStateMatchers, ore.biomes, ore.biomeTypes, ore.isWhitelist, ore.hasIsWhitelist, ore.density);
     }
 
     /**
@@ -367,7 +382,8 @@ public class ConfigOres
      */
     private boolean register(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers,
-            ArrayList<Biome> biomes, boolean isWhitelist, boolean hasIsWhitelist, float density)
+            ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist,
+            float density)
     {
         HashMap<IBlockState, Integer> oreBlocksParsed = new HashMap<>();
         HashMap<IBlockState, Integer> sampleBlocksParsed = new HashMap<>();
@@ -403,13 +419,13 @@ public class ConfigOres
             blockStateMatchersParsed.add(state);
         }
 
-        if (biomes.size() > 0)
+        if (biomes.size() > 0 || biomeTypes.size() > 0)
         {
             if (hasIsWhitelist)
             {
                 GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
                         dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), biomes,
-                        isWhitelist, density);
+                        biomeTypes, isWhitelist, density);
             }
             else
             {
@@ -425,8 +441,8 @@ public class ConfigOres
             GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
                     dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density);
         }
-        Geolosys.getInstance().LOGGER
-                .info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density);
+        Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density
+                + ". " + ((biomeTypes.size() > 0 || biomes.size() > 0) ? "This ore has custom biome registries" : ""));
         return true;
     }
 
@@ -470,13 +486,14 @@ public class ConfigOres
         public int[] dimBlacklist;
         public ArrayList<String> blockStateMatchers;
         public ArrayList<Biome> biomes;
+        public List<BiomeDictionary.Type> biomeTypes;
         public boolean isWhitelist;
         public boolean hasIsWhitelist;
         public float density;
 
         public PendingOre(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin, int yMax,
                 int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers, ArrayList<Biome> biomes,
-                boolean isWhitelist, boolean hasIsWhitelist, float density)
+                List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density)
         {
             this.oreBlocks = oreBlocks;
             this.sampleBlocks = sampleBlocks;
@@ -487,6 +504,7 @@ public class ConfigOres
             this.dimBlacklist = dimBlacklist;
             this.blockStateMatchers = blockStateMatchers;
             this.biomes = biomes;
+            this.biomeTypes = biomeTypes;
             this.isWhitelist = isWhitelist;
             this.hasIsWhitelist = hasIsWhitelist;
             this.density = density;

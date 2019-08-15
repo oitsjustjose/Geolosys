@@ -16,7 +16,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
@@ -57,30 +56,30 @@ public class OreGenerator implements IWorldGenerator
             // Check the biome
             if (oreSpawnWeights.get(rng).ore instanceof DepositBiomeRestricted)
             {
-                DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
-                for (Biome b : deposit.getBiomeList())
+                                DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
                 {
-                    if (world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))) == b)
-                    {
-                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
-                    }
+                                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
                 }
+                else
+                {
+                                    }
             }
             else if (oreSpawnWeights.get(rng).ore instanceof DepositMultiOreBiomeRestricted)
             {
-                DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
-                for (Biome b : deposit.getBiomeList())
+                                DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
                 {
-                    if (world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))) == b)
-                    {
-                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
-                    }
+                                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
                 }
+                else
+                {
+                                    }
             }
             // Not special
             else
             {
-                oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                                oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
         }
         // Call UBG's event to make sure those are correctly processed

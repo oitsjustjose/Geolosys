@@ -24,6 +24,7 @@ import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist Access is pretty
@@ -227,10 +228,10 @@ public class GeolosysAPI
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
             int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomeList,
-            boolean isWhitelist, float density)
+            List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density)
     {
         DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
-                dimBlacklist, blockStateMatchers, biomeList, isWhitelist, density);
+                dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
@@ -251,10 +252,12 @@ public class GeolosysAPI
      */
     public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
             HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
-            List<IBlockState> blockStateMatchers, List<Biome> biomeList, boolean isWhitelist, float density)
+            List<IBlockState> blockStateMatchers, List<Biome> biomeList, List<BiomeDictionary.Type> biomeTypes,
+            boolean isWhitelist, float density)
     {
         DepositMultiOreBiomeRestricted tempDeposit = new DepositMultiOreBiomeRestricted(oreBlockMap, sampleBlockMap,
-                yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, isWhitelist, density);
+                yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist,
+                density);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }

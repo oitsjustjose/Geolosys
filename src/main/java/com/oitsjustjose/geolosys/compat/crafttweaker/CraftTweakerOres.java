@@ -12,6 +12,7 @@ import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -112,7 +113,8 @@ public class CraftTweakerOres
          * @param chance       The relative chance of this deposit's occurance in the world
          * @param density      The density of the pluton; 1.0 represents nothing but ore, 0.0 represents nothing but original contents.
          * @param dimBlacklist A blacklist of dimension IDs which the deposit may not appear in
-         * @param biomes       A list of strings which represent the Biome registry names (from /ct biomes)
+         * @param biomes       A list of strings which represent the Biome registry names (from /ct biomes) OR BiomeDictionary names
+         *                     (e.g. DRY, ARID, etc.)
          * @param isWhitelist  A boolean value describing whether or not the biomes list is a whitelist or not.
          */
         @ZenMethod
@@ -120,15 +122,30 @@ public class CraftTweakerOres
                         crafttweaker.api.block.IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
                         float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist)
         {
-                ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
+                ArrayList<Biome> toMCBiomes = new ArrayList<>();
+                ArrayList<BiomeDictionary.Type> toMCBiomeTypes = new ArrayList<>();
 
                 for (String biome : biomes)
                 {
                         Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biome));
                         if (b == null)
                         {
-                                Geolosys.getInstance().LOGGER.info("The biome name " + biome
-                                                + " does not seem to exist. Try finding it using /ct biomes in game");
+                                boolean found = false;
+                                for (BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
+                                {
+                                        if (type.getName().equalsIgnoreCase(biome))
+                                        {
+                                                found = true;
+                                                toMCBiomeTypes.add(type);
+                                                break;
+                                        }
+                                }
+
+                                if (!found)
+                                {
+                                        Geolosys.getInstance().LOGGER.info("The biome name " + biome
+                                                        + " does not seem to exist. Try finding it using /ct biomes in game");
+                                }
                         }
                         else
                         {
@@ -149,7 +166,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, null, toMCBiomes, isWhitelist, density);
+                                        dimBlacklist, null, toMCBiomes, toMCBiomeTypes, isWhitelist, density);
                 }
         }
 
@@ -177,6 +194,7 @@ public class CraftTweakerOres
         {
                 ArrayList<IBlockState> toMCStates = new ArrayList<IBlockState>();
                 ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
+                ArrayList<BiomeDictionary.Type> toMCBiomeTypes = new ArrayList<>();
 
                 for (crafttweaker.api.block.IBlockState state : blockStateMatchers)
                 {
@@ -190,11 +208,26 @@ public class CraftTweakerOres
 
                 for (String biome : biomes)
                 {
+
                         Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biome));
                         if (b == null)
                         {
-                                Geolosys.getInstance().LOGGER.info("The biome name " + biome
-                                                + " does not seem to exist. Try finding it using /ct biomes in game");
+                                boolean found = false;
+                                for (BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
+                                {
+                                        if (type.getName().equalsIgnoreCase(biome))
+                                        {
+                                                found = true;
+                                                toMCBiomeTypes.add(type);
+                                                break;
+                                        }
+                                }
+
+                                if (!found)
+                                {
+                                        Geolosys.getInstance().LOGGER.info("The biome name " + biome
+                                                        + " does not seem to exist. Try finding it using /ct biomes in game");
+                                }
                         }
                         else
                         {
@@ -217,7 +250,7 @@ public class CraftTweakerOres
                 {
                         GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                                         CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance,
-                                        dimBlacklist, toMCStates, toMCBiomes, isWhitelist, density);
+                                        dimBlacklist, toMCStates, toMCBiomes, toMCBiomeTypes, isWhitelist, density);
                 }
         }
 
@@ -347,15 +380,30 @@ public class CraftTweakerOres
                         crafttweaker.api.block.IBlockState[] sampleBlocks, int[] sampleBlockChances, int yMin, int yMax,
                         int size, int chance, float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist)
         {
-                ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
+                ArrayList<Biome> toMCBiomes = new ArrayList<>();
+                ArrayList<BiomeDictionary.Type> toMCBiomeTypes = new ArrayList<>();
 
                 for (String biome : biomes)
                 {
                         Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biome));
                         if (b == null)
                         {
-                                Geolosys.getInstance().LOGGER.info("The biome name " + biome
-                                                + " does not seem to exist. Try finding it using /ct biomes in game");
+                                boolean found = false;
+                                for (BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
+                                {
+                                        if (type.getName().equalsIgnoreCase(biome))
+                                        {
+                                                found = true;
+                                                toMCBiomeTypes.add(type);
+                                                break;
+                                        }
+                                }
+
+                                if (!found)
+                                {
+                                        Geolosys.getInstance().LOGGER.info("The biome name " + biome
+                                                        + " does not seem to exist. Try finding it using /ct biomes in game");
+                                }
                         }
                         else
                         {
@@ -386,7 +434,7 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                null, toMCBiomes, isWhitelist, density);
+                                null, toMCBiomes, toMCBiomeTypes, isWhitelist, density);
         }
 
         /**
@@ -413,15 +461,30 @@ public class CraftTweakerOres
                         int size, int chance, float density, int[] dimBlacklist, String[] biomes, boolean isWhitelist,
                         crafttweaker.api.block.IBlockState[] blockStateMatchers)
         {
-                ArrayList<Biome> toMCBiomes = new ArrayList<Biome>();
+                ArrayList<Biome> toMCBiomes = new ArrayList<>();
+                ArrayList<BiomeDictionary.Type> toMCBiomeTypes = new ArrayList<>();
 
                 for (String biome : biomes)
                 {
                         Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biome));
                         if (b == null)
                         {
-                                Geolosys.getInstance().LOGGER.info("The biome name " + biome
-                                                + " does not seem to exist. Try finding it using /ct biomes in game");
+                                boolean found = false;
+                                for (BiomeDictionary.Type type : BiomeDictionary.Type.getAll())
+                                {
+                                        if (type.getName().equalsIgnoreCase(biome))
+                                        {
+                                                found = true;
+                                                toMCBiomeTypes.add(type);
+                                                break;
+                                        }
+                                }
+
+                                if (!found)
+                                {
+                                        Geolosys.getInstance().LOGGER.info("The biome name " + biome
+                                                        + " does not seem to exist. Try finding it using /ct biomes in game");
+                                }
                         }
                         else
                         {
@@ -462,6 +525,6 @@ public class CraftTweakerOres
                         sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
                 }
                 GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                                toMCStates, toMCBiomes, isWhitelist, density);
+                                toMCStates, toMCBiomes, toMCBiomeTypes, isWhitelist, density);
         }
 }
