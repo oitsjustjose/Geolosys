@@ -84,17 +84,17 @@ public class BlockOre extends Block
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1)
         {
-            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to
-            // 20%:
+            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
             Random rand = new Random();
-            int rng = rand.nextInt(5);
+            int rng = ModConfig.featureControl.enableFortuneOnAllOres ? rand.nextInt(5 - Math.min(3, fortune)) : rand.nextInt(5);
+            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
             if (rng == 0)
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_NICKEL));
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_NICKEL));
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_IRON));
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_IRON));
             }
         }
         // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
@@ -102,18 +102,21 @@ public class BlockOre extends Block
         {
             Random rand = new Random();
             boolean rng = rand.nextBoolean();
+            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
             if (rng)
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_SILVER));
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_SILVER));
                 rng = rand.nextBoolean();
                 if (rng)
                 {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
+                    count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                            : 1;
+                    drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
                 }
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_LEAD));
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
             }
         }
         // Special case for Osmium
@@ -121,24 +124,32 @@ public class BlockOre extends Block
         {
             if (ModConfig.compat.enableOsmiumExclusively)
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+                Random rand = new Random();
+                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                        : 1;
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_OSMIUM));
             }
             else if (ModConfig.compat.enableOsmium)
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
+                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                        : 1;
                 if (rng)
                 {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                    drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_PLATINUM));
                 }
                 else
                 {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_OSMIUM));
+                    drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_OSMIUM));
                 }
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_PLATINUM));
+                Random rand = new Random();
+                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                        : 1;
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_PLATINUM));
             }
         }
         // Special case for Autunite to drop yellorium
@@ -148,23 +159,30 @@ public class BlockOre extends Block
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
+                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                        : 1;
                 if (rng)
                 {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                    drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_URANIUM));
                 }
                 else
                 {
-                    drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_YELLORIUM));
+                    drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_YELLORIUM));
                 }
             }
             else
             {
-                drops.add(new ItemStack(CLUSTER, 1, ItemCluster.META_URANIUM));
+                Random rand = new Random();
+                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                        : 1;
+                drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_URANIUM));
             }
         }
         else
         {
-            drops.add(new ItemStack(CLUSTER, 1, this.damageDropped(state)));
+            Random rand = new Random();
+            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            drops.add(new ItemStack(CLUSTER, count, this.damageDropped(state)));
         }
     }
 

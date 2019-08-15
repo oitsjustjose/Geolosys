@@ -56,6 +56,10 @@ public class ModConfig
 
         @Config.Name("Disable Vanilla Ore Generation")
         public boolean disableVanillaGeneration = true;
+
+        @Config.Name("Enable Fortune on all Geolosys ores")
+        @Config.Comment("Setting this to true will allow fortune to work on Geolosys ores that drop clusters")
+        public boolean enableFortuneOnAllOres = false;
     }
 
     public static class Prospecting

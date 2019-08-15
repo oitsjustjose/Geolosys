@@ -5,7 +5,6 @@ import java.util.Random;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
-import com.oitsjustjose.geolosys.compat.ModMaterials;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -84,7 +83,8 @@ public class BlockOreVanilla extends Block
         Random random = new Random();
         int rng = random.nextInt(25);
         // AE Compatibility
-        if (ModConfig.compat.enableAE2Compat && OreDictionary.doesOreNameExist("oreCertusQuartz") && OreDictionary.getOres("oreCertusQuartz").size() > 0)
+        if (ModConfig.compat.enableAE2Compat && OreDictionary.doesOreNameExist("oreCertusQuartz")
+                && OreDictionary.getOres("oreCertusQuartz").size() > 0)
         {
             if (rng < 7)
             {
@@ -199,7 +199,9 @@ public class BlockOreVanilla extends Block
         }
         else if (meta == 2)
         {
-            drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_GOLD));
+            Random rand = new Random();
+            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, count, ItemCluster.META_GOLD));
         }
         else if (meta == 3)
         {
