@@ -1,12 +1,22 @@
 # Geolosys Changelog
 
+## 3.0.3:
+
+* ADDED: BiomeTypes can be used in the JSON/CraftTweaker API, e.g. `minecraft:desert`, `DRY` - you can find a full list of BiomeTypes [here](https://pastebin.com/XgHNzaBg)
+* ADDED: Ability for Fortune to work on cluster-dropping ores (configurable, off by default)
+* CHANGED: Updated German translation (thanks to [ACGaming](https://github.com/oitsjustjose/Geolosys/commits?author=ACGaming))
+* CHANGED: Loading order again. Custom ore entries will try to be added on the game's `init` phase - if a mod adds an ore later than `init` (they shouldn't though..) then Geolosys will try to add it in the game's `postInit` phase. The downside of it being added in `postInit` is that some mod compatibility won't be available. You will see a log entry if it isn't added in init, though.
+
 ## 3.0.2b:
+
 * Hotfix for the field manual rendering bullet points oddly
 
 ## 3.0.2:
+
 * FIXED: Air being detected when UBC is not installed
 
 ## 3.0.1:
+
 * ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). **This requires UBC 1.3.6 or greater**
 * ADDED: Config option to disable AE2 compat
 * CHANGED: Cassiterite now generates in Rivers by default -- this will not be changed unless you change it manually in your config (or start over with a new config).
@@ -15,12 +25,13 @@
 * FIXED: Various issues with the default config. If you were having issues with it before (crashing or not working), try resetting it to this new one.
 
 ## 3.0.0:
+
 * ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
 * ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
 * ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
 * ADDED: Users can now configure extra blocks for the Prospector's Pick to search for (allows for compat with other ores not registered in Geolosys at all).
 * ADDED: The ability for config options to use the `*` wildcard for the predicates and converter blacklist config options
-* CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire entries on your own instead of doing so in the config file**. 
+* CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire entries on your own instead of doing so in the config file**.
 * CHANGED: `geolosys_ores.json` is now called `geolosys.json` and downloads from GitHub pre-configured if you don't already have it.
 * CHANGED: You can now define the size and dim blacklist of stone deposits
 * CHANGED: The configs for inter-mod type things have been moved to a new section called Compat
@@ -31,13 +42,16 @@
 * [API] CHANGED: Generation rules now follow an Interface IOre. If you were making a custom ore directly before, you should start implementing
 
 ### 2.2.6:
+
 * FIXED: ***Actually*** fix crash when holding the Pro Pick if a dimension's sea level wasn't set
 
 ### 2.2.5:
+
 * FIXED: NPE when the Prospector's Pick was disabled
 * FIXED: Crash when holding the Pro Pick if a dimension's sea level wasn't set
 
 ### 2.2.4:
+
 * ADDED: Config option for the "sea level" for each dimension
 * ADDED: Compat for IE Coal Cokes:
     * Anthracite coal can be used directly in the blast furnace
@@ -46,26 +60,29 @@
 
 
 ### 2.2.3:
+
 * FIXED: "false found in this area" with prospector's pick below sea level
 * FIXED: IllegalArgumentException with generation if either were set to 0
 
 ### 2.2.2:
+
 * FIXED: How translations for the prospector's pick work. They now use native Vanilla code that I didn't even know existed and worked exactly how I've been wanting.
 * CHANGED **IMPORTANT**: How ores and stones generate. Again. Yes. I'm sorry, but this time it MAKES SENSE OK?! The larger the number for "chance" the more likely it is to generate. End of story. That's how it works and there's no real special math around it this time. Here's a visualization of how it works if you want it.
 
 !["graphs"](generation.png)
 
 ### 2.2.1:
+
 * FIXED: Samples that don't generate setting the above block to air anyways (mostly visible in water but still)
 
 ### 2.2.0:
+
 * ADDED: Thaumcraft rare earth drop to all geolosys ores (10% chance - let me know if that's too high)
 * ADDED: Ability for the prospector's pick to search for specialty stones instead of just ores - this mode is changed via shift-Rclick
 * CHANGED **IMPORTANT**: How ores and stones generate. They are now based off of local chance. That is to say, if all chances add up to 20 and the chance of a particular ore is set to 1, then it's closer to a 1 out of 20 chance it'll generate. **Keep this in mind**
 * CHANGED: How samples are placed; they are only placed if the pluton DEFINITELY generated, and they generate in a way that supports other dimensions MUCH beter now (Starting from 0 and going up, instead of using vanilla logic)
 * CHANGED: Ores don't have to be enabled in order for their cluster smelting recipe to be registered
 * CHANGED: If below sea-level, instead of saying "Nothing found this direction" the ore found in that chunk is just repeated to let you know you're still in the right area (and more useful for ores in the nether or end)
-
 
 ### 2.1.4:
 
