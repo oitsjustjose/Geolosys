@@ -200,7 +200,9 @@ public class BlockOreVanilla extends Block
         else if (meta == 2)
         {
             Random rand = new Random();
-            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            int count = fortune > 0
+                    ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
+                    : 1;
             drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, count, ItemCluster.META_GOLD));
         }
         else if (meta == 3)

@@ -86,8 +86,11 @@ public class BlockOre extends Block
         {
             // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
             Random rand = new Random();
-            int rng = ModConfig.featureControl.enableFortuneOnAllOres ? rand.nextInt(5 - Math.min(3, fortune)) : rand.nextInt(5);
-            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            int rng = ModConfig.featureControl.enableFortuneOnAllOres ? rand.nextInt(5 - Math.min(3, fortune))
+                    : rand.nextInt(5);
+            int count = fortune > 0
+                    ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
+                    : 1;
             if (rng == 0)
             {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_NICKEL));
@@ -102,14 +105,18 @@ public class BlockOre extends Block
         {
             Random rand = new Random();
             boolean rng = rand.nextBoolean();
-            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            int count = fortune > 0
+                    ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
+                    : 1;
             if (rng)
             {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_SILVER));
                 rng = rand.nextBoolean();
                 if (rng)
                 {
-                    count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                    count = fortune > 0
+                            ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                                    : 1)
                             : 1;
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
                 }
@@ -125,7 +132,8 @@ public class BlockOre extends Block
             if (ModConfig.compat.enableOsmiumExclusively)
             {
                 Random rand = new Random();
-                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                int count = fortune > 0
+                        ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_OSMIUM));
             }
@@ -133,7 +141,8 @@ public class BlockOre extends Block
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
-                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                int count = fortune > 0
+                        ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 if (rng)
                 {
@@ -147,7 +156,8 @@ public class BlockOre extends Block
             else
             {
                 Random rand = new Random();
-                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                int count = fortune > 0
+                        ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_PLATINUM));
             }
@@ -159,7 +169,8 @@ public class BlockOre extends Block
             {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
-                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                int count = fortune > 0
+                        ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 if (rng)
                 {
@@ -173,7 +184,8 @@ public class BlockOre extends Block
             else
             {
                 Random rand = new Random();
-                int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
+                int count = fortune > 0
+                        ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_URANIUM));
             }
@@ -181,7 +193,9 @@ public class BlockOre extends Block
         else
         {
             Random rand = new Random();
-            int count = ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1;
+            int count = fortune > 0
+                    ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
+                    : 1;
             drops.add(new ItemStack(CLUSTER, count, this.damageDropped(state)));
         }
     }
