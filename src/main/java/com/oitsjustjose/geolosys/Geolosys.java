@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.common.items.ItemCoalCoke;
 import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
 import com.oitsjustjose.geolosys.common.items.ItemIngot;
 import com.oitsjustjose.geolosys.common.items.ItemProPick;
+import com.oitsjustjose.geolosys.common.util.PatronUtil;
 import com.oitsjustjose.geolosys.common.util.Recipes;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
@@ -71,6 +72,7 @@ public class Geolosys
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        PatronUtil.getInstance();
         LOGGER = event.getModLog();
         clientRegistry = new ClientRegistry();
         MinecraftForge.EVENT_BUS.register(clientRegistry);
