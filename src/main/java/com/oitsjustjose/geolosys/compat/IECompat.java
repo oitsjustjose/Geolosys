@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.compat;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import com.oitsjustjose.geolosys.Geolosys;

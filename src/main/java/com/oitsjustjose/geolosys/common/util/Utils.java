@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys.common.util;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;

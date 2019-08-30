@@ -37,7 +37,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -166,8 +165,6 @@ public class ItemProPick extends Item
             }
 
             boolean searchForStone = stack.getTagCompound().getBoolean("stone");
-
-            TextFormatting color = searchForStone ? TextFormatting.AQUA : TextFormatting.GOLD;
 
             if (searchForStone)
             {

@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.config;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -40,6 +39,7 @@ public class ConfigParser
         instance.parseProPickExtras();
     }
 
+    @SuppressWarnings("deprecation")
     private void parseProPickExtras()
     {
         for (String str : ModConfig.prospecting.extraProPickEntries)
