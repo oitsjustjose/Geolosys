@@ -305,11 +305,7 @@ public class GuiManual extends GuiScreen
                     continue;
                 }
 
-                // If count==11 that means that last iter was the 11th line - on the 12th line we don't want a new paragraph
-                if (count != 11 && total != patronNames.size())
-                {
-                    pageText.append("|");
-                }
+                pageText.append("<br>");
                 count++;
             }
         }
@@ -492,16 +488,13 @@ public class GuiManual extends GuiScreen
             boolean clicked = super.mousePressed(mc, mouseX, mouseY);
             if (clicked)
             {
-                // GuiConfirmOpenLink gui = new GuiOpenLink(mc.currentScreen, this.url, this.id, true);
-                // gui.
-                // mc.displayGuiScreen(gui);
                 try
                 {
                     java.awt.Desktop.getDesktop().browse(URI.create(this.url));
                 }
                 catch (NullPointerException | UnsupportedOperationException | IOException e)
                 {
-
+                    Geolosys.getInstance().LOGGER.error("Opening the url " + this.url + " failed.");
                 }
             }
             return clicked;
@@ -515,10 +508,60 @@ public class GuiManual extends GuiScreen
         float textScale = ModConfig.client.manualFontScale;
         GlStateManager.scale(textScale, textScale, textScale);
         String text = I18n.format(page.getText());
+        List<String> paragraphs = new ArrayList<>();
+
+        while (text.contains("|") || text.contains("<br>"))
+        {
+            int i = text.indexOf("|");
+            int j = text.indexOf("<br>");
+
+            if (i == -1)
+            {
+                paragraphs.add(text.substring(0, j));
+                if (j < text.length() - 1)
+                {
+                    text = text.substring(j + 4);
+                }
+
+            }
+            else if (j == -1)
+            {
+                paragraphs.add("    " + text.substring(0, i));
+                if (i < text.length() - 1)
+                {
+                    text = text.substring(i + 1);
+                }
+            }
+            else
+            {
+                if (i < j)
+                {
+                    paragraphs.add("    " + text.substring(0, i));
+                    if (i < text.length() - 1)
+                    {
+                        text = text.substring(i + 1);
+                    }
+                }
+                else
+                {
+                    paragraphs.add(text.substring(0, j));
+                    if (j < text.length() - 1)
+                    {
+                        text = text.substring(j + 4);
+                    }
+                }
+            }
+        }
+
+        paragraphs.add(text);
+
         int i = 24;
-        this.fontRenderer.drawSplitString(text, (int) ((left + 18) / textScale), (int) ((top + i) / textScale),
-                (int) ((WIDTH - (18 * 2)) / textScale), 0);
-        i += (int) (2 + fontRenderer.getWordWrappedHeight(text, (int) ((WIDTH - (18 * 2)) / textScale)) * textScale);
+        for (String par : paragraphs)
+        {
+            this.fontRenderer.drawSplitString(par, (int) ((left + 18) / textScale), (int) ((top + i) / textScale),
+                    (int) ((WIDTH - (18 * 2)) / textScale), 0);
+            i += (int) (2 + fontRenderer.getWordWrappedHeight(par, (int) ((WIDTH - (18 * 2)) / textScale)) * textScale);
+        }
 
         GlStateManager.popMatrix();
     }
@@ -624,17 +667,50 @@ public class GuiManual extends GuiScreen
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
-        while (text.contains("|"))
+        while (text.contains("|") || text.contains("<br>"))
         {
             int i = text.indexOf("|");
-            paragraphs.add("    " + text.substring(0, i));
-            if (i < text.length() - 1)
+            int j = text.indexOf("<br>");
+
+            if (i == -1)
             {
-                text = text.substring(i + 1);
+                paragraphs.add(text.substring(0, j));
+                if (j < text.length() - 1)
+                {
+                    text = text.substring(j + 4);
+                }
+
+            }
+            else if (j == -1)
+            {
+                paragraphs.add("    " + text.substring(0, i));
+                if (i < text.length() - 1)
+                {
+                    text = text.substring(i + 1);
+                }
+            }
+            else
+            {
+                if (i < j)
+                {
+                    paragraphs.add("    " + text.substring(0, i));
+                    if (i < text.length() - 1)
+                    {
+                        text = text.substring(i + 1);
+                    }
+                }
+                else
+                {
+                    paragraphs.add(text.substring(0, j));
+                    if (j < text.length() - 1)
+                    {
+                        text = text.substring(j + 4);
+                    }
+                }
             }
         }
-        paragraphs.add("    " + text);
 
+        paragraphs.add(text);
         int i = 24;
         for (String par : paragraphs)
         {
