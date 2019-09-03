@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 3.0.4:
+
+* ADDED: Patrons segment to the Field Manual!
+    - Requires internet to grab the patrons list once-per-launch
+    - Automatically updates (at game launch) with patrons from [https://patreon.com/oitsjustjose](my Patreon).
+    - In-game button in the manual to link you if you want to support me! :D
+
 ## 3.0.3:
 
 * ADDED: BiomeTypes can be used in the JSON/CraftTweaker API, e.g. `minecraft:desert`, `DRY` - you can find a full list of BiomeTypes [here](https://pastebin.com/XgHNzaBg)
