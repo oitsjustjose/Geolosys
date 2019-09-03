@@ -510,50 +510,20 @@ public class GuiManual extends GuiScreen
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
-        while (text.contains("|") || text.contains("<br>"))
+        int numOccurences = 0;
+        while (text.contains("|"))
         {
             int i = text.indexOf("|");
-            int j = text.indexOf("<br>");
 
-            if (i == -1)
+            paragraphs.add("    " + text.substring(0, i));
+            if (i < text.length() - 1)
             {
-                paragraphs.add(text.substring(0, j));
-                if (j < text.length() - 1)
-                {
-                    text = text.substring(j + 4);
-                }
-
+                text = text.substring(i + 1);
             }
-            else if (j == -1)
-            {
-                paragraphs.add("    " + text.substring(0, i));
-                if (i < text.length() - 1)
-                {
-                    text = text.substring(i + 1);
-                }
-            }
-            else
-            {
-                if (i < j)
-                {
-                    paragraphs.add("    " + text.substring(0, i));
-                    if (i < text.length() - 1)
-                    {
-                        text = text.substring(i + 1);
-                    }
-                }
-                else
-                {
-                    paragraphs.add(text.substring(0, j));
-                    if (j < text.length() - 1)
-                    {
-                        text = text.substring(j + 4);
-                    }
-                }
-            }
+            numOccurences++;
         }
 
-        paragraphs.add(text);
+        paragraphs.add((numOccurences > 0 ? "    " : "") + text);
 
         int i = 24;
         for (String par : paragraphs)
