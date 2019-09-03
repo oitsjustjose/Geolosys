@@ -53,7 +53,10 @@ public class PatronUtil
             in.close();
             for (String patronName : allData.toString().split("<br>"))
             {
-                this.patrons.add(patronName);
+                if (!patronName.isEmpty())
+                {
+                    this.patrons.add(patronName);
+                }
             }
         }
         catch (IOException e)
