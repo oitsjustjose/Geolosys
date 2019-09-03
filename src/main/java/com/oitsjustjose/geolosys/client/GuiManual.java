@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.client;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,9 @@ import com.oitsjustjose.geolosys.common.manual.BookPageContents;
 import com.oitsjustjose.geolosys.common.manual.BookPageItemDisplay;
 import com.oitsjustjose.geolosys.common.manual.BookPageOre;
 import com.oitsjustjose.geolosys.common.manual.BookPageText;
+import com.oitsjustjose.geolosys.common.manual.BookPageURL;
 import com.oitsjustjose.geolosys.common.manual.ChapterLink;
+import com.oitsjustjose.geolosys.common.manual.PatronUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -73,11 +76,14 @@ public class GuiManual extends GuiScreen
         home.addLink(new ChapterLink("geolosys.guide.chapter.prospecting.name", "prospecting"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.resources.name", "resources"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.mod_compat.name", "mod_compat"));
+        home.addLink(new ChapterLink("geolosys.guide.chapter.patrons.name", "patrons"));
+
         chapters.put("home", new BookChapter("home"));
         chapters.put("introduction", new BookChapter("introduction", "home"));
         chapters.put("prospecting", new BookChapter("prospecting", "home"));
         chapters.put("resources", new BookChapter("resources", "home"));
         chapters.put("mod_compat", new BookChapter("mod_compat", "home"));
+        chapters.put("patrons", new BookChapter("patrons", "home"));
 
         chapters.get("home").addPage(home);
 
@@ -268,6 +274,50 @@ public class GuiManual extends GuiScreen
         }
         chapters.get("mod_compat").addPage(modCompat);
 
+        ArrayList<BookPage> patrons = new ArrayList<>();
+        ArrayList<String> patronNames = PatronUtil.getInstance().getPatrons();
+        if (patronNames.size() == 0)
+        {
+            patrons.add(
+                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.none.text",
+                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
+        }
+        else
+        {
+            patrons.add(
+                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.desc.text",
+                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
+            count = 0;
+            page_num = 0;
+            int total = 0;
+            StringBuilder pageText = new StringBuilder();
+            for (String patronName : patronNames)
+            {
+                pageText.append("\u2022 " + patronName);
+                total = total + 1;
+
+                if (count == 12 || total == patronNames.size())
+                {
+                    patrons.add(new BookPageText("geolosys.guide.chapter.patrons.name", pageText.toString()));
+                    pageText = new StringBuilder();
+                    count = 0;
+                    page_num += 1;
+                    continue;
+                }
+
+                // If count==11 that means that last iter was the 11th line - on the 12th line we don't want a new paragraph
+                if (count != 11 && total != patronNames.size())
+                {
+                    pageText.append("|");
+                }
+                count++;
+            }
+        }
+        for (BookPage page : patrons)
+        {
+            chapters.get("patrons").addPage(page);
+        }
+
         for (BookChapter chapter : chapters.values())
         {
             if (chapter.getPageCount() <= 0)
@@ -326,6 +376,10 @@ public class GuiManual extends GuiScreen
             {
                 renderOrePage((BookPageOre) currentPage, mouseX, mouseY);
             }
+            else if (currentPage instanceof BookPageURL)
+            {
+                renderURLPage((BookPageURL) currentPage, mouseX, mouseY, partialTicks);
+            }
 
             if (chapters.get(currentChapter).getPageCount() > 1)
             {
@@ -379,6 +433,94 @@ public class GuiManual extends GuiScreen
 
         renderTooltip(mouseX, mouseY, itemX, itemY, itemScale);
 
+    }
+
+    private class GuiButtonURL extends GuiButton
+    {
+        private String url;
+
+        public GuiButtonURL(int x, int y, int widthIn, int heightIn, String buttonText, String url)
+        {
+            super(42069, x, y, widthIn, heightIn, buttonText);
+            this.url = url;
+        }
+
+        @Override
+        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks)
+        {
+            if (this.visible)
+            {
+                FontRenderer fontrenderer = mc.fontRenderer;
+                mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
+                        && mouseY < this.y + this.height;
+                int i = this.getHoverState(this.hovered);
+                GlStateManager.enableBlend();
+                GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                        GlStateManager.DestFactor.ZERO);
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                this.drawTexturedModalRect(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+                this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20,
+                        this.width / 2, this.height);
+                this.mouseDragged(mc, mouseX, mouseY);
+                int j = 14737632;
+
+                if (packedFGColour != 0)
+                {
+                    j = packedFGColour;
+                }
+                else if (!this.enabled)
+                {
+                    j = 10526880;
+                }
+                else if (this.hovered)
+                {
+                    j = 16777120;
+                }
+
+                this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2,
+                        this.y + (this.height - 8) / 2, j);
+            }
+        }
+
+        @Override
+        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
+        {
+            boolean clicked = super.mousePressed(mc, mouseX, mouseY);
+            if (clicked)
+            {
+                // GuiConfirmOpenLink gui = new GuiOpenLink(mc.currentScreen, this.url, this.id, true);
+                // gui.
+                // mc.displayGuiScreen(gui);
+                try
+                {
+                    java.awt.Desktop.getDesktop().browse(URI.create(this.url));
+                }
+                catch (NullPointerException | UnsupportedOperationException | IOException e)
+                {
+
+                }
+            }
+            return clicked;
+        }
+
+    }
+
+    private void renderURLPage(BookPageURL page, int mouseX, int mouseY, float partialTicks)
+    {
+        GlStateManager.pushMatrix();
+        float textScale = ModConfig.client.manualFontScale;
+        GlStateManager.scale(textScale, textScale, textScale);
+        String text = I18n.format(page.getText());
+        int i = 24;
+        this.fontRenderer.drawSplitString(text, (int) ((left + 18) / textScale), (int) ((top + i) / textScale),
+                (int) ((WIDTH - (18 * 2)) / textScale), 0);
+        i += (int) (2 + fontRenderer.getWordWrappedHeight(text, (int) ((WIDTH - (18 * 2)) / textScale)) * textScale);
+
+        GlStateManager.popMatrix();
     }
 
     private void renderOrePage(BookPageOre page, int mouseX, int mouseY)
@@ -529,6 +671,12 @@ public class GuiManual extends GuiScreen
                 this.addButton(new ChapterLinkButton(i, left + 16, top + 24 + (i * 12), link.text, link.chapter));
                 i++;
             }
+        }
+        else if (currentPage instanceof BookPageURL)
+        {
+            GuiButtonURL urlButton = new GuiButtonURL(left, (top + HEIGHT), WIDTH, 20,
+                    I18n.format(((BookPageURL) (currentPage)).getButtonText()), ((BookPageURL) (currentPage)).getURL());
+            this.addButton(urlButton);
         }
         if (currentPageNum < chapters.get(currentChapter).getPageCount() - 1)
         {

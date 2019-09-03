@@ -130,6 +130,7 @@ geolosys.guide.chapter.introduction.name=Introduction
 geolosys.guide.chapter.prospecting.name=Prospecting
 geolosys.guide.chapter.resources.name=Resources
 geolosys.guide.chapter.mod_compat.name=Inter-Mod Compat
+geolosys.guide.chapter.patrons.name=Patrons
 
 # ------------------------------------ #
 #           Introduction               #
@@ -195,3 +196,7 @@ geolosys.guide.chapter.extreme_reactors.name=Extreme Reactors
 geolosys.guide.chapter.extreme_reactors.text=If Yellorium is enabled in the config, Autunite will split its drop chance 50% with Yellorium.
 geolosys.guide.chapter.nuclearcraft.name=NuclearCraft
 geolosys.guide.chapter.nuclearcraft.text=If NuclearCraft is installed, Geolosys's Vanilla Ore variants will drop NuclearCraft's usual added drops, with the same chance as NuclearCraft.
+
+geolosys.guide.chapter.patrons.none.text=I don't seem to have any Patrons currently
+geolosys.guide.chapter.patrons.desc.text=This portion of the Field Manual is dedicated to all my patrons - thank you!! If you'd like to show up in this list, support my work by clicking the button below ♡
+geolosys.guide.chapter.patrons.link=Open My Patreon
