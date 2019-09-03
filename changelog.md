@@ -4,7 +4,7 @@
 
 * ADDED: Patrons segment to the Field Manual!
     - Requires internet to grab the patrons list once-per-launch
-    - Automatically updates (at game launch) with patrons from [https://patreon.com/oitsjustjose](my Patreon).
+    - Automatically updates (at game launch) with patrons from [my Patreon](https://patreon.com/oitsjustjose).
     - In-game button in the manual to link you if you want to support me! :D
 
 ## 3.0.3:
