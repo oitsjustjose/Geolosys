@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": [{
+            "model": "geolosys:block/test_block"
+        }]
+    }
+}
