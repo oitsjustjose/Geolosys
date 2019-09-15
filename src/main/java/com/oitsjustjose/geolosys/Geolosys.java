@@ -109,7 +109,7 @@ public class Geolosys
     {
         proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
-        configOres.init(event.getSide());
+        configOres.init();
         ConfigParser.init();
         CompatLoader.init();
     }

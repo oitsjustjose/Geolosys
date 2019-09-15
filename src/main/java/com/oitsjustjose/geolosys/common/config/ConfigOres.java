@@ -19,7 +19,6 @@ import com.google.gson.stream.JsonReader;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
-import com.oitsjustjose.geolosys.common.util.errors.DownloadErrorDisplayException;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -78,7 +77,7 @@ public class ConfigOres
         }
     }
 
-    public void init(Side side)
+    public void init()
     {
         try
         {
@@ -102,18 +101,7 @@ public class ConfigOres
             }
             catch (IOException f)
             {
-                if (side == Side.CLIENT)
-                {
-                    // Show the client display
-                    throw new DownloadErrorDisplayException("Geolosys Download Exception", "File "
-                            + jsonFile.getAbsolutePath() + " could neither be found nor downloaded. "
-                            + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
-                }
-                else
-                {
-                    Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
-                            + "could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
-                }
+                Geolosys.proxy.throwDownloadError(this.jsonFile);
             }
         }
     }

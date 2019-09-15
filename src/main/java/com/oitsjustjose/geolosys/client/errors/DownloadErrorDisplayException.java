@@ -1,10 +1,8 @@
-package com.oitsjustjose.geolosys.common.util.errors;
+package com.oitsjustjose.geolosys.client.errors;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DownloadErrorDisplayException extends CustomModLoadingErrorDisplayException
 {
@@ -12,13 +10,13 @@ public class DownloadErrorDisplayException extends CustomModLoadingErrorDisplayE
     private static final long serialVersionUID = -3330597739456228630L;
     final String title, message;
 
-    public DownloadErrorDisplayException(String title, String message) {
-		this.title = title;
-		this.message = message;
-	}
+    public DownloadErrorDisplayException(String title, String message)
+    {
+        this.title = title;
+        this.message = message;
+    }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void initGui(GuiErrorScreen errorScreen, FontRenderer fontRenderer)
     {
 
