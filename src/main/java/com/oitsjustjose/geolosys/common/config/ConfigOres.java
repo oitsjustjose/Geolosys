@@ -19,6 +19,7 @@ import com.google.gson.stream.JsonReader;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.common.util.errors.DownloadErrorDisplayException;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -26,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ConfigOres
 {
@@ -76,7 +78,7 @@ public class ConfigOres
         }
     }
 
-    public void init()
+    public void init(Side side)
     {
         try
         {
@@ -90,7 +92,7 @@ public class ConfigOres
             {
                 Geolosys.getInstance().LOGGER.info("Could not find geolosys.json. Downloading it from GitHub...");
                 BufferedInputStream in = new BufferedInputStream(
-                        new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/master/geolosys_ores.json")
+                        new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json")
                                 .openStream());
                 Files.copy(in, Paths.get(jsonFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
                 Geolosys.getInstance().LOGGER.info("Done downloading geolosys.json from GitHub!");
@@ -100,8 +102,18 @@ public class ConfigOres
             }
             catch (IOException f)
             {
-                Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
-                        + "could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
+                if (side == Side.CLIENT)
+                {
+                    // Show the client display
+                    throw new DownloadErrorDisplayException("Geolosys Download Exception", "File "
+                            + jsonFile.getAbsolutePath() + " could neither be found nor downloaded. "
+                            + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
+                }
+                else
+                {
+                    Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
+                            + "could neither be found nor downloaded. Unable to load any ores unless they are from CraftTweaker.");
+                }
             }
         }
     }
@@ -209,7 +221,7 @@ public class ConfigOres
                                         {
                                             if (biomeType.getName().equalsIgnoreCase(testFor))
                                             {
-                                                                                                biomeTypes.add(biomeType);
+                                                biomeTypes.add(biomeType);
                                                 break;
                                             }
                                         }
