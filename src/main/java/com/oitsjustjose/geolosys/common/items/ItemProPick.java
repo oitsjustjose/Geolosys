@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -346,7 +347,15 @@ public class ItemProPick extends Item
     private boolean isFound(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart, int xEnd,
             int yStart, int yEnd, int zStart, int zEnd)
     {
-        boolean found = false;
+        HashMap<IOre, ArrayList<IBlockState>> foundMap = new HashMap<>();
+        for (IOre ore : GeolosysAPI.oreBlocks)
+        {
+            if (ore instanceof DepositMultiOre)
+            {
+                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
+            }
+        }
+
         for (int x = xStart; x <= xEnd; x++)
         {
             for (int y = yStart; y <= yEnd; y++)
@@ -354,72 +363,42 @@ public class ItemProPick extends Item
                 for (int z = zStart; z <= zEnd; z++)
                 {
                     IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                    boolean shouldSkip = false;
-                    for (IOre stone : GeolosysAPI.stones)
-                    {
-                        if (Utils.doStatesMatch(state, stone.getOre()))
-                        {
-                            shouldSkip = true;
-                        }
-                    }
-                    if (shouldSkip)
-                    {
-                        continue;
-                    }
-                    // if (GeolosysAPI.oreBlocks.keySet().contains(state))
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
                         if (ore instanceof DepositMultiOre)
                         {
-                            DepositMultiOre tmp = (DepositMultiOre) ore;
-                            for (IBlockState tmpState : tmp.oreBlocks.keySet())
+                            for (IBlockState tmpState : ((DepositMultiOre) ore).oreBlocks.keySet())
                             {
                                 if (Utils.doStatesMatch(tmpState, state))
                                 {
-                                    sendFoundMessage(player, state, facing);
-                                    found = true;
-                                    break;
+                                    foundMap.get(ore).add(state);
+                                    if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
+                                    {
+                                        sendFoundMessage(player, state, facing);
+                                        return true;
+                                    }
                                 }
                             }
                         }
-                        else
+                        else if (Utils.doStatesMatch(ore.getOre(), state))
                         {
-                            if (Utils.doStatesMatch(ore.getOre(), state))
-                            {
-                                sendFoundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
+                            sendFoundMessage(player, state, facing);
+                            return true;
                         }
                     }
-                    if (!found)
+                    // If we didn't find anything yet
+                    for (IBlockState state2 : GeolosysAPI.proPickExtras)
                     {
-                        for (IBlockState state2 : GeolosysAPI.proPickExtras)
+                        if (Utils.doStatesMatch(state2, state))
                         {
-                            if (Utils.doStatesMatch(state2, state))
-                            {
-                                sendFoundMessage(player, state, facing);
-                                found = true;
-                                break;
-                            }
+                            sendFoundMessage(player, state, facing);
+                            return true;
                         }
                     }
-                    if (found)
-                    {
-                        break;
-                    }
                 }
-                if (found)
-                {
-                    break;
-                }
-            }
-            if (found)
-            {
-                break;
             }
         }
-        return found;
+        return false;
     }
 
     private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
