@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys;
 
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
@@ -9,9 +10,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,9 +49,38 @@ public class Geolosys
     {
     }
 
+    @SubscribeEvent
+    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
+    {
+        for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
+        {
+            if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey()))
+            {
+                fuelBurnoutEvent.setBurnTime(fuelPair.getValue() * 200);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onHover(ItemTooltipEvent event)
+    {
+        if (Minecraft.getInstance().gameSettings.advancedItemTooltips)
+        {
+            Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
+            if (tags != null && tags.size() > 0)
+            {
+                for (ResourceLocation tag : tags)
+                {
+                    event.getToolTip().add(new StringTextComponent("\u00A78#" + tag.toString() + "\u00A7r"));
+                }
+            }
+        }
+    }
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents
     {
+
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
@@ -60,17 +95,5 @@ public class Geolosys
             ItemInit.getInstance().register(itemRegistryEvent);
         }
 
-        @SubscribeEvent
-        public static void onFuelRegistry(final FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
-        {
-            for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
-            {
-                if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey()))
-                {
-                    Geolosys.getInstance().LOGGER.info("Itemstack " + fuelBurnoutEvent.getItemStack().getDisplayName() + " should be burnable for " + fuelPair.getValue() + " ticks");
-                    fuelBurnoutEvent.setBurnTime(fuelPair.getValue());
-                }
-            }
-        }
     }
 }
