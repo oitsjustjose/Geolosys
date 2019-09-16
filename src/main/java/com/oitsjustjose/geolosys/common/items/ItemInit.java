@@ -7,9 +7,6 @@ import com.oitsjustjose.geolosys.common.utils.GeolosysItemGroup;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
-import net.minecraft.tags.Tag.Builder;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemInit
