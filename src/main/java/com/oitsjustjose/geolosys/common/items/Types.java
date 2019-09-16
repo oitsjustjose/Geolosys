@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.items;
+package com.oitsjustjose.geolosys.common.items;
 
 import net.minecraft.util.IStringSerializable;
 

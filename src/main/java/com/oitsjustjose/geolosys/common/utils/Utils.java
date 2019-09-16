@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.utils;
+package com.oitsjustjose.geolosys.common.utils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;

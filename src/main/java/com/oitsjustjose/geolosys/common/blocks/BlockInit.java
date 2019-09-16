@@ -1,23 +1,28 @@
-package com.oitsjustjose.geolosys.blocks;
+package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.oitsjustjose.geolosys.common.utils.GeolosysItemGroup;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.Properties;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.event.RegistryEvent;
 
 public class BlockInit
 {
     private static BlockInit instance;
 
-    private ArrayList<Block> blocks;
+    private HashMap<String, Block> blocks;
 
     private BlockInit()
     {
-        blocks = new ArrayList<Block>();
+        blocks = new HashMap<String, Block>();
 
         for (Types.Vanilla vanillaType : Types.Vanilla.values())
         {
@@ -25,7 +30,7 @@ public class BlockInit
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE);
             Block block = new Block(blockProp).setRegistryName("geolosys", vanillaType.getName() + "_ore");
-            blocks.add(block);
+            blocks.put(block.getRegistryName().toString(), block);
         }
 
         for (Types.Modded moddedType : Types.Modded.values())
@@ -34,7 +39,7 @@ public class BlockInit
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(moddedType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE);
             Block block = new Block(blockProp).setRegistryName("geolosys", moddedType.getName() + "_ore");
-            blocks.add(block);
+            blocks.put(block.getRegistryName().toString(), block);
         }
     }
 
@@ -47,9 +52,27 @@ public class BlockInit
         return instance;
     }
 
-    @SuppressWarnings("unchecked")
-    public ArrayList<Block> getModBlocks()
+    public void registerBlocks(RegistryEvent.Register<Block> blockRegistryEvent)
     {
-        return (ArrayList<Block>) this.blocks.clone();
+        for (Block b : this.getModBlocks().values())
+        {
+            blockRegistryEvent.getRegistry().register(b);
+        }
+    }
+
+    public void registerBlockItems(RegistryEvent.Register<Item> itemRegistryEvent)
+    {
+        for (Block b : this.getModBlocks().values())
+        {
+            Item iBlock = new BlockItem(b, new Item.Properties().group(GeolosysItemGroup.getInstance()))
+                    .setRegistryName(b.getRegistryName());
+            itemRegistryEvent.getRegistry().register(iBlock);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashMap<String, Block> getModBlocks()
+    {
+        return (HashMap<String, Block>) this.blocks.clone();
     }
 }
