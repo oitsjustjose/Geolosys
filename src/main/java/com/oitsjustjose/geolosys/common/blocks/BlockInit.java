@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.blocks;
 
 import java.util.HashMap;
 
+import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.utils.GeolosysItemGroup;
 
 import net.minecraft.block.Block;
@@ -22,7 +23,7 @@ public class BlockInit
 
     private BlockInit()
     {
-        blocks = new HashMap<String, Block>();
+        blocks = Maps.newHashMap();
 
         for (Types.Vanilla vanillaType : Types.Vanilla.values())
         {

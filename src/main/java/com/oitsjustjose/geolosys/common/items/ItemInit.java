@@ -2,10 +2,13 @@ package com.oitsjustjose.geolosys.common.items;
 
 import java.util.HashMap;
 
+import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.utils.GeolosysItemGroup;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
+import net.minecraft.tags.Tag.Builder;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemInit
@@ -17,14 +20,19 @@ public class ItemInit
 
     private ItemInit()
     {
-        items = new HashMap<String, Item>();
-        burnTimes = new HashMap<Item, Integer>();
+        items = Maps.newHashMap();
+        burnTimes = Maps.newHashMap();
 
         for (Types.Cluster clusterType : Types.Cluster.values())
         {
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
             Item item = new Item(itemProps).setRegistryName("geolosys", clusterType.getName() + "_cluster");
             items.put(item.getRegistryName().toString(), item);
+            // new "OreDictionary" counterpart using tags
+            ResourceLocation tagID = new ResourceLocation("forge:ore/" + clusterType.getName());
+            Builder<Item> builder = Builder.create();
+            builder.add(item).replace(false);
+            builder.build(tagID);
         }
 
         for (Types.Ingot ingotType : Types.Ingot.values())
@@ -32,6 +40,11 @@ public class ItemInit
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
             Item item = new Item(itemProps).setRegistryName("geolosys", ingotType.getName() + "_ingot");
             items.put(item.getRegistryName().toString(), item);
+            // New "OreDictionary" couterpart using tags
+            ResourceLocation tagID = new ResourceLocation("forge:ingot/" + ingotType.getName());
+            Builder<Item> builder = Builder.create();
+            builder.add(item).replace(false);
+            builder.build(tagID);
         }
 
         for (Types.Coal coalType : Types.Coal.values())
@@ -45,8 +58,9 @@ public class ItemInit
         for (Types.CoalCoke coalCokeType : Types.CoalCoke.values())
         {
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
-            Item item = new Item(itemProps) {
-                public boolean isFuel
+            Item item = new Item(itemProps)
+            {
+
             }.setRegistryName("geolosys", coalCokeType.getName() + "_coal_coke");
             items.put(item.getRegistryName().toString(), item);
             burnTimes.put(item, coalCokeType.getBurnTime());
