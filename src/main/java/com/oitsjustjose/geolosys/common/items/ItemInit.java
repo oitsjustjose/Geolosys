@@ -45,11 +45,12 @@ public class ItemInit
         for (Types.CoalCoke coalCokeType : Types.CoalCoke.values())
         {
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
-            Item item = new Item(itemProps).setRegistryName("geolosys", coalCokeType.getName() + "_coal_coke");
+            Item item = new Item(itemProps) {
+                public boolean isFuel
+            }.setRegistryName("geolosys", coalCokeType.getName() + "_coal_coke");
             items.put(item.getRegistryName().toString(), item);
             burnTimes.put(item, coalCokeType.getBurnTime());
         }
-        // items.add(new ItemProPick());
     }
 
     public static ItemInit getInstance()

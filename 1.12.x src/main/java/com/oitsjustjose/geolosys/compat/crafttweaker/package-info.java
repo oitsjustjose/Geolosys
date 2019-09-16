@@ -1,1 +1,0 @@
-package com.oitsjustjose.geolosys.compat.crafttweaker;

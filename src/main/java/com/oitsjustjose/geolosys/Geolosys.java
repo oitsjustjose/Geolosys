@@ -50,7 +50,6 @@ public class Geolosys
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
-
         }
 
         @SubscribeEvent
@@ -68,6 +67,7 @@ public class Geolosys
             {
                 if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey()))
                 {
+                    Geolosys.getInstance().LOGGER.info("Itemstack " + fuelBurnoutEvent.getItemStack().getDisplayName() + " should be burnable for " + fuelPair.getValue() + " ticks");
                     fuelBurnoutEvent.setBurnTime(fuelPair.getValue());
                 }
             }
