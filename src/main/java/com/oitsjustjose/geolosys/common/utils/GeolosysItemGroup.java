@@ -9,7 +9,7 @@ public class GeolosysItemGroup extends ItemGroup
 {
     private static GeolosysItemGroup instance;
 
-    public GeolosysItemGroup()
+    private GeolosysItemGroup()
     {
         super("geolosys.name");
     }
