@@ -17,7 +17,7 @@ public class BlockInit
 
     private BlockInit()
     {
-        blocks = new ArrayList<>();
+        blocks = new ArrayList<Block>();
 
         for (Types.Vanilla vanillaType : Types.Vanilla.values())
         {

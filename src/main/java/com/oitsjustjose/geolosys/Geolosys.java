@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys;
 
+import java.util.Map.Entry;
+
 import com.oitsjustjose.geolosys.blocks.BlockInit;
 import com.oitsjustjose.geolosys.items.ItemInit;
 
@@ -12,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -26,10 +29,8 @@ public class Geolosys
 
     public Geolosys()
     {
-
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -64,6 +65,18 @@ public class Geolosys
             for (Item i : ItemInit.getInstance().getModItems())
             {
                 itemRegistryEvent.getRegistry().register(i);
+            }
+        }
+
+        @SubscribeEvent
+        public static void onFuelRegistry(final FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
+        {
+            for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
+            {
+                if (fuelBurnoutEvent.getItemStack().getItem() == fuelPair.getKey())
+                {
+                    fuelBurnoutEvent.setBurnTime(fuelPair.getValue());
+                }
             }
         }
     }
