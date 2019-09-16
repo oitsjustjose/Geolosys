@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.tags.Tag.Builder;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemInit
@@ -28,11 +29,6 @@ public class ItemInit
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
             Item item = new Item(itemProps).setRegistryName("geolosys", clusterType.getName() + "_cluster");
             items.put(item.getRegistryName().toString(), item);
-            // new "OreDictionary" counterpart using tags
-            ResourceLocation tagID = new ResourceLocation("forge:ore/" + clusterType.getName());
-            Builder<Item> builder = Builder.create();
-            builder.add(item).replace(false);
-            builder.build(tagID);
         }
 
         for (Types.Ingot ingotType : Types.Ingot.values())
@@ -40,11 +36,6 @@ public class ItemInit
             Properties itemProps = new Properties().group(GeolosysItemGroup.getInstance());
             Item item = new Item(itemProps).setRegistryName("geolosys", ingotType.getName() + "_ingot");
             items.put(item.getRegistryName().toString(), item);
-            // New "OreDictionary" couterpart using tags
-            ResourceLocation tagID = new ResourceLocation("forge:ingot/" + ingotType.getName());
-            Builder<Item> builder = Builder.create();
-            builder.add(item).replace(false);
-            builder.build(tagID);
         }
 
         for (Types.Coal coalType : Types.Coal.values())
