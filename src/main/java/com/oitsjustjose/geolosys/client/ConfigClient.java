@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.client;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class Config
+public class ConfigClient
 {
 
     public static final String CATEGORY_CLIENT = "client";

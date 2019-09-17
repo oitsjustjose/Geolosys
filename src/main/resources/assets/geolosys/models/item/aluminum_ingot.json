@@ -1,1 +1,6 @@
-{"parent": "item/generated", "textures": {"layer0": "geolosys:items/aluminum_ingot"}}
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "geolosys:items/aluminum_ingot"
+  }
+}

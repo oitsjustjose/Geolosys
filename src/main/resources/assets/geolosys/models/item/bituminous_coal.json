@@ -1,1 +1,6 @@
-{"parent": "item/generated", "textures": {"layer0": "geolosys:items/bituminous_coal"}}
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "geolosys:items/bituminous_coal"
+  }
+}

@@ -1,10 +1,7 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.HashMap;
-
 import com.google.common.collect.Maps;
-import com.oitsjustjose.geolosys.common.utils.GeolosysItemGroup;
-
+import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.Properties;
 import net.minecraft.block.SoundType;
@@ -14,6 +11,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
+
+import java.util.HashMap;
 
 public class BlockInit
 {
@@ -65,7 +64,7 @@ public class BlockInit
     {
         for (Block b : this.getModBlocks().values())
         {
-            Item iBlock = new BlockItem(b, new Item.Properties().group(GeolosysItemGroup.getInstance()))
+            Item iBlock = new BlockItem(b, new Item.Properties().group(GeolosysGroup.getInstance()))
                     .setRegistryName(b.getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }

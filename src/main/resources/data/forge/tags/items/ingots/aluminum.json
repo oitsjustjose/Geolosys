@@ -1,1 +1,6 @@
-{"replace": false, "values": ["geolosys:aluminum_ingot"]}
+{
+  "replace": false,
+  "values": [
+    "geolosys:aluminum_ingot"
+  ]
+}

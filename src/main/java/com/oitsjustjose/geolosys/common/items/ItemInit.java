@@ -1,13 +1,14 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.HashMap;
-
 import com.google.common.collect.Maps;
+import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraftforge.event.RegistryEvent;
+
+import java.util.HashMap;
 
 public class ItemInit
 {
@@ -23,36 +24,49 @@ public class ItemInit
 
         for (Types.Cluster clusterType : Types.Cluster.values())
         {
+//            Skip some entries if they are disabled in the config
+            if (clusterType == Types.Cluster.YELLORIUM && !ConfigCompat.ENABLE_YELLORIUM.get())
+            {
+                continue;
+            }
+            if (clusterType == Types.Cluster.OSMIUM && !ConfigCompat.ENABLE_OSMIUM.get())
+            {
+                continue;
+            }
             Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
             Item item = new Item(itemProps).setRegistryName("geolosys", clusterType.getName() + "_cluster");
             items.put(item.getRegistryName().toString(), item);
         }
 
-        for (Types.Ingot ingotType : Types.Ingot.values())
+        if (ModConfig.ENABLE_INGOTS.get())
         {
-            Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
-            Item item = new Item(itemProps).setRegistryName("geolosys", ingotType.getName() + "_ingot");
-            items.put(item.getRegistryName().toString(), item);
-        }
-
-        for (Types.Coal coalType : Types.Coal.values())
-        {
-            Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
-            Item item = new Item(itemProps).setRegistryName("geolosys", coalType.getName() + "_coal");
-            items.put(item.getRegistryName().toString(), item);
-            burnTimes.put(item, coalType.getBurnTime());
-        }
-
-        for (Types.CoalCoke coalCokeType : Types.CoalCoke.values())
-        {
-            Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
-            Item item = new Item(itemProps)
+            for (Types.Ingot ingotType : Types.Ingot.values())
             {
-
-            }.setRegistryName("geolosys", coalCokeType.getName() + "_coal_coke");
-            items.put(item.getRegistryName().toString(), item);
-            burnTimes.put(item, coalCokeType.getBurnTime());
+                Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
+                Item item = new Item(itemProps).setRegistryName("geolosys", ingotType.getName() + "_ingot");
+                items.put(item.getRegistryName().toString(), item);
+            }
         }
+        if (ModConfig.ENABLE_COALS.get())
+        {
+            for (Types.Coal coalType : Types.Coal.values())
+            {
+                Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
+                Item item = new Item(itemProps).setRegistryName("geolosys", coalType.getName() + "_coal");
+                items.put(item.getRegistryName().toString(), item);
+                burnTimes.put(item, coalType.getBurnTime());
+            }
+
+            for (Types.CoalCoke coalCokeType : Types.CoalCoke.values())
+            {
+                Properties itemProps = new Properties().group(GeolosysGroup.getInstance());
+                Item item = new Item(itemProps).setRegistryName("geolosys", coalCokeType.getName() + "_coal_coke");
+                items.put(item.getRegistryName().toString(), item);
+                burnTimes.put(item, coalCokeType.getBurnTime());
+            }
+        }
+
+
     }
 
     public static ItemInit getInstance()

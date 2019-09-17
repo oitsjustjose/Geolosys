@@ -1,1 +1,3 @@
-{"parent": "geolosys:block/coal_ore"}
+{
+  "parent": "geolosys:block/coal_ore"
+}

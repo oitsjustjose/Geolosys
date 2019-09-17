@@ -1,1 +1,3 @@
-{"parent": "geolosys:block/cassiterite_ore"}
+{
+  "parent": "geolosys:block/cassiterite_ore"
+}

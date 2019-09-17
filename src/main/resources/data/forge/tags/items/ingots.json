@@ -1,1 +1,13 @@
-{"replace": false, "values": ["#forge:ingots/copper", "#forge:ingots/tin", "#forge:ingots/silver", "#forge:ingots/lead", "#forge:ingots/aluminum", "#forge:ingots/nickel", "#forge:ingots/platinum", "#forge:ingots/zinc"]}
+{
+  "replace": false,
+  "values": [
+    "#forge:ingots/copper",
+    "#forge:ingots/tin",
+    "#forge:ingots/silver",
+    "#forge:ingots/lead",
+    "#forge:ingots/aluminum",
+    "#forge:ingots/nickel",
+    "#forge:ingots/platinum",
+    "#forge:ingots/zinc"
+  ]
+}
