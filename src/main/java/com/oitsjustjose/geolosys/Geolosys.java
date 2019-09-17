@@ -1,9 +1,16 @@
 package com.oitsjustjose.geolosys;
 
+import java.util.Collection;
+import java.util.Map.Entry;
+
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -14,18 +21,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Collection;
-import java.util.Map.Entry;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -35,13 +37,18 @@ public class Geolosys
 
     public Geolosys()
     {
+        instance = this;
+
         // Register the setup method for modloading
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::setup);
-        ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
-        instance = this;
+        this.initConfig();
+    }
+
+    private void initConfig()
+    {
+        ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
+        ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
     }
 
     public static Geolosys getInstance()
@@ -52,7 +59,6 @@ public class Geolosys
     public void setup(final FMLCommonSetupEvent event)
     {
     }
-
 
     @SubscribeEvent
     public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
