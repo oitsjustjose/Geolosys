@@ -5,11 +5,11 @@ import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
-public class GeolosysItemGroup extends ItemGroup
+public class GeolosysGroup extends ItemGroup
 {
-    private static GeolosysItemGroup instance;
+    private static GeolosysGroup instance;
 
-    private GeolosysItemGroup()
+    private GeolosysGroup()
     {
         super("geolosys.name");
     }
@@ -20,11 +20,11 @@ public class GeolosysItemGroup extends ItemGroup
         return new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:azurite_ore"));
     }
 
-    public static GeolosysItemGroup getInstance()
+    public static GeolosysGroup getInstance()
     {
         if (instance == null)
         {
-            instance = new GeolosysItemGroup();
+            instance = new GeolosysGroup();
         }
         return instance;
     }
