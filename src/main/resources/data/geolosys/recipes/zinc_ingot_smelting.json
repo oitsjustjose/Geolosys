@@ -1,0 +1,1 @@
+{"type": "forge:conditional", "recipes": [{"conditions": [{"values": [{"item": "geolosys:zinc_ingot", "type": "forge:item_exists"}], "type": "forge:and"}], "recipe": {"type": "minecraft:smelting", "ingredient": {"item": "geolosys:zinc_cluster"}, "result": "geolosys:zinc_ingot", "experience": 0.7, "cookingtime": 200}}]}
