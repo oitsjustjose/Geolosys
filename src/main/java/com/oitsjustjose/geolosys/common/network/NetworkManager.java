@@ -18,13 +18,20 @@ public class NetworkManager
         this.networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Geolosys.MODID);
         this.networkWrapper.registerMessage(ProPickUndergroundHandler.class, ProPickUndergroundPacket.class, nextID++,
                 Side.SERVER);
+        this.networkWrapper.registerMessage(ProPickSurfaceHandler.class, ProPickSurfacePacket.class, nextID++,
+                Side.SERVER);
+    }
+
+    public static void init()
+    {
+        instance = new NetworkManager();
     }
 
     public static NetworkManager getInstance()
     {
         if (instance == null)
         {
-            instance = new NetworkManager();
+            init();
         }
         return instance;
     }
