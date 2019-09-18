@@ -222,34 +222,11 @@ public class ItemProPick extends Item
             {
                 if (searchForStone)
                 {
-                    String oreFound = findStoneInChunk(worldIn, pos);
-                    if (oreFound != null)
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
-                                true);
-                    }
-                    else
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_stone_surface"),
-                                true);
-                    }
+                    prospectSurfaceStones(worldIn, pos, player);
                 }
                 else
                 {
-                    String oreFound = findOreInChunk(worldIn, pos);
-                    if (oreFound != null)
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
-                                true);
-                    }
-                    else
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"), true);
-                    }
+                    prospectSurfaceOres(worldIn, pos, player);
                 }
             }
             else
@@ -263,7 +240,7 @@ public class ItemProPick extends Item
                 int confAmt = ModConfig.prospecting.proPickRange;
                 int confDmt = ModConfig.prospecting.proPickDiameter;
 
-                boolean found = false;
+                boolean oreFoundUnderground = false;
 
                 switch (facing)
                 {
@@ -274,7 +251,8 @@ public class ItemProPick extends Item
                     yEnd = 0;
                     zStart = -(confDmt / 2);
                     zEnd = (confDmt / 2);
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case DOWN:
                     xStart = -(confDmt / 2);
@@ -283,7 +261,8 @@ public class ItemProPick extends Item
                     yEnd = confAmt;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case NORTH:
                     xStart = -(confDmt / 2);
@@ -292,7 +271,8 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = 0;
                     zEnd = confAmt;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case SOUTH:
                     xStart = -(confDmt / 2);
@@ -301,7 +281,8 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = -confAmt;
                     zEnd = 0;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case EAST:
                     xStart = -(confAmt);
@@ -310,7 +291,8 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case WEST:
                     xStart = 0;
@@ -319,24 +301,14 @@ public class ItemProPick extends Item
                     yEnd = confDmt / 2;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    found = isFound(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 }
                 // If right clicking yielded nothing, then find the ore in the chunk again
-                if (!found)
+                if (!oreFoundUnderground)
                 {
-                    String oreFound = findOreInChunk(worldIn, pos);
-                    if (oreFound != null)
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", oreFound),
-                                true);
-                    }
-                    else
-                    {
-                        player.sendStatusMessage(
-                                new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"), true);
-                    }
+                    prospectSurfaceOres(worldIn, pos, player);
                 }
             }
             player.swingArm(hand);
@@ -344,8 +316,8 @@ public class ItemProPick extends Item
         return EnumActionResult.SUCCESS;
     }
 
-    private boolean isFound(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart, int xEnd,
-            int yStart, int yEnd, int zStart, int zEnd)
+    private boolean prospectUnderground(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart,
+            int xEnd, int yStart, int yEnd, int zStart, int zEnd)
     {
         HashMap<IOre, ArrayList<IBlockState>> foundMap = new HashMap<>();
         for (IOre ore : GeolosysAPI.oreBlocks)
@@ -374,7 +346,10 @@ public class ItemProPick extends Item
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
                                     {
-                                        sendFoundMessage(player, state, facing);
+                                        String blockName = new ItemStack(state.getBlock(), 1,
+                                                state.getBlock().getMetaFromState(state)).getDisplayName();
+                                        Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found",
+                                                blockName, facing.getOpposite().getName());
                                         return true;
                                     }
                                 }
@@ -382,7 +357,11 @@ public class ItemProPick extends Item
                         }
                         else if (Utils.doStatesMatch(ore.getOre(), state))
                         {
-                            sendFoundMessage(player, state, facing);
+
+                            String blockName = new ItemStack(state.getBlock(), 1,
+                                    state.getBlock().getMetaFromState(state)).getDisplayName();
+                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found", blockName,
+                                    facing.getOpposite().getName());
                             return true;
                         }
                     }
@@ -391,7 +370,11 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state2, state))
                         {
-                            sendFoundMessage(player, state, facing);
+
+                            String blockName = new ItemStack(state.getBlock(), 1,
+                                    state.getBlock().getMetaFromState(state)).getDisplayName();
+                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found", blockName,
+                                    facing.getOpposite().getName());
                             return true;
                         }
                     }
@@ -399,13 +382,6 @@ public class ItemProPick extends Item
             }
         }
         return false;
-    }
-
-    private void sendFoundMessage(EntityPlayer player, IBlockState state, EnumFacing facing)
-    {
-        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
-                new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName(),
-                facing.getOpposite()), true);
     }
 
     @SubscribeEvent
@@ -455,7 +431,7 @@ public class ItemProPick extends Item
         }
     }
 
-    private String findOreInChunk(World world, BlockPos pos)
+    private boolean prospectSurfaceOres(World world, BlockPos pos, EntityPlayer player)
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
@@ -495,7 +471,9 @@ public class ItemProPick extends Item
                             {
                                 if (Utils.doStatesMatch(state, multiOreState))
                                 {
-                                    return multiOre.getFriendlyName();
+                                    Geolosys.proxy.sendProspectingMessage(player,
+                                            "geolosys.pro_pick.tooltip.found_surface", multiOre.getFriendlyName());
+                                    return true;
                                 }
                             }
                         }
@@ -505,7 +483,9 @@ public class ItemProPick extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
-                                return ore.getFriendlyName();
+                                Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found_surface",
+                                        ore.getFriendlyName());
+                                return true;
                             }
                         }
                     }
@@ -513,18 +493,22 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state, state2))
                         {
-                            return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state))
-                                    .getDisplayName();
+                            String blockName = new ItemStack(state.getBlock(), 1,
+                                    state.getBlock().getMetaFromState(state)).getDisplayName();
+                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found_surface",
+                                    blockName);
+                            return true;
                         }
                     }
                 }
             }
         }
 
-        return null;
+        Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.nonefound_surface");
+        return false;
     }
 
-    private String findStoneInChunk(World world, BlockPos pos)
+    private boolean prospectSurfaceStones(World world, BlockPos pos, EntityPlayer player)
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
@@ -538,14 +522,16 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
                         {
-                            return s.getFriendlyName();
+                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found_surface",
+                                    s.getFriendlyName());
+                            return true;
                         }
                     }
                 }
             }
         }
-
-        return null;
+        Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.nonefound_stone_surface");
+        return false;
 
     }
 }
