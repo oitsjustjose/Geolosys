@@ -15,9 +15,9 @@ import com.oitsjustjose.geolosys.common.api.world.DepositStone;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
+import com.oitsjustjose.geolosys.common.network.NetworkManager;
+import com.oitsjustjose.geolosys.common.network.ProPickUndergroundPacket;
 import com.oitsjustjose.geolosys.common.util.Utils;
-import com.oitsjustjose.geolosys.network.NetworkManager;
-import com.oitsjustjose.geolosys.network.ProPickUndergroundPacket;
 
 import org.lwjgl.opengl.GL11;
 
