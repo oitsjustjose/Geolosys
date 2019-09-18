@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.common.network;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -55,7 +54,7 @@ public class ProPickUndergroundPacket implements IMessage
             return null;
         }
 
-        private void sendProspectingMessage(EntityPlayer player, String messageBase, Object... messageDecorators)
+        private void sendProspectingMessage(EntityPlayerMP player, String messageBase, Object... messageDecorators)
         {
             TextComponentTranslation msg = new TextComponentTranslation(messageBase, messageDecorators);
             player.sendStatusMessage(msg, true);
