@@ -440,6 +440,15 @@ public class ItemProPick extends Item
 
         SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
 
+        HashMap<IOre, ArrayList<IBlockState>> foundMap = new HashMap<>();
+        for (IOre ore : GeolosysAPI.oreBlocks)
+        {
+            if (ore instanceof DepositMultiOre)
+            {
+                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
+            }
+        }
+
         for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
         {
             for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
@@ -448,21 +457,6 @@ public class ItemProPick extends Item
                 {
                     IBlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-                    // We want to specifically ignore any stone-like blocks; say granite generates,
-                    // it may throw a false-positive result for Autunite & Granite
-                    boolean shouldSkip = false;
-                    for (DepositStone stone : GeolosysAPI.stones)
-                    {
-                        if (Utils.doStatesMatch(stone.getOre(), state)
-                                && searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS)
-                        {
-                            shouldSkip = true;
-                        }
-                    }
-                    if (shouldSkip)
-                    {
-                        continue;
-                    }
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
                         if (ore instanceof DepositMultiOre)
@@ -474,9 +468,13 @@ public class ItemProPick extends Item
                             {
                                 if (Utils.doStatesMatch(state, multiOreState))
                                 {
-                                    NetworkManager.getInstance()
-                                            .sendToServer(new ProPickSurfacePacket(multiOre.getFriendlyName()));
-                                    return true;
+                                    foundMap.get(ore).add(state);
+                                    if (foundMap.get(ore).size() == multiOre.oreBlocks.keySet().size())
+                                    {
+                                        NetworkManager.getInstance()
+                                                .sendToServer(new ProPickSurfacePacket(multiOre.getFriendlyName()));
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -506,8 +504,7 @@ public class ItemProPick extends Item
             }
         }
 
-        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"),
-                true);
+        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"), true);
         return false;
     }
 
