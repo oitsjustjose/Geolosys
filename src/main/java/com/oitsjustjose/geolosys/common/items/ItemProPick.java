@@ -15,9 +15,6 @@ import com.oitsjustjose.geolosys.common.api.world.DepositStone;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
-import com.oitsjustjose.geolosys.common.network.NetworkManager;
-import com.oitsjustjose.geolosys.common.network.ProPickSurfacePacket;
-import com.oitsjustjose.geolosys.common.network.ProPickUndergroundPacket;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import org.lwjgl.opengl.GL11;
@@ -340,6 +337,7 @@ public class ItemProPick extends Item
                     IBlockState state = worldIn.getBlockState(pos.add(x, y, z));
                     for (IOre ore : GeolosysAPI.oreBlocks)
                     {
+                        // Use the Use the foundMap with multiOres
                         if (ore instanceof DepositMultiOre)
                         {
                             for (IBlockState tmpState : ((DepositMultiOre) ore).oreBlocks.keySet())
@@ -349,22 +347,24 @@ public class ItemProPick extends Item
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
                                     {
-                                        String blockName = new ItemStack(state.getBlock(), 1,
-                                                state.getBlock().getMetaFromState(state)).getDisplayName();
-                                        NetworkManager.getInstance().sendToServer(
-                                                new ProPickUndergroundPacket(blockName, facing.getOpposite()));
+
+                                        player.sendStatusMessage(
+                                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
+                                                        ((DepositMultiOre) ore).getFriendlyName(worldIn, pos, player),
+                                                        facing.getOpposite().getName()),
+                                                true);
                                         return true;
                                     }
                                 }
                             }
                         }
+                        // Just check the ore itself otherwise
                         else if (Utils.doStatesMatch(ore.getOre(), state))
                         {
-
-                            String blockName = new ItemStack(state.getBlock(), 1,
-                                    state.getBlock().getMetaFromState(state)).getDisplayName();
-                            NetworkManager.getInstance()
-                                    .sendToServer(new ProPickUndergroundPacket(blockName, facing.getOpposite()));
+                            player.sendStatusMessage(
+                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
+                                            ore.getFriendlyName(worldIn, pos, player), facing.getOpposite().getName()),
+                                    true);
                             return true;
                         }
                     }
@@ -373,11 +373,10 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state2, state))
                         {
-
-                            String blockName = new ItemStack(state.getBlock(), 1,
-                                    state.getBlock().getMetaFromState(state)).getDisplayName();
-                            NetworkManager.getInstance()
-                                    .sendToServer(new ProPickUndergroundPacket(blockName, facing.getOpposite()));
+                            player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
+                                    Utils.blockStateToName(state, worldIn, pos, player),
+                                    facing.getOpposite().getName()), true);
+                            Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, worldIn, pos, player));
                             return true;
                         }
                     }
@@ -471,8 +470,11 @@ public class ItemProPick extends Item
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == multiOre.oreBlocks.keySet().size())
                                     {
-                                        NetworkManager.getInstance()
-                                                .sendToServer(new ProPickSurfacePacket(multiOre.getFriendlyName()));
+
+                                        player.sendStatusMessage(
+                                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
+                                                        multiOre.getFriendlyName(world, pos, player)),
+                                                true);
                                         return true;
                                     }
                                 }
@@ -484,8 +486,10 @@ public class ItemProPick extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
-                                NetworkManager.getInstance()
-                                        .sendToServer(new ProPickSurfacePacket(ore.getFriendlyName()));
+                                player.sendStatusMessage(
+                                        new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
+                                                ore.getFriendlyName(world, pos, player)),
+                                        true);
                                 return true;
                             }
                         }
@@ -494,9 +498,11 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state, state2))
                         {
-                            String blockName = new ItemStack(state.getBlock(), 1,
-                                    state.getBlock().getMetaFromState(state)).getDisplayName();
-                            NetworkManager.getInstance().sendToServer(new ProPickSurfacePacket(blockName));
+                            player.sendStatusMessage(
+                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
+                                            Utils.blockStateToName(state, world, pos, player)),
+                                    true);
+                            Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, world, pos, player));
                             return true;
                         }
                     }
@@ -522,7 +528,11 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
                         {
-                            NetworkManager.getInstance().sendToServer(new ProPickSurfacePacket(s.getFriendlyName()));
+
+                            player.sendStatusMessage(
+                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
+                                            s.getFriendlyName(world, pos, player)),
+                                    true);
                             return true;
                         }
                     }
