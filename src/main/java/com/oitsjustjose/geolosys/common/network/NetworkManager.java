@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.network;
+package com.oitsjustjose.geolosys.common.network;
 
 import com.oitsjustjose.geolosys.Geolosys;
 

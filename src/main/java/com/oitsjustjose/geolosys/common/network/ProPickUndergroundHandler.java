@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.network;
+package com.oitsjustjose.geolosys.common.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

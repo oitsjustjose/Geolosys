@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.network;
+package com.oitsjustjose.geolosys.common.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumFacing;
