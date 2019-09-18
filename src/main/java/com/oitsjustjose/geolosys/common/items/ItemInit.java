@@ -1,14 +1,19 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-
-import java.util.HashMap;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ItemInit
 {
@@ -21,10 +26,13 @@ public class ItemInit
     {
         items = Maps.newHashMap();
         burnTimes = Maps.newHashMap();
-
+        if (ModConfig.ENABLE_COALS.get())
+        {
+            MinecraftForge.EVENT_BUS.register(this);
+        }
         for (Types.Cluster clusterType : Types.Cluster.values())
         {
-//            Skip some entries if they are disabled in the config
+            // Skip some entries if they are disabled in the config
             if (clusterType == Types.Cluster.YELLORIUM && !ConfigCompat.ENABLE_YELLORIUM.get())
             {
                 continue;
@@ -66,7 +74,6 @@ public class ItemInit
             }
         }
 
-
     }
 
     public static ItemInit getInstance()
@@ -90,6 +97,21 @@ public class ItemInit
     public HashMap<Item, Integer> getModFuels()
     {
         return (HashMap<Item, Integer>) this.burnTimes.clone();
+    }
+
+    @SubscribeEvent
+    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
+    {
+        if (ModConfig.ENABLE_COALS.get())
+        {
+            for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
+            {
+                if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey()))
+                {
+                    fuelBurnoutEvent.setBurnTime(fuelPair.getValue() * 200);
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

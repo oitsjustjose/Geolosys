@@ -7,6 +7,7 @@ import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.world.WorldGenOverrides;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,19 +59,10 @@ public class Geolosys
 
     public void setup(final FMLCommonSetupEvent event)
     {
+        WorldGenOverrides.init();
     }
 
-    @SubscribeEvent
-    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
-    {
-        for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
-        {
-            if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey()))
-            {
-                fuelBurnoutEvent.setBurnTime(fuelPair.getValue() * 200);
-            }
-        }
-    }
+   
 
     @SubscribeEvent
     public void onHover(ItemTooltipEvent event)
