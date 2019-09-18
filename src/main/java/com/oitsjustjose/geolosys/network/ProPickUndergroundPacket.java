@@ -5,17 +5,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-public class ProPickSurfacePacket implements IMessage
+public class ProPickUndergroundPacket implements IMessage
 {
     // A default constructor is always required
-    public ProPickSurfacePacket()
+    public ProPickUndergroundPacket()
     {
     }
 
     public String blockNameLocalized;
     public String direction;
 
-    public ProPickSurfacePacket(String blockNameLocalized, EnumFacing direction)
+    public ProPickUndergroundPacket(String blockNameLocalized, EnumFacing direction)
     {
         this.blockNameLocalized = blockNameLocalized;
         this.direction = direction.getName();

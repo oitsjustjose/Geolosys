@@ -16,6 +16,8 @@ import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.Prospecting.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.util.Utils;
+import com.oitsjustjose.geolosys.network.NetworkManager;
+import com.oitsjustjose.geolosys.network.ProPickUndergroundPacket;
 
 import org.lwjgl.opengl.GL11;
 
@@ -348,8 +350,8 @@ public class ItemProPick extends Item
                                     {
                                         String blockName = new ItemStack(state.getBlock(), 1,
                                                 state.getBlock().getMetaFromState(state)).getDisplayName();
-                                        Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found",
-                                                blockName, facing.getOpposite().getName());
+                                        NetworkManager.getInstance().sendToServer(
+                                                new ProPickUndergroundPacket(blockName, facing.getOpposite()));
                                         return true;
                                     }
                                 }
@@ -360,8 +362,8 @@ public class ItemProPick extends Item
 
                             String blockName = new ItemStack(state.getBlock(), 1,
                                     state.getBlock().getMetaFromState(state)).getDisplayName();
-                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found", blockName,
-                                    facing.getOpposite().getName());
+                            NetworkManager.getInstance()
+                                    .sendToServer(new ProPickUndergroundPacket(blockName, facing.getOpposite()));
                             return true;
                         }
                     }
@@ -373,8 +375,8 @@ public class ItemProPick extends Item
 
                             String blockName = new ItemStack(state.getBlock(), 1,
                                     state.getBlock().getMetaFromState(state)).getDisplayName();
-                            Geolosys.proxy.sendProspectingMessage(player, "geolosys.pro_pick.tooltip.found", blockName,
-                                    facing.getOpposite().getName());
+                            NetworkManager.getInstance()
+                                    .sendToServer(new ProPickUndergroundPacket(blockName, facing.getOpposite()));
                             return true;
                         }
                     }

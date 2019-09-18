@@ -16,7 +16,7 @@ public class NetworkManager
     public NetworkManager()
     {
         this.networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Geolosys.MODID);
-        this.networkWrapper.registerMessage(ProPickSurfaceHandler.class, ProPickSurfacePacket.class, nextID++,
+        this.networkWrapper.registerMessage(ProPickUndergroundHandler.class, ProPickUndergroundPacket.class, nextID++,
                 Side.SERVER);
     }
 

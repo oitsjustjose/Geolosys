@@ -10,10 +10,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 // The params of the IMessageHandler are <REQ, REPLY>
 // This means that the first param is the packet you are receiving, and the second is the packet you are returning.
 // The returned packet can be used as a "response" from a sent packet.
-public class ProPickSurfaceHandler implements IMessageHandler<ProPickSurfacePacket, IMessage>
+public class ProPickUndergroundHandler implements IMessageHandler<ProPickUndergroundPacket, IMessage>
 {
     @Override
-    public IMessage onMessage(ProPickSurfacePacket message, MessageContext ctx)
+    public IMessage onMessage(ProPickUndergroundPacket message, MessageContext ctx)
     {
         EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
 
