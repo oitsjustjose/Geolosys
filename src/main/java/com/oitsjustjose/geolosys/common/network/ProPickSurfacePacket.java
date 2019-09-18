@@ -1,8 +1,13 @@
 package com.oitsjustjose.geolosys.common.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ProPickSurfacePacket implements IMessage
 {
@@ -28,5 +33,26 @@ public class ProPickSurfacePacket implements IMessage
     public void fromBytes(ByteBuf buf)
     {
         this.blockNameLocalized = ByteBufUtils.readUTF8String(buf);
+    }
+
+    public static class ProPickSurfaceHandler implements IMessageHandler<ProPickSurfacePacket, IMessage>
+    {
+        @Override
+        public IMessage onMessage(ProPickSurfacePacket message, MessageContext ctx)
+        {
+            EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+
+            String blockName = message.blockNameLocalized;
+
+            sendProspectingMessage(serverPlayer, "geolosys.pro_pick.tooltip.found_surface", blockName);
+
+            return null;
+        }
+
+        private void sendProspectingMessage(EntityPlayer player, String messageBase, Object... messageDecorators)
+        {
+            TextComponentTranslation msg = new TextComponentTranslation(messageBase, messageDecorators);
+            player.sendStatusMessage(msg, true);
+        }
     }
 }

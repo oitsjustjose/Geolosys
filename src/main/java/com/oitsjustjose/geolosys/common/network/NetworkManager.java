@@ -11,15 +11,15 @@ public class NetworkManager
 {
     private static NetworkManager instance;
     private SimpleNetworkWrapper networkWrapper;
-    private int nextID = 0;
 
-    public NetworkManager()
+    private NetworkManager()
     {
+        int nextID = 0;
         this.networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Geolosys.MODID);
-        this.networkWrapper.registerMessage(ProPickUndergroundHandler.class, ProPickUndergroundPacket.class, nextID++,
-                Side.SERVER);
-        this.networkWrapper.registerMessage(ProPickSurfaceHandler.class, ProPickSurfacePacket.class, nextID++,
-                Side.SERVER);
+        this.networkWrapper.registerMessage(ProPickUndergroundPacket.ProPickUndergroundHandler.class,
+                ProPickUndergroundPacket.class, nextID++, Side.SERVER);
+        this.networkWrapper.registerMessage(ProPickSurfacePacket.ProPickSurfaceHandler.class,
+                ProPickSurfacePacket.class, nextID++, Side.SERVER);
     }
 
     public static void init()
