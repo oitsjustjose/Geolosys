@@ -506,7 +506,7 @@ public class ItemProPick extends Item
             }
         }
 
-        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_stone_surface"),
+        player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.nonefound_surface"),
                 true);
         return false;
     }
