@@ -9,6 +9,6 @@ public class WorldGenOverrides
     public static void init()
     {
         OreFeature ore = (OreFeature) ForgeRegistries.FEATURES.getValue(new ResourceLocation("minecraft", "ore"));
-        ForgeRegistries.FEATURES.getValues().remove(ore);
+        // ore.
     }
 }
