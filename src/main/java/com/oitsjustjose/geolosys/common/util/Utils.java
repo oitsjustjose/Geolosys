@@ -2,9 +2,13 @@ package com.oitsjustjose.geolosys.common.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 
 public class Utils
 {
@@ -18,6 +22,18 @@ public class Utils
         {
             return null;
         }
+    }
+
+    public static String blockStateToName(IBlockState state, World world, BlockPos pos, EntityPlayer player)
+    {
+        RayTraceResult target = new RayTraceResult(player);
+        return state.getBlock().getPickBlock(state, target, world, pos, player).getDisplayName();
+    }
+
+    public static ItemStack blockStateToStack(IBlockState state, World world, BlockPos pos, EntityPlayer player)
+    {
+        RayTraceResult target = new RayTraceResult(player);
+        return state.getBlock().getPickBlock(state, target, world, pos, player);
     }
 
     public static ItemStack blockStateToStack(IBlockState state)
