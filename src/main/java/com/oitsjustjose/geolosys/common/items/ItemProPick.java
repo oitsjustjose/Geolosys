@@ -347,12 +347,9 @@ public class ItemProPick extends Item
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
                                     {
-
-                                        player.sendStatusMessage(
-                                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
-                                                        ((DepositMultiOre) ore).getFriendlyName(worldIn, pos, player),
-                                                        facing.getOpposite().getName()),
-                                                true);
+                                        Geolosys.proxy.sendProspectingMessage(player,
+                                                ((DepositMultiOre) ore).getFriendlyName(worldIn, pos, player),
+                                                facing.getOpposite());
                                         return true;
                                     }
                                 }
@@ -361,10 +358,8 @@ public class ItemProPick extends Item
                         // Just check the ore itself otherwise
                         else if (Utils.doStatesMatch(ore.getOre(), state))
                         {
-                            player.sendStatusMessage(
-                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
-                                            ore.getFriendlyName(worldIn, pos, player), facing.getOpposite().getName()),
-                                    true);
+                            Geolosys.proxy.sendProspectingMessage(player,
+                                    Utils.blockStateToStack(ore.getOre(), worldIn, pos, player), facing.getOpposite());
                             return true;
                         }
                     }
@@ -373,9 +368,8 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state2, state))
                         {
-                            player.sendStatusMessage(new TextComponentTranslation("geolosys.pro_pick.tooltip.found",
-                                    Utils.blockStateToName(state, worldIn, pos, player),
-                                    facing.getOpposite().getName()), true);
+                            Geolosys.proxy.sendProspectingMessage(player,
+                                    Utils.blockStateToStack(state, worldIn, pos, player), facing.getOpposite());
                             Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, worldIn, pos, player));
                             return true;
                         }
@@ -470,11 +464,8 @@ public class ItemProPick extends Item
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == multiOre.oreBlocks.keySet().size())
                                     {
-
-                                        player.sendStatusMessage(
-                                                new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
-                                                        multiOre.getFriendlyName(world, pos, player)),
-                                                true);
+                                        Geolosys.proxy.sendProspectingMessage(player,
+                                                multiOre.getFriendlyName(world, pos, player), null);
                                         return true;
                                     }
                                 }
@@ -486,10 +477,8 @@ public class ItemProPick extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
-                                player.sendStatusMessage(
-                                        new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
-                                                ore.getFriendlyName(world, pos, player)),
-                                        true);
+                                Geolosys.proxy.sendProspectingMessage(player,
+                                        Utils.blockStateToStack(ore.getOre(), world, pos, player), null);
                                 return true;
                             }
                         }
@@ -498,10 +487,9 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state, state2))
                         {
-                            player.sendStatusMessage(
-                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
-                                            Utils.blockStateToName(state, world, pos, player)),
-                                    true);
+                            Geolosys.proxy.sendProspectingMessage(player,
+                                    Utils.blockStateToStack(state, world, pos, player), null);
+
                             Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, world, pos, player));
                             return true;
                         }
@@ -528,11 +516,8 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
                         {
-
-                            player.sendStatusMessage(
-                                    new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface",
-                                            s.getFriendlyName(world, pos, player)),
-                                    true);
+                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(
+                                    world.getBlockState(new BlockPos(x, y, z)), world, pos, player), null);
                             return true;
                         }
                     }

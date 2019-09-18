@@ -22,6 +22,10 @@ public class NetworkManager
                 ProPickUndergroundPacket.class, nextID++, Side.CLIENT);
         this.networkWrapper.registerMessage(ProPickSurfacePacket.ProPickSurfaceHandler.class,
                 ProPickSurfacePacket.class, nextID++, Side.CLIENT);
+        this.networkWrapper.registerMessage(ProPickUndergroundPacketIOre.ProPickUndergroundHandlerIOre.class,
+                ProPickUndergroundPacketIOre.class, nextID++, Side.CLIENT);
+        this.networkWrapper.registerMessage(ProPickSurfacePacketIOre.ProPickSurfaceHandlerIOre.class,
+                ProPickSurfacePacketIOre.class, nextID++, Side.CLIENT);
     }
 
     public static void init()
