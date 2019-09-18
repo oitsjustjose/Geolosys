@@ -8,7 +8,10 @@ import java.util.Random;
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 @SuppressWarnings("unchecked")
 public class DepositMultiOre implements IOre
@@ -127,6 +130,24 @@ public class DepositMultiOre implements IOre
         for (IBlockState state : this.ores)
         {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
+            // The name hasn't already been added
+            if (sb.indexOf(name) == -1)
+            {
+                sb.append(" & ");
+                sb.append(name);
+            }
+        }
+        // Return substr(3) to ignore the first " & "
+        return sb.toString().substring(3);
+    }
+
+    public String getFriendlyName(World world, BlockPos pos, EntityPlayer player)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (IBlockState state : this.ores)
+        {
+            String name = Utils.blockStateToName(state, world, pos, player);
             // The name hasn't already been added
             if (sb.indexOf(name) == -1)
             {
