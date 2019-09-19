@@ -370,7 +370,6 @@ public class ItemProPick extends Item
                         {
                             Geolosys.proxy.sendProspectingMessage(player,
                                     Utils.blockStateToStack(state, worldIn, pos, player), facing.getOpposite());
-                            Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, worldIn, pos, player));
                             return true;
                         }
                     }
@@ -489,8 +488,6 @@ public class ItemProPick extends Item
                         {
                             Geolosys.proxy.sendProspectingMessage(player,
                                     Utils.blockStateToStack(state, world, pos, player), null);
-
-                            Geolosys.getInstance().LOGGER.info(Utils.blockStateToName(state, world, pos, player));
                             return true;
                         }
                     }
