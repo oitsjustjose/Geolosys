@@ -30,10 +30,9 @@ public class Utils
         return state.getBlock().getPickBlock(state, target, world, pos, player).getDisplayName();
     }
 
-    public static ItemStack blockStateToStack(IBlockState state, World world, BlockPos pos, EntityPlayer player)
+    public static String blockStateToName(IBlockState state)
     {
-        RayTraceResult target = new RayTraceResult(player);
-        return state.getBlock().getPickBlock(state, target, world, pos, player);
+        return blockStateToStack(state).getDisplayName();
     }
 
     public static ItemStack blockStateToStack(IBlockState state)

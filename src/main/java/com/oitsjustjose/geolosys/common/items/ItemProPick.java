@@ -358,8 +358,8 @@ public class ItemProPick extends Item
                         // Just check the ore itself otherwise
                         else if (Utils.doStatesMatch(ore.getOre(), state))
                         {
-                            Geolosys.proxy.sendProspectingMessage(player,
-                                    Utils.blockStateToStack(ore.getOre(), worldIn, pos, player), facing.getOpposite());
+                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
+                                    facing.getOpposite());
                             return true;
                         }
                     }
@@ -368,8 +368,8 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state2, state))
                         {
-                            Geolosys.proxy.sendProspectingMessage(player,
-                                    Utils.blockStateToStack(state, worldIn, pos, player), facing.getOpposite());
+                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
+                                    facing.getOpposite());
                             return true;
                         }
                     }
@@ -476,8 +476,8 @@ public class ItemProPick extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
-                                Geolosys.proxy.sendProspectingMessage(player,
-                                        Utils.blockStateToStack(ore.getOre(), world, pos, player), null);
+                                Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
+                                        null);
                                 return true;
                             }
                         }
@@ -486,8 +486,7 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(state, state2))
                         {
-                            Geolosys.proxy.sendProspectingMessage(player,
-                                    Utils.blockStateToStack(state, world, pos, player), null);
+                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state), null);
                             return true;
                         }
                     }
@@ -513,8 +512,8 @@ public class ItemProPick extends Item
                     {
                         if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
                         {
-                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(
-                                    world.getBlockState(new BlockPos(x, y, z)), world, pos, player), null);
+                            Geolosys.proxy.sendProspectingMessage(player,
+                                    Utils.blockStateToStack(world.getBlockState(new BlockPos(x, y, z))), null);
                             return true;
                         }
                     }
