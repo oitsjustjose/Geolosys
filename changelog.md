@@ -1,5 +1,9 @@
 # Geolosys Changelog
 
+## 3.0.7
+
+* FIXED: IllegalStateException when using the ProPick
+
 ## 3.0.6
 
 * FIXED: Localization issues when on a server - this took [a lot of work to fix](https://github.com/oitsjustjose/Geolosys/commit/4a90db3423132581a7177cd6842dbbccca873256) but it's fixed.
