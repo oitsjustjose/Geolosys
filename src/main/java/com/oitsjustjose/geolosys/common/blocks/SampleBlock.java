@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,10 +14,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -59,18 +61,15 @@ public class SampleBlock extends Block implements IWaterLoggable
         return VoxelShapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.25D, 0.8D);
     }
 
-    /**
-     * Makes the sample break when fallen upon
-     */
     @Override
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
-        // super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
-        entityIn.fall(fallDistance, 1.0F);
-
-        if (entityIn instanceof PlayerEntity)
+        super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
+        // One in ten chance for the sample to break when fallen on
+        Random random = new Random();
+        if (random.nextInt(10) == 0)
         {
-            this.harvestBlock(worldIn, (PlayerEntity) entityIn, pos, worldIn.getBlockState(pos), null, ItemStack.EMPTY);
+            worldIn.destroyBlock(pos, true);
         }
     }
 
@@ -93,9 +92,32 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
+    public BlockRenderLayer getRenderLayer()
+    {
+        return BlockRenderLayer.CUTOUT;
+    }
+
+    @Override
     @SuppressWarnings("deprecation")
     public IFluidState getFluidState(BlockState state)
     {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
+            boolean isMoving)
+    {
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
+        if (!this.isValidPosition(state, worldIn, pos))
+        {
+            worldIn.destroyBlock(pos, true);
+        }
+        // Update the water from flowing to still or vice-versa
+        else if (state.get(WATERLOGGED))
+        {
+            worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+        }
     }
 }
