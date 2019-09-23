@@ -3,8 +3,9 @@ package com.oitsjustjose.geolosys.common.blocks;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorldReader;
 
 public class OreBlock extends Block
 {
@@ -19,11 +20,13 @@ public class OreBlock extends Block
     /**
      * Spawns the given amount of experience into the World as XP orb entities
      */
-    public void dropXpOnBlockBreak(World worldIn, BlockPos pos, int amount)
+    @Override
+    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch)
     {
         if (vanillaParent != null)
         {
-            vanillaParent.dropXpOnBlockBreak(worldIn, pos, amount);
+            return vanillaParent.getExpDrop(state, reader, pos, fortune, silktouch);
         }
+        return 0;
     }
 }
