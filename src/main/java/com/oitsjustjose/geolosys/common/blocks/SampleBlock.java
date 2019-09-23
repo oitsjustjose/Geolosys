@@ -87,6 +87,12 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
+    public Block.OffsetType getOffsetType()
+    {
+        return Block.OffsetType.XZ;
+    }
+
+    @Override
     @SuppressWarnings("deprecation")
     public IFluidState getFluidState(BlockState state)
     {
