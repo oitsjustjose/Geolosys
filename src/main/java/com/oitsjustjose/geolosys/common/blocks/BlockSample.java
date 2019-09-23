@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.TorchBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
@@ -15,11 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
@@ -52,12 +53,18 @@ public class BlockSample extends Block implements IWaterLoggable
     @Override
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
-        TorchBlock
         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
         if (entityIn instanceof PlayerEntity)
         {
             this.harvestBlock(worldIn, (PlayerEntity) entityIn, pos, worldIn.getBlockState(pos), null, ItemStack.EMPTY);
         }
+    }
+
+    @Override
+    @SuppressWarnings("deprecated")
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
+    {
+        return Block.func_220055_a(worldIn, pos.down(), Direction.UP);
     }
 
     @Override
