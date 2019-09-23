@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -10,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -33,12 +35,23 @@ public class BlockSample extends Block implements IWaterLoggable
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
                 .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre));
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.valueOf(false)));
+        // this.statefor
     }
 
     @Override
     public boolean isSolid(BlockState state)
     {
         return false;
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context)
+    {
+        if (context.getWorld().getBlockState(context.getPos()).getBlock() == Blocks.WATER)
+        {
+            return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(true));
+        }
+        return this.getDefaultState();
     }
 
     @Override
@@ -53,7 +66,9 @@ public class BlockSample extends Block implements IWaterLoggable
     @Override
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
-        super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
+        // super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
+        entityIn.fall(fallDistance, 1.0F);
+
         if (entityIn instanceof PlayerEntity)
         {
             this.harvestBlock(worldIn, (PlayerEntity) entityIn, pos, worldIn.getBlockState(pos), null, ItemStack.EMPTY);
