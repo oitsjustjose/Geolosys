@@ -42,7 +42,8 @@ public class BlockInit
                         .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE);
             }
 
-            Block block = new BlockOre(blockProp).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore");
+            Block block = new OreBlock(vanillaType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
+                    vanillaType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 
             Block sample = new SampleBlock(block).setRegistryName(Constants.MODID,
