@@ -25,3 +25,4 @@ gradle-app.setting
 .settings/org.eclipse.buildship.core.prefs
 src/main/resources/assets/base/models/item/wrench.json
 .idea
+.vscode/**

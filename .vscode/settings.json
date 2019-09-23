@@ -1,7 +1,0 @@
-{
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "code-runner.executorMap": {
-        "java": "cd '$workspaceRoot' && gradle runClient"
-    },
-    "code-runner.defaultLanguage": "java"
-}
