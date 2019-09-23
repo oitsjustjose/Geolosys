@@ -42,10 +42,10 @@ public class BlockInit
                         .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE);
             }
 
-            Block block = new Block(blockProp).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore");
+            Block block = new BlockOre(blockProp).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 
-            Block sample = new BlockSample(block).setRegistryName(Constants.MODID,
+            Block sample = new SampleBlock(block).setRegistryName(Constants.MODID,
                     vanillaType.getName() + "_ore_sample");
             blocks.put(sample.getRegistryName().toString(), sample);
         }
@@ -58,7 +58,7 @@ public class BlockInit
             Block block = new Block(blockProp).setRegistryName(Constants.MODID, moddedType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 
-            Block sample = new BlockSample(block).setRegistryName(Constants.MODID,
+            Block sample = new SampleBlock(block).setRegistryName(Constants.MODID,
                     moddedType.getName() + "_ore_sample");
             blocks.put(sample.getRegistryName().toString(), sample);
         }
