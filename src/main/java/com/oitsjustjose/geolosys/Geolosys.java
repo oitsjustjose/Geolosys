@@ -1,13 +1,11 @@
 package com.oitsjustjose.geolosys;
 
 import java.util.Collection;
-import java.util.Map.Entry;
 
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.WorldGenOverrides;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,10 +16,11 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +28,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -59,10 +59,16 @@ public class Geolosys
 
     public void setup(final FMLCommonSetupEvent event)
     {
-        WorldGenOverrides.init();
+        if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
+        {
+            for (Biome biome : ForgeRegistries.BIOMES.getValues())
+            {
+                biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)
+                        .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
+                LOGGER.info("Should've disabled ore gen for biome " + biome.getDisplayName());
+            }
+        }
     }
-
-   
 
     @SubscribeEvent
     public void onHover(ItemTooltipEvent event)
