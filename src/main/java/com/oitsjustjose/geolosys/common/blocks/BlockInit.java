@@ -28,9 +28,20 @@ public class BlockInit
 
         for (Types.Vanilla vanillaType : Types.Vanilla.values())
         {
-            Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
-                    .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel())
-                    .harvestTool(ToolType.PICKAXE);
+            // Use the vanilla blocks if possible, otherwise I'll build it myself.
+            Properties blockProp;
+            if (vanillaType.getVanillaParent() != null)
+            {
+                blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
+                        .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE)
+                        .lootFrom(vanillaType.getVanillaParent());
+            }
+            else
+            {
+                blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
+                        .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE);
+            }
+
             Block block = new Block(blockProp).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 

@@ -1,14 +1,20 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.IStringSerializable;
 
 public class Types
 {
     public enum Vanilla implements IStringSerializable
     {
-        COAL(0, 0, "coal", "coal"), CINNABAR(1, 2, "cinnabar", "redstone"), GOLD(2, 2, "gold", "gold"),
-        LAPIS(3, 1, "lapis", "lapis"), QUARTZ(4, 1, "quartz", "various quartz types"),
-        KIMBERLITE(5, 2, "kimberlite", "diamond"), BERYL(6, 2, "beryl", "emerald");
+        COAL(0, 0, "coal", "coal", Blocks.COAL_ORE), CINNABAR(1, 2, "cinnabar", "redstone", Blocks.REDSTONE_ORE),
+        GOLD(2, 2, "gold", "gold", null), LAPIS(3, 1, "lapis", "lapis", Blocks.LAPIS_ORE),
+        QUARTZ(4, 1, "quartz", "various quartz types", Blocks.NETHER_QUARTZ_ORE),
+        KIMBERLITE(5, 2, "kimberlite", "diamond", Blocks.DIAMOND_ORE),
+        BERYL(6, 2, "beryl", "emerald", Blocks.EMERALD_ORE);
 
         private static final Vanilla[] META_LOOKUP = new Vanilla[values().length];
 
@@ -24,14 +30,15 @@ public class Types
         private final int toolLevel;
         private final String unlocalizedName;
         private final String resource;
+        private final Block parentBlock;
 
-        Vanilla(int meta, int toolLevel, String name, String resource)
+        Vanilla(int meta, int toolLevel, String name, String resource, @Nullable Block parent)
         {
             this.meta = meta;
             this.toolLevel = toolLevel;
-            // this.unlocalizedName = ModConfig.compat.vanillaMode ? name + "_vanilla" : name;
             this.unlocalizedName = name;
             this.resource = resource;
+            this.parentBlock = parent;
         }
 
         public static Vanilla byMetadata(int meta)
@@ -42,6 +49,11 @@ public class Types
             }
 
             return META_LOOKUP[meta];
+        }
+
+        public Block getVanillaParent()
+        {
+            return this.parentBlock;
         }
 
         public int getToolLevel()

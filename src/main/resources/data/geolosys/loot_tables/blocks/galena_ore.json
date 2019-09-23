@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "geolosys:lead_cluster"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "geolosys:silver_cluster",
+          "parameters": {
+            "extra": 1,
+            "probability": 0.5
+          }
+        }
+      ]
+    }
+  ]
+}

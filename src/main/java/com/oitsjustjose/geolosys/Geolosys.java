@@ -66,7 +66,6 @@ public class Geolosys
             {
                 biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
-                LOGGER.info("Should've disabled ore gen for biome " + biome.getDisplayName());
             }
         }
     }
