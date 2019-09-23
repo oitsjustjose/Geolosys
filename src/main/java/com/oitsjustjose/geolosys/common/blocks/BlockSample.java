@@ -76,7 +76,6 @@ public class BlockSample extends Block implements IWaterLoggable
     }
 
     @Override
-    @SuppressWarnings("deprecated")
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
     {
         return Block.func_220055_a(worldIn, pos.down(), Direction.UP);
@@ -89,6 +88,7 @@ public class BlockSample extends Block implements IWaterLoggable
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public IFluidState getFluidState(BlockState state)
     {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
