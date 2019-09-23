@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys;
 
 import java.util.Collection;
 
+import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
@@ -73,6 +74,10 @@ public class Geolosys
     @SubscribeEvent
     public void onHover(ItemTooltipEvent event)
     {
+        if (!ConfigClient.ENABLE_TAG_DEBUG.get())
+        {
+            return;
+        }
         if (Minecraft.getInstance().gameSettings.advancedItemTooltips)
         {
             Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
