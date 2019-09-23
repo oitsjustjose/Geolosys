@@ -1,7 +1,11 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.HashMap;
+
 import com.google.common.collect.Maps;
+import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.Properties;
 import net.minecraft.block.SoundType;
@@ -11,8 +15,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
-
-import java.util.HashMap;
 
 public class BlockInit
 {
@@ -29,8 +31,12 @@ public class BlockInit
             Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE);
-            Block block = new Block(blockProp).setRegistryName("geolosys", vanillaType.getName() + "_ore");
+            Block block = new Block(blockProp).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
+
+            Block sample = new BlockSample(block).setRegistryName(Constants.MODID,
+                    vanillaType.getName() + "_ore_sample");
+            blocks.put(sample.getRegistryName().toString(), sample);
         }
 
         for (Types.Modded moddedType : Types.Modded.values())
@@ -38,9 +44,14 @@ public class BlockInit
             Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(moddedType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE);
-            Block block = new Block(blockProp).setRegistryName("geolosys", moddedType.getName() + "_ore");
+            Block block = new Block(blockProp).setRegistryName(Constants.MODID, moddedType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
+
+            Block sample = new BlockSample(block).setRegistryName(Constants.MODID,
+                    moddedType.getName() + "_ore_sample");
+            blocks.put(sample.getRegistryName().toString(), sample);
         }
+
     }
 
     public static BlockInit getInstance()
