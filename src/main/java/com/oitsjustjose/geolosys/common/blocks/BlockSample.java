@@ -35,7 +35,6 @@ public class BlockSample extends Block implements IWaterLoggable
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
                 .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre));
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.valueOf(false)));
-        // this.statefor
     }
 
     @Override
