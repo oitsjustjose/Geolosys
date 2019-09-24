@@ -5,6 +5,11 @@ import net.minecraft.item.ItemStack;
 
 public class Utils
 {
+    public static String blockStateToName(BlockState state)
+    {
+        return blockStateToStack(state).getDisplayName().toString();
+    }
+
     public static ItemStack blockStateToStack(BlockState state)
     {
         return new ItemStack(state.getBlock().asItem(), 1);
