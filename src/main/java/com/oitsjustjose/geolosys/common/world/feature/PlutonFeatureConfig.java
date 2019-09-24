@@ -145,7 +145,14 @@ public class PlutonFeatureConfig implements IFeatureConfig
 
         if (type.equalsIgnoreCase("DepositMultiOre"))
         {
-            // Some bullshit issue with parsing this back caused this heap of mess :|
+            /*
+             * Ok, below code deserves an explanation
+             * 
+             * The HashMaps are what the new DepositMultiOre **REQUIRES** Due to some weirdness with the .asMap returning a value that
+             * doesn't work (??) for HashMap, I have to conform it into the HashMap manually. So what you end up with is a Map<BlockState,
+             * Integer> whose keypairs I iterate through using a map, in which the pair.getKey(), pair.getValue() are putinto the HashMap
+             * forms that I need.
+             */
             HashMap<BlockState, Integer> blockMap = new HashMap<>();
             HashMap<BlockState, Integer> sampleMap = new HashMap<>();
             Map<BlockState, Integer> tempBlockMap = in.get("ores").asMap(BlockState::deserialize, x -> x.asInt(0));
@@ -158,14 +165,17 @@ public class PlutonFeatureConfig implements IFeatureConfig
         }
         else if (type.equalsIgnoreCase("DepositMultiOreBiomeRestricted"))
         {
+            /* See above for an explanation on the madness between this and the next comment */
             HashMap<BlockState, Integer> blockMap = new HashMap<>();
             HashMap<BlockState, Integer> sampleMap = new HashMap<>();
             Map<BlockState, Integer> tempBlockMap = in.get("ores").asMap(BlockState::deserialize, x -> x.asInt(0));
             tempBlockMap.entrySet().stream().map(pair -> blockMap.put(pair.getKey(), pair.getValue()));
             Map<BlockState, Integer> tempSampleMap = in.get("samples").asMap(BlockState::deserialize, x -> x.asInt(0));
             tempSampleMap.entrySet().stream().map(pair -> sampleMap.put(pair.getKey(), pair.getValue()));
+            /* Maps the stream of strings back into a List of BiomeTypes using the Type.getType(str) function */
             List<BiomeDictionary.Type> biomeTypes = in.get("biomeTypes").asStream()
                     .map(x -> BiomeDictionary.Type.getType(x.asString(""))).collect(Collectors.toList());
+            /* Maps the stream of strings back into a List of Biomes by searching the ForgeRegistry for the resourcelocation */
             List<Biome> biomes = in.get("biomes").asStream()
                     .map(x -> ForgeRegistries.BIOMES.getValue(new ResourceLocation(x.asString(""))))
                     .collect(Collectors.toList());
@@ -177,11 +187,12 @@ public class PlutonFeatureConfig implements IFeatureConfig
         }
         else if (type.equalsIgnoreCase("DepositBiomeRestricted"))
         {
-            // Another one of those "Holy hell how did I figure this out" situations
             BlockState ore = in.get("ore").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
             BlockState sample = in.get("sample").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
+            /* Maps the stream of strings back into a List of BiomeTypes using the Type.getType(str) function */
             List<BiomeDictionary.Type> biomeTypes = in.get("biomeTypes").asStream()
                     .map(x -> BiomeDictionary.Type.getType(x.asString(""))).collect(Collectors.toList());
+            /* Maps the stream of strings back into a List of Biomes by searching the ForgeRegistry for the resourcelocation */
             List<Biome> biomes = in.get("biomes").asStream()
                     .map(x -> ForgeRegistries.BIOMES.getValue(new ResourceLocation(x.asString(""))))
                     .collect(Collectors.toList());
