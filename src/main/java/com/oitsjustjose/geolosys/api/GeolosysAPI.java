@@ -18,6 +18,7 @@ import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.ChunkPos;
@@ -184,7 +185,7 @@ public class GeolosysAPI
     {
         Deposit tempDeposit = new Deposit(oreBlock, sampleBlock, yMin, yMax, size, chance, dimBlacklist,
                 blockStateMatchers, density);
-        PlutonOregen.addOreGen(tempDeposit);
+        PlutonRegistry.getInstance().addOrePluton(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
 
@@ -206,7 +207,7 @@ public class GeolosysAPI
     {
         DepositMultiOre tempDeposit = new DepositMultiOre(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance,
                 dimBlacklist, blockStateMatchers, density);
-        OreGenerator.addOreGen(tempDeposit);
+        PlutonRegistry.getInstance().addOrePluton(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
 
@@ -230,7 +231,7 @@ public class GeolosysAPI
     {
         DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
                 dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density);
-        OreGenerator.addOreGen(tempDeposit);
+        PlutonRegistry.getInstance().addOrePluton(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
 
@@ -256,7 +257,7 @@ public class GeolosysAPI
         DepositMultiOreBiomeRestricted tempDeposit = new DepositMultiOreBiomeRestricted(oreBlockMap, sampleBlockMap,
                 yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist,
                 density);
-        OreGenerator.addOreGen(tempDeposit);
+        PlutonRegistry.getInstance().addOrePluton(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
 
@@ -272,7 +273,7 @@ public class GeolosysAPI
             int[] dimBlacklist)
     {
         DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
-        StoneGenerator.addStoneGen(tempDeposit);
+        PlutonRegistry.getInstance().addStonePluton(tempDeposit);
         stones.add(tempDeposit);
     }
 

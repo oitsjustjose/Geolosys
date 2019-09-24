@@ -2,16 +2,20 @@ package com.oitsjustjose.geolosys;
 
 import java.util.Collection;
 
+import com.google.common.collect.ImmutableList;
+import com.oitsjustjose.geolosys.api.world.Deposit;
 import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
@@ -68,6 +72,8 @@ public class Geolosys
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
             }
         }
+
+        PlutonRegistry.getInstance().register();
     }
 
     @SubscribeEvent
@@ -97,6 +103,11 @@ public class Geolosys
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
+            PlutonRegistry.getInstance().addOrePluton(new Deposit(
+                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
+                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
+                    128, 80, 100, new int[]
+                    { -1, 1 }, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
         }
 
         @SubscribeEvent
