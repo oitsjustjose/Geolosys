@@ -1,12 +1,13 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.Random;
-import java.util.function.Function;
-
 import com.mojang.datafixers.Dynamic;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.IOre;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-
+import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -15,12 +16,22 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
-public class PlutonFeature extends Feature<PlutonFeatureConfig>
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Random;
+import java.util.function.Function;
+
+public class PlutonFeature extends Feature<NoFeatureConfig>
 {
-    public PlutonFeature(Function<Dynamic<?>, ? extends PlutonFeatureConfig> configFactoryIn)
+    public PlutonFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
     {
         super(configFactoryIn, true);
+    }
+
+    private void postPlacement(IOre ore, BlockPos pos)
+    {
+        Geolosys.getInstance().LOGGER.info("Placed " + ore.getFriendlyName() + " at pos " + pos);
     }
 
     private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
@@ -32,32 +43,48 @@ public class PlutonFeature extends Feature<PlutonFeatureConfig>
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
-            BlockPos pos, PlutonFeatureConfig config)
+            BlockPos pos, NoFeatureConfig config)
     {
+        IOre pluton = PlutonRegistry.getInstance().pickPluton();
+        // Logic to confirm that this can be placed here
+        if (pluton instanceof DepositBiomeRestricted)
+        {
+            DepositBiomeRestricted restricted = (DepositBiomeRestricted) pluton;
+            if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
+            {
+                return false;
+            }
+        }
+        else if (pluton instanceof DepositMultiOreBiomeRestricted)
+        {
+            DepositMultiOreBiomeRestricted restricted = (DepositMultiOreBiomeRestricted) pluton;
+            if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
+            {
+                return false;
+            }
+        }
+
         float f = rand.nextFloat() * (float) Math.PI;
-        double d0 = (double) ((float) (pos.getX() + 8)
-                + MathHelper.sin(f) * (float) config.getPluton().getSize() / 8.0F);
-        double d1 = (double) ((float) (pos.getX() + 8)
-                - MathHelper.sin(f) * (float) config.getPluton().getSize() / 8.0F);
-        double d2 = (double) ((float) (pos.getZ() + 8)
-                + MathHelper.cos(f) * (float) config.getPluton().getSize() / 8.0F);
-        double d3 = (double) ((float) (pos.getZ() + 8)
-                - MathHelper.cos(f) * (float) config.getPluton().getSize() / 8.0F);
-        double d4 = (double) (pos.getY() + rand.nextInt(3) - 2);
-        double d5 = (double) (pos.getY() + rand.nextInt(3) - 2);
+        double d0 = (float) (pos.getX() + 8) + MathHelper.sin(f) * (float) pluton.getSize() / 8.0F;
+        double d1 = (float) (pos.getX() + 8) - MathHelper.sin(f) * (float) pluton.getSize() / 8.0F;
+        double d2 = (float) (pos.getZ() + 8) + MathHelper.cos(f) * (float) pluton.getSize() / 8.0F;
+        double d3 = (float) (pos.getZ() + 8) - MathHelper.cos(f) * (float) pluton.getSize() / 8.0F;
+        double d4 = pos.getY() + rand.nextInt(3) - 2;
+        double d5 = pos.getY() + rand.nextInt(3) - 2;
 
         // ToDoBlocks toDoBlocks = ToDoBlocks.getForWorld(worldIn, dataName);
         ChunkPos thisChunk = new ChunkPos(pos);
-        boolean placedOre = false;
+        boolean placed = false;
 
-        for (int i = 0; i < config.getPluton().getSize(); ++i)
+        for (int i = 0; i < pluton.getSize(); ++i)
         {
-            float f1 = (float) i / (float) config.getPluton().getSize();
+            float f1 = (float) i / (float) pluton.getSize();
             double d6 = d0 + (d1 - d0) * (double) f1;
             double d7 = d4 + (d5 - d4) * (double) f1;
             double d8 = d2 + (d3 - d2) * (double) f1;
-            double d9 = rand.nextDouble() * (double) config.getPluton().getSize() / 16.0D;
+            double d9 = rand.nextDouble() * (double) pluton.getSize() / 16.0D;
             double d10 = (double) (MathHelper.sin((float) Math.PI * f1) + 1.0F) * d9 + 1.0D;
             double d11 = (double) (MathHelper.sin((float) Math.PI * f1) + 1.0F) * d9 + 1.0D;
             int j = MathHelper.floor(d6 - d10 / 2.0D);
@@ -89,49 +116,44 @@ public class PlutonFeature extends Feature<PlutonFeatureConfig>
 
                                     if (isInChunk(thisChunk, blockpos) || worldIn.chunkExists(l1 >> 4, j2 >> 4))
                                     {
-                                        float density = config.getPluton().getDensity() > 1.0F ? 1.0F
-                                                : config.getPluton().getDensity();
+                                        float density = Math.min(pluton.getDensity(), 1.0F);
 
                                         if (rand.nextFloat() > density)
                                         {
                                             continue;
                                         }
                                         BlockState state = worldIn.getBlockState(blockpos);
-                                        if (state != null)
+                                        // If it has custom blockstate matcher:
+                                        if (pluton.getBlockStateMatchers() != null)
                                         {
-                                            // If it has custom blockstate matcher:
-                                            if (config.getPluton().getBlockStateMatchers() != null)
+                                            for (BlockState BlockState : pluton.getBlockStateMatchers())
                                             {
-                                                for (BlockState BlockState : config.getPluton().getBlockStateMatchers())
+                                                if (Utils.doStatesMatch(BlockState, state))
                                                 {
-                                                    if (Utils.doStatesMatch(BlockState, state))
-                                                    {
-                                                        worldIn.setBlockState(blockpos, config.getPluton().getOre(),
-                                                                2 | 16);
-                                                        placedOre = true;
-                                                        break;
-                                                    }
+                                                    worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                                    placed = true;
+                                                    break;
                                                 }
                                             }
-                                            // Otherwise just use the default
-                                            else
+                                        }
+                                        // Otherwise just use the default
+                                        else
+                                        {
+                                            for (BlockState BlockState : GeolosysAPI.replacementMats)
                                             {
-                                                for (BlockState BlockState : GeolosysAPI.replacementMats)
+                                                if (Utils.doStatesMatch(BlockState, state))
                                                 {
-                                                    if (Utils.doStatesMatch(BlockState, state))
-                                                    {
-                                                        worldIn.setBlockState(blockpos, config.getPluton().getOre(),
-                                                                2 | 16);
-                                                        placedOre = true;
-                                                        break;
-                                                    }
+                                                    worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                                    placed = true;
+                                                    break;
                                                 }
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        // toDoBlocks.storePending(blockpos, config.getPluton().getOre());
+                                        // TODO: Fix toDoBlocks
+                                        // toDoBlocks.storePending(blockpos, ore.getOre());
                                     }
                                 }
                             }
@@ -141,6 +163,11 @@ public class PlutonFeature extends Feature<PlutonFeatureConfig>
             }
         }
 
-        return placedOre;
+        if (placed)
+        {
+            this.postPlacement(pluton, pos);
+        }
+
+        return placed;
     }
 }
