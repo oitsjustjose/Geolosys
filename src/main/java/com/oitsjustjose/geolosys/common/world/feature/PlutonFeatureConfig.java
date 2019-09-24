@@ -1,8 +1,20 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
-import com.oitsjustjose.geolosys.api.world.*;
+import com.oitsjustjose.geolosys.api.world.Deposit;
+import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositStone;
+import com.oitsjustjose.geolosys.api.world.IOre;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -11,12 +23,6 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class PlutonFeatureConfig implements IFeatureConfig
 {
     private IOre pluton;
@@ -24,6 +30,11 @@ public class PlutonFeatureConfig implements IFeatureConfig
     public PlutonFeatureConfig(IOre plutonIn)
     {
         this.pluton = plutonIn;
+    }
+
+    public IOre getPluton()
+    {
+        return this.pluton;
     }
 
     public <T> Dynamic<T> serialize(DynamicOps<T> ops)
