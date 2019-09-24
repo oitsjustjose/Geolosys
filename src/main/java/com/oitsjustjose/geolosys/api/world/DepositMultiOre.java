@@ -1,32 +1,31 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import com.oitsjustjose.geolosys.common.utils.Utils;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.common.utils.Utils;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-
 @SuppressWarnings("unchecked")
-public class DepositMultiOre implements IOre
+public class DepositMultiOre implements IDeposit
 {
     private ArrayList<BlockState> ores = new ArrayList<>();
     private ArrayList<BlockState> samples = new ArrayList<>();
-    public HashMap<BlockState, Integer> oreBlocks;
-    public HashMap<BlockState, Integer> sampleBlocks;
+    private HashMap<BlockState, Integer> oreBlocks;
+    private HashMap<BlockState, Integer> sampleBlocks;
     private int yMin;
     private int yMax;
     private int size;
     private int chance;
-    private int[] dimensionBlacklist;
+    private String[] dimensionBlacklist;
     private List<BlockState> blockStateMatchers;
     private float density;
 
     public DepositMultiOre(HashMap<BlockState, Integer> oreBlocks, HashMap<BlockState, Integer> sampleBlocks, int yMin,
-            int yMax, int size, int chance, int[] dimensionBlacklist, List<BlockState> blockStateMatchers,
+            int yMax, int size, int chance, String[] dimensionBlacklist, List<BlockState> blockStateMatchers,
             float density)
     {
         // Sanity checking:
@@ -158,7 +157,7 @@ public class DepositMultiOre implements IOre
         return this.size;
     }
 
-    public int[] getDimensionBlacklist()
+    public String[] getDimensionBlacklist()
     {
         return this.dimensionBlacklist;
     }

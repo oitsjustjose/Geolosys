@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.utils;
+package com.oitsjustjose.geolosys.common.world.utils;
 
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -50,7 +50,7 @@ public class SampleUtils
             }
             searchPos = searchPos.up();
         }
-        return world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, new BlockPos(blockPosX, 0, blockPosZ));
+        return getSamplePosition(world, chunkPos, depositHeight);
     }
 
     /**

@@ -1,29 +1,19 @@
 package com.oitsjustjose.geolosys.api;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.world.Deposit;
-import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
-import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.DepositStone;
-import com.oitsjustjose.geolosys.api.world.IOre;
+import com.oitsjustjose.geolosys.api.world.*;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * The Geolosys API is intended for use by anyone who wants to tap into all the locations that deposits exist Access is pretty
@@ -32,7 +22,7 @@ import net.minecraftforge.common.BiomeDictionary;
 public class GeolosysAPI
 {
     // An collection of IOres that may generate
-    public static ArrayList<IOre> oreBlocks = new ArrayList<>();
+    public static ArrayList<IDeposit> oreBlocks = new ArrayList<>();
     // A collection of BlockStates that can trigger the prospector's pick
     public static ArrayList<BlockState> proPickExtras = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
@@ -181,7 +171,7 @@ public class GeolosysAPI
      * @param blockStateMatchers A collection of blocks that this entry specifically can replace
      */
     public static void registerMineralDeposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size,
-            int chance, int[] dimBlacklist, List<BlockState> blockStateMatchers, float density)
+            int chance, String[] dimBlacklist, List<BlockState> blockStateMatchers, float density)
     {
         Deposit tempDeposit = new Deposit(oreBlock, sampleBlock, yMin, yMax, size, chance, dimBlacklist,
                 blockStateMatchers, density);
@@ -202,7 +192,7 @@ public class GeolosysAPI
      * @param blockStateMatchers A collection of blocks that this entry specifically can replace
      */
     public static void registerMineralDeposit(HashMap<BlockState, Integer> oreBlockMap,
-            HashMap<BlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+            HashMap<BlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, String[] dimBlacklist,
             List<BlockState> blockStateMatchers, float density)
     {
         DepositMultiOre tempDeposit = new DepositMultiOre(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance,
@@ -214,8 +204,8 @@ public class GeolosysAPI
     /**
      * Adds a biome-restricted deposit for Geolosys to handle the generation of.
      *
-     * @param oreBlockMap        A HashMap of BlockState:Integer where the integer represents the chance of that ore.
-     * @param sampleBlockMap     A HashMap of BlockState:Integer where the integer represents the chance of that sample.
+     * @param oreBlock           The {@link BlockState} to register as the pluton contents
+     * @param sampleBlock        The {@link BlockState} to register as the representative sample
      * @param yMin               The minimum Y level this deposit can generate at
      * @param yMax               The maximum Y level this deposit can generate at
      * @param size               The size of the deposit
@@ -226,7 +216,7 @@ public class GeolosysAPI
      * @param isWhitelist        A boolean to determine is the biomeList a blacklist or whitelist
      */
     public static void registerMineralDeposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size,
-            int chance, int[] dimBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomeList,
+            int chance, String[] dimBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomeList,
             List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density)
     {
         DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
@@ -250,7 +240,7 @@ public class GeolosysAPI
      * @param isWhitelist        A boolean to determine is the biomeList a blacklist or whitelist
      */
     public static void registerMineralDeposit(HashMap<BlockState, Integer> oreBlockMap,
-            HashMap<BlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+            HashMap<BlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, String[] dimBlacklist,
             List<BlockState> blockStateMatchers, List<Biome> biomeList, List<BiomeDictionary.Type> biomeTypes,
             boolean isWhitelist, float density)
     {
@@ -270,7 +260,7 @@ public class GeolosysAPI
      * @param chance     The chance of the deposit generating (higher = more likely)
      */
     public static void registerStoneDeposit(BlockState stoneBlock, int yMin, int yMax, int chance, int size,
-            int[] dimBlacklist)
+            String[] dimBlacklist)
     {
         DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
         PlutonRegistry.getInstance().addStonePluton(tempDeposit);

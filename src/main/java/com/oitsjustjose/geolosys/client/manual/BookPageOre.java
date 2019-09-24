@@ -3,7 +3,7 @@
 //import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
 //import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
 //import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
-//import com.oitsjustjose.geolosys.common.api.world.IOre;
+//import com.oitsjustjose.geolosys.common.api.world.IDeposit;
 //
 //import net.minecraft.block.state.IBlockState;
 //import net.minecraft.item.ItemStack;
@@ -17,11 +17,11 @@
 //
 //public class BookPageOre extends BookPage
 //{
-//    private IOre ore;
+//    private IDeposit ore;
 //    private long lastUpdate;
 //    private ItemStack displayStack;
 //
-//    public BookPageOre(IOre ore)
+//    public BookPageOre(IDeposit ore)
 //    {
 //        super(ore.getFriendlyName());
 //        this.ore = ore;

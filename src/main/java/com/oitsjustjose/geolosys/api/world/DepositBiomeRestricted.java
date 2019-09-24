@@ -1,11 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+
+import java.util.List;
+import java.util.Set;
 
 public class DepositBiomeRestricted extends Deposit
 {
@@ -14,7 +14,7 @@ public class DepositBiomeRestricted extends Deposit
     private boolean useWhitelist;
 
     public DepositBiomeRestricted(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
+            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, float density)
     {
         super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density);

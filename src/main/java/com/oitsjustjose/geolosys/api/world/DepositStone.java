@@ -1,22 +1,21 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-
 import net.minecraft.block.BlockState;
 
-public class DepositStone implements IOre
+import java.util.List;
+
+public class DepositStone implements IDeposit
 {
     private BlockState block;
     private int yMin;
     private int yMax;
     private int chance;
     private int size;
-    private int[] dimBlacklist;
+    private String[] dimBlacklist;
 
-    public DepositStone(BlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
+    public DepositStone(BlockState stoneBlock, int yMin, int yMax, int chance, int size, String[] dimBlacklist)
     {
         this.block = stoneBlock;
         this.yMin = yMin;
@@ -26,7 +25,7 @@ public class DepositStone implements IOre
         this.dimBlacklist = dimBlacklist;
     }
 
-    public int[] getDimensionBlacklist()
+    public String[] getDimensionBlacklist()
     {
         return this.dimBlacklist;
     }

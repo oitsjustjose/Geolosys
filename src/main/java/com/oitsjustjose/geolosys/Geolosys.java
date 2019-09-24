@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import java.util.Collection;
-
 import com.google.common.collect.ImmutableList;
 import com.oitsjustjose.geolosys.api.world.Deposit;
 import com.oitsjustjose.geolosys.client.ConfigClient;
@@ -10,10 +8,6 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -34,6 +28,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Collection;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -106,8 +104,8 @@ public class Geolosys
             PlutonRegistry.getInstance().addOrePluton(new Deposit(
                     BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
                     BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
-                    128, 80, 100, new int[]
-                    { -1, 1 }, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
+                    128, 80, 100, new String[]
+                    {"the_end", "the_nether"}, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
         }
 
         @SubscribeEvent

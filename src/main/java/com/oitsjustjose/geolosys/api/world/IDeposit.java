@@ -1,12 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
-
 import com.oitsjustjose.geolosys.common.utils.Utils;
-
 import net.minecraft.block.BlockState;
 
-public interface IOre
+import java.util.List;
+
+public interface IDeposit
 {
     public BlockState getOre();
 
@@ -25,7 +24,7 @@ public interface IOre
 
     public int getSize();
 
-    public int[] getDimensionBlacklist();
+    public String[] getDimensionBlacklist();
 
     public boolean canReplace(BlockState state);
 

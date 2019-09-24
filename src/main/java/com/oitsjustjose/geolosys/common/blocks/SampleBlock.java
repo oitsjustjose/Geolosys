@@ -1,12 +1,6 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
@@ -27,6 +21,9 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
+import javax.annotation.Nonnull;
+import java.util.Random;
+
 public class SampleBlock extends Block implements IWaterLoggable
 {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -35,10 +32,11 @@ public class SampleBlock extends Block implements IWaterLoggable
     {
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
                 .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre));
-        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.valueOf(false)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isSolid(BlockState state)
     {
         return false;
@@ -49,12 +47,14 @@ public class SampleBlock extends Block implements IWaterLoggable
     {
         if (context.getWorld().getBlockState(context.getPos()).getBlock() == Blocks.WATER)
         {
-            return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(true));
+            return this.getDefaultState().with(WATERLOGGED, Boolean.TRUE);
         }
         return this.getDefaultState();
     }
 
     @Override
+    @Nonnull
+    @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
         return VoxelShapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.25D, 0.8D);
@@ -66,13 +66,14 @@ public class SampleBlock extends Block implements IWaterLoggable
         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
         // One in ten chance for the sample to break when fallen on
         Random random = new Random();
-        if (random.nextInt(10) == 0)
+        if (random.nextInt((int) fallDistance) > 5)
         {
             worldIn.destroyBlock(pos, true);
         }
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
     {
         return Block.func_220055_a(worldIn, pos.down(), Direction.UP);
@@ -85,18 +86,21 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
+    @Nonnull
     public Block.OffsetType getOffsetType()
     {
         return Block.OffsetType.XZ;
     }
 
     @Override
+    @Nonnull
     public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }
 
     @Override
+    @Nonnull
     @SuppressWarnings("deprecation")
     public IFluidState getFluidState(BlockState state)
     {
@@ -118,5 +122,10 @@ public class SampleBlock extends Block implements IWaterLoggable
         {
             worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
+    }
+
+    public BlockState asWaterlogged()
+    {
+        return this.getDefaultState().with(WATERLOGGED, Boolean.TRUE);
     }
 }

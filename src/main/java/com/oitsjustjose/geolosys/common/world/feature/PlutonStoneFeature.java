@@ -1,11 +1,10 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.IOre;
+import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import net.minecraft.block.BlockState;
@@ -22,16 +21,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 import java.util.function.Function;
 
-public class PlutonOreFeature extends Feature<NoFeatureConfig>
+public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 {
-    public PlutonOreFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
+    public PlutonStoneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
     {
         super(configFactoryIn, true);
-    }
-
-    private void postPlacement(IOre ore, BlockPos pos)
-    {
-        Geolosys.getInstance().LOGGER.info("Placed " + ore.getFriendlyName() + " at pos " + pos);
     }
 
     private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
@@ -47,7 +41,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        IOre pluton = PlutonRegistry.getInstance().pickPluton();
+        IDeposit pluton = PlutonRegistry.getInstance().pickPluton();
         // Logic to confirm that this can be placed here
         if (pluton instanceof DepositBiomeRestricted)
         {
@@ -161,11 +155,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     }
                 }
             }
-        }
-
-        if (placed)
-        {
-            this.postPlacement(pluton, pos);
         }
 
         return placed;

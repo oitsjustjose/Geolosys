@@ -125,7 +125,7 @@
 //                count = 0;
 //            }
 //        }
-////        for (IOre ore : GeolosysAPI.oreBlocks)
+////        for (IDeposit ore : GeolosysAPI.oreBlocks)
 ////        {
 ////            resources.get(page_num).addLink(new ChapterLink(ore.getFriendlyName(), ore.getFriendlyName()));
 ////            chapters.put(ore.getFriendlyName(), new BookChapter(ore.getFriendlyName(), "resources"));

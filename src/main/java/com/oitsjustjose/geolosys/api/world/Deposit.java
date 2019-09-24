@@ -1,12 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
-
 import com.oitsjustjose.geolosys.common.utils.Utils;
-
 import net.minecraft.block.BlockState;
 
-public class Deposit implements IOre
+import java.util.List;
+
+public class Deposit implements IDeposit
 {
     private BlockState oreBlock;
     private BlockState sampleBlock;
@@ -14,12 +13,12 @@ public class Deposit implements IOre
     private int yMax;
     private int size;
     private int chance;
-    private int[] dimensionBlacklist;
+    private String[] dimensionBlacklist;
     private List<BlockState> blockStateMatchers;
     private float density;
 
     public Deposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<BlockState> blockStateMatchers, float density)
+            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, float density)
     {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
@@ -62,7 +61,7 @@ public class Deposit implements IOre
         return this.size;
     }
 
-    public int[] getDimensionBlacklist()
+    public String[] getDimensionBlacklist()
     {
         return this.dimensionBlacklist;
     }

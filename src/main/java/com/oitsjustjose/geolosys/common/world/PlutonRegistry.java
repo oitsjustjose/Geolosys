@@ -1,35 +1,104 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
-import com.oitsjustjose.geolosys.api.world.IOre;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonFeature;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonFeatureConfig;
+import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class PlutonRegistry
 {
-    private ArrayList<IOre> ores;
+    private ArrayList<IDeposit> ores;
     private ArrayList<DepositStone> stones;
+    private ArrayList<IDeposit> oreWeightList;
+    private HashMap<ChunkPos, Boolean> genMap;
+
     private static PlutonRegistry instance;
 
     private PlutonRegistry()
     {
         this.ores = new ArrayList<>();
         this.stones = new ArrayList<>();
+        this.oreWeightList = new ArrayList<>();
+        this.genMap = new HashMap<>();
     }
 
-    public boolean addOrePluton(IOre ore)
+    public void markGenerated(BlockPos pos)
+    {
+        this.genMap.put(new ChunkPos(pos), true);
+    }
+
+    public void markGenerated(ChunkPos pos)
+    {
+        this.genMap.put(pos, true);
+    }
+
+    public boolean hasGenerated(BlockPos pos)
+    {
+
+        return this.genMap.containsKey(new ChunkPos(pos)) && this.genMap.get(new ChunkPos(pos));
+    }
+
+    public boolean hasGenerated(ChunkPos pos)
+    {
+        return this.genMap.containsKey(pos) && this.genMap.get(pos);
+    }
+
+    public boolean haveAnyNeighborsGenerated(BlockPos pos)
+    {
+        return hasGenerated(pos.add(16, 0, 0)) ||
+                hasGenerated(pos.add(-16, 0, 0)) ||
+                hasGenerated(pos.add(0, 0, 16)) ||
+                hasGenerated(pos.add(0, 0, -16));
+    }
+
+    public boolean haveAnyNeighborsGenerated(ChunkPos pos)
+    {
+        return hasGenerated(pos.asBlockPos().add(16, 0, 0)) ||
+                hasGenerated(pos.asBlockPos().add(-16, 0, 0)) ||
+                hasGenerated(pos.asBlockPos().add(0, 0, 16)) ||
+                hasGenerated(pos.asBlockPos().add(0, 0, -16));
+    }
+
+    public boolean haveAllNeighborsGenerated(BlockPos pos)
+    {
+        return hasGenerated(pos.add(16, 0, 0)) &&
+                hasGenerated(pos.add(-16, 0, 0)) &&
+                hasGenerated(pos.add(0, 0, 16)) &&
+                hasGenerated(pos.add(0, 0, -16));
+    }
+
+    public boolean haveAllNeighborsGenerated(ChunkPos pos)
+    {
+        return hasGenerated(pos.asBlockPos().add(16, 0, 0)) &&
+                hasGenerated(pos.asBlockPos().add(-16, 0, 0)) &&
+                hasGenerated(pos.asBlockPos().add(0, 0, 16)) &&
+                hasGenerated(pos.asBlockPos().add(0, 0, -16));
+    }
+
+    public boolean addOrePluton(IDeposit ore)
     {
         if (ore instanceof DepositStone)
         {
             return addStonePluton((DepositStone) ore);
         }
+
+        for (int i = 0; i < ore.getChance(); i++)
+        {
+            oreWeightList.add(ore);
+        }
+
         return this.ores.add(ore);
     }
 
@@ -47,26 +116,35 @@ public class PlutonRegistry
         return instance;
     }
 
+    public IDeposit pickPluton()
+    {
+        if (this.oreWeightList.size() > 0)
+        {
+            Random random = new Random();
+            int pick = random.nextInt(this.oreWeightList.size());
+            return this.oreWeightList.get(pick);
+        }
+        Geolosys.getInstance().LOGGER
+                .error("There aren't any ores in the oreWeightList - something will likely break soon");
+        return null;
+    }
+
     public void register()
     {
-        for (IOre ore : this.ores)
+        for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
-            for (Biome biome : ForgeRegistries.BIOMES.getValues())
-            {
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Biome.createDecoratedFeature(new PlutonFeature(PlutonFeatureConfig::deserialize),
-                                new PlutonFeatureConfig(ore), Placement.COUNT_RANGE,
-                                new CountRangeConfig(1, 0, 0, 16)));
-            }
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                    Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig(),
+                            Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
         }
         for (DepositStone stone : this.stones)
         {
             for (Biome biome : ForgeRegistries.BIOMES.getValues())
             {
+//                DefaultBiomeFeatures
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Biome.createDecoratedFeature(new PlutonFeature(PlutonFeatureConfig::deserialize),
-                                new PlutonFeatureConfig(stone), Placement.COUNT_RANGE,
-                                new CountRangeConfig(1, 0, 0, 16)));
+                        Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize),
+                                new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
             }
         }
     }
