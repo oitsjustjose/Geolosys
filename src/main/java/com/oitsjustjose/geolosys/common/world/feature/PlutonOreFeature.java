@@ -13,6 +13,10 @@ import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
 import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.state.IProperty;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -65,12 +69,35 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                 {
                     continue;
                 }
-                if (!(world.getBlockState(samplePos).getBlock() instanceof SampleBlock))
+                if (world.getBlockState(samplePos) != ore.getSample())
                 {
-                    BlockState sampleState = SampleUtils.isInWater(world, samplePos)
-                            ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
-                            : ore.getSample();
-                    world.setBlockState(samplePos, sampleState, 2 | 16);
+                    boolean isInWater = SampleUtils.isInWater(world, samplePos);
+                    if (ore.getSample().getBlock() instanceof SampleBlock)
+                    {
+                        BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
+                                : ore.getSample();
+                        world.setBlockState(samplePos, sampleState, 2 | 16);
+                    }
+                    else
+                    {
+                        // Place a waterlogged variant of whatever block it ends up being
+                        if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable)
+                        {
+                            ore.getSample().getProperties().forEach(x -> {
+                                if (x.getName().toLowerCase().contains("waterlog")
+                                        && x.getAllowedValues().contains(Boolean.TRUE))
+                                {
+                                    IProperty<Boolean> waterLogged = (IProperty<Boolean>) x;
+                                    world.setBlockState(samplePos, ore.getSample().with(waterLogged, Boolean.TRUE), 2 | 16);
+                                }
+                            });
+
+                        }
+                        else
+                        {
+                            world.setBlockState(samplePos, ore.getSample(), 2 | 16);
+                        }
+                    }
                 }
             }
         }
@@ -100,11 +127,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             }
         });
 
-        if (plutonCapability == null)
-        {
-            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
-            return false;
-        }
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
                 Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
         if (plutonCapability.hasOrePlutonGenerated(chunkPosDim))
