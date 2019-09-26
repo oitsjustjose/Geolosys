@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,7 +19,7 @@ public class PlutonCapProvider implements ICapabilitySerializable<CompoundNBT>
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn, final @Nullable Direction side)
     {
-        if (capIn instanceof IPlutonCapability)
+        if (capIn == GeolosysAPI.PLUTON_CAPABILITY)
         {
             return cap.cast();
         }

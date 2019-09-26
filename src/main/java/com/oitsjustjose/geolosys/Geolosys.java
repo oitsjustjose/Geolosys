@@ -39,6 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -86,7 +87,7 @@ public class Geolosys
     public void attachCap(AttachCapabilitiesEvent<World> event)
     {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new PlutonCapProvider());
-        LOGGER.info("Capability attached!!");
+        LOGGER.info("Geolosys capability attached for " + Objects.requireNonNull(event.getObject().dimension.getType().getRegistryName()).toString());
     }
 
     @SubscribeEvent

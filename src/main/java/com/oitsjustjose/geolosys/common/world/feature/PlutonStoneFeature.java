@@ -5,27 +5,70 @@ import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
+import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
+import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldType;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 {
     public PlutonStoneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
     {
         super(configFactoryIn, true);
+    }
+
+    /**
+     * Post-pluton-placement logic to generate samples and more
+     *
+     * @param world an IWorld instance
+     * @param pos   The BlockPos from which the pluton originated
+     * @param ore   The IDeposit that was generated
+     */
+    private void postPlacement(IWorld world, BlockPos pos, IDeposit ore)
+    {
+        assert GeolosysAPI.PLUTON_CAPABILITY != null;
+        GeolosysAPI.PLUTON_CAPABILITY.getDefaultInstance().setGenerated(new ChunkPosDim(pos, world.getDimension().getType().getRegistryName().toString()));
+        if (world.getWorld().getWorldType() != WorldType.FLAT)
+        {
+            int sampleLimit = SampleUtils.getSampleCount(ore);
+            for (int i = 0; i < sampleLimit; i++)
+            {
+                BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(pos), ore.getYMax());
+                if (samplePos == null)
+                {
+                    continue;
+                }
+                if (!(world.getBlockState(samplePos).getBlock() instanceof SampleBlock))
+                {
+                    BlockState sampleState =
+                            SampleUtils.isInWater(world, samplePos) ?
+                                    ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE) :
+                                    ore.getSample();
+                    world.setBlockState(samplePos, sampleState, 2 | 16);
+                }
+            }
+        }
     }
 
     private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
@@ -41,6 +84,17 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
+//        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+//        if (plutonCapability == null)
+//        {
+//            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
+//            return false;
+//        }
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
+        if (GeolosysAPI.PLUTON_CAPABILITY.getDefaultInstance().hasGenerated(chunkPosDim))
+        {
+            return false;
+        }
         IDeposit pluton = PlutonRegistry.getInstance().pickPluton();
         // Logic to confirm that this can be placed here
         if (pluton instanceof DepositBiomeRestricted)
@@ -58,6 +112,17 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
             {
                 return false;
             }
+        }
+
+        // New way of determining if the dimension is valid for generation
+        // Much quicker to use parallel streams than a for-loop, especially if in a large modpack
+        List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel().map(
+                x -> DimensionType.byName(new ResourceLocation(x))
+        ).collect(Collectors.toList());
+
+        if (dimTypes.contains(worldIn.getDimension().getType()))
+        {
+            return false;
         }
 
         float f = rand.nextFloat() * (float) Math.PI;
@@ -155,6 +220,11 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                     }
                 }
             }
+        }
+
+        if (placed)
+        {
+            this.postPlacement(worldIn, pos, pluton);
         }
 
         return placed;

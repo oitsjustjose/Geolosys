@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -66,7 +65,6 @@ public class PlutonCapability implements IPlutonCapability
 
         this.getGenerationMap().forEach((x, y) -> worldDeposits.putBoolean(x.toString(), y));
         this.getRetroMap().forEach((x, y) -> retroGen.putBoolean(x.toString(), y));
-        Geolosys.getInstance().LOGGER.info("writeNBT called");
         return compound;
     }
 
@@ -78,6 +76,5 @@ public class PlutonCapability implements IPlutonCapability
 
         worldDeposits.keySet().forEach(key -> this.setGenerated(new ChunkPosDim(key)));
         retroGen.keySet().forEach(key -> this.setRetroGenned(new ChunkPosDim(key)));
-        Geolosys.getInstance().LOGGER.info("readNBT called");
     }
 }

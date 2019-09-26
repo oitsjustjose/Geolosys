@@ -49,6 +49,11 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
      */
     private void postPlacement(IWorld world, BlockPos pos, IDeposit ore)
     {
+        IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        if (plutonCapability != null)
+        {
+            plutonCapability.setGenerated(new ChunkPosDim(pos, Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
+        }
         if (world.getWorld().getWorldType() != WorldType.FLAT)
         {
             int sampleLimit = SampleUtils.getSampleCount(ore);
