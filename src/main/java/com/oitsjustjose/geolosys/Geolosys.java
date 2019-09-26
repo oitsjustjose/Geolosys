@@ -7,6 +7,7 @@ import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
@@ -41,6 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -58,7 +60,7 @@ public class Geolosys
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
-        this.initConfig();
+        this.configSetup();
     }
 
     public static Geolosys getInstance()
@@ -66,7 +68,7 @@ public class Geolosys
         return instance;
     }
 
-    private void initConfig()
+    private void configSetup()
     {
         ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
         ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
@@ -84,7 +86,8 @@ public class Geolosys
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
             }
         }
-        PlutonRegistry.getInstance().register();
+
+        proxy.throwDownloadError(new File("./config/"));
     }
 
     @SubscribeEvent
@@ -122,11 +125,6 @@ public class Geolosys
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
-            PlutonRegistry.getInstance().addOrePluton(new Deposit(
-                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
-                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
-                    128, 80, 100, new String[]
-                    {"the_end", "the_nether"}, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
         }
 
         @SubscribeEvent
@@ -135,6 +133,21 @@ public class Geolosys
             // Register BlockItems (formerly known as ItemBlocks) for each block initialized
             BlockInit.getInstance().registerBlockItems(itemRegistryEvent);
             ItemInit.getInstance().register(itemRegistryEvent);
+        }
+
+        /**
+         * We rely on blocksRegistryEvent to know that the blocks are ready, because we don't know otherwise
+         */
+        private static void postBlocksInit()
+        {
+            OreConfig.setup(new File("./config/geolosys.json"));
+
+            PlutonRegistry.getInstance().addOrePluton(new Deposit(
+                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
+                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
+                    128, 80, 100, new String[]
+                    {"the_end", "the_nether"}, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
+            PlutonRegistry.getInstance().register();
         }
     }
 }
