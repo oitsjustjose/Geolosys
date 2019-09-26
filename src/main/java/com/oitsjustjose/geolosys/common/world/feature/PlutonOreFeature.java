@@ -7,6 +7,7 @@ import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
@@ -53,6 +54,12 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
      */
     private void postPlacement(IWorld world, BlockPos pos, IDeposit ore)
     {
+        if (ModConfig.DEBUG_WORLD_GEN.get())
+        {
+            Geolosys.getInstance().LOGGER
+                    .debug("Generated " + ore.getFriendlyName() + " in Chunk " + new ChunkPos(pos));
+        }
+
         IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
         if (plutonCapability != null)
         {
@@ -88,7 +95,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                                         && x.getAllowedValues().contains(Boolean.TRUE))
                                 {
                                     IProperty<Boolean> waterLogged = (IProperty<Boolean>) x;
-                                    world.setBlockState(samplePos, ore.getSample().with(waterLogged, Boolean.TRUE), 2 | 16);
+                                    world.setBlockState(samplePos, ore.getSample().with(waterLogged, Boolean.TRUE),
+                                            2 | 16);
                                 }
                             });
 
@@ -122,6 +130,11 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
             if (isInChunk(new ChunkPos(pos), pPos))
             {
+                if (ModConfig.DEBUG_WORLD_GEN.get())
+                {
+                    Geolosys.getInstance().LOGGER.info(
+                            "Generated pending block " + pState.getBlock().getRegistryName().toString() + " at " + pos);
+                }
                 worldIn.setBlockState(pPos, pState, 2 | 16);
                 plutonCapability.getPendingBlocks().remove(pPos);
             }
@@ -131,11 +144,13 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                 Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
         if (plutonCapability.hasOrePlutonGenerated(chunkPosDim))
         {
+            Geolosys.getInstance().LOGGER.info("Didn't generate because pluton has generated??");
             return false;
         }
         IDeposit pluton = PlutonRegistry.getInstance().pickPluton();
         if (pluton == null)
         {
+            Geolosys.getInstance().LOGGER.info("Didn't generate because no pluton was picked");
             return false;
         }
         // Logic to confirm that this can be placed here
@@ -144,6 +159,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             DepositBiomeRestricted restricted = (DepositBiomeRestricted) pluton;
             if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
             {
+                Geolosys.getInstance().LOGGER.info("Didn't generate because it's the wrong biome");
                 return false;
             }
         }
@@ -152,6 +168,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             DepositMultiOreBiomeRestricted restricted = (DepositMultiOreBiomeRestricted) pluton;
             if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
             {
+                Geolosys.getInstance().LOGGER.info("Didn't generate because it's the wrong biome");
                 return false;
             }
         }

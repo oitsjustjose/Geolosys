@@ -38,7 +38,6 @@ public class OreConfig
     public static void setup(File configRoot)
     {
         instance = new OreConfig(configRoot);
-        instance.init();
     }
 
     public static OreConfig getInstance()
@@ -110,6 +109,7 @@ public class OreConfig
             }
             catch (IOException f)
             {
+                Geolosys.getInstance().LOGGER.warn(f.getLocalizedMessage());
                 Geolosys.proxy.throwDownloadError(this.jsonFile);
             }
         }
@@ -318,9 +318,11 @@ public class OreConfig
         }
         catch (Exception e)
         {
+
             Geolosys.getInstance().LOGGER.error(
                     "There was a parsing error with the geolosys_ores.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
             Geolosys.getInstance().LOGGER.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -461,7 +463,12 @@ public class OreConfig
 
     private String[] fromArrayList(ArrayList<String> arrList)
     {
-        return (String[]) arrList.toArray();
+        String[] ret = new String[arrList.size()];
+        for (int i = 0; i < arrList.size(); i++)
+        {
+            ret[i] = arrList.get(i);
+        }
+        return ret;
     }
 
     private static class PendingOre

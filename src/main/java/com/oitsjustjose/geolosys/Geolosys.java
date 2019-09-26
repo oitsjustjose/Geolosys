@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys;
 
 import com.google.common.collect.ImmutableList;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.Deposit;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.ConfigClient;
@@ -124,6 +125,7 @@ public class Geolosys
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
+            postBlocksInit();
         }
 
         @SubscribeEvent
@@ -139,14 +141,10 @@ public class Geolosys
          */
         private static void postBlocksInit()
         {
-            OreConfig.setup(new File("./config/geolosys.json"));
+            // Add stone as a replacement mat - I'm not sure what to do with this as of yet
+            GeolosysAPI.replacementMats.add(Blocks.STONE.getDefaultState());
+            OreConfig.setup(new File("./config"));
             OreConfig.getInstance().init();
-
-            PlutonRegistry.getInstance().addOrePluton(new Deposit(
-                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
-                    BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
-                    128, 80, 100, new String[]
-                    { "the_end", "the_nether" }, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
             PlutonRegistry.getInstance().register();
         }
     }

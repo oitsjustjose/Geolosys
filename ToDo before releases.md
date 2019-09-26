@@ -2,11 +2,12 @@
 
 ## Alpha
 
-- [ ] Fix ToDo blocks using new Capabilities system to reduce/remove Cascading Lag
-- [ ] Implement JSON config again
-  - [ ] Parse JSON config
+- [x] Fix ToDo blocks using new Capabilities system to reduce/remove Cascading Lag
+- [x] Implement JSON config again
+  - [x] Parse JSON config
   - [ ] See if new PlutonFeature works as it should
-- [ ] Finish logic for Stones
+- [x] Finish logic for Stones
+- [ ] Re-implement all config options
 
 ## Beta
 
