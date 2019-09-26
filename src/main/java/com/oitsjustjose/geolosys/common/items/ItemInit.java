@@ -72,7 +72,7 @@ public class ItemInit
                 burnTimes.put(item, coalCokeType.getBurnTime());
             }
         }
-
+        this.items.put(ManualItem.REGISTRY_NAME.toString(), new ManualItem());
     }
 
     public static ItemInit getInstance()
