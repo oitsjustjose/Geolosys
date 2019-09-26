@@ -86,8 +86,6 @@ public class Geolosys
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
             }
         }
-
-        proxy.throwDownloadError(new File("./config/"));
     }
 
     @SubscribeEvent
@@ -141,6 +139,7 @@ public class Geolosys
         private static void postBlocksInit()
         {
             OreConfig.setup(new File("./config/geolosys.json"));
+            OreConfig.getInstance().init();
 
             PlutonRegistry.getInstance().addOrePluton(new Deposit(
                     BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),

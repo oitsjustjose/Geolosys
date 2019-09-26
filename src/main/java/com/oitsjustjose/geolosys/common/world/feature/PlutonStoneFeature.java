@@ -1,22 +1,19 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
+import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
-import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.WorldType;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
@@ -38,39 +35,6 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
         super(configFactoryIn, true);
     }
 
-    /**
-     * Post-pluton-placement logic to generate samples and more
-     *
-     * @param world an IWorld instance
-     * @param pos   The BlockPos from which the pluton originated
-     * @param ore   The IDeposit that was generated
-     */
-    private void postPlacement(IWorld world, BlockPos pos, IDeposit ore)
-    {
-        assert GeolosysAPI.PLUTON_CAPABILITY != null;
-        GeolosysAPI.PLUTON_CAPABILITY.getDefaultInstance().setGenerated(new ChunkPosDim(pos, world.getDimension().getType().getRegistryName().toString()));
-        if (world.getWorld().getWorldType() != WorldType.FLAT)
-        {
-            int sampleLimit = SampleUtils.getSampleCount(ore);
-            for (int i = 0; i < sampleLimit; i++)
-            {
-                BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(pos), ore.getYMax());
-                if (samplePos == null)
-                {
-                    continue;
-                }
-                if (!(world.getBlockState(samplePos).getBlock() instanceof SampleBlock))
-                {
-                    BlockState sampleState =
-                            SampleUtils.isInWater(world, samplePos) ?
-                                    ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE) :
-                                    ore.getSample();
-                    world.setBlockState(samplePos, sampleState, 2 | 16);
-                }
-            }
-        }
-    }
-
     private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
     {
         int blockX = pos.getX();
@@ -84,34 +48,22 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-//        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
-//        if (plutonCapability == null)
-//        {
-//            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
-//            return false;
-//        }
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
-        if (GeolosysAPI.PLUTON_CAPABILITY.getDefaultInstance().hasGenerated(chunkPosDim))
+        if (plutonCapability == null)
+        {
+            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
+            return false;
+        }
+        if (plutonCapability.hasStonePlutonGenerated(chunkPosDim))
         {
             return false;
         }
-        IDeposit pluton = PlutonRegistry.getInstance().pickPluton();
-        // Logic to confirm that this can be placed here
-        if (pluton instanceof DepositBiomeRestricted)
+        IDeposit pluton = PlutonRegistry.getInstance().pickStone();
+        if (pluton == null)
         {
-            DepositBiomeRestricted restricted = (DepositBiomeRestricted) pluton;
-            if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
-            {
-                return false;
-            }
-        }
-        else if (pluton instanceof DepositMultiOreBiomeRestricted)
-        {
-            DepositMultiOreBiomeRestricted restricted = (DepositMultiOreBiomeRestricted) pluton;
-            if (!restricted.canPlaceInBiome(worldIn.getBiome(pos)))
-            {
-                return false;
-            }
+            return false;
         }
 
         // New way of determining if the dimension is valid for generation
@@ -211,8 +163,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        // TODO: Fix toDoBlocks
-                                        // toDoBlocks.storePending(blockpos, ore.getOre());
+                                        plutonCapability.putPendingBlock(pos, pluton.getOre());
                                     }
                                 }
                             }
@@ -221,12 +172,11 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                 }
             }
         }
-
         if (placed)
         {
-            this.postPlacement(worldIn, pos, pluton);
+            worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null)
+                    .setStonePlutonGenerated(new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString()));
         }
-
         return placed;
     }
 }

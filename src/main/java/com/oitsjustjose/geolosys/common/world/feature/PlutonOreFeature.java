@@ -52,7 +52,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
         if (plutonCapability != null)
         {
-            plutonCapability.setGenerated(new ChunkPosDim(pos, Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
+            plutonCapability.setOrePlutonGenerated(new ChunkPosDim(pos, Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
         }
         if (world.getWorld().getWorldType() != WorldType.FLAT)
         {
@@ -90,17 +90,30 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             BlockPos pos, NoFeatureConfig config)
     {
         IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        // Fill in pending Blocks when possible:
+        plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
+            if (isInChunk(new ChunkPos(pos), pPos))
+            {
+                worldIn.setBlockState(pPos, pState, 2 | 16);
+                plutonCapability.getPendingBlocks().remove(pPos);
+            }
+        });
+
         if (plutonCapability == null)
         {
             Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
             return false;
         }
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
-        if (plutonCapability.hasGenerated(chunkPosDim))
+        if (plutonCapability.hasOrePlutonGenerated(chunkPosDim))
         {
             return false;
         }
         IDeposit pluton = PlutonRegistry.getInstance().pickPluton();
+        if (pluton == null)
+        {
+            return false;
+        }
         // Logic to confirm that this can be placed here
         if (pluton instanceof DepositBiomeRestricted)
         {
@@ -138,7 +151,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         double d4 = pos.getY() + rand.nextInt(3) - 2;
         double d5 = pos.getY() + rand.nextInt(3) - 2;
 
-        // ToDoBlocks toDoBlocks = ToDoBlocks.getForWorld(worldIn, dataName);
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
 
@@ -216,8 +228,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        // TODO: Fix toDoBlocks
-                                        // toDoBlocks.storePending(blockpos, ore.getOre());
+                                        plutonCapability.putPendingBlock(pos, pluton.getOre());
                                     }
                                 }
                             }

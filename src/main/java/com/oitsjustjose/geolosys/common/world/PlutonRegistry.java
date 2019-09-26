@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
@@ -19,14 +18,16 @@ public class PlutonRegistry
 {
     private static PlutonRegistry instance;
     private ArrayList<IDeposit> ores;
-    private ArrayList<DepositStone> stones;
     private ArrayList<IDeposit> oreWeightList;
+    private ArrayList<DepositStone> stones;
+    private ArrayList<DepositStone> stoneWeightList;
 
     private PlutonRegistry()
     {
         this.ores = new ArrayList<>();
-        this.stones = new ArrayList<>();
         this.oreWeightList = new ArrayList<>();
+        this.stones = new ArrayList<>();
+        this.stoneWeightList = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -65,9 +66,13 @@ public class PlutonRegistry
         return this.ores.add(ore);
     }
 
-    public boolean addStonePluton(DepositStone ore)
+    public boolean addStonePluton(DepositStone stone)
     {
-        return this.stones.add(ore);
+        for (int i = 0; i < stone.getChance(); i++)
+        {
+            stoneWeightList.add(stone);
+        }
+        return this.stones.add(stone);
     }
 
     public IDeposit pickPluton()
@@ -78,8 +83,17 @@ public class PlutonRegistry
             int pick = random.nextInt(this.oreWeightList.size());
             return this.oreWeightList.get(pick);
         }
-        Geolosys.getInstance().LOGGER
-                .error("There aren't any ores in the oreWeightList - something will likely break soon");
+        return null;
+    }
+
+    public DepositStone pickStone()
+    {
+        if (this.stoneWeightList.size() > 0)
+        {
+            Random random = new Random();
+            int pick = random.nextInt(this.stoneWeightList.size());
+            return this.stoneWeightList.get(pick);
+        }
         return null;
     }
 
