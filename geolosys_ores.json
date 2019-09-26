@@ -1,11 +1,11 @@
 {
 	"ores": [{
 			"blocks": [
-				"geolosys:ore_vanilla:0",
+				"geolosys:coal_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:0",
+				"geolosys:coal_sample",
 				100
 			],
 			"yMin": 8,
@@ -20,11 +20,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:1",
+				"geolosys:cinnabar_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:1",
+				"geolosys:cinnabar_sample",
 				100
 			],
 			"yMin": 5,
@@ -39,11 +39,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:2",
+				"geolosys:gold_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:2",
+				"geolosys:gold_sample",
 				100
 			],
 			"yMin": 5,
@@ -58,11 +58,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:3",
+				"geolosys:lapis_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:3",
+				"geolosys:lapis_sample",
 				100
 			],
 			"yMin": 10,
@@ -83,11 +83,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:4",
+				"geolosys:quartz_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:4",
+				"geolosys:quartz_sample",
 				100
 			],
 			"yMin": 6,
@@ -102,11 +102,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:5",
+				"geolosys:kimberlite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:5",
+				"geolosys:kimberlite_sample",
 				100
 			],
 			"yMin": 2,
@@ -121,11 +121,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore_vanilla:6",
+				"geolosys:beryl_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample_vanilla:6",
+				"geolosys:beryl_sample",
 				100
 			],
 			"yMin": 4,
@@ -149,11 +149,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:0",
+				"geolosys:hematite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:0",
+				"geolosys:hematite_sample",
 				100
 			],
 			"yMin": 32,
@@ -168,11 +168,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:1",
+				"geolosys:limonite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:1",
+				"geolosys:limonite_sample",
 				100
 			],
 			"yMin": 6,
@@ -194,15 +194,15 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:2",
+				"geolosys:malachite_ore",
 				40,
-				"geolosys:ore:3",
+				"geolosys:azurite_ore",
 				60
 			],
 			"samples": [
-				"geolosys:ore_sample:2",
+				"geolosys:malachite_sample",
 				40,
-				"geolosys:ore_sample:3",
+				"geolosys:azurite_sample",
 				60
 			],
 			"yMin": 12,
@@ -217,11 +217,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:4",
+				"geolosys:cassiterite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:4",
+				"geolosys:cassiterite_sample",
 				100
 			],
 			"yMin": 44,
@@ -242,13 +242,13 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:5",
+				"geolosys:teallite_ore",
 				90,
-				"geolosys:ore_vanilla:6",
+				"geolosys:beryl_ore",
 				10
 			],
 			"samples": [
-				"geolosys:ore_sample:5",
+				"geolosys:teallite_sample",
 				100
 			],
 			"yMin": 8,
@@ -267,11 +267,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:6",
+				"geolosys:galena_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:6",
+				"geolosys:galena_sample",
 				100
 			],
 			"yMin": 16,
@@ -293,11 +293,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:7",
+				"geolosys:bauxite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:7",
+				"geolosys:bauxite_sample",
 				100
 			],
 			"yMin": 45,
@@ -325,11 +325,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:8",
+				"geolosys:platinum_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:8",
+				"geolosys:platinum_sample",
 				100
 			],
 			"yMin": 3,
@@ -353,13 +353,13 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:9",
+				"geolosys:autunite_ore",
 				85,
 				"minecraft:stone:1",
 				15
 			],
 			"samples": [
-				"geolosys:ore_sample:9",
+				"geolosys:autunite_sample",
 				100
 			],
 			"yMin": 8,
@@ -383,11 +383,11 @@
 		},
 		{
 			"blocks": [
-				"geolosys:ore:10",
+				"geolosys:sphalerite_ore",
 				100
 			],
 			"samples": [
-				"geolosys:ore_sample:10",
+				"geolosys:sphalerite_sample",
 				100
 			],
 			"yMin": 37,
@@ -402,7 +402,7 @@
 		}
 	],
 	"stones": [{
-			"block": "minecraft:stone:1",
+			"block": "minecraft:granite",
 			"size": 40,
 			"chance": 10,
 			"yMin": 2,
@@ -413,7 +413,7 @@
 			]
 		},
 		{
-			"block": "minecraft:stone:3",
+			"block": "minecraft:diorite",
 			"size": 40,
 			"chance": 10,
 			"yMin": 2,
@@ -424,7 +424,7 @@
 			]
 		},
 		{
-			"block": "minecraft:stone:5",
+			"block": "minecraft:andesite",
 			"size": 40,
 			"chance": 10,
 			"yMin": 2,
