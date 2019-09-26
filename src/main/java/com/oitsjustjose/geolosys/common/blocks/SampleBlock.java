@@ -66,9 +66,12 @@ public class SampleBlock extends Block implements IWaterLoggable
         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
         // One in ten chance for the sample to break when fallen on
         Random random = new Random();
-        if (random.nextInt((int) fallDistance) > 5)
+        if (((int) fallDistance) > 0)
         {
-            worldIn.destroyBlock(pos, true);
+            if (random.nextInt((int) fallDistance) > 5)
+            {
+                worldIn.destroyBlock(pos, true);
+            }
         }
     }
 
