@@ -60,7 +60,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             for (int i = 0; i < sampleLimit; i++)
             {
                 BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(pos), ore.getYMax());
-                if (samplePos == null)
+                if (samplePos == null || SampleUtils.inNonWaterFluid(world, samplePos))
                 {
                     continue;
                 }

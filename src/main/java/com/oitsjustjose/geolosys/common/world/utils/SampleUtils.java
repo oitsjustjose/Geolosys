@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -79,12 +80,23 @@ public class SampleUtils
     /**
      * @param world an IWorld instance
      * @param pos   A BlockPos to check in and around
-     * @return true if the block above is liquid (since we can waterlog)
+     * @return true if the block is water (since we can waterlog)
      */
     public static boolean isInWater(IWorld world, BlockPos pos)
     {
-        return world.getBlockState(pos.up()).getMaterial().isLiquid() || world.getBlockState(pos).getMaterial().isLiquid();
+        return world.getBlockState(pos).getBlock() == Blocks.WATER;
     }
+
+    /**
+     * @param world an IWorld instance
+     * @param pos   A BlockPos to check in and around
+     * @return true if the block is in a non-water fluid
+     */
+    public static boolean inNonWaterFluid(IWorld world, BlockPos pos)
+    {
+        return world.getBlockState(pos).getMaterial().isLiquid() && !isInWater(world, pos);
+    }
+
 
     /**
      * @param posA
