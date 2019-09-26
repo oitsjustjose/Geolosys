@@ -88,7 +88,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         if (plutonCapability == null)
         {
             Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
-
+            return false;
         }
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
         if (plutonCapability.hasGenerated(chunkPosDim))
