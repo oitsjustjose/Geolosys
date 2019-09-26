@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
@@ -8,6 +9,8 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
+import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
+import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
 import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +28,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -45,13 +49,16 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
      */
     private void postPlacement(IWorld world, BlockPos pos, IDeposit ore)
     {
-        PlutonRegistry.getInstance().markGenerated(pos);
         if (world.getWorld().getWorldType() != WorldType.FLAT)
         {
             int sampleLimit = SampleUtils.getSampleCount(ore);
             for (int i = 0; i < sampleLimit; i++)
             {
                 BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(pos), ore.getYMax());
+                if (samplePos == null)
+                {
+                    continue;
+                }
                 if (!(world.getBlockState(samplePos).getBlock() instanceof SampleBlock))
                 {
                     BlockState sampleState =
@@ -77,8 +84,14 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        // Strictly limit to 1 pluton per T in chunks
-        if (PlutonRegistry.getInstance().hasGenerated(pos) || PlutonRegistry.getInstance().haveAnyNeighborsGenerated(pos))
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        if (plutonCapability == null)
+        {
+            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
+
+        }
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
+        if (plutonCapability.hasGenerated(chunkPosDim))
         {
             return false;
         }

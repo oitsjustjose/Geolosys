@@ -4,8 +4,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -14,7 +13,6 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class PlutonRegistry
@@ -22,7 +20,6 @@ public class PlutonRegistry
     private ArrayList<IDeposit> ores;
     private ArrayList<DepositStone> stones;
     private ArrayList<IDeposit> oreWeightList;
-    private HashMap<ChunkPos, Boolean> genMap;
 
     private static PlutonRegistry instance;
 
@@ -31,60 +28,6 @@ public class PlutonRegistry
         this.ores = new ArrayList<>();
         this.stones = new ArrayList<>();
         this.oreWeightList = new ArrayList<>();
-        this.genMap = new HashMap<>();
-    }
-
-    public void markGenerated(BlockPos pos)
-    {
-        this.genMap.put(new ChunkPos(pos), true);
-    }
-
-    public void markGenerated(ChunkPos pos)
-    {
-        this.genMap.put(pos, true);
-    }
-
-    public boolean hasGenerated(BlockPos pos)
-    {
-
-        return this.genMap.containsKey(new ChunkPos(pos)) && this.genMap.get(new ChunkPos(pos));
-    }
-
-    public boolean hasGenerated(ChunkPos pos)
-    {
-        return this.genMap.containsKey(pos) && this.genMap.get(pos);
-    }
-
-    public boolean haveAnyNeighborsGenerated(BlockPos pos)
-    {
-        return hasGenerated(pos.add(16, 0, 0)) ||
-                hasGenerated(pos.add(-16, 0, 0)) ||
-                hasGenerated(pos.add(0, 0, 16)) ||
-                hasGenerated(pos.add(0, 0, -16));
-    }
-
-    public boolean haveAnyNeighborsGenerated(ChunkPos pos)
-    {
-        return hasGenerated(pos.asBlockPos().add(16, 0, 0)) ||
-                hasGenerated(pos.asBlockPos().add(-16, 0, 0)) ||
-                hasGenerated(pos.asBlockPos().add(0, 0, 16)) ||
-                hasGenerated(pos.asBlockPos().add(0, 0, -16));
-    }
-
-    public boolean haveAllNeighborsGenerated(BlockPos pos)
-    {
-        return hasGenerated(pos.add(16, 0, 0)) &&
-                hasGenerated(pos.add(-16, 0, 0)) &&
-                hasGenerated(pos.add(0, 0, 16)) &&
-                hasGenerated(pos.add(0, 0, -16));
-    }
-
-    public boolean haveAllNeighborsGenerated(ChunkPos pos)
-    {
-        return hasGenerated(pos.asBlockPos().add(16, 0, 0)) &&
-                hasGenerated(pos.asBlockPos().add(-16, 0, 0)) &&
-                hasGenerated(pos.asBlockPos().add(0, 0, 16)) &&
-                hasGenerated(pos.asBlockPos().add(0, 0, -16));
     }
 
     public boolean addOrePluton(IDeposit ore)
@@ -137,15 +80,11 @@ public class PlutonRegistry
                     Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig(),
                             Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
         }
-        for (DepositStone stone : this.stones)
+        for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
-            for (Biome biome : ForgeRegistries.BIOMES.getValues())
-            {
-//                DefaultBiomeFeatures
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                        Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize),
-                                new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
-            }
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                    Biome.createDecoratedFeature(new PlutonStoneFeature(NoFeatureConfig::deserialize),
+                            new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
         }
     }
 }

@@ -11,12 +11,14 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.Heightmap;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class SampleUtils
 {
     private static Random random = new Random();
 
+    @Nullable
     public static BlockPos getSamplePosition(IWorld world, ChunkPos chunkPos, int depositHeight)
     {
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
@@ -50,7 +52,7 @@ public class SampleUtils
             }
             searchPos = searchPos.up();
         }
-        return getSamplePosition(world, chunkPos, depositHeight);
+        return null;
     }
 
     /**

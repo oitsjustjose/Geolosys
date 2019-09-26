@@ -8,6 +8,10 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
+import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
+import com.oitsjustjose.geolosys.common.world.capability.PlutonCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.PlutonCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.PlutonCapability;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -15,9 +19,12 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,6 +69,8 @@ public class Geolosys
 
     public void setup(final FMLCommonSetupEvent event)
     {
+        CapabilityManager.INSTANCE.register(IPlutonCapability.class, new PlutonCapStorage(), PlutonCapability::new);
+
         if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
             for (Biome biome : ForgeRegistries.BIOMES.getValues())
@@ -70,8 +79,14 @@ public class Geolosys
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
             }
         }
-
         PlutonRegistry.getInstance().register();
+    }
+
+    @SubscribeEvent
+    public void attachCap(AttachCapabilitiesEvent<World> event)
+    {
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new PlutonCapProvider());
+        LOGGER.info("Capability attached!!");
     }
 
     @SubscribeEvent
@@ -97,6 +112,7 @@ public class Geolosys
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents
     {
+
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
