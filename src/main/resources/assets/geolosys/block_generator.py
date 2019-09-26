@@ -14,9 +14,9 @@ def generate_states(states: list) -> None:
         with open("./blockstates/{}.json".format(state), "w") as file:
             file.write(json.dumps(json_doc))
             print(
-                Fore.BLUE
-                + "Wrote ./blockstates/{}.json to disk".format(state)
-                + Fore.RESET
+                    Fore.BLUE
+                    + "Wrote ./blockstates/{}.json to disk".format(state)
+                    + Fore.RESET
             )
 
 
@@ -86,6 +86,7 @@ if __name__ == "__main__":
         print(Fore.CYAN + "    -s: Generate BlockStates" + Fore.RESET)
         print(Fore.CYAN + "    -a: Generate All" + Fore.RESET)
         print(Fore.CYAN + "    -h, ? : This screen" + Fore.RESET)
+
 
     possible_args = {
         "-a": False,

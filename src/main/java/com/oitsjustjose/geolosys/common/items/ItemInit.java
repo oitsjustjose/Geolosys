@@ -1,19 +1,18 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class ItemInit
 {

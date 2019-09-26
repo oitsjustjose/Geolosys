@@ -1,10 +1,10 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.IStringSerializable;
+
+import javax.annotation.Nullable;
 
 public class Types
 {

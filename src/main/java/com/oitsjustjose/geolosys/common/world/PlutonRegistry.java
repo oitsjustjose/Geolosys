@@ -17,17 +17,25 @@ import java.util.Random;
 
 public class PlutonRegistry
 {
+    private static PlutonRegistry instance;
     private ArrayList<IDeposit> ores;
     private ArrayList<DepositStone> stones;
     private ArrayList<IDeposit> oreWeightList;
-
-    private static PlutonRegistry instance;
 
     private PlutonRegistry()
     {
         this.ores = new ArrayList<>();
         this.stones = new ArrayList<>();
         this.oreWeightList = new ArrayList<>();
+    }
+
+    public static PlutonRegistry getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new PlutonRegistry();
+        }
+        return instance;
     }
 
     public boolean addOrePluton(IDeposit ore)
@@ -48,15 +56,6 @@ public class PlutonRegistry
     public boolean addStonePluton(DepositStone ore)
     {
         return this.stones.add(ore);
-    }
-
-    public static PlutonRegistry getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new PlutonRegistry();
-        }
-        return instance;
     }
 
     public IDeposit pickPluton()

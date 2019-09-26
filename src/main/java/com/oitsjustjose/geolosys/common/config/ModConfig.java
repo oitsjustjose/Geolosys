@@ -13,11 +13,8 @@ import java.nio.file.Path;
 @Mod.EventBusSubscriber
 public class ModConfig
 {
-    private static final Builder COMMON_BUILDER = new Builder();
-
     public static final ForgeConfigSpec COMMON_CONFIG;
-
-    private static String CATEGORY_FEATURE_CONTROL = "feature control";
+    private static final Builder COMMON_BUILDER = new Builder();
     public static ForgeConfigSpec.BooleanValue REPLACE_STONES;
     public static ForgeConfigSpec.BooleanValue ENABLE_INGOTS;
     public static ForgeConfigSpec.BooleanValue ENABLE_COALS;
@@ -26,9 +23,6 @@ public class ModConfig
     public static ForgeConfigSpec.BooleanValue RETRO_REPLACE;
     public static ForgeConfigSpec.BooleanValue DISABLE_VANILLA_ORE_GEN;
     public static ForgeConfigSpec.BooleanValue ENABLE_FORTUNE_ON_ALL_ORES;
-
-    private static String CATEGORY_PROSPECTING = "prospecting";
-
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.BooleanValue BORING_SAMPLES;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
@@ -37,11 +31,18 @@ public class ModConfig
     public static ForgeConfigSpec.IntValue PRO_PICK_RANGE;
     public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
     public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
-
+    public static ForgeConfigSpec.IntValue NETHER_ORE_MAXY;
+    private static String CATEGORY_FEATURE_CONTROL = "feature control";
+    private static String CATEGORY_PROSPECTING = "prospecting";
     private static String CATEGORY_USER_ENTRIES = "user entries";
 
-
-    public static ForgeConfigSpec.IntValue NETHER_ORE_MAXY;
+    static
+    {
+        init();
+        ConfigClient.init(COMMON_BUILDER);
+        ConfigCompat.init(COMMON_BUILDER);
+        COMMON_CONFIG = COMMON_BUILDER.build();
+    }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path)
     {
@@ -53,14 +54,6 @@ public class ModConfig
 
         configData.load();
         spec.setConfig(configData);
-    }
-
-    static
-    {
-        init();
-        ConfigClient.init(COMMON_BUILDER);
-        ConfigCompat.init(COMMON_BUILDER);
-        COMMON_CONFIG = COMMON_BUILDER.build();
     }
 
     private static void init()
@@ -94,6 +87,6 @@ public class ModConfig
 
     public enum SURFACE_PROSPECTING_TYPE
     {
-        SAMPLES, OREBLOCKS;
+        SAMPLES, OREBLOCKS
     }
 }

@@ -2,8 +2,6 @@
     Author: Jose Stovall
     Geolosys: https://github.com/oitsjustjose/Geolosys
 """
-import glob
-import os
 import json
 
 from pip._vendor.colorama import Fore
@@ -22,21 +20,19 @@ def generate_ingots(ingots: list) -> None:
         file.write(json.dumps(ingots_doc))
     print(Fore.BLUE + "Successfully wrote ./forge/tags/items/ingots.json" + Fore.RESET)
 
+
 def generate_clusters(clusters: list) -> None:
     """"""
     clusters_doc = {"replace": False, "values": []}
-    
+
     for cluster in clusters:
         clusters_doc["values"].append("#forge:ores/{}".format(cluster))
         json_doc = {"replace": False, "values": ["geolosys:{}_cluster".format(cluster)]}
         with open("./forge/tags/items/ores/{}.json".format(cluster), 'w') as file:
             file.write(json.dumps(json_doc))
-    
+
     with open("./forge/tags/items/ores.json", 'w') as file:
         file.write(json.dumps(clusters_doc))
-    
-
-
 
 
 def main() -> None:
@@ -67,6 +63,7 @@ def main() -> None:
     ]
     generate_ingots(ingots)
     generate_clusters(clusters)
+
 
 if __name__ == "__main__":
     main()

@@ -1,11 +1,8 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.HashMap;
-
 import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.Properties;
 import net.minecraft.block.SoundType;
@@ -15,6 +12,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
+
+import java.util.HashMap;
 
 public class BlockInit
 {

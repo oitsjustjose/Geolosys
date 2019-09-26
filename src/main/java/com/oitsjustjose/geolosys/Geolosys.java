@@ -56,15 +56,15 @@ public class Geolosys
         this.initConfig();
     }
 
+    public static Geolosys getInstance()
+    {
+        return instance;
+    }
+
     private void initConfig()
     {
         ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
         ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
-    }
-
-    public static Geolosys getInstance()
-    {
-        return instance;
     }
 
     public void setup(final FMLCommonSetupEvent event)

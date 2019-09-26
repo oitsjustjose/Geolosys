@@ -9,7 +9,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.Heightmap;
 
 import javax.annotation.Nullable;
 import java.util.Random;

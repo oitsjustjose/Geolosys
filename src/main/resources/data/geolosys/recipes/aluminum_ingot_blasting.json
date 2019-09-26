@@ -1,1 +1,27 @@
-{"type": "forge:conditional", "recipes": [{"conditions": [{"values": [{"item": "geolosys:aluminum_ingot", "type": "forge:item_exists"}], "type": "forge:and"}], "recipe": {"type": "minecraft:blasting", "ingredient": {"item": "geolosys:aluminum_cluster"}, "result": "geolosys:aluminum_ingot", "experience": 0.7, "cookingtime": 100}}]}
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "item": "geolosys:aluminum_ingot",
+              "type": "forge:item_exists"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:blasting",
+        "ingredient": {
+          "item": "geolosys:aluminum_cluster"
+        },
+        "result": "geolosys:aluminum_ingot",
+        "experience": 0.7,
+        "cookingtime": 100
+      }
+    }
+  ]
+}

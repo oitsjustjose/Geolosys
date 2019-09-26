@@ -1,12 +1,12 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class DepositMultiOreBiomeRestricted extends DepositMultiOre
 {

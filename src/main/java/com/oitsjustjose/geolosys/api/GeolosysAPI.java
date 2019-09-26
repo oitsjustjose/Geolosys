@@ -4,13 +4,11 @@ import com.oitsjustjose.geolosys.api.world.*;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import net.minecraft.block.BlockState;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +19,8 @@ import java.util.List;
  */
 public class GeolosysAPI
 {
+    @CapabilityInject(IPlutonCapability.class)
+    public static final Capability<IPlutonCapability> PLUTON_CAPABILITY = null;
     // A collection of BlockStates that can trigger the prospector's pick
     public static ArrayList<BlockState> proPickExtras = new ArrayList<>();
     // A collection of blocks which Geolosys can replace in generation
@@ -29,9 +29,6 @@ public class GeolosysAPI
     public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
     // An instance of the registry for all generatable plutons
     public static PlutonRegistry plutonRegistry = PlutonRegistry.getInstance();
-
-    @CapabilityInject(IPlutonCapability.class)
-    public static final Capability<IPlutonCapability> PLUTON_CAPABILITY = null;
 
     /**
      * Adds a GENERIC deposit for Geolosys to handle the generation of.
@@ -136,7 +133,6 @@ public class GeolosysAPI
         DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
         plutonRegistry.addStonePluton(tempDeposit);
     }
-
 
 
 }

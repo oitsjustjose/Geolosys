@@ -21,7 +21,6 @@ def generate_item_models(items: list) -> None:
             print(Fore.BLUE + "Wrote ./models/item/{}.json to disk".format(item) + Fore.RESET)
 
 
-
 def main() -> None:
     """
     The main program logic which generates items based on the array below
@@ -65,6 +64,7 @@ if __name__ == "__main__":
         """Prints the help prompt for the user to know their options"""
         print(Fore.YELLOW + "Possible arguments:" + Fore.RESET)
         print(Fore.CYAN + "    -h, ? : This screen" + Fore.RESET)
+
 
     possible_args = {
         "-h": False,

@@ -1,12 +1,12 @@
 package com.oitsjustjose.geolosys.client.manual;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-
-import com.oitsjustjose.geolosys.Geolosys;
 
 public class PatronUtil
 {

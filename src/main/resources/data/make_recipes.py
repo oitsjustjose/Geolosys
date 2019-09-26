@@ -1,16 +1,26 @@
-import os
 import json
-from pip._vendor.colorama import Fore
 
 
 def generate(mapping: dict) -> None:
     """Generates JSON files w/ forge conditions"""
     for cluster in mapping:
-        smelting = {"type": "forge:conditional","recipes": [{"conditions": [{"values": [{"item": "{}".format(mapping[cluster]),"type": "forge:item_exists"}],"type": "forge:and"}],"recipe": {"type": "minecraft:smelting","ingredient": {"item": "{}".format(cluster)},"result": "{}".format(mapping[cluster]),"experience": 0.7,"cookingtime": 200}}]}
-        blasting = {"type": "forge:conditional","recipes": [{"conditions": [{"values": [{"item": "{}".format(mapping[cluster]),"type": "forge:item_exists"}],"type": "forge:and"}],"recipe": {"type": "minecraft:blasting","ingredient": {"item": "{}".format(cluster)},"result": "{}".format(mapping[cluster]),"experience": 0.7,"cookingtime": 100}}]}
-        with open("./geolosys/recipes/{}_smelting.json".format(mapping[cluster].replace("geolosys:", "").replace("minecraft:", "")), "w") as file:
+        smelting = {"type": "forge:conditional", "recipes": [{"conditions": [
+            {"values": [{"item": "{}".format(mapping[cluster]), "type": "forge:item_exists"}], "type": "forge:and"}],
+            "recipe": {"type": "minecraft:smelting",
+                       "ingredient": {"item": "{}".format(cluster)},
+                       "result": "{}".format(mapping[cluster]),
+                       "experience": 0.7, "cookingtime": 200}}]}
+        blasting = {"type": "forge:conditional", "recipes": [{"conditions": [
+            {"values": [{"item": "{}".format(mapping[cluster]), "type": "forge:item_exists"}], "type": "forge:and"}],
+            "recipe": {"type": "minecraft:blasting",
+                       "ingredient": {"item": "{}".format(cluster)},
+                       "result": "{}".format(mapping[cluster]),
+                       "experience": 0.7, "cookingtime": 100}}]}
+        with open("./geolosys/recipes/{}_smelting.json".format(
+                mapping[cluster].replace("geolosys:", "").replace("minecraft:", "")), "w") as file:
             file.write(json.dumps(smelting))
-        with open("./geolosys/recipes/{}_blasting.json".format(mapping[cluster].replace("geolosys:", "").replace("minecraft:", "")), "w") as file:
+        with open("./geolosys/recipes/{}_blasting.json".format(
+                mapping[cluster].replace("geolosys:", "").replace("minecraft:", "")), "w") as file:
             file.write(json.dumps(blasting))
 
 

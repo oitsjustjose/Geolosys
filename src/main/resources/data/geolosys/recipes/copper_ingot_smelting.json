@@ -1,1 +1,27 @@
-{"type": "forge:conditional", "recipes": [{"conditions": [{"values": [{"item": "geolosys:copper_ingot", "type": "forge:item_exists"}], "type": "forge:and"}], "recipe": {"type": "minecraft:smelting", "ingredient": {"item": "geolosys:copper_cluster"}, "result": "geolosys:copper_ingot", "experience": 0.7, "cookingtime": 200}}]}
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "item": "geolosys:copper_ingot",
+              "type": "forge:item_exists"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smelting",
+        "ingredient": {
+          "item": "geolosys:copper_cluster"
+        },
+        "result": "geolosys:copper_ingot",
+        "experience": 0.7,
+        "cookingtime": 200
+      }
+    }
+  ]
+}
