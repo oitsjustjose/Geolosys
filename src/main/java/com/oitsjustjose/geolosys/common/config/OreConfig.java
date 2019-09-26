@@ -38,6 +38,7 @@ public class OreConfig
     public static void setup(File configRoot)
     {
         instance = new OreConfig(configRoot);
+        instance.init();
     }
 
     public static OreConfig getInstance()
