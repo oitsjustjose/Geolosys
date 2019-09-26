@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/galena_ore"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/galena_ore"
+    }]
   }
 }

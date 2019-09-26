@@ -30,6 +30,7 @@ public class ClientProxy extends CommonProxy
                 break;
             }
         }
-        throw new ModLoadingException(Objects.requireNonNull(geolosysModInfo), ModLoadingStage.COMMON_SETUP, "geolosys.download.error.string", new RuntimeException());
+        throw new ModLoadingException(Objects.requireNonNull(geolosysModInfo), ModLoadingStage.COMMON_SETUP,
+                "geolosys.download.error.string", new RuntimeException());
     }
 }

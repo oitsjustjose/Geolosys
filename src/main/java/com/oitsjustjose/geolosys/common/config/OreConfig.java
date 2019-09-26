@@ -135,7 +135,7 @@ public class OreConfig
                         int size = -1;
                         int chance = -1;
                         String[] dimBlacklist = new String[]
-                                {};
+                        {};
                         ArrayList<String> blockStateMatchers = new ArrayList<>();
                         ArrayList<Biome> biomes = new ArrayList<>();
                         ArrayList<BiomeDictionary.Type> biomeTypes = new ArrayList<>();
@@ -265,7 +265,7 @@ public class OreConfig
                         int chance = -1;
                         int size = -1;
                         String[] dimBlacklist = new String[]
-                                {};
+                        {};
                         while (jReader.hasNext())
                         {
                             String subName = jReader.nextName();
@@ -481,8 +481,9 @@ public class OreConfig
         public float density;
 
         public PendingOre(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin, int yMax,
-                int size, int chance, String[] dimBlacklist, ArrayList<String> blockStateMatchers, ArrayList<Biome> biomes,
-                List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density)
+                int size, int chance, String[] dimBlacklist, ArrayList<String> blockStateMatchers,
+                ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist,
+                boolean hasIsWhitelist, float density)
         {
             this.oreBlocks = oreBlocks;
             this.sampleBlocks = sampleBlocks;

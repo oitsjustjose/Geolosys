@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/cassiterite_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/cassiterite_ore_sample"
+    }]
   }
 }

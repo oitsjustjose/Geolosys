@@ -52,7 +52,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
         if (plutonCapability != null)
         {
-            plutonCapability.setOrePlutonGenerated(new ChunkPosDim(pos, Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
+            plutonCapability.setOrePlutonGenerated(new ChunkPosDim(pos,
+                    Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
         }
         if (world.getWorld().getWorldType() != WorldType.FLAT)
         {
@@ -66,10 +67,9 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                 }
                 if (!(world.getBlockState(samplePos).getBlock() instanceof SampleBlock))
                 {
-                    BlockState sampleState =
-                            SampleUtils.isInWater(world, samplePos) ?
-                                    ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE) :
-                                    ore.getSample();
+                    BlockState sampleState = SampleUtils.isInWater(world, samplePos)
+                            ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
+                            : ore.getSample();
                     world.setBlockState(samplePos, sampleState, 2 | 16);
                 }
             }
@@ -89,7 +89,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY)
+                .orElse(null);
         // Fill in pending Blocks when possible:
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
             if (isInChunk(new ChunkPos(pos), pPos))
@@ -104,7 +105,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
             return false;
         }
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
+                Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
         if (plutonCapability.hasOrePlutonGenerated(chunkPosDim))
         {
             return false;
@@ -134,9 +136,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 
         // New way of determining if the dimension is valid for generation
         // Much quicker to use parallel streams than a for-loop, especially if in a large modpack
-        List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel().map(
-                x -> DimensionType.byName(new ResourceLocation(x))
-        ).collect(Collectors.toList());
+        List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel()
+                .map(x -> DimensionType.byName(new ResourceLocation(x))).collect(Collectors.toList());
 
         if (dimTypes.contains(worldIn.getDimension().getType()))
         {

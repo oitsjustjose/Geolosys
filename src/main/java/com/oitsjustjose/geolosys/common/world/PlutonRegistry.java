@@ -102,8 +102,8 @@ public class PlutonRegistry
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                    Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig(),
-                            Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
+                    Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize),
+                            new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
         }
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {

@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/malachite_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/malachite_ore_sample"
+    }]
   }
 }

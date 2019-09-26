@@ -99,7 +99,8 @@ public class ChunkPosDim implements Serializable
         else if (other instanceof ChunkPosDim)
         {
             ChunkPosDim c = (ChunkPosDim) other;
-            return c.getX() == this.getX() && c.getZ() == this.getZ() && c.getDimension().equalsIgnoreCase(this.getDimension());
+            return c.getX() == this.getX() && c.getZ() == this.getZ()
+                    && c.getDimension().equalsIgnoreCase(this.getDimension());
         }
         return false;
     }

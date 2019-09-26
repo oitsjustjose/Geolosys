@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/cinnabar_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/cinnabar_ore_sample"
+    }]
   }
 }

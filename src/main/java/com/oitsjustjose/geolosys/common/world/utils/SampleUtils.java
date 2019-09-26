@@ -97,7 +97,6 @@ public class SampleUtils
         return world.getBlockState(pos).getMaterial().isLiquid() && !isInWater(world, pos);
     }
 
-
     /**
      * @param posA
      * @param posB

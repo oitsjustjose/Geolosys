@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/autunite_ore"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/autunite_ore"
+    }]
   }
 }

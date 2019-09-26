@@ -92,7 +92,8 @@ public class Geolosys
     public void attachCap(AttachCapabilitiesEvent<World> event)
     {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new PlutonCapProvider());
-        LOGGER.info("Geolosys capability attached for " + Objects.requireNonNull(event.getObject().dimension.getType().getRegistryName()).toString());
+        LOGGER.info("Geolosys capability attached for "
+                + Objects.requireNonNull(event.getObject().dimension.getType().getRegistryName()).toString());
     }
 
     @SubscribeEvent
@@ -145,7 +146,7 @@ public class Geolosys
                     BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore").getDefaultState(),
                     BlockInit.getInstance().getModBlocks().get("geolosys:limonite_ore_sample").getDefaultState(), 60,
                     128, 80, 100, new String[]
-                    {"the_end", "the_nether"}, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
+                    { "the_end", "the_nether" }, ImmutableList.of(Blocks.STONE.getDefaultState()), 1.0F));
             PlutonRegistry.getInstance().register();
         }
     }

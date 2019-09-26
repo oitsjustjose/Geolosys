@@ -16,9 +16,8 @@ import java.util.List;
 public class Pages
 {
     /**
-     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
-     * from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookChapter
@@ -72,9 +71,8 @@ public class Pages
     }
 
     /**
-     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
-     * from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPage
@@ -93,9 +91,8 @@ public class Pages
     }
 
     /**
-     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
-     * from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPageContents extends BookPage
@@ -120,9 +117,8 @@ public class Pages
     }
 
     /**
-     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
-     * from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPageItemDisplay extends BookPage
@@ -151,7 +147,7 @@ public class Pages
     /**
      * @author oitsjustjose,
      * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPageOre extends BookPage
@@ -287,9 +283,8 @@ public class Pages
     }
 
     /**
-     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
-     * from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPageText extends BookPage
@@ -311,7 +306,7 @@ public class Pages
 
     /**
      * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
-     * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+     *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
      */
 
     public static class BookPageURL extends BookPage

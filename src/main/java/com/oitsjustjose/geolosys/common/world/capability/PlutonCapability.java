@@ -99,7 +99,6 @@ public class PlutonCapability implements IPlutonCapability
         return this.stoneGenMap.containsKey(pos) && this.stoneGenMap.get(pos);
     }
 
-
     @Override
     public CompoundNBT serializeNBT()
     {
@@ -131,7 +130,8 @@ public class PlutonCapability implements IPlutonCapability
 
         oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(new ChunkPosDim(key)));
         stoneDeposits.keySet().forEach(key -> this.setStonePlutonGenerated(new ChunkPosDim(key)));
-        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(CapUtils.fromString(key), NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
+        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(CapUtils.fromString(key),
+                NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         retroGen.keySet().forEach(key -> this.setRetroGenned(new ChunkPosDim(key)));
     }
 }

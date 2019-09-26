@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/quartz_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/quartz_ore_sample"
+    }]
   }
 }

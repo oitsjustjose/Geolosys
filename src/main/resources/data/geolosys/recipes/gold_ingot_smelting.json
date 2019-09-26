@@ -1,27 +1,21 @@
 {
   "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "values": [
-            {
-              "item": "minecraft:gold_ingot",
-              "type": "forge:item_exists"
-            }
-          ],
-          "type": "forge:and"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:smelting",
-        "ingredient": {
-          "item": "geolosys:gold_cluster"
-        },
-        "result": "minecraft:gold_ingot",
-        "experience": 0.7,
-        "cookingtime": 200
-      }
+  "recipes": [{
+    "conditions": [{
+      "values": [{
+        "item": "minecraft:gold_ingot",
+        "type": "forge:item_exists"
+      }],
+      "type": "forge:and"
+    }],
+    "recipe": {
+      "type": "minecraft:smelting",
+      "ingredient": {
+        "item": "geolosys:gold_cluster"
+      },
+      "result": "minecraft:gold_ingot",
+      "experience": 0.7,
+      "cookingtime": 200
     }
-  ]
+  }]
 }

@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/kimberlite_ore"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/kimberlite_ore"
+    }]
   }
 }

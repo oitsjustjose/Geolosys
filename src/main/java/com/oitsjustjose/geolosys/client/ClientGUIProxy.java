@@ -25,7 +25,7 @@ public class ClientGUIProxy implements IGuiHandler
     {
         if (ID == MANUAL_GUI_ID)
         {
-//            return new GUIManual();
+            // return new GUIManual();
         }
         return null;
     }

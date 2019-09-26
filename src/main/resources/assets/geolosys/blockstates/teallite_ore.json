@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/teallite_ore"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/teallite_ore"
+    }]
   }
 }

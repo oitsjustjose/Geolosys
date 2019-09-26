@@ -48,9 +48,11 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY)
+                .orElse(null);
 
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
+                Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
         if (plutonCapability == null)
         {
             Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
@@ -68,9 +70,8 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 
         // New way of determining if the dimension is valid for generation
         // Much quicker to use parallel streams than a for-loop, especially if in a large modpack
-        List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel().map(
-                x -> DimensionType.byName(new ResourceLocation(x))
-        ).collect(Collectors.toList());
+        List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel()
+                .map(x -> DimensionType.byName(new ResourceLocation(x))).collect(Collectors.toList());
 
         if (dimTypes.contains(worldIn.getDimension().getType()))
         {
@@ -175,7 +176,8 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
         if (placed)
         {
             worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null)
-                    .setStonePlutonGenerated(new ChunkPosDim(pos, Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString()));
+                    .setStonePlutonGenerated(new ChunkPosDim(pos,
+                            Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString()));
         }
         return placed;
     }

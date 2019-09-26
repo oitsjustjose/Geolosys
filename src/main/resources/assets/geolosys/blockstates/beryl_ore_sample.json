@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/beryl_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/beryl_ore_sample"
+    }]
   }
 }

@@ -1,9 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "geolosys:block/limonite_ore_sample"
-      }
-    ]
+    "": [{
+      "model": "geolosys:block/limonite_ore_sample"
+    }]
   }
 }

@@ -15,17 +15,17 @@ public class ManualItem extends Item
         this.setRegistryName(REGISTRY_NAME);
     }
 
-//    @Override
-//    @MethodsReturnNonnullByDefault
-//    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn)
-//    {
-//        if (playerIn instanceof ClientPlayerEntity)
-//        {
-//            ClientPlayerEntity player = (ClientPlayerEntity)playerIn;
-//            player.open
-//        }
-////        playerIn.openGui(Geolosys.getInstance(), ClientGUIProxy.MANUAL_GUI_ID, worldIn, playerIn.getPosition().getX(),
-////                playerIn.getPosition().getY(), playerIn.getPosition().getZ());
-//        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-//    }
+    // @Override
+    // @MethodsReturnNonnullByDefault
+    // public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn)
+    // {
+    // if (playerIn instanceof ClientPlayerEntity)
+    // {
+    // ClientPlayerEntity player = (ClientPlayerEntity)playerIn;
+    // player.open
+    // }
+    //// playerIn.openGui(Geolosys.getInstance(), ClientGUIProxy.MANUAL_GUI_ID, worldIn, playerIn.getPosition().getX(),
+    //// playerIn.getPosition().getY(), playerIn.getPosition().getZ());
+    // return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+    // }
 }
