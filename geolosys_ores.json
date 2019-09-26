@@ -13,8 +13,8 @@
 			"chance": 8,
 			"size": 64,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -32,8 +32,8 @@
 			"chance": 7,
 			"size": 40,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -51,8 +51,8 @@
 			"chance": 4,
 			"size": 40,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -70,8 +70,8 @@
 			"chance": 5,
 			"size": 32,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -95,8 +95,8 @@
 			"chance": 6,
 			"size": 40,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -114,8 +114,8 @@
 			"chance": 3,
 			"size": 20,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -133,8 +133,8 @@
 			"chance": 3,
 			"size": 16,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -161,8 +161,8 @@
 			"chance": 6,
 			"size": 24,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -180,8 +180,8 @@
 			"chance": 4,
 			"size": 80,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -210,8 +210,8 @@
 			"chance": 4,
 			"size": 80,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		},
@@ -229,8 +229,8 @@
 			"chance": 6,
 			"size": 24,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -256,8 +256,8 @@
 			"chance": 2,
 			"size": 80,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -279,8 +279,8 @@
 			"chance": 6,
 			"size": 72,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -305,8 +305,8 @@
 			"chance": 4,
 			"size": 64,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -337,8 +337,8 @@
 			"chance": 4,
 			"size": 32,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -367,8 +367,8 @@
 			"chance": 4,
 			"size": 48,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0,
 			"biomes": [
@@ -395,8 +395,8 @@
 			"chance": 5,
 			"size": 24,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			],
 			"density": 1.0
 		}
@@ -408,8 +408,8 @@
 			"yMin": 2,
 			"yMax": 70,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			]
 		},
 		{
@@ -419,8 +419,8 @@
 			"yMin": 2,
 			"yMax": 70,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			]
 		},
 		{
@@ -430,8 +430,8 @@
 			"yMin": 2,
 			"yMax": 70,
 			"dimBlacklist": [
-				-1,
-				1
+              "the_nether",
+              "the_end"
 			]
 		}
 	]
