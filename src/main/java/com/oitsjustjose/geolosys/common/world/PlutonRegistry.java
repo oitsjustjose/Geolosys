@@ -1,16 +1,11 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
-
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
@@ -19,6 +14,9 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class PlutonRegistry
 {
@@ -100,7 +98,6 @@ public class PlutonRegistry
                 if (forBiome.size() > 0)
                 {
                     int pick = rand.nextInt(forBiome.size());
-                    Geolosys.getInstance().LOGGER.info("Picked special exception for " + forBiome.get(pick).getFriendlyName());
                     return forBiome.get(pick);
                 }
             }

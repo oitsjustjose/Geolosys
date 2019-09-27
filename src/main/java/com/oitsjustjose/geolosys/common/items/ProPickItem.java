@@ -1,24 +1,14 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
-import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
@@ -27,13 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
@@ -44,6 +28,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ProPickItem extends Item
 {
@@ -215,66 +205,66 @@ public class ProPickItem extends Item
 
                 switch (facing)
                 {
-                case UP:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -confAmt;
-                    yEnd = 0;
-                    zStart = -(confDmt / 2);
-                    zEnd = (confDmt / 2);
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case DOWN:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = 0;
-                    yEnd = confAmt;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case NORTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = 0;
-                    zEnd = confAmt;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case SOUTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -confAmt;
-                    zEnd = 0;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case EAST:
-                    xStart = -(confAmt);
-                    xEnd = 0;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case WEST:
-                    xStart = 0;
-                    xEnd = confAmt;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
+                    case UP:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -confAmt;
+                        yEnd = 0;
+                        zStart = -(confDmt / 2);
+                        zEnd = (confDmt / 2);
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
+                    case DOWN:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = 0;
+                        yEnd = confAmt;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
+                    case NORTH:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = 0;
+                        zEnd = confAmt;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
+                    case SOUTH:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -confAmt;
+                        zEnd = 0;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
+                    case EAST:
+                        xStart = -(confAmt);
+                        xEnd = 0;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
+                    case WEST:
+                        xStart = 0;
+                        xEnd = confAmt;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                                zStart, zEnd);
+                        break;
                 }
                 // If right clicking yielded nothing, then find the ore in the chunk again
                 if (!oreFoundUnderground)
@@ -296,7 +286,7 @@ public class ProPickItem extends Item
         {
             if (ore instanceof DepositMultiOre)
             {
-                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
+                foundMap.put(ore, new ArrayList<>());
             }
         }
 
@@ -320,7 +310,7 @@ public class ProPickItem extends Item
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
                                     {
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                ((DepositMultiOre) ore).getFriendlyName(worldIn, pos, player),
+                                                ore.getFriendlyName(),
                                                 facing.getOpposite());
                                         return true;
                                     }
@@ -369,15 +359,7 @@ public class ProPickItem extends Item
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
-            int seaLvl;
-            try
-            {
-                seaLvl = this.dimensionSeaLevels.get(mc.player.getEntityWorld().getDimension());
-            }
-            catch (NullPointerException e)
-            {
-                seaLvl = mc.player.getEntityWorld().getSeaLevel();
-            }
+            int seaLvl = mc.player.getEntityWorld().getSeaLevel();
             int level = (int) (seaLvl - mc.player.posY);
             if (level < 0)
             {
@@ -402,14 +384,14 @@ public class ProPickItem extends Item
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
-        SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
+        SURFACE_PROSPECTING_TYPE searchType = ModConfig.PRO_PICK_SURFACE_MODE.get();
 
         HashMap<IDeposit, ArrayList<BlockState>> foundMap = new HashMap<>();
-        for (IDeposit ore : GeolosysAPI.oreBlocks)
+        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
         {
-            if (ore instanceof DepositMultIDeposit)
+            if (ore instanceof DepositMultiOre)
             {
-                foundMap.put((DepositMultIDeposit) ore, new ArrayList<>());
+                foundMap.put(ore, new ArrayList<>());
             }
         }
 
@@ -417,15 +399,15 @@ public class ProPickItem extends Item
         {
             for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
-                for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                for (int y = 0; y < Utils.getTopSolidBlock(world, new BlockPos(x, 0, z)).getY(); y++)
                 {
                     BlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-                    for (IDeposit ore : GeolosysAPI.oreBlocks)
+                    for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
                     {
-                        if (ore instanceof DepositMultIDeposit)
+                        if (ore instanceof DepositMultiOre)
                         {
-                            DepositMultIDeposit multIDeposit = (DepositMultIDeposit) ore;
+                            DepositMultiOre multIDeposit = (DepositMultiOre) ore;
                             for (BlockState multIDepositState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
                                     ? multIDeposit.oreBlocks.keySet()
                                     : multIDeposit.sampleBlocks.keySet()))
@@ -436,7 +418,7 @@ public class ProPickItem extends Item
                                     if (foundMap.get(ore).size() == multIDeposit.oreBlocks.keySet().size())
                                     {
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                multIDeposit.getFriendlyName(world, pos, player), null);
+                                                multIDeposit.getFriendlyName(), null);
                                         return true;
                                     }
                                 }
@@ -478,9 +460,9 @@ public class ProPickItem extends Item
         {
             for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
-                for (int y = 0; y < world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY(); y++)
+                for (int y = 0; y < Utils.getTopSolidBlock(world, new BlockPos(x, 0, z)).getY(); y++)
                 {
-                    for (DepositStone s : GeolosysAPI.stones)
+                    for (IDeposit s : GeolosysAPI.plutonRegistry.getStones())
                     {
                         if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
                         {

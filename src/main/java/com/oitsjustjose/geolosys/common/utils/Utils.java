@@ -1,16 +1,17 @@
 package com.oitsjustjose.geolosys.common.utils;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Utils
 {
@@ -35,6 +36,20 @@ public class Utils
     public static String dimensionToString(Dimension dim)
     {
         return Objects.requireNonNull(dim.getType().getRegistryName().toString());
+    }
+
+    public static BlockPos getTopSolidBlock(IWorld world, BlockPos start)
+    {
+        BlockPos retPos = new BlockPos(start.getX(), world.getHeight() - 1, start.getZ());
+        while (retPos.getY() > 0)
+        {
+            if (world.getBlockState(retPos).getMaterial().isSolid())
+            {
+                break;
+            }
+            retPos = retPos.down();
+        }
+        return retPos;
     }
 
     @SuppressWarnings("unchecked")

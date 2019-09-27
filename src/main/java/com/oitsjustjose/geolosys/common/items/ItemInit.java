@@ -73,6 +73,7 @@ public class ItemInit
             }
         }
         this.items.put(ManualItem.REGISTRY_NAME.toString(), new ManualItem());
+        this.items.put(ProPickItem.REGISTRY_NAME.toString(), new ProPickItem());
     }
 
     public static ItemInit getInstance()
