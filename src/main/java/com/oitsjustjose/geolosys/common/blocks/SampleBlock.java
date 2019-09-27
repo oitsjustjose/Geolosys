@@ -1,9 +1,18 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import net.minecraft.block.*;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -12,7 +21,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -20,9 +31,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class SampleBlock extends Block implements IWaterLoggable
 {
@@ -71,6 +79,19 @@ public class SampleBlock extends Block implements IWaterLoggable
                 worldIn.destroyBlock(pos, true);
             }
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+            BlockRayTraceResult hit)
+    {
+        if (!player.isSneaking())
+        {
+            worldIn.destroyBlock(pos, true);
+            player.swingArm(handIn);
+            return true;
+        }
+        return false;
     }
 
     @Override
