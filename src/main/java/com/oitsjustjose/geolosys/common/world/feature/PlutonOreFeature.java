@@ -23,6 +23,8 @@ import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
 import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -60,26 +62,51 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
         if (plutonCapability != null)
         {
-            plutonCapability.setOrePlutonGenerated(new ChunkPosDim(plutonStartPos,
-                    Objects.requireNonNull(world.getDimension().getType().getRegistryName()).toString()));
+
+            // Random space between plutons as well
+            plutonCapability.setOrePlutonGenerated(new ChunkPosDim(plutonStartPos.getX(), plutonStartPos.getZ(),
+                    Utils.dimensionToString(world.getDimension())));
+
         }
-        /** Sample placement logic */
         if (world.getWorld().getWorldType() != WorldType.FLAT)
         {
             int sampleLimit = SampleUtils.getSampleCount(ore);
             for (int i = 0; i < sampleLimit; i++)
             {
                 BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(plutonStartPos), ore.getYMax());
-
-                if (samplePos != null && !Utils.doStatesMatch(world.getBlockState(samplePos), ore.getSample()))
+                if (samplePos == null || SampleUtils.inNonWaterFluid(world, samplePos))
                 {
-                    BlockState sampleState = (ore.getSample().getBlock() instanceof SampleBlock)
-                            ? SampleUtils.isInWater(world, samplePos)
-                                    ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
-                                    : ore.getSample()
-                            : ore.getSample();
-                    Geolosys.getInstance().LOGGER.info(sampleState);
-                    world.setBlockState(samplePos, sampleState, 2 | 16);
+                    continue;
+                }
+                if (world.getBlockState(samplePos) != ore.getSample())
+                {
+                    boolean isInWater = SampleUtils.isInWater(world, samplePos);
+                    if (ore.getSample().getBlock() instanceof SampleBlock)
+                    {
+                        BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
+                                : ore.getSample();
+                        world.setBlockState(samplePos, sampleState, 2 | 16);
+                    }
+                    else
+                    {
+                        // Place a waterlogged variant of whatever block it ends up being
+                        if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable)
+                        {
+                            ore.getSample().getProperties().forEach(x -> {
+                                if (x.getName().toLowerCase().contains("waterlog")
+                                        && x.getAllowedValues().contains(Boolean.TRUE))
+                                {
+                                    IProperty<Boolean> waterLogged = (IProperty<Boolean>) x;
+                                    world.setBlockState(samplePos, ore.getSample().with(waterLogged, Boolean.TRUE),
+                                            2 | 16);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            world.setBlockState(samplePos, ore.getSample(), 2 | 16);
+                        }
+                    }
                 }
             }
         }
@@ -114,8 +141,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             }
         });
 
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
-                Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Utils.dimensionToString(worldIn.getDimension()));
         if (plutonCapability.hasOrePlutonGenerated(chunkPosDim))
         {
             return false;

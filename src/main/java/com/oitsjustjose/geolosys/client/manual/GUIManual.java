@@ -121,7 +121,7 @@ public class GUIManual extends Screen
         int count = 0;
         int page_num = 0;
 
-        if (ModConfig.REPLACE_STONES.get())
+        if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
             resources.get(page_num).addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
             chapters.put("stones", new Pages.BookChapter("stones", "resources"));
@@ -156,20 +156,20 @@ public class GUIManual extends Screen
 
         Pages.BookPageContents modCompat = new Pages.BookPageContents("geolosys.guide.chapter.mod_compat.name");
 
-        if (ModConfig.RETRO_REPLACE.get())
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-            chapters.put("ore_converter", new Pages.BookChapter("ore_converter", "mod_compat"));
-            chapters.get("ore_converter").addPage(new Pages.BookPageText("geolosys.guide.chapter.ore_converter.name",
-                    "geolosys.guide.chapter.ore_converter.text"));
-        }
-        if (ModList.get().isLoaded("journeymap"))
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
-            chapters.put("journeymap", new Pages.BookChapter("journeymap", "mod_compat"));
-            chapters.get("journeymap").addPage(new Pages.BookPageText("geolosys.guide.chapter.journeymap.name",
-                    "geolosys.guide.chapter.journeymap.text"));
-        }
+        // if (ModConfig.RETRO_REPLACE.get())
+        // {
+        //     modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
+        //     chapters.put("ore_converter", new Pages.BookChapter("ore_converter", "mod_compat"));
+        //     chapters.get("ore_converter").addPage(new Pages.BookPageText("geolosys.guide.chapter.ore_converter.name",
+        //             "geolosys.guide.chapter.ore_converter.text"));
+        // }
+        // if (ModList.get().isLoaded("journeymap"))
+        // {
+        //     modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
+        //     chapters.put("journeymap", new Pages.BookChapter("journeymap", "mod_compat"));
+        //     chapters.get("journeymap").addPage(new Pages.BookPageText("geolosys.guide.chapter.journeymap.name",
+        //             "geolosys.guide.chapter.journeymap.text"));
+        // }
         // if (ModList.get().isLoaded("immersiveengineering") && ModConfig.compat.enableIECompat)
         // {
         // modCompat.addLink(

@@ -7,9 +7,11 @@ import javax.annotation.Nullable;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
@@ -23,13 +25,34 @@ public class SampleUtils
     {
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
         int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
-        for (int y = world.getHeight(); y > world.getSeaLevel(); y--)
+        BlockPos searchPos = new BlockPos(blockPosX, 0, blockPosZ);
+
+        while (searchPos.getY() < world.getHeight())
         {
-            BlockPos scan = new BlockPos(blockPosX, y, blockPosZ);
-            if (!world.getBlockState(scan).getMaterial().isReplaceable())
+            world.getBlockState(searchPos.down()).getBlock();
+            if (Block.func_220055_a(world, searchPos.down(), Direction.UP))
             {
-                return scan.up();
+                // If the current block is air
+                if (canReplace(world, searchPos))
+                {
+                    // If the block above this state is air,
+                    if (canReplace(world, searchPos.up()))
+                    {
+                        // If it's above sea level it's fine
+                        if (searchPos.getY() > world.getSeaLevel())
+                        {
+                            return searchPos;
+                        }
+                        // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at least above the deposit
+                        else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
+                                && searchPos.getY() < depositHeight)
+                        {
+                            return searchPos;
+                        }
+                    }
+                }
             }
+            searchPos = searchPos.up();
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.utils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
@@ -8,6 +9,7 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class Utils
@@ -27,6 +29,11 @@ public class Utils
     public static boolean doStatesMatch(BlockState state1, BlockState state2)
     {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
+    }
+
+    public static String dimensionToString(Dimension dim)
+    {
+        return Objects.requireNonNull(dim.getType().getRegistryName().toString());
     }
 
     @SuppressWarnings("unchecked")
