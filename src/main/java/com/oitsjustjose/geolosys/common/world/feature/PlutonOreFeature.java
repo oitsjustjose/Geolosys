@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -146,8 +145,12 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         {
             return false;
         }
-        IDeposit pluton = GeolosysAPI.plutonRegistry.pickPluton();
+        IDeposit pluton = GeolosysAPI.plutonRegistry.pickPluton(worldIn, pos, rand);
         if (pluton == null)
+        {
+            return false;
+        }
+        if (rand.nextInt(100) > pluton.getChance())
         {
             return false;
         }

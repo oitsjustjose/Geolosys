@@ -3,6 +3,8 @@ package com.oitsjustjose.geolosys.api.world;
 import java.util.List;
 import java.util.Set;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -40,6 +42,7 @@ public class DepositBiomeRestricted extends Deposit
             {
                 if (type.getName().equalsIgnoreCase(otherType.getName()))
                 {
+                    Geolosys.getInstance().LOGGER.info(type.getName() + "==" + otherType.getName());
                     return true;
                 }
             }

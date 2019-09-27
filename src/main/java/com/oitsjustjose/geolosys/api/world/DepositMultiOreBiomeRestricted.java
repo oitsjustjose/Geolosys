@@ -44,6 +44,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
             {
                 if (type.getName().equalsIgnoreCase(otherType.getName()))
                 {
+                    Geolosys.getInstance().LOGGER.info(type.getName() + "==" + otherType.getName());
                     return true;
                 }
             }

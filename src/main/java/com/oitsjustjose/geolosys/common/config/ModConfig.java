@@ -24,8 +24,6 @@ public class ModConfig
         public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
         // public static ForgeConfigSpec.BooleanValue RETRO_REPLACE;
         public static ForgeConfigSpec.BooleanValue DISABLE_VANILLA_ORE_GEN;
-        public static ForgeConfigSpec.IntValue PLUTON_MIN_SPREAD;
-        public static ForgeConfigSpec.IntValue PLUTON_MAX_SPREAD;
         public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
         public static ForgeConfigSpec.BooleanValue BORING_SAMPLES;
         public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
@@ -66,12 +64,6 @@ public class ModConfig
                 // RETRO_REPLACE = COMMON_BUILDER.comment(
                 // "Retroactively replace vanilla / Tagged ores to their Geolosys Counterpart when entering a chunk")
                 // .define("retroReplace", true);
-                PLUTON_MIN_SPREAD = COMMON_BUILDER
-                                .comment("The minimum number of chunks (in each direction) between each pluton")
-                                .defineInRange("plutonMinSpread", 5, 1, Integer.MAX_VALUE);
-                PLUTON_MAX_SPREAD = COMMON_BUILDER
-                                .comment("The maximum number of chunks (in each direction) between each pluton")
-                                .defineInRange("plutonMaxSpread", 20, 1, Integer.MAX_VALUE);
                 DISABLE_VANILLA_ORE_GEN = COMMON_BUILDER.comment("Disable generation of Vanilla ores")
                                 .define("disableVanillaOreGen", true);
                 DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
