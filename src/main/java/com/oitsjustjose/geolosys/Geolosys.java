@@ -1,8 +1,10 @@
 package com.oitsjustjose.geolosys;
 
-import com.google.common.collect.ImmutableList;
+import java.io.File;
+import java.util.Collection;
+import java.util.Objects;
+
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.Deposit;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.CommonProxy;
@@ -11,11 +13,14 @@ import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapability;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -40,12 +45,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Objects;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -87,6 +86,10 @@ public class Geolosys
                         .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
             }
         }
+
+        OreConfig.setup(new File("./config"));
+        OreConfig.getInstance().init();
+        GeolosysAPI.plutonRegistry.registerAsOreGenerator();
     }
 
     @SubscribeEvent
@@ -120,12 +123,10 @@ public class Geolosys
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents
     {
-
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
         {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
-            postBlocksInit();
         }
 
         @SubscribeEvent
@@ -134,18 +135,6 @@ public class Geolosys
             // Register BlockItems (formerly known as ItemBlocks) for each block initialized
             BlockInit.getInstance().registerBlockItems(itemRegistryEvent);
             ItemInit.getInstance().register(itemRegistryEvent);
-        }
-
-        /**
-         * We rely on blocksRegistryEvent to know that the blocks are ready, because we don't know otherwise
-         */
-        private static void postBlocksInit()
-        {
-            // Add stone as a replacement mat - I'm not sure what to do with this as of yet
-            GeolosysAPI.replacementMats.add(Blocks.STONE.getDefaultState());
-            OreConfig.setup(new File("./config"));
-            OreConfig.getInstance().init();
-            PlutonRegistry.getInstance().register();
         }
     }
 }

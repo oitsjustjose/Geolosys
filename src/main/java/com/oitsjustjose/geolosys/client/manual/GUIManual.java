@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.client.manual;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
@@ -134,7 +135,7 @@ public class GUIManual extends Screen
                 count = 0;
             }
         }
-        for (IDeposit ore : PlutonRegistry.getInstance().getOres())
+        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
         {
             resources.get(page_num).addLink(new ChapterLink(ore.getFriendlyName(), ore.getFriendlyName()));
             chapters.put(ore.getFriendlyName(), new Pages.BookChapter(ore.getFriendlyName(), "resources"));

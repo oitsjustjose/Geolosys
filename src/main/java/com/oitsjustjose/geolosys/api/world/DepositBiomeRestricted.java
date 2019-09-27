@@ -1,11 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-
-import java.util.List;
-import java.util.Set;
 
 public class DepositBiomeRestricted extends Deposit
 {
@@ -38,7 +38,7 @@ public class DepositBiomeRestricted extends Deposit
             Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(biome);
             for (BiomeDictionary.Type otherType : dictTypes)
             {
-                if (type.equals(otherType))
+                if (type.getName().equalsIgnoreCase(otherType.getName()))
                 {
                     return true;
                 }

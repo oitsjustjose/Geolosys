@@ -65,7 +65,6 @@ public class PlutonCapability implements IPlutonCapability
     public BlockState getPendingBlock(BlockPos pos)
     {
         BlockState ret = this.pendingBlocks.get(pos);
-        this.pendingBlocks.remove(pos);
         return ret;
     }
 

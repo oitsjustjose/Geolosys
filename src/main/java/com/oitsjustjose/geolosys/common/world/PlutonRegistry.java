@@ -1,28 +1,28 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
+
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class PlutonRegistry
 {
-    private static PlutonRegistry instance;
     private ArrayList<IDeposit> ores;
     private ArrayList<IDeposit> oreWeightList;
     private ArrayList<DepositStone> stones;
     private ArrayList<DepositStone> stoneWeightList;
 
-    private PlutonRegistry()
+    public PlutonRegistry()
     {
         this.ores = new ArrayList<>();
         this.oreWeightList = new ArrayList<>();
@@ -40,15 +40,6 @@ public class PlutonRegistry
     public ArrayList<IDeposit> getStones()
     {
         return (ArrayList<IDeposit>) this.stones.clone();
-    }
-
-    public static PlutonRegistry getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new PlutonRegistry();
-        }
-        return instance;
     }
 
     public boolean addOrePluton(IDeposit ore)
@@ -97,19 +88,19 @@ public class PlutonRegistry
         return null;
     }
 
-    public void register()
+    public void registerAsOreGenerator()
     {
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
                     Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize),
-                            new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
+                            new NoFeatureConfig(), Placement.NOPE, new NoPlacementConfig()));
         }
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
                     Biome.createDecoratedFeature(new PlutonStoneFeature(NoFeatureConfig::deserialize),
-                            new NoFeatureConfig(), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 1)));
+                            new NoFeatureConfig(), Placement.NOPE, new NoPlacementConfig()));
         }
     }
 }

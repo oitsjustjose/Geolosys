@@ -1,16 +1,11 @@
 package com.oitsjustjose.geolosys.common.config;
 
-import com.google.gson.stream.JsonReader;
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,19 +15,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.stream.JsonReader;
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.api.world.Deposit;
+import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositStone;
+import com.oitsjustjose.geolosys.api.world.IDeposit;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.registries.ForgeRegistries;
+
 public class OreConfig
 {
     private static OreConfig instance;
 
     private File jsonFile;
-    private ArrayList<PendingOre> pendingOres;
-    private ArrayList<PendingStone> pendingStones;
 
     public OreConfig(File configRoot)
     {
         this.jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys.json");
-        this.pendingOres = new ArrayList<>();
-        this.pendingStones = new ArrayList<>();
     }
 
     public static void setup(File configRoot)
@@ -47,42 +55,6 @@ public class OreConfig
             throw new RuntimeException("Geolosys OreConfig has not yet been initialized!");
         }
         return instance;
-    }
-
-    /**
-     * Runs after @EventHandler(FMLPostInitEvent)
-     * <p>
-     * Makes sure blocks not available in init are loaded now. If they're not, then an error is displayed in the logs
-     */
-    public void postInit()
-    {
-        for (PendingOre pending : this.pendingOres)
-        {
-            if (register(pending))
-            {
-                Geolosys.getInstance().LOGGER.info("Successfully registered JSON entry " + pending.oreBlocks.keySet()
-                        + " **LATE**. This means that ore gen will work, but inter-mod compat may not");
-            }
-            else
-            {
-                Geolosys.getInstance().LOGGER.info("Failed to register JSON entry " + pending.oreBlocks.keySet()
-                        + ". Please ensure that all entries are correct. This ore entry has been skipped completely");
-            }
-        }
-
-        for (PendingStone pending : this.pendingStones)
-        {
-            if (register(pending))
-            {
-                Geolosys.getInstance().LOGGER.info("Successfully registered JSON entry " + pending.stone
-                        + " **LATE**. This means that stone gen will work, but inter-mod compat may not");
-            }
-            else
-            {
-                Geolosys.getInstance().LOGGER.info("Failed to register JSON entry " + pending.stone
-                        + ". Please ensure that all entries are correct. This stone entry has been skipped completely");
-            }
-        }
     }
 
     public void init()
@@ -245,9 +217,8 @@ public class OreConfig
                         if (!register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
                                 blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, density))
                         {
-                            this.pendingOres.add(new PendingOre(oreBlocks, sampleBlocks, yMin, yMax, size, chance,
-                                    dimBlacklist, blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist,
-                                    density));
+                            Geolosys.getInstance().LOGGER.info("Could not register pluton " + oreBlocks
+                                    + " due to some error. Please narrow down which block is not being registered on time by narrowing them down one-by-one.");
                         }
                         jReader.endObject();
                     }
@@ -303,7 +274,8 @@ public class OreConfig
                         }
                         if (!register(stone, yMin, yMax, chance, size, dimBlacklist))
                         {
-                            this.pendingStones.add(new PendingStone(stone, yMin, yMax, chance, size, dimBlacklist));
+                            Geolosys.getInstance().LOGGER.info("Could not register pluton " + stone
+                                    + " due to some error. Please report to the mod author that they are not initializing their blocks when they should..");
                         }
                         jReader.endObject();
                     }
@@ -327,15 +299,6 @@ public class OreConfig
     }
 
     /**
-     * @param stone The Pending Stone to register
-     * @return true if the registreation succeeded (i.e. no null blockstates); false otherwise
-     */
-    private boolean register(PendingStone stone)
-    {
-        return register(stone.stone, stone.yMin, stone.yMax, stone.chance, stone.size, stone.dimBlacklist);
-    }
-
-    /**
      * Registers a stone with the GeolosysAPI using the passed params
      *
      * @param stone        The String form of the IBlockState
@@ -353,18 +316,8 @@ public class OreConfig
         {
             return false;
         }
-        GeolosysAPI.registerStoneDeposit(state, yMin, yMax, chance, size, dimBlacklist);
+        GeolosysAPI.plutonRegistry.addStonePluton(new DepositStone(state, yMin, yMax, chance, size, dimBlacklist));
         return true;
-    }
-
-    /**
-     * @param ore The Pending Ore to register
-     * @return true if the registration succeeded (i.e. no null blockstates); false otherwise.
-     */
-    private boolean register(PendingOre ore)
-    {
-        return register(ore.oreBlocks, ore.sampleBlocks, ore.yMin, ore.yMax, ore.size, ore.chance, ore.dimBlacklist,
-                ore.blockStateMatchers, ore.biomes, ore.biomeTypes, ore.isWhitelist, ore.hasIsWhitelist, ore.density);
     }
 
     /**
@@ -392,6 +345,8 @@ public class OreConfig
         HashMap<BlockState, Integer> oreBlocksParsed = new HashMap<>();
         HashMap<BlockState, Integer> sampleBlocksParsed = new HashMap<>();
         ArrayList<BlockState> blockStateMatchersParsed = new ArrayList<>();
+
+        IDeposit toRegister = null;
 
         for (Entry<String, Integer> e : oreBlocks.entrySet())
         {
@@ -423,31 +378,60 @@ public class OreConfig
             blockStateMatchersParsed.add(state);
         }
 
-        if (biomes.size() > 0 || biomeTypes.size() > 0)
+        if (blockStateMatchersParsed.size() <= 0)
         {
-            if (hasIsWhitelist)
+            blockStateMatchersParsed = null;
+        }
+
+        // Register as some variant of DepositMultiOre
+        if (oreBlocks.size() > 0 || sampleBlocks.size() > 0)
+        {
+            if (biomes.size() > 0 || biomeTypes.size() > 0)
             {
-                GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                        dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), biomes,
-                        biomeTypes, isWhitelist, density);
+                toRegister = new DepositMultiOreBiomeRestricted(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size,
+                        chance, dimBlacklist, blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, density);
             }
             else
             {
-                Geolosys.getInstance().LOGGER.info(
-                        "Received a biome list but no isWhitelist variable to define if the biome list is whitelist or blacklist.\n"
-                                + "Registering it as a normal ore with no biome restrictions");
-                GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                        dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density);
+                toRegister = new DepositMultiOre(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
+                        dimBlacklist, blockStateMatchersParsed, density);
             }
         }
         else
         {
-            GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                    dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density);
+            if (biomes.size() > 0 || biomeTypes.size() > 0)
+            {
+
+                for (BlockState b : oreBlocksParsed.keySet())
+                {
+                    for (BlockState s : sampleBlocksParsed.keySet())
+                    {
+                        toRegister = new DepositBiomeRestricted(b, s, yMin, yMax, size, chance, dimBlacklist,
+                                blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, density);
+                        break;
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                for (BlockState b : oreBlocksParsed.keySet())
+                {
+                    for (BlockState s : sampleBlocksParsed.keySet())
+                    {
+                        toRegister = new Deposit(b, s, yMin, yMax, size, chance, dimBlacklist, blockStateMatchersParsed,
+                                density);
+                        break;
+                    }
+                    break;
+                }
+            }
         }
+
         Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density
                 + ". " + ((biomeTypes.size() > 0 || biomes.size() > 0) ? "This ore has custom biome registries" : ""));
-        return true;
+
+        return toRegister != null && GeolosysAPI.plutonRegistry.addOrePluton(toRegister);
     }
 
     private BlockState fromString(String iBlockState)
@@ -471,60 +455,4 @@ public class OreConfig
         return ret;
     }
 
-    private static class PendingOre
-    {
-        public HashMap<String, Integer> oreBlocks;
-        public HashMap<String, Integer> sampleBlocks;
-        public int yMin;
-        public int yMax;
-        public int size;
-        public int chance;
-        public String[] dimBlacklist;
-        public ArrayList<String> blockStateMatchers;
-        public ArrayList<Biome> biomes;
-        public List<BiomeDictionary.Type> biomeTypes;
-        public boolean isWhitelist;
-        public boolean hasIsWhitelist;
-        public float density;
-
-        public PendingOre(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin, int yMax,
-                int size, int chance, String[] dimBlacklist, ArrayList<String> blockStateMatchers,
-                ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist,
-                boolean hasIsWhitelist, float density)
-        {
-            this.oreBlocks = oreBlocks;
-            this.sampleBlocks = sampleBlocks;
-            this.yMin = yMin;
-            this.yMax = yMax;
-            this.size = size;
-            this.chance = chance;
-            this.dimBlacklist = dimBlacklist;
-            this.blockStateMatchers = blockStateMatchers;
-            this.biomes = biomes;
-            this.biomeTypes = biomeTypes;
-            this.isWhitelist = isWhitelist;
-            this.hasIsWhitelist = hasIsWhitelist;
-            this.density = density;
-        }
-    }
-
-    private static class PendingStone
-    {
-        public String stone;
-        public int yMin;
-        public int yMax;
-        public int chance;
-        public int size;
-        public String[] dimBlacklist;
-
-        public PendingStone(String stone, int yMin, int yMax, int chance, int size, String[] dimBlacklist)
-        {
-            this.stone = stone;
-            this.yMin = yMin;
-            this.yMax = yMax;
-            this.chance = chance;
-            this.size = size;
-            this.dimBlacklist = dimBlacklist;
-        }
-    }
 }

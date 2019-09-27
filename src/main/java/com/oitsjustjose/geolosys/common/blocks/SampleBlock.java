@@ -36,7 +36,6 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean isSolid(BlockState state)
     {
         return false;
@@ -54,7 +53,6 @@ public class SampleBlock extends Block implements IWaterLoggable
 
     @Override
     @Nonnull
-    @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
         return VoxelShapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.25D, 0.8D);
@@ -76,7 +74,6 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
     {
         return Block.func_220055_a(worldIn, pos.down(), Direction.UP);

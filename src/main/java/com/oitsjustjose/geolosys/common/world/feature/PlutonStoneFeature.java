@@ -1,13 +1,22 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -19,14 +28,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 {
@@ -62,7 +63,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
         {
             return false;
         }
-        IDeposit pluton = PlutonRegistry.getInstance().pickStone();
+        IDeposit pluton = GeolosysAPI.plutonRegistry.pickStone();
         if (pluton == null)
         {
             return false;
@@ -78,15 +79,17 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
             return false;
         }
 
+        // Do this ourselves because by default pos.getY() == 0
+        int randY = pluton.getYMin() + rand.nextInt(pluton.getYMax() - pluton.getYMin());
+
         float f = rand.nextFloat() * (float) Math.PI;
         double d0 = (float) (pos.getX() + 8) + MathHelper.sin(f) * (float) pluton.getSize() / 8.0F;
         double d1 = (float) (pos.getX() + 8) - MathHelper.sin(f) * (float) pluton.getSize() / 8.0F;
         double d2 = (float) (pos.getZ() + 8) + MathHelper.cos(f) * (float) pluton.getSize() / 8.0F;
         double d3 = (float) (pos.getZ() + 8) - MathHelper.cos(f) * (float) pluton.getSize() / 8.0F;
-        double d4 = pos.getY() + rand.nextInt(3) - 2;
-        double d5 = pos.getY() + rand.nextInt(3) - 2;
+        double d4 = randY + rand.nextInt(3) - 2;
+        double d5 = randY + rand.nextInt(3) - 2;
 
-        // ToDoBlocks toDoBlocks = ToDoBlocks.getForWorld(worldIn, dataName);
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
 
@@ -135,30 +138,16 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                                             continue;
                                         }
                                         BlockState state = worldIn.getBlockState(blockpos);
-                                        // If it has custom blockstate matcher:
-                                        if (pluton.getBlockStateMatchers() != null)
+
+                                        for (BlockState matcherState : (pluton.getBlockStateMatchers() == null
+                                                ? Utils.getDefaultMatchers()
+                                                : pluton.getBlockStateMatchers()))
                                         {
-                                            for (BlockState BlockState : pluton.getBlockStateMatchers())
+                                            if (Utils.doStatesMatch(matcherState, state))
                                             {
-                                                if (Utils.doStatesMatch(BlockState, state))
-                                                {
-                                                    worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
-                                                    placed = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        // Otherwise just use the default
-                                        else
-                                        {
-                                            for (BlockState BlockState : GeolosysAPI.replacementMats)
-                                            {
-                                                if (Utils.doStatesMatch(BlockState, state))
-                                                {
-                                                    worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
-                                                    placed = true;
-                                                    break;
-                                                }
+                                                worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                                placed = true;
+                                                break;
                                             }
                                         }
                                     }

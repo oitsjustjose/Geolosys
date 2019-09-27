@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 public class DepositMultiOreBiomeRestricted extends DepositMultiOre
 {
     private List<Biome> biomes;
@@ -40,7 +42,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
             Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(biome);
             for (BiomeDictionary.Type otherType : dictTypes)
             {
-                if (type.equals(otherType))
+                if (type.getName().equalsIgnoreCase(otherType.getName()))
                 {
                     return true;
                 }

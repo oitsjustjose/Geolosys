@@ -62,7 +62,7 @@ public class DepositStone implements IDeposit
 
     public boolean canReplace(BlockState state)
     {
-        for (BlockState s : GeolosysAPI.replacementMats)
+        for (BlockState s : Utils.getDefaultMatchers())
         {
             if (Utils.doStatesMatch(state, s))
             {
