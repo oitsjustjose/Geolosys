@@ -90,6 +90,7 @@ public class Geolosys
         OreConfig.setup(new File("./config"));
         OreConfig.getInstance().init();
         GeolosysAPI.plutonRegistry.registerAsOreGenerator();
+        proxy.init();
     }
 
     @SubscribeEvent

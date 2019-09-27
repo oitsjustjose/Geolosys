@@ -1,9 +1,22 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.common.utils.Constants;
+
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ManualItem extends Item
 {
@@ -15,17 +28,16 @@ public class ManualItem extends Item
         this.setRegistryName(REGISTRY_NAME);
     }
 
-    // @Override
-    // @MethodsReturnNonnullByDefault
-    // public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn)
-    // {
-    // if (playerIn instanceof ClientPlayerEntity)
-    // {
-    // ClientPlayerEntity player = (ClientPlayerEntity)playerIn;
-    // player.open
-    // }
-    //// playerIn.openGui(Geolosys.getInstance(), ClientGUIProxy.MANUAL_GUI_ID, worldIn, playerIn.getPosition().getX(),
-    //// playerIn.getPosition().getY(), playerIn.getPosition().getZ());
-    // return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
-    // }
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
+            ITooltipFlag flagIn)
+    {
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(new TranslationTextComponent("geolosys.field_manual.tooltip"));
+        }
+        tooltip.add(new TranslationTextComponent("geolosys.field_manual.useless"));
+    }
+
 }

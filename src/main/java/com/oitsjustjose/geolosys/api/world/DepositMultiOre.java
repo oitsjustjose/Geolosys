@@ -1,21 +1,22 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.common.utils.Utils;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import com.oitsjustjose.geolosys.common.utils.Utils;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 
 @SuppressWarnings("unchecked")
 public class DepositMultiOre implements IDeposit
 {
     private ArrayList<BlockState> ores = new ArrayList<>();
     private ArrayList<BlockState> samples = new ArrayList<>();
-    private HashMap<BlockState, Integer> oreBlocks;
-    private HashMap<BlockState, Integer> sampleBlocks;
+    public HashMap<BlockState, Integer> oreBlocks;
+    public HashMap<BlockState, Integer> sampleBlocks;
     private int yMin;
     private int yMax;
     private int size;

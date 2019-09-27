@@ -32,6 +32,8 @@ public class ModConfig
         public static ForgeConfigSpec.IntValue PRO_PICK_RANGE;
         public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
         public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
+        public static ForgeConfigSpec.IntValue PRO_PICK_HUD_X;
+        public static ForgeConfigSpec.IntValue PRO_PICK_HUD_Y;
         public static ForgeConfigSpec.ConfigValue<String> DEFAULT_REPLACEMENT_MATS;
         private static String CATEGORY_FEATURE_CONTROL = "feature control";
         private static String CATEGORY_PROSPECTING = "prospecting";
@@ -71,6 +73,12 @@ public class ModConfig
                                                 + "Format: Comma-delimited set of <modid:block> (see default for example)")
                                 .define("defaultReplacementMaterials",
                                                 "minecraft:stone, minecraft:andesite, minecraft:diorite, minecraft:granite, minecraft:netherrack, minecraft:sandstone");
+                PRO_PICK_HUD_X = COMMON_BUILDER.comment(
+                                "The X position of the ProPick HUD, where (0,0) is the topleft corner of your screen")
+                                .defineInRange("proPickHudX", 2, 0, Integer.MAX_VALUE);
+                PRO_PICK_HUD_Y = COMMON_BUILDER.comment(
+                                "The Y position of the ProPick HUD, where (0,0) is the topleft corner of your screen")
+                                .defineInRange("proPickHudY", 2, 0, Integer.MAX_VALUE);
                 COMMON_BUILDER.pop();
 
                 COMMON_BUILDER.comment("Prospecting Options").push(CATEGORY_PROSPECTING);

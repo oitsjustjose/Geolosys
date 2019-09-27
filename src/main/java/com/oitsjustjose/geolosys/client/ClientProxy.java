@@ -1,15 +1,19 @@
 package com.oitsjustjose.geolosys.client;
 
+import java.io.File;
+import java.util.Objects;
+
 import com.oitsjustjose.geolosys.client.manual.GUIManual;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingException;
 import net.minecraftforge.fml.ModLoadingStage;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
-
-import java.io.File;
-import java.util.Objects;
 
 public class ClientProxy extends CommonProxy
 {
@@ -32,5 +36,10 @@ public class ClientProxy extends CommonProxy
         }
         throw new ModLoadingException(Objects.requireNonNull(geolosysModInfo), ModLoadingStage.COMMON_SETUP,
                 "geolosys.download.error.string", new RuntimeException());
+    }
+
+    @Override
+    public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction)
+    {
     }
 }

@@ -1,5 +1,10 @@
 package com.oitsjustjose.geolosys.client.manual;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -9,7 +14,7 @@ import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -27,11 +32,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class GUIManual extends Screen
@@ -158,17 +158,17 @@ public class GUIManual extends Screen
 
         // if (ModConfig.RETRO_REPLACE.get())
         // {
-        //     modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-        //     chapters.put("ore_converter", new Pages.BookChapter("ore_converter", "mod_compat"));
-        //     chapters.get("ore_converter").addPage(new Pages.BookPageText("geolosys.guide.chapter.ore_converter.name",
-        //             "geolosys.guide.chapter.ore_converter.text"));
+        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
+        // chapters.put("ore_converter", new Pages.BookChapter("ore_converter", "mod_compat"));
+        // chapters.get("ore_converter").addPage(new Pages.BookPageText("geolosys.guide.chapter.ore_converter.name",
+        // "geolosys.guide.chapter.ore_converter.text"));
         // }
         // if (ModList.get().isLoaded("journeymap"))
         // {
-        //     modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
-        //     chapters.put("journeymap", new Pages.BookChapter("journeymap", "mod_compat"));
-        //     chapters.get("journeymap").addPage(new Pages.BookPageText("geolosys.guide.chapter.journeymap.name",
-        //             "geolosys.guide.chapter.journeymap.text"));
+        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
+        // chapters.put("journeymap", new Pages.BookChapter("journeymap", "mod_compat"));
+        // chapters.get("journeymap").addPage(new Pages.BookPageText("geolosys.guide.chapter.journeymap.name",
+        // "geolosys.guide.chapter.journeymap.text"));
         // }
         // if (ModList.get().isLoaded("immersiveengineering") && ModConfig.compat.enableIECompat)
         // {
