@@ -5,9 +5,9 @@
 - [x] Fix ToDo blocks using new Capabilities system to reduce/remove Cascading Lag
 - [x] Implement JSON config again
   - [x] Parse JSON config
-  - [ ] See if new PlutonFeature works as it should
+  - [x] See if new PlutonFeature works as it should
 - [x] Finish logic for Stones
-- [ ] Re-implement all config options
+- [x] Re-implement ~~all~~ important config options
 
 ## Beta
 
@@ -17,3 +17,4 @@
 ## Release
 
 - [ ] All of these, but with polish.
+- [ ] Reimplement most all config options from before (some may be lost due to the Datapack mindset of new Forge)
