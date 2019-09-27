@@ -178,7 +178,8 @@ public class OreConfig
                                 while (jReader.hasNext())
                                 {
                                     String testFor = jReader.nextString();
-                                    Biome b = ForgeRegistries.BIOMES.getValue(new ResourceLocation(testFor));
+                                    Biome b = ForgeRegistries.BIOMES
+                                            .getValue(new ResourceLocation(testFor.toLowerCase()));
                                     if (b != null)
                                     {
                                         biomes.add(b);
