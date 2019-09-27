@@ -43,6 +43,13 @@ public class SampleBlock extends Block implements IWaterLoggable
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
     }
 
+    public SampleBlock()
+    {
+        super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
+                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL));
+        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
+    }
+
     @Override
     public boolean isSolid(BlockState state)
     {

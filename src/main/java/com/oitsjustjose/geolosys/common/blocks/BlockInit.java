@@ -45,8 +45,16 @@ public class BlockInit
                     vanillaType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 
-            Block sample = new SampleBlock(block).setRegistryName(Constants.MODID,
-                    vanillaType.getName() + "_ore_sample");
+            Block sample;
+            // We don't want samples to adopt vanilla drops
+            if (vanillaType.getVanillaParent() != null)
+            {
+                sample = new SampleBlock().setRegistryName(Constants.MODID, vanillaType.getName() + "_ore_sample");
+            }
+            else
+            {
+                sample = new SampleBlock(block).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore_sample");
+            }
             blocks.put(sample.getRegistryName().toString(), sample);
         }
 
