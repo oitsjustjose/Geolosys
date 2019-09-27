@@ -5,7 +5,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:coal_sample",
+				"geolosys:coal_ore_sample",
 				100
 			],
 			"yMin": 8,
@@ -24,7 +24,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:cinnabar_sample",
+				"geolosys:cinnabar_ore_sample",
 				100
 			],
 			"yMin": 5,
@@ -43,7 +43,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:gold_sample",
+				"geolosys:gold_ore_sample",
 				100
 			],
 			"yMin": 5,
@@ -62,7 +62,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:lapis_sample",
+				"geolosys:lapis_ore_sample",
 				100
 			],
 			"yMin": 10,
@@ -75,9 +75,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:desert",
-				"minecraft:mutated_desert",
-				"minecraft:desert_hills"
+				"SANDY"
 			],
 			"isWhitelist": true
 		},
@@ -87,7 +85,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:quartz_sample",
+				"geolosys:quartz_ore_sample",
 				100
 			],
 			"yMin": 6,
@@ -106,7 +104,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:kimberlite_sample",
+				"geolosys:kimberlite_ore_sample",
 				100
 			],
 			"yMin": 2,
@@ -125,7 +123,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:beryl_sample",
+				"geolosys:beryl_ore_sample",
 				100
 			],
 			"yMin": 4,
@@ -138,12 +136,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:ice_mountains",
-				"minecraft:extreme_hills_with_trees",
-				"minecraft:mutated_extreme_hills",
-				"minecraft:mutated_extreme_hills_with_trees",
-				"minecraft:extreme_hills",
-				"minecraft:smaller_extreme_hills"
+				""
 			],
 			"isWhitelist": true
 		},
@@ -153,7 +146,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:hematite_sample",
+				"geolosys:hematite_ore_sample",
 				100
 			],
 			"yMin": 32,
@@ -172,7 +165,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:limonite_sample",
+				"geolosys:limonite_ore_sample",
 				100
 			],
 			"yMin": 6,
@@ -185,10 +178,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:swampland",
-				"minecraft:mutated_swampland",
-				"minecraft:mushroom_island",
-				"minecraft:mushroom_island_shore"
+				"SWAMP", "MUSHROOM", "WET"
 			],
 			"isWhitelist": true
 		},
@@ -200,9 +190,9 @@
 				60
 			],
 			"samples": [
-				"geolosys:malachite_sample",
+				"geolosys:malachite_ore_sample",
 				40,
-				"geolosys:azurite_sample",
+				"geolosys:azurite_ore_sample",
 				60
 			],
 			"yMin": 12,
@@ -221,7 +211,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:cassiterite_sample",
+				"geolosys:cassiterite_ore_sample",
 				100
 			],
 			"yMin": 44,
@@ -234,9 +224,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:ocean",
-				"minecraft:frozen_ocean",
-				"minecraft:deep_ocean"
+				"BEACH", "OCEAN"
 			],
 			"isWhitelist": true
 		},
@@ -248,7 +236,7 @@
 				10
 			],
 			"samples": [
-				"geolosys:teallite_sample",
+				"geolosys:teallite_ore_sample",
 				100
 			],
 			"yMin": 8,
@@ -261,7 +249,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:river"
+				"RIVER"
 			],
 			"isWhitelist": true
 		},
@@ -271,7 +259,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:galena_sample",
+				"geolosys:galena_ore_sample",
 				100
 			],
 			"yMin": 16,
@@ -284,10 +272,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:mutated_plains",
-				"minecraft:plains",
-				"minecraft:ice_flats",
-				"minecraft:mutated_ice_flats"
+				"PLAINS"
 			],
 			"isWhitelist": true
 		},
@@ -297,7 +282,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:bauxite_sample",
+				"geolosys:bauxite_ore_sample",
 				100
 			],
 			"yMin": 45,
@@ -310,16 +295,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:jungle",
-				"minecraft:jungle_hills",
-				"minecraft:jungle_edge",
-				"minecraft:mutated_jungle",
-				"minecraft:mutated_jungle_edge",
-				"minecraft:beaches",
-				"minecraft:savanna",
-				"minecraft:savanna_rock",
-				"minecraft:mutated_savanna",
-				"minecraft:mutated_savanna_rock"
+				"JUNGLE", "SAVANNA"
 			],
 			"isWhitelist": true
 		},
@@ -329,7 +305,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:platinum_sample",
+				"geolosys:platinum_ore_sample",
 				100
 			],
 			"yMin": 3,
@@ -342,12 +318,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:ice_mountains",
-				"minecraft:extreme_hills_with_trees",
-				"minecraft:mutated_extreme_hills",
-				"minecraft:mutated_extreme_hills_with_trees",
-				"minecraft:extreme_hills",
-				"minecraft:smaller_extreme_hills"
+				"MOUNTAIN"
 			],
 			"isWhitelist": true
 		},
@@ -355,11 +326,11 @@
 			"blocks": [
 				"geolosys:autunite_ore",
 				85,
-				"minecraft:stone:1",
+				"minecraft:granite",
 				15
 			],
 			"samples": [
-				"geolosys:autunite_sample",
+				"geolosys:autunite_ore_sample",
 				100
 			],
 			"yMin": 8,
@@ -372,12 +343,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				"minecraft:ice_mountains",
-				"minecraft:extreme_hills_with_trees",
-				"minecraft:mutated_extreme_hills",
-				"minecraft:mutated_extreme_hills_with_trees",
-				"minecraft:extreme_hills",
-				"minecraft:smaller_extreme_hills"
+				"MOUNTAIN"
 			],
 			"isWhitelist": true
 		},
@@ -387,7 +353,7 @@
 				100
 			],
 			"samples": [
-				"geolosys:sphalerite_sample",
+				"geolosys:sphalerite_ore_sample",
 				100
 			],
 			"yMin": 37,
