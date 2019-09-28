@@ -1,13 +1,5 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
@@ -20,7 +12,6 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
 import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.state.IProperty;
@@ -35,6 +26,13 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PlutonOreFeature extends Feature<NoFeatureConfig>
 {
@@ -55,7 +53,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         if (ModConfig.DEBUG_WORLD_GEN.get())
         {
             Geolosys.getInstance().LOGGER
-                    .debug("Generated " + ore.getFriendlyName() + " in Chunk " + new ChunkPos(plutonStartPos));
+                    .debug("Generated " + ore.getOre().getBlock().getRegistryName().toString() + " in Chunk " + new ChunkPos(plutonStartPos));
         }
 
         IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);

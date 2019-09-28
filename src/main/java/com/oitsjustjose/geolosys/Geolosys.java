@@ -1,9 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Objects;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.ConfigClient;
@@ -17,12 +13,7 @@ import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.PlutonCapability;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
@@ -31,6 +22,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -45,6 +38,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.Objects;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -102,6 +101,7 @@ public class Geolosys
     }
 
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public void onHover(ItemTooltipEvent event)
     {
         if (!ConfigClient.ENABLE_TAG_DEBUG.get())

@@ -4,8 +4,6 @@ import com.oitsjustjose.geolosys.client.manual.GUIManual;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
-import com.oitsjustjose.geolosys.common.network.PacketStringSurface;
-import com.oitsjustjose.geolosys.common.network.PacketStringUnderground;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -25,9 +23,7 @@ public class ClientProxy extends CommonProxy
     {
         GUIManual.initPages();
 
-        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStringSurface.class, PacketStringSurface::encode, PacketStringSurface::decode, PacketStringSurface::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleClient);
-        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStringUnderground.class, PacketStringUnderground::encode, PacketStringUnderground::decode, PacketStringUnderground::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleClient);
     }
 
@@ -63,20 +59,4 @@ public class ClientProxy extends CommonProxy
                     true);
         }
     }
-
-    @Override
-    public void sendProspectingMessage(PlayerEntity player, String friendlyName, Direction direction)
-    {
-        if (direction != null)
-        {
-            player.sendStatusMessage(
-                    new TranslationTextComponent("geolosys.pro_pick.tooltip.found", friendlyName, direction), true);
-        }
-        else
-        {
-            player.sendStatusMessage(
-                    new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface", friendlyName), true);
-        }
-    }
-
 }

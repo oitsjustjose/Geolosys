@@ -5,6 +5,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -35,12 +37,12 @@ public class PacketStackSurface
         buf.writeItemStack(msg.stack);
     }
 
-
     public void handleServer(Supplier<NetworkEvent.Context> context)
     {
         context.get().setPacketHandled(true);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void handleClient(PacketStackSurface msg, Supplier<NetworkEvent.Context> context)
     {
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT)
@@ -52,6 +54,7 @@ public class PacketStackSurface
         context.get().setPacketHandled(true);
     }
 
+    @OnlyIn(Dist.CLIENT)
     private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators)
     {
         TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface", messageDecorators);

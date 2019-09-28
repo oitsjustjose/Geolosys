@@ -81,7 +81,7 @@
   "item.geolosys.field_manual": "Field Manual",
   "geolosys.field_manual.tooltip": "Everything you need to know about mining with Geolosys!",
   "geolosys.field_manual.useless": "§8(Doesn't do anything yet)§r",
-  "geolosys.pro_pick.name": "Prospector's Pick",
+  "item.geolosys.prospectors_pick": "Prospector's Pick",
   "geolosys.pro_pick.tooltip": "Useful when paired with a compass!",
   "geolosys.pro_pick.tooltip.nonefound_stone_surface": "No special stones in this area",
   "geolosys.pro_pick.tooltip.nonefound_surface": "No deposits in this area",

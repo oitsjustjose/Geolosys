@@ -310,7 +310,7 @@ public class ProPickItem extends Item
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
                                     {
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                ore.getFriendlyName(),
+                                                Utils.blockStateToStack(ore.getOre()),
                                                 facing.getOpposite());
                                         return true;
                                     }
@@ -407,18 +407,18 @@ public class ProPickItem extends Item
                     {
                         if (ore instanceof DepositMultiOre)
                         {
-                            DepositMultiOre multIDeposit = (DepositMultiOre) ore;
+                            DepositMultiOre multiDeposit = (DepositMultiOre) ore;
                             for (BlockState multIDepositState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-                                    ? multIDeposit.oreBlocks.keySet()
-                                    : multIDeposit.sampleBlocks.keySet()))
+                                    ? multiDeposit.oreBlocks.keySet()
+                                    : multiDeposit.sampleBlocks.keySet()))
                             {
                                 if (Utils.doStatesMatch(state, multIDepositState))
                                 {
                                     foundMap.get(ore).add(state);
-                                    if (foundMap.get(ore).size() == multIDeposit.oreBlocks.keySet().size())
+                                    if (foundMap.get(ore).size() == multiDeposit.oreBlocks.keySet().size())
                                     {
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                multIDeposit.getFriendlyName(), null);
+                                                Utils.blockStateToStack(ore.getOre()), null);
                                         return true;
                                     }
                                 }

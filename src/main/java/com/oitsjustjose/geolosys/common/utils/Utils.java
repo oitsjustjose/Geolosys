@@ -20,7 +20,6 @@ public class Utils
     public static String blockStateToName(BlockState state)
     {
         return state.toString();
-        // return blockStateToStack(state).getDisplayName().getFormattedText();
     }
 
     public static ItemStack blockStateToStack(BlockState state)

@@ -1,7 +1,9 @@
 package com.oitsjustjose.geolosys.common;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.network.*;
+import com.oitsjustjose.geolosys.common.network.NetworkManager;
+import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
+import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,9 +19,7 @@ public class CommonProxy
 
     public void init()
     {
-        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStringSurface.class, PacketStringSurface::encode, PacketStringSurface::decode, PacketStringSurface::handleServer);
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleServer);
-        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStringUnderground.class, PacketStringUnderground::encode, PacketStringUnderground::decode, PacketStringUnderground::handleServer);
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
     }
 
@@ -45,24 +45,6 @@ public class CommonProxy
         else
         {
             PacketStackSurface msg = new PacketStackSurface(stack);
-            networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
-        }
-    }
-
-    public void sendProspectingMessage(PlayerEntity player, String friendlyName, Direction direction)
-    {
-        if (!(player instanceof ServerPlayerEntity))
-        {
-            return;
-        }
-        if (direction != null)
-        {
-            PacketStringUnderground msg = new PacketStringUnderground(friendlyName, direction.getName());
-            networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
-        }
-        else
-        {
-            PacketStringSurface msg = new PacketStringSurface(friendlyName);
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
         }
     }
