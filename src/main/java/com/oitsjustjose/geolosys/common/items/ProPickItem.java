@@ -8,6 +8,7 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.ModConfig.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -41,7 +42,7 @@ public class ProPickItem extends Item
 
     public ProPickItem()
     {
-        super(new Item.Properties().maxStackSize(1));
+        super(new Item.Properties().maxStackSize(1).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
     }
 

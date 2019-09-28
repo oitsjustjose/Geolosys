@@ -1,11 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.common.utils.Constants;
-
+import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -18,13 +14,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ManualItem extends Item
 {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "field_manual");
 
     public ManualItem()
     {
-        super(new Item.Properties().maxStackSize(1).rarity(Rarity.COMMON));
+        super(new Item.Properties().maxStackSize(1).rarity(Rarity.COMMON).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
     }
 
