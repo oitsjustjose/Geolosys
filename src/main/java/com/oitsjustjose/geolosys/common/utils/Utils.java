@@ -70,7 +70,7 @@ public class Utils
         {
             ResourceLocation lookup = new ResourceLocation(s);
             BlockState b = ForgeRegistries.BLOCKS.getValue(lookup).getDefaultState();
-            if (b != null && !b.isAir())
+            if (!b.isAir())
             {
                 ret.add(b);
             }
@@ -78,20 +78,4 @@ public class Utils
         GeolosysAPI.plutonRegistry.getStones().forEach(x -> ret.add(x.getOre()));
         return ret;
     }
-
-    // @SuppressWarnings("deprecation")
-    // private static ArrayList<BlockState> parseMatchersFromConfig()
-    // {
-    // ArrayList<BlockState> ret = new ArrayList<>();
-    // for (String s : ModConfig.DEFAULT_REPLACEMENT_MATS.get())
-    // {
-    // ResourceLocation lookup = new ResourceLocation(s);
-    // BlockState b = ForgeRegistries.BLOCKS.getValue(lookup).getDefaultState();
-    // if (b != null && !b.isAir())
-    // {
-    // ret.add(b);
-    // }
-    // }
-    // return ret;
-    // }
 }
