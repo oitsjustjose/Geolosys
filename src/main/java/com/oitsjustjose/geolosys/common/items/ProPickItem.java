@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
@@ -44,6 +45,7 @@ public class ProPickItem extends Item
     {
         super(new Item.Properties().maxStackSize(1).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -141,7 +143,7 @@ public class ProPickItem extends Item
                 player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.ores"), true);
             }
         }
-        return new ActionResult<ItemStack>(ActionResultType.PASS, player.getHeldItem(hand));
+        return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
     }
 
     @Override
@@ -159,7 +161,10 @@ public class ProPickItem extends Item
         }
         else
         {
-            this.attemptDamageItem(player, pos, hand, worldIn);
+            if (!player.isCreative())
+            {
+                this.attemptDamageItem(player, pos, hand, worldIn);
+            }
             // At surface or higher
             if (worldIn.isRemote)
             {
@@ -303,12 +308,16 @@ public class ProPickItem extends Item
                         // Use the Use the foundMap with multIDeposits
                         if (ore instanceof DepositMultiOre)
                         {
+                            DepositMultiOre multiOre = (DepositMultiOre) ore;
                             for (BlockState tmpState : ((DepositMultiOre) ore).oreBlocks.keySet())
                             {
                                 if (Utils.doStatesMatch(tmpState, state))
                                 {
-                                    foundMap.get(ore).add(state);
-                                    if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size())
+                                    if (!foundMap.get(multiOre).contains(state))
+                                    {
+                                        foundMap.get(multiOre).add(state);
+                                    }
+                                    if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size())
                                     {
                                         Geolosys.proxy.sendProspectingMessage(player,
                                                 Utils.blockStateToStack(ore.getOre()),
@@ -342,57 +351,18 @@ public class ProPickItem extends Item
         return false;
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onDrawScreen(RenderGameOverlayEvent.Post event)
-    {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
-                || Minecraft.getInstance().debugRenderer.shouldRender()
-                || Minecraft.getInstance().gameSettings.showDebugInfo
-                || Minecraft.getInstance().gameSettings.showDebugProfilerChart)
-        {
-            return;
-        }
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
-                || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem)
-        {
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GlStateManager.disableLighting();
-            int seaLvl = mc.player.getEntityWorld().getSeaLevel();
-            int level = (int) (seaLvl - mc.player.posY);
-            if (level < 0)
-            {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
-                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
-            }
-            else if (level == 0)
-            {
-                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.PRO_PICK_HUD_X.get(),
-                        ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
-            }
-            else
-            {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level",
-                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
-            }
-            GlStateManager.color4f(1F, 1F, 1F, 1F);
-        }
-    }
-
     private boolean prospectSurfaceOres(World world, BlockPos pos, PlayerEntity player)
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
         SURFACE_PROSPECTING_TYPE searchType = ModConfig.PRO_PICK_SURFACE_MODE.get();
 
-        HashMap<IDeposit, ArrayList<BlockState>> foundMap = new HashMap<>();
+        HashMap<DepositMultiOre, ArrayList<BlockState>> foundMap = new HashMap<>();
         for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
         {
             if (ore instanceof DepositMultiOre)
             {
-                foundMap.put(ore, new ArrayList<>());
+                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
             }
         }
 
@@ -400,7 +370,7 @@ public class ProPickItem extends Item
         {
             for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
             {
-                for (int y = 0; y < Utils.getTopSolidBlock(world, new BlockPos(x, 0, z)).getY(); y++)
+                for (int y = 0; y < world.getHeight(); y++)
                 {
                     BlockState state = world.getBlockState(new BlockPos(x, y, z));
 
@@ -408,18 +378,25 @@ public class ProPickItem extends Item
                     {
                         if (ore instanceof DepositMultiOre)
                         {
-                            DepositMultiOre multiDeposit = (DepositMultiOre) ore;
-                            for (BlockState multIDepositState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-                                    ? multiDeposit.oreBlocks.keySet()
-                                    : multiDeposit.sampleBlocks.keySet()))
+                            DepositMultiOre multiOre = (DepositMultiOre) ore;
+                            for (BlockState multiOreState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
+                                    ? multiOre.oreBlocks.keySet()
+                                    : multiOre.sampleBlocks.keySet()))
                             {
-                                if (Utils.doStatesMatch(state, multIDepositState))
+                                if (Utils.doStatesMatch(state, multiOreState))
                                 {
-                                    foundMap.get(ore).add(state);
-                                    if (foundMap.get(ore).size() == multiDeposit.oreBlocks.keySet().size())
+                                    int size = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
+                                            ? multiOre.oreBlocks.keySet().size()
+                                            : multiOre.sampleBlocks.keySet().size();
+                                    if (!foundMap.get(multiOre).contains(state))
                                     {
+                                        foundMap.get(multiOre).add(state);
+                                    }
+                                    if (foundMap.get(multiOre).size() == size)
+                                    {
+                                        Geolosys.getInstance().LOGGER.info("multiOre.size == foundMap[multiOre].size");
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                Utils.blockStateToStack(ore.getOre()), null);
+                                                Utils.blockStateToStack(multiOre.getOre()), null);
                                         return true;
                                     }
                                 }
@@ -431,6 +408,7 @@ public class ProPickItem extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
+                                Geolosys.getInstance().LOGGER.info("Not multiore, found match");
                                 Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
                                         null);
                                 return true;
@@ -478,6 +456,44 @@ public class ProPickItem extends Item
         player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_stone_surface"),
                 true);
         return false;
+    }
 
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public void onDrawScreen(RenderGameOverlayEvent.Post event)
+    {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
+                || Minecraft.getInstance().debugRenderer.shouldRender()
+                || Minecraft.getInstance().gameSettings.showDebugInfo
+                || Minecraft.getInstance().gameSettings.showDebugProfilerChart)
+        {
+            return;
+        }
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
+                || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem)
+        {
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.disableLighting();
+            int seaLvl = mc.player.getEntityWorld().getSeaLevel();
+            int level = (int) (seaLvl - mc.player.posY);
+            if (level < 0)
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
+                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+            }
+            else if (level == 0)
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.PRO_PICK_HUD_X.get(),
+                        ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+            }
+            else
+            {
+                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level",
+                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+            }
+            GlStateManager.color4f(1F, 1F, 1F, 1F);
+        }
     }
 }
