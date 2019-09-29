@@ -1,12 +1,11 @@
 modLoader="javafml" #mandatory
 loaderVersion="[28,)" #mandatory (28 is current forge version)
-issueTrackerURL="http://github.com/oitsjustjose/geolosys"
+issueTrackerURL="http://github.com/oitsjustjose/geolosys/issues"
 [[mods]]
 modId="geolosys"
-version="${file.jarVersion}"
+version="${version}"
 displayName="Geolosys"
 displayURL="http://geolosys.oitsjustjose.com/en/latest/"
-logoFile="examplemod.png"
 credits="Contributors on GitHub"
 authors="oitsjustjose"
 description='''
@@ -20,6 +19,7 @@ Support me on Patreon at https://patreon.com/oitsjustjose
     versionRange="[28,)" #mandatory
     ordering="NONE"
     side="BOTH"
+
 [[dependencies.geolosys]]
     modId="minecraft"
     mandatory=true

@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'geolosys'
+archivesBaseName = "Geolosys-${game_version}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -25,7 +25,7 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+//            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
@@ -41,7 +41,7 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+//            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
@@ -105,6 +105,32 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
     type 'jar'
     builtBy 'reobfJar'
 }
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'Deobf'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'Sources'
+    from sourceSets.main.allSource
+}
+
+processResources {
+    version = "${mod_version}"
+    from(sourceSets.main.resources) {
+        include '**/mods.toml'
+        expand 'version': version
+    }
+}
+
+build.dependsOn processResources
+
+artifacts {
+    archives deobfJar
+    archives sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
