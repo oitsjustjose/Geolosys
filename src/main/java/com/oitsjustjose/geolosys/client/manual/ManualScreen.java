@@ -1,10 +1,5 @@
 package com.oitsjustjose.geolosys.client.manual;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -14,7 +9,6 @@ import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -33,8 +27,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
 @OnlyIn(Dist.CLIENT)
-public class GUIManual extends Screen
+public class ManualScreen extends Screen
 {
     private static final int WIDTH = 146;
     private static final int HEIGHT = 180;
@@ -49,7 +48,7 @@ public class GUIManual extends Screen
     private int left, top;
     private FontRenderer fontRenderer;
 
-    public GUIManual()
+    public ManualScreen()
     {
         super(new StringTextComponent("Field Manual"));
         currentChapter = "home";
@@ -805,7 +804,7 @@ public class GUIManual extends Screen
                 boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
                         && mouseY < this.y + this.height;
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                Minecraft.getInstance().getTextureManager().bindTexture(GUIManual.BACKGROUND);
+                Minecraft.getInstance().getTextureManager().bindTexture(ManualScreen.BACKGROUND);
                 int i = 0;
                 int j = 192;
 

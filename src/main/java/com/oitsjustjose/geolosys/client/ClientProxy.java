@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.client;
 
-import com.oitsjustjose.geolosys.client.manual.GUIManual;
+import com.oitsjustjose.geolosys.client.manual.ManualScreen;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
@@ -21,7 +21,7 @@ public class ClientProxy extends CommonProxy
 {
     public void init()
     {
-        GUIManual.initPages();
+        ManualScreen.initPages();
 
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleClient);
