@@ -30,6 +30,7 @@ public class ModConfig
     public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
     public static ForgeConfigSpec.IntValue PRO_PICK_HUD_X;
     public static ForgeConfigSpec.IntValue PRO_PICK_HUD_Y;
+    public static ForgeConfigSpec.BooleanValue GIVE_MANUAL_TO_NEW;
     public static ForgeConfigSpec.ConfigValue<String> DEFAULT_REPLACEMENT_MATS;
     private static String CATEGORY_FEATURE_CONTROL = "feature control";
     private static String CATEGORY_PROSPECTING = "prospecting";
@@ -98,6 +99,7 @@ public class ModConfig
         PRO_PICK_SURFACE_MODE = COMMON_BUILDER.comment(
                 "What Surface Prospecting Results display; SAMPLES means it's based off of samples in the chunk - OREBLOCKS means it's based on the actual ores in the ground")
                 .defineEnum("surfaceProspectingResults", SURFACE_PROSPECTING_TYPE.OREBLOCKS);
+        GIVE_MANUAL_TO_NEW = COMMON_BUILDER.comment("Give players a Field Manual if they haven't gotten one").define("giveManual", true);
         COMMON_BUILDER.pop();
     }
 

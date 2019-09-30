@@ -7,6 +7,8 @@ import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
+import com.oitsjustjose.geolosys.common.event.CompatDrops;
+import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
@@ -59,6 +61,12 @@ public class Geolosys
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
+        if (ModConfig.GIVE_MANUAL_TO_NEW.get())
+        {
+            MinecraftForge.EVENT_BUS.register(new ManualGifting());
+        }
+        MinecraftForge.EVENT_BUS.register(new CompatDrops());
+
         this.configSetup();
     }
 
@@ -75,6 +83,8 @@ public class Geolosys
 
     public void setup(final FMLCommonSetupEvent event)
     {
+
+
         CapabilityManager.INSTANCE.register(IPlutonCapability.class, new PlutonCapStorage(), PlutonCapability::new);
 
         if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
