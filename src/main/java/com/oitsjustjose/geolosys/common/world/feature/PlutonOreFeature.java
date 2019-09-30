@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
@@ -117,6 +118,14 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                 && blockZ <= chunkPos.getZEnd();
     }
 
+    private boolean isInChunk(ChunkPos chunkPos, BlockPosDim pos)
+    {
+        int blockX = pos.getX();
+        int blockZ = pos.getZ();
+        return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
+                && blockZ <= chunkPos.getZEnd();
+    }
+
     @Override
     @ParametersAreNonnullByDefault
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
@@ -133,7 +142,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     Geolosys.getInstance().LOGGER.info(
                             "Generated pending block " + pState.getBlock().getRegistryName().toString() + " at " + pos);
                 }
-                worldIn.setBlockState(pPos, pState, 2 | 16);
+                worldIn.setBlockState(pPos.getPos(), pState, 2 | 16);
                 plutonCapability.getPendingBlocks().remove(pPos);
             }
         });
@@ -253,7 +262,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        plutonCapability.putPendingBlock(pos, pluton.getOre());
+                                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
                                     }
                                 }
                             }

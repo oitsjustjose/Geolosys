@@ -1,10 +1,10 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
+import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ public class GeolosysCapability implements IGeolosysCapability
 {
     private HashMap<ChunkPosDim, Boolean> oreGenMap;
     private HashMap<ChunkPosDim, Boolean> stoneGenMap;
-    private HashMap<BlockPos, BlockState> pendingBlocks;
+    private HashMap<BlockPosDim, BlockState> pendingBlocks;
     private HashMap<ChunkPosDim, Boolean> retroMap;
 
     public GeolosysCapability()
@@ -38,7 +38,7 @@ public class GeolosysCapability implements IGeolosysCapability
     }
 
     @Override
-    public Map<BlockPos, BlockState> getPendingBlocks()
+    public Map<BlockPosDim, BlockState> getPendingBlocks()
     {
         return this.pendingBlocks;
     }
@@ -56,13 +56,13 @@ public class GeolosysCapability implements IGeolosysCapability
     }
 
     @Override
-    public void putPendingBlock(BlockPos pos, BlockState state)
+    public void putPendingBlock(BlockPosDim pos, BlockState state)
     {
         this.pendingBlocks.put(pos, state);
     }
 
     @Override
-    public BlockState getPendingBlock(BlockPos pos)
+    public BlockState getPendingBlock(BlockPosDim pos)
     {
         BlockState ret = this.pendingBlocks.get(pos);
         return ret;
@@ -114,7 +114,7 @@ public class GeolosysCapability implements IGeolosysCapability
 
         this.getOreGenMap().forEach((x, y) -> oreDeposits.putBoolean(x.toString(), y));
         this.getStoneGenMap().forEach((x, y) -> stoneDeposits.putBoolean(x.toString(), y));
-        this.getPendingBlocks().forEach((x, y) -> pendingBlocks.put(CapUtils.toString(x), NBTUtil.writeBlockState(y)));
+        this.getPendingBlocks().forEach((x, y) -> pendingBlocks.put(x.toString(), NBTUtil.writeBlockState(y)));
         this.getRetroMap().forEach((x, y) -> retroGen.putBoolean(x.toString(), y));
         return compound;
     }
@@ -129,7 +129,7 @@ public class GeolosysCapability implements IGeolosysCapability
 
         oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(new ChunkPosDim(key)));
         stoneDeposits.keySet().forEach(key -> this.setStonePlutonGenerated(new ChunkPosDim(key)));
-        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(CapUtils.fromString(key),
+        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(new BlockPosDim(key),
                 NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         retroGen.keySet().forEach(key -> this.setRetroGenned(new ChunkPosDim(key)));
     }

@@ -44,6 +44,11 @@ public class BlockPosDim implements Serializable
         this.dim = parts[3];
     }
 
+    public BlockPos getPos()
+    {
+        return new BlockPos(this.x, this.y, this.z);
+    }
+
     public int getX()
     {
         return this.x;

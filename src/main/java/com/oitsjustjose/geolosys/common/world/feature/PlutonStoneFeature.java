@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -151,7 +152,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        plutonCapability.putPendingBlock(pos, pluton.getOre());
+                                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
                                     }
                                 }
                             }
