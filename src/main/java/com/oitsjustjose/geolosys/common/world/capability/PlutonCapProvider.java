@@ -19,7 +19,7 @@ public class PlutonCapProvider implements ICapabilitySerializable<CompoundNBT>
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn, final @Nullable Direction side)
     {
-        if (capIn == GeolosysAPI.PLUTON_CAPABILITY)
+        if (capIn == GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
         {
             return cap.cast();
         }

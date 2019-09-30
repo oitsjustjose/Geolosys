@@ -47,7 +47,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY)
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
                 .orElse(null);
 
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
@@ -162,7 +162,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
         }
         if (placed)
         {
-            worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null)
+            worldIn.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null)
                     .setStonePlutonGenerated(new ChunkPosDim(pos,
                             Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString()));
         }

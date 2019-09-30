@@ -56,7 +56,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     .debug("Generated " + ore.getOre().getBlock().getRegistryName().toString() + " in Chunk " + new ChunkPos(plutonStartPos));
         }
 
-        IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY).orElse(null);
+        IPlutonCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
         if (plutonCapability != null)
         {
 
@@ -122,7 +122,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
             BlockPos pos, NoFeatureConfig config)
     {
-        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.PLUTON_CAPABILITY)
+        IPlutonCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
                 .orElse(null);
         // Fill in pending Blocks when possible:
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
