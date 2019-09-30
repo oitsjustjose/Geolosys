@@ -1,8 +1,8 @@
-package com.oitsjustjose.geolosys.common.world.utils;
-
-import java.io.Serializable;
+package com.oitsjustjose.geolosys.api;
 
 import net.minecraft.util.math.BlockPos;
+
+import java.io.Serializable;
 
 /**
  * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such, it stores a chunk's X and Z position

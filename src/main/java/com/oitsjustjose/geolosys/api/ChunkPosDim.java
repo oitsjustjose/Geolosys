@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.utils;
+package com.oitsjustjose.geolosys.api;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;

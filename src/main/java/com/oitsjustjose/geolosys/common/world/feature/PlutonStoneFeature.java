@@ -1,22 +1,12 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
-import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +18,14 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 {

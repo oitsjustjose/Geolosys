@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
-import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
+import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;

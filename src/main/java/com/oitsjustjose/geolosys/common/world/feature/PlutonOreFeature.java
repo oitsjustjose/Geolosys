@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import com.mojang.datafixers.Dynamic;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
@@ -9,9 +10,8 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
-import com.oitsjustjose.geolosys.common.world.utils.ChunkPosDim;
-import com.oitsjustjose.geolosys.common.world.utils.SampleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.state.IProperty;

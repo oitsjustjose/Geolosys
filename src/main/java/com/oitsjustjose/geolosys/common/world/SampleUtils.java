@@ -1,12 +1,7 @@
-package com.oitsjustjose.geolosys.common.world.utils;
-
-import java.util.Random;
-
-import javax.annotation.Nullable;
+package com.oitsjustjose.geolosys.common.world;
 
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,6 +10,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class SampleUtils
 {
