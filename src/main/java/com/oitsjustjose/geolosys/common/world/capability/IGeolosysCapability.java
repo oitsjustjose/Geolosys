@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Map;
 
-public interface IPlutonCapability extends INBTSerializable<CompoundNBT>
+public interface IGeolosysCapability extends INBTSerializable<CompoundNBT>
 {
     boolean hasOrePlutonGenerated(ChunkPosDim pos);
 

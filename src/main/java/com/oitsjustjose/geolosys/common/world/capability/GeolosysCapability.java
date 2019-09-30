@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PlutonCapability implements IPlutonCapability
+public class GeolosysCapability implements IGeolosysCapability
 {
     private HashMap<ChunkPosDim, Boolean> oreGenMap;
     private HashMap<ChunkPosDim, Boolean> stoneGenMap;
     private HashMap<BlockPos, BlockState> pendingBlocks;
     private HashMap<ChunkPosDim, Boolean> retroMap;
 
-    public PlutonCapability()
+    public GeolosysCapability()
     {
         this.oreGenMap = new HashMap<>();
         this.stoneGenMap = new HashMap<>();

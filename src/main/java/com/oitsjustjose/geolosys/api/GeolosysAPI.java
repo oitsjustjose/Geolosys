@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.api;
 
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
-import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
+import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 import net.minecraft.block.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class GeolosysAPI
 {
-        @CapabilityInject(IPlutonCapability.class)
-        public static final Capability<IPlutonCapability> GEOLOSYS_WORLD_CAPABILITY = null;
+        @CapabilityInject(IGeolosysCapability.class)
+        public static final Capability<IGeolosysCapability> GEOLOSYS_WORLD_CAPABILITY = null;
         // A collection of BlockStates that can trigger the prospector's pick
         public static ArrayList<BlockState> proPickExtras = new ArrayList<>();
         // A collection of blocks to ignore in the OreConverter feature

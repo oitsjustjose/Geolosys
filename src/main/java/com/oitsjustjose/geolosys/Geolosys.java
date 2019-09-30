@@ -11,10 +11,10 @@ import com.oitsjustjose.geolosys.common.event.CompatDrops;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.IPlutonCapability;
-import com.oitsjustjose.geolosys.common.world.capability.PlutonCapProvider;
-import com.oitsjustjose.geolosys.common.world.capability.PlutonCapStorage;
-import com.oitsjustjose.geolosys.common.world.capability.PlutonCapability;
+import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
+import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -85,7 +85,7 @@ public class Geolosys
     {
 
 
-        CapabilityManager.INSTANCE.register(IPlutonCapability.class, new PlutonCapStorage(), PlutonCapability::new);
+        CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(), GeolosysCapability::new);
 
         if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
@@ -105,7 +105,7 @@ public class Geolosys
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event)
     {
-        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new PlutonCapProvider());
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
         LOGGER.info("Geolosys capability attached for "
                 + Objects.requireNonNull(event.getObject().dimension.getType().getRegistryName()).toString());
     }

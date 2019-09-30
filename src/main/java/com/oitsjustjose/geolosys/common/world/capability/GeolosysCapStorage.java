@@ -7,10 +7,10 @@ import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 
-public class PlutonCapStorage implements Capability.IStorage<IPlutonCapability>
+public class GeolosysCapStorage implements Capability.IStorage<IGeolosysCapability>
 {
     @Override
-    public void readNBT(Capability<IPlutonCapability> capability, IPlutonCapability instance, Direction side, INBT nbt)
+    public void readNBT(Capability<IGeolosysCapability> capability, IGeolosysCapability instance, Direction side, INBT nbt)
     {
         if (nbt instanceof CompoundNBT)
         {
@@ -20,7 +20,7 @@ public class PlutonCapStorage implements Capability.IStorage<IPlutonCapability>
 
     @Nullable
     @Override
-    public INBT writeNBT(Capability<IPlutonCapability> capability, IPlutonCapability instance, Direction side)
+    public INBT writeNBT(Capability<IGeolosysCapability> capability, IGeolosysCapability instance, Direction side)
     {
         // Initialize the Compound with WorldDeposits and RetroGen:
         return instance.serializeNBT();

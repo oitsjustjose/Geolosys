@@ -10,10 +10,10 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PlutonCapProvider implements ICapabilitySerializable<CompoundNBT>
+public class GeolosysCapProvider implements ICapabilitySerializable<CompoundNBT>
 {
-    private final IPlutonCapability impl = new PlutonCapability();
-    private final LazyOptional<IPlutonCapability> cap = LazyOptional.of(() -> impl);
+    private final IGeolosysCapability impl = new GeolosysCapability();
+    private final LazyOptional<IGeolosysCapability> cap = LazyOptional.of(() -> impl);
 
     @Override
     @Nonnull
