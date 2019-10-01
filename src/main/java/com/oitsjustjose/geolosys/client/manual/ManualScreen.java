@@ -23,7 +23,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -97,10 +96,10 @@ public class ManualScreen extends Screen
         chapters.put("samples", new BookChapter("samples", "prospecting"));
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
                 "geolosys.guide.chapter.samples_1.text", new ItemStack(
-                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_cluster"))));
+                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
         chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
                 "geolosys.guide.chapter.samples_2.text", new ItemStack(
-                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_cluster"))));
+                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
 
         if (ModConfig.ENABLE_PRO_PICK.get())
         {
@@ -273,17 +272,21 @@ public class ManualScreen extends Screen
 
         if (currentPage != null)
         {
-            String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + I18n.format(currentPage.getTitle());
+            String header = null;
 
-            if (header.contains("&"))
+            if (currentPage.getTitle().contains("&"))
             {
                 StringBuilder sb = new StringBuilder();
-                for (String unlocalized : header.split(" & "))
+                for (String unlocalized : currentPage.getTitle().replace(" ", "").split("&"))
                 {
                     sb.append(I18n.format(unlocalized));
                     sb.append(" & ");
                 }
-                header = sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
+                header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
+            }
+            else
+            {
+                header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + I18n.format(currentPage.getTitle());
             }
 
             double textScale = ConfigClient.MANUAL_FONT_SCALE.get();
@@ -574,7 +577,6 @@ public class ManualScreen extends Screen
 
     private void resetPage()
     {
-        Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("resetPage() called"), true);
         this.buttons.clear();
         this.children.clear();
         int i = 0;
