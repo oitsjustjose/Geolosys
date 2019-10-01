@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.client.manual;
+package com.oitsjustjose.geolosys.client.manual.pages;
 
 /**
  * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:

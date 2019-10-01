@@ -1,14 +1,19 @@
 package com.oitsjustjose.geolosys.client.manual;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.client.ConfigClient;
+import com.oitsjustjose.geolosys.client.manual.pages.*;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.utils.Utils;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,20 +22,18 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class ManualScreen extends Screen
@@ -38,10 +41,10 @@ public class ManualScreen extends Screen
     private static final int WIDTH = 146;
     private static final int HEIGHT = 180;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(Constants.MODID, "textures/gui/book.png");
-    private static HashMap<String, Pages.BookChapter> chapters = new HashMap<>();
+    private static HashMap<String, BookChapter> chapters = new HashMap<>();
     private String currentChapter;
     private int currentPageNum;
-    private Pages.BookPage currentPage;
+    private BookPage currentPage;
     private String lastChapter;
     private int lastPageNum;
     private ItemStack display = ItemStack.EMPTY;
@@ -50,7 +53,7 @@ public class ManualScreen extends Screen
 
     public ManualScreen()
     {
-        super(new StringTextComponent("Field Manual"));
+        super(new TranslationTextComponent("item.geolosys.field_manual"));
         currentChapter = "home";
         currentPageNum = 0;
         this.fontRenderer = Minecraft.getInstance().fontRenderer;
@@ -58,236 +61,168 @@ public class ManualScreen extends Screen
 
     public static void initPages()
     {
-        Pages.BookPageContents home = new Pages.BookPageContents("geolosys.guide.page.home.name");
+        BookPageContents home = new BookPageContents("geolosys.guide.page.home.name");
         home.addLink(new ChapterLink("geolosys.guide.chapter.introduction.name", "introduction"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.prospecting.name", "prospecting"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.resources.name", "resources"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.mod_compat.name", "mod_compat"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.patrons.name", "patrons"));
 
-        chapters.put("home", new Pages.BookChapter("home"));
-        chapters.put("introduction", new Pages.BookChapter("introduction", "home"));
-        chapters.put("prospecting", new Pages.BookChapter("prospecting", "home"));
-        chapters.put("resources", new Pages.BookChapter("resources", "home"));
-        chapters.put("mod_compat", new Pages.BookChapter("mod_compat", "home"));
-        chapters.put("patrons", new Pages.BookChapter("patrons", "home"));
+        chapters.put("home", new BookChapter("home"));
+        chapters.put("introduction", new BookChapter("introduction", "home"));
+        chapters.put("prospecting", new BookChapter("prospecting", "home"));
+        chapters.put("resources", new BookChapter("resources", "home"));
+        chapters.put("mod_compat", new BookChapter("mod_compat", "home"));
+        chapters.put("patrons", new BookChapter("patrons", "home"));
 
         chapters.get("home").addPage(home);
 
-        Pages.BookPageContents introduction = new Pages.BookPageContents("geolosys.guide.chapter.introduction.name");
+        BookPageContents introduction = new BookPageContents("geolosys.guide.chapter.introduction.name");
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.getting_started.name", "getting_started"));
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.vanilla_ores.name", "vanilla_ores"));
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.modded_ores.name", "modded_ores"));
-        chapters.put("getting_started", new Pages.BookChapter("getting_started", "introduction"));
-        chapters.put("vanilla_ores", new Pages.BookChapter("vanilla_ores", "introduction"));
-        chapters.put("modded_ores", new Pages.BookChapter("modded_ores", "introduction"));
+        chapters.put("getting_started", new BookChapter("getting_started", "introduction"));
+        chapters.put("vanilla_ores", new BookChapter("vanilla_ores", "introduction"));
+        chapters.put("modded_ores", new BookChapter("modded_ores", "introduction"));
 
         chapters.get("introduction").addPage(introduction);
-        chapters.get("getting_started").addPage(new Pages.BookPageText("geolosys.guide.chapter.getting_started.name",
+        chapters.get("getting_started").addPage(new BookPageText("geolosys.guide.chapter.getting_started.name",
                 "geolosys.guide.chapter.getting_started.text"));
-        chapters.get("vanilla_ores").addPage(new Pages.BookPageText("geolosys.guide.chapter.vanilla_ores.name",
+        chapters.get("vanilla_ores").addPage(new BookPageText("geolosys.guide.chapter.vanilla_ores.name",
                 "geolosys.guide.chapter.vanilla_ores.text"));
-        chapters.get("modded_ores").addPage(new Pages.BookPageText("geolosys.guide.chapter.modded_ores.name",
-                "geolosys.guide.chapter.modded_ores.text"));
+        chapters.get("modded_ores").addPage(
+                new BookPageText("geolosys.guide.chapter.modded_ores.name", "geolosys.guide.chapter.modded_ores.text"));
 
-        Pages.BookPageContents prospecting = new Pages.BookPageContents("geolosys.guide.chapter.prospecting.name");
+        BookPageContents prospecting = new BookPageContents("geolosys.guide.chapter.prospecting.name");
         prospecting.addLink(new ChapterLink("geolosys.guide.chapter.samples.name", "samples"));
-        chapters.put("samples", new Pages.BookChapter("samples", "prospecting"));
-        chapters.get("samples")
-                .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.samples.name",
-                        "geolosys.guide.chapter.samples_1.text",
-                        new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:hematite_sample"))));
-        chapters.get("samples")
-                .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.samples.name",
-                        "geolosys.guide.chapter.samples_2.text",
-                        new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:hematite_sample"))));
+        chapters.put("samples", new BookChapter("samples", "prospecting"));
+        chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
+                "geolosys.guide.chapter.samples_1.text", new ItemStack(
+                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_cluster"))));
+        chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
+                "geolosys.guide.chapter.samples_2.text", new ItemStack(
+                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_cluster"))));
 
         if (ModConfig.ENABLE_PRO_PICK.get())
         {
             prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
-            chapters.put("propick", new Pages.BookChapter("propick", "prospecting"));
-            // chapters.get("propick").addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name",
-            // "geolosys.guide.chapter.propick_1.text", new ItemStack(Geolosys.getInstance().PRO_PICK)));
-            chapters.get("propick").addPage(new Pages.BookPageText("geolosys.guide.chapter.propick.name",
-                    "geolosys.guide.chapter.propick_2.text"));
-            chapters.get("propick").addPage(new Pages.BookPageText("geolosys.guide.chapter.propick.name",
-                    "geolosys.guide.chapter.propick_3.text"));
+            chapters.put("propick", new BookChapter("propick", "prospecting"));
+            chapters.get("propick").addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name",
+                    "geolosys.guide.chapter.propick_1.text", new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:prospectors_pick"))));
+            chapters.get("propick").addPage(
+                    new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_2.text"));
+            chapters.get("propick").addPage(
+                    new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_3.text"));
         }
         chapters.get("prospecting").addPage(prospecting);
 
-        ArrayList<Pages.BookPageContents> resources = new ArrayList<>();
-        resources.add(new Pages.BookPageContents("geolosys.guide.chapter.resources.name"));
+        ArrayList<BookPageContents> resources = new ArrayList<>();
+        resources.add(new BookPageContents("geolosys.guide.chapter.resources.name"));
         int count = 0;
         int page_num = 0;
 
-        if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
+        resources.get(page_num).addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
+        chapters.put("stones", new BookChapter("stones", "resources"));
+        chapters.get("stones").addPage(new BookPageItemDisplay("geolosys.guide.chapter.stones.name",
+                "geolosys.guide.chapter.stones.text", new ItemStack[]{
+                new ItemStack(Blocks.DIORITE),
+                new ItemStack(Blocks.ANDESITE),
+                new ItemStack(Blocks.GRANITE)
+        }));
+        count++;
+        if (count == 12)
         {
-            resources.get(page_num).addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
-            chapters.put("stones", new Pages.BookChapter("stones", "resources"));
-            chapters.get("stones").addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.stones.name",
-                    "geolosys.guide.chapter.stones.text", new ItemStack(Blocks.GRANITE, 1)));
-            count++;
-            if (count == 12)
-            {
-                resources.add(new Pages.BookPageContents("geolosys.guide.chapter.resources.name"));
-                page_num += 1;
-                count = 0;
-            }
+            resources.add(new BookPageContents("geolosys.guide.chapter.resources.name"));
+            page_num += 1;
+            count = 0;
         }
+
         for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
         {
-            resources.get(page_num).addLink(new ChapterLink(ore.getFriendlyName(), ore.getFriendlyName()));
-            chapters.put(ore.getFriendlyName(), new Pages.BookChapter(ore.getFriendlyName(), "resources"));
-            chapters.get(ore.getFriendlyName()).addPage(new Pages.BookPageOre(ore));
+            String name = ore.getFriendlyName();
+            if (ore instanceof DepositMultiOre)
+            {
+                DepositMultiOre multiOre = (DepositMultiOre) ore;
+                StringBuilder sb = new StringBuilder();
+                for (BlockState state : multiOre.oreBlocks.keySet())
+                {
+                    sb.append(Utils.blockStateToName(state));
+                    sb.append(" & ");
+                }
+                name = sb.toString().substring(0, sb.lastIndexOf(" & "));
+            }
+            resources.get(page_num).addLink(new ChapterLink(name, name));
+            chapters.put(name, new BookChapter(name, "resources"));
+            chapters.get(name).addPage(new BookPageOre(ore));
             count++;
             if (count == 12)
             {
-                resources.add(new Pages.BookPageContents("geolosys.guide.chapter.resources.name"));
+                resources.add(new BookPageContents("geolosys.guide.chapter.resources.name"));
                 page_num += 1;
                 count = 0;
             }
         }
 
-        for (Pages.BookPageContents contents : resources)
+        for (BookPageContents contents : resources)
         {
             chapters.get("resources").addPage(contents);
         }
 
-        Pages.BookPageContents modCompat = new Pages.BookPageContents("geolosys.guide.chapter.mod_compat.name");
+        BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
 
-        // if (ModConfig.RETRO_REPLACE.get())
-        // {
-        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-        // chapters.put("ore_converter", new Pages.BookChapter("ore_converter", "mod_compat"));
-        // chapters.get("ore_converter").addPage(new Pages.BookPageText("geolosys.guide.chapter.ore_converter.name",
-        // "geolosys.guide.chapter.ore_converter.text"));
-        // }
-        // if (ModList.get().isLoaded("journeymap"))
-        // {
-        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.journeymap.name", "journeymap"));
-        // chapters.put("journeymap", new Pages.BookChapter("journeymap", "mod_compat"));
-        // chapters.get("journeymap").addPage(new Pages.BookPageText("geolosys.guide.chapter.journeymap.name",
-        // "geolosys.guide.chapter.journeymap.text"));
-        // }
-        // if (ModList.get().isLoaded("immersiveengineering") && ModConfig.compat.enableIECompat)
-        // {
-        // modCompat.addLink(
-        // new ChapterLink("geolosys.guide.chapter.immersive_engineering.name", "immersive_engineering"));
-        // chapters.put("immersive_engineering", new BookChapter("immersive_engineering", "mod_compat"));
-        // chapters.get("immersive_engineering")
-        // .addPage(new BookPageItemDisplay("geolosys.guide.chapter.immersive_engineering.name",
-        // "geolosys.guide.chapter.immersive_engineering.text",
-        // OreDictionary.getOres("dustSulfur").get(0)));
-        // }
-        if (ModList.get().isLoaded("betterwithmods"))
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.better_with_mods.name", "better_with_mods"));
-            chapters.put("better_with_mods", new Pages.BookChapter("better_with_mods", "mod_compat"));
-            chapters.get("better_with_mods")
-                    .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.better_with_mods.name",
-                            "geolosys.guide.chapter.better_with_mods.text", new ItemStack(Items.IRON_NUGGET)));
-        }
-        if (ModList.get().isLoaded("twilightforest"))
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.twilight_forest.name", "twilight_forest"));
-            chapters.put("twilight_forest", new Pages.BookChapter("twilight_forest", "mod_compat"));
-            chapters.get("twilight_forest").addPage(new Pages.BookPageText(
-                    "geolosys.guide.chapter.twilight_forest.name", "geolosys.guide.chapter.twilight_forest.text"));
-        }
-        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material")) != null)
-        {
-            modCompat
-                    .addLink(new ChapterLink("geolosys.guide.chapter.applied_energistics.name", "applied_energistics"));
-            chapters.put("applied_energistics", new Pages.BookChapter("applied_energistics", "mod_compat"));
-            chapters.get("applied_energistics").addPage(new Pages.BookPageItemDisplay(
-                    "geolosys.guide.chapter.applied_energistics.name",
-                    "geolosys.guide.chapter.applied_energistics.text",
-                    new ItemStack(Objects.requireNonNull(
-                            ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"))),
-                            1)));
-        }
-        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients")) != null)
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extra_utils.name", "extra_utils"));
-            chapters.put("extra_utils", new Pages.BookChapter("extra_utils", "mod_compat"));
-            chapters.get("extra_utils").addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.extra_utils.name",
-                    "geolosys.guide.chapter.extra_utils.text", new ItemStack(Objects.requireNonNull(
-                            ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"))))));
-        }
-        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc")) != null)
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.actually_additions.name", "actually_additions"));
-            chapters.put("actually_additions", new Pages.BookChapter("actually_additions", "mod_compat"));
-            chapters.get("actually_additions").addPage(new Pages.BookPageItemDisplay(
-                    "geolosys.guide.chapter.actually_additions.name", "geolosys.guide.chapter.actually_additions.text",
-                    new ItemStack(Objects.requireNonNull(
-                            ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc"))),
-                            1)));
-        }
-        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material")) != null)
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.cofh_mods.name", "cofh_mods"));
-            chapters.put("cofh_mods", new Pages.BookChapter("cofh_mods", "mod_compat"));
-            chapters.get("cofh_mods").addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.cofh_mods.name",
-                    "geolosys.guide.chapter.cofh_mods.text",
-                    new ItemStack(Objects.requireNonNull(
-                            ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"))),
-                            1)));
-        }
+//        if (ModConfig.featureControl.retroReplace)
+//        {
+//            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
+//            chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
+//            chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name",
+//                    "geolosys.guide.chapter.ore_converter.text"));
+//        }
         if (ConfigCompat.ENABLE_OSMIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
-            chapters.put("mekanism", new Pages.BookChapter("mekanism", "mod_compat"));
+            chapters.put("mekanism", new BookChapter("mekanism", "mod_compat"));
             chapters.get("mekanism")
-                    .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.mekanism.name",
+                    .addPage(new BookPageItemDisplay("geolosys.guide.chapter.mekanism.name",
                             "geolosys.guide.chapter.mekanism.text",
-                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster"), 1)));
+                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster"))));
         }
         if (ConfigCompat.ENABLE_YELLORIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extreme_reactors.name", "extreme_reactors"));
-            chapters.put("extreme_reactors", new Pages.BookChapter("extreme_reactors", "mod_compat"));
+            chapters.put("extreme_reactors", new BookChapter("extreme_reactors", "mod_compat"));
             chapters.get("extreme_reactors")
-                    .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.extreme_reactors.name",
+                    .addPage(new BookPageItemDisplay("geolosys.guide.chapter.extreme_reactors.name",
                             "geolosys.guide.chapter.extreme_reactors.text",
-                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:yellorium_cluster"), 1)));
-        }
-        if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem")) != null)
-        {
-            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.nuclearcraft.name", "nuclearcraft"));
-            chapters.put("nuclearcraft", new Pages.BookChapter("nuclearcraft", "mod_compat"));
-            chapters.get("nuclearcraft")
-                    .addPage(new Pages.BookPageItemDisplay("geolosys.guide.chapter.nuclearcraft.name",
-                            "geolosys.guide.chapter.nuclearcraft.text", new ItemStack(Objects.requireNonNull(
-                                    ForgeRegistries.ITEMS.getValue(new ResourceLocation("nuclearcraft", "gem"))), 1)));
+                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:yellorium_cluster"))));
         }
         chapters.get("mod_compat").addPage(modCompat);
 
-        ArrayList<Pages.BookPage> patrons = new ArrayList<>();
+        ArrayList<BookPage> patrons = new ArrayList<>();
         ArrayList<String> patronNames = PatronUtil.getInstance().getPatrons();
         if (patronNames.size() == 0)
         {
-            patrons.add(new Pages.BookPageURL("geolosys.guide.chapter.patrons.name",
-                    "geolosys.guide.chapter.patrons.none.text", "https://patreon.com/oitsjustjose",
-                    "geolosys.guide.chapter.patrons.link"));
+            patrons.add(
+                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.none.text",
+                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
         }
         else
         {
-            patrons.add(new Pages.BookPageURL("geolosys.guide.chapter.patrons.name",
-                    "geolosys.guide.chapter.patrons.desc.text", "https://patreon.com/oitsjustjose",
-                    "geolosys.guide.chapter.patrons.link"));
+            patrons.add(
+                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.desc.text",
+                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
             count = 0;
             page_num = 0;
             int total = 0;
             StringBuilder pageText = new StringBuilder();
             for (String patronName : patronNames)
             {
-                pageText.append("\u2022 " + patronName);
+                pageText.append("\u2022 ");
+                pageText.append(patronName);
                 total = total + 1;
 
                 if (count == 12 || total == patronNames.size())
                 {
-                    patrons.add(new Pages.BookPageText("geolosys.guide.chapter.patrons.name", pageText.toString()));
+                    patrons.add(new BookPageText("geolosys.guide.chapter.patrons.name", pageText.toString()));
                     pageText = new StringBuilder();
                     count = 0;
                     page_num += 1;
@@ -298,16 +233,16 @@ public class ManualScreen extends Screen
                 count++;
             }
         }
-        for (Pages.BookPage page : patrons)
+        for (BookPage page : patrons)
         {
             chapters.get("patrons").addPage(page);
         }
 
-        for (Pages.BookChapter chapter : chapters.values())
+        for (BookChapter chapter : chapters.values())
         {
             if (chapter.getPageCount() <= 0)
             {
-                chapter.addPage(new Pages.BookPage(chapter.getName()));
+                chapter.addPage(new BookPage(chapter.getName()));
             }
         }
     }
@@ -322,7 +257,7 @@ public class ManualScreen extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground();
+        Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("pageNum=" + currentPageNum), true);
         this.setFocused(null);
 
         currentPage = chapters.get(currentChapter).getPage(currentPageNum);
@@ -351,33 +286,33 @@ public class ManualScreen extends Screen
                 for (String str : parts)
                 {
                     int width = this.fontRenderer.getStringWidth(str);
-                    this.fontRenderer.drawString(str, left + (WIDTH - width) / 2, topToDraw, 7829367);
+                    this.fontRenderer.drawString(str, left + (WIDTH - width) / 2.0F, topToDraw, 7829367);
                     topToDraw += 12;
                 }
             }
             else
             {
                 int headerWidth = this.fontRenderer.getStringWidth(header);
-                this.fontRenderer.drawString(header, left + (WIDTH - headerWidth) / 2, top + 12, 0);
+                this.fontRenderer.drawString(header, left + (WIDTH - headerWidth) / 2.0F, top + 12, 0);
             }
 
-            if (currentPage instanceof Pages.BookPageItemDisplay)
+            if (currentPage instanceof BookPageItemDisplay)
             {
-                renderItemDisplayPage((Pages.BookPageItemDisplay) currentPage, mouseX, mouseY);
+                renderItemDisplayPage((BookPageItemDisplay) currentPage, mouseX, mouseY);
             }
-            else if (currentPage instanceof Pages.BookPageText)
+            else if (currentPage instanceof BookPageText)
             {
-                renderTextPage((Pages.BookPageText) currentPage);
+                renderTextPage((BookPageText) currentPage);
             }
-            else if (currentPage instanceof Pages.BookPageOre)
+            else if (currentPage instanceof BookPageOre)
             {
-                renderOrePage((Pages.BookPageOre) currentPage, mouseX, mouseY);
+                renderOrePage((BookPageOre) currentPage, mouseX, mouseY);
             }
-            else if (currentPage instanceof Pages.BookPageURL)
+            else if (currentPage instanceof BookPageURL)
             {
-                renderURLPage((Pages.BookPageURL) currentPage, mouseX, mouseY, partialTicks);
+                renderURLPage((BookPageURL) currentPage, mouseX, mouseY, partialTicks);
             }
-
+            // Page drawing (i.e. 1/5, 3/4)
             if (chapters.get(currentChapter).getPageCount() > 1)
             {
                 GlStateManager.pushMatrix();
@@ -395,7 +330,7 @@ public class ManualScreen extends Screen
 
     }
 
-    private void renderItemDisplayPage(Pages.BookPageItemDisplay page, int mouseX, int mouseY)
+    private void renderItemDisplayPage(BookPageItemDisplay page, int mouseX, int mouseY)
     {
         ItemStack stack = page.getDisplayStack();
 
@@ -435,7 +370,7 @@ public class ManualScreen extends Screen
             super(x, y, widthIn, heightIn, buttonText, new IPressable()
             {
                 @Override
-                public void onPress(Button button)
+                public void onPress(@Nonnull Button button)
                 {
                     Util.getOSType().openURI(url);
                 }
@@ -443,7 +378,7 @@ public class ManualScreen extends Screen
         }
     }
 
-    private void renderURLPage(Pages.BookPageURL page, int mouseX, int mouseY, float partialTicks)
+    private void renderURLPage(BookPageURL page, int mouseX, int mouseY, float partialTicks)
     {
         GlStateManager.pushMatrix();
         float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
@@ -477,7 +412,7 @@ public class ManualScreen extends Screen
         GlStateManager.popMatrix();
     }
 
-    private void renderOrePage(Pages.BookPageOre page, int mouseX, int mouseY)
+    private void renderOrePage(BookPageOre page, int mouseX, int mouseY)
     {
         ItemStack stack = page.getDisplayStack();
 
@@ -565,7 +500,7 @@ public class ManualScreen extends Screen
         }
     }
 
-    private void renderTextPage(Pages.BookPageText page)
+    private void renderTextPage(BookPageText page)
     {
         GlStateManager.pushMatrix();
         float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
@@ -631,30 +566,34 @@ public class ManualScreen extends Screen
     {
         this.buttons.clear();
         int i = 0;
-        if (currentPage instanceof Pages.BookPageContents)
+        if (currentPage instanceof BookPageContents)
         {
-            List<ChapterLink> links = ((Pages.BookPageContents) currentPage).getLinks();
+            List<ChapterLink> links = ((BookPageContents) currentPage).getLinks();
+
+            StringBuilder sb = new StringBuilder("Created new page " + currentPage.getTitle() + " with:  {\n");
             for (ChapterLink link : links)
             {
-                this.addButton(new ChapterLinkButton(i, left + 16, top + 24 + (i * 12), link.text, link.chapter));
+                this.addButton(new ChapterLinkButton(left + 16, top + 24 + (i * 12), link.text, link.chapter));
+                sb.append("    ").append(link.text).append(":").append(link.chapter).append("\n");
                 i++;
             }
+            sb.append("}");
+            Geolosys.getInstance().LOGGER.info(sb.toString());
         }
-        else if (currentPage instanceof Pages.BookPageURL)
+        else if (currentPage instanceof BookPageURL)
         {
             GuiButtonURL urlButton = new GuiButtonURL(left, (top + HEIGHT), WIDTH, 20,
-                    I18n.format(((Pages.BookPageURL) (currentPage)).getButtonText()),
-                    ((Pages.BookPageURL) (currentPage)).getURL());
+                    I18n.format(((BookPageURL) (currentPage)).getButtonText()),
+                    ((BookPageURL) (currentPage)).getURL());
             this.addButton(urlButton);
         }
         if (currentPageNum < chapters.get(currentChapter).getPageCount() - 1)
         {
-            this.addButton(new PageTurnButton(i, left + 100, top + 154, true));
-            i++;
+            this.addButton(new PageTurnButton(left + 100, top + 154, true));
         }
         if (currentPageNum > 0)
         {
-            this.addButton(new PageTurnButton(i, left + 18, top + 154, false));
+            this.addButton(new PageTurnButton(left + 18, top + 154, false));
         }
     }
 
@@ -696,10 +635,10 @@ public class ManualScreen extends Screen
     @Override
     public boolean isPauseScreen()
     {
-        return false;
+        return true;
     }
 
-    public void resize(Minecraft mc, int w, int h)
+    public void resize(@Nonnull Minecraft mc, int w, int h)
     {
         super.resize(mc, w, h);
         this.resetPage();
@@ -708,22 +647,23 @@ public class ManualScreen extends Screen
     @OnlyIn(Dist.CLIENT)
     public class ChapterLinkButton extends Button
     {
-
+        private String unlocButtonText;
         private String chapter;
 
-        public ChapterLinkButton(int buttonId, int x, int y, String buttonText, String chapter)
+        ChapterLinkButton(int x, int y, String buttonText, String chapter)
         {
             super(x, y, Minecraft.getInstance().fontRenderer.getStringWidth(I18n.format(buttonText)),
-                    Minecraft.getInstance().fontRenderer.FONT_HEIGHT, buttonText, new IPressable()
-                    {
-                        @Override
-                        public void onPress(Button button)
-                        {
-                            currentChapter = chapter;
-                            currentPageNum = 0;
-                        }
-                    });
+                    Minecraft.getInstance().fontRenderer.FONT_HEIGHT, buttonText, null);
+            this.unlocButtonText = buttonText;
             this.chapter = chapter;
+        }
+
+        @Override
+        public void onPress()
+        {
+            currentChapter = this.chapter;
+            currentPageNum = 0;
+            resetPage();
         }
 
         @Override
@@ -749,7 +689,7 @@ public class ManualScreen extends Screen
                     j = 8308926;
                     p += TextFormatting.UNDERLINE;
                 }
-                String toDraw = I18n.format(this.toString());
+                String toDraw = I18n.format(this.unlocButtonText);
                 if (fontrenderer.getStringWidth(
                         p + "\u2022 " + toDraw) > (int) ((WIDTH - (18 * 2)) / ConfigClient.MANUAL_FONT_SCALE.get()))
                 {
@@ -764,7 +704,7 @@ public class ManualScreen extends Screen
             }
         }
 
-        String getChapter()
+        public String getChapter()
         {
             return this.chapter;
         }
@@ -776,24 +716,23 @@ public class ManualScreen extends Screen
     {
         private final boolean isForward;
 
-        PageTurnButton(int buttonId, int x, int y, boolean isForward)
+        PageTurnButton(int x, int y, boolean isForward)
         {
-            super(x, y, 23, 13, "", new IPressable()
-            {
-                @Override
-                public void onPress(Button p_onPress_1_)
-                {
-                    if (isForward)
-                    {
-                        currentPageNum++;
-                    }
-                    else
-                    {
-                        currentPageNum--;
-                    }
-                }
-            });
+            super(x, y, 23, 13, "", null);
             this.isForward = isForward;
+        }
+
+        @Override
+        public void onPress()
+        {
+            if (isForward)
+            {
+                currentPageNum++;
+            }
+            else
+            {
+                currentPageNum--;
+            }
         }
 
         @Override
@@ -820,11 +759,6 @@ public class ManualScreen extends Screen
 
                 this.blit(this.x, this.y, i, j, 23, 13);
             }
-        }
-
-        boolean isForward()
-        {
-            return this.isForward;
         }
     }
 }

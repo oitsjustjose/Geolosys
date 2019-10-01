@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.utils;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +20,7 @@ public class Utils
 
     public static String blockStateToName(BlockState state)
     {
-        return state.toString();
+        return I18n.format(state.getBlock().getTranslationKey());
     }
 
     public static ItemStack blockStateToStack(BlockState state)

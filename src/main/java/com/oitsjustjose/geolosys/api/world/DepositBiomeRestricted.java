@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -65,5 +66,10 @@ public class DepositBiomeRestricted extends Deposit
     public List<BiomeDictionary.Type> getBiomeTypes()
     {
         return this.biomeTypes;
+    }
+
+    public String getFriendlyName()
+    {
+        return Utils.blockStateToName(this.getOre());
     }
 }

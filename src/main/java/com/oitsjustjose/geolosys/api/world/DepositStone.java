@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 
@@ -90,5 +89,10 @@ public class DepositStone implements IDeposit
     public float getDensity()
     {
         return 1.0F;
+    }
+
+    public String getFriendlyName()
+    {
+        return Utils.blockStateToName(this.getOre());
     }
 }

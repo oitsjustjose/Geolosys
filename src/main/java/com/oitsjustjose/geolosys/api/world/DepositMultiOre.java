@@ -1,14 +1,13 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.utils.Utils;
+import net.minecraft.block.BlockState;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import com.oitsjustjose.geolosys.common.utils.Utils;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
 
 @SuppressWarnings("unchecked")
 public class DepositMultiOre implements IDeposit
@@ -124,9 +123,10 @@ public class DepositMultiOre implements IDeposit
     {
         StringBuilder sb = new StringBuilder();
 
-        for (BlockState state : this.ores)
+        for (BlockState state : this.oreBlocks.keySet())
         {
-            String name = new ItemStack(state.getBlock(), 1).getDisplayName().toString();
+            String name = Utils.blockStateToName(state);
+            Geolosys.getInstance().LOGGER.info("MultiOre name: " + name);
             // The name hasn't already been added
             if (sb.indexOf(name) == -1)
             {

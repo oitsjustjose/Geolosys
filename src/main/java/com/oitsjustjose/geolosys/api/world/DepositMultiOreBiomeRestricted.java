@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -47,6 +48,25 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
             }
         }
         return false;
+    }
+
+    @Override
+    public String getFriendlyName()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (BlockState state : this.oreBlocks.keySet())
+        {
+            String name = Utils.blockStateToName(state);
+            // The name hasn't already been added
+            if (sb.indexOf(name) == -1)
+            {
+                sb.append(" & ");
+                sb.append(name);
+            }
+        }
+        // Return substr(3) to ignore the first " & "
+        return sb.toString().substring(3);
     }
 
     public boolean useWhitelist()

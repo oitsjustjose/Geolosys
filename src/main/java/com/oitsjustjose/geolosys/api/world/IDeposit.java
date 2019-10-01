@@ -1,38 +1,35 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 
 import java.util.List;
 
 public interface IDeposit
 {
-    public BlockState getOre();
+    BlockState getOre();
 
-    public BlockState getSample();
+    BlockState getSample();
 
-    public default String getFriendlyName()
-    {
-        return Utils.blockStateToName(this.getOre());
-    }
+    String getFriendlyName();
 
-    public int getYMin();
 
-    public int getYMax();
+    int getYMin();
 
-    public int getChance();
+    int getYMax();
 
-    public int getSize();
+    int getChance();
 
-    public String[] getDimensionBlacklist();
+    int getSize();
 
-    public boolean canReplace(BlockState state);
+    String[] getDimensionBlacklist();
 
-    public boolean oreMatches(BlockState other);
+    boolean canReplace(BlockState state);
 
-    public boolean sampleMatches(BlockState other);
+    boolean oreMatches(BlockState other);
 
-    public List<BlockState> getBlockStateMatchers();
+    boolean sampleMatches(BlockState other);
 
-    public float getDensity();
+    List<BlockState> getBlockStateMatchers();
+
+    float getDensity();
 }
