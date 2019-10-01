@@ -11,8 +11,9 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.config.ModConfig.SURFACE_PROSPECTING_TYPE;
+import com.oitsjustjose.geolosys.common.config.ClientConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.utils.Utils;
@@ -59,14 +60,14 @@ public class ProPickItem extends Item
     @Override
     public double getDurabilityForDisplay(ItemStack stack)
     {
-        if (ModConfig.ENABLE_PRO_PICK_DMG.get())
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get())
         {
             if (stack.getTag() == null)
             {
                 stack.setTag(new CompoundNBT());
-                stack.getTag().putInt("damage", ModConfig.PRO_PICK_DURABILITY.get());
+                stack.getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
             }
-            return 1D - (double) stack.getTag().getInt("damage") / (double) ModConfig.PRO_PICK_DURABILITY.get();
+            return 1D - (double) stack.getTag().getInt("damage") / (double) CommonConfig.PRO_PICK_DURABILITY.get();
         }
         else
         {
@@ -79,16 +80,16 @@ public class ProPickItem extends Item
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
             ITooltipFlag flagIn)
     {
-        if (ModConfig.ENABLE_PRO_PICK_DMG.get() && Minecraft.getInstance().gameSettings.advancedItemTooltips)
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && Minecraft.getInstance().gameSettings.advancedItemTooltips)
         {
             if (stack.getTag() == null || !stack.getTag().contains("damage"))
             {
-                tooltip.add(new StringTextComponent("Durability: " + ModConfig.PRO_PICK_DURABILITY.get()));
+                tooltip.add(new StringTextComponent("Durability: " + CommonConfig.PRO_PICK_DURABILITY.get()));
             }
             else
             {
-                tooltip.add(new StringTextComponent(
-                        "Durability: " + stack.getTag().getInt("damage") + "/" + ModConfig.PRO_PICK_DURABILITY.get()));
+                tooltip.add(new StringTextComponent("Durability: " + stack.getTag().getInt("damage") + "/"
+                        + CommonConfig.PRO_PICK_DURABILITY.get()));
             }
         }
     }
@@ -96,19 +97,19 @@ public class ProPickItem extends Item
     @Override
     public boolean showDurabilityBar(ItemStack stack)
     {
-        return (ModConfig.ENABLE_PRO_PICK_DMG.get() && stack.hasTag());
+        return (CommonConfig.ENABLE_PRO_PICK_DMG.get() && stack.hasTag());
     }
 
     public void attemptDamageItem(PlayerEntity player, BlockPos pos, Hand hand, World worldIn)
     {
-        if (ModConfig.ENABLE_PRO_PICK_DMG.get() && !player.isCreative())
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && !player.isCreative())
         {
             if (player.getHeldItem(hand).getItem() instanceof ProPickItem)
             {
                 if (player.getHeldItem(hand).getTag() == null)
                 {
                     player.getHeldItem(hand).setTag(new CompoundNBT());
-                    player.getHeldItem(hand).getTag().putInt("damage", ModConfig.PRO_PICK_DURABILITY.get());
+                    player.getHeldItem(hand).getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
                 }
                 int prevDmg = player.getHeldItem(hand).getTag().getInt("damage");
                 player.getHeldItem(hand).getTag().putInt("damage", (prevDmg - 1));
@@ -212,8 +213,8 @@ public class ProPickItem extends Item
                 int yEnd;
                 int zStart;
                 int zEnd;
-                int confAmt = ModConfig.PRO_PICK_RANGE.get();
-                int confDmt = ModConfig.PRO_PICK_DIAMETER.get();
+                int confAmt = CommonConfig.PRO_PICK_RANGE.get();
+                int confDmt = CommonConfig.PRO_PICK_DIAMETER.get();
 
                 boolean oreFoundUnderground = false;
 
@@ -362,7 +363,7 @@ public class ProPickItem extends Item
     {
         ChunkPos tempPos = new ChunkPos(pos);
 
-        SURFACE_PROSPECTING_TYPE searchType = ModConfig.PRO_PICK_SURFACE_MODE.get();
+        SURFACE_PROSPECTING_TYPE searchType = CommonConfig.PRO_PICK_SURFACE_MODE.get();
 
         HashMap<DepositMultiOre, ArrayList<BlockState>> foundMap = new HashMap<>();
         for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
@@ -488,17 +489,17 @@ public class ProPickItem extends Item
             if (level < 0)
             {
                 mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
-                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             else if (level == 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ModConfig.PRO_PICK_HUD_X.get(),
-                        ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ClientConfig.PROPICK_HUD_X.get(),
+                        ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             else
             {
                 mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level",
-                        ModConfig.PRO_PICK_HUD_X.get(), ModConfig.PRO_PICK_HUD_Y.get(), 0xFFFFFFFF);
+                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             GlStateManager.color4f(1F, 1F, 1F, 1F);
         }

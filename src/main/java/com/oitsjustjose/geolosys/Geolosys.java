@@ -1,11 +1,15 @@
 package com.oitsjustjose.geolosys;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Objects;
+
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
-import com.oitsjustjose.geolosys.client.ConfigClient;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.ClientConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.event.CompatDrops;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
@@ -15,6 +19,10 @@ import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -40,12 +48,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Objects;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -61,7 +63,7 @@ public class Geolosys
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
-        if (ModConfig.GIVE_MANUAL_TO_NEW.get())
+        if (CommonConfig.GIVE_MANUAL_TO_NEW.get())
         {
             MinecraftForge.EVENT_BUS.register(new ManualGifting());
         }
@@ -77,8 +79,9 @@ public class Geolosys
 
     private void configSetup()
     {
-        ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
-        ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
+        ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
+        ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.COMMON_CONFIG);
+        CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
     }
 
     public void setup(final FMLCommonSetupEvent event)
@@ -87,7 +90,7 @@ public class Geolosys
         CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
                 GeolosysCapability::new);
 
-        if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
+        if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
             for (Biome biome : ForgeRegistries.BIOMES.getValues())
             {
@@ -114,7 +117,7 @@ public class Geolosys
     @OnlyIn(Dist.CLIENT)
     public void onHover(ItemTooltipEvent event)
     {
-        if (!ConfigClient.ENABLE_TAG_DEBUG.get())
+        if (!ClientConfig.ENABLE_TAG_DEBUG.get())
         {
             return;
         }

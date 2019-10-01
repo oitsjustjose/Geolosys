@@ -1,8 +1,8 @@
 package com.oitsjustjose.geolosys.common.items;
 
 import com.google.common.collect.Maps;
-import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.config.CompatConfig;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
@@ -25,18 +25,18 @@ public class ItemInit
     {
         items = Maps.newHashMap();
         burnTimes = Maps.newHashMap();
-        if (ModConfig.ENABLE_COALS.get())
+        if (CommonConfig.ENABLE_COALS.get())
         {
             MinecraftForge.EVENT_BUS.register(this);
         }
         for (Types.Cluster clusterType : Types.Cluster.values())
         {
             // Skip some entries if they are disabled in the config
-            if (clusterType == Types.Cluster.YELLORIUM && !ConfigCompat.ENABLE_YELLORIUM.get())
+            if (clusterType == Types.Cluster.YELLORIUM && !CompatConfig.ENABLE_YELLORIUM.get())
             {
                 continue;
             }
-            if (clusterType == Types.Cluster.OSMIUM && !ConfigCompat.ENABLE_OSMIUM.get())
+            if (clusterType == Types.Cluster.OSMIUM && !CompatConfig.ENABLE_OSMIUM.get())
             {
                 continue;
             }
@@ -45,7 +45,7 @@ public class ItemInit
             items.put(item.getRegistryName().toString(), item);
         }
 
-        if (ModConfig.ENABLE_INGOTS.get())
+        if (CommonConfig.ENABLE_INGOTS.get())
         {
             for (Types.Ingot ingotType : Types.Ingot.values())
             {
@@ -54,7 +54,7 @@ public class ItemInit
                 items.put(item.getRegistryName().toString(), item);
             }
         }
-        if (ModConfig.ENABLE_COALS.get())
+        if (CommonConfig.ENABLE_COALS.get())
         {
             for (Types.Coal coalType : Types.Coal.values())
             {
@@ -102,7 +102,7 @@ public class ItemInit
     @SubscribeEvent
     public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent)
     {
-        if (ModConfig.ENABLE_COALS.get())
+        if (CommonConfig.ENABLE_COALS.get())
         {
             for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet())
             {

@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -69,12 +69,12 @@ public class SampleUtils
 
     /**
      * @param ore an instance of an IDeposit to determine the sample count of
-     * @return an integer bound by {@link ModConfig}'s MAX_SAMPLES_PER_CHUNK
+     * @return an integer bound by {@link CommonConfig}'s MAX_SAMPLES_PER_CHUNK
      */
     public static int getSampleCount(IDeposit ore)
     {
-        int count = ore.getSize() / ModConfig.MAX_SAMPLES_PER_CHUNK.get();
-        return Math.min(ModConfig.MAX_SAMPLES_PER_CHUNK.get(), count);
+        int count = ore.getSize() / CommonConfig.MAX_SAMPLES_PER_CHUNK.get();
+        return Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), count);
     }
 
     /**

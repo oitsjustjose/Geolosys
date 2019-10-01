@@ -113,8 +113,8 @@ public class Types
             this.toolLevel = toolLevel;
             this.serializedName = name;
             this.unlocalizedName = unlocalizedName;
-            // this.serializedName = (meta == 0 && ModConfig.compat.vanillaMode) ? name + "_vanilla" : name;
-            // this.unlocalizedName = (meta == 0 && ModConfig.compat.vanillaMode) ? unlocalizedName + "_vanilla"
+            // this.serializedName = (meta == 0 && CommonConfig.compat.vanillaMode) ? name + "_vanilla" : name;
+            // this.unlocalizedName = (meta == 0 && CommonConfig.compat.vanillaMode) ? unlocalizedName + "_vanilla"
             // : unlocalizedName;
             this.resource = resource;
 

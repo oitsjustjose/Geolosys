@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.common.utils;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -67,7 +67,7 @@ public class Utils
     {
 
         ArrayList<BlockState> ret = new ArrayList<>();
-        for (String s : ModConfig.DEFAULT_REPLACEMENT_MATS.get().trim().replace(" ", "").split(","))
+        for (String s : CommonConfig.DEFAULT_REPLACEMENT_MATS.get().trim().replace(" ", "").split(","))
         {
             ResourceLocation lookup = new ResourceLocation(s);
             BlockState b = ForgeRegistries.BLOCKS.getValue(lookup).getDefaultState();

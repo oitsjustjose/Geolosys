@@ -1,17 +1,31 @@
 package com.oitsjustjose.geolosys.client.manual;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.client.ConfigClient;
-import com.oitsjustjose.geolosys.client.manual.pages.*;
+import com.oitsjustjose.geolosys.client.manual.pages.BookChapter;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPage;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPageContents;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPageItemDisplay;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPageOre;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPageText;
+import com.oitsjustjose.geolosys.client.manual.pages.BookPageURL;
+import com.oitsjustjose.geolosys.client.manual.pages.ChapterLink;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
-import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.ClientConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.config.CompatConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -27,11 +41,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ManualScreen extends Screen
@@ -103,7 +112,7 @@ public class ManualScreen extends Screen
                         "geolosys.guide.chapter.samples_2.text",
                         new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
 
-        if (ModConfig.ENABLE_PRO_PICK.get())
+        if (CommonConfig.ENABLE_PRO_PICK.get())
         {
             prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
             chapters.put("propick", new BookChapter("propick", "prospecting"));
@@ -169,14 +178,14 @@ public class ManualScreen extends Screen
 
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
 
-        // if (ModConfig.featureControl.retroReplace)
+        // if (CommonConfig.featureControl.retroReplace)
         // {
         // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
         // chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
         // chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name",
         // "geolosys.guide.chapter.ore_converter.text"));
         // }
-        if (ConfigCompat.ENABLE_OSMIUM.get())
+        if (CompatConfig.ENABLE_OSMIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
             chapters.put("mekanism", new BookChapter("mekanism", "mod_compat"));
@@ -185,7 +194,7 @@ public class ManualScreen extends Screen
                             "geolosys.guide.chapter.mekanism.text",
                             new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster"))));
         }
-        if (ConfigCompat.ENABLE_YELLORIUM.get())
+        if (CompatConfig.ENABLE_YELLORIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.extreme_reactors.name", "extreme_reactors"));
             chapters.put("extreme_reactors", new BookChapter("extreme_reactors", "mod_compat"));
@@ -291,7 +300,7 @@ public class ManualScreen extends Screen
                 header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + I18n.format(currentPage.getTitle());
             }
 
-            double textScale = ConfigClient.MANUAL_FONT_SCALE.get();
+            double textScale = ClientConfig.MANUAL_FONT_SCALE.get();
             List<String> parts = this.fontRenderer.listFormattedStringToWidth(header,
                     (int) ((WIDTH - (18 * 2)) / textScale));
             // Draw the text above the book if it's multi-line :|
@@ -365,7 +374,7 @@ public class ManualScreen extends Screen
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
+        float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
         GlStateManager.scalef(textScale, textScale, textScale);
         this.fontRenderer.drawSplitString(I18n.format(page.getDescription()),
 
@@ -396,7 +405,7 @@ public class ManualScreen extends Screen
     private void renderURLPage(BookPageURL page, int mouseX, int mouseY, float partialTicks)
     {
         GlStateManager.pushMatrix();
-        float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
+        float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
         GlStateManager.scalef(textScale, textScale, textScale);
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
@@ -447,7 +456,7 @@ public class ManualScreen extends Screen
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
+        float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
         GlStateManager.scalef(textScale, textScale, textScale);
         String minDepthFromSeaLevel = getFormattedSeaLevel(
                 Minecraft.getInstance().world.getSeaLevel() - page.getMinY());
@@ -518,7 +527,7 @@ public class ManualScreen extends Screen
     private void renderTextPage(BookPageText page)
     {
         GlStateManager.pushMatrix();
-        float textScale = ConfigClient.MANUAL_FONT_SCALE.get().floatValue();
+        float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
         GlStateManager.scalef(textScale, textScale, textScale);
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
@@ -712,16 +721,16 @@ public class ManualScreen extends Screen
                 }
 
                 if (fontrenderer.getStringWidth(
-                        p + "\u2022 " + toDraw) > (int) ((WIDTH - (18 * 2)) / ConfigClient.MANUAL_FONT_SCALE.get()))
+                        p + "\u2022 " + toDraw) > (int) ((WIDTH - (18 * 2)) / ClientConfig.MANUAL_FONT_SCALE.get()))
                 {
                     toDraw = fontRenderer.trimStringToWidth(toDraw,
-                            (int) ((WIDTH - (18 * 2)) / ConfigClient.MANUAL_FONT_SCALE.get()));
+                            (int) ((WIDTH - (18 * 2)) / ClientConfig.MANUAL_FONT_SCALE.get()));
                     toDraw = toDraw.substring(0, toDraw.length() - 7);
                     toDraw += "...";
                 }
 
                 fontrenderer.drawSplitString(p + "\u2022 " + toDraw, this.x, this.y,
-                        (int) ((WIDTH - (18 * 2)) / ConfigClient.MANUAL_FONT_SCALE.get()), j);
+                        (int) ((WIDTH - (18 * 2)) / ClientConfig.MANUAL_FONT_SCALE.get()), j);
             }
         }
 

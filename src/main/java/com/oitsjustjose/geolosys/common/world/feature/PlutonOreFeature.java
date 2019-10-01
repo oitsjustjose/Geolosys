@@ -9,7 +9,7 @@ import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
@@ -51,7 +51,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
      */
     private void postPlacement(IWorld world, BlockPos plutonStartPos, IDeposit ore)
     {
-        if (ModConfig.DEBUG_WORLD_GEN.get())
+        if (CommonConfig.DEBUG_WORLD_GEN.get())
         {
             Geolosys.getInstance().LOGGER.debug("Generated " + ore.getOre().getBlock().getRegistryName().toString()
                     + " in Chunk " + new ChunkPos(plutonStartPos));
@@ -138,7 +138,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
             if (isInChunk(new ChunkPos(pos), pPos))
             {
-                if (ModConfig.DEBUG_WORLD_GEN.get())
+                if (CommonConfig.DEBUG_WORLD_GEN.get())
                 {
                     Geolosys.getInstance().LOGGER.info(
                             "Generated pending block " + pState.getBlock().getRegistryName().toString() + " at " + pos);

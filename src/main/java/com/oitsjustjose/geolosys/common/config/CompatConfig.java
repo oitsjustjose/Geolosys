@@ -1,8 +1,8 @@
-package com.oitsjustjose.geolosys.common.compat;
+package com.oitsjustjose.geolosys.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class ConfigCompat
+public class CompatConfig
 {
 
         public static final String CATEGORY_COMPAT = "compat";

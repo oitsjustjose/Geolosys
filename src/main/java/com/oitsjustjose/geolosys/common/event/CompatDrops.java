@@ -2,8 +2,8 @@ package com.oitsjustjose.geolosys.common.event;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
-import com.oitsjustjose.geolosys.common.compat.ConfigCompat;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.config.CompatConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class CompatDrops
     @SubscribeEvent
     public void addCoalDrops(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ModConfig.ENABLE_COALS.get())
+        if (!CommonConfig.ENABLE_COALS.get())
         {
             return;
         }
@@ -65,7 +65,7 @@ public class CompatDrops
     @SubscribeEvent
     public void addSulfurDrops(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ConfigCompat.ENABLE_SULFUR.get())
+        if (!CompatConfig.ENABLE_SULFUR.get())
         {
             return;
         }
@@ -87,14 +87,14 @@ public class CompatDrops
     @SubscribeEvent
     public void handleOsmiumDrops(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ConfigCompat.ENABLE_OSMIUM.get())
+        if (!CompatConfig.ENABLE_OSMIUM.get())
         {
             return;
         }
         if (event.getState().getBlock() == BlockInit.getInstance().getModBlocks().get("geolosys:platinum_ore"))
         {
             Random rand = new Random();
-            if (ConfigCompat.ENABLE_OSMIUM_EXCLUSIVELY.get() || rand.nextBoolean())
+            if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || rand.nextBoolean())
             {
                 event.getDrops().clear();
                 event.getDrops()
@@ -106,7 +106,7 @@ public class CompatDrops
     @SubscribeEvent
     public void addYelloriumDrops(BlockEvent.HarvestDropsEvent event)
     {
-        if (!ConfigCompat.ENABLE_YELLORIUM.get())
+        if (!CompatConfig.ENABLE_YELLORIUM.get())
         {
             return;
         }
