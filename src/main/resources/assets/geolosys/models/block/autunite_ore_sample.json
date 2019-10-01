@@ -5,7 +5,8 @@
     "ore": "geolosys:blocks/autunite_ore",
     "stone": "minecraft:block/gravel"
   },
-  "elements": [{
+  "elements": [
+    {
       "from": [
         7,
         0,

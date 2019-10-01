@@ -152,7 +152,9 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
+                                        plutonCapability.putPendingBlock(
+                                                new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())),
+                                                pluton.getOre());
                                     }
                                 }
                             }

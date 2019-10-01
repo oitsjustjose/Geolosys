@@ -1,7 +1,9 @@
 {
   "variants": {
-    "": [{
-      "model": "geolosys:block/lapis_ore"
-    }]
+    "": [
+      {
+        "model": "geolosys:block/lapis_ore"
+      }
+    ]
   }
 }

@@ -57,7 +57,8 @@ public class PacketStackSurface
     @OnlyIn(Dist.CLIENT)
     private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators)
     {
-        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface", messageDecorators);
+        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface",
+                messageDecorators);
         player.sendStatusMessage(msg, true);
     }
 }

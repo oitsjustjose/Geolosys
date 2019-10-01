@@ -1,7 +1,9 @@
 {
   "variants": {
-    "": [{
-      "model": "geolosys:block/azurite_ore"
-    }]
+    "": [
+      {
+        "model": "geolosys:block/azurite_ore"
+      }
+    ]
   }
 }

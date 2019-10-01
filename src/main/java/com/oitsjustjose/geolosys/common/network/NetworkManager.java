@@ -14,22 +14,23 @@ public class NetworkManager
 
     public NetworkManager()
     {
-        networkWrapper = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(Constants.MODID, "pro_pick_messages")).clientAcceptedVersions(new Predicate<String>()
-        {
-            @Override
-            public boolean test(String s)
-            {
-                return PROTOCOL_VERSION.equalsIgnoreCase(s);
-            }
-        }).serverAcceptedVersions(new Predicate<String>()
-        {
-            @Override
-            public boolean test(String s)
-            {
-                return PROTOCOL_VERSION.equalsIgnoreCase(s);
-            }
-        }).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel();
+        networkWrapper = NetworkRegistry.ChannelBuilder
+                .named(new ResourceLocation(Constants.MODID, "pro_pick_messages"))
+                .clientAcceptedVersions(new Predicate<String>()
+                {
+                    @Override
+                    public boolean test(String s)
+                    {
+                        return PROTOCOL_VERSION.equalsIgnoreCase(s);
+                    }
+                }).serverAcceptedVersions(new Predicate<String>()
+                {
+                    @Override
+                    public boolean test(String s)
+                    {
+                        return PROTOCOL_VERSION.equalsIgnoreCase(s);
+                    }
+                }).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel();
     }
-
 
 }

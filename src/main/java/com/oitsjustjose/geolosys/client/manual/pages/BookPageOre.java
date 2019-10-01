@@ -12,7 +12,7 @@ import net.minecraftforge.common.BiomeDictionary;
 /**
  * @author oitsjustjose,
  * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPageOre extends BookPage
@@ -109,8 +109,7 @@ public class BookPageOre extends BookPage
             }
             else if (commaCount > 1)
             {
-                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &"
-                        + sbRet.substring(sbRet.lastIndexOf(",") + 1);
+                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &" + sbRet.substring(sbRet.lastIndexOf(",") + 1);
             }
             // commaCount == 0
             return sbRet;
@@ -139,8 +138,7 @@ public class BookPageOre extends BookPage
             }
             else if (commaCount > 1)
             {
-                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &"
-                        + sbRet.substring(sbRet.lastIndexOf(",") + 1);
+                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &" + sbRet.substring(sbRet.lastIndexOf(",") + 1);
             }
             // commaCount == 0
             return sbRet;

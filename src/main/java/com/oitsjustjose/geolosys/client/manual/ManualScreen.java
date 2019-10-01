@@ -94,19 +94,23 @@ public class ManualScreen extends Screen
         BookPageContents prospecting = new BookPageContents("geolosys.guide.chapter.prospecting.name");
         prospecting.addLink(new ChapterLink("geolosys.guide.chapter.samples.name", "samples"));
         chapters.put("samples", new BookChapter("samples", "prospecting"));
-        chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
-                "geolosys.guide.chapter.samples_1.text", new ItemStack(
-                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
-        chapters.get("samples").addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
-                "geolosys.guide.chapter.samples_2.text", new ItemStack(
-                BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
+        chapters.get("samples")
+                .addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
+                        "geolosys.guide.chapter.samples_1.text",
+                        new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
+        chapters.get("samples")
+                .addPage(new BookPageItemDisplay("geolosys.guide.chapter.samples.name",
+                        "geolosys.guide.chapter.samples_2.text",
+                        new ItemStack(BlockInit.getInstance().getModBlocks().get("geolosys:hematite_ore_sample"))));
 
         if (ModConfig.ENABLE_PRO_PICK.get())
         {
             prospecting.addLink(new ChapterLink("geolosys.guide.chapter.propick.name", "propick"));
             chapters.put("propick", new BookChapter("propick", "prospecting"));
-            chapters.get("propick").addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name",
-                    "geolosys.guide.chapter.propick_1.text", new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:prospectors_pick"))));
+            chapters.get("propick")
+                    .addPage(new BookPageItemDisplay("geolosys.guide.chapter.propick.name",
+                            "geolosys.guide.chapter.propick_1.text",
+                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:prospectors_pick"))));
             chapters.get("propick").addPage(
                     new BookPageText("geolosys.guide.chapter.propick.name", "geolosys.guide.chapter.propick_2.text"));
             chapters.get("propick").addPage(
@@ -122,11 +126,8 @@ public class ManualScreen extends Screen
         resources.get(page_num).addLink(new ChapterLink("geolosys.guide.chapter.stones.name", "stones"));
         chapters.put("stones", new BookChapter("stones", "resources"));
         chapters.get("stones").addPage(new BookPageItemDisplay("geolosys.guide.chapter.stones.name",
-                "geolosys.guide.chapter.stones.text", new ItemStack[]{
-                new ItemStack(Blocks.DIORITE),
-                new ItemStack(Blocks.ANDESITE),
-                new ItemStack(Blocks.GRANITE)
-        }));
+                "geolosys.guide.chapter.stones.text", new ItemStack[]
+                { new ItemStack(Blocks.DIORITE), new ItemStack(Blocks.ANDESITE), new ItemStack(Blocks.GRANITE) }));
         count++;
         if (count == 12)
         {
@@ -168,13 +169,13 @@ public class ManualScreen extends Screen
 
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
 
-//        if (ModConfig.featureControl.retroReplace)
-//        {
-//            modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-//            chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
-//            chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name",
-//                    "geolosys.guide.chapter.ore_converter.text"));
-//        }
+        // if (ModConfig.featureControl.retroReplace)
+        // {
+        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
+        // chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
+        // chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name",
+        // "geolosys.guide.chapter.ore_converter.text"));
+        // }
         if (ConfigCompat.ENABLE_OSMIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
@@ -282,7 +283,8 @@ public class ManualScreen extends Screen
                     sb.append(I18n.format(unlocalized));
                     sb.append(" & ");
                 }
-                header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
+                header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE
+                        + sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
             }
             else
             {
@@ -592,8 +594,7 @@ public class ManualScreen extends Screen
         else if (currentPage instanceof BookPageURL)
         {
             GuiButtonURL urlButton = new GuiButtonURL(left, (top + HEIGHT), WIDTH, 20,
-                    I18n.format(((BookPageURL) (currentPage)).getButtonText()),
-                    ((BookPageURL) (currentPage)).getURL());
+                    I18n.format(((BookPageURL) (currentPage)).getButtonText()), ((BookPageURL) (currentPage)).getURL());
             this.addButton(urlButton);
         }
         if (currentPageNum < chapters.get(currentChapter).getPageCount() - 1)

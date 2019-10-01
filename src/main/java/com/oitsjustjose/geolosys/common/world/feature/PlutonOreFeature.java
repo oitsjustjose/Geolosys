@@ -53,11 +53,12 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
     {
         if (ModConfig.DEBUG_WORLD_GEN.get())
         {
-            Geolosys.getInstance().LOGGER
-                    .debug("Generated " + ore.getOre().getBlock().getRegistryName().toString() + " in Chunk " + new ChunkPos(plutonStartPos));
+            Geolosys.getInstance().LOGGER.debug("Generated " + ore.getOre().getBlock().getRegistryName().toString()
+                    + " in Chunk " + new ChunkPos(plutonStartPos));
         }
 
-        IGeolosysCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        IGeolosysCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
+                .orElse(null);
         if (plutonCapability != null)
         {
 
@@ -262,7 +263,9 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                                     }
                                     else
                                     {
-                                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
+                                        plutonCapability.putPendingBlock(
+                                                new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())),
+                                                pluton.getOre());
                                     }
                                 }
                             }

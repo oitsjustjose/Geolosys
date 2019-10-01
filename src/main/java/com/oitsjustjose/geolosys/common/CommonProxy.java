@@ -19,8 +19,10 @@ public class CommonProxy
 
     public void init()
     {
-        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleServer);
-        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
+        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
+                PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleServer);
+        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class,
+                PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
     }
 
     public void throwDownloadError(File jsonFile)

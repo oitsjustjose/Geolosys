@@ -16,7 +16,8 @@ public class ManualGifting
         CompoundNBT tag = player.getPersistentData();
         if (!tag.contains("geolosys:has_manual"))
         {
-            player.addItemStackToInventory(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:field_manual")));
+            player.addItemStackToInventory(
+                    new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:field_manual")));
             tag.putBoolean("geolosys:has_manual", true);
         }
     }

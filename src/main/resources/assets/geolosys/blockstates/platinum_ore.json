@@ -1,7 +1,9 @@
 {
   "variants": {
-    "": [{
-      "model": "geolosys:block/platinum_ore"
-    }]
+    "": [
+      {
+        "model": "geolosys:block/platinum_ore"
+      }
+    ]
   }
 }

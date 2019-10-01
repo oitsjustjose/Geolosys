@@ -5,9 +5,8 @@ import net.minecraft.item.ItemStack;
 import java.util.Random;
 
 /**
- * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
- * from:
- * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly from:
+ *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPageItemDisplay extends BookPage
@@ -16,7 +15,6 @@ public class BookPageItemDisplay extends BookPage
     private ItemStack displayStack;
     private ItemStack[] displayStacks;
     private long lastUpdate;
-
 
     public BookPageItemDisplay(String title, String desc, ItemStack stack)
     {
@@ -51,7 +49,6 @@ public class BookPageItemDisplay extends BookPage
         }
         return displayStack.copy();
     }
-
 
     public String getDescription()
     {

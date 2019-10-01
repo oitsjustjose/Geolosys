@@ -1,7 +1,9 @@
 {
   "variants": {
-    "": [{
-      "model": "geolosys:block/bauxite_ore"
-    }]
+    "": [
+      {
+        "model": "geolosys:block/bauxite_ore"
+      }
+    ]
   }
 }

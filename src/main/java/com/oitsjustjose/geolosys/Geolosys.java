@@ -84,8 +84,8 @@ public class Geolosys
     public void setup(final FMLCommonSetupEvent event)
     {
 
-
-        CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(), GeolosysCapability::new);
+        CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
+                GeolosysCapability::new);
 
         if (ModConfig.DISABLE_VANILLA_ORE_GEN.get())
         {

@@ -1,7 +1,9 @@
 {
   "variants": {
-    "": [{
-      "model": "geolosys:block/coal_ore"
-    }]
+    "": [
+      {
+        "model": "geolosys:block/coal_ore"
+      }
+    ]
   }
 }

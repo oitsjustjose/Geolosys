@@ -10,7 +10,8 @@ import javax.annotation.Nullable;
 public class GeolosysCapStorage implements Capability.IStorage<IGeolosysCapability>
 {
     @Override
-    public void readNBT(Capability<IGeolosysCapability> capability, IGeolosysCapability instance, Direction side, INBT nbt)
+    public void readNBT(Capability<IGeolosysCapability> capability, IGeolosysCapability instance, Direction side,
+            INBT nbt)
     {
         if (nbt instanceof CompoundNBT)
         {

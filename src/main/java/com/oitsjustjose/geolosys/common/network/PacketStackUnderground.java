@@ -40,7 +40,6 @@ public class PacketStackUnderground
         buf.writeString(msg.direction);
     }
 
-
     public void handleServer(Supplier<NetworkEvent.Context> context)
     {
         context.get().setPacketHandled(true);
@@ -61,7 +60,8 @@ public class PacketStackUnderground
     @OnlyIn(Dist.CLIENT)
     private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators)
     {
-        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found", messageDecorators);
+        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found",
+                messageDecorators);
         player.sendStatusMessage(msg, true);
     }
 }

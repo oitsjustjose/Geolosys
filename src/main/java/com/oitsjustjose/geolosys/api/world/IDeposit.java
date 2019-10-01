@@ -12,7 +12,6 @@ public interface IDeposit
 
     String getFriendlyName();
 
-
     int getYMin();
 
     int getYMax();

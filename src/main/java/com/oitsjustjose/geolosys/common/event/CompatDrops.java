@@ -97,7 +97,8 @@ public class CompatDrops
             if (ConfigCompat.ENABLE_OSMIUM_EXCLUSIVELY.get() || rand.nextBoolean())
             {
                 event.getDrops().clear();
-                event.getDrops().add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster")));
+                event.getDrops()
+                        .add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster")));
             }
         }
     }
@@ -115,7 +116,8 @@ public class CompatDrops
             if (rand.nextBoolean())
             {
                 event.getDrops().clear();
-                event.getDrops().add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:yellorium_cluster")));
+                event.getDrops()
+                        .add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:yellorium_cluster")));
             }
         }
     }

@@ -1,32 +1,43 @@
 {
   "type": "minecraft:block",
-  "pools": [{
-    "rolls": 1,
-    "entries": [{
-      "type": "minecraft:alternatives",
-      "children": [{
-          "type": "minecraft:item",
-          "conditions": [{
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "enchantments": [{
-                "enchantment": "minecraft:silk_touch",
-                "levels": {
-                  "min": 1
-                }
-              }]
-            }
-          }],
-          "name": "minecraft:gold_ore"
-        },
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
         {
-          "type": "minecraft:item",
-          "conditions": [{
-            "condition": "minecraft:survives_explosion"
-          }],
-          "name": "geolosys:gold_cluster"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "name": "minecraft:gold_ore"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                }
+              ],
+              "name": "geolosys:gold_cluster"
+            }
+          ]
         }
       ]
-    }]
-  }]
+    }
+  ]
 }
