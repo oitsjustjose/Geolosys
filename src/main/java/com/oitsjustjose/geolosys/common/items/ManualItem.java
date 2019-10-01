@@ -42,7 +42,6 @@ public class ManualItem extends Item
         {
             tooltip.add(new TranslationTextComponent("geolosys.field_manual.tooltip"));
         }
-        tooltip.add(new TranslationTextComponent("geolosys.field_manual.useless"));
     }
 
     @Override
