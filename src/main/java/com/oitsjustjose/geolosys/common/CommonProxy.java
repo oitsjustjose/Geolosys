@@ -48,4 +48,8 @@ public class CommonProxy
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
         }
     }
+
+    public void registerClientSubscribeEvent(Object o)
+    {
+    }
 }

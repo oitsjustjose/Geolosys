@@ -45,7 +45,7 @@ public class ProPickItem extends Item
     {
         super(new Item.Properties().maxStackSize(1).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
-        MinecraftForge.EVENT_BUS.register(this);
+        Geolosys.getInstance().proxy.registerClientSubscribeEvent(this);
     }
 
     @Override
