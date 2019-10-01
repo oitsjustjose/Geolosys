@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 
@@ -126,7 +125,6 @@ public class DepositMultiOre implements IDeposit
         for (BlockState state : this.oreBlocks.keySet())
         {
             String name = Utils.blockStateToName(state);
-            Geolosys.getInstance().LOGGER.info("MultiOre name: " + name);
             // The name hasn't already been added
             if (sb.indexOf(name) == -1)
             {

@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.client.manual;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -257,7 +256,6 @@ public class ManualScreen extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("pageNum=" + currentPageNum), true);
         this.setFocused(null);
 
         currentPage = chapters.get(currentChapter).getPage(currentPageNum);
@@ -276,6 +274,18 @@ public class ManualScreen extends Screen
         if (currentPage != null)
         {
             String header = TextFormatting.BOLD + "" + TextFormatting.UNDERLINE + I18n.format(currentPage.getTitle());
+
+            if (header.contains("&"))
+            {
+                StringBuilder sb = new StringBuilder();
+                for (String unlocalized : header.split(" & "))
+                {
+                    sb.append(I18n.format(unlocalized));
+                    sb.append(" & ");
+                }
+                header = sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
+            }
+
             double textScale = ConfigClient.MANUAL_FONT_SCALE.get();
             List<String> parts = this.fontRenderer.listFormattedStringToWidth(header,
                     (int) ((WIDTH - (18 * 2)) / textScale));
@@ -564,21 +574,18 @@ public class ManualScreen extends Screen
 
     private void resetPage()
     {
+        Minecraft.getInstance().player.sendStatusMessage(new StringTextComponent("resetPage() called"), true);
         this.buttons.clear();
+        this.children.clear();
         int i = 0;
         if (currentPage instanceof BookPageContents)
         {
             List<ChapterLink> links = ((BookPageContents) currentPage).getLinks();
-
-            StringBuilder sb = new StringBuilder("Created new page " + currentPage.getTitle() + " with:  {\n");
             for (ChapterLink link : links)
             {
                 this.addButton(new ChapterLinkButton(left + 16, top + 24 + (i * 12), link.text, link.chapter));
-                sb.append("    ").append(link.text).append(":").append(link.chapter).append("\n");
                 i++;
             }
-            sb.append("}");
-            Geolosys.getInstance().LOGGER.info(sb.toString());
         }
         else if (currentPage instanceof BookPageURL)
         {
@@ -635,7 +642,7 @@ public class ManualScreen extends Screen
     @Override
     public boolean isPauseScreen()
     {
-        return true;
+        return false;
     }
 
     public void resize(@Nonnull Minecraft mc, int w, int h)
@@ -663,7 +670,6 @@ public class ManualScreen extends Screen
         {
             currentChapter = this.chapter;
             currentPageNum = 0;
-            resetPage();
         }
 
         @Override
@@ -690,6 +696,18 @@ public class ManualScreen extends Screen
                     p += TextFormatting.UNDERLINE;
                 }
                 String toDraw = I18n.format(this.unlocButtonText);
+
+                if (toDraw.contains("&"))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for (String unlocalized : toDraw.split(" & "))
+                    {
+                        sb.append(I18n.format(unlocalized));
+                        sb.append(" & ");
+                    }
+                    toDraw = sb.toString().substring(0, sb.toString().lastIndexOf(" & "));
+                }
+
                 if (fontrenderer.getStringWidth(
                         p + "\u2022 " + toDraw) > (int) ((WIDTH - (18 * 2)) / ConfigClient.MANUAL_FONT_SCALE.get()))
                 {
