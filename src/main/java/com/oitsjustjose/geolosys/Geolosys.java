@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Objects;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
@@ -15,6 +14,7 @@ import com.oitsjustjose.geolosys.common.event.CompatDrops;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
@@ -24,6 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
@@ -32,6 +34,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -94,8 +98,34 @@ public class Geolosys
         {
             for (Biome biome : ForgeRegistries.BIOMES.getValues())
             {
-                biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)
-                        .removeAll(biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES));
+                biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).removeIf((x) -> {
+                    if (x.config instanceof DecoratedFeatureConfig)
+                    {
+
+                        BlockState[] match = new BlockState[]
+                        { Blocks.ANDESITE.getDefaultState(), Blocks.DIORITE.getDefaultState(),
+                                Blocks.GRANITE.getDefaultState(), Blocks.COAL_ORE.getDefaultState(),
+                                Blocks.DIAMOND_ORE.getDefaultState(), Blocks.EMERALD_ORE.getDefaultState(),
+                                Blocks.GOLD_ORE.getDefaultState(), Blocks.IRON_ORE.getDefaultState(),
+                                Blocks.LAPIS_ORE.getDefaultState(), Blocks.NETHER_QUARTZ_ORE.getDefaultState(),
+                                Blocks.REDSTONE_ORE.getDefaultState() };
+                        DecoratedFeatureConfig decConf = (DecoratedFeatureConfig) x.config;
+                        if (decConf.feature.config instanceof OreFeatureConfig)
+                        {
+                            OreFeatureConfig featureConf = (OreFeatureConfig) decConf.feature.config;
+
+                            for (BlockState state2 : match)
+                            {
+                                if (Utils.doStatesMatch(featureConf.state, state2))
+                                {
+                                    Geolosys.getInstance().LOGGER.info("Modified " + featureConf.state);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                });
             }
         }
 
@@ -109,8 +139,7 @@ public class Geolosys
     public void attachCap(AttachCapabilitiesEvent<World> event)
     {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
-        LOGGER.info("Geolosys capability attached for "
-                + Objects.requireNonNull(event.getObject().dimension.getType().getRegistryName()).toString());
+        LOGGER.info("Geolosys capability attached for " + Utils.dimensionToString(event.getObject().getDimension()));
     }
 
     @SubscribeEvent
