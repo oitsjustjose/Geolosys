@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.FeatureStripper;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
@@ -24,18 +25,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -51,7 +46,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(Constants.MODID)
 public class Geolosys
@@ -96,37 +90,7 @@ public class Geolosys
 
         if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
-            for (Biome biome : ForgeRegistries.BIOMES.getValues())
-            {
-                biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).removeIf((x) -> {
-                    if (x.config instanceof DecoratedFeatureConfig)
-                    {
-
-                        BlockState[] match = new BlockState[]
-                        { Blocks.ANDESITE.getDefaultState(), Blocks.DIORITE.getDefaultState(),
-                                Blocks.GRANITE.getDefaultState(), Blocks.COAL_ORE.getDefaultState(),
-                                Blocks.DIAMOND_ORE.getDefaultState(), Blocks.EMERALD_ORE.getDefaultState(),
-                                Blocks.GOLD_ORE.getDefaultState(), Blocks.IRON_ORE.getDefaultState(),
-                                Blocks.LAPIS_ORE.getDefaultState(), Blocks.NETHER_QUARTZ_ORE.getDefaultState(),
-                                Blocks.REDSTONE_ORE.getDefaultState() };
-                        DecoratedFeatureConfig decConf = (DecoratedFeatureConfig) x.config;
-                        if (decConf.feature.config instanceof OreFeatureConfig)
-                        {
-                            OreFeatureConfig featureConf = (OreFeatureConfig) decConf.feature.config;
-
-                            for (BlockState state2 : match)
-                            {
-                                if (Utils.doStatesMatch(featureConf.state, state2))
-                                {
-                                    Geolosys.getInstance().LOGGER.info("Modified " + featureConf.state);
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    return false;
-                });
-            }
+            FeatureStripper.strip();
         }
 
         OreConfig.setup(new File("./config"));

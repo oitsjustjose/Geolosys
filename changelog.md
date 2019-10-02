@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 4.0.3
+
+#### Fixed
+
+* Typo and format errors in the field manual
+* Disabling Vanilla Ore Gen removing all sand, gravel and clay
+
 ## 4.0.2
 
 #### Added
