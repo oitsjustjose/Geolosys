@@ -6,6 +6,7 @@
 
 * Kimberlite samples not dropping anything
 * Sample Item Models now render correctly (should look better in creative menu + TOP + HWYLA)
+* ConcurrentModificationException with `serializeNBT()` in `IGeolosysCapability`
 
 ## 4.0.3
 
