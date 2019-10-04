@@ -1,28 +1,29 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 public class GeolosysCapability implements IGeolosysCapability
 {
-    private HashMap<ChunkPosDim, Boolean> oreGenMap;
-    private HashMap<ChunkPosDim, Boolean> stoneGenMap;
-    private HashMap<BlockPosDim, BlockState> pendingBlocks;
-    private HashMap<ChunkPosDim, Boolean> retroMap;
+    private Map<ChunkPosDim, Boolean> oreGenMap;
+    private Map<ChunkPosDim, Boolean> stoneGenMap;
+    private Map<BlockPosDim, BlockState> pendingBlocks;
+    private Map<ChunkPosDim, Boolean> retroMap;
 
     public GeolosysCapability()
     {
-        this.oreGenMap = new HashMap<>();
-        this.stoneGenMap = new HashMap<>();
-        this.pendingBlocks = new HashMap<>();
-        this.retroMap = new HashMap<>();
+        this.oreGenMap = new ConcurrentHashMap<>();
+        this.stoneGenMap = new ConcurrentHashMap<>();
+        this.pendingBlocks = new ConcurrentHashMap<>();
+        this.retroMap = new ConcurrentHashMap<>();
     }
 
     @Override
