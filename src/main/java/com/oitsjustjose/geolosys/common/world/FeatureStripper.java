@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
@@ -46,6 +45,26 @@ public class FeatureStripper
                     else if (decConf.feature.config instanceof ReplaceBlockConfig)
                     {
                         ReplaceBlockConfig featureConf = (ReplaceBlockConfig) decConf.feature.config;
+
+                        for (BlockState state2 : match)
+                        {
+                            if (Utils.doStatesMatch(featureConf.state, state2))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            });
+            // Handles Nether Ores
+            biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_DECORATION).removeIf((x) -> {
+                if (x.config instanceof DecoratedFeatureConfig)
+                {
+                    DecoratedFeatureConfig decConf = (DecoratedFeatureConfig) x.config;
+                    if (decConf.feature.config instanceof OreFeatureConfig)
+                    {
+                        OreFeatureConfig featureConf = (OreFeatureConfig) decConf.feature.config;
 
                         for (BlockState state2 : match)
                         {
