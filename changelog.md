@@ -1,5 +1,11 @@
 # Geolosys Changelog
 
+## 4.0.5
+
+### Fixed
+
+* Nether Quartz generating in the Nether
+
 ## 4.0.4
 
 ### Fixed
