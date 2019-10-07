@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
-import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
