@@ -6,7 +6,7 @@ import java.util.List;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.Block;
@@ -33,6 +33,7 @@ public class CommonConfig
         public static ForgeConfigSpec.IntValue PRO_PICK_DURABILITY;
         public static ForgeConfigSpec.IntValue PRO_PICK_RANGE;
         public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
+        public static ForgeConfigSpec.ConfigValue<List<? extends String>> PRO_PICK_EXTRAS;
         public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
         public static ForgeConfigSpec.BooleanValue GIVE_MANUAL_TO_NEW;
         public static ForgeConfigSpec.ConfigValue<List<? extends String>> DEFAULT_REPLACEMENT_MATS;
@@ -81,8 +82,10 @@ public class CommonConfig
                                                                 String name = (String) rawName;
                                                                 Block block = ForgeRegistries.BLOCKS
                                                                                 .getValue(new ResourceLocation(name));
-                                                                Geolosys.getInstance().LOGGER.info("Added " + block
-                                                                                + " to defaultMatchers");
+                                                                if (block == null)
+                                                                {
+                                                                        return false;
+                                                                }
                                                                 return Utils.addDefaultMatcher(block);
                                                         }
                                                         return false;
@@ -104,6 +107,24 @@ public class CommonConfig
                                 .defineInRange("proPickRange", 5, 1, Integer.MAX_VALUE);
                 PRO_PICK_DIAMETER = COMMON_BUILDER.comment("The diameter of the prospector's pick prospecting cycle")
                                 .defineInRange("proPickDiameter", 5, 1, Integer.MAX_VALUE);
+                PRO_PICK_EXTRAS = COMMON_BUILDER
+                                .comment("A list of blocks which the prospector's pick should also detect.\n"
+                                                + "Format: Comma-delimited set of <modid:block> (see default for example)")
+                                .defineList("proPickExtras", Lists.newArrayList(), rawName -> {
+                                        if (rawName instanceof String)
+                                        {
+                                                String name = (String) rawName;
+                                                Block block = ForgeRegistries.BLOCKS
+                                                                .getValue(new ResourceLocation(name));
+                                                if (block == null || block.getDefaultState().isAir())
+                                                {
+                                                        return false;
+                                                }
+                                                GeolosysAPI.proPickExtras.add(block.getDefaultState());
+
+                                        }
+                                        return false;
+                                });
                 PRO_PICK_SURFACE_MODE = COMMON_BUILDER.comment(
                                 "What Surface Prospecting Results display; SAMPLES means it's based off of samples in the chunk - OREBLOCKS means it's based on the actual ores in the ground")
                                 .defineEnum("surfaceProspectingResults", SURFACE_PROSPECTING_TYPE.OREBLOCKS);
