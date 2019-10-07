@@ -1,13 +1,21 @@
 package com.oitsjustjose.geolosys.common.config;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import com.google.common.collect.Lists;
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
 public class CommonConfig
@@ -28,7 +36,7 @@ public class CommonConfig
         public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
         public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
         public static ForgeConfigSpec.BooleanValue GIVE_MANUAL_TO_NEW;
-        public static ForgeConfigSpec.ConfigValue<String> DEFAULT_REPLACEMENT_MATS;
+        public static ForgeConfigSpec.ConfigValue<List<? extends String>> DEFAULT_REPLACEMENT_MATS;
         private static String CATEGORY_FEATURE_CONTROL = "feature control";
         private static String CATEGORY_PROSPECTING = "prospecting";
 
@@ -64,17 +72,28 @@ public class CommonConfig
                 DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
                                 "The fallback materials which a Deposit can replace if they're not specified by the deposit itself\n"
                                                 + "Format: Comma-delimited set of <modid:block> (see default for example)")
-                                .define("defaultReplacementMaterials",
-                                                "minecraft:stone, minecraft:andesite, minecraft:diorite, minecraft:granite, minecraft:netherrack, minecraft:sandstone");
+                                .defineList("defaultReplacementMaterials",
+                                                Lists.newArrayList("minecraft:stone", "minecraft:andesite",
+                                                                "minecraft:diorite", "minecraft:granite",
+                                                                "minecraft:netherrack", "minecraft:sandstone"),
+                                                rawName -> {
+                                                        if (rawName instanceof String)
+                                                        {
+                                                                String name = (String) rawName;
+                                                                Block block = ForgeRegistries.BLOCKS
+                                                                                .getValue(new ResourceLocation(name));
+                                                                Geolosys.getInstance().LOGGER.info("Added " + block
+                                                                                + " to defaultMatchers");
+                                                                return Utils.addDefaultMatcher(block);
+                                                        }
+                                                        return false;
+                                                });
                 COMMON_BUILDER.pop();
 
                 COMMON_BUILDER.comment("Prospecting Options").push(CATEGORY_PROSPECTING);
                 MAX_SAMPLES_PER_CHUNK = COMMON_BUILDER
                                 .comment("Maximum samples that can generate with each pluton within a chunk")
                                 .defineInRange("maxSamplesPerChunk", 10, 1, 256);
-                // BORING_SAMPLES = COMMON_BUILDER
-                // .comment("Disable drops from samples, only popping up text of the item instead")
-                // .define("boringSamples", false);
                 ENABLE_PRO_PICK = COMMON_BUILDER.comment("Enable the prospector's pickaxe").define("enableProPick",
                                 true);
                 ENABLE_PRO_PICK_DMG = COMMON_BUILDER.comment("Allow the prospector's pick to get damaged")

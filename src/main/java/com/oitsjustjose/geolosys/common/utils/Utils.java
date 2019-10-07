@@ -1,18 +1,17 @@
 package com.oitsjustjose.geolosys.common.utils;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.dimension.Dimension;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class Utils
 {
@@ -55,28 +54,23 @@ public class Utils
     @SuppressWarnings("unchecked")
     public static ArrayList<BlockState> getDefaultMatchers()
     {
-        if (defaultMatchersCached == null)
-        {
-            defaultMatchersCached = parseMatchersFromConfig();
-        }
         return (ArrayList<BlockState>) defaultMatchersCached.clone();
     }
 
     @SuppressWarnings("deprecation")
-    private static ArrayList<BlockState> parseMatchersFromConfig()
+    public static boolean addDefaultMatcher(Block block)
     {
-
-        ArrayList<BlockState> ret = new ArrayList<>();
-        for (String s : CommonConfig.DEFAULT_REPLACEMENT_MATS.get().trim().replace(" ", "").split(","))
+        if (defaultMatchersCached == null)
         {
-            ResourceLocation lookup = new ResourceLocation(s);
-            BlockState b = ForgeRegistries.BLOCKS.getValue(lookup).getDefaultState();
-            if (!b.isAir())
-            {
-                ret.add(b);
-            }
+            defaultMatchersCached = new ArrayList<BlockState>();
+            GeolosysAPI.plutonRegistry.getStones().forEach(x -> defaultMatchersCached.add(x.getOre()));
         }
-        GeolosysAPI.plutonRegistry.getStones().forEach(x -> ret.add(x.getOre()));
-        return ret;
+        BlockState defaultState = block.getDefaultState();
+        if (!defaultState.isAir())
+        {
+            defaultMatchersCached.add(defaultState);
+            return true;
+        }
+        return false;
     }
 }
