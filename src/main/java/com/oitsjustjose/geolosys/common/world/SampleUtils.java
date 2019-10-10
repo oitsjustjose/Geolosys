@@ -41,7 +41,7 @@ public class SampleUtils
                     if (canReplace(world, searchPos.up()))
                     {
                         // If the block we're going to place on top of is blacklisted
-                        if (samplePlacementBlacklist.contains(world.getBlockState(searchPos.down())))
+                        if (canPlaceOn(world, searchPos))
                         {
                             // If it's above sea level it's fine
                             if (searchPos.getY() > world.getSeaLevel())
@@ -62,6 +62,19 @@ public class SampleUtils
             searchPos = searchPos.up();
         }
         return null;
+    }
+
+    /**
+     * Determines if the sample can be placed on this block
+     * 
+     * @param world: an IWorld instance
+     * @param pos:   The current searching position that will be used to confirm
+     * @return true if the block below is solid on top AND isn't in the blacklist
+     */
+    public static boolean canPlaceOn(IWorld world, BlockPos pos)
+    {
+        return !samplePlacementBlacklist.contains(world.getBlockState(pos.down()))
+                && Block.func_220055_a(world, pos.down(), Direction.UP);
     }
 
     /**
