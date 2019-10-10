@@ -1,5 +1,20 @@
 # Geolosys Changelog
 
+## 4.0.6
+
+### Added
+
+* ProPick Extras (a config option to let you define other blocks the propick should pick up on)
+* Sample Placement Blacklist config option
+
+### Changed
+
+* The `defaultReplacementMats` option is now a list of strings, instead of a single large string
+* Samples will now be generated even smarter than before, checking if the block they're placing on is in the `samplePlacementBlacklist` (a new config option) or is the top solid (a requirement for the sample block itself too)
+
+### Fixed
+
+
 ## 4.0.5
 
 ### Fixed
