@@ -105,7 +105,7 @@ artifacts {
 curseforge {
   apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
   project {
-    id = '342018'
+    id = '271856'
     changelogType = 'markdown'
     changelog = file("./changelog.md")
     releaseType = 'release'
@@ -121,7 +121,7 @@ curseforge {
     }
 
     addArtifact(sourcesJar){
-        displayName = "Geolosys ${game_version} ${mod_version} Sourcesb"
+        displayName = "Geolosys ${game_version} ${mod_version} Sources"
     }
   }
 }
