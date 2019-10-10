@@ -1,7 +1,13 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -11,11 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
 
-import javax.annotation.Nullable;
-import java.util.Random;
-
 public class SampleUtils
 {
+    private static ArrayList<BlockState> samplePlacementBlacklist = new ArrayList<>();
     private static Random random = new Random();
 
     @Nullable
@@ -36,16 +40,21 @@ public class SampleUtils
                     // If the block above this state is air,
                     if (canReplace(world, searchPos.up()))
                     {
-                        // If it's above sea level it's fine
-                        if (searchPos.getY() > world.getSeaLevel())
+                        // If the block we're going to place on top of is blacklisted
+                        if (samplePlacementBlacklist.contains(world.getBlockState(searchPos.down())))
                         {
-                            return searchPos;
-                        }
-                        // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at least above the deposit
-                        else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
-                                && searchPos.getY() < depositHeight)
-                        {
-                            return searchPos;
+                            // If it's above sea level it's fine
+                            if (searchPos.getY() > world.getSeaLevel())
+                            {
+                                return searchPos;
+                            }
+                            // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at least above the deposit
+                            else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
+                                    && searchPos.getY() < depositHeight)
+                            {
+
+                                return searchPos;
+                            }
                         }
                     }
                 }
@@ -106,6 +115,11 @@ public class SampleUtils
     public static boolean isWithinRange(int posA, int posB, int range)
     {
         return (Math.abs(posA - posB) <= range);
+    }
+
+    public static void addSamplePlacementBlacklist(Block block)
+    {
+        samplePlacementBlacklist.add(block.getDefaultState());
     }
 
 }

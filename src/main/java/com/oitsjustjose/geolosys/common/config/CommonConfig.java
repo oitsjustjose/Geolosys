@@ -8,6 +8,7 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.SampleUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
@@ -94,6 +95,30 @@ public class CommonConfig
                 MAX_SAMPLES_PER_CHUNK = COMMON_BUILDER
                                 .comment("Maximum samples that can generate with each pluton within a chunk")
                                 .defineInRange("maxSamplesPerChunk", 10, 1, 256);
+
+                BORING_SAMPLES = COMMON_BUILDER
+                                .comment("Disables drops from samples, and instead shows a generic message")
+                                .define("boringSamples", false);
+
+                SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER
+                                .comment("A list of <modid:block> that samples may not be placed on")
+                                .defineList("samplePlacementBlacklist",
+                                                Lists.newArrayList("minecraft:ice", "minecraft:packed_ice"),
+                                                rawName -> {
+                                                        if (rawName instanceof String)
+                                                        {
+                                                                String name = (String) rawName;
+                                                                Block block = ForgeRegistries.BLOCKS
+                                                                                .getValue(new ResourceLocation(name));
+                                                                if (block == null || block.getDefaultState().isAir())
+                                                                {
+                                                                        return false;
+                                                                }
+                                                                SampleUtils.addSamplePlacementBlacklist(block);
+                                                                return true;
+                                                        }
+                                                        return false;
+                                                });
                 ENABLE_PRO_PICK = COMMON_BUILDER.comment("Enable the prospector's pickaxe").define("enableProPick",
                                 true);
                 ENABLE_PRO_PICK_DMG = COMMON_BUILDER.comment("Allow the prospector's pick to get damaged")
@@ -119,7 +144,7 @@ public class CommonConfig
                                                         return false;
                                                 }
                                                 GeolosysAPI.proPickExtras.add(block.getDefaultState());
-
+                                                return true;
                                         }
                                         return false;
                                 });
