@@ -24,10 +24,10 @@ public class CommonConfig
         public static ForgeConfigSpec.BooleanValue ENABLE_INGOTS;
         public static ForgeConfigSpec.BooleanValue ENABLE_COALS;
         public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
-        // public static ForgeConfigSpec.BooleanValue RETRO_REPLACE;
         public static ForgeConfigSpec.BooleanValue DISABLE_VANILLA_ORE_GEN;
         public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
         public static ForgeConfigSpec.BooleanValue BORING_SAMPLES;
+        public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
         public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
         public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK_DMG;
         public static ForgeConfigSpec.IntValue PRO_PICK_DURABILITY;
@@ -56,6 +56,7 @@ public class CommonConfig
                 spec.setConfig(configData);
         }
 
+        @SuppressWarnings("deprecation")
         private static void init()
         {
                 COMMON_BUILDER.comment("Feature Control").push(CATEGORY_FEATURE_CONTROL);
@@ -64,9 +65,6 @@ public class CommonConfig
 
                 DEBUG_WORLD_GEN = COMMON_BUILDER.comment("Output info into the logs when generating Geolosys deposits")
                                 .define("debugWorldgen", false);
-                // RETRO_REPLACE = COMMON_BUILDER.comment(
-                // "Retroactively replace vanilla / Tagged ores to their Geolosys Counterpart when entering a chunk")
-                // .define("retroReplace", true);
                 DISABLE_VANILLA_ORE_GEN = COMMON_BUILDER.comment("Disable generation of Vanilla ores")
                                 .define("disableVanillaOreGen", true);
                 DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(

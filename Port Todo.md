@@ -18,13 +18,13 @@
 
 - [x] All of these, but with polish.
 - [ ] Reimplement:
-  - [ ] Retro ore gen (e.g. replacing ores with Geolosys blocks, is this a thing I'm gonna do?)
+  - [x] ~~Retro ore gen (e.g. replacing ores with Geolosys blocks, is this a thing I'm gonna do?)~~ **Will not be ported. Use [this](https://www.curseforge.com/minecraft/mc-mods/wg-block-replacer) instead**.
   - [ ] Do these when `BlockEvent#HarvestDropsEvent` is fixed:
-    - [ ] Implement fortune drops with compatibility
+    - [x] ~~Implement fortune drops with compatibility~~ **You will now do this _yourself_ using DataPacks**.
     - [ ] Implement boring samples option
     - [x] Compat drops
-  - [ ] Implement `String[]` config options
-    - [ ] Sample placement blacklist
-    - [ ] Extra ProPick entries
-    - [ ] Ore Converter Blacklist
-  - [ ] Mod Compat Eventually
+  - [x] Implement `String[]` config options
+    - [x] Sample placement blacklist
+    - [x] Extra ProPick entries
+    - [x] ~~Ore Converter Blacklist~~
+  - [x] ~~Mod Compat Eventually~~ **You will now do this mostly _yourself_ via Datapacks as well**.
