@@ -1,5 +1,10 @@
 # Geolosys Changelog
 
+## 3.0.8
+
+* FIXED: Field manual crash with use of only BiomeTypes
+* CHANGED: Internal publishing stuff via CurseGradle
+
 ## 3.0.7
 
 * FIXED: IllegalStateException when using the ProPick
