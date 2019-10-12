@@ -32,7 +32,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
         {
             if (b == biome)
             {
-                                return true;
+                return true;
             }
         }
         for (BiomeDictionary.Type type : this.biomeTypes)
@@ -42,7 +42,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
             {
                 if (type.equals(otherType))
                 {
-                                        return true;
+                    return true;
                 }
             }
         }
@@ -62,5 +62,10 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
     public List<Biome> getBiomeList()
     {
         return this.biomes;
+    }
+
+    public List<BiomeDictionary.Type> getBiomeTypes()
+    {
+        return this.biomeTypes;
     }
 }
