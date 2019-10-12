@@ -2,12 +2,17 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
+    dependencies {
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+    }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.matthewprenger.cursegradle'
 
 version = mod_version
 group= "com.oitsjustjose.geolosys"
@@ -45,6 +50,7 @@ repositories {
     maven {
         url "https://maven.altillimity.com/content/groups/maven/"
     }
+
 }
 
 configurations.all {
@@ -63,6 +69,11 @@ task deobfJar(type: Jar) {
     classifier = 'DEV'
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'Sources'
+    from sourceSets.main.allSource
+}
+
 artifacts{
 	archives deobfJar
 }
@@ -79,4 +90,28 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+curseforge {
+  apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
+  project {
+    id = '271856'
+    changelogType = 'markdown'
+    changelog = file("./changelog.md")
+    releaseType = 'release'
+    addGameVersion "${minecraft_version}"
+
+    mainArtifact(jar) {
+        displayName = "Geolosys ${minecraft_version} ${mod_version}"
+    }
+
+
+    addArtifact(deobfJar) {
+        displayName = "Geolosys ${minecraft_version} ${mod_version} Deobf"
+    }
+
+    addArtifact(sourcesJar){
+        displayName = "Geolosys ${minecraft_version} ${mod_version} Sources"
+    }
+  }
 }
