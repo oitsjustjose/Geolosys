@@ -136,7 +136,7 @@
 			],
 			"density": 1.0,
 			"biomes": [
-				""
+				"MOUNTAIN"
 			],
 			"isWhitelist": true
 		},
