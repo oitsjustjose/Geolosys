@@ -8,6 +8,7 @@ import com.oitsjustjose.geolosys.common.api.world.IOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 /**
  * @author oitsjustjose,
@@ -84,36 +85,58 @@ public class BookPageOre extends BookPage
         if (this.ore instanceof DepositBiomeRestricted)
         {
             DepositBiomeRestricted biomeRestricted = (DepositBiomeRestricted) this.ore;
-            if (biomeRestricted.getBiomeList().size() > 1)
+
+            StringBuilder sb = new StringBuilder();
+            for (Biome b : biomeRestricted.getBiomeList())
             {
-                StringBuilder sb = new StringBuilder();
-                for (Biome b : biomeRestricted.getBiomeList())
-                {
-                    sb.append(", ");
-                    sb.append(b.getBiomeName());
-                }
-                String retVal = sb.toString();
-                return retVal.substring(2, retVal.lastIndexOf(",")) + " &"
-                        + retVal.substring(retVal.lastIndexOf(",") + 1);
+                sb.append(", ");
+                sb.append(b.getBiomeName());
             }
-            return biomeRestricted.getBiomeList().get(0).getBiomeName();
+            for (BiomeDictionary.Type type : biomeRestricted.getBiomeTypes())
+            {
+                sb.append(", ");
+                sb.append(type.getName().toLowerCase());
+            }
+
+            String sbRet = sb.toString().substring(2);
+            int commaCount = sbRet.split(",").length;
+            if (commaCount == 1)
+            {
+                return sbRet.replace(",", " &");
+            }
+            else if (commaCount > 1)
+            {
+                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &" + sbRet.substring(sbRet.lastIndexOf(",") + 1);
+            }
+            return sbRet;
         }
-        else if (this.ore instanceof DepositMultiOreBiomeRestricted)
+        if (this.ore instanceof DepositMultiOreBiomeRestricted)
         {
             DepositMultiOreBiomeRestricted biomeRestricted = (DepositMultiOreBiomeRestricted) this.ore;
-            if (biomeRestricted.getBiomeList().size() > 1)
+
+            StringBuilder sb = new StringBuilder();
+            for (Biome b : biomeRestricted.getBiomeList())
             {
-                StringBuilder sb = new StringBuilder();
-                for (Biome b : biomeRestricted.getBiomeList())
-                {
-                    sb.append(", ");
-                    sb.append(b.getBiomeName());
-                }
-                String retVal = sb.toString();
-                return retVal.substring(2, retVal.lastIndexOf(",")) + " &"
-                        + retVal.substring(retVal.lastIndexOf(",") + 1);
+                sb.append(", ");
+                sb.append(b.getBiomeName());
             }
-            return biomeRestricted.getBiomeList().get(0).getBiomeName();
+            for (BiomeDictionary.Type type : biomeRestricted.getBiomeTypes())
+            {
+                sb.append(", ");
+                sb.append(type.getName().toLowerCase());
+            }
+
+            String sbRet = sb.toString().substring(2);
+            int commaCount = sbRet.split(",").length;
+            if (commaCount == 1)
+            {
+                return sbRet.replace(",", " &");
+            }
+            else if (commaCount > 1)
+            {
+                return sbRet.substring(0, sbRet.lastIndexOf(",")) + " &" + sbRet.substring(sbRet.lastIndexOf(",") + 1);
+            }
+            return sbRet;
         }
         return null;
     }
