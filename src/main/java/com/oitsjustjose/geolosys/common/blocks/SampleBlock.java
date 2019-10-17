@@ -24,6 +24,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -70,7 +71,8 @@ public class SampleBlock extends Block implements IWaterLoggable
     @Nonnull
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
-        return VoxelShapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.25D, 0.8D);
+        Vec3d offset = state.getOffset(worldIn, pos);
+        return VoxelShapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.2D, 0.8D).withOffset(offset.x, offset.y, offset.z);
     }
 
     @Override
