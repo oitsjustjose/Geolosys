@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
 
 import net.minecraft.block.BlockState;
 

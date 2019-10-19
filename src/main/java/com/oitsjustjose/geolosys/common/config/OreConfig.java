@@ -19,13 +19,13 @@ import java.util.Map.Entry;
 import com.google.gson.stream.JsonReader;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.api.world.Deposit;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

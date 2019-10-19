@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.api.world;
 
 import java.util.List;
 
-import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+import com.oitsjustjose.geolosys.api.PlutonType;
 
 import net.minecraft.block.BlockState;
 
