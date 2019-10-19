@@ -1,9 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.common.utils.Utils;
-import net.minecraft.block.BlockState;
-
 import java.util.List;
+
+import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+
+import net.minecraft.block.BlockState;
 
 public class Deposit implements IDeposit
 {
@@ -15,10 +17,11 @@ public class Deposit implements IDeposit
     private int chance;
     private String[] dimensionBlacklist;
     private List<BlockState> blockStateMatchers;
+    private PlutonType type;
     private float density;
 
     public Deposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, float density)
+            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, PlutonType type, float density)
     {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
@@ -28,6 +31,7 @@ public class Deposit implements IDeposit
         this.chance = chance;
         this.dimensionBlacklist = dimensionBlacklist;
         this.blockStateMatchers = blockStateMatchers;
+        this.type = type;
         this.density = density;
     }
 
@@ -95,6 +99,11 @@ public class Deposit implements IDeposit
     public boolean sampleMatches(BlockState other)
     {
         return Utils.doStatesMatch(this.sampleBlock, other);
+    }
+
+    public PlutonType getPlutonType()
+    {
+        return this.type;
     }
 
     public float getDensity()

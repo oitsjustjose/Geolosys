@@ -1,6 +1,8 @@
 package com.oitsjustjose.geolosys.api.world;
 
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -16,9 +18,9 @@ public class DepositBiomeRestricted extends Deposit
 
     public DepositBiomeRestricted(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
             String[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
-            List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, float density)
+            List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density)
     {
-        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density);
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;
@@ -26,7 +28,6 @@ public class DepositBiomeRestricted extends Deposit
 
     public boolean canPlaceInBiome(Biome biome)
     {
-        // Manually check this since it's always a fucking pain
         for (Biome b : this.biomes)
         {
             if (b == biome)

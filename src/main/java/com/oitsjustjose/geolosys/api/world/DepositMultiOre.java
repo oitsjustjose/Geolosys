@@ -1,12 +1,14 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.common.utils.Utils;
-import net.minecraft.block.BlockState;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+
+import net.minecraft.block.BlockState;
 
 @SuppressWarnings("unchecked")
 public class DepositMultiOre implements IDeposit
@@ -21,11 +23,12 @@ public class DepositMultiOre implements IDeposit
     private int chance;
     private String[] dimensionBlacklist;
     private List<BlockState> blockStateMatchers;
+    private PlutonType type;
     private float density;
 
     public DepositMultiOre(HashMap<BlockState, Integer> oreBlocks, HashMap<BlockState, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, String[] dimensionBlacklist, List<BlockState> blockStateMatchers,
-            float density)
+            PlutonType type, float density)
     {
         // Sanity checking:
         int sum = 0;
@@ -69,6 +72,7 @@ public class DepositMultiOre implements IDeposit
         this.chance = chance;
         this.dimensionBlacklist = dimensionBlacklist;
         this.blockStateMatchers = blockStateMatchers;
+        this.type = type;
         this.density = density;
     }
 
@@ -247,6 +251,11 @@ public class DepositMultiOre implements IDeposit
             }
         }
         return false;
+    }
+
+    public PlutonType getPlutonType()
+    {
+        return this.type;
     }
 
     public float getDensity()

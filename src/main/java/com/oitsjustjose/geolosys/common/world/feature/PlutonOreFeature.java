@@ -192,18 +192,23 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             return false;
         }
 
-        int numPlutonTypes = 0;
-        int rng = 0;
-
         boolean placed = false;
-        if (rng == 0)
-        {
-            placed = generateDike(worldIn, pos, rand, pluton, plutonCapability);
-            // placed = generateSparse(worldIn, pos, rand, pluton, plutonCapability);
-        }
-        if (rng == 1)
+
+        if (pluton.getPlutonType() == PlutonType.DENSE)
         {
             placed = generateDense(worldIn, pos, rand, pluton, plutonCapability);
+        }
+        else if (pluton.getPlutonType() == PlutonType.SPARSE)
+        {
+            placed = generateSparse(worldIn, pos, rand, pluton, plutonCapability);
+        }
+        else if (pluton.getPlutonType() == PlutonType.DIKE)
+        {
+            placed = generateDike(worldIn, pos, rand, pluton, plutonCapability);
+        }
+        else
+        {
+            Geolosys.getInstance().LOGGER.error("Unknown Generation Logic for PlutonType {}", pluton.getPlutonType());
         }
 
         if (placed)

@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -24,6 +25,7 @@ import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -113,6 +115,7 @@ public class OreConfig
                         ArrayList<BiomeDictionary.Type> biomeTypes = new ArrayList<>();
                         boolean isWhitelist = false;
                         boolean hasIsWhitelist = false;
+                        PlutonType plutonType = null;
                         float density = 1.0F;
                         jReader.beginObject();
                         while (jReader.hasNext())
@@ -203,6 +206,23 @@ public class OreConfig
                                 isWhitelist = jReader.nextBoolean();
                                 hasIsWhitelist = true;
                             }
+                            else if (subName.equalsIgnoreCase("type"))
+                            {
+                                String temp = jReader.nextString();
+                                try
+                                {
+                                    plutonType = PlutonType.valueOf(temp.toUpperCase());
+                                }
+                                catch (IllegalArgumentException e)
+                                {
+                                    Geolosys.getInstance().LOGGER.info(
+                                            "The pluton type {} is not valid. Your possible choices are:\n" + "{}\n"
+                                                    + "Geolosys has chosen to use DENSE until this error is fixed",
+                                            temp, Arrays.toString(PlutonType.values()));
+
+                                    plutonType = PlutonType.DENSE;
+                                }
+                            }
                             else if (subName.equalsIgnoreCase("density"))
                             {
                                 density = (float) jReader.nextDouble();
@@ -216,7 +236,8 @@ public class OreConfig
                             }
                         }
                         if (!register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                                blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, density))
+                                blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, plutonType,
+                                density))
                         {
                             Geolosys.getInstance().LOGGER.info("Could not register pluton " + oreBlocks
                                     + " due to some error. Please narrow down which block is not being registered on time by narrowing them down one-by-one.");
@@ -318,6 +339,9 @@ public class OreConfig
             return false;
         }
         GeolosysAPI.plutonRegistry.addStonePluton(new DepositStone(state, yMin, yMax, chance, size, dimBlacklist));
+
+        Geolosys.getInstance().LOGGER.info("Registered a stone pluton of {}.", stone);
+
         return true;
     }
 
@@ -341,7 +365,7 @@ public class OreConfig
     private boolean register(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, String[] dimBlacklist, ArrayList<String> blockStateMatchers,
             ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist,
-            float density)
+            PlutonType type, float density)
     {
         HashMap<BlockState, Integer> oreBlocksParsed = new HashMap<>();
         HashMap<BlockState, Integer> sampleBlocksParsed = new HashMap<>();
@@ -349,6 +373,7 @@ public class OreConfig
 
         IDeposit toRegister = null;
 
+        // Validate every oreBlock item
         for (Entry<String, Integer> e : oreBlocks.entrySet())
         {
             BlockState state = fromString(e.getKey());
@@ -359,6 +384,7 @@ public class OreConfig
             oreBlocksParsed.put(state, e.getValue());
         }
 
+        // Validate every sampleBlock item
         for (Entry<String, Integer> e : sampleBlocks.entrySet())
         {
             BlockState state = fromString(e.getKey());
@@ -369,6 +395,7 @@ public class OreConfig
             sampleBlocksParsed.put(state, e.getValue());
         }
 
+        // Validate every blockStateMatcher
         for (String s : blockStateMatchers)
         {
             BlockState state = fromString(s);
@@ -379,6 +406,19 @@ public class OreConfig
             blockStateMatchersParsed.add(state);
         }
 
+        // Ensure that if biomes are specified, whether or not it's a whitelist is also specified
+        if ((biomes.size() > 0 || biomeTypes.size() > 0) && !hasIsWhitelist)
+        {
+            return false;
+        }
+
+        // Ensure that the PlutonType is declared
+        if (type == null)
+        {
+            return false;
+        }
+
+        // Nullify an empty blockStateMatcher so that the default is used.
         if (blockStateMatchersParsed.size() <= 0)
         {
             blockStateMatchersParsed = null;
@@ -390,25 +430,24 @@ public class OreConfig
             if (biomes.size() > 0 || biomeTypes.size() > 0)
             {
                 toRegister = new DepositMultiOreBiomeRestricted(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size,
-                        chance, dimBlacklist, blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, density);
+                        chance, dimBlacklist, blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, type, density);
             }
             else
             {
                 toRegister = new DepositMultiOre(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                        dimBlacklist, blockStateMatchersParsed, density);
+                        dimBlacklist, blockStateMatchersParsed, type, density);
             }
         }
         else
         {
             if (biomes.size() > 0 || biomeTypes.size() > 0)
             {
-
                 for (BlockState b : oreBlocksParsed.keySet())
                 {
                     for (BlockState s : sampleBlocksParsed.keySet())
                     {
                         toRegister = new DepositBiomeRestricted(b, s, yMin, yMax, size, chance, dimBlacklist,
-                                blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, density);
+                                blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, type, density);
                         break;
                     }
                     break;
@@ -421,7 +460,7 @@ public class OreConfig
                     for (BlockState s : sampleBlocksParsed.keySet())
                     {
                         toRegister = new Deposit(b, s, yMin, yMax, size, chance, dimBlacklist, blockStateMatchersParsed,
-                                density);
+                                type, density);
                         break;
                     }
                     break;
@@ -429,8 +468,10 @@ public class OreConfig
             }
         }
 
-        Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density
-                + ". " + ((biomeTypes.size() > 0 || biomes.size() > 0) ? "This ore has custom biome registries" : ""));
+        Geolosys.getInstance().LOGGER.info(
+                "Registered a {} ore pluton of blocks={}, samples={}, and density={}. This ore {} custom biome registries.",
+                type.toString().toLowerCase(), oreBlocks, sampleBlocks, density,
+                (biomeTypes.size() > 0 || biomes.size() > 0) ? "has" : "does not have");
 
         return toRegister != null && GeolosysAPI.plutonRegistry.addOrePluton(toRegister);
     }

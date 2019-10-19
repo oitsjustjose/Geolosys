@@ -1,8 +1,10 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import net.minecraft.block.BlockState;
-
 import java.util.List;
+
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+
+import net.minecraft.block.BlockState;
 
 public interface IDeposit
 {
@@ -29,6 +31,8 @@ public interface IDeposit
     boolean sampleMatches(BlockState other);
 
     List<BlockState> getBlockStateMatchers();
+
+    PlutonType getPlutonType();
 
     float getDensity();
 }

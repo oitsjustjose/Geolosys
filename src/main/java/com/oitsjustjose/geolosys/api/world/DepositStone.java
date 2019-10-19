@@ -1,6 +1,8 @@
 package com.oitsjustjose.geolosys.api.world;
 
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonType;
+
 import net.minecraft.block.BlockState;
 
 import java.util.List;
@@ -89,6 +91,11 @@ public class DepositStone implements IDeposit
     public float getDensity()
     {
         return 1.0F;
+    }
+
+    public PlutonType getPlutonType()
+    {
+        return PlutonType.DENSE;
     }
 
     public String getFriendlyName()
