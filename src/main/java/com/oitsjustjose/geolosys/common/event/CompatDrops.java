@@ -54,8 +54,6 @@ public class CompatDrops
                 int rng = random.nextInt(5 - event.getFortuneLevel());
                 if (rng == 0)
                 {
-                    Geolosys.getInstance().LOGGER.info("should've added");
-
                     event.getDrops().add(stackToAdd);
                 }
             }

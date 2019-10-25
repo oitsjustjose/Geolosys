@@ -402,7 +402,6 @@ public class ProPickItem extends Item
                                     }
                                     if (foundMap.get(multiOre).size() == size)
                                     {
-                                        Geolosys.getInstance().LOGGER.info("multiOre.size == foundMap[multiOre].size");
                                         Geolosys.proxy.sendProspectingMessage(player,
                                                 Utils.blockStateToStack(multiOre.getOre()), null);
                                         return true;
@@ -416,7 +415,6 @@ public class ProPickItem extends Item
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
                                             : ore.getSample())))
                             {
-                                Geolosys.getInstance().LOGGER.info("Not multiore, found match");
                                 Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
                                         null);
                                 return true;
