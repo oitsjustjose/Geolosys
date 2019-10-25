@@ -374,7 +374,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 
         for (int y = pluton.getYMin(); y < pluton.getYMax(); y++)
         {
-            int numAttempts = rand.nextInt(pluton.getSize() / 4);
+            int numAttempts = rand.nextInt(pluton.getSize() / 3);
             for (int attempt = 0; attempt < numAttempts; attempt++)
             {
                 int x = pos.getX() + rand.nextInt(16);
