@@ -90,7 +90,7 @@ public class Geolosys
 
         if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
-            FeatureStripper.strip(05);
+            FeatureStripper.strip(0);
         }
 
         OreConfig.setup(new File("./config"));
