@@ -61,10 +61,7 @@ public class Geolosys
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
-        if (CommonConfig.GIVE_MANUAL_TO_NEW.get())
-        {
-            MinecraftForge.EVENT_BUS.register(new ManualGifting());
-        }
+        MinecraftForge.EVENT_BUS.register(new ManualGifting());
         MinecraftForge.EVENT_BUS.register(new CompatDrops());
 
         this.configSetup();

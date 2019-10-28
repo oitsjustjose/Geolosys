@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.event;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
@@ -15,6 +16,10 @@ public class ManualGifting
     @SubscribeEvent
     public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
+        if (!CommonConfig.GIVE_MANUAL_TO_NEW.get())
+        {
+            return;
+        }
         PlayerEntity player = event.getPlayer();
 
         IGeolosysCapability geolosysCap = event.getEntity().getEntityWorld()
