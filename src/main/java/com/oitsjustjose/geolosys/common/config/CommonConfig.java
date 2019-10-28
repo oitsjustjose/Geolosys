@@ -27,7 +27,6 @@ public class CommonConfig
         public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
         public static ForgeConfigSpec.BooleanValue DISABLE_VANILLA_ORE_GEN;
         public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
-        public static ForgeConfigSpec.BooleanValue BORING_SAMPLES;
         public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
         public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
         public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK_DMG;
@@ -95,10 +94,6 @@ public class CommonConfig
                 MAX_SAMPLES_PER_CHUNK = COMMON_BUILDER
                                 .comment("Maximum samples that can generate with each pluton within a chunk")
                                 .defineInRange("maxSamplesPerChunk", 10, 1, 256);
-
-                BORING_SAMPLES = COMMON_BUILDER
-                                .comment("Disables drops from samples, and instead shows a generic message")
-                                .define("boringSamples", false);
 
                 SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER
                                 .comment("A list of <modid:block> that samples may not be placed on")
