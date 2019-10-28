@@ -25,7 +25,7 @@ import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -94,15 +94,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                         // Place a waterlogged variant of whatever block it ends up being
                         if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable)
                         {
-                            ore.getSample().getProperties().forEach(x -> {
-                                if (x.getName().toLowerCase().contains("waterlog")
-                                        && x.getAllowedValues().contains(Boolean.TRUE))
-                                {
-                                    IProperty<Boolean> waterLogged = (IProperty<Boolean>) x;
-                                    world.setBlockState(samplePos, ore.getSample().with(waterLogged, Boolean.TRUE),
-                                            2 | 16);
-                                }
-                            });
+                            world.setBlockState(samplePos,
+                                    ore.getSample().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
                         }
                         else
                         {
