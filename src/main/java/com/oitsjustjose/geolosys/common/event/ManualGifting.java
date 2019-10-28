@@ -1,11 +1,14 @@
 package com.oitsjustjose.geolosys.common.event;
 
+import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
+import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ManualGifting
 {
@@ -13,12 +16,19 @@ public class ManualGifting
     public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
         PlayerEntity player = event.getPlayer();
-        CompoundNBT tag = player.getPersistentData();
-        if (!tag.contains("geolosys:has_manual"))
+
+        IGeolosysCapability geolosysCap = event.getEntity().getEntityWorld()
+                .getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        if (geolosysCap == null)
         {
-            player.addItemStackToInventory(
+            return;
+        }
+
+        if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID()))
+        {
+            ItemHandlerHelper.giveItemToPlayer(player,
                     new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:field_manual")));
-            tag.putBoolean("geolosys:has_manual", true);
+            geolosysCap.setPlayerReceivedManual(player.getUniqueID());
         }
     }
 }

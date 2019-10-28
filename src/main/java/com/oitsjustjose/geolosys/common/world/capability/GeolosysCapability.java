@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.capability;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.oitsjustjose.geolosys.api.BlockPosDim;
@@ -16,14 +17,14 @@ public class GeolosysCapability implements IGeolosysCapability
     private Map<ChunkPosDim, Boolean> oreGenMap;
     private Map<ChunkPosDim, Boolean> stoneGenMap;
     private Map<BlockPosDim, BlockState> pendingBlocks;
-    private Map<ChunkPosDim, Boolean> retroMap;
+    private Map<UUID, Boolean> giveMap;
 
     public GeolosysCapability()
     {
         this.oreGenMap = new ConcurrentHashMap<>();
         this.stoneGenMap = new ConcurrentHashMap<>();
         this.pendingBlocks = new ConcurrentHashMap<>();
-        this.retroMap = new ConcurrentHashMap<>();
+        this.giveMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -45,18 +46,6 @@ public class GeolosysCapability implements IGeolosysCapability
     }
 
     @Override
-    public Map<ChunkPosDim, Boolean> getRetroMap()
-    {
-        return this.retroMap;
-    }
-
-    @Override
-    public void setRetroGenned(ChunkPosDim pos)
-    {
-        this.retroMap.put(pos, true);
-    }
-
-    @Override
     public void putPendingBlock(BlockPosDim pos, BlockState state)
     {
         this.pendingBlocks.put(pos, state);
@@ -67,12 +56,6 @@ public class GeolosysCapability implements IGeolosysCapability
     {
         BlockState ret = this.pendingBlocks.get(pos);
         return ret;
-    }
-
-    @Override
-    public boolean hasRetroGenned(ChunkPosDim pos)
-    {
-        return this.retroMap.containsKey(pos) && this.retroMap.get(pos);
     }
 
     @Override
@@ -100,23 +83,42 @@ public class GeolosysCapability implements IGeolosysCapability
     }
 
     @Override
+    public boolean hasPlayerReceivedManual(UUID uuid)
+    {
+        return this.giveMap.containsKey(uuid);
+    }
+
+    @Override
+    public void setPlayerReceivedManual(UUID uuid)
+    {
+        this.giveMap.put(uuid, true);
+    }
+
+    @Override
+    public Map<UUID, Boolean> getGivenMap()
+    {
+        return this.giveMap;
+    }
+
+    @Override
     public CompoundNBT serializeNBT()
     {
         CompoundNBT compound = new CompoundNBT();
         compound.put("WorldOreDeposits", new CompoundNBT());
         compound.put("WorldStoneDeposits", new CompoundNBT());
         compound.put("PendingBlocks", new CompoundNBT());
-        compound.put("RetroGen", new CompoundNBT());
+        compound.put("PlayersGifted", new CompoundNBT());
 
         CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
         CompoundNBT stoneDeposits = compound.getCompound("WorldStoneDeposits");
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
-        CompoundNBT retroGen = compound.getCompound("RetroGen");
+        CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
         this.getOreGenMap().forEach((x, y) -> oreDeposits.putBoolean(x.toString(), y));
         this.getStoneGenMap().forEach((x, y) -> stoneDeposits.putBoolean(x.toString(), y));
         this.getPendingBlocks().forEach((x, y) -> pendingBlocks.put(x.toString(), NBTUtil.writeBlockState(y)));
-        this.getRetroMap().forEach((x, y) -> retroGen.putBoolean(x.toString(), y));
+        this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
+
         return compound;
     }
 
@@ -126,12 +128,12 @@ public class GeolosysCapability implements IGeolosysCapability
         CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
         CompoundNBT stoneDeposits = compound.getCompound("WorldStoneDeposits");
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
-        CompoundNBT retroGen = compound.getCompound("RetroGen");
+        CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
         oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(new ChunkPosDim(key)));
         stoneDeposits.keySet().forEach(key -> this.setStonePlutonGenerated(new ChunkPosDim(key)));
         pendingBlocks.keySet().forEach(key -> this.putPendingBlock(new BlockPosDim(key),
                 NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
-        retroGen.keySet().forEach(key -> this.setRetroGenned(new ChunkPosDim(key)));
+        playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));
     }
 }

@@ -1,12 +1,14 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
+import java.util.Map;
+import java.util.UUID;
+
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
-
-import java.util.Map;
 
 public interface IGeolosysCapability extends INBTSerializable<CompoundNBT>
 {
@@ -18,10 +20,6 @@ public interface IGeolosysCapability extends INBTSerializable<CompoundNBT>
 
     void setStonePlutonGenerated(ChunkPosDim pos);
 
-    boolean hasRetroGenned(ChunkPosDim pos);
-
-    void setRetroGenned(ChunkPosDim pos);
-
     void putPendingBlock(BlockPosDim pos, BlockState state);
 
     BlockState getPendingBlock(BlockPosDim pos);
@@ -32,5 +30,9 @@ public interface IGeolosysCapability extends INBTSerializable<CompoundNBT>
 
     Map<BlockPosDim, BlockState> getPendingBlocks();
 
-    Map<ChunkPosDim, Boolean> getRetroMap();
+    boolean hasPlayerReceivedManual(UUID uuid);
+
+    void setPlayerReceivedManual(UUID uuid);
+
+    Map<UUID, Boolean> getGivenMap();
 }
