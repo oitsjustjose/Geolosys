@@ -1,19 +1,19 @@
 package com.oitsjustjose.geolosys.common.event;
 
-import com.oitsjustjose.geolosys.Geolosys;
+import java.util.Objects;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.Objects;
-import java.util.Random;
 
 public class CompatDrops
 {
