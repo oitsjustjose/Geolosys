@@ -1,6 +1,6 @@
 # Geolosys Changelog
 
-## 4.0.7
+## 4.0.8
 
 ### Added
 
@@ -15,6 +15,15 @@
 
 - Field Manual not respecting config option
 - Field Manual being given multiple times
+- Cassiterite not dropping anything
+- Possibly being given the Field Manual multiple times
+- Disabling Field Manual gifting not working
+
+## 4.0.7
+
+### Fixed
+
+- Sample bounding boxes being centered on the block, but the actual sample being off-centered
 
 ## 4.0.6
 
