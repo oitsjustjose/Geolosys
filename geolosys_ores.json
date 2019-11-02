@@ -1,404 +1,427 @@
 {
-	"ores": [{
-			"blocks": [
-				"geolosys:coal_ore",
-				100
-			],
-			"samples": [
-				"geolosys:coal_ore_sample",
-				100
-			],
-			"yMin": 8,
-			"yMax": 78,
-			"chance": 8,
-			"size": 64,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:cinnabar_ore",
-				100
-			],
-			"samples": [
-				"geolosys:cinnabar_ore_sample",
-				100
-			],
-			"yMin": 5,
-			"yMax": 12,
-			"chance": 7,
-			"size": 40,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:gold_ore",
-				100
-			],
-			"samples": [
-				"geolosys:gold_ore_sample",
-				100
-			],
-			"yMin": 5,
-			"yMax": 30,
-			"chance": 4,
-			"size": 40,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:lapis_ore",
-				100
-			],
-			"samples": [
-				"geolosys:lapis_ore_sample",
-				100
-			],
-			"yMin": 10,
-			"yMax": 24,
-			"chance": 5,
-			"size": 32,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"SANDY"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:quartz_ore",
-				100
-			],
-			"samples": [
-				"geolosys:quartz_ore_sample",
-				100
-			],
-			"yMin": 6,
-			"yMax": 29,
-			"chance": 6,
-			"size": 40,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:kimberlite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:kimberlite_ore_sample",
-				100
-			],
-			"yMin": 2,
-			"yMax": 15,
-			"chance": 3,
-			"size": 20,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:beryl_ore",
-				100
-			],
-			"samples": [
-				"geolosys:beryl_ore_sample",
-				100
-			],
-			"yMin": 4,
-			"yMax": 32,
-			"chance": 3,
-			"size": 16,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"MOUNTAIN"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:hematite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:hematite_ore_sample",
-				100
-			],
-			"yMin": 32,
-			"yMax": 60,
-			"chance": 6,
-			"size": 24,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:limonite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:limonite_ore_sample",
-				100
-			],
-			"yMin": 6,
-			"yMax": 32,
-			"chance": 4,
-			"size": 80,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"SWAMP", "MUSHROOM", "WET"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:malachite_ore",
-				40,
-				"geolosys:azurite_ore",
-				60
-			],
-			"samples": [
-				"geolosys:malachite_ore_sample",
-				40,
-				"geolosys:azurite_ore_sample",
-				60
-			],
-			"yMin": 12,
-			"yMax": 44,
-			"chance": 4,
-			"size": 80,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		},
-		{
-			"blocks": [
-				"geolosys:cassiterite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:cassiterite_ore_sample",
-				100
-			],
-			"yMin": 44,
-			"yMax": 68,
-			"chance": 6,
-			"size": 24,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"BEACH", "OCEAN"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:teallite_ore",
-				90,
-				"geolosys:beryl_ore",
-				10
-			],
-			"samples": [
-				"geolosys:teallite_ore_sample",
-				100
-			],
-			"yMin": 8,
-			"yMax": 43,
-			"chance": 2,
-			"size": 80,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"RIVER"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:galena_ore",
-				100
-			],
-			"samples": [
-				"geolosys:galena_ore_sample",
-				100
-			],
-			"yMin": 16,
-			"yMax": 50,
-			"chance": 6,
-			"size": 72,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"PLAINS"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:bauxite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:bauxite_ore_sample",
-				100
-			],
-			"yMin": 45,
-			"yMax": 70,
-			"chance": 4,
-			"size": 64,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"JUNGLE", "SAVANNA"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:platinum_ore",
-				100
-			],
-			"samples": [
-				"geolosys:platinum_ore_sample",
-				100
-			],
-			"yMin": 3,
-			"yMax": 25,
-			"chance": 4,
-			"size": 32,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"MOUNTAIN"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:autunite_ore",
-				85,
-				"minecraft:granite",
-				15
-			],
-			"samples": [
-				"geolosys:autunite_ore_sample",
-				100
-			],
-			"yMin": 8,
-			"yMax": 33,
-			"chance": 4,
-			"size": 48,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0,
-			"biomes": [
-				"MOUNTAIN"
-			],
-			"isWhitelist": true
-		},
-		{
-			"blocks": [
-				"geolosys:sphalerite_ore",
-				100
-			],
-			"samples": [
-				"geolosys:sphalerite_ore_sample",
-				100
-			],
-			"yMin": 37,
-			"yMax": 46,
-			"chance": 5,
-			"size": 24,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			],
-			"density": 1.0
-		}
-	],
-	"stones": [{
-			"block": "minecraft:granite",
-			"size": 40,
-			"chance": 10,
-			"yMin": 2,
-			"yMax": 70,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			]
-		},
-		{
-			"block": "minecraft:diorite",
-			"size": 40,
-			"chance": 10,
-			"yMin": 2,
-			"yMax": 70,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			]
-		},
-		{
-			"block": "minecraft:andesite",
-			"size": 40,
-			"chance": 10,
-			"yMin": 2,
-			"yMax": 70,
-			"dimBlacklist": [
-              "the_nether",
-              "the_end"
-			]
-		}
-	]
+  "ores": [
+    {
+      "blocks": [
+        "geolosys:coal_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:coal_ore_sample",
+        100
+      ],
+      "yMin": 8,
+      "yMax": 78,
+      "chance": 8,
+      "size": 64,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:cinnabar_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:cinnabar_ore_sample",
+        100
+      ],
+      "yMin": 5,
+      "yMax": 12,
+      "chance": 7,
+      "size": 40,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:gold_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:gold_ore_sample",
+        100
+      ],
+      "yMin": 5,
+      "yMax": 30,
+      "chance": 4,
+      "size": 40,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DENSE",
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:lapis_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:lapis_ore_sample",
+        100
+      ],
+      "yMin": 10,
+      "yMax": 24,
+      "chance": 5,
+      "size": 32,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0,
+      "biomes": [
+        "SANDY"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:quartz_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:quartz_ore_sample",
+        100
+      ],
+      "yMin": 6,
+      "yMax": 29,
+      "chance": 6,
+      "size": 40,
+      "type": "DIKE",
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:kimberlite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:kimberlite_ore_sample",
+        100
+      ],
+      "yMin": 2,
+      "yMax": 15,
+      "chance": 3,
+      "size": 20,
+      "type": "DIKE",
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:beryl_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:beryl_ore_sample",
+        100
+      ],
+      "yMin": 4,
+      "yMax": 32,
+      "chance": 3,
+      "size": 16,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DIKE",
+      "density": 1.0,
+      "biomes": [
+        "MOUNTAIN"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:hematite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:hematite_ore_sample",
+        100
+      ],
+      "yMin": 32,
+      "yMax": 60,
+      "chance": 6,
+      "size": 24,
+      "type": "DIKE",
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:limonite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:limonite_ore_sample",
+        100
+      ],
+      "yMin": 6,
+      "yMax": 32,
+      "chance": 4,
+      "size": 80,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DIKE",
+      "density": 1.0,
+      "biomes": [
+        "SWAMP",
+        "MUSHROOM",
+        "WET"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:malachite_ore",
+        40,
+        "geolosys:azurite_ore",
+        60
+      ],
+      "samples": [
+        "geolosys:malachite_ore_sample",
+        40,
+        "geolosys:azurite_ore_sample",
+        60
+      ],
+      "yMin": 12,
+      "yMax": 44,
+      "chance": 4,
+      "size": 80,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DENSE",
+      "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:cassiterite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:cassiterite_ore_sample",
+        100
+      ],
+      "yMin": 44,
+      "yMax": 68,
+      "chance": 6,
+      "size": 24,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DENSE",
+      "density": 1.0,
+      "biomes": [
+        "BEACH",
+        "OCEAN"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:teallite_ore",
+        90,
+        "geolosys:beryl_ore",
+        10
+      ],
+      "samples": [
+        "geolosys:teallite_ore_sample",
+        100
+      ],
+      "yMin": 8,
+      "yMax": 43,
+      "chance": 2,
+      "size": 80,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DIKE",
+      "density": 1.0,
+      "biomes": [
+        "RIVER"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:galena_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:galena_ore_sample",
+        100
+      ],
+      "yMin": 16,
+      "yMax": 50,
+      "chance": 6,
+      "size": 72,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0,
+      "biomes": [
+        "PLAINS"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:bauxite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:bauxite_ore_sample",
+        100
+      ],
+      "yMin": 45,
+      "yMax": 70,
+      "chance": 4,
+      "size": 64,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DIKE",
+      "density": 1.0,
+      "biomes": [
+        "JUNGLE",
+        "SAVANNA"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:platinum_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:platinum_ore_sample",
+        100
+      ],
+      "yMin": 3,
+      "yMax": 25,
+      "chance": 4,
+      "size": 32,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "DIKE",
+      "density": 1.0,
+      "biomes": [
+        "MOUNTAIN"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:autunite_ore",
+        85,
+        "minecraft:granite",
+        15
+      ],
+      "samples": [
+        "geolosys:autunite_ore_sample",
+        100
+      ],
+      "yMin": 8,
+      "yMax": 33,
+      "chance": 4,
+      "size": 48,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0,
+      "biomes": [
+        "MOUNTAIN"
+      ],
+      "isWhitelist": true
+    },
+    {
+      "blocks": [
+        "geolosys:sphalerite_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:sphalerite_ore_sample",
+        100
+      ],
+      "yMin": 37,
+      "yMax": 46,
+      "chance": 5,
+      "size": 24,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "type": "SPARSE",
+      "density": 1.0
+    }
+  ],
+  "stones": [
+    {
+      "block": "minecraft:granite",
+      "size": 40,
+      "chance": 10,
+      "yMin": 2,
+      "yMax": 70,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ]
+    },
+    {
+      "block": "minecraft:diorite",
+      "size": 40,
+      "chance": 10,
+      "yMin": 2,
+      "yMax": 70,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ]
+    },
+    {
+      "block": "minecraft:andesite",
+      "size": 40,
+      "chance": 10,
+      "yMin": 2,
+      "yMax": 70,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ]
+    }
+  ]
 }
