@@ -178,13 +178,6 @@ public class ManualScreen extends Screen
 
         BookPageContents modCompat = new BookPageContents("geolosys.guide.chapter.mod_compat.name");
 
-        // if (CommonConfig.featureControl.retroReplace)
-        // {
-        // modCompat.addLink(new ChapterLink("geolosys.guide.chapter.ore_converter.name", "ore_converter"));
-        // chapters.put("ore_converter", new BookChapter("ore_converter", "mod_compat"));
-        // chapters.get("ore_converter").addPage(new BookPageText("geolosys.guide.chapter.ore_converter.name",
-        // "geolosys.guide.chapter.ore_converter.text"));
-        // }
         if (CompatConfig.ENABLE_OSMIUM.get())
         {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.mekanism.name", "mekanism"));
@@ -467,25 +460,25 @@ public class ManualScreen extends Screen
         if (page.isBiomeRestricted() && page.isMultiOre())
         {
             description = I18n.format("geolosys.guide.chapter.ore.mutli.biome.description", page.getFriendlyName(),
-                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(), page.getChance(), page.getSize(),
-                    page.getHarvestLevel());
+                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(), page.getChance(), page.getType(),
+                    page.getSize(), page.getHarvestLevel());
         }
         else if (page.isMultiOre())
         {
             description = I18n.format("geolosys.guide.chapter.ore.multi.description", page.getFriendlyName(),
-                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getChance(), page.getSize(),
+                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getChance(), page.getType(), page.getSize(),
                     page.getHarvestLevel());
         }
         else if (page.isBiomeRestricted())
         {
             description = I18n.format("geolosys.guide.chapter.ore.biome.description", page.getFriendlyName(),
-                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(), page.getChance(), page.getSize(),
-                    page.getHarvestLevel());
+                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(), page.getChance(), page.getType(),
+                    page.getSize(), page.getHarvestLevel());
         }
         else
         {
             description = I18n.format("geolosys.guide.chapter.ore.description", page.getFriendlyName(),
-                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getChance(), page.getSize(),
+                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getChance(), page.getType(), page.getSize(),
                     page.getHarvestLevel());
         }
         this.fontRenderer.drawSplitString(description, (int) ((left + 18) / textScale), (int) ((top + 58) / textScale),

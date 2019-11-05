@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
@@ -162,5 +163,10 @@ public class BookPageOre extends BookPage
             return highest;
         }
         return this.ore.getOre().getBlock().getHarvestLevel(this.ore.getOre());
+    }
+
+    public String getType()
+    {
+        return this.ore.getPlutonType().toString().toLowerCase();
     }
 }
