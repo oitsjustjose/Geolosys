@@ -1,5 +1,16 @@
 # Geolosys Changelog
 
+## 4.0.9
+
+### Added
+
+- Text in the field manual about each of the pluton types
+- Text in each resource entry letting you know what type of pluton it forms in
+
+### Fixed
+
+- The `size` setting of a `DIKE` pluton having no effect
+
 ## 4.0.8
 
 ### Added
