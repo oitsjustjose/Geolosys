@@ -292,7 +292,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         int yMod = Math.abs((pluton.getYMax() - pluton.getYMin())) / (2 + rand.nextInt(2));
         int yEnd = yStart + yMod;
 
-        int radius = 4 + rand.nextInt(3);
+        int radius = (int) (pluton.getSize() / 3);
 
         int maxItersSinceOffset = 3 + rand.nextInt(3);
         int itersSinceOffset = 0;
