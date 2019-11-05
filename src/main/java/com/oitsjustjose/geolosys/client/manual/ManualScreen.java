@@ -86,15 +86,19 @@ public class ManualScreen extends Screen
 
         BookPageContents introduction = new BookPageContents("geolosys.guide.chapter.introduction.name");
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.getting_started.name", "getting_started"));
+        introduction.addLink(new ChapterLink("geolosys.guide.chapter.plutons.name", "plutons"));
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.vanilla_ores.name", "vanilla_ores"));
         introduction.addLink(new ChapterLink("geolosys.guide.chapter.modded_ores.name", "modded_ores"));
         chapters.put("getting_started", new BookChapter("getting_started", "introduction"));
+        chapters.put("plutons", new BookChapter("plutons", "introduction"));
         chapters.put("vanilla_ores", new BookChapter("vanilla_ores", "introduction"));
         chapters.put("modded_ores", new BookChapter("modded_ores", "introduction"));
 
         chapters.get("introduction").addPage(introduction);
         chapters.get("getting_started").addPage(new BookPageText("geolosys.guide.chapter.getting_started.name",
                 "geolosys.guide.chapter.getting_started.text"));
+        chapters.get("plutons").addPage(
+                new BookPageText("geolosys.guide.chapter.plutons.name", "geolosys.guide.chapter.plutons.text"));
         chapters.get("vanilla_ores").addPage(new BookPageText("geolosys.guide.chapter.vanilla_ores.name",
                 "geolosys.guide.chapter.vanilla_ores.text"));
         chapters.get("modded_ores").addPage(
