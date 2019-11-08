@@ -82,14 +82,16 @@ public class WorldGenMinableSafe extends WorldGenerator
                                 {
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
+                                    float density = this.ore.getDensity() > 1.0F ? 1.0F : this.ore.getDensity();
+                                    
+                                    if (rand.nextFloat() > density)
+                                    {
+                                        continue;
+                                    }
+                                    
                                     if (isInChunk(thisChunk, blockpos) || worldIn.isChunkGeneratedAt(l1 >> 4, j2 >> 4))
                                     {
-                                        float density = this.ore.getDensity() > 1.0F ? 1.0F : this.ore.getDensity();
 
-                                        if (rand.nextFloat() > density)
-                                        {
-                                            continue;
-                                        }
                                         IBlockState state = worldIn.getBlockState(blockpos);
                                         if (state != null)
                                         {
