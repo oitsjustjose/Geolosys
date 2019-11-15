@@ -1,0 +1,93 @@
+# ------------------------------------ #
+#               Minerais               #
+# ------------------------------------ #
+geolosys.ore.hematite.name=Hématite
+geolosys.ore.limonite.name=Limonite
+geolosys.ore.malachite.name=Malachite
+geolosys.ore.azurite.name=Azurite
+geolosys.ore.cassiterite.name=Cassitérite
+geolosys.ore.teallite.name=Teallite
+geolosys.ore.galena.name=Galène
+geolosys.ore.bauxite.name=Bauxite
+geolosys.ore.autunite.name=Autunite
+geolosys.ore.platinum.name=Platine
+geolosys.ore.sphalerite.name=Sphalérite
+geolosys.ore_vanilla.coal.name=Charbon
+geolosys.ore_vanilla.cinnabar.name=Cinabre
+geolosys.ore_vanilla.gold.name=Or
+geolosys.ore_vanilla.lapis.name=Lapis lazuli
+geolosys.ore_vanilla.quartz.name=Quartz assorti
+geolosys.ore_vanilla.kimberlite.name=Kimberlite
+geolosys.ore_vanilla.beryl.name=Béryl
+
+# ------------------------------------ #
+#             Échantillons             #
+# ------------------------------------ #
+geolosys.ore_sample.hematite.name=Échantillon d'hématite
+geolosys.ore_sample.limonite.name=Échantillon de limonite
+geolosys.ore_sample.malachite.name=Échantillon de malachite
+geolosys.ore_sample.azurite.name=Échantillon d'azurite
+geolosys.ore_sample.cassiterite.name=Échantillon de cassitérite
+geolosys.ore_sample.teallite.name=Échantillon de teallite
+geolosys.ore_sample.galena.name=Échantillon de galène
+geolosys.ore_sample.bauxite.name=Échantillon de bauxite
+geolosys.ore_sample.autunite.name=Échantillon d'autunite
+geolosys.ore_sample.platinum.name=Échantillon de platine
+geolosys.ore_sample.sphalerite.name=Échantillon de sphalérite
+geolosys.ore_sample_vanilla.coal.name=Échantillon de charbon
+geolosys.ore_sample_vanilla.cinnabar.name=Échantillon de cinabre
+geolosys.ore_sample_vanilla.gold.name=Échantillon d'or
+geolosys.ore_sample_vanilla.lapis.name=Échantillon de lapis lazuli
+geolosys.ore_sample_vanilla.quartz.name=Échantillon de quartz assorti
+geolosys.ore_sample_vanilla.kimberlite.name=Échantillon de kimberlite
+geolosys.ore_sample_vanilla.beryl.name=Échantillon de béryl
+
+# ------------------------------------ #
+#             Clusters                 #
+# ------------------------------------ #
+geolosys.cluster.iron.name=Cluster de fer
+geolosys.cluster.gold.name=Cluster d'or
+geolosys.cluster.copper.name=Cluster de cuivre
+geolosys.cluster.tin.name=Cluster d'étain
+geolosys.cluster.silver.name=Cluster d'argent
+geolosys.cluster.lead.name=Cluster de plomb
+geolosys.cluster.aluminum.name=Cluster d'aluminium
+geolosys.cluster.uranium.name=Cluster d'uranium
+geolosys.cluster.nickel.name=Cluster de nickel
+geolosys.cluster.platinum.name=Cluster de platine
+geolosys.cluster.zinc.name=Cluster de zinc
+geolosys.cluster.osmium.name=Cluster d'osmium
+geolosys.cluster.yellorium.name=Cluster de yellorium
+
+# ------------------------------------ #
+#              Lingots                 #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Lingot de cuivre
+geolosys.ingot.tin.name=Lingot d'étain
+geolosys.ingot.silver.name=Lingot d'argent
+geolosys.ingot.lead.name=Lingot de plomb
+geolosys.ingot.aluminum.name=Lingot d'aluminium
+geolosys.ingot.nickel.name=Lingot de nickel
+geolosys.ingot.platinum.name=Lingot de platine
+geolosys.ingot.zinc.name=Lingot de zinc
+
+# ------------------------------------ #
+#              Charbons                #
+# ------------------------------------ #
+geolosys.coal.peat.name=Tourbe
+geolosys.coal.lignite.name=Charbon de lignite
+geolosys.coal.bituminous.name=Charbon bitumineux
+geolosys.coal.anthracite.name=Charbon anthracite
+
+# ------------------------------------ #
+#               Divers                 #
+# ------------------------------------ #
+geolosys.pro_pick.name=Pioche du prospecteur
+geolosys.field_manual.name=Manuel de terrain
+geolosys.field_manual.tooltip=Tout ce que vous devez savoir sur l'exploitation minière avec Geolosys !
+geolosys.pro_pick.tooltip.nonefound_surface=Pas de dépôts dans cette zone
+geolosys.pro_pick.tooltip.nonefound=Pas de dépôts dans cette direction
+geolosys.pro_pick.tooltip=Utile lorsqu'il est associé à une boussole !
+shift.tooltip=Appuyez sur Shift
+compass.tooltip=Affiche l'altitude et les coordonnées du tronçon local quand il est tenu
+

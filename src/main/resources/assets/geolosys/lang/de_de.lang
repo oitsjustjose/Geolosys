@@ -1,0 +1,197 @@
+# ------------------------------------ #
+#                Ores                  #
+# ------------------------------------ #
+geolosys.ore.hematite.name=Hämatit
+geolosys.ore.limonite.name=Limonit
+geolosys.ore.malachite.name=Malachit
+geolosys.ore.azurite.name=Azurit
+geolosys.ore.cassiterite.name=Kassiterit
+geolosys.ore.teallite.name=Teallit
+geolosys.ore.galena.name=Galenit
+geolosys.ore.bauxite.name=Bauxit
+geolosys.ore.autunite.name=Autunit
+geolosys.ore.platinum.name=Platin
+geolosys.ore.sphalerite.name=Sphalerit
+geolosys.ore_vanilla.coal.name=Kohle
+geolosys.ore_vanilla.cinnabar.name=Zinnober
+geolosys.ore_vanilla.gold.name=Gold
+geolosys.ore_vanilla.lapis.name=Lapislazuli
+geolosys.ore_vanilla.quartz.name=Gemischter Quarz
+geolosys.ore_vanilla.kimberlite.name=Kimberlit
+geolosys.ore_vanilla.beryl.name=Beryll
+
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.ore_sample.hematite.name=Hämatitprobe
+geolosys.ore_sample.limonite.name=Limonitprobe
+geolosys.ore_sample.malachite.name=Malachitprobe
+geolosys.ore_sample.azurite.name=Azuritprobe
+geolosys.ore_sample.cassiterite.name=Kassiteritprobe
+geolosys.ore_sample.teallite.name=Teallitprobe
+geolosys.ore_sample.galena.name=Galenitprobe
+geolosys.ore_sample.bauxite.name=Bauxitprobe
+geolosys.ore_sample.autunite.name=Autunitprobe
+geolosys.ore_sample.platinum.name=Platinprobe
+geolosys.ore_sample.sphalerite.name=Sphaleritprobe
+geolosys.ore_sample_vanilla.coal.name=Kohleprobe
+geolosys.ore_sample_vanilla.cinnabar.name=Zinnoberprobe
+geolosys.ore_sample_vanilla.gold.name=Goldprobe
+geolosys.ore_sample_vanilla.lapis.name=Lapislazuliprobe
+geolosys.ore_sample_vanilla.quartz.name=Gemischter Quarz-Probe
+geolosys.ore_sample_vanilla.kimberlite.name=Kimberlitprobe
+geolosys.ore_sample_vanilla.beryl.name=Beryllprobe
+
+# ------------------------------------ #
+#           Vanilla Mode               #
+# ------------------------------------ #
+
+geolosys.ore_sample_vanilla.coal_vanilla.name=Kohleprobe
+geolosys.ore_sample_vanilla.cinnabar_vanilla.name=Redstoneprobe
+geolosys.ore_sample_vanilla.gold_vanilla.name=Goldprobe
+geolosys.ore_sample_vanilla.lapis_vanilla.name=Lapislazuliprobe
+geolosys.ore_sample_vanilla.quartz_vanilla.name=Quarzprobe
+geolosys.ore_sample_vanilla.kimberlite_vanilla.name=Diamantprobe
+geolosys.ore_sample_vanilla.beryl_vanilla.name=Smaragdprobe
+geolosys.ore_sample.hematite_vanilla.name=Eisenprobe
+
+geolosys.ore_vanilla.coal_vanilla.name=Steinkohle
+geolosys.ore_vanilla.cinnabar_vanilla.name=Redstone-Erz
+geolosys.ore_vanilla.gold_vanilla.name=Golderz
+geolosys.ore_vanilla.lapis_vanilla.name=Lapislazulierz
+geolosys.ore_vanilla.quartz_vanilla.name=Quarzerz
+geolosys.ore_vanilla.kimberlite_vanilla.name=Diamanterz
+geolosys.ore_vanilla.beryl_vanilla.name=Smaragderz
+geolosys.ore.hematite_vanilla.name=Eisenerz
+
+# ------------------------------------ #										
+#             Clusters                 #
+# ------------------------------------ #
+geolosys.cluster.iron.name=Eisenklumpen
+geolosys.cluster.gold.name=Goldklumpen
+geolosys.cluster.copper.name=Kupferklumpen
+geolosys.cluster.tin.name=Zinnklumpen
+geolosys.cluster.silver.name=Silberklumpen
+geolosys.cluster.lead.name=Bleiklumpen
+geolosys.cluster.aluminum.name=Aluminiumklumpen
+geolosys.cluster.uranium.name=Uranklumpen
+geolosys.cluster.nickel.name=Nickelklumpen
+geolosys.cluster.platinum.name=Platinklumpen
+geolosys.cluster.zinc.name=Zinkklumpen
+geolosys.cluster.osmium.name=Osmiumklumpen
+geolosys.cluster.yellorium.name=Yelloriumklumpen
+
+# ------------------------------------ #
+#              Ingots                  #
+# ------------------------------------ #
+geolosys.ingot.copper.name=Kupferbarren
+geolosys.ingot.tin.name=Zinnbarren
+geolosys.ingot.silver.name=Silberbarren
+geolosys.ingot.lead.name=Bleibarren
+geolosys.ingot.aluminum.name=Aluminiumbarren
+geolosys.ingot.nickel.name=Nickelbarren
+geolosys.ingot.platinum.name=Platinbarren
+geolosys.ingot.zinc.name=Zinkbarren
+
+# ------------------------------------ #
+#               Coals                  #
+# ------------------------------------ #
+geolosys.coal.peat.name=Peat
+geolosys.coal.lignite.name=Lignite Coal
+geolosys.coal.bituminous.name=Bituminous Coal
+geolosys.coal.anthracite.name=Anthracite Coal
+geolosys.coal_coke.lignite.name=Lignite Coal Coke
+geolosys.coal_coke.bituminous.name=Bituminous Coal Coke
+
+# ------------------------------------ #
+#               Misc                   #
+# ------------------------------------ #
+geolosys.pro_pick.name=Geologenhammer
+geolosys.field_manual.name=Feldhandbuch
+geolosys.field_manual.tooltip=Alles, was du über den Bergbau mit Geolosys wissen musst!
+geolosys.pro_pick.tooltip=Nützlich in Verbindung mit einem Kompass!
+geolosys.pro_pick.tooltip.nonefound_stone_surface=Keine besonderen Steine in diesem Bereich
+geolosys.pro_pick.tooltip.nonefound_surface=Kein Vorkommen in diesem Bereich
+geolosys.pro_pick.tooltip.nonefound=Kein Vorkommen in dieser Richtung
+geolosys.pro_pick.tooltip.found_surface=%s in diesem Bereich gefunden
+geolosys.pro_pick.tooltip.found=%s %s von dir aus gefunden
+geolosys.pro_pick.tooltip.mode.ores=§6Suche nach Erzvorkommen
+geolosys.pro_pick.tooltip.mode.stones=§bSuche nach Steinvorkommen
+shift.tooltip=Shift drücken
+
+
+# ------------------------------------ #
+#               Book                   #
+# ------------------------------------ #
+
+geolosys.guide.page.home.name=Feldhandbuch
+
+geolosys.guide.chapter.introduction.name=Einführung
+geolosys.guide.chapter.prospecting.name=Prospektion
+geolosys.guide.chapter.resources.name=Ressourcen
+geolosys.guide.chapter.mod_compat.name=Kompatibilität zwischen Mods
+
+# ------------------------------------ #
+#           Introduction               #
+# ------------------------------------ #
+geolosys.guide.chapter.getting_started.name=Erste Schritte
+geolosys.guide.chapter.getting_started.text=Geolosys ist eine Modifikation, die den Bergbau, ähnlich wie bei TerraFirmaCraft, schwieriger gestaltet. Im Wesentlichen sind Erzvorkommen in der Welt realistischer. Du beginnst damit, Proben an der Oberfläche zu finden, die über größeren Erzvorkommen unter Tage liegen. Falls du etwas findest, fang an zu graben! Weitere Informationen findest du unter "Prospektion".
+geolosys.guide.chapter.vanilla_ores.name=Vanilla-Ressourcen
+geolosys.guide.chapter.vanilla_ores.text=Falls in der Konfiguration von Geolosys aktiviert, überschreibt Geolosys jede Vanilla-Erzgenerierung. Das bedeutet, dass dies deine Hauptquelle für Vanilla-Materialien wie Eisen, Kohle, usw. sein wird... TIPP: Quarz gibt es nicht mehr im Nether! Brauchst du einen Vanilla-Erzblock zum Craften? Das geht! Du kannst jeden Geolosys-Vanilla-Ersatz mit Behutsamkeit abbauen, um die ursprüngliche Vanilla-Variante zu erhalten.
+geolosys.guide.chapter.modded_ores.name=Mod-Ressourcen
+geolosys.guide.chapter.modded_ores.text=Geolosys fügt auch grundlegende Mod-Materialien, mit entsprechenden Proben und Klumpen, zur Erzgenerierung hinzu.
+
+# ------------------------------------ #
+#              Samples                 #
+# ------------------------------------ #
+geolosys.guide.chapter.samples.name=Proben
+geolosys.guide.chapter.samples_1.text=Die Proben (siehe oben) liegen an der Oberfläche über einem großen, unterirdischen Erzvorkommen. Diese Proben droppen (falls nicht deaktiviert) ein Item, damit du herausfinden kannst, was das darunterliegende Vorkommen tatsächlich enthält. Du kannst sie entweder normal oder per Rechtsklick abbauen.
+geolosys.guide.chapter.samples_2.text=Einige Proben droppen Klumpen (ebenso wie Erzvorkommen). Diese können wie jedes andere Erz eingeschmolzen oder verarbeitet werden.
+geolosys.guide.chapter.propick.name=Geologenhammer
+geolosys.guide.chapter.propick_1.text=Der Geologenhammer ist ein nützliches Werkzeug, nachdem du lang genug unter Tage herumgestöbert hast. Mit einer ordentlichen Menge an Eisen hergestellt, kann es für ein paar Dinge verwendet werden.
+geolosys.guide.chapter.propick_2.text=Erstens, wenn du die Maustaste gedrückt hältst, werden Chunk-Ränder angezeigt (falls aktiviert): Dies ist nützlich, um zu unterscheiden, wo du mit dem Graben beginnen/aufhören sollst, da Erzvorkommen im gleichen Chunk beginnen, in dem sich auch die jeweilige Probe befindet. Er zeigt dir auch deinen momentanen Y-Wert (falls aktiviert).
+geolosys.guide.chapter.propick_3.text=Wenn du mit der rechten Maustaste oberhalb des Meeresspiegel klickst, wird dir außerdem angezeigt, welches Vorkommen sich in diesem Chunk befindet (falls du keine Probe in der Nähe finden kannst...). Unter Tage scannt er einen konfigurierbaren Bereich (standardmäßig 5x5x5) in die von dir angeklickte Richtung und sagt dir, ob er ein Mineral findet.
+
+
+# ------------------------------------ #
+#             Resources                #
+# ------------------------------------ #
+geolosys.guide.generic.belowsealevel=%1$s Meter unter dem Meeresspiegel
+geolosys.guide.generic.abovesealevel=%1$s Meter über dem Meeresspiegel
+geolosys.guide.generic.atsealevel=auf Meereshöhe
+
+geolosys.guide.chapter.stones.name=Steinvarianten
+geolosys.guide.chapter.stones.text=Vanilla-Steinvarianten können (falls aktiviert) zu großen Plutonen zusammengefasst werden, anstatt sporadisch auf der ganzen Welt zu generieren.
+
+geolosys.guide.chapter.ore.description=%1$s kann zwischen %2$s und %3$s in jedem Biom gefunden werden. Es besitzt eine prozentuale Wahrscheinlichkeit von %4$s und kommt in Plutonen von Größen um %5$s Blöcke vor. Das Abbaulevel dieses Vorkommens ist %6$s.
+geolosys.guide.chapter.ore.multi.description=%1$s kann zwischen %2$s und %3$s in jedem Biom gefunden werden. Das Vorkommen als Ganzes hat eine prozentuale Wahrscheinlichkeit von %4$s und kommt in Plutonen von Größen um %5$s Blöcke vor. Das höchste Abbaulevel ist %6$s.
+geolosys.guide.chapter.ore.biome.description=%1$s kann zwischen %2$s und %3$s und nur im Biom %4$s gefunden werden. Es hat eine prozentuale Wahrscheinlichkeit von %5$s und kommt in Plutonen von Größen um %6$s Blöcke vor. Das Abbaulevel dieses Vorkommens ist %7$s.
+geolosys.guide.chapter.ore.mutli.biome.description=%1$s kann zwischen %2$s und %3$s und nur im Biom %4$s gefunden werden. Das Vorkommen als Ganzes hat eine prozentuale Wahrscheinlichkeit von %5$s und kommt in Plutonen von Größen um %6$s Blöcke vor. Das höchste Abbaulevel dieses Vorkommens ist %7$s.
+
+# ------------------------------------ #
+#              Mod Compat              #
+# ------------------------------------ #
+geolosys.guide.chapter.ore_converter.name=Erzumwandler
+geolosys.guide.chapter.ore_converter.text=Das Erzumwandler-Feature wandelt ALLE Erze, die nicht von Geolosys stammen, in Geolosys-Erze in einem Chunk um. Dies geschieht §oeinmal§r, wenn der Spieler §ozum ersten Mal§r einen Chunk betritt.
+geolosys.guide.chapter.journeymap.name=JourneyMap
+geolosys.guide.chapter.journeymap.text=Wenn du mit der rechten Maustaste auf eine Probe klickst, wird ein Wegpunkt, der nach dem Objekt benannt ist, zu deiner JourneyMap-Minikarte hinzugefügt.
+geolosys.guide.chapter.immersive_engineering.name=Immersive Engineering
+geolosys.guide.chapter.immersive_engineering.text=Abgesehen von Schwefel beim Kohleabbau, werden mit dem Kernprobenbohrer und dem Bagger Geolosys §oErz§r-Blöcke aufgefunden und abgebaut.
+geolosys.guide.chapter.better_with_mods.name=Better with Mods
+geolosys.guide.chapter.better_with_mods.text=Wenn Better With Mods installiert ist, werden bei allen Ofenrezepten Nuggets statt Barren ausgegeben.
+geolosys.guide.chapter.twilight_forest.name=Twilight Forest
+geolosys.guide.chapter.twilight_forest.text=Wenn in der Twilight Forest-Dimension alle Erze erzeugt werden, werden diese auf die niedrigere Welthöhe vom Twilight Forest skaliert.
+geolosys.guide.chapter.applied_energistics.name=Applied Energistics
+geolosys.guide.chapter.applied_energistics.text=Wenn AE installiert ist, kann Certusquarz mit einer Wahrscheinlichkeit von 8% von Gemischtem Quarz gedroppt werden. Darüber hinaus kann Geladener Certusquarz mit einer Wahrscheinlichkeit von 4% gedroppt werden.
+geolosys.guide.chapter.extra_utils.name=Extra Utilities 2
+geolosys.guide.chapter.extra_utils.text=Wenn Extra Utilities 2 installiert ist, können Redstone-Kristalle mit einer Wahrscheinlichkeit von 3,33% von Zinnober gedroppt werden.
+geolosys.guide.chapter.actually_additions.name=Actually Additions
+geolosys.guide.chapter.actually_additions.text=Wenn Actually Additions installiert ist, kann Schwarzer Quarz mit einer Wahrscheinlichkeit von 8% von Gemischtem Quarz gedroppt werden.
+geolosys.guide.chapter.cofh_mods.name=Thermal Foundation
+geolosys.guide.chapter.cofh_mods.text=Wenn Thermal Foundation installiert ist, kann Zinnober mit einer Wahrscheinlichkeit von 3,33% von Zinnober gedroppt werden.
+geolosys.guide.chapter.mekanism.name=Mekanism
+geolosys.guide.chapter.mekanism.text=Wenn Osmium in der Konfiguration aktiviert ist, teilt Platin seine Drop-Wahrscheinlichkeit zu 50% mit Osmium. Wenn Osmium §oausschließlich§r aktiviert ist, dann ist Osmium der einzige Drop von Platin.
+geolosys.guide.chapter.extreme_reactors.name=Extreme Reactors
+geolosys.guide.chapter.extreme_reactors.text=Wenn Yellorium in der Konfiguration aktiviert ist, teilt Autunit seine Drop-Wahrscheinlichkeit zu 50% mit Yellorium.
+geolosys.guide.chapter.nuclearcraft.name=NuclearCraft
+geolosys.guide.chapter.nuclearcraft.text=Wenn NuclearCraft installiert ist, droppen die Vanilla-Erzvarianten von Geolosys die üblichen zusätzlichen Drops von NuclearCraft, mit der gleichen Wahrscheinlichkeit von NuclearCraft.
