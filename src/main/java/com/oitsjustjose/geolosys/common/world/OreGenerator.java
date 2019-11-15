@@ -16,6 +16,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.common.ForgeModContainer;
@@ -53,37 +54,65 @@ public class OreGenerator implements IWorldGenerator
         if (oreSpawnWeights.keySet().size() > 0)
         {
             int rng = random.nextInt(oreSpawnWeights.keySet().size());
+
+            // 50% chance to prefer an ore exclusive to that biome
+            if (random.nextBoolean())
+            {
+                Biome biome = world.getBiome(new BlockPos((chunkX * 16), world.getSeaLevel(), (chunkZ * 16)));
+                for (int i = 0; i < oreSpawnWeights.keySet().size() / 2; i++)
+                {
+                    int newRNG = random.nextInt(oreSpawnWeights.keySet().size());
+                    if (oreSpawnWeights.get(newRNG).ore instanceof DepositBiomeRestricted)
+                    {
+                        if (((DepositBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome))
+                        {
+                            rng = newRNG;
+                            break;
+                        }
+                    }
+                    else if (oreSpawnWeights.get(newRNG).ore instanceof DepositMultiOreBiomeRestricted)
+                    {
+                        if (((DepositMultiOreBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome))
+                        {
+                            rng = newRNG;
+                            break;
+                        }
+                    }
+                }
+            }
+
             // Check the biome
             if (oreSpawnWeights.get(rng).ore instanceof DepositBiomeRestricted)
             {
-                                DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
                 if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
                 {
-                                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
                 }
                 else
                 {
-                                    }
+                }
             }
             else if (oreSpawnWeights.get(rng).ore instanceof DepositMultiOreBiomeRestricted)
             {
-                                DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
+                DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
                 if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
                 {
-                                        oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                    oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
                 }
                 else
                 {
-                                    }
+                }
             }
             // Not special
             else
             {
-                                oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
         }
         // Call UBG's event to make sure those are correctly processed
         if (Loader.isModLoaded("undergroundbiomes") && ModConfig.compat.enableUBGCompat)
+
         {
             UBCompat.forceReprocess(chunkGenerator, world, random, chunkX, chunkZ);
         }
