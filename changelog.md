@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 3.0.10
+
+- ADDED: Preference for biome-restricted plutons to generate in a biome they're allowed to generate in
+- ADDED: UK Translations for Aluminum -> Aluminium.
+- FIXED: Localization being broken
+- FIXED: Prospector's Pick "detecting" Multi-Ore Plutons if only one of the ore is within it 
+
 ## 3.0.9
 
 - FIXED: Density not applying across multiple chunks (see [#220](https://github.com/oitsjustjose/Geolosys/issues/220))
