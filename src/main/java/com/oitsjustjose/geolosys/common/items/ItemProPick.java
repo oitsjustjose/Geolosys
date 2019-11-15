@@ -1,7 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -319,12 +319,12 @@ public class ItemProPick extends Item
     private boolean prospectUnderground(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart,
             int xEnd, int yStart, int yEnd, int zStart, int zEnd)
     {
-        HashMap<IOre, ArrayList<IBlockState>> foundMap = new HashMap<>();
+        HashMap<IOre, HashSet<IBlockState>> foundMap = new HashMap<>();
         for (IOre ore : GeolosysAPI.oreBlocks)
         {
             if (ore instanceof DepositMultiOre)
             {
-                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
+                foundMap.put((DepositMultiOre) ore, new HashSet<>());
             }
         }
 
@@ -432,12 +432,12 @@ public class ItemProPick extends Item
 
         SURFACE_PROSPECTING_TYPE searchType = ModConfig.prospecting.surfaceProspectingResults;
 
-        HashMap<IOre, ArrayList<IBlockState>> foundMap = new HashMap<>();
+        HashMap<IOre, HashSet<IBlockState>> foundMap = new HashMap<>();
         for (IOre ore : GeolosysAPI.oreBlocks)
         {
             if (ore instanceof DepositMultiOre)
             {
-                foundMap.put((DepositMultiOre) ore, new ArrayList<>());
+                foundMap.put((DepositMultiOre) ore, new HashSet<>());
             }
         }
 
