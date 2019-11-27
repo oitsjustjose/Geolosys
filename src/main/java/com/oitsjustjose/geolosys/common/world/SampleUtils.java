@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
@@ -95,7 +96,8 @@ public class SampleUtils
      */
     public static int getSampleCount(IDeposit ore)
     {
-        int count = ore.getSize() / CommonConfig.MAX_SAMPLES_PER_CHUNK.get();
+        int count = (ore.getSize() / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
+                + (ore.getSize() % CommonConfig.MAX_SAMPLES_PER_CHUNK.get());
         return Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), count);
     }
 
