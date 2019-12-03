@@ -1,5 +1,13 @@
 # Geolosys Changelog
 
+## 4.0.10
+
+### Changed
+
+- Calculations on how many samples are generated, since this is now different due to how new deposit types work
+- Made ProPick overlay text translatable
+- ProPick overlay text is now in form of `Depth: +<x>m`, `Depth: -<x>m`, or `Depth: 0m`
+
 ## 4.0.9
 
 ### Added
