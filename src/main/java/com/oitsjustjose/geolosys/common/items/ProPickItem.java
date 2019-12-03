@@ -22,6 +22,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -486,17 +487,17 @@ public class ProPickItem extends Item
             int level = (int) (seaLvl - mc.player.posY);
             if (level < 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + Math.abs(level) + "m above sea-level",
+                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             else if (level == 0)
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: at sea-level", ClientConfig.PROPICK_HUD_X.get(),
+                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.at"), ClientConfig.PROPICK_HUD_X.get(),
                         ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             else
             {
-                mc.fontRenderer.drawStringWithShadow("Depth: " + level + "m below sea-level",
+                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             GlStateManager.color4f(1F, 1F, 1F, 1F);
