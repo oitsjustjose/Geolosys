@@ -468,8 +468,8 @@ public class ProPickItem extends Item
     @OnlyIn(Dist.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
+
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
-                || Minecraft.getInstance().debugRenderer.shouldRender()
                 || Minecraft.getInstance().gameSettings.showDebugInfo
                 || Minecraft.getInstance().gameSettings.showDebugProfilerChart)
         {
