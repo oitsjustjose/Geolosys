@@ -231,7 +231,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 
         int radius = pluton.getSize() / 2;
         int depth = rand.nextBoolean() ? 1 : 2;
-        int numPlaced = 0;
 
         for (int dX = -radius; dX <= radius; dX++)
         {
@@ -264,11 +263,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                             {
                                 worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
-                                numPlaced++;
-                                if (numPlaced >= pluton.getSize())
-                                {
-                                    return placed;
-                                }
+
                                 break;
                             }
                         }
@@ -299,6 +294,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 
         int height = Math.abs((pluton.getYMax() - pluton.getYMin()));
         int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());
+        int numPlaced = 0;
 
         for (int dX = -radius; dX <= radius; dX++)
         {
@@ -332,6 +328,11 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                             {
                                 worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
+                                numPlaced++;
+                                if (numPlaced >= pluton.getSize())
+                                {
+                                    return placed;
+                                }
                                 break;
                             }
                         }
