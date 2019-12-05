@@ -231,6 +231,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 
         int radius = pluton.getSize() / 2;
         int depth = rand.nextBoolean() ? 1 : 2;
+        int numPlaced = 0;
 
         for (int dX = -radius; dX <= radius; dX++)
         {
@@ -263,6 +264,11 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                             {
                                 worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
+                                numPlaced++;
+                                if (numPlaced >= pluton.getSize())
+                                {
+                                    return placed;
+                                }
                                 break;
                             }
                         }
@@ -284,46 +290,31 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
             IGeolosysCapability plutonCapability)
     {
         ChunkPos thisChunk = new ChunkPos(pos);
-
         boolean placed = false;
-        int xStart = pos.getX() + rand.nextInt(16);
-        int zStart = pos.getZ() + rand.nextInt(16);
-        int yStart = pluton.getYMin();
-        int yMod = Math.abs((pluton.getYMax() - pluton.getYMin())) / (2 + rand.nextInt(2));
-        int yEnd = yStart + yMod;
 
-        int radius = (int) (pluton.getSize() / 3);
+        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
+        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
 
-        int maxItersSinceOffset = 3 + rand.nextInt(3);
-        int itersSinceOffset = 0;
+        BlockPos basePos = new BlockPos(x, 0, z);
 
-        for (int y = yStart; y < yEnd; y++)
+        int height = Math.abs((pluton.getYMax() - pluton.getYMin()));
+        int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());
+
+        for (int dX = -radius; dX <= radius; dX++)
         {
-            if (itersSinceOffset >= maxItersSinceOffset)
+            for (int dZ = -radius; dZ <= radius; dZ++)
             {
-                if (rand.nextBoolean())
+                for (int y = pluton.getYMin(); y <= pluton.getYMax(); y++)
                 {
-                    xStart++;
-                }
-                else
-                {
-                    zStart++;
-                }
-                maxItersSinceOffset = 3 + rand.nextInt(3);
-                itersSinceOffset = 0;
-                // Decrease the radius incrementally to turn it into more of a spire
-                // If the "spire" gets too small we should quit.
-                radius--;
-                if (radius == 0)
-                {
-                    return placed;
-                }
-            }
-            for (int x = xStart; x < xStart + radius; x++)
-            {
-                for (int z = zStart; z < zStart + radius; z++)
-                {
-                    BlockPos blockpos = new BlockPos(x, y, z);
+                    float dist = (dX * dX) + (dZ * dZ);
+                    if (dist > radius)
+                    {
+                        continue;
+                    }
+
+                    // basePos.add(dX, 0, dZ)
+                    BlockPos blockpos = new BlockPos(basePos.getX() + dX, y, basePos.getZ() + dZ);
+
                     if (isInChunk(thisChunk, blockpos) || worldIn.chunkExists(x >> 4, z >> 4))
                     {
                         float density = Math.min(pluton.getDensity(), 1.0F);
@@ -352,7 +343,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     }
                 }
             }
-            itersSinceOffset++;
         }
 
         return placed;
