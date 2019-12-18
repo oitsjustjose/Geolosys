@@ -293,7 +293,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         BlockPos basePos = new BlockPos(x, 0, z);
 
         int height = Math.abs((pluton.getYMax() - pluton.getYMin()));
-        int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());
+        int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());   
         int numPlaced = 0;
 
         for (int dX = -radius; dX <= radius; dX++)
@@ -341,6 +341,12 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     {
                         plutonCapability.putPendingBlock(
                                 new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
+                        placed = true;
+                        numPlaced++;
+                        if (numPlaced >= pluton.getSize())
+                        {
+                            return placed;
+                        }
                     }
                 }
             }

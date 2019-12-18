@@ -1,5 +1,18 @@
 # Geolosys Changelog
 
+## 4.0.11
+
+### Fixed
+
+- Extra spaces in US translation of prospector's pick altitude when above sea level
+
+### Changed
+
+- Dikes:
+
+    - Dikes are now tall columnal platforms instead of boxy
+    - This fixes kimberlite literally never showing up when you dig for it
+
 ## 4.0.10
 
 ### Changed
