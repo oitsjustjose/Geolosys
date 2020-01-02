@@ -287,20 +287,21 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
 
-        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
-        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
-
-        BlockPos basePos = new BlockPos(x, 0, z);
-
         int height = Math.abs((pluton.getYMax() - pluton.getYMin()));
-        int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());   
-        int numPlaced = 0;
 
-        for (int dX = -radius; dX <= radius; dX++)
+        int x = thisChunk.getXStart() + rand.nextInt(16);
+        int y = pluton.getYMin() + rand.nextInt(height);
+        int z = thisChunk.getZStart() + rand.nextInt(16);
+
+        BlockPos basePos = new BlockPos(x, y, z);
+
+        int radius = (pluton.getSize() / height) > 0 ? (pluton.getSize() / height) : (height / pluton.getSize());
+
+        for (int dY = y; dY <= pluton.getYMax(); dY++)
         {
-            for (int dZ = -radius; dZ <= radius; dZ++)
+            for (int dX = -radius; dX <= radius; dX++)
             {
-                for (int y = pluton.getYMin(); y <= pluton.getYMax(); y++)
+                for (int dZ = -radius; dZ <= radius; dZ++)
                 {
                     float dist = (dX * dX) + (dZ * dZ);
                     if (dist > radius)
@@ -309,7 +310,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                     }
 
                     // basePos.add(dX, 0, dZ)
-                    BlockPos blockpos = new BlockPos(basePos.getX() + dX, y, basePos.getZ() + dZ);
+                    BlockPos blockpos = new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ);
 
                     if (isInChunk(thisChunk, blockpos) || worldIn.chunkExists(x >> 4, z >> 4))
                     {
@@ -328,11 +329,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                             {
                                 worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
-                                numPlaced++;
-                                if (numPlaced >= pluton.getSize())
-                                {
-                                    return placed;
-                                }
                                 break;
                             }
                         }
@@ -342,17 +338,24 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
                         plutonCapability.putPendingBlock(
                                 new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())), pluton.getOre());
                         placed = true;
-                        numPlaced++;
-                        if (numPlaced >= pluton.getSize())
-                        {
-                            return placed;
-                        }
                     }
+                }
+            }
+
+            // After a layer is done, *maybe* shrink it.
+
+            if (rand.nextInt(100) % pluton.getSize() == 0)
+            {
+                radius -= 1;
+                if (radius < 0)
+                {
+                    return placed;
                 }
             }
         }
 
         return placed;
+
     }
 
     private boolean generateSparse(IWorld worldIn, BlockPos pos, Random rand, IDeposit pluton,
