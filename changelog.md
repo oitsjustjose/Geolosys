@@ -12,6 +12,10 @@
 
     - Dikes are now tall columnal platforms instead of boxy
     - This fixes kimberlite literally never showing up when you dig for it
+    - Dikes are more based on their `size` attribute
+    - Here's how a smaller hematite dike of `size` 24 looks:
+
+    ![Image from https://i.imgur.com/uv1rk5o.png](https://i.imgur.com/uv1rk5o.png)
 
 ## 4.0.10
 
