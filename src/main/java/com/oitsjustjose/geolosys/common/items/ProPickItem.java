@@ -492,8 +492,8 @@ public class ProPickItem extends Item
             }
             else if (level == 0)
             {
-                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.at"), ClientConfig.PROPICK_HUD_X.get(),
-                        ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.at"),
+                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             else
             {

@@ -1,9 +1,9 @@
 {
-  "variants": {
-    "": [
-      {
-        "model": "geolosys:block/hematite_ore_sample"
-      }
-    ]
-  }
+    "variants": {
+        "": [
+            {
+                "model": "geolosys:block/hematite_ore_sample"
+            }
+        ]
+    }
 }

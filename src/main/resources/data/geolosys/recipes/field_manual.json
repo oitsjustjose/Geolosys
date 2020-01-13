@@ -1,14 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:wooden_pickaxe"
-    },
-    {
-      "item": "minecraft:book"
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:wooden_pickaxe"
+        },
+        {
+            "item": "minecraft:book"
+        }
+    ],
+    "result": {
+        "item": "geolosys:field_manual"
     }
-  ],
-  "result": {
-    "item": "geolosys:field_manual"
-  }
 }

@@ -1,9 +1,9 @@
 {
-  "variants": {
-    "": [
-      {
-        "model": "geolosys:block/gold_ore_sample"
-      }
-    ]
-  }
+    "variants": {
+        "": [
+            {
+                "model": "geolosys:block/gold_ore_sample"
+            }
+        ]
+    }
 }

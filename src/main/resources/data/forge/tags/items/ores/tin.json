@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "geolosys:tin_cluster"
-  ]
+    "replace": false,
+    "values": [
+        "geolosys:tin_cluster"
+    ]
 }

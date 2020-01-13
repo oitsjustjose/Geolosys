@@ -1,27 +1,27 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
+    "type": "forge:conditional",
+    "recipes": [
         {
-          "values": [
-            {
-              "item": "minecraft:iron_ingot",
-              "type": "forge:item_exists"
+            "conditions": [
+                {
+                    "values": [
+                        {
+                            "item": "minecraft:iron_ingot",
+                            "type": "forge:item_exists"
+                        }
+                    ],
+                    "type": "forge:and"
+                }
+            ],
+            "recipe": {
+                "type": "minecraft:smelting",
+                "ingredient": {
+                    "item": "geolosys:iron_cluster"
+                },
+                "result": "minecraft:iron_ingot",
+                "experience": 0.7,
+                "cookingtime": 200
             }
-          ],
-          "type": "forge:and"
         }
-      ],
-      "recipe": {
-        "type": "minecraft:smelting",
-        "ingredient": {
-          "item": "geolosys:iron_cluster"
-        },
-        "result": "minecraft:iron_ingot",
-        "experience": 0.7,
-        "cookingtime": 200
-      }
-    }
-  ]
+    ]
 }

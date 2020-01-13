@@ -14,12 +14,12 @@ import java.util.ArrayList;
  */
 public class GeolosysAPI
 {
-        @CapabilityInject(IGeolosysCapability.class)
-        public static final Capability<IGeolosysCapability> GEOLOSYS_WORLD_CAPABILITY = null;
-        // A collection of BlockStates that can trigger the prospector's pick
-        public static ArrayList<BlockState> proPickExtras = new ArrayList<>();
-        // A collection of blocks to ignore in the OreConverter feature
-        public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
-        // An instance of the registry for all generatable plutons
-        public static PlutonRegistry plutonRegistry = new PlutonRegistry();
+    @CapabilityInject(IGeolosysCapability.class)
+    public static final Capability<IGeolosysCapability> GEOLOSYS_WORLD_CAPABILITY = null;
+    // A collection of BlockStates that can trigger the prospector's pick
+    public static ArrayList<BlockState> proPickExtras = new ArrayList<>();
+    // A collection of blocks to ignore in the OreConverter feature
+    public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
+    // An instance of the registry for all generatable plutons
+    public static PlutonRegistry plutonRegistry = new PlutonRegistry();
 }

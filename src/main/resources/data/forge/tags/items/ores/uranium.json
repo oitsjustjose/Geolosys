@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "geolosys:uranium_cluster"
-  ]
+    "replace": false,
+    "values": [
+        "geolosys:uranium_cluster"
+    ]
 }

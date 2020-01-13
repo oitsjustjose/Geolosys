@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "geolosys:platinum_cluster"
-  ]
+    "replace": false,
+    "values": [
+        "geolosys:platinum_cluster"
+    ]
 }

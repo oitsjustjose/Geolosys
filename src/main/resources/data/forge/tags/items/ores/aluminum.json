@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "geolosys:aluminum_cluster"
-  ]
+    "replace": false,
+    "values": [
+        "geolosys:aluminum_cluster"
+    ]
 }

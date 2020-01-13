@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "geolosys:copper_ingot"
-  ]
+    "replace": false,
+    "values": [
+        "geolosys:copper_ingot"
+    ]
 }
