@@ -1,5 +1,12 @@
 # Geolosys Changelog
 
+## 4.0.12
+
+### Added
+
+- Translations for Chinese (zh_cn) - Thanks to [https://github.com/Aemande123](Aemande123)!
+- Translations for Brazilian Portugese (pt_br) - Thanks to [https://github.com/StalckGx](StalckGx)!
+
 ## 4.0.11
 
 ### Fixed
