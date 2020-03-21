@@ -42,7 +42,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig>
 {
     public PlutonOreFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
     {
-        super(configFactoryIn);
+        super(configFactoryIn, true);
     }
 
     /**

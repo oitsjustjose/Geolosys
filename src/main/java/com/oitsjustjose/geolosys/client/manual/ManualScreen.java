@@ -362,7 +362,7 @@ public class ManualScreen extends Screen
 
         GlStateManager.pushMatrix();
         GlStateManager.scalef(2F, 2F, 2F);
-        RenderHelper.enableStandardItemLighting();
+        RenderHelper.enableGUIStandardItemLighting();
         int itemX = (left + (WIDTH - 32) / 2);
         int itemY = (top + 24);
         float itemScale = 2F;
@@ -444,7 +444,7 @@ public class ManualScreen extends Screen
 
         GlStateManager.pushMatrix();
         GlStateManager.scalef(2F, 2F, 2F);
-        RenderHelper.enableStandardItemLighting();
+        RenderHelper.enableGUIStandardItemLighting();
         int itemX = (left + (WIDTH - 32) / 2);
         int itemY = (top + 24);
         float itemScale = 2F;

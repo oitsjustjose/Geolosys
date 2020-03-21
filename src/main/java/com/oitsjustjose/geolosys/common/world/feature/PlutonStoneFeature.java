@@ -32,7 +32,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
 {
     public PlutonStoneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
     {
-        super(configFactoryIn);
+        super(configFactoryIn, true);
     }
 
     private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)

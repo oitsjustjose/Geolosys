@@ -127,7 +127,7 @@ public class ProPickItem extends Item
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
     {
-        if (player.isCrouching())
+        if (player.isSneaking())
         {
             ItemStack stack = player.getHeldItem(hand);
             // If there's no stack compound make one and assume last state was ores
@@ -165,7 +165,7 @@ public class ProPickItem extends Item
         BlockPos pos = context.getPos();
         Direction facing = context.getFace();
 
-        if (player.isCrouching())
+        if (player.isSneaking())
         {
             this.onItemRightClick(worldIn, player, hand);
         }
@@ -484,7 +484,7 @@ public class ProPickItem extends Item
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
             int seaLvl = mc.player.getEntityWorld().getSeaLevel();
-            int level = (int) (seaLvl - mc.player.getPosY());
+            int level = (int) (seaLvl - mc.player.posY);
             if (level < 0)
             {
                 mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
