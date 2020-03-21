@@ -1,22 +1,22 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.NoPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class PlutonRegistry
 {
@@ -124,14 +124,12 @@ public class PlutonRegistry
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                    Biome.createDecoratedFeature(new PlutonOreFeature(NoFeatureConfig::deserialize),
-                            new NoFeatureConfig(), Placement.NOPE, new NoPlacementConfig()));
+                    new ConfiguredFeature<>(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
         }
         for (Biome biome : ForgeRegistries.BIOMES.getValues())
         {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                    Biome.createDecoratedFeature(new PlutonStoneFeature(NoFeatureConfig::deserialize),
-                            new NoFeatureConfig(), Placement.NOPE, new NoPlacementConfig()));
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, new ConfiguredFeature<>(
+                    new PlutonStoneFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
         }
     }
 }

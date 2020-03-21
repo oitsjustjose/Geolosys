@@ -19,7 +19,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +40,7 @@ public class SampleBlock extends Block implements IWaterLoggable
     public SampleBlock(Block parentOre)
     {
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
-                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre));
+                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre).notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
     }
 
@@ -49,12 +49,6 @@ public class SampleBlock extends Block implements IWaterLoggable
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
                 .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL));
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
-    }
-
-    @Override
-    public boolean isSolid(BlockState state)
-    {
-        return false;
     }
 
     @Override
@@ -91,22 +85,22 @@ public class SampleBlock extends Block implements IWaterLoggable
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
-            BlockRayTraceResult hit)
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+            Hand handIn, BlockRayTraceResult hit)
     {
-        if (!player.isSneaking())
+        if (!player.isCrouching())
         {
             worldIn.destroyBlock(pos, true);
             player.swingArm(handIn);
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos)
     {
-        return Block.func_220055_a(worldIn, pos.down(), Direction.UP);
+        return Block.hasEnoughSolidSide(worldIn, pos.down(), Direction.UP);
     }
 
     @Override
@@ -120,13 +114,6 @@ public class SampleBlock extends Block implements IWaterLoggable
     public Block.OffsetType getOffsetType()
     {
         return Block.OffsetType.XZ;
-    }
-
-    @Override
-    @Nonnull
-    public BlockRenderLayer getRenderLayer()
-    {
-        return BlockRenderLayer.CUTOUT;
     }
 
     @Override

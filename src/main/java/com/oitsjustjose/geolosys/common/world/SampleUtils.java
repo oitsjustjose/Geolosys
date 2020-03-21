@@ -32,7 +32,7 @@ public class SampleUtils
         while (searchPos.getY() < world.getHeight())
         {
             world.getBlockState(searchPos.down()).getBlock();
-            if (Block.func_220055_a(world, searchPos.down(), Direction.UP))
+            if (Block.hasEnoughSolidSide(world, searchPos.down(), Direction.UP))
             {
                 // If the current block is air
                 if (canReplace(world, searchPos))
@@ -74,7 +74,7 @@ public class SampleUtils
     public static boolean canPlaceOn(IWorld world, BlockPos pos)
     {
         return !samplePlacementBlacklist.contains(world.getBlockState(pos.down()))
-                && Block.func_220055_a(world, pos.down(), Direction.UP);
+                && Block.hasEnoughSolidSide(world, pos.down(), Direction.UP);
     }
 
     /**
