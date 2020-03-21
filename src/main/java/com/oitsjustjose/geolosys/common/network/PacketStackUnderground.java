@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.network;
 
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -9,8 +11,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 public class PacketStackUnderground
 {
@@ -51,7 +51,8 @@ public class PacketStackUnderground
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT)
         {
             context.get().enqueueWork(() -> {
-                sendProspectingMessage(Minecraft.getInstance().player, msg.stack.getDisplayName(), msg.direction);
+                Minecraft mc = Minecraft.getInstance();
+                sendProspectingMessage(mc.player, msg.stack.getDisplayName(), msg.direction);
             });
         }
         context.get().setPacketHandled(true);

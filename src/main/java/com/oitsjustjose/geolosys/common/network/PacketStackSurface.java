@@ -48,7 +48,8 @@ public class PacketStackSurface
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT)
         {
             context.get().enqueueWork(() -> {
-                sendProspectingMessage(Minecraft.getInstance().player, msg.stack.getDisplayName());
+                Minecraft mc = Minecraft.getInstance();
+                sendProspectingMessage(mc.player, msg.stack.getDisplayName());
             });
         }
         context.get().setPacketHandled(true);

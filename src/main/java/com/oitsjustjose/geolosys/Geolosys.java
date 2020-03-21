@@ -111,7 +111,10 @@ public class Geolosys
         {
             return;
         }
-        if (Minecraft.getInstance().gameSettings.advancedItemTooltips)
+
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.gameSettings.advancedItemTooltips)
         {
             Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
             if (tags.size() > 0)

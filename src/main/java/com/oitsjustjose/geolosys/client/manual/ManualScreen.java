@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -35,6 +35,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.WrittenBookItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TextFormatting;
@@ -57,13 +58,15 @@ public class ManualScreen extends Screen
     private ItemStack display = ItemStack.EMPTY;
     private int left, top;
     private FontRenderer fontRenderer;
+    private Minecraft mc;
 
     public ManualScreen()
     {
         super(new TranslationTextComponent("item.geolosys.field_manual"));
         currentChapter = "home";
         currentPageNum = 0;
-        this.fontRenderer = Minecraft.getInstance().fontRenderer;
+        this.mc = Minecraft.getInstance();
+        this.fontRenderer = this.mc.fontRenderer;
     }
 
     public static void initPages()
@@ -262,6 +265,7 @@ public class ManualScreen extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        this.renderBackground();
         this.setFocused(null);
 
         currentPage = chapters.get(currentChapter).getPage(currentPageNum);
@@ -273,8 +277,8 @@ public class ManualScreen extends Screen
         this.lastChapter = this.currentChapter;
         this.lastPageNum = this.currentPageNum;
 
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getInstance().textureManager.bindTexture(BACKGROUND);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.mc.textureManager.bindTexture(BACKGROUND);
         this.blit(left, top, 0, 0, WIDTH, HEIGHT);
 
         if (currentPage != null)
@@ -336,14 +340,14 @@ public class ManualScreen extends Screen
             // Page drawing (i.e. 1/5, 3/4)
             if (chapters.get(currentChapter).getPageCount() > 1)
             {
-                GlStateManager.pushMatrix();
-                GlStateManager.scaled(textScale, textScale, textScale);
+                RenderSystem.pushMatrix();
+                RenderSystem.scaled(textScale, textScale, textScale);
                 String pageNum = (currentPageNum + 1) + "/" + chapters.get(currentChapter).getPageCount();
                 int pageNumWidth = (int) (this.fontRenderer.getStringWidth(pageNum) * textScale);
                 int x = (int) ((left + (WIDTH - pageNumWidth) / 2) / textScale);
                 this.fontRenderer.drawSplitString(pageNum, x, (int) ((top + 164) / textScale),
                         (int) ((WIDTH - (18 * 2)) / textScale), 0);
-                GlStateManager.popMatrix();
+                RenderSystem.popMatrix();
             }
         }
 
@@ -360,24 +364,22 @@ public class ManualScreen extends Screen
             display = stack;
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.scalef(2F, 2F, 2F);
+        RenderSystem.pushMatrix();
+        RenderSystem.scalef(2F, 2F, 2F);
         RenderHelper.enableStandardItemLighting();
         int itemX = (left + (WIDTH - 32) / 2);
         int itemY = (top + 24);
         float itemScale = 2F;
         this.itemRenderer.renderItemAndEffectIntoGUI(display, (int) (itemX / itemScale), (int) (itemY / itemScale));
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
 
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
-        GlStateManager.scalef(textScale, textScale, textScale);
-        this.fontRenderer.drawSplitString(I18n.format(page.getDescription()),
-
-                (int) ((left + 18) / textScale), (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale),
-                0);
-        GlStateManager.popMatrix();
+        RenderSystem.scalef(textScale, textScale, textScale);
+        this.fontRenderer.drawSplitString(I18n.format(page.getDescription()), (int) ((left + 18) / textScale),
+                (int) ((top + 58) / textScale), (int) ((WIDTH - (18 * 2)) / textScale), 0);
+        RenderSystem.popMatrix();
 
         renderTooltip(mouseX, mouseY, itemX, itemY, itemScale);
 
@@ -401,9 +403,9 @@ public class ManualScreen extends Screen
 
     private void renderURLPage(BookPageURL page, int mouseX, int mouseY, float partialTicks)
     {
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
-        GlStateManager.scalef(textScale, textScale, textScale);
+        RenderSystem.scalef(textScale, textScale, textScale);
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
@@ -430,7 +432,7 @@ public class ManualScreen extends Screen
             i += (int) (2 + fontRenderer.getWordWrappedHeight(par, (int) ((WIDTH - (18 * 2)) / textScale)) * textScale);
         }
 
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
     }
 
     private void renderOrePage(BookPageOre page, int mouseX, int mouseY)
@@ -442,23 +444,21 @@ public class ManualScreen extends Screen
             display = stack;
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.scalef(2F, 2F, 2F);
+        RenderSystem.pushMatrix();
+        RenderSystem.scalef(2F, 2F, 2F);
         RenderHelper.enableStandardItemLighting();
         int itemX = (left + (WIDTH - 32) / 2);
         int itemY = (top + 24);
         float itemScale = 2F;
         this.itemRenderer.renderItemAndEffectIntoGUI(display, (int) (itemX / itemScale), (int) (itemY / itemScale));
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
 
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
-        GlStateManager.scalef(textScale, textScale, textScale);
-        String minDepthFromSeaLevel = getFormattedSeaLevel(
-                Minecraft.getInstance().world.getSeaLevel() - page.getMinY());
-        String maxDepthFromSeaLevel = getFormattedSeaLevel(
-                Minecraft.getInstance().world.getSeaLevel() - page.getMaxY());
+        RenderSystem.scalef(textScale, textScale, textScale);
+        String minDepthFromSeaLevel = getFormattedSeaLevel(this.mc.world.getSeaLevel() - page.getMinY());
+        String maxDepthFromSeaLevel = getFormattedSeaLevel(this.mc.world.getSeaLevel() - page.getMaxY());
 
         String description;
         if (page.isBiomeRestricted() && page.isMultiOre())
@@ -487,7 +487,7 @@ public class ManualScreen extends Screen
         }
         this.fontRenderer.drawSplitString(description, (int) ((left + 18) / textScale), (int) ((top + 58) / textScale),
                 (int) ((WIDTH - (18 * 2)) / textScale), 0);
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
         renderTooltip(mouseX, mouseY, itemX, itemY, itemScale);
     }
 
@@ -512,20 +512,20 @@ public class ManualScreen extends Screen
         if (mouseX >= itemX && mouseY >= itemY && mouseX <= itemX + (16 * itemScale)
                 && mouseY <= itemY + (16 * itemScale))
         {
-            GlStateManager.pushMatrix();
+            RenderSystem.pushMatrix();
             float toolTipScale = .85F;
-            GlStateManager.scalef(toolTipScale, toolTipScale, toolTipScale);
+            RenderSystem.scalef(toolTipScale, toolTipScale, toolTipScale);
             this.renderTooltip(display, (int) (mouseX / toolTipScale), (int) (mouseY / toolTipScale));
             RenderHelper.disableStandardItemLighting();
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 
     private void renderTextPage(BookPageText page)
     {
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         float textScale = ClientConfig.MANUAL_FONT_SCALE.get().floatValue();
-        GlStateManager.scalef(textScale, textScale, textScale);
+        RenderSystem.scalef(textScale, textScale, textScale);
         String text = I18n.format(page.getText());
         List<String> paragraphs = new ArrayList<>();
 
@@ -580,7 +580,7 @@ public class ManualScreen extends Screen
                     (int) ((WIDTH - (18 * 2)) / textScale), 0);
             i += (int) (2 + fontRenderer.getWordWrappedHeight(par, (int) ((WIDTH - (18 * 2)) / textScale)) * textScale);
         }
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
     }
 
     private void resetPage()
@@ -593,7 +593,7 @@ public class ManualScreen extends Screen
             List<ChapterLink> links = ((BookPageContents) currentPage).getLinks();
             for (ChapterLink link : links)
             {
-                this.addButton(new ChapterLinkButton(left + 16, top + 24 + (i * 12), link.text, link.chapter));
+                this.addButton(new ChapterLinkButton(this.mc, left + 16, top + 24 + (i * 12), link.text, link.chapter));
                 i++;
             }
         }
@@ -616,7 +616,7 @@ public class ManualScreen extends Screen
     @Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_)
     {
-        if (Minecraft.getInstance().gameSettings.keyBindInventory.isPressed())
+        if (this.mc.gameSettings.keyBindInventory.isPressed())
         {
             if (currentChapter.equals(chapters.get(currentChapter).getParent()))
             {
@@ -665,11 +665,13 @@ public class ManualScreen extends Screen
     {
         private String unlocButtonText;
         private String chapter;
+        private Minecraft mc;
 
-        ChapterLinkButton(int x, int y, String buttonText, String chapter)
+        ChapterLinkButton(Minecraft mc, int x, int y, String buttonText, String chapter)
         {
-            super(x, y, Minecraft.getInstance().fontRenderer.getStringWidth(I18n.format(buttonText)),
-                    Minecraft.getInstance().fontRenderer.FONT_HEIGHT, buttonText, null);
+            super(x, y, mc.fontRenderer.getStringWidth(I18n.format(buttonText)), mc.fontRenderer.FONT_HEIGHT,
+                    buttonText, null);
+            this.mc = mc;
             this.unlocButtonText = buttonText;
             this.chapter = chapter;
         }
@@ -686,8 +688,8 @@ public class ManualScreen extends Screen
         {
             if (this.visible)
             {
-                FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
-                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                FontRenderer fontrenderer = this.mc.fontRenderer;
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
                         && mouseY < this.y + this.height;
 
@@ -769,7 +771,7 @@ public class ManualScreen extends Screen
             {
                 boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
                         && mouseY < this.y + this.height;
-                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 Minecraft.getInstance().getTextureManager().bindTexture(ManualScreen.BACKGROUND);
                 int i = 0;
                 int j = 192;

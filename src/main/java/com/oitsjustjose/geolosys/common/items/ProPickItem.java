@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
@@ -469,20 +470,19 @@ public class ProPickItem extends Item
     @OnlyIn(Dist.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
+        Minecraft mc = Minecraft.getInstance();
 
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
-                || Minecraft.getInstance().gameSettings.showDebugInfo
-                || Minecraft.getInstance().gameSettings.showDebugProfilerChart)
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || mc.gameSettings.showDebugInfo
+                || mc.gameSettings.showDebugProfilerChart)
         {
             return;
         }
-        Minecraft mc = Minecraft.getInstance();
         if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
                 || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem)
         {
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GlStateManager.disableLighting();
+            RenderSystem.disableLighting();
             int seaLvl = mc.player.getEntityWorld().getSeaLevel();
             int level = (int) (seaLvl - mc.player.getPosY());
             if (level < 0)
@@ -500,7 +500,7 @@ public class ProPickItem extends Item
                 mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
-            GlStateManager.color4f(1F, 1F, 1F, 1F);
+            RenderSystem.color4f(1F, 1F, 1F, 1F);
         }
     }
 }
