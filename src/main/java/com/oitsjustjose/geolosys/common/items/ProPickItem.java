@@ -469,14 +469,12 @@ public class ProPickItem extends Item
     @OnlyIn(Dist.CLIENT)
     public void onDrawScreen(RenderGameOverlayEvent.Post event)
     {
-
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
-                || Minecraft.getInstance().gameSettings.showDebugInfo
-                || Minecraft.getInstance().gameSettings.showDebugProfilerChart)
+        Minecraft mc = Minecraft.getInstance();
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || mc.gameSettings.showDebugInfo
+                || mc.gameSettings.showDebugProfilerChart)
         {
             return;
         }
-        Minecraft mc = Minecraft.getInstance();
         if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
                 || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem)
         {
