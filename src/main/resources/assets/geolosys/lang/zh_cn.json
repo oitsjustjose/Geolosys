@@ -93,7 +93,7 @@
     "geolosys.pro_pick.depth.above": "深度：+%sm",
     "geolosys.pro_pick.depth.at": "深度：0m",
     "itemGroup.geolosys": "§8Geolosys§r",
-    "geolosys.download.error.string": "该geolosys.json配置文件没有被下载也没有被找到。您可以从https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.14.x/geolosys_ores.json下载该文件，然后根据需要手动将其放在配置文件夹中（需要将其重命名为\“ geolosys.json \“）。",
+    "geolosys.download.error.string": "该geolosys.json配置文件没有被下载也没有被找到。您可以从https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.14.x/geolosys_ores.json下载该文件，然后根据需要手动将其放在配置文件夹中（需要将其重命名为\" geolosys.json \"）。",
     "geolosys.guide.page.home": "野外探矿手册",
     "geolosys.guide.chapter.introduction": "简介",
     "geolosys.guide.chapter.prospecting": "探矿",
