@@ -1,4 +1,15 @@
-# Geolosys Changelog
+# Geolosys Changelog (1.14)
+
+## 4.0.13
+
+### Fixed
+
+- Field Manual not drawing dark overlay in the background (this may also help with compatability with Blur)
+- Fixed invalid translation in `zh_cn` translations
+
+### Changed
+
+- Resolved client rendering warnings in code (doesn't affect you personally, it was just bothering me)
 
 ## 4.0.12
 
