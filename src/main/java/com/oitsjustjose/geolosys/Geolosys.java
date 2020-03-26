@@ -39,6 +39,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -87,7 +88,7 @@ public class Geolosys
 
         if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get())
         {
-            FeatureStripper.strip(0);
+            DeferredWorkQueue.runLater(FeatureStripper::strip);
         }
 
         OreConfig.setup(new File("./config"));
