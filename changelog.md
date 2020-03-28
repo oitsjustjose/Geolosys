@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.15)
 
+## 4.0.14
+
+### Fixed
+
+- ConcurrentModificationException with mods like C.O.M.B.A.T.
+
 ## 4.0.13
 
 ### Fixed
