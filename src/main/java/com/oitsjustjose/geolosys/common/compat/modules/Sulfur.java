@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys.common.compat.modules;
 
-import java.util.Objects;
-
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
 import com.oitsjustjose.geolosys.common.compat.IDropModule;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
