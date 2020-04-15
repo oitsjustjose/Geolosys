@@ -1,5 +1,5 @@
 {
-    "type": "geolosys:sulfur",
+    "type": "geolosys:coals",
     "conditions": [
         {
             "condition": "minecraft:block_state_property",

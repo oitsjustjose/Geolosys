@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
-import com.oitsjustjose.geolosys.common.items.ItemInit;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,8 +14,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.ILootCondition;
-import net.minecraft.world.storage.loot.conditions.LootConditionManager;
-import net.minecraftforge.common.crafting.conditions.OrCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 

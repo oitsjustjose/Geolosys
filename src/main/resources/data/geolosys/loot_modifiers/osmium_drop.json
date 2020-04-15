@@ -1,9 +1,9 @@
 {
-    "type": "geolosys:sulfur",
+    "type": "geolosys:mekanism",
     "conditions": [
         {
             "condition": "minecraft:block_state_property",
-            "block": "geolosys:coal_ore"
+            "block": "geolosys:platinum_ore"
         },
         {
             "condition": "minecraft:survives_explosion"

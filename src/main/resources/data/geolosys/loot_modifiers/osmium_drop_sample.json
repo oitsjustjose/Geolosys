@@ -3,7 +3,10 @@
     "conditions": [
         {
             "condition": "minecraft:block_state_property",
-            "block": "geolosys:platinum_ore"
+            "block": "geolosys:platinum_ore_sample"
+        },
+        {
+            "condition": "minecraft:survives_explosion"
         }
     ]
 }

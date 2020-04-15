@@ -6,7 +6,6 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 
 import com.google.gson.JsonObject;
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 
@@ -17,11 +16,11 @@ import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 
-public class Mekanism extends LootModifier
+public class OsmiumDrop extends LootModifier
 {
     Random rand;
 
-    public Mekanism(ILootCondition[] conditions)
+    public OsmiumDrop(ILootCondition[] conditions)
     {
         super(conditions);
         this.rand = new Random();
@@ -44,13 +43,12 @@ public class Mekanism extends LootModifier
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<Mekanism>
+    public static class Serializer extends GlobalLootModifierSerializer<OsmiumDrop>
     {
         @Override
-        public Mekanism read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
+        public OsmiumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
         {
-            GlobalLootModifierSerializer
-            return new Mekanism(conditionsIn);
+            return new OsmiumDrop(conditionsIn);
         }
     }
 }

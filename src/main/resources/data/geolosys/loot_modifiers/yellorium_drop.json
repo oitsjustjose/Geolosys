@@ -1,9 +1,9 @@
 {
-    "type": "geolosys:sulfur",
+    "type": "geolosys:big_reactors",
     "conditions": [
         {
             "condition": "minecraft:block_state_property",
-            "block": "geolosys:coal_ore"
+            "block": "geolosys:autunite_ore"
         },
         {
             "condition": "minecraft:survives_explosion"

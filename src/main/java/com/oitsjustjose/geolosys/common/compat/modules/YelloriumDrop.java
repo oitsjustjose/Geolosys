@@ -16,11 +16,11 @@ import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 
-public class BigReactors extends LootModifier
+public class YelloriumDrop extends LootModifier
 {
     Random rand;
 
-    public BigReactors(ILootCondition[] conditions)
+    public YelloriumDrop(ILootCondition[] conditions)
     {
         super(conditions);
         this.rand = new Random();
@@ -40,12 +40,12 @@ public class BigReactors extends LootModifier
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<BigReactors>
+    public static class Serializer extends GlobalLootModifierSerializer<YelloriumDrop>
     {
         @Override
-        public BigReactors read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
+        public YelloriumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
         {
-            return new BigReactors(conditionsIn);
+            return new YelloriumDrop(conditionsIn);
         }
     }
 }
