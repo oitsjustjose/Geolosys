@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.dimension.Dimension;
+import net.minecraftforge.common.ToolType;
 
 public class Utils
 {
@@ -72,5 +73,11 @@ public class Utils
             return true;
         }
         return false;
+    }
+
+    public static boolean canMine(BlockState state, ItemStack stack)
+    {
+        int harvestLvl = stack.getHarvestLevel(ToolType.PICKAXE, null, null);
+        return stack.getToolTypes().contains(ToolType.PICKAXE) && state.getHarvestLevel() <= harvestLvl;
     }
 }
