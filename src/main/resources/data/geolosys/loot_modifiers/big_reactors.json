@@ -1,0 +1,9 @@
+{
+    "type": "geolosys:big_reactors",
+    "conditions": [
+        {
+            "condition": "minecraft:block_state_property",
+            "block": "geolosys:autunite_ore"
+        }
+    ]
+}

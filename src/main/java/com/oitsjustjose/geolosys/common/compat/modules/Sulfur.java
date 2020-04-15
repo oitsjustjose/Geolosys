@@ -1,51 +1,75 @@
 package com.oitsjustjose.geolosys.common.compat.modules;
 
-import com.oitsjustjose.geolosys.common.blocks.BlockInit;
-import com.oitsjustjose.geolosys.common.compat.IDropModule;
-import com.oitsjustjose.geolosys.common.config.CompatConfig;
-import com.oitsjustjose.geolosys.common.utils.Utils;
+import java.util.List;
+import java.util.Random;
 
-import net.minecraft.entity.item.ItemEntity;
+import javax.annotation.Nonnull;
+
+import com.google.gson.JsonObject;
+import com.oitsjustjose.geolosys.common.config.CompatConfig;
+import com.oitsjustjose.geolosys.common.items.ItemInit;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.conditions.ILootCondition;
+import net.minecraft.world.storage.loot.conditions.LootConditionManager;
+import net.minecraftforge.common.crafting.conditions.OrCondition;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.LootModifier;
 
-public class Sulfur implements IDropModule
+public class Sulfur extends LootModifier
 {
-    @Override
-    public void process(BlockEvent.BreakEvent event)
+    private Random rand;
+    private ItemStack sulfurStack;
+
+    public Sulfur(ILootCondition[] conditions)
     {
-        if (!CompatConfig.ENABLE_SULFUR.get())
-        {
-            return;
-        }
-        if (!Utils.canMine(event.getState(), event.getPlayer().getHeldItemMainhand()))
-        {
-            return;
-        }
-        if (event.getState().getBlock() == BlockInit.getInstance().getModBlocks().get("geolosys:coal_ore"))
-        {
-            ResourceLocation sulfurTag = new ResourceLocation("forge", "dusts/sulfur");
+        super(conditions);
+        this.rand = new Random();
+        this.sulfurStack = findSulfur();
+    }
 
-            if (!ItemTags.getCollection().getTagMap().containsKey(sulfurTag))
-            {
-                return;
-            }
+    @Nonnull
+    @Override
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
+    {
+        if (CompatConfig.ENABLE_SULFUR.get() && !this.sulfurStack.isEmpty() && this.rand.nextInt(100) < 10)
+        {
+            generatedLoot.add(this.sulfurStack);
+        }
 
-            if (ItemTags.getCollection().get(sulfurTag).getAllElements().size() > 0)
+        return generatedLoot;
+    }
+
+    private ItemStack findSulfur()
+    {
+        ResourceLocation sulfurTag = new ResourceLocation("forge", "dusts/sulfur");
+
+        if (!ItemTags.getCollection().getTagMap().containsKey(sulfurTag))
+        {
+            return ItemStack.EMPTY;
+        }
+
+        if (ItemTags.getCollection().get(sulfurTag).getAllElements().size() > 0)
+        {
+            for (Item i : ItemTags.getCollection().get(sulfurTag).getAllElements())
             {
-                for (Item i : ItemTags.getCollection().get(sulfurTag).getAllElements())
-                {
-                    ItemEntity extDrop = new ItemEntity(event.getWorld().getWorld(),
-                            (double) event.getPos().getX() + 0.5D, (double) event.getPos().getY(),
-                            (double) event.getPos().getZ() + 0.5D, new ItemStack(i));
-                    extDrop.setPickupDelay(10);
-                    event.getWorld().addEntity(extDrop);
-                    break;
-                }
+                return new ItemStack(i);
             }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public static class Serializer extends GlobalLootModifierSerializer<Sulfur>
+    {
+        @Override
+        public Sulfur read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
+        {
+            return new Sulfur(conditionsIn);
         }
     }
 }

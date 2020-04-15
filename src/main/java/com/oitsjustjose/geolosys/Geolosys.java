@@ -66,7 +66,6 @@ public class Geolosys
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
         MinecraftForge.EVENT_BUS.register(new CoalDrops());
-        MinecraftForge.EVENT_BUS.register(new CompatLoader());
 
         this.configSetup();
     }
