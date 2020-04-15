@@ -1,5 +1,15 @@
 # Geolosys Changelog (1.14)
 
+## 4.0.2
+
+### Added
+
+#### Mod Compat Drops are Back!
+- Osmium drops from Platinum (configurable, can be *just* Osmium as well)
+- Yellorium drops from Autunite (configurable)
+- Coal variant drops from Coal (configurable)
+- Sulfur drops from Coal (configurable)
+
 ## 4.0.14
 
 ### Fixed
