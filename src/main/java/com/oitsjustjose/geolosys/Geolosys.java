@@ -50,6 +50,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Constants.MODID)
+@SuppressWarnings("deprecation")
 public class Geolosys
 {
     private static Geolosys instance;
