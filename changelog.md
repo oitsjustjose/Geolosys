@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.15)
 
+## 4.0.21
+
+### Changed
+
+- Mod Compat Drop Implementation (Works the same, it's just implemented the *right* way now)
+
 ## 4.0.2
 
 ### Added
