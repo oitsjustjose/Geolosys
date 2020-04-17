@@ -1,0 +1,9 @@
+{
+    "type": "geolosys:coals",
+    "conditions": [
+        {
+            "condition": "minecraft:block_state_property",
+            "block": "geolosys:coal_ore"
+        }
+    ]
+}

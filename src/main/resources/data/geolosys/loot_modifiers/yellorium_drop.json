@@ -1,0 +1,9 @@
+{
+    "type": "geolosys:yellorium_drop",
+    "conditions": [
+        {
+            "condition": "minecraft:block_state_property",
+            "block": "geolosys:autunite_ore"
+        }
+    ]
+}

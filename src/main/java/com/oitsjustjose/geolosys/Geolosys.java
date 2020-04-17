@@ -1,17 +1,12 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.File;
-import java.util.Collection;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.BlockInit;
-import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
-import com.oitsjustjose.geolosys.common.event.CoalDrops;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
@@ -21,10 +16,6 @@ import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -48,13 +39,18 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.Collection;
 
 @Mod(Constants.MODID)
 @SuppressWarnings("deprecation")
 public class Geolosys
 {
-    private static Geolosys instance;
     public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    private static Geolosys instance;
     public Logger LOGGER = LogManager.getLogger();
 
     public Geolosys()
@@ -65,8 +61,6 @@ public class Geolosys
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
-        MinecraftForge.EVENT_BUS.register(new CoalDrops());
-        MinecraftForge.EVENT_BUS.register(new CompatLoader());
 
         this.configSetup();
     }

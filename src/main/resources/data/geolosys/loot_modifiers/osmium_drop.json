@@ -1,0 +1,9 @@
+{
+    "type": "geolosys:osmium_drop",
+    "conditions": [
+        {
+            "condition": "minecraft:block_state_property",
+            "block": "geolosys:platinum_ore"
+        }
+    ]
+}
