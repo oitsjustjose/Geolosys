@@ -1,5 +1,14 @@
 # Geolosys Changelog (1.14)
 
+## 4.0.21
+
+
+### Changed
+
+#### Now ***REQUIRES*** Forge 28.2.4 or above.
+
+- Mod Compat Drop Implementation (Works the same, it's just implemented the *right* way now)
+
 ## 4.0.2
 
 ### Added
