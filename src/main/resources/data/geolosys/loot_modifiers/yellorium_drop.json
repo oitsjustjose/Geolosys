@@ -1,5 +1,5 @@
 {
-    "type": "geolosys:big_reactors",
+    "type": "geolosys:yellorium_drop",
     "conditions": [
         {
             "condition": "minecraft:block_state_property",

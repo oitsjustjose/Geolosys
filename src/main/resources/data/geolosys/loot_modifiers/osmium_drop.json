@@ -1,5 +1,5 @@
 {
-    "type": "geolosys:mekanism",
+    "type": "geolosys:osmium_drop",
     "conditions": [
         {
             "condition": "minecraft:block_state_property",
