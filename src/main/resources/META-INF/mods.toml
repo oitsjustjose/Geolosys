@@ -16,7 +16,7 @@ Support me on Patreon at https://patreon.com/oitsjustjose
 [[dependencies.geolosys]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[28,)" #mandatory
+    versionRange="[28.2.4,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
