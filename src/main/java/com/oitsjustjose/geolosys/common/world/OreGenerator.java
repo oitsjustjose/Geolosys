@@ -8,7 +8,6 @@ import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
 
 import net.minecraft.block.state.IBlockState;

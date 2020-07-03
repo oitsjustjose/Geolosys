@@ -82,7 +82,9 @@ public class IECompat {
         crusherRecipe = crusherRecipe.addToSecondaryOutput(new ItemStack(Items.COAL), 0.33F);
 
         if (OreDictionary.doesOreNameExist("dustSulfur") && OreDictionary.getOres("dustSulfur").size() > 0) {
-            crusherRecipe = crusherRecipe.addToSecondaryOutput(OreDictionary.getOres("dustSulfur").get(0), .02F);
+            ItemStack sulfur = OreDictionary.getOres("dustSulfur").get(0).copy();
+            sulfur.setCount(1);
+            crusherRecipe = crusherRecipe.addToSecondaryOutput(sulfur, .02F);
         }
 
         CrusherRecipe.recipeList.add(crusherRecipe);

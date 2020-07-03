@@ -30,7 +30,9 @@ public class Recipes {
 
     private static void smeltSafely(ItemStack input, String oreDictName) {
         try {
-            GameRegistry.addSmelting(input, OreDictionary.getOres(oreDictName).get(0), 0.7F);
+            ItemStack out = OreDictionary.getOres(oreDictName).get(0).copy();
+            out.setCount(1);
+            GameRegistry.addSmelting(input, out, 0.7F);
         } catch (IndexOutOfBoundsException | NullPointerException ex) {
             Geolosys.getInstance().LOGGER.info(oreDictName + " has not been added already. Smelting has been skipped.");
         }

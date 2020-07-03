@@ -25,6 +25,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -158,7 +159,9 @@ public class BlockOreVanilla extends Block {
                     && OreDictionary.getOres("dustSulfur").size() > 0) {
                 int rng = random.nextInt(50);
                 if (rng == 0) {
-                    drops.add(OreDictionary.getOres("dustSulfur").get(0));
+                    ItemStack sulfur = OreDictionary.getOres("dustSulfur").get(0).copy();
+                    sulfur.setCount(1);
+                    drops.add(sulfur);
                 }
             }
         } else if (meta == 1) {
