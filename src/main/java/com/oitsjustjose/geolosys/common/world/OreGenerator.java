@@ -10,7 +10,6 @@ import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.GeolosysSaveData;
-import com.oitsjustjose.geolosys.compat.UBCompat;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -87,12 +86,6 @@ public class OreGenerator implements IWorldGenerator {
             else {
                 oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
-        }
-        // Call UBG's event to make sure those are correctly processed
-        if (Loader.isModLoaded("undergroundbiomes") && ModConfig.compat.enableUBGCompat)
-
-        {
-            UBCompat.forceReprocess(chunkGenerator, world, random, chunkX, chunkZ);
         }
     }
 
