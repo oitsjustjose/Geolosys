@@ -17,37 +17,30 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 
-public class ChunkData
-{
+public class ChunkData {
     private Random random = new Random();
 
-    public void addChunk(ChunkPos pos, World world, int depositHeight, IOre ore)
-    {
-        if (world.getWorldType() == WorldType.FLAT)
-        {
+    public void addChunk(ChunkPos pos, World world, int depositHeight, IOre ore) {
+        if (world.getWorldType() == WorldType.FLAT) {
             return;
         }
 
         int cap = getSampleCount(ore.getSize());
-        for (int i = 0; i < cap; i++)
-        {
+        for (int i = 0; i < cap; i++) {
             BlockPos p = getSamplePos(world, pos, depositHeight);
 
             if (world.getBlockState(p.down()).getBlock() instanceof BlockSample
-                    || world.getBlockState(p.down()).getBlock() instanceof BlockSampleVanilla)
-            {
+                    || world.getBlockState(p.down()).getBlock() instanceof BlockSampleVanilla) {
                 continue;
             }
-            if (ModConfig.prospecting.generateInWater || !isMoist(world, p))
-            {
+            if (ModConfig.prospecting.generateInWater || !isMoist(world, p)) {
                 world.setBlockState(p.up(), Blocks.AIR.getDefaultState(), 2 | 16);
                 world.setBlockState(p, ore.getSample(), 2 | 16);
             }
         }
     }
 
-    public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension)
-    {
+    public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension) {
         // Return true if the dimension is -9999; the default ExU Mining Dim
         return dimension == -9999 || !GeolosysAPI.getCurrentWorldDeposits().keySet()
                 .contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
@@ -56,30 +49,24 @@ public class ChunkData
     /**
      * A bottom-up search for the next "surface-like" block.
      */
-    private BlockPos getSamplePos(World world, ChunkPos chunkPos, int depositHeight)
-    {
+    private BlockPos getSamplePos(World world, ChunkPos chunkPos, int depositHeight) {
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
         int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
         BlockPos searchPos = new BlockPos(blockPosX, 0, blockPosZ);
-        while (searchPos.getY() < world.getHeight())
-        {
-            if (world.getBlockState(searchPos.down()).isSideSolid(world, searchPos.down(), EnumFacing.UP))
-            {
+        while (searchPos.getY() < world.getHeight()) {
+            if (world.getBlockState(searchPos.down()).isSideSolid(world, searchPos.down(), EnumFacing.UP)) {
                 // If the current block is air
-                if (canReplace(world, searchPos))
-                {
+                if (canReplace(world, searchPos)) {
                     // If the block above this state is air,
-                    if (canReplace(world, searchPos.up()))
-                    {
+                    if (canReplace(world, searchPos.up())) {
                         // If it's above sea level it's fine
-                        if (searchPos.getY() > world.getSeaLevel())
-                        {
+                        if (searchPos.getY() > world.getSeaLevel()) {
                             return searchPos;
                         }
-                        // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at least above the deposit
+                        // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at
+                        // least above the deposit
                         else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
-                                && searchPos.getY() < depositHeight)
-                        {
+                                && searchPos.getY() < depositHeight) {
                             return searchPos;
                         }
                     }
@@ -90,8 +77,7 @@ public class ChunkData
         return world.getTopSolidOrLiquidBlock(searchPos);
     }
 
-    private boolean canReplace(World world, BlockPos pos)
-    {
+    private boolean canReplace(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         Material mat = state.getMaterial();
         return mat == Material.AIR || state.getBlock().isLeaves(state, world, pos)
@@ -102,16 +88,15 @@ public class ChunkData
      * 
      * @param posA
      * @param posB
-     * @param range An integer representing how far is acceptable to be considered in range
+     * @param range An integer representing how far is acceptable to be considered
+     *              in range
      * @return
      */
-    private boolean isWithinRange(int posA, int posB, int range)
-    {
+    private boolean isWithinRange(int posA, int posB, int range) {
         return (Math.abs(posA - posB) <= range);
     }
 
-    private boolean isMoist(World world, BlockPos pos)
-    {
+    private boolean isMoist(World world, BlockPos pos) {
         return world.getBlockState(pos.up()).getMaterial().isLiquid()
                 || world.getBlockState(pos.east()).getMaterial().isLiquid()
                 || world.getBlockState(pos.west()).getMaterial().isLiquid()
@@ -119,13 +104,11 @@ public class ChunkData
                 || world.getBlockState(pos.south()).getMaterial().isLiquid();
     }
 
-    private int getSampleCount(int depositSize)
-    {
+    private int getSampleCount(int depositSize) {
         int count = depositSize / ModConfig.prospecting.maxSamples;
 
         // Normalize maximum sample counts
-        if (count > ModConfig.prospecting.maxSamples)
-        {
+        if (count > ModConfig.prospecting.maxSamples) {
             count = ModConfig.prospecting.maxSamples;
         }
 

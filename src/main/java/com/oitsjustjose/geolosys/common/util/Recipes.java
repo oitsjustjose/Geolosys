@@ -10,10 +10,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class Recipes
-{
-    public static void init(ConfigOres configOres, final Item CLUSTER)
-    {
+public class Recipes {
+    public static void init(ConfigOres configOres, final Item CLUSTER) {
         boolean bwm = Loader.isModLoaded("betterwithmods") && ModConfig.compat.enableBWMCompat;
 
         smeltSafely(new ItemStack(CLUSTER, 1, 0), bwm ? "nuggetIron" : "ingotIron");
@@ -30,14 +28,10 @@ public class Recipes
         smeltSafely(new ItemStack(CLUSTER, 1, 12), bwm ? "nuggetOsmium" : "ingotOsmium");
     }
 
-    private static void smeltSafely(ItemStack input, String oreDictName)
-    {
-        try
-        {
+    private static void smeltSafely(ItemStack input, String oreDictName) {
+        try {
             GameRegistry.addSmelting(input, OreDictionary.getOres(oreDictName).get(0), 0.7F);
-        }
-        catch (IndexOutOfBoundsException | NullPointerException ex)
-        {
+        } catch (IndexOutOfBoundsException | NullPointerException ex) {
             Geolosys.getInstance().LOGGER.info(oreDictName + " has not been added already. Smelting has been skipped.");
         }
     }

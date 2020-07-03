@@ -29,17 +29,14 @@ import net.minecraftforge.fml.common.Loader;
  * Original Source & Credit: BluSunrize
  **/
 
-public class OreGenerator implements IWorldGenerator
-{
+public class OreGenerator implements IWorldGenerator {
     private static final String dataID = "geolosysOreGeneratorPending";
     private static HashMap<Integer, OreGen> oreSpawnWeights = new HashMap<>();
     private static int last = 0;
 
-    public static void addOreGen(IOre ore)
-    {
+    public static void addOreGen(IOre ore) {
         OreGen gen = new OreGen(ore);
-        for (int i = last; i < last + ore.getChance(); i++)
-        {
+        for (int i = last; i < last + ore.getChance(); i++) {
             oreSpawnWeights.put(i, gen);
         }
         last = last + ore.getChance();
@@ -47,33 +44,24 @@ public class OreGenerator implements IWorldGenerator
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
-            IChunkProvider chunkProvider)
-    {
+            IChunkProvider chunkProvider) {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world);
 
-        if (oreSpawnWeights.keySet().size() > 0)
-        {
+        if (oreSpawnWeights.keySet().size() > 0) {
             int rng = random.nextInt(oreSpawnWeights.keySet().size());
 
             // 50% chance to prefer an ore exclusive to that biome
-            if (random.nextBoolean())
-            {
+            if (random.nextBoolean()) {
                 Biome biome = world.getBiome(new BlockPos((chunkX * 16), world.getSeaLevel(), (chunkZ * 16)));
-                for (int i = 0; i < oreSpawnWeights.keySet().size() / 2; i++)
-                {
+                for (int i = 0; i < oreSpawnWeights.keySet().size() / 2; i++) {
                     int newRNG = random.nextInt(oreSpawnWeights.keySet().size());
-                    if (oreSpawnWeights.get(newRNG).ore instanceof DepositBiomeRestricted)
-                    {
-                        if (((DepositBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome))
-                        {
+                    if (oreSpawnWeights.get(newRNG).ore instanceof DepositBiomeRestricted) {
+                        if (((DepositBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome)) {
                             rng = newRNG;
                             break;
                         }
-                    }
-                    else if (oreSpawnWeights.get(newRNG).ore instanceof DepositMultiOreBiomeRestricted)
-                    {
-                        if (((DepositMultiOreBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome))
-                        {
+                    } else if (oreSpawnWeights.get(newRNG).ore instanceof DepositMultiOreBiomeRestricted) {
+                        if (((DepositMultiOreBiomeRestricted) oreSpawnWeights.get(newRNG).ore).canPlaceInBiome(biome)) {
                             rng = newRNG;
                             break;
                         }
@@ -82,31 +70,21 @@ public class OreGenerator implements IWorldGenerator
             }
 
             // Check the biome
-            if (oreSpawnWeights.get(rng).ore instanceof DepositBiomeRestricted)
-            {
+            if (oreSpawnWeights.get(rng).ore instanceof DepositBiomeRestricted) {
                 DepositBiomeRestricted deposit = (DepositBiomeRestricted) oreSpawnWeights.get(rng).ore;
-                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
-                {
+                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))))) {
                     oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
+                } else {
                 }
-                else
-                {
-                }
-            }
-            else if (oreSpawnWeights.get(rng).ore instanceof DepositMultiOreBiomeRestricted)
-            {
+            } else if (oreSpawnWeights.get(rng).ore instanceof DepositMultiOreBiomeRestricted) {
                 DepositMultiOreBiomeRestricted deposit = (DepositMultiOreBiomeRestricted) oreSpawnWeights.get(rng).ore;
-                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16)))))
-                {
+                if (deposit.canPlaceInBiome(world.getBiome(new BlockPos((chunkX * 16), 256, (chunkZ * 16))))) {
                     oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
-                }
-                else
-                {
+                } else {
                 }
             }
             // Not special
-            else
-            {
+            else {
                 oreSpawnWeights.get(rng).generate(world, random, (chunkX * 16), (chunkZ * 16));
             }
         }
@@ -118,46 +96,37 @@ public class OreGenerator implements IWorldGenerator
         }
     }
 
-    public static class OreGen
-    {
+    public static class OreGen {
         WorldGenMinableSafe pluton;
         IOre ore;
 
-        public OreGen(IOre ore)
-        {
+        public OreGen(IOre ore) {
             this.pluton = new WorldGenMinableSafe(ore, dataID);
             this.ore = ore;
         }
 
-        public void generate(World world, Random rand, int x, int z)
-        {
+        public void generate(World world, Random rand, int x, int z) {
             if (!Geolosys.getInstance().chunkOreGen.canGenerateInChunk(world, new ChunkPos(x / 16, z / 16),
-                    world.provider.getDimension()))
-            {
+                    world.provider.getDimension())) {
                 return;
             }
             boolean lastState = ForgeModContainer.logCascadingWorldGeneration;
             ForgeModContainer.logCascadingWorldGeneration = false;
-            for (int d : this.ore.getDimensionBlacklist())
-            {
-                if (d == world.provider.getDimension())
-                {
+            for (int d : this.ore.getDimensionBlacklist()) {
+                if (d == world.provider.getDimension()) {
                     return;
                 }
             }
-            if (rand.nextInt(100) < this.ore.getChance())
-            {
+            if (rand.nextInt(100) < this.ore.getChance()) {
                 int y = this.ore.getYMin() != this.ore.getYMax()
                         ? this.ore.getYMin() + rand.nextInt(this.ore.getYMax() - this.ore.getYMin())
                         : this.ore.getYMin();
-                if (Loader.isModLoaded("twilightforest") && world.provider.getDimension() == 7)
-                {
+                if (Loader.isModLoaded("twilightforest") && world.provider.getDimension() == 7) {
                     y /= 2;
                     y /= 2;
                 }
                 // If the pluton placed any ores at all
-                if (pluton.generate(world, rand, new BlockPos(x, y, z)))
-                {
+                if (pluton.generate(world, rand, new BlockPos(x, y, z))) {
                     IBlockState tmp = this.ore.getOre();
                     GeolosysAPI.putWorldDeposit(new ChunkPos(x / 16, z / 16), world.provider.getDimension(),
                             tmp.getBlock().getRegistryName() + ":" + tmp.getBlock().getMetaFromState(tmp));

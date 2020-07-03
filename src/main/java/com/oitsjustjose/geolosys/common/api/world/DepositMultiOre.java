@@ -14,8 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @SuppressWarnings("unchecked")
-public class DepositMultiOre implements IOre
-{
+public class DepositMultiOre implements IOre {
     private ArrayList<IBlockState> ores = new ArrayList<>();
     private ArrayList<IBlockState> samples = new ArrayList<>();
     public HashMap<IBlockState, Integer> oreBlocks;
@@ -30,37 +29,30 @@ public class DepositMultiOre implements IOre
 
     public DepositMultiOre(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks,
             int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers,
-            float density)
-    {
+            float density) {
         // Sanity checking:
         int sum = 0;
-        for (IBlockState key : oreBlocks.keySet())
-        {
+        for (IBlockState key : oreBlocks.keySet()) {
             sum += oreBlocks.get(key);
         }
         assert sum == 100 : "Sums of chances should equal 100";
         sum = 0;
-        for (IBlockState key : sampleBlocks.keySet())
-        {
+        for (IBlockState key : sampleBlocks.keySet()) {
             sum += sampleBlocks.get(key);
         }
         assert sum == 100 : "Sums of chances should equal 100";
 
         int last = 0;
-        for (IBlockState key : oreBlocks.keySet())
-        {
-            for (int i = last; i < last + oreBlocks.get(key); i++)
-            {
+        for (IBlockState key : oreBlocks.keySet()) {
+            for (int i = last; i < last + oreBlocks.get(key); i++) {
                 this.ores.add(i, key);
             }
             last += oreBlocks.get(key);
         }
 
         last = 0;
-        for (IBlockState key : sampleBlocks.keySet())
-        {
-            for (int i = last; i < last + sampleBlocks.get(key); i++)
-            {
+        for (IBlockState key : sampleBlocks.keySet()) {
+            for (int i = last; i < last + sampleBlocks.get(key); i++) {
                 this.samples.add(i, key);
             }
             last += sampleBlocks.get(key);
@@ -77,27 +69,20 @@ public class DepositMultiOre implements IOre
         this.density = density;
     }
 
-    public ArrayList<IBlockState> getOres()
-    {
+    public ArrayList<IBlockState> getOres() {
         return this.ores;
     }
 
-    public ArrayList<IBlockState> getSamples()
-    {
+    public ArrayList<IBlockState> getSamples() {
         return this.samples;
     }
 
-    public IBlockState getOre()
-    {
+    public IBlockState getOre() {
         IBlockState backup = null;
-        try
-        {
+        try {
             return this.ores.get(new Random().nextInt(100));
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            for (IBlockState s : this.oreBlocks.keySet())
-            {
+        } catch (IndexOutOfBoundsException e) {
+            for (IBlockState s : this.oreBlocks.keySet()) {
                 backup = s;
                 break;
             }
@@ -105,17 +90,12 @@ public class DepositMultiOre implements IOre
         return backup;
     }
 
-    public IBlockState getSample()
-    {
+    public IBlockState getSample() {
         IBlockState backup = null;
-        try
-        {
+        try {
             return this.samples.get(new Random().nextInt(100));
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            for (IBlockState s : this.sampleBlocks.keySet())
-            {
+        } catch (IndexOutOfBoundsException e) {
+            for (IBlockState s : this.sampleBlocks.keySet()) {
                 backup = s;
                 break;
             }
@@ -123,16 +103,13 @@ public class DepositMultiOre implements IOre
         return backup;
     }
 
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         StringBuilder sb = new StringBuilder();
 
-        for (IBlockState state : this.ores)
-        {
+        for (IBlockState state : this.ores) {
             String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
             // The name hasn't already been added
-            if (sb.indexOf(name) == -1)
-            {
+            if (sb.indexOf(name) == -1) {
                 sb.append(" & ");
                 sb.append(name);
             }
@@ -141,16 +118,13 @@ public class DepositMultiOre implements IOre
         return sb.toString().substring(3);
     }
 
-    public String getFriendlyName(World world, BlockPos pos, EntityPlayer player)
-    {
+    public String getFriendlyName(World world, BlockPos pos, EntityPlayer player) {
         StringBuilder sb = new StringBuilder();
 
-        for (IBlockState state : this.ores)
-        {
+        for (IBlockState state : this.ores) {
             String name = Utils.blockStateToName(state, world, pos, player);
             // The name hasn't already been added
-            if (sb.indexOf(name) == -1)
-            {
+            if (sb.indexOf(name) == -1) {
                 sb.append(" & ");
                 sb.append(name);
             }
@@ -159,67 +133,52 @@ public class DepositMultiOre implements IOre
         return sb.toString().substring(3);
     }
 
-    public int getYMin()
-    {
+    public int getYMin() {
         return this.yMin;
     }
 
-    public int getYMax()
-    {
+    public int getYMax() {
         return this.yMax;
     }
 
-    public int getChance()
-    {
+    public int getChance() {
         return this.chance;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return this.size;
     }
 
-    public int[] getDimensionBlacklist()
-    {
+    public int[] getDimensionBlacklist() {
         return this.dimensionBlacklist;
     }
 
-    public boolean canReplace(IBlockState state)
-    {
-        if (this.blockStateMatchers == null)
-        {
+    public boolean canReplace(IBlockState state) {
+        if (this.blockStateMatchers == null) {
             return true;
         }
-        for (IBlockState s : this.blockStateMatchers)
-        {
-            if (s == state)
-            {
+        for (IBlockState s : this.blockStateMatchers) {
+            if (s == state) {
                 return true;
             }
         }
         return this.blockStateMatchers.contains(state);
     }
 
-    public List<IBlockState> getBlockStateMatchers()
-    {
+    public List<IBlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 
-    public boolean oreMatches(ArrayList<IBlockState> other)
-    {
-        for (IBlockState state1 : this.oreBlocks.keySet())
-        {
+    public boolean oreMatches(ArrayList<IBlockState> other) {
+        for (IBlockState state1 : this.oreBlocks.keySet()) {
             boolean isMatchInOtherArrayList = false;
-            for (IBlockState state2 : other)
-            {
-                if (Utils.doStatesMatch(state1, state2))
-                {
+            for (IBlockState state2 : other) {
+                if (Utils.doStatesMatch(state1, state2)) {
                     isMatchInOtherArrayList = true;
                     break;
                 }
             }
-            if (!isMatchInOtherArrayList)
-            {
+            if (!isMatchInOtherArrayList) {
                 return false;
             }
         }
@@ -227,53 +186,41 @@ public class DepositMultiOre implements IOre
         return this.oreBlocks.size() == other.size();
     }
 
-    public boolean sampleMatches(ArrayList<IBlockState> other)
-    {
-        for (IBlockState state1 : this.sampleBlocks.keySet())
-        {
+    public boolean sampleMatches(ArrayList<IBlockState> other) {
+        for (IBlockState state1 : this.sampleBlocks.keySet()) {
             boolean isMatchInOtherArrayList = false;
-            for (IBlockState state2 : other)
-            {
-                if (Utils.doStatesMatch(state1, state2))
-                {
+            for (IBlockState state2 : other) {
+                if (Utils.doStatesMatch(state1, state2)) {
                     isMatchInOtherArrayList = true;
                     break;
                 }
             }
-            if (!isMatchInOtherArrayList)
-            {
+            if (!isMatchInOtherArrayList) {
                 return false;
             }
         }
         return this.sampleBlocks.size() == other.size();
     }
 
-    public boolean oreMatches(IBlockState other)
-    {
-        for (IBlockState s : this.ores)
-        {
-            if (Utils.doStatesMatch(s, other))
-            {
+    public boolean oreMatches(IBlockState other) {
+        for (IBlockState s : this.ores) {
+            if (Utils.doStatesMatch(s, other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean sampleMatches(IBlockState other)
-    {
-        for (IBlockState s : this.samples)
-        {
-            if (Utils.doStatesMatch(s, other))
-            {
+    public boolean sampleMatches(IBlockState other) {
+        for (IBlockState s : this.samples) {
+            if (Utils.doStatesMatch(s, other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public float getDensity()
-    {
+    public float getDensity() {
         return this.density;
     }
 }

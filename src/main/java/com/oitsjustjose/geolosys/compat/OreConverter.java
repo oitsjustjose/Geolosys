@@ -18,23 +18,18 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class OreConverter
-{
+public class OreConverter {
     @SubscribeEvent
-    public void registerEvent(PlayerEvent.EnteringChunk event)
-    {
-        if (!ModConfig.featureControl.retroReplace)
-        {
+    public void registerEvent(PlayerEvent.EnteringChunk event) {
+        if (!ModConfig.featureControl.retroReplace) {
             return;
         }
         if (!(event.getEntity() instanceof EntityPlayer) || event.getEntity() instanceof FakePlayer
-                || event.getEntity().getEntityWorld().isRemote)
-        {
+                || event.getEntity().getEntityWorld().isRemote) {
             return;
         }
         if (GeolosysAPI.hasChunkRegenned(new ChunkPos(event.getNewChunkX(), event.getNewChunkZ()),
-                event.getEntity().getEntityWorld().provider.getDimension()))
-        {
+                event.getEntity().getEntityWorld().provider.getDimension())) {
             return;
         }
         int x = event.getNewChunkX();
@@ -48,22 +43,16 @@ public class OreConverter
         GeolosysSaveData.get(event.getEntity().getEntityWorld()).markDirty();
     }
 
-    private void convertChunk(World world, PlayerEvent.EnteringChunk event, int x, int z)
-    {
-        for (int xMod = 0; xMod < 16; xMod++)
-        {
-            for (int zMod = 0; zMod < 16; zMod++)
-            {
-                for (int y = 0; y < world.getHeight(x + xMod, z + zMod); y++)
-                {
+    private void convertChunk(World world, PlayerEvent.EnteringChunk event, int x, int z) {
+        for (int xMod = 0; xMod < 16; xMod++) {
+            for (int zMod = 0; zMod < 16; zMod++) {
+                for (int y = 0; y < world.getHeight(x + xMod, z + zMod); y++) {
                     if (GeolosysAPI.oreConverterBlacklist
-                            .contains(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))
-                    {
+                            .contains(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) {
                         continue;
                     }
-                    if (getConvertedOre(
-                            Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null)
-                    {
+                    if (getConvertedOre(Utils
+                            .blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod)))) != null) {
                         world.setBlockState(new BlockPos(x + xMod, y, z + zMod), Objects.requireNonNull(getConvertedOre(
                                 Utils.blockStateToStack(world.getBlockState(new BlockPos(x + xMod, y, z + zMod))))));
                     }
@@ -74,16 +63,12 @@ public class OreConverter
                 world.provider.getDimension());
     }
 
-    private IBlockState getConvertedOre(ItemStack stack)
-    {
-        if (stack.isEmpty())
-        {
+    private IBlockState getConvertedOre(ItemStack stack) {
+        if (stack.isEmpty()) {
             return null;
         }
-        for (int id : OreDictionary.getOreIDs(stack))
-        {
-            if (ModMaterials.blockConverter.containsKey(OreDictionary.getOreName(id)))
-            {
+        for (int id : OreDictionary.getOreIDs(stack)) {
+            if (ModMaterials.blockConverter.containsKey(OreDictionary.getOreName(id))) {
                 return ModMaterials.blockConverter.get(OreDictionary.getOreName(id));
             }
         }

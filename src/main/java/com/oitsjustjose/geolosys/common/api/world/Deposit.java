@@ -7,8 +7,7 @@ import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
-public class Deposit implements IOre
-{
+public class Deposit implements IOre {
     private IBlockState oreBlock;
     private IBlockState sampleBlock;
     private int yMin;
@@ -20,8 +19,7 @@ public class Deposit implements IOre
     private float density;
 
     public Deposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, float density)
-    {
+            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, float density) {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
         this.yMin = yMin;
@@ -33,80 +31,64 @@ public class Deposit implements IOre
         this.density = density;
     }
 
-    public IBlockState getOre()
-    {
+    public IBlockState getOre() {
         return this.oreBlock;
     }
 
-    public IBlockState getSample()
-    {
+    public IBlockState getSample() {
         return this.sampleBlock;
     }
 
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         return new ItemStack(this.oreBlock.getBlock(), 1, this.oreBlock.getBlock().getMetaFromState(this.oreBlock))
                 .getDisplayName();
     }
 
-    public int getYMin()
-    {
+    public int getYMin() {
         return this.yMin;
     }
 
-    public int getYMax()
-    {
+    public int getYMax() {
         return this.yMax;
     }
 
-    public int getChance()
-    {
+    public int getChance() {
         return this.chance;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return this.size;
     }
 
-    public int[] getDimensionBlacklist()
-    {
+    public int[] getDimensionBlacklist() {
         return this.dimensionBlacklist;
     }
 
-    public boolean canReplace(IBlockState state)
-    {
-        if (this.blockStateMatchers == null)
-        {
+    public boolean canReplace(IBlockState state) {
+        if (this.blockStateMatchers == null) {
             return true;
         }
-        for (IBlockState s : this.blockStateMatchers)
-        {
-            if (Utils.doStatesMatch(s, state))
-            {
+        for (IBlockState s : this.blockStateMatchers) {
+            if (Utils.doStatesMatch(s, state)) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<IBlockState> getBlockStateMatchers()
-    {
+    public List<IBlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 
-    public boolean oreMatches(IBlockState other)
-    {
+    public boolean oreMatches(IBlockState other) {
         return Utils.doStatesMatch(this.oreBlock, other);
     }
 
-    public boolean sampleMatches(IBlockState other)
-    {
+    public boolean sampleMatches(IBlockState other) {
         return Utils.doStatesMatch(this.sampleBlock, other);
     }
 
-    public float getDensity()
-    {
+    public float getDensity() {
         return this.density;
     }
 }

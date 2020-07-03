@@ -10,17 +10,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * This MessageHandler does nothing; it is only used because the dedicated server must register at least one message handler in
- * order for Forge to know what ID to use for this message. See more explanation in StartupCommon. User: The Grey Ghost Date:
- * 15/01/2015
+ * This MessageHandler does nothing; it is only used because the dedicated
+ * server must register at least one message handler in order for Forge to know
+ * what ID to use for this message. See more explanation in StartupCommon. User:
+ * The Grey Ghost Date: 15/01/2015
  */
-public class HandlerIOreUndergroundClient implements IMessageHandler<PacketIOreUnderground, IMessage>
-{
+public class HandlerIOreUndergroundClient implements IMessageHandler<PacketIOreUnderground, IMessage> {
     @Override
-    public IMessage onMessage(PacketIOreUnderground message, MessageContext ctx)
-    {
-        if (ctx.side == Side.CLIENT)
-        {
+    public IMessage onMessage(PacketIOreUnderground message, MessageContext ctx) {
+        if (ctx.side == Side.CLIENT) {
             IThreadListener clientThread = Minecraft.getMinecraft();
             clientThread.addScheduledTask(() -> {
                 String depositName = message.depositName;
@@ -33,8 +31,7 @@ public class HandlerIOreUndergroundClient implements IMessageHandler<PacketIOreU
         return null;
     }
 
-    private void sendProspectingMessage(EntityPlayer player, String messageBase, Object... messageDecorators)
-    {
+    private void sendProspectingMessage(EntityPlayer player, String messageBase, Object... messageDecorators) {
         TextComponentTranslation msg = new TextComponentTranslation(messageBase, messageDecorators);
         player.sendStatusMessage(msg, true);
     }

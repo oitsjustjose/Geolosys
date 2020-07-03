@@ -22,56 +22,47 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     public NetworkManager networkManager;
 
     @Override
-    public void preInit()
-    {
+    public void preInit() {
         networkManager = new NetworkManager();
-        networkManager.networkWrapper.registerMessage(HandlerIOreSurfaceClient.class,
-                PacketIOreSurface.class, CommonProxy.discriminator++, Side.CLIENT);
+        networkManager.networkWrapper.registerMessage(HandlerIOreSurfaceClient.class, PacketIOreSurface.class,
+                CommonProxy.discriminator++, Side.CLIENT);
         networkManager.networkWrapper.registerMessage(HandlerSurfaceClient.class, PacketSurface.class,
                 CommonProxy.discriminator++, Side.CLIENT);
-        networkManager.networkWrapper.registerMessage(HandlerIOreUndergroundClient.class,
-                PacketIOreUnderground.class, CommonProxy.discriminator++, Side.CLIENT);
-        networkManager.networkWrapper.registerMessage(HandlerUndergroundClient.class,
-                PacketUnderground.class, CommonProxy.discriminator++, Side.CLIENT);
+        networkManager.networkWrapper.registerMessage(HandlerIOreUndergroundClient.class, PacketIOreUnderground.class,
+                CommonProxy.discriminator++, Side.CLIENT);
+        networkManager.networkWrapper.registerMessage(HandlerUndergroundClient.class, PacketUnderground.class,
+                CommonProxy.discriminator++, Side.CLIENT);
     }
 
     @Override
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         super.init(event);
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
         GuiManual.initPages();
     }
 
     @Override
-    public void throwDownloadError(File jsonFile)
-    {
+    public void throwDownloadError(File jsonFile) {
         throw new DownloadErrorDisplayException("Geolosys Download Exception", "File " + jsonFile.getAbsolutePath()
                 + " could neither be found nor downloaded. "
                 + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
     }
 
     @Override
-    public void sendProspectingMessage(EntityPlayer player, ItemStack stack, EnumFacing direction)
-    {
-        if (direction != null)
-        {
+    public void sendProspectingMessage(EntityPlayer player, ItemStack stack, EnumFacing direction) {
+        if (direction != null) {
             player.sendStatusMessage(
                     new TextComponentTranslation("geolosys.pro_pick.tooltip.found", stack.getDisplayName(), direction),
                     true);
-        }
-        else
-        {
+        } else {
             player.sendStatusMessage(
                     new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", stack.getDisplayName()),
                     true);
@@ -79,15 +70,11 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void sendProspectingMessage(EntityPlayer player, String friendlyName, EnumFacing direction)
-    {
-        if (direction != null)
-        {
+    public void sendProspectingMessage(EntityPlayer player, String friendlyName, EnumFacing direction) {
+        if (direction != null) {
             player.sendStatusMessage(
                     new TextComponentTranslation("geolosys.pro_pick.tooltip.found", friendlyName, direction), true);
-        }
-        else
-        {
+        } else {
             player.sendStatusMessage(
                     new TextComponentTranslation("geolosys.pro_pick.tooltip.found_surface", friendlyName), true);
         }

@@ -9,16 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public interface IOre
-{
+public interface IOre {
     public IBlockState getOre();
 
     public IBlockState getSample();
 
     public String getFriendlyName();
 
-    public default String getFriendlyName(World world, BlockPos pos, EntityPlayer player)
-    {
+    public default String getFriendlyName(World world, BlockPos pos, EntityPlayer player) {
         return Utils.blockStateToName(this.getOre(), world, pos, player);
     }
 

@@ -6,17 +6,14 @@ package com.oitsjustjose.geolosys.common.manual;
  *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
-public class BookPage
-{
+public class BookPage {
     private final String title;
 
-    public BookPage(String title)
-    {
+    public BookPage(String title) {
         this.title = title;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 }

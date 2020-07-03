@@ -23,13 +23,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class CommonProxy
-{
+public class CommonProxy {
     public NetworkManager networkManager;
     public static int discriminator = 0;
 
-    public void preInit()
-    {
+    public void preInit() {
         networkManager = new NetworkManager();
         networkManager.networkWrapper.registerMessage(HandlerIOreSurfaceServer.class, PacketIOreSurface.class,
                 discriminator++, Side.SERVER);
@@ -41,45 +39,34 @@ public class CommonProxy
                 discriminator++, Side.SERVER);
     }
 
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(Geolosys.getInstance(), new ClientGUIProxy());
     }
 
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
     }
 
-    public void throwDownloadError(File jsonFile)
-    {
+    public void throwDownloadError(File jsonFile) {
         Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
                 + " could neither be found nor downloaded. "
                 + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
     }
 
-    public void sendProspectingMessage(EntityPlayer player, ItemStack stack, EnumFacing direction)
-    {
+    public void sendProspectingMessage(EntityPlayer player, ItemStack stack, EnumFacing direction) {
         IMessage message;
-        if (direction != null)
-        {
+        if (direction != null) {
             message = new PacketUnderground(stack, direction);
-        }
-        else
-        {
+        } else {
             message = new PacketSurface(stack);
         }
         networkManager.sendToClient(message, player);
     }
 
-    public void sendProspectingMessage(EntityPlayer player, String friendlyName, EnumFacing direction)
-    {
+    public void sendProspectingMessage(EntityPlayer player, String friendlyName, EnumFacing direction) {
         IMessage message;
-        if (direction != null)
-        {
+        if (direction != null) {
             message = new PacketIOreUnderground(friendlyName, direction);
-        }
-        else
-        {
+        } else {
             message = new PacketIOreSurface(friendlyName);
         }
         networkManager.sendToClient(message, player);

@@ -14,10 +14,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemCoal extends Item
-{
-    public ItemCoal()
-    {
+public class ItemCoal extends Item {
+    public ItemCoal() {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "COAL"));
@@ -29,28 +27,22 @@ public class ItemCoal extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
-    {
-        if (this.isInCreativeTab(tab))
-        {
-            for (int i = 0; i < Types.Coal.values().length; ++i)
-            {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (this.isInCreativeTab(tab)) {
+            for (int i = 0; i < Types.Coal.values().length; ++i) {
                 list.add(new ItemStack(this, 1, i));
             }
         }
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
+    public String getUnlocalizedName(ItemStack stack) {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                 + Types.Coal.byMetadata(stack.getMetadata()).getName();
     }
 
-    private void registerModels()
-    {
-        for (int i = 0; i < Types.Coal.values().length; i++)
-        {
+    private void registerModels() {
+        for (int i = 0; i < Types.Coal.values().length; i++) {
             Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
                     new ResourceLocation(this.getRegistryName().toString() + "_" + Types.Coal.byMetadata(i).name()),
                     "inventory");
@@ -58,10 +50,8 @@ public class ItemCoal extends Item
     }
 
     @SubscribeEvent
-    public void registerFuels(FurnaceFuelBurnTimeEvent event)
-    {
-        if (event.getItemStack().getItem() != this)
-        {
+    public void registerFuels(FurnaceFuelBurnTimeEvent event) {
+        if (event.getItemStack().getItem() != this) {
             return;
         }
         event.setBurnTime(Types.Coal.byMetadata(event.getItemStack().getMetadata()).getBurnTime() * 200);

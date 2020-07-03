@@ -12,8 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-public class ModMaterials
-{
+public class ModMaterials {
     public static Item AE_MATERIAL;
     public static Item EXU_MATERIAL;
     public static Item TE_MATERIAL;
@@ -26,8 +25,7 @@ public class ModMaterials
     public static HashMap<String, ItemStack> clusterConverter;
     public static HashMap<String, IBlockState> blockConverter;
 
-    public static void init()
-    {
+    public static void init() {
         AE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("appliedenergistics2", "material"));
         EXU_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"));
         TE_MATERIAL = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
@@ -58,8 +56,7 @@ public class ModMaterials
         clusterConverter.put("oreOsmium", new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_OSMIUM));
         clusterConverter.put("oreSphalerite",
                 new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_SPHALERITE));
-        if (ModConfig.compat.registerAsBauxite)
-        {
+        if (ModConfig.compat.registerAsBauxite) {
             clusterConverter.put("oreBauxite",
                     new ItemStack(Geolosys.getInstance().CLUSTER, 1, ItemCluster.META_ALUMINUM));
         }
@@ -87,8 +84,7 @@ public class ModMaterials
         blockConverter.put("oreYellorium", Geolosys.getInstance().ORE.getStateFromMeta(9));
         blockConverter.put("oreOsmium", Geolosys.getInstance().ORE.getStateFromMeta(8));
         blockConverter.put("oreSphalerite", Geolosys.getInstance().ORE.getStateFromMeta(10));
-        if (ModConfig.compat.registerAsBauxite)
-        {
+        if (ModConfig.compat.registerAsBauxite) {
             blockConverter.put("oreBauxite", Geolosys.getInstance().ORE.getStateFromMeta(7));
         }
     }

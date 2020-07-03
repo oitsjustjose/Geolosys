@@ -31,15 +31,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockOre extends Block
-{
+public class BlockOre extends Block {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
-    public static final String[] oreDictByMeta = new String[]
-    { "oreIron", "oreNickel", "oreCopper", "oreCopper", "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum",
-            "oreUranium", "oreZinc" };
+    public static final String[] oreDictByMeta = new String[] { "oreIron", "oreNickel", "oreCopper", "oreCopper",
+            "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum", "oreUranium", "oreZinc" };
 
-    public BlockOre()
-    {
+    public BlockOre() {
         super(Material.ROCK);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "ore"));
         this.setHardness(7.5F);
@@ -54,107 +51,85 @@ public class BlockOre extends Block
         this.registerOreDict();
     }
 
-    private void registerOreDict()
-    {
-        for (int i = 0; i < Types.Modded.values().length; i++)
-        {
+    private void registerOreDict() {
+        for (int i = 0; i < Types.Modded.values().length; i++) {
             OreDictionary.registerOre("oreBlock" + Types.Modded.values()[i].getName().substring(0, 1).toUpperCase()
                     + Types.Modded.values()[i].getName().substring(1), new ItemStack(this, 1, i));
         }
     }
 
-    private void setHarvestLevels()
-    {
-        for (Types.Modded t : Types.Modded.values())
-        {
+    private void setHarvestLevels() {
+        for (Types.Modded t : Types.Modded.values()) {
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
         }
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Geolosys.getInstance().CLUSTER;
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-    {
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+            int fortune) {
         Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
-        if (state.getBlock().getMetaFromState(state) == 1)
-        {
-            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to 20%:
+        if (state.getBlock().getMetaFromState(state) == 1) {
+            // Studies say that 2% of Limonite is Nickel, but this is Minecraft; buffed to
+            // 20%:
             Random rand = new Random();
             int rng = ModConfig.featureControl.enableFortuneOnAllOres ? rand.nextInt(5 - Math.min(3, fortune))
                     : rand.nextInt(5);
             int count = fortune > 0
                     ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                     : 1;
-            if (rng == 0)
-            {
+            if (rng == 0) {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_NICKEL));
-            }
-            else
-            {
+            } else {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_IRON));
             }
         }
         // Special case for Galena; silver OR lead will be dropped for sure, maybe both!
-        else if (state.getBlock().getMetaFromState(state) == 6)
-        {
+        else if (state.getBlock().getMetaFromState(state) == 6) {
             Random rand = new Random();
             boolean rng = rand.nextBoolean();
             int count = fortune > 0
                     ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                     : 1;
-            if (rng)
-            {
+            if (rng) {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_SILVER));
                 rng = rand.nextBoolean();
-                if (rng)
-                {
+                if (rng) {
                     count = fortune > 0
                             ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
                                     : 1)
                             : 1;
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
                 }
-            }
-            else
-            {
+            } else {
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
             }
         }
         // Special case for Osmium
-        else if (state.getBlock().getMetaFromState(state) == 8)
-        {
-            if (ModConfig.compat.enableOsmiumExclusively)
-            {
+        else if (state.getBlock().getMetaFromState(state) == 8) {
+            if (ModConfig.compat.enableOsmiumExclusively) {
                 Random rand = new Random();
                 int count = fortune > 0
                         ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_OSMIUM));
-            }
-            else if (ModConfig.compat.enableOsmium)
-            {
+            } else if (ModConfig.compat.enableOsmium) {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
                 int count = fortune > 0
                         ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
-                if (rng)
-                {
+                if (rng) {
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_PLATINUM));
-                }
-                else
-                {
+                } else {
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_OSMIUM));
                 }
-            }
-            else
-            {
+            } else {
                 Random rand = new Random();
                 int count = fortune > 0
                         ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
@@ -163,35 +138,26 @@ public class BlockOre extends Block
             }
         }
         // Special case for Autunite to drop yellorium
-        else if (state.getBlock().getMetaFromState(state) == 9)
-        {
-            if (ModConfig.compat.enableYellorium)
-            {
+        else if (state.getBlock().getMetaFromState(state) == 9) {
+            if (ModConfig.compat.enableYellorium) {
                 Random rand = new Random();
                 boolean rng = rand.nextBoolean();
                 int count = fortune > 0
                         ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
-                if (rng)
-                {
+                if (rng) {
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_URANIUM));
-                }
-                else
-                {
+                } else {
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_YELLORIUM));
                 }
-            }
-            else
-            {
+            } else {
                 Random rand = new Random();
                 int count = fortune > 0
                         ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                         : 1;
                 drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_URANIUM));
             }
-        }
-        else
-        {
+        } else {
             Random rand = new Random();
             int count = fortune > 0
                     ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
@@ -201,91 +167,62 @@ public class BlockOre extends Block
     }
 
     @Override
-    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
-    {
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         return !getSilkTouchDrop(state).isEmpty();
     }
 
     @Override
-    protected ItemStack getSilkTouchDrop(IBlockState state)
-    {
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
         Random rand = new Random();
         int meta = state.getBlock().getMetaFromState(state);
         // Limonite:
-        if (meta == 1)
-        {
-            if (rand.nextInt(5) == 0)
-            {
+        if (meta == 1) {
+            if (rand.nextInt(5) == 0) {
                 return getOreDictAlternative("oreNickel");
-            }
-            else
-            {
+            } else {
                 return getOreDictAlternative("oreIron");
             }
         }
         // Galena:
-        else if (meta == 6)
-        {
-            if (rand.nextBoolean())
-            {
+        else if (meta == 6) {
+            if (rand.nextBoolean()) {
                 return getOreDictAlternative("oreSilver");
-            }
-            else
-            {
+            } else {
                 return getOreDictAlternative("oreLead");
             }
         }
         // Platinum:
-        else if (meta == 8)
-        {
-            if (ModConfig.compat.enableOsmiumExclusively)
-            {
+        else if (meta == 8) {
+            if (ModConfig.compat.enableOsmiumExclusively) {
                 return getOreDictAlternative("oreOsmium");
-            }
-            else if (ModConfig.compat.enableOsmium)
-            {
-                if (rand.nextBoolean())
-                {
+            } else if (ModConfig.compat.enableOsmium) {
+                if (rand.nextBoolean()) {
                     return getOreDictAlternative("oreOsmium");
-                }
-                else
-                {
+                } else {
                     return getOreDictAlternative("orePlatinum");
                 }
-            }
-            else
-            {
+            } else {
                 return getOreDictAlternative("orePlatinum");
             }
         }
         // Autunite:
-        else if (meta == 9)
-        {
-            if (ModConfig.compat.enableYellorium)
-            {
-                if (rand.nextBoolean())
-                {
+        else if (meta == 9) {
+            if (ModConfig.compat.enableYellorium) {
+                if (rand.nextBoolean()) {
                     return getOreDictAlternative("oreYellorium");
-                }
-                else
-                {
+                } else {
                     return getOreDictAlternative("oreUranium");
                 }
-            }
-            else
-            {
+            } else {
                 return getOreDictAlternative("oreUranium");
             }
         }
         return getOreDictAlternative(oreDictByMeta[meta]);
     }
 
-    private ItemStack getOreDictAlternative(String oreName)
-    {
-        for (ItemStack i : OreDictionary.getOres(oreName))
-        {
-            if (i.getItem() instanceof ItemCluster)
-            {
+    private ItemStack getOreDictAlternative(String oreName) {
+        for (ItemStack i : OreDictionary.getOres(oreName)) {
+            if (i.getItem() instanceof ItemCluster) {
                 continue;
             }
             ItemStack retStack = i.copy();
@@ -296,74 +233,66 @@ public class BlockOre extends Block
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
+    public int damageDropped(IBlockState state) {
         int meta = state.getBlock().getMetaFromState(state);
-        switch (meta)
-        {
-        case 0:
-            return ItemCluster.META_IRON;
-        case 2:
-            return ItemCluster.META_COPPER;
-        case 3:
-            return ItemCluster.META_COPPER;
-        case 4:
-            return ItemCluster.META_TIN;
-        case 5:
-            return ItemCluster.META_TIN;
-        case 7:
-            return ItemCluster.META_ALUMINUM;
-        case 8:
-            return ItemCluster.META_PLATINUM;
-        case 9:
-            return ItemCluster.META_URANIUM;
-        case 10:
-            return ItemCluster.META_ZINC;
-        default:
-            return 0;
+        switch (meta) {
+            case 0:
+                return ItemCluster.META_IRON;
+            case 2:
+                return ItemCluster.META_COPPER;
+            case 3:
+                return ItemCluster.META_COPPER;
+            case 4:
+                return ItemCluster.META_TIN;
+            case 5:
+                return ItemCluster.META_TIN;
+            case 7:
+                return ItemCluster.META_ALUMINUM;
+            case 8:
+                return ItemCluster.META_PLATINUM;
+            case 9:
+                return ItemCluster.META_URANIUM;
+            case 10:
+                return ItemCluster.META_ZINC;
+            default:
+                return 0;
         }
     }
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-            EntityPlayer player)
-    {
+            EntityPlayer player) {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-            float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, VARIANT);
     }
 
     /**
-     * An ItemBlock class for this block allowing it to support subtypes with proper placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper
+     * placement
      */
-    public class ItemBlockOre extends ItemBlock
-    {
+    public class ItemBlockOre extends ItemBlock {
 
-        ItemBlockOre(Block block)
-        {
+        ItemBlockOre(Block block) {
             super(block);
             this.setHasSubtypes(true);
             this.setRegistryName(block.getRegistryName());
@@ -372,35 +301,28 @@ public class BlockOre extends Block
         }
 
         @Override
-        public int getMetadata(int damage)
-        {
+        public int getMetadata(int damage) {
             return damage;
         }
 
         @Override
-        public String getUnlocalizedName(ItemStack stack)
-        {
+        public String getUnlocalizedName(ItemStack stack) {
             return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                     + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
         @SideOnly(Side.CLIENT)
-        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
-        {
-            if (this.isInCreativeTab(tab))
-            {
-                for (int i = 0; i < Types.Modded.values().length; ++i)
-                {
+        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+            if (this.isInCreativeTab(tab)) {
+                for (int i = 0; i < Types.Modded.values().length; ++i) {
                     list.add(new ItemStack(this, 1, i));
                 }
             }
         }
 
-        private void registerModels()
-        {
-            for (int i = 0; i < Types.Modded.values().length; i++)
-            {
+        private void registerModels() {
+            for (int i = 0; i < Types.Modded.values().length; i++) {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
                         VARIANT.getName() + "=" + Types.Modded.byMetadata(i).getName());
             }

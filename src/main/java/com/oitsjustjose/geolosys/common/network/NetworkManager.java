@@ -8,17 +8,14 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-public class NetworkManager
-{
-        public SimpleNetworkWrapper networkWrapper;
+public class NetworkManager {
+    public SimpleNetworkWrapper networkWrapper;
 
-        public NetworkManager()
-        {
-                networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Geolosys.MODID);
-        }
+    public NetworkManager() {
+        networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Geolosys.MODID);
+    }
 
-        public void sendToClient(IMessage message, EntityPlayer player)
-        {
-                this.networkWrapper.sendTo(message, (EntityPlayerMP) player);
-        }
+    public void sendToClient(IMessage message, EntityPlayer player) {
+        this.networkWrapper.sendTo(message, (EntityPlayerMP) player);
+    }
 }

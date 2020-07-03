@@ -11,97 +11,71 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-public class ConfigParser
-{
+public class ConfigParser {
     private static ConfigParser instance;
 
-    public ConfigParser()
-    {
+    public ConfigParser() {
         parsePredicates();
         parseConverterBlacklist();
         parseDimensions();
         parseProPickExtras();
     }
 
-    public static void init()
-    {
+    public static void init() {
         instance = new ConfigParser();
     }
 
     /**
-     * A special case where we don't want to re-add custom ores ore stones, but want to reset the dimensions and ore converter
-     * blacklist.
+     * A special case where we don't want to re-add custom ores ore stones, but want
+     * to reset the dimensions and ore converter blacklist.
      */
-    public static void reinit()
-    {
+    public static void reinit() {
         instance.parseDimensions();
         instance.parseConverterBlacklist();
         instance.parseProPickExtras();
     }
 
     @SuppressWarnings("deprecation")
-    private void parseProPickExtras()
-    {
-        for (String str : ModConfig.prospecting.extraProPickEntries)
-        {
+    private void parseProPickExtras() {
+        for (String str : ModConfig.prospecting.extraProPickEntries) {
             String[] parts = str.split(":");
-            if (parts.length == 2 || parts.length == 3)
-            {
+            if (parts.length == 2 || parts.length == 3) {
                 Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
-                if (b != null && b != Blocks.AIR)
-                {
-                    if (parts.length == 3)
-                    {
-                        if (parts[2].equals("*"))
-                        {
-                            for (int i = 0; i < 16; i++)
-                            {
-                                try
-                                {
+                if (b != null && b != Blocks.AIR) {
+                    if (parts.length == 3) {
+                        if (parts[2].equals("*")) {
+                            for (int i = 0; i < 16; i++) {
+                                try {
                                     GeolosysAPI.proPickExtras.add(b.getStateFromMeta(i));
-                                }
-                                catch (ArrayIndexOutOfBoundsException e)
-                                {
+                                } catch (ArrayIndexOutOfBoundsException e) {
                                     break;
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             GeolosysAPI.proPickExtras.add(Utils.getStateFromMeta(b, Integer.parseInt(parts[2])));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         GeolosysAPI.proPickExtras.add(b.getDefaultState());
                     }
-                }
-                else
-                {
+                } else {
                     Geolosys.getInstance().LOGGER
                             .info("ProPick extra entry " + str + " does not exist or hasn't been registered yet");
                 }
-            }
-            else
-            {
+            } else {
                 Geolosys.getInstance().LOGGER.info("ProPick extra entry " + str
                         + " is not valid. Please ensure it's in form modid:block or modid:block:metadata");
             }
         }
     }
 
-    private void parseDimensions()
-    {
-        if (Geolosys.getInstance().PRO_PICK == null)
-        {
+    private void parseDimensions() {
+        if (Geolosys.getInstance().PRO_PICK == null) {
             return;
         }
         HashMap<Integer, Integer> dimensionSeaLevels = new HashMap<>();
-        for (String s : ModConfig.prospecting.proPickDimensionSeaLevels)
-        {
+        for (String s : ModConfig.prospecting.proPickDimensionSeaLevels) {
             String[] parts = s.trim().replace(" ", "").split(":");
-            if (parts.length != 2)
-            {
+            if (parts.length != 2) {
                 Geolosys.getInstance().LOGGER.info("Entry " + s
                         + " is not a valid entry for proPickDimensionSeaLevels. Reason: Wrong number of args.");
                 continue;
@@ -110,47 +84,33 @@ public class ConfigParser
         }
     }
 
-    private void parsePredicates()
-    {
-        for (String s : ModConfig.userEntries.replacementMatsRaw)
-        {
+    private void parsePredicates() {
+        for (String s : ModConfig.userEntries.replacementMatsRaw) {
             String[] parts = s.trim().replaceAll(" ", "").replaceAll("<", "").replaceAll(">", "").split(":");
-            if (parts.length != 2 && parts.length != 3)
-            {
+            if (parts.length != 2 && parts.length != 3) {
                 Geolosys.getInstance().LOGGER
                         .error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
-            try
-            {
+            try {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
-                if (block == null || block == Blocks.AIR)
-                {
+                if (block == null || block == Blocks.AIR) {
                     Geolosys.getInstance().LOGGER
                             .error("Entry " + s + " is not valid. Reason: predicate block does not exist");
                     continue;
                 }
-                if (parts.length == 2)
-                {
+                if (parts.length == 2) {
                     GeolosysAPI.replacementMats.add(block.getDefaultState());
-                }
-                else
-                {
-                    if (parts[2].equals("*"))
-                    {
-                        for (int i = 0; i < 16; i++)
-                        {
+                } else {
+                    if (parts[2].equals("*")) {
+                        for (int i = 0; i < 16; i++) {
                             GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, i));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         GeolosysAPI.replacementMats.add(Utils.getStateFromMeta(block, toInt(parts[2])));
                     }
                 }
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 Geolosys.getInstance().LOGGER.error("Entry " + s
                         + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
                 Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
@@ -158,47 +118,33 @@ public class ConfigParser
         }
     }
 
-    private void parseConverterBlacklist()
-    {
-        for (String s : ModConfig.userEntries.convertBlacklistRaw)
-        {
+    private void parseConverterBlacklist() {
+        for (String s : ModConfig.userEntries.convertBlacklistRaw) {
             String[] parts = s.trim().replaceAll(" ", "").split("[\\W]");
-            if (parts.length != 2 && parts.length != 3)
-            {
+            if (parts.length != 2 && parts.length != 3) {
                 Geolosys.getInstance().LOGGER
                         .error("Entry " + s + " is not valid. Reason: wrong number of arguments given");
                 continue;
             }
-            try
-            {
+            try {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(parts[0], parts[1]));
-                if (block == null || block == Blocks.AIR)
-                {
+                if (block == null || block == Blocks.AIR) {
                     Geolosys.getInstance().LOGGER
                             .error("Entry " + s + " is not valid. Reason: ore swap blacklist block does not exist");
                     continue;
                 }
-                if (parts.length == 2)
-                {
+                if (parts.length == 2) {
                     GeolosysAPI.oreConverterBlacklist.add(block.getDefaultState());
-                }
-                else
-                {
-                    if (parts[2].equals("*"))
-                    {
-                        for (int i = 0; i < 16; i++)
-                        {
+                } else {
+                    if (parts[2].equals("*")) {
+                        for (int i = 0; i < 16; i++) {
                             GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, i));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         GeolosysAPI.oreConverterBlacklist.add(Utils.getStateFromMeta(block, toInt(parts[2])));
                     }
                 }
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 Geolosys.getInstance().LOGGER.error("Entry " + s
                         + " is not valid. Reason: this entry doesn't have a number where there's supposed to be");
                 Geolosys.getInstance().LOGGER.error("Additional Info: " + e.getMessage());
@@ -206,8 +152,7 @@ public class ConfigParser
         }
     }
 
-    private int toInt(String s)
-    {
+    private int toInt(String s) {
         return Integer.parseInt(s);
     }
 

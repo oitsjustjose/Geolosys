@@ -37,8 +37,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);after:contenttweaker;")
-public class Geolosys
-{
+public class Geolosys {
     public static final String MODID = "geolosys";
     public static final String VERSION = "@VERSION@";
     @SidedProxy(clientSide = "com.oitsjustjose.geolosys.client.ClientProxy", serverSide = "com.oitsjustjose.geolosys.common.CommonProxy")
@@ -63,14 +62,12 @@ public class Geolosys
     public ItemProPick PRO_PICK;
     public Item ALMANAC;
 
-    public static Geolosys getInstance()
-    {
+    public static Geolosys getInstance() {
         return instance;
     }
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit();
         LOGGER = event.getModLog();
         clientRegistry = new ClientRegistry();
@@ -85,29 +82,24 @@ public class Geolosys
         CLUSTER = new ItemCluster();
         ALMANAC = new ItemFieldManual();
 
-        if (ModConfig.featureControl.enableIngots)
-        {
+        if (ModConfig.featureControl.enableIngots) {
             INGOT = new ItemIngot();
         }
-        if (ModConfig.featureControl.enableCoals)
-        {
+        if (ModConfig.featureControl.enableCoals) {
             COAL = new ItemCoal();
         }
-        if (ModConfig.prospecting.enableProPick)
-        {
+        if (ModConfig.prospecting.enableProPick) {
             PRO_PICK = new ItemProPick();
         }
         if (Loader.isModLoaded("immersiveengineering") && ModConfig.compat.enableIECompat
-                && ModConfig.featureControl.enableCoals)
-        {
+                && ModConfig.featureControl.enableCoals) {
             COAL_COKE = new ItemCoalCoke();
         }
         configOres = new ConfigOres(event.getModConfigurationDirectory());
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         proxy.init(event);
         MinecraftForge.ORE_GEN_BUS.register(new VanillaWorldGenOverride());
         configOres.init();
@@ -116,11 +108,9 @@ public class Geolosys
     }
 
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         configOres.postInit();
-        if (ModConfig.featureControl.enableSmelting)
-        {
+        if (ModConfig.featureControl.enableSmelting) {
             Recipes.init(configOres, CLUSTER);
         }
         proxy.postInit(event);

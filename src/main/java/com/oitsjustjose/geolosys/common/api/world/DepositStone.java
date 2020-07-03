@@ -8,8 +8,7 @@ import com.oitsjustjose.geolosys.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
-public class DepositStone implements IOre
-{
+public class DepositStone implements IOre {
     private IBlockState block;
     private int yMin;
     private int yMax;
@@ -17,8 +16,7 @@ public class DepositStone implements IOre
     private int size;
     private int[] dimBlacklist;
 
-    public DepositStone(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist)
-    {
+    public DepositStone(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist) {
         this.block = stoneBlock;
         this.yMin = yMin;
         this.yMax = yMax;
@@ -27,76 +25,61 @@ public class DepositStone implements IOre
         this.dimBlacklist = dimBlacklist;
     }
 
-    public int[] getDimensionBlacklist()
-    {
+    public int[] getDimensionBlacklist() {
         return this.dimBlacklist;
     }
 
-    public IBlockState getOre()
-    {
+    public IBlockState getOre() {
         return this.block;
     }
 
-    public IBlockState getSample()
-    {
+    public IBlockState getSample() {
         return null;
     }
 
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         return new ItemStack(this.block.getBlock(), 1, this.block.getBlock().getMetaFromState(this.block))
                 .getDisplayName();
     }
 
-    public int getYMin()
-    {
+    public int getYMin() {
         return this.yMin;
     }
 
-    public int getYMax()
-    {
+    public int getYMax() {
         return this.yMax;
     }
 
-    public int getChance()
-    {
+    public int getChance() {
         return this.chance;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return this.size;
     }
 
-    public boolean canReplace(IBlockState state)
-    {
-        for (IBlockState s : GeolosysAPI.replacementMats)
-        {
-            if (Utils.doStatesMatch(state, s))
-            {
+    public boolean canReplace(IBlockState state) {
+        for (IBlockState s : GeolosysAPI.replacementMats) {
+            if (Utils.doStatesMatch(state, s)) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<IBlockState> getBlockStateMatchers()
-    {
+    public List<IBlockState> getBlockStateMatchers() {
         return null;
     }
 
-    public boolean oreMatches(IBlockState other)
-    {
+    public boolean oreMatches(IBlockState other) {
         return Utils.doStatesMatch(other, this.block);
     }
 
-    public boolean sampleMatches(IBlockState other)
-    {
+    public boolean sampleMatches(IBlockState other) {
         return true;
     }
 
-    public float getDensity()
-    {
+    public float getDensity() {
         return 1.0F;
     }
 }

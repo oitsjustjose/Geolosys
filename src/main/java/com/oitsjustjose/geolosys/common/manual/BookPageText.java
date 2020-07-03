@@ -6,19 +6,16 @@ package com.oitsjustjose.geolosys.common.manual;
  *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
-public class BookPageText extends BookPage
-{
+public class BookPageText extends BookPage {
 
     private final String text;
 
-    public BookPageText(String title, String text)
-    {
+    public BookPageText(String title, String text) {
         super(title);
         this.text = text;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return this.text;
     }
 }

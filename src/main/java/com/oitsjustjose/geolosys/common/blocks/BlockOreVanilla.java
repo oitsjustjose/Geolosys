@@ -32,12 +32,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockOreVanilla extends Block
-{
+public class BlockOreVanilla extends Block {
     public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
 
-    public BlockOreVanilla()
-    {
+    public BlockOreVanilla() {
         super(Material.ROCK);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "ore_vanilla"));
         this.setHardness(7.5F);
@@ -52,31 +50,25 @@ public class BlockOreVanilla extends Block
         this.registerOreDict();
     }
 
-    private void registerOreDict()
-    {
-        for (int i = 0; i < Types.Vanilla.values().length; i++)
-        {
+    private void registerOreDict() {
+        for (int i = 0; i < Types.Vanilla.values().length; i++) {
             OreDictionary.registerOre("oreBlock" + Types.Vanilla.values()[i].getName().substring(0, 1).toUpperCase()
                     + Types.Vanilla.values()[i].getName().substring(1), new ItemStack(this, 1, i));
         }
     }
 
-    private void setHarvestLevels()
-    {
-        for (Types.Vanilla t : Types.Vanilla.values())
-        {
+    private void setHarvestLevels() {
+        for (Types.Vanilla t : Types.Vanilla.values()) {
             this.setHarvestLevel("pickaxe", t.getToolLevel(), this.getDefaultState().withProperty(VARIANT, t));
         }
     }
 
     @Override
-    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
-    {
+    public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         return true;
     }
 
-    private ItemStack getQuartzSilkTouchDrop()
-    {
+    private ItemStack getQuartzSilkTouchDrop() {
         /******************************************************
          * Many thanks to github.com/Paul17041993 for the code*
          *****************************************************/
@@ -84,10 +76,8 @@ public class BlockOreVanilla extends Block
         int rng = random.nextInt(25);
         // AE Compatibility
         if (ModConfig.compat.enableAE2Compat && OreDictionary.doesOreNameExist("oreCertusQuartz")
-                && OreDictionary.getOres("oreCertusQuartz").size() > 0)
-        {
-            if (rng < 7)
-            {
+                && OreDictionary.getOres("oreCertusQuartz").size() > 0) {
+            if (rng < 7) {
                 ItemStack oreCert = OreDictionary.getOres("oreCertusQuartz").get(0);
                 oreCert = oreCert.copy();
                 oreCert.setCount(1);
@@ -95,10 +85,8 @@ public class BlockOreVanilla extends Block
             }
         }
         // AA Compat
-        if (OreDictionary.doesOreNameExist("oreQuartzBlack") && OreDictionary.getOres("oreQuartzBlack").size() > 0)
-        {
-            if (rng >= 7 && rng < 12)
-            {
+        if (OreDictionary.doesOreNameExist("oreQuartzBlack") && OreDictionary.getOres("oreQuartzBlack").size() > 0) {
+            if (rng >= 7 && rng < 12) {
                 ItemStack oreBlack = OreDictionary.getOres("oreQuartzBlack").get(0);
                 oreBlack = oreBlack.copy();
                 oreBlack.setCount(1);
@@ -109,71 +97,56 @@ public class BlockOreVanilla extends Block
     }
 
     @Override
-    protected ItemStack getSilkTouchDrop(IBlockState state)
-    {
-        switch (blockState.getBlock().getMetaFromState(state))
-        {
-        case 0:
-            return new ItemStack(Blocks.COAL_ORE, 1);
-        case 1:
-            return new ItemStack(Blocks.REDSTONE_ORE, 1);
-        case 2:
-            return new ItemStack(Blocks.GOLD_ORE, 1);
-        case 3:
-            return new ItemStack(Blocks.LAPIS_ORE, 1);
-        case 4:
-            return getQuartzSilkTouchDrop();
-        case 5:
-            return new ItemStack(Blocks.DIAMOND_ORE, 1);
-        case 6:
-            return new ItemStack(Blocks.EMERALD_ORE, 1);
-        default:
-            return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
+        switch (blockState.getBlock().getMetaFromState(state)) {
+            case 0:
+                return new ItemStack(Blocks.COAL_ORE, 1);
+            case 1:
+                return new ItemStack(Blocks.REDSTONE_ORE, 1);
+            case 2:
+                return new ItemStack(Blocks.GOLD_ORE, 1);
+            case 3:
+                return new ItemStack(Blocks.LAPIS_ORE, 1);
+            case 4:
+                return getQuartzSilkTouchDrop();
+            case 5:
+                return new ItemStack(Blocks.DIAMOND_ORE, 1);
+            case 6:
+                return new ItemStack(Blocks.EMERALD_ORE, 1);
+            default:
+                return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
         }
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-    {
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+            int fortune) {
         Random random = new Random();
         int meta = state.getBlock().getMetaFromState(state);
-        if (meta == 0)
-        {
+        if (meta == 0) {
             drops.add(new ItemStack(Blocks.COAL_ORE.getItemDropped(state, random, fortune),
                     Blocks.COAL_ORE.quantityDroppedWithBonus(fortune, random), Blocks.COAL_ORE.damageDropped(state)));
-            if (ModConfig.featureControl.enableCoals)
-            {
+            if (ModConfig.featureControl.enableCoals) {
                 /**************************
                  * Coal types *
                  **************************/
                 Item coal = Geolosys.getInstance().COAL;
                 int y = pos.getY();
                 int rng = random.nextInt(10) + fortune;
-                if (y <= 12)
-                {
-                    if (rng > 5)
-                    {
+                if (y <= 12) {
+                    if (rng > 5) {
                         drops.add(new ItemStack(coal, 1, 3));
                     }
-                }
-                else if (y <= 24)
-                {
-                    if (rng > 5)
-                    {
+                } else if (y <= 24) {
+                    if (rng > 5) {
                         drops.add(new ItemStack(coal, 1, 2));
                     }
-                }
-                else if (y < 36)
-                {
-                    if (rng > 5)
-                    {
+                } else if (y < 36) {
+                    if (rng > 5) {
                         drops.add(new ItemStack(coal, 1, 1));
                     }
-                }
-                else if (y < 48)
-                {
-                    if (rng > 5)
-                    {
+                } else if (y < 48) {
+                    if (rng > 5) {
                         drops.add(new ItemStack(coal, 1, 0));
                     }
                 }
@@ -182,48 +155,34 @@ public class BlockOreVanilla extends Block
              * Sulfur *
              **************************/
             if (ModConfig.compat.enableSulfur && OreDictionary.doesOreNameExist("dustSulfur")
-                    && OreDictionary.getOres("dustSulfur").size() > 0)
-            {
+                    && OreDictionary.getOres("dustSulfur").size() > 0) {
                 int rng = random.nextInt(50);
-                if (rng == 0)
-                {
+                if (rng == 0) {
                     drops.add(OreDictionary.getOres("dustSulfur").get(0));
                 }
             }
-        }
-        else if (meta == 1)
-        {
+        } else if (meta == 1) {
             drops.add(new ItemStack(Blocks.REDSTONE_ORE.getItemDropped(state, random, fortune),
                     Blocks.REDSTONE_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.REDSTONE_ORE.damageDropped(state)));
-        }
-        else if (meta == 2)
-        {
+        } else if (meta == 2) {
             Random rand = new Random();
             int count = fortune > 0
                     ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1) : 1)
                     : 1;
             drops.add(new ItemStack(Geolosys.getInstance().CLUSTER, count, ItemCluster.META_GOLD));
-        }
-        else if (meta == 3)
-        {
+        } else if (meta == 3) {
             drops.add(new ItemStack(Blocks.LAPIS_ORE.getItemDropped(state, random, fortune),
                     Blocks.LAPIS_ORE.quantityDroppedWithBonus(fortune, random), Blocks.LAPIS_ORE.damageDropped(state)));
-        }
-        else if (meta == 4)
-        {
+        } else if (meta == 4) {
             drops.add(new ItemStack(Blocks.QUARTZ_ORE.getItemDropped(state, random, fortune),
                     Blocks.QUARTZ_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.QUARTZ_ORE.damageDropped(state)));
-        }
-        else if (meta == 5)
-        {
+        } else if (meta == 5) {
             drops.add(new ItemStack(Blocks.DIAMOND_ORE.getItemDropped(state, random, fortune),
                     Blocks.DIAMOND_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.DIAMOND_ORE.damageDropped(state)));
-        }
-        else if (meta == 6)
-        {
+        } else if (meta == 6) {
             drops.add(new ItemStack(Blocks.EMERALD_ORE.getItemDropped(state, random, fortune),
                     Blocks.EMERALD_ORE.quantityDroppedWithBonus(fortune, random),
                     Blocks.EMERALD_ORE.damageDropped(state)));
@@ -231,67 +190,59 @@ public class BlockOreVanilla extends Block
     }
 
     @Override
-    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-    {
-        switch (state.getBlock().getMetaFromState(state))
-        {
-        case 0:
-            return Blocks.COAL_ORE.getExpDrop(state, world, pos, fortune);
-        case 1:
-            return Blocks.REDSTONE_ORE.getExpDrop(state, world, pos, fortune);
-        case 3:
-            return Blocks.LAPIS_ORE.getExpDrop(state, world, pos, fortune);
-        case 4:
-            return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
-        case 5:
-            return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
-        case 6:
-            return Blocks.EMERALD_ORE.getExpDrop(state, world, pos, fortune);
-        default:
-            return 0;
+    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
+        switch (state.getBlock().getMetaFromState(state)) {
+            case 0:
+                return Blocks.COAL_ORE.getExpDrop(state, world, pos, fortune);
+            case 1:
+                return Blocks.REDSTONE_ORE.getExpDrop(state, world, pos, fortune);
+            case 3:
+                return Blocks.LAPIS_ORE.getExpDrop(state, world, pos, fortune);
+            case 4:
+                return Blocks.QUARTZ_ORE.getExpDrop(state, world, pos, fortune);
+            case 5:
+                return Blocks.DIAMOND_ORE.getExpDrop(state, world, pos, fortune);
+            case 6:
+                return Blocks.EMERALD_ORE.getExpDrop(state, world, pos, fortune);
+            default:
+                return 0;
         }
     }
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-            EntityPlayer player)
-    {
+            EntityPlayer player) {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-            float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, VARIANT);
     }
 
     /**
-     * An ItemBlock class for this block allowing it to support subtypes with proper placement
+     * An ItemBlock class for this block allowing it to support subtypes with proper
+     * placement
      */
-    public class ItemBlockOre extends ItemBlock
-    {
+    public class ItemBlockOre extends ItemBlock {
 
-        ItemBlockOre(Block block)
-        {
+        ItemBlockOre(Block block) {
             super(block);
             this.setHasSubtypes(true);
             this.setRegistryName(block.getRegistryName());
@@ -300,35 +251,28 @@ public class BlockOreVanilla extends Block
         }
 
         @Override
-        public int getMetadata(int damage)
-        {
+        public int getMetadata(int damage) {
             return damage;
         }
 
         @Override
-        public String getUnlocalizedName(ItemStack stack)
-        {
+        public String getUnlocalizedName(ItemStack stack) {
             return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                     + Types.Vanilla.byMetadata(stack.getMetadata()).getName();
         }
 
         @Override
         @SideOnly(Side.CLIENT)
-        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list)
-        {
-            if (this.isInCreativeTab(tab))
-            {
-                for (int i = 0; i < Types.Vanilla.values().length; ++i)
-                {
+        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+            if (this.isInCreativeTab(tab)) {
+                for (int i = 0; i < Types.Vanilla.values().length; ++i) {
                     list.add(new ItemStack(this, 1, i));
                 }
             }
         }
 
-        private void registerModels()
-        {
-            for (int i = 0; i < Types.Vanilla.values().length; i++)
-            {
+        private void registerModels() {
+            for (int i = 0; i < Types.Vanilla.values().length; i++) {
                 Geolosys.getInstance().clientRegistry.register(new ItemStack(this, 1, i),
                         VARIANT.getName() + "=" + Types.Vanilla.byMetadata(i).getName());
             }

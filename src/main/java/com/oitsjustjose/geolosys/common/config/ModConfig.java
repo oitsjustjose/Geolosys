@@ -11,8 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Geolosys.MODID)
-public class ModConfig
-{
+public class ModConfig {
     @Config.Name("Feature Control")
     @Config.Comment("Enable or disable Geolosys features entirely")
     public static FeatureControl featureControl = new FeatureControl();
@@ -33,8 +32,7 @@ public class ModConfig
     @Config.Comment("Client-side settings")
     public static Client client = new Client();
 
-    public static class FeatureControl
-    {
+    public static class FeatureControl {
         @Config.Name("Replace Stone Variant Deposits")
         public boolean modStones = true;
 
@@ -62,8 +60,7 @@ public class ModConfig
         public boolean enableFortuneOnAllOres = false;
     }
 
-    public static class Prospecting
-    {
+    public static class Prospecting {
         @Config.Name("Maximum Number of samples per Chunk")
         @Config.RangeInt(min = 1, max = 16)
         public int maxSamples = 10;
@@ -103,14 +100,13 @@ public class ModConfig
 
         @Config.Name("Blocks Samples can Generate On")
         @Config.Comment("Formatted <modid:block:meta>; this list contains blocks that samples should not generate on.")
-        public String[] samplePlaceBlacklist = new String[]
-        { "minecraft:ice:0", "minecraft:packed_ice:0", "minecraft:frosted_ice" };
+        public String[] samplePlaceBlacklist = new String[] { "minecraft:ice:0", "minecraft:packed_ice:0",
+                "minecraft:frosted_ice" };
 
         @Config.Name("Extra Ores the Prospector's Pick should search for")
         @Config.Comment("Ores here will be able to be detected by the prospector's pick.\n"
                 + "In the form of one of these two:\n" + "    modid:block\n" + "    modid:block:metadata")
-        public String[] extraProPickEntries = new String[]
-        { "undergroundbiomes:igneous_stone_geolosys.ore.autunite:*",
+        public String[] extraProPickEntries = new String[] { "undergroundbiomes:igneous_stone_geolosys.ore.autunite:*",
                 "undergroundbiomes:igneous_stone_geolosys.ore.azurite:*",
                 "undergroundbiomes:igneous_stone_geolosys.ore.bauxite:*",
                 "undergroundbiomes:igneous_stone_geolosys.ore.cassiterite:*",
@@ -165,38 +161,35 @@ public class ModConfig
                 "undergroundbiomes:sedimentary_stone_geolosys_ore:*",
                 "undergroundbiomes:sedimentary_stone_geolosys_ore_vanilla:*" };
 
-        public enum SURFACE_PROSPECTING_TYPE
-        {
+        public enum SURFACE_PROSPECTING_TYPE {
             SAMPLES, OREBLOCKS;
         }
     }
 
-    public static class UserEntries
-    {
+    public static class UserEntries {
         @Config.Name("Blocks mineral deposits can replace")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
-        public String[] replacementMatsRaw = new String[]
-        { "minecraft:stone:0", "minecraft:stone:1", "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0",
-                "minecraft:netherrack:0", "undergroundbiomes:igneous_cobble:*",
-                "undergroundbiomes:igneous_cobble_mossy:*", "undergroundbiomes:igneous_gravel:*",
-                "undergroundbiomes:igneous_monster_stone:*", "undergroundbiomes:igneous_overgrown:*",
-                "undergroundbiomes:igneous_overgrown_snowed:*", "undergroundbiomes:igneous_sand:*",
-                "undergroundbiomes:igneous_stone:*", "undergroundbiomes:metamorphic_cobble:*",
-                "undergroundbiomes:metamorphic_cobble_mossy:*", "undergroundbiomes:metamorphic_gravel:*",
-                "undergroundbiomes:metamorphic_monster_stone:*", "undergroundbiomes:metamorphic_overgrown:*",
-                "undergroundbiomes:metamorphic_overgrown_snowed:*", "undergroundbiomes:metamorphic_sand:*",
-                "undergroundbiomes:metamorphic_stone:*", "undergroundbiomes:sedimentary_gravel:*",
-                "undergroundbiomes:sedimentary_monster_stone:*", "undergroundbiomes:sedimentary_overgrown:*",
-                "undergroundbiomes:sedimentary_overgrown_snowed:*", "undergroundbiomes:sedimentary_sand:*",
-                "undergroundbiomes:sedimentary_stone:*", "undergroundbiomes:sedimentary_stone_mossy:*" };
+        public String[] replacementMatsRaw = new String[] { "minecraft:stone:0", "minecraft:stone:1",
+                "minecraft:stone:3", "minecraft:stone:5", "minecraft:dirt:0", "minecraft:netherrack:0",
+                "undergroundbiomes:igneous_cobble:*", "undergroundbiomes:igneous_cobble_mossy:*",
+                "undergroundbiomes:igneous_gravel:*", "undergroundbiomes:igneous_monster_stone:*",
+                "undergroundbiomes:igneous_overgrown:*", "undergroundbiomes:igneous_overgrown_snowed:*",
+                "undergroundbiomes:igneous_sand:*", "undergroundbiomes:igneous_stone:*",
+                "undergroundbiomes:metamorphic_cobble:*", "undergroundbiomes:metamorphic_cobble_mossy:*",
+                "undergroundbiomes:metamorphic_gravel:*", "undergroundbiomes:metamorphic_monster_stone:*",
+                "undergroundbiomes:metamorphic_overgrown:*", "undergroundbiomes:metamorphic_overgrown_snowed:*",
+                "undergroundbiomes:metamorphic_sand:*", "undergroundbiomes:metamorphic_stone:*",
+                "undergroundbiomes:sedimentary_gravel:*", "undergroundbiomes:sedimentary_monster_stone:*",
+                "undergroundbiomes:sedimentary_overgrown:*", "undergroundbiomes:sedimentary_overgrown_snowed:*",
+                "undergroundbiomes:sedimentary_sand:*", "undergroundbiomes:sedimentary_stone:*",
+                "undergroundbiomes:sedimentary_stone_mossy:*" };
 
         @Config.Name("Blocks that the OreConverter feature should ignore")
         @Config.Comment("Format is:\n" + "modid:block OR modid:block:meta")
         public String[] convertBlacklistRaw = getConvertBlacklist();
     }
 
-    public static class Client
-    {
+    public static class Client {
         @Config.Name("Field Manual Font Scale")
         @Config.RangeDouble(min = 0.1, max = 3.0)
         public float manualFontScale = 0.75F;
@@ -212,8 +205,7 @@ public class ModConfig
         public int hudY = 2;
     }
 
-    public static class Compat
-    {
+    public static class Compat {
         @Config.Name("Enable Osmium")
         public boolean enableOsmium = true;
 
@@ -251,9 +243,9 @@ public class ModConfig
         @Config.Comment("If Enable IE Integration is True, then I register my own excavation \"recipes\","
                 + " leading to potential redundancy. This config is a list of strings to remove from IE")
         @Config.RequiresMcRestart
-        public String[] ieExcavatorRecipesToRemove = new String[]
-        { "Iron", "Bauxite", "Cassiterite", "Coal", "Copper", "Galena", "Gold", "Lapis", "Lead", "Magnetite", "Nickel",
-                "Platinum", "Pyrite", "Quartzite", "Silver", "Uranium", "Cinnabar" };
+        public String[] ieExcavatorRecipesToRemove = new String[] { "Iron", "Bauxite", "Cassiterite", "Coal", "Copper",
+                "Galena", "Gold", "Lapis", "Lead", "Magnetite", "Nickel", "Platinum", "Pyrite", "Quartzite", "Silver",
+                "Uranium", "Cinnabar" };
 
         @Config.Name("Vanilla Mode")
         @Config.Comment("When enabled, instead of using Geolosys's replacements for vanilla ores it just uses Vanilla blocks")
@@ -262,13 +254,10 @@ public class ModConfig
     }
 
     @Mod.EventBusSubscriber(modid = Geolosys.MODID)
-    public static class EventHandler
-    {
+    public static class EventHandler {
         @SubscribeEvent
-        public void onChanged(ConfigChangedEvent.OnConfigChangedEvent event)
-        {
-            if (event.getModID().equalsIgnoreCase(Geolosys.MODID))
-            {
+        public void onChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+            if (event.getModID().equalsIgnoreCase(Geolosys.MODID)) {
                 ConfigManager.sync(Geolosys.MODID, Config.Type.INSTANCE);
                 ConfigParser.reinit();
                 GuiManual.initPages();
@@ -276,42 +265,29 @@ public class ModConfig
         }
     }
 
-    private static String[] getDefaultSeaLevels()
-    {
-        return new String[]
-        { "-1:128", "0:64", "1:128" };
+    private static String[] getDefaultSeaLevels() {
+        return new String[] { "-1:128", "0:64", "1:128" };
     }
 
-    private static String[] getConvertBlacklist()
-    {
-        if (Loader.isModLoaded("nex"))
-        {
-            if (Loader.isModLoaded("gravelores"))
-            {
-                return new String[]
-                { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore", "gravelores:lapis_gravel_ore",
-                        "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore", "gravelores:diamond_gravel_ore",
-                        "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore", "gravelores:nickel_gravel_ore",
-                        "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore", "gravelores:copper_gravel_ore",
-                        "gravelores:aluminum_gravel_ore", "nex:ore_quartz:0", "nex:ore_quartz:1", "nex:ore_quartz:2",
-                        "nex:ore_quartz:3" };
+    private static String[] getConvertBlacklist() {
+        if (Loader.isModLoaded("nex")) {
+            if (Loader.isModLoaded("gravelores")) {
+                return new String[] { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore",
+                        "gravelores:lapis_gravel_ore", "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore",
+                        "gravelores:diamond_gravel_ore", "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore",
+                        "gravelores:nickel_gravel_ore", "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore",
+                        "gravelores:copper_gravel_ore", "gravelores:aluminum_gravel_ore", "nex:ore_quartz:0",
+                        "nex:ore_quartz:1", "nex:ore_quartz:2", "nex:ore_quartz:3" };
+            } else {
+                return new String[] { "nex:ore_quartz:0", "nex:ore_quartz:1", "nex:ore_quartz:2", "nex:ore_quartz:3" };
             }
-            else
-            {
-                return new String[]
-                { "nex:ore_quartz:0", "nex:ore_quartz:1", "nex:ore_quartz:2", "nex:ore_quartz:3" };
-            }
+        } else if (Loader.isModLoaded("gravelores")) {
+            return new String[] { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore",
+                    "gravelores:lapis_gravel_ore", "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore",
+                    "gravelores:diamond_gravel_ore", "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore",
+                    "gravelores:nickel_gravel_ore", "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore",
+                    "gravelores:copper_gravel_ore", "gravelores:aluminum_gravel_ore", };
         }
-        else if (Loader.isModLoaded("gravelores"))
-        {
-            return new String[]
-            { "gravelores:coal_gravel_ore", "gravelores:iron_gravel_ore", "gravelores:lapis_gravel_ore",
-                    "gravelores:gold_gravel_ore", "gravelores:redstone_gravel_ore", "gravelores:diamond_gravel_ore",
-                    "gravelores:emerald_gravel_ore", "gravelores:tin_gravel_ore", "gravelores:nickel_gravel_ore",
-                    "gravelores:silver_gravel_ore", "gravelores:lead_gravel_ore", "gravelores:copper_gravel_ore",
-                    "gravelores:aluminum_gravel_ore", };
-        }
-        return new String[]
-        {};
+        return new String[] {};
     }
 }

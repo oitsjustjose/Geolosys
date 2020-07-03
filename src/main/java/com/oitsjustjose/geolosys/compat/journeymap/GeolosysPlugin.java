@@ -9,22 +9,18 @@ import journeymap.client.api.event.ClientEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 @ClientPlugin
-public class GeolosysPlugin implements IClientPlugin
-{
+public class GeolosysPlugin implements IClientPlugin {
     @Override
-    public void initialize(IClientAPI api)
-    {
+    public void initialize(IClientAPI api) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventListener(api));
     }
 
     @Override
-    public String getModId()
-    {
+    public String getModId() {
         return Geolosys.MODID;
     }
 
     @Override
-    public void onEvent(ClientEvent event)
-    {
+    public void onEvent(ClientEvent event) {
     }
 }
