@@ -26,7 +26,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class ConfigOres {
     private File jsonFile;
@@ -111,6 +110,7 @@ public class ConfigOres {
                         boolean isWhitelist = false;
                         boolean hasIsWhitelist = false;
                         float density = 1.0F;
+                        String plutonName = new String();
                         jReader.beginObject();
                         while (jReader.hasNext()) {
                             String subName = jReader.nextName();
@@ -170,6 +170,8 @@ public class ConfigOres {
                                 hasIsWhitelist = true;
                             } else if (subName.equalsIgnoreCase("density")) {
                                 density = (float) jReader.nextDouble();
+                            } else if (subName.equalsIgnoreCase("name")) {
+                                plutonName = (String) jReader.nextString();
                             } else {
                                 Geolosys.getInstance().LOGGER
                                         .info("Unknown property found in geolosys_ores.json file. Skipping it.");
@@ -178,10 +180,11 @@ public class ConfigOres {
                             }
                         }
                         if (!register(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimBlacklist,
-                                blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, density)) {
+                                blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist, density,
+                                plutonName)) {
                             this.pendingOres.add(new PendingOre(oreBlocks, sampleBlocks, yMin, yMax, size, chance,
                                     dimBlacklist, blockStateMatchers, biomes, biomeTypes, isWhitelist, hasIsWhitelist,
-                                    density));
+                                    density, plutonName));
                         }
                         jReader.endObject();
                     }
@@ -276,7 +279,8 @@ public class ConfigOres {
      */
     private boolean register(PendingOre ore) {
         return register(ore.oreBlocks, ore.sampleBlocks, ore.yMin, ore.yMax, ore.size, ore.chance, ore.dimBlacklist,
-                ore.blockStateMatchers, ore.biomes, ore.biomeTypes, ore.isWhitelist, ore.hasIsWhitelist, ore.density);
+                ore.blockStateMatchers, ore.biomes, ore.biomeTypes, ore.isWhitelist, ore.hasIsWhitelist, ore.density,
+                ore.plutonName);
     }
 
     /**
@@ -306,7 +310,7 @@ public class ConfigOres {
     private boolean register(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers,
             ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist,
-            float density) {
+            float density, String plutonName) {
         HashMap<IBlockState, Integer> oreBlocksParsed = new HashMap<>();
         HashMap<IBlockState, Integer> sampleBlocksParsed = new HashMap<>();
         ArrayList<IBlockState> blockStateMatchersParsed = new ArrayList<>();
@@ -339,17 +343,17 @@ public class ConfigOres {
             if (hasIsWhitelist) {
                 GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
                         dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), biomes,
-                        biomeTypes, isWhitelist, density);
+                        biomeTypes, isWhitelist, density, plutonName.length() > 0 ? plutonName : null);
             } else {
                 Geolosys.getInstance().LOGGER.info(
                         "Received a biome list but no isWhitelist variable to define if the biome list is whitelist or blacklist.\n"
                                 + "Registering it as a normal ore with no biome restrictions");
                 GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                        dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density);
+                        dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density, plutonName.length() > 0 ? plutonName : null);
             }
         } else {
             GeolosysAPI.registerMineralDeposit(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                    dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density);
+                    dimBlacklist, (blockStateMatchers.size() == 0 ? null : blockStateMatchersParsed), density, plutonName.length() > 0 ? plutonName : null);
         }
         Geolosys.getInstance().LOGGER.info("Registered " + oreBlocks + ", " + sampleBlocks + " with density " + density
                 + ". " + ((biomeTypes.size() > 0 || biomes.size() > 0) ? "This ore has custom biome registries" : ""));
@@ -391,10 +395,12 @@ public class ConfigOres {
         public boolean isWhitelist;
         public boolean hasIsWhitelist;
         public float density;
+        public String plutonName;
 
         public PendingOre(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin, int yMax,
                 int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers, ArrayList<Biome> biomes,
-                List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density) {
+                List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density,
+                String plutonName) {
             this.oreBlocks = oreBlocks;
             this.sampleBlocks = sampleBlocks;
             this.yMin = yMin;
@@ -408,6 +414,7 @@ public class ConfigOres {
             this.isWhitelist = isWhitelist;
             this.hasIsWhitelist = hasIsWhitelist;
             this.density = density;
+            this.plutonName = plutonName;
         }
     }
 

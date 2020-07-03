@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.world.Deposit;
 import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
@@ -175,9 +177,10 @@ public class GeolosysAPI {
      *                           can replace
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
-            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, float density) {
+            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, float density,
+            @Nullable String customName) {
         Deposit tempDeposit = new Deposit(oreBlock, sampleBlock, yMin, yMax, size, chance, dimBlacklist,
-                blockStateMatchers, density);
+                blockStateMatchers, density, customName);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
@@ -201,9 +204,9 @@ public class GeolosysAPI {
      */
     public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
             HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
-            List<IBlockState> blockStateMatchers, float density) {
+            List<IBlockState> blockStateMatchers, float density, @Nullable String customName) {
         DepositMultiOre tempDeposit = new DepositMultiOre(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance,
-                dimBlacklist, blockStateMatchers, density);
+                dimBlacklist, blockStateMatchers, density, customName);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
@@ -231,9 +234,9 @@ public class GeolosysAPI {
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
             int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomeList,
-            List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density) {
+            List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density, @Nullable String customName) {
         DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
-                dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density);
+                dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density, customName);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }
@@ -263,10 +266,10 @@ public class GeolosysAPI {
     public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
             HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
             List<IBlockState> blockStateMatchers, List<Biome> biomeList, List<BiomeDictionary.Type> biomeTypes,
-            boolean isWhitelist, float density) {
+            boolean isWhitelist, float density, @Nullable String customName) {
         DepositMultiOreBiomeRestricted tempDeposit = new DepositMultiOreBiomeRestricted(oreBlockMap, sampleBlockMap,
-                yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist,
-                density);
+                yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density,
+                customName);
         OreGenerator.addOreGen(tempDeposit);
         oreBlocks.add(tempDeposit);
     }

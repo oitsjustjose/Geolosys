@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.common.util.Utils;
 
 import net.minecraft.block.state.IBlockState;
@@ -26,10 +28,11 @@ public class DepositMultiOre implements IOre {
     private int[] dimensionBlacklist;
     private List<IBlockState> blockStateMatchers;
     private float density;
+    private String customName;
 
     public DepositMultiOre(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks,
             int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers,
-            float density) {
+            float density, @Nullable String customName) {
         // Sanity checking:
         int sum = 0;
         for (IBlockState key : oreBlocks.keySet()) {
@@ -67,6 +70,9 @@ public class DepositMultiOre implements IOre {
         this.dimensionBlacklist = dimensionBlacklist;
         this.blockStateMatchers = blockStateMatchers;
         this.density = density;
+        if (customName != null) {
+            this.customName = customName;
+        }
     }
 
     public ArrayList<IBlockState> getOres() {
@@ -104,6 +110,10 @@ public class DepositMultiOre implements IOre {
     }
 
     public String getFriendlyName() {
+        if (this.customName != null) {
+            return this.customName;
+        }
+
         StringBuilder sb = new StringBuilder();
 
         for (IBlockState state : this.ores) {

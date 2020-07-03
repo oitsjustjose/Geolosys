@@ -48,7 +48,7 @@ public class CraftTweakerOres {
             Geolosys.getInstance().LOGGER.info("There was an error parsing a CraftTweaker-made sample block");
         } else {
             GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
-                    CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance, dimBlacklist, null, density);
+                    CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance, dimBlacklist, null, density, null);
         }
     }
 
@@ -91,7 +91,7 @@ public class CraftTweakerOres {
         } else {
             GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                     CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance, dimBlacklist, toMCStates,
-                    density);
+                    density, null);
         }
     }
 
@@ -152,7 +152,7 @@ public class CraftTweakerOres {
         } else {
             GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                     CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance, dimBlacklist, null, toMCBiomes,
-                    toMCBiomeTypes, isWhitelist, density);
+                    toMCBiomeTypes, isWhitelist, density, null);
         }
     }
 
@@ -228,7 +228,7 @@ public class CraftTweakerOres {
         } else {
             GeolosysAPI.registerMineralDeposit(CraftTweakerMC.getBlockState(oreBlock),
                     CraftTweakerMC.getBlockState(sampleBlock), yMin, yMax, size, chance, dimBlacklist, toMCStates,
-                    toMCBiomes, toMCBiomeTypes, isWhitelist, density);
+                    toMCBiomes, toMCBiomeTypes, isWhitelist, density, null);
         }
     }
 
@@ -277,7 +277,7 @@ public class CraftTweakerOres {
             sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
         }
         GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist, null,
-                density);
+                density, null);
     }
 
     /**
@@ -335,7 +335,7 @@ public class CraftTweakerOres {
             sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
         }
         GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                toMCStates, density);
+                toMCStates, density, null);
     }
 
     /**
@@ -411,7 +411,7 @@ public class CraftTweakerOres {
             sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
         }
         GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist, null,
-                toMCBiomes, toMCBiomeTypes, isWhitelist, density);
+                toMCBiomes, toMCBiomeTypes, isWhitelist, density, null);
     }
 
     /**
@@ -498,6 +498,6 @@ public class CraftTweakerOres {
             sampleBlockMap.put(CraftTweakerMC.getBlockState(sampleBlocks[i]), sampleBlockChances[i]);
         }
         GeolosysAPI.registerMineralDeposit(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance, dimBlacklist,
-                toMCStates, toMCBiomes, toMCBiomeTypes, isWhitelist, density);
+                toMCStates, toMCBiomes, toMCBiomeTypes, isWhitelist, density, null);
     }
 }
