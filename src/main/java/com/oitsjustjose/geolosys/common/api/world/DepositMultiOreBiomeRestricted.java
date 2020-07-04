@@ -30,26 +30,23 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
         // Manually check this since it's always a fucking pain
         for (Biome b : this.biomes) {
             if (b == biome) {
-                return true;
+                return this.useWhitelist();
             }
         }
         for (BiomeDictionary.Type type : this.biomeTypes) {
             Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(biome);
             for (BiomeDictionary.Type otherType : dictTypes) {
                 if (type.equals(otherType)) {
-                    return true;
+                    return this.useWhitelist();
                 }
             }
         }
-        return false;
+
+        return !this.useWhitelist();
     }
 
     public boolean useWhitelist() {
         return this.useWhitelist;
-    }
-
-    public boolean useBlacklist() {
-        return !this.useWhitelist;
     }
 
     public List<Biome> getBiomeList() {
