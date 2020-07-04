@@ -17,7 +17,8 @@ public class DepositBiomeRestricted extends Deposit {
     public DepositBiomeRestricted(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size,
             int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, float density, @Nullable String customName) {
-        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density, customName);
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density,
+                customName);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;
@@ -27,26 +28,23 @@ public class DepositBiomeRestricted extends Deposit {
         // Manually check this since it's always a fucking pain
         for (Biome b : this.biomes) {
             if (b == biome) {
-                return true;
+                return this.useWhitelist();
             }
         }
         for (BiomeDictionary.Type type : this.biomeTypes) {
             Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(biome);
             for (BiomeDictionary.Type otherType : dictTypes) {
                 if (type.equals(otherType)) {
-                    return true;
+                    return this.useWhitelist();
                 }
             }
         }
-        return false;
+
+        return !this.useWhitelist();
     }
 
     public boolean useWhitelist() {
         return this.useWhitelist;
-    }
-
-    public boolean useBlacklist() {
-        return !this.useWhitelist;
     }
 
     public List<Biome> getBiomeList() {

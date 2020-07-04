@@ -69,6 +69,15 @@ public class BookPageOre extends BookPage {
         return this.ore.getFriendlyName();
     }
 
+    public boolean isWhitelist() {
+        if(this.ore instanceof DepositBiomeRestricted) {
+            DepositBiomeRestricted biomeRestricted = (DepositBiomeRestricted) this.ore;
+            return biomeRestricted.useWhitelist();
+        }
+
+        return false;
+    }
+
     public String getBiomes() {
         if (this.ore instanceof DepositBiomeRestricted) {
             DepositBiomeRestricted biomeRestricted = (DepositBiomeRestricted) this.ore;

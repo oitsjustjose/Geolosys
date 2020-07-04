@@ -503,9 +503,15 @@ public class GuiManual extends GuiScreen {
 
         String description;
         if (page.isBiomeRestricted() && page.isMultiOre()) {
-            description = I18n.format("geolosys.guide.chapter.ore.mutli.biome.description", page.getFriendlyName(),
-                    minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(), page.getChance(), page.getSize(),
-                    page.getHarvestLevel());
+            if (page.isWhitelist()) {
+                description = I18n.format("geolosys.guide.chapter.ore.multi.biome.whitelist.description",
+                        page.getFriendlyName(), minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(),
+                        page.getChance(), page.getSize(), page.getHarvestLevel());
+            } else {
+                description = I18n.format("geolosys.guide.chapter.ore.multi.biome.blacklist.description",
+                        page.getFriendlyName(), minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getBiomes(),
+                        page.getChance(), page.getSize(), page.getHarvestLevel());
+            }
         } else if (page.isMultiOre()) {
             description = I18n.format("geolosys.guide.chapter.ore.multi.description", page.getFriendlyName(),
                     minDepthFromSeaLevel, maxDepthFromSeaLevel, page.getChance(), page.getSize(),
