@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import com.oitsjustjose.geolosys.client.manual.ManualScreen;
+// import com.oitsjustjose.geolosys.client.manual.ManualScreen;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.client.Minecraft;
@@ -43,7 +43,7 @@ public class ManualItem extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        Minecraft.getInstance().displayGuiScreen(new ManualScreen());
+        // Minecraft.getInstance().displayGuiScreen(new ManualScreen());
         return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
     }
 }

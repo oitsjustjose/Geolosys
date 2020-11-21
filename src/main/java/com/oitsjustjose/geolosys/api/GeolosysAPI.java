@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.api;
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 import net.minecraft.block.BlockState;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -22,4 +23,8 @@ public class GeolosysAPI {
     public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
     // An instance of the registry for all generatable plutons
     public static PlutonRegistry plutonRegistry = new PlutonRegistry();
+
+    public static void init() {
+        MinecraftForge.EVENT_BUS.register(plutonRegistry);
+    }
 }

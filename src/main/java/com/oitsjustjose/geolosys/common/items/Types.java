@@ -47,12 +47,13 @@ public class Types {
             return this.serializedName;
         }
 
-        public int getBurnTime()
-
-        {
+        public int getBurnTime() {
             return this.burnTime;
         }
 
+        public String getString() {
+            return this.serializedName;
+        }
     }
 
     public enum CoalCoke implements IStringSerializable {
@@ -98,12 +99,13 @@ public class Types {
             return this.serializedName;
         }
 
-        public int getBurnTime()
-
-        {
+        public int getBurnTime() {
             return this.burnTime;
         }
 
+        public String getString() {
+            return this.serializedName;
+        }
     }
 
     public enum Ingot implements IStringSerializable {
@@ -145,6 +147,10 @@ public class Types {
         }
 
         public String getName() {
+            return this.serializedName;
+        }
+
+        public String getString() {
             return this.serializedName;
         }
     }
@@ -189,6 +195,10 @@ public class Types {
         }
 
         public String getName() {
+            return this.serializedName;
+        }
+
+        public String getString() {
             return this.serializedName;
         }
     }

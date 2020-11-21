@@ -1,21 +1,33 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
+import javax.print.attribute.standard.NumberOfInterveningJobs;
+
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PlutonRegistry {
@@ -98,14 +110,14 @@ public class PlutonRegistry {
         return null;
     }
 
-    public void registerAsOreGenerator() {
-        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                    new ConfiguredFeature<>(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
-        }
-        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, new ConfiguredFeature<>(
-                    new PlutonStoneFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
-        }
+    @SubscribeEvent
+    public void onBiomesLoaded(BiomeLoadingEvent evt) {
+        BiomeGenerationSettingsBuilder settings = evt.getGeneration();
+
+        PlutonOreFeature f = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
+        // ForgeRegistries.FEATURES.register(f);
+
+        settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                f.withConfiguration(NoFeatureConfig.field_236559_b_));
     }
 }

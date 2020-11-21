@@ -390,6 +390,7 @@ public class ProPickItem extends Item {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
+    @SuppressWarnings("deprecation")
     public void onDrawScreen(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
 
@@ -405,14 +406,16 @@ public class ProPickItem extends Item {
             int seaLvl = mc.player.getEntityWorld().getSeaLevel();
             int level = (int) (seaLvl - mc.player.getPosY());
             if (level < 0) {
-                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
-                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),
+                        I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
+                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             } else if (level == 0) {
-                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.at"),
-                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(), I18n.format("geolosys.pro_pick.depth.at"),
+                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             } else {
-                mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
-                        ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),
+                        I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
+                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             RenderSystem.color4f(1F, 1F, 1F, 1F);
         }

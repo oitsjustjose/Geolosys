@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -76,7 +77,7 @@ public class SampleUtils {
     public static boolean canReplace(IWorld world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         Material mat = state.getMaterial();
-        return state.isFoliage(world, pos) || mat.isReplaceable();
+        return BlockTags.LEAVES.contains(state.getBlock()) || mat.isReplaceable();
     }
 
     /**

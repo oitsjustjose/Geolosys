@@ -1,6 +1,8 @@
 modLoader="javafml" #mandatory
-loaderVersion="[31,)" #mandatory (28 is current forge version)
+loaderVersion="[32,)" #mandatory
 issueTrackerURL="http://github.com/oitsjustjose/geolosys/issues"
+license="GNU GPLv3"
+
 [[mods]]
 modId="geolosys"
 version="${version}"
@@ -16,13 +18,13 @@ Support me on Patreon at https://patreon.com/oitsjustjose
 [[dependencies.geolosys]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[31.1.25,)" #mandatory
+    versionRange="[32,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.geolosys]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16,)"
     ordering="NONE"
     side="BOTH"

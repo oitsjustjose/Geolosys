@@ -81,19 +81,20 @@ public class Geolosys {
                 GeolosysCapability::new);
 
         if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get()) {
-            DeferredWorkQueue.runLater(FeatureStripper::strip);
+            MinecraftForge.EVENT_BUS.register(new FeatureStripper());
+            // DeferredWorkQueue.runLater(FeatureStripper::strip);
         }
 
         OreConfig.setup(new File("./config"));
         OreConfig.getInstance().init();
-        GeolosysAPI.plutonRegistry.registerAsOreGenerator();
+        GeolosysAPI.init();
         proxy.init();
     }
 
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
-        LOGGER.info("Geolosys capability attached for " + Utils.dimensionToString(event.getObject().getDimension()));
+        LOGGER.info("Geolosys capability attached for " + Utils.dimensionToString(event.getObject()));
     }
 
     @SubscribeEvent

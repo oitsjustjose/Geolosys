@@ -11,7 +11,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.dimension.Dimension;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 public class Utils {
@@ -29,8 +29,8 @@ public class Utils {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
     }
 
-    public static String dimensionToString(Dimension dim) {
-        return Objects.requireNonNull(dim.getType().getRegistryName().toString());
+    public static String dimensionToString(World world) {
+        return Objects.requireNonNull(world.getDimensionKey().getRegistryName().toString());
     }
 
     public static BlockPos getTopSolidBlock(IWorld world, BlockPos start) {
