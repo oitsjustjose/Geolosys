@@ -11,8 +11,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.block.BlockState;
 
 @SuppressWarnings("unchecked")
-public class DepositMultiOre implements IDeposit
-{
+public class DepositMultiOre implements IDeposit {
     private ArrayList<BlockState> ores = new ArrayList<>();
     private ArrayList<BlockState> samples = new ArrayList<>();
     public HashMap<BlockState, Integer> oreBlocks;
@@ -28,37 +27,30 @@ public class DepositMultiOre implements IDeposit
 
     public DepositMultiOre(HashMap<BlockState, Integer> oreBlocks, HashMap<BlockState, Integer> sampleBlocks, int yMin,
             int yMax, int size, int chance, String[] dimensionBlacklist, List<BlockState> blockStateMatchers,
-            PlutonType type, float density)
-    {
+            PlutonType type, float density) {
         // Sanity checking:
         int sum = 0;
-        for (BlockState key : oreBlocks.keySet())
-        {
+        for (BlockState key : oreBlocks.keySet()) {
             sum += oreBlocks.get(key);
         }
         assert sum == 100 : "Sums of chances should equal 100";
         sum = 0;
-        for (BlockState key : sampleBlocks.keySet())
-        {
+        for (BlockState key : sampleBlocks.keySet()) {
             sum += sampleBlocks.get(key);
         }
         assert sum == 100 : "Sums of chances should equal 100";
 
         int last = 0;
-        for (BlockState key : oreBlocks.keySet())
-        {
-            for (int i = last; i < last + oreBlocks.get(key); i++)
-            {
+        for (BlockState key : oreBlocks.keySet()) {
+            for (int i = last; i < last + oreBlocks.get(key); i++) {
                 this.ores.add(i, key);
             }
             last += oreBlocks.get(key);
         }
 
         last = 0;
-        for (BlockState key : sampleBlocks.keySet())
-        {
-            for (int i = last; i < last + sampleBlocks.get(key); i++)
-            {
+        for (BlockState key : sampleBlocks.keySet()) {
+            for (int i = last; i < last + sampleBlocks.get(key); i++) {
                 this.samples.add(i, key);
             }
             last += sampleBlocks.get(key);
@@ -76,27 +68,20 @@ public class DepositMultiOre implements IDeposit
         this.density = density;
     }
 
-    public ArrayList<BlockState> getOres()
-    {
+    public ArrayList<BlockState> getOres() {
         return this.ores;
     }
 
-    public ArrayList<BlockState> getSamples()
-    {
+    public ArrayList<BlockState> getSamples() {
         return this.samples;
     }
 
-    public BlockState getOre()
-    {
+    public BlockState getOre() {
         BlockState backup = null;
-        try
-        {
+        try {
             return this.ores.get(new Random().nextInt(100));
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            for (BlockState s : this.oreBlocks.keySet())
-            {
+        } catch (IndexOutOfBoundsException e) {
+            for (BlockState s : this.oreBlocks.keySet()) {
                 backup = s;
                 break;
             }
@@ -104,17 +89,12 @@ public class DepositMultiOre implements IDeposit
         return backup;
     }
 
-    public BlockState getSample()
-    {
+    public BlockState getSample() {
         BlockState backup = null;
-        try
-        {
+        try {
             return this.samples.get(new Random().nextInt(100));
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            for (BlockState s : this.sampleBlocks.keySet())
-            {
+        } catch (IndexOutOfBoundsException e) {
+            for (BlockState s : this.sampleBlocks.keySet()) {
                 backup = s;
                 break;
             }
@@ -122,16 +102,13 @@ public class DepositMultiOre implements IDeposit
         return backup;
     }
 
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         StringBuilder sb = new StringBuilder();
 
-        for (BlockState state : this.oreBlocks.keySet())
-        {
+        for (BlockState state : this.oreBlocks.keySet()) {
             String name = Utils.blockStateToName(state);
             // The name hasn't already been added
-            if (sb.indexOf(name) == -1)
-            {
+            if (sb.indexOf(name) == -1) {
                 sb.append(" & ");
                 sb.append(name);
             }
@@ -140,67 +117,52 @@ public class DepositMultiOre implements IDeposit
         return sb.toString().substring(3);
     }
 
-    public int getYMin()
-    {
+    public int getYMin() {
         return this.yMin;
     }
 
-    public int getYMax()
-    {
+    public int getYMax() {
         return this.yMax;
     }
 
-    public int getChance()
-    {
+    public int getChance() {
         return this.chance;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return this.size;
     }
 
-    public String[] getDimensionBlacklist()
-    {
+    public String[] getDimensionBlacklist() {
         return this.dimensionBlacklist;
     }
 
-    public boolean canReplace(BlockState state)
-    {
-        if (this.blockStateMatchers == null)
-        {
+    public boolean canReplace(BlockState state) {
+        if (this.blockStateMatchers == null) {
             return true;
         }
-        for (BlockState s : this.blockStateMatchers)
-        {
-            if (s == state)
-            {
+        for (BlockState s : this.blockStateMatchers) {
+            if (s == state) {
                 return true;
             }
         }
         return this.blockStateMatchers.contains(state);
     }
 
-    public List<BlockState> getBlockStateMatchers()
-    {
+    public List<BlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 
-    public boolean oreMatches(ArrayList<BlockState> other)
-    {
-        for (BlockState state1 : this.oreBlocks.keySet())
-        {
+    public boolean oreMatches(ArrayList<BlockState> other) {
+        for (BlockState state1 : this.oreBlocks.keySet()) {
             boolean isMatchInOtherArrayList = false;
-            for (BlockState state2 : other)
-            {
-                if (Utils.doStatesMatch(state1, state2))
-                {
+            for (BlockState state2 : other) {
+                if (Utils.doStatesMatch(state1, state2)) {
                     isMatchInOtherArrayList = true;
                     break;
                 }
             }
-            if (!isMatchInOtherArrayList)
-            {
+            if (!isMatchInOtherArrayList) {
                 return false;
             }
         }
@@ -208,58 +170,45 @@ public class DepositMultiOre implements IDeposit
         return this.oreBlocks.size() == other.size();
     }
 
-    public boolean sampleMatches(ArrayList<BlockState> other)
-    {
-        for (BlockState state1 : this.sampleBlocks.keySet())
-        {
+    public boolean sampleMatches(ArrayList<BlockState> other) {
+        for (BlockState state1 : this.sampleBlocks.keySet()) {
             boolean isMatchInOtherArrayList = false;
-            for (BlockState state2 : other)
-            {
-                if (Utils.doStatesMatch(state1, state2))
-                {
+            for (BlockState state2 : other) {
+                if (Utils.doStatesMatch(state1, state2)) {
                     isMatchInOtherArrayList = true;
                     break;
                 }
             }
-            if (!isMatchInOtherArrayList)
-            {
+            if (!isMatchInOtherArrayList) {
                 return false;
             }
         }
         return this.sampleBlocks.size() == other.size();
     }
 
-    public boolean oreMatches(BlockState other)
-    {
-        for (BlockState s : this.ores)
-        {
-            if (Utils.doStatesMatch(s, other))
-            {
+    public boolean oreMatches(BlockState other) {
+        for (BlockState s : this.ores) {
+            if (Utils.doStatesMatch(s, other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean sampleMatches(BlockState other)
-    {
-        for (BlockState s : this.samples)
-        {
-            if (Utils.doStatesMatch(s, other))
-            {
+    public boolean sampleMatches(BlockState other) {
+        for (BlockState s : this.samples) {
+            if (Utils.doStatesMatch(s, other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public PlutonType getPlutonType()
-    {
+    public PlutonType getPlutonType() {
         return this.type;
     }
 
-    public float getDensity()
-    {
+    public float getDensity() {
         return this.density;
     }
 }

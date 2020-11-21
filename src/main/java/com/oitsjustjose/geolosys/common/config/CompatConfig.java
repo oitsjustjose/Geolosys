@@ -2,8 +2,7 @@ package com.oitsjustjose.geolosys.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class CompatConfig
-{
+public class CompatConfig {
 
     public static final String CATEGORY_COMPAT = "compat";
 
@@ -12,8 +11,7 @@ public class CompatConfig
     public static ForgeConfigSpec.BooleanValue ENABLE_YELLORIUM;
     public static ForgeConfigSpec.BooleanValue ENABLE_SULFUR;
 
-    public static void init(ForgeConfigSpec.Builder COMMON_BUILDER)
-    {
+    public static void init(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.comment("Mod-Compat Settings").push(CATEGORY_COMPAT);
 
         ENABLE_OSMIUM = COMMON_BUILDER.comment("This will make it so that Platinum will drop Platinum AND Osmium")

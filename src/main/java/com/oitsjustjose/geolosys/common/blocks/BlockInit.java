@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.block.Block;
-import net.minecraft.block.Block.Properties;
+import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -15,28 +15,22 @@ import net.minecraftforge.event.RegistryEvent;
 
 import java.util.HashMap;
 
-public class BlockInit
-{
+public class BlockInit {
     private static BlockInit instance;
 
     private HashMap<String, Block> blocks;
 
-    private BlockInit()
-    {
+    private BlockInit() {
         blocks = Maps.newHashMap();
 
-        for (Types.Vanilla vanillaType : Types.Vanilla.values())
-        {
+        for (Types.Vanilla vanillaType : Types.Vanilla.values()) {
             // Use the vanilla blocks if possible, otherwise I'll build it myself.
             Properties blockProp;
-            if (vanillaType.getVanillaParent() != null)
-            {
+            if (vanillaType.getVanillaParent() != null) {
                 blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
                         .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE)
                         .lootFrom(vanillaType.getVanillaParent());
-            }
-            else
-            {
+            } else {
                 blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
                         .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE);
             }
@@ -47,19 +41,15 @@ public class BlockInit
 
             Block sample;
             // We don't want samples to adopt vanilla drops
-            if (vanillaType.getVanillaParent() != null)
-            {
+            if (vanillaType.getVanillaParent() != null) {
                 sample = new SampleBlock().setRegistryName(Constants.MODID, vanillaType.getName() + "_ore_sample");
-            }
-            else
-            {
+            } else {
                 sample = new SampleBlock(block).setRegistryName(Constants.MODID, vanillaType.getName() + "_ore_sample");
             }
             blocks.put(sample.getRegistryName().toString(), sample);
         }
 
-        for (Types.Modded moddedType : Types.Modded.values())
-        {
+        for (Types.Modded moddedType : Types.Modded.values()) {
             Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(moddedType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE);
@@ -73,27 +63,21 @@ public class BlockInit
 
     }
 
-    public static BlockInit getInstance()
-    {
-        if (instance == null)
-        {
+    public static BlockInit getInstance() {
+        if (instance == null) {
             instance = new BlockInit();
         }
         return instance;
     }
 
-    public void registerBlocks(RegistryEvent.Register<Block> blockRegistryEvent)
-    {
-        for (Block b : this.getModBlocks().values())
-        {
+    public void registerBlocks(RegistryEvent.Register<Block> blockRegistryEvent) {
+        for (Block b : this.getModBlocks().values()) {
             blockRegistryEvent.getRegistry().register(b);
         }
     }
 
-    public void registerBlockItems(RegistryEvent.Register<Item> itemRegistryEvent)
-    {
-        for (Block b : this.getModBlocks().values())
-        {
+    public void registerBlockItems(RegistryEvent.Register<Item> itemRegistryEvent) {
+        for (Block b : this.getModBlocks().values()) {
             Item iBlock = new BlockItem(b, new Item.Properties().group(GeolosysGroup.getInstance()))
                     .setRegistryName(b.getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
@@ -101,8 +85,7 @@ public class BlockInit
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Block> getModBlocks()
-    {
+    public HashMap<String, Block> getModBlocks() {
         return (HashMap<String, Block>) this.blocks.clone();
     }
 }

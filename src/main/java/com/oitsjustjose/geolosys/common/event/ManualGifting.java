@@ -11,26 +11,21 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class ManualGifting
-{
+public class ManualGifting {
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
-    {
-        if (!CommonConfig.GIVE_MANUAL_TO_NEW.get())
-        {
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!CommonConfig.GIVE_MANUAL_TO_NEW.get()) {
             return;
         }
         PlayerEntity player = event.getPlayer();
 
         IGeolosysCapability geolosysCap = event.getEntity().getEntityWorld()
                 .getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
-        if (geolosysCap == null)
-        {
+        if (geolosysCap == null) {
             return;
         }
 
-        if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID()))
-        {
+        if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID())) {
             ItemHandlerHelper.giveItemToPlayer(player,
                     new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:field_manual")));
             geolosysCap.setPlayerReceivedManual(player.getUniqueID());

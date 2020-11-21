@@ -16,24 +16,19 @@ import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 
-public class OsmiumDrop extends LootModifier
-{
+public class OsmiumDrop extends LootModifier {
     Random rand;
 
-    public OsmiumDrop(ILootCondition[] conditions)
-    {
+    public OsmiumDrop(ILootCondition[] conditions) {
         super(conditions);
         this.rand = new Random();
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
-    {
-        if (CompatConfig.ENABLE_OSMIUM.get())
-        {
-            if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || this.rand.nextBoolean())
-            {
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        if (CompatConfig.ENABLE_OSMIUM.get()) {
+            if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || this.rand.nextBoolean()) {
                 generatedLoot.removeIf(
                         x -> x.getItem() == ItemInit.getInstance().getModItems().get("geolosys:platinum_cluster"));
                 generatedLoot.add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster")));
@@ -43,11 +38,9 @@ public class OsmiumDrop extends LootModifier
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<OsmiumDrop>
-    {
+    public static class Serializer extends GlobalLootModifierSerializer<OsmiumDrop> {
         @Override
-        public OsmiumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
-        {
+        public OsmiumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
             return new OsmiumDrop(conditionsIn);
         }
     }

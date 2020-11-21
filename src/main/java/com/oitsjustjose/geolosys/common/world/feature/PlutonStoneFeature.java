@@ -28,15 +28,12 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PlutonStoneFeature extends Feature<NoFeatureConfig>
-{
-    public PlutonStoneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
-    {
+public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
+    public PlutonStoneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn) {
         super(configFactoryIn);
     }
 
-    private boolean isInChunk(ChunkPos chunkPos, BlockPos pos)
-    {
+    private boolean isInChunk(ChunkPos chunkPos, BlockPos pos) {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
         return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
@@ -46,35 +43,31 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
     @Override
     @ParametersAreNonnullByDefault
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand,
-            BlockPos pos, NoFeatureConfig config)
-    {
+            BlockPos pos, NoFeatureConfig config) {
         IGeolosysCapability plutonCapability = worldIn.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
                 .orElse(null);
 
         ChunkPosDim chunkPosDim = new ChunkPosDim(pos,
                 Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString());
-        if (plutonCapability == null)
-        {
+        if (plutonCapability == null) {
             Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
             return false;
         }
-        if (plutonCapability.hasStonePlutonGenerated(chunkPosDim))
-        {
+        if (plutonCapability.hasStonePlutonGenerated(chunkPosDim)) {
             return false;
         }
         IDeposit pluton = GeolosysAPI.plutonRegistry.pickStone();
-        if (pluton == null)
-        {
+        if (pluton == null) {
             return false;
         }
 
         // New way of determining if the dimension is valid for generation
-        // Much quicker to use parallel streams than a for-loop, especially if in a large modpack
+        // Much quicker to use parallel streams than a for-loop, especially if in a
+        // large modpack
         List<DimensionType> dimTypes = Arrays.stream(pluton.getDimensionBlacklist()).parallel()
                 .map(x -> DimensionType.byName(new ResourceLocation(x))).collect(Collectors.toList());
 
-        if (dimTypes.contains(worldIn.getDimension().getType()))
-        {
+        if (dimTypes.contains(worldIn.getDimension().getType())) {
             return false;
         }
 
@@ -92,8 +85,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
 
-        for (int i = 0; i < pluton.getSize(); ++i)
-        {
+        for (int i = 0; i < pluton.getSize(); ++i) {
             float f1 = (float) i / (float) pluton.getSize();
             double d6 = d0 + (d1 - d0) * (double) f1;
             double d7 = d4 + (d5 - d4) * (double) f1;
@@ -108,50 +100,38 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
             int j1 = MathHelper.floor(d7 + d11 / 2.0D);
             int k1 = MathHelper.floor(d8 + d10 / 2.0D);
 
-            for (int l1 = j; l1 <= i1; ++l1)
-            {
+            for (int l1 = j; l1 <= i1; ++l1) {
                 double d12 = ((double) l1 + 0.5D - d6) / (d10 / 2.0D);
 
-                if (d12 * d12 < 1.0D)
-                {
-                    for (int i2 = k; i2 <= j1; ++i2)
-                    {
+                if (d12 * d12 < 1.0D) {
+                    for (int i2 = k; i2 <= j1; ++i2) {
                         double d13 = ((double) i2 + 0.5D - d7) / (d11 / 2.0D);
 
-                        if (d12 * d12 + d13 * d13 < 1.0D)
-                        {
-                            for (int j2 = l; j2 <= k1; ++j2)
-                            {
+                        if (d12 * d12 + d13 * d13 < 1.0D) {
+                            for (int j2 = l; j2 <= k1; ++j2) {
                                 double d14 = ((double) j2 + 0.5D - d8) / (d10 / 2.0D);
 
-                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D)
-                                {
+                                if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D) {
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
-                                    if (isInChunk(thisChunk, blockpos) || worldIn.chunkExists(l1 >> 4, j2 >> 4))
-                                    {
+                                    if (isInChunk(thisChunk, blockpos) || worldIn.chunkExists(l1 >> 4, j2 >> 4)) {
                                         float density = Math.min(pluton.getDensity(), 1.0F);
 
-                                        if (rand.nextFloat() > density)
-                                        {
+                                        if (rand.nextFloat() > density) {
                                             continue;
                                         }
                                         BlockState state = worldIn.getBlockState(blockpos);
 
                                         for (BlockState matcherState : (pluton.getBlockStateMatchers() == null
                                                 ? Utils.getDefaultMatchers()
-                                                : pluton.getBlockStateMatchers()))
-                                        {
-                                            if (Utils.doStatesMatch(matcherState, state))
-                                            {
+                                                : pluton.getBlockStateMatchers())) {
+                                            if (Utils.doStatesMatch(matcherState, state)) {
                                                 worldIn.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                                 placed = true;
                                                 break;
                                             }
                                         }
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         plutonCapability.putPendingBlock(
                                                 new BlockPosDim(pos, Utils.dimensionToString(worldIn.getDimension())),
                                                 pluton.getOre());
@@ -163,8 +143,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig>
                 }
             }
         }
-        if (placed)
-        {
+        if (placed) {
             worldIn.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null)
                     .setStonePlutonGenerated(new ChunkPosDim(pos,
                             Objects.requireNonNull(worldIn.getDimension().getType().getRegistryName()).toString()));

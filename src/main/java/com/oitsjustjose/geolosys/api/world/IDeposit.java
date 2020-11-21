@@ -6,8 +6,7 @@ import com.oitsjustjose.geolosys.api.PlutonType;
 
 import net.minecraft.block.BlockState;
 
-public interface IDeposit
-{
+public interface IDeposit {
     BlockState getOre();
 
     BlockState getSample();

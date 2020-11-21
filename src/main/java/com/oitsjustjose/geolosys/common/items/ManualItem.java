@@ -23,12 +23,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ManualItem extends Item
-{
+public class ManualItem extends Item {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "field_manual");
 
-    public ManualItem()
-    {
+    public ManualItem() {
         super(new Item.Properties().maxStackSize(1).rarity(Rarity.COMMON).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
     }
@@ -36,18 +34,15 @@ public class ManualItem extends Item
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-            ITooltipFlag flagIn)
-    {
-        if (Screen.hasShiftDown())
-        {
+            ITooltipFlag flagIn) {
+        if (Screen.hasShiftDown()) {
             tooltip.add(new TranslationTextComponent("geolosys.field_manual.tooltip"));
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
-    {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         Minecraft.getInstance().displayGuiScreen(new ManualScreen());
         return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
     }

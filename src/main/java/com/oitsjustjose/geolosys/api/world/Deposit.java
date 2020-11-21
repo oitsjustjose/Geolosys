@@ -7,8 +7,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
 
-public class Deposit implements IDeposit
-{
+public class Deposit implements IDeposit {
     private BlockState oreBlock;
     private BlockState sampleBlock;
     private int yMin;
@@ -21,8 +20,7 @@ public class Deposit implements IDeposit
     private float density;
 
     public Deposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, PlutonType type, float density)
-    {
+            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, PlutonType type, float density) {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
         this.yMin = yMin;
@@ -35,84 +33,67 @@ public class Deposit implements IDeposit
         this.density = density;
     }
 
-    public BlockState getOre()
-    {
+    public BlockState getOre() {
         return this.oreBlock;
     }
 
-    public BlockState getSample()
-    {
+    public BlockState getSample() {
         return this.sampleBlock;
     }
 
-    public int getYMin()
-    {
+    public int getYMin() {
         return this.yMin;
     }
 
-    public int getYMax()
-    {
+    public int getYMax() {
         return this.yMax;
     }
 
-    public int getChance()
-    {
+    public int getChance() {
         return this.chance;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return this.size;
     }
 
-    public String[] getDimensionBlacklist()
-    {
+    public String[] getDimensionBlacklist() {
         return this.dimensionBlacklist;
     }
 
-    public boolean canReplace(BlockState state)
-    {
-        if (this.blockStateMatchers == null)
-        {
+    public boolean canReplace(BlockState state) {
+        if (this.blockStateMatchers == null) {
             return true;
         }
-        for (BlockState s : this.blockStateMatchers)
-        {
-            if (Utils.doStatesMatch(s, state))
-            {
+        for (BlockState s : this.blockStateMatchers) {
+            if (Utils.doStatesMatch(s, state)) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<BlockState> getBlockStateMatchers()
-    {
+    public List<BlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 
-    public boolean oreMatches(BlockState other)
-    {
+    public boolean oreMatches(BlockState other) {
         return Utils.doStatesMatch(this.oreBlock, other);
     }
 
-    public boolean sampleMatches(BlockState other)
-    {
+    public boolean sampleMatches(BlockState other) {
         return Utils.doStatesMatch(this.sampleBlock, other);
     }
 
-    public PlutonType getPlutonType()
-    {
+    public PlutonType getPlutonType() {
         return this.type;
     }
 
-    public float getDensity()
-    {
+    public float getDensity() {
         return this.density;
     }
 
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         return Utils.blockStateToName(this.getOre());
     }
 }

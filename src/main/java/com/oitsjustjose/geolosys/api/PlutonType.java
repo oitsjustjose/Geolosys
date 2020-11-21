@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.api;
 
-public enum PlutonType
-{
+public enum PlutonType {
     SPARSE, DENSE, DIKE, LAYER;
 }

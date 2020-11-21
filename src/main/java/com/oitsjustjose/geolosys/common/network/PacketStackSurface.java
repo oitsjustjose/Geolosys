@@ -12,41 +12,33 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketStackSurface
-{
+public class PacketStackSurface {
 
     public ItemStack stack;
 
-    public PacketStackSurface(PacketBuffer buf)
-    {
+    public PacketStackSurface(PacketBuffer buf) {
         this.stack = buf.readItemStack();
     }
 
-    public PacketStackSurface(ItemStack data)
-    {
+    public PacketStackSurface(ItemStack data) {
         this.stack = data;
     }
 
-    public static PacketStackSurface decode(PacketBuffer buf)
-    {
+    public static PacketStackSurface decode(PacketBuffer buf) {
         return new PacketStackSurface(buf);
     }
 
-    public static void encode(PacketStackSurface msg, PacketBuffer buf)
-    {
+    public static void encode(PacketStackSurface msg, PacketBuffer buf) {
         buf.writeItemStack(msg.stack);
     }
 
-    public void handleServer(Supplier<NetworkEvent.Context> context)
-    {
+    public void handleServer(Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void handleClient(PacketStackSurface msg, Supplier<NetworkEvent.Context> context)
-    {
-        if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT)
-        {
+    public static void handleClient(PacketStackSurface msg, Supplier<NetworkEvent.Context> context) {
+        if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             context.get().enqueueWork(() -> {
                 Minecraft mc = Minecraft.getInstance();
                 sendProspectingMessage(mc.player, msg.stack.getDisplayName());
@@ -56,8 +48,7 @@ public class PacketStackSurface
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators)
-    {
+    private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators) {
         TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface",
                 messageDecorators);
         player.sendStatusMessage(msg, true);

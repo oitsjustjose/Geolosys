@@ -16,22 +16,18 @@ import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 
-public class YelloriumDrop extends LootModifier
-{
+public class YelloriumDrop extends LootModifier {
     Random rand;
 
-    public YelloriumDrop(ILootCondition[] conditions)
-    {
+    public YelloriumDrop(ILootCondition[] conditions) {
         super(conditions);
         this.rand = new Random();
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
-    {
-        if (CompatConfig.ENABLE_YELLORIUM.get() && this.rand.nextBoolean())
-        {
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        if (CompatConfig.ENABLE_YELLORIUM.get() && this.rand.nextBoolean()) {
             generatedLoot
                     .removeIf(x -> x.getItem() == ItemInit.getInstance().getModItems().get("geolosys:uranium_cluster"));
             generatedLoot.add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:yellorium_cluster")));
@@ -40,11 +36,9 @@ public class YelloriumDrop extends LootModifier
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<YelloriumDrop>
-    {
+    public static class Serializer extends GlobalLootModifierSerializer<YelloriumDrop> {
         @Override
-        public YelloriumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
-        {
+        public YelloriumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
             return new YelloriumDrop(conditionsIn);
         }
     }

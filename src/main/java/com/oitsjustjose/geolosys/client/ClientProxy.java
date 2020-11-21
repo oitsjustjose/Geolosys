@@ -19,10 +19,8 @@ import net.minecraftforge.fml.ModLoadingException;
 import net.minecraftforge.fml.ModLoadingStage;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 
-public class ClientProxy extends CommonProxy
-{
-    public void init()
-    {
+public class ClientProxy extends CommonProxy {
+    public void init() {
         ManualScreen.initPages();
 
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
@@ -33,13 +31,10 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void throwDownloadError(File jsonFile)
-    {
+    public void throwDownloadError(File jsonFile) {
         ModInfo geolosysModInfo = null;
-        for (ModInfo info : ModList.get().getMods())
-        {
-            if (info.getModId().equalsIgnoreCase(Constants.MODID))
-            {
+        for (ModInfo info : ModList.get().getMods()) {
+            if (info.getModId().equalsIgnoreCase(Constants.MODID)) {
                 geolosysModInfo = info;
                 break;
             }
@@ -49,16 +44,12 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction)
-    {
-        if (direction != null)
-        {
+    public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction) {
+        if (direction != null) {
             player.sendStatusMessage(
                     new TranslationTextComponent("geolosys.pro_pick.tooltip.found", stack.getDisplayName(), direction),
                     true);
-        }
-        else
-        {
+        } else {
             player.sendStatusMessage(
                     new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface", stack.getDisplayName()),
                     true);
@@ -66,8 +57,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerClientSubscribeEvent(Object o)
-    {
+    public void registerClientSubscribeEvent(Object o) {
         MinecraftForge.EVENT_BUS.register(o);
     }
 }

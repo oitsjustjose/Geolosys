@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "geolosys:gold_cluster"
-    ]
+  "replace": false,
+  "values": [
+    "geolosys:gold_cluster"
+  ]
 }

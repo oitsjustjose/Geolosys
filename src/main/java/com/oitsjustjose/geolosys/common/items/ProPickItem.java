@@ -48,31 +48,24 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class ProPickItem extends Item
-{
+public class ProPickItem extends Item {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "prospectors_pick");
 
-    public ProPickItem()
-    {
+    public ProPickItem() {
         super(new Item.Properties().maxStackSize(1).group(GeolosysGroup.getInstance()));
         this.setRegistryName(REGISTRY_NAME);
         Geolosys.proxy.registerClientSubscribeEvent(this);
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack)
-    {
-        if (CommonConfig.ENABLE_PRO_PICK_DMG.get())
-        {
-            if (stack.getTag() == null)
-            {
+    public double getDurabilityForDisplay(ItemStack stack) {
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get()) {
+            if (stack.getTag() == null) {
                 stack.setTag(new CompoundNBT());
                 stack.getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
             }
             return 1D - (double) stack.getTag().getInt("damage") / (double) CommonConfig.PRO_PICK_DURABILITY.get();
-        }
-        else
-        {
+        } else {
             return 1;
         }
     }
@@ -80,16 +73,11 @@ public class ProPickItem extends Item
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-            ITooltipFlag flagIn)
-    {
-        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && Minecraft.getInstance().gameSettings.advancedItemTooltips)
-        {
-            if (stack.getTag() == null || !stack.getTag().contains("damage"))
-            {
+            ITooltipFlag flagIn) {
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && Minecraft.getInstance().gameSettings.advancedItemTooltips) {
+            if (stack.getTag() == null || !stack.getTag().contains("damage")) {
                 tooltip.add(new StringTextComponent("Durability: " + CommonConfig.PRO_PICK_DURABILITY.get()));
-            }
-            else
-            {
+            } else {
                 tooltip.add(new StringTextComponent("Durability: " + stack.getTag().getInt("damage") + "/"
                         + CommonConfig.PRO_PICK_DURABILITY.get()));
             }
@@ -97,26 +85,20 @@ public class ProPickItem extends Item
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack)
-    {
+    public boolean showDurabilityBar(ItemStack stack) {
         return (CommonConfig.ENABLE_PRO_PICK_DMG.get() && stack.hasTag());
     }
 
-    public void attemptDamageItem(PlayerEntity player, BlockPos pos, Hand hand, World worldIn)
-    {
-        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && !player.isCreative())
-        {
-            if (player.getHeldItem(hand).getItem() instanceof ProPickItem)
-            {
-                if (player.getHeldItem(hand).getTag() == null)
-                {
+    public void attemptDamageItem(PlayerEntity player, BlockPos pos, Hand hand, World worldIn) {
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && !player.isCreative()) {
+            if (player.getHeldItem(hand).getItem() instanceof ProPickItem) {
+                if (player.getHeldItem(hand).getTag() == null) {
                     player.getHeldItem(hand).setTag(new CompoundNBT());
                     player.getHeldItem(hand).getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
                 }
                 int prevDmg = player.getHeldItem(hand).getTag().getInt("damage");
                 player.getHeldItem(hand).getTag().putInt("damage", (prevDmg - 1));
-                if (player.getHeldItem(hand).getTag().getInt("damage") <= 0)
-                {
+                if (player.getHeldItem(hand).getTag().getInt("damage") <= 0) {
                     player.setHeldItem(hand, ItemStack.EMPTY);
                     worldIn.playSound(player, pos, new SoundEvent(new ResourceLocation("entity.item.break")),
                             SoundCategory.PLAYERS, 1.0F, 0.85F);
@@ -126,31 +108,24 @@ public class ProPickItem extends Item
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
-    {
-        if (player.isCrouching())
-        {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+        if (player.isCrouching()) {
             ItemStack stack = player.getHeldItem(hand);
             // If there's no stack compound make one and assume last state was ores
-            if (stack.getTag() == null)
-            {
+            if (stack.getTag() == null) {
                 stack.setTag(new CompoundNBT());
                 stack.getTag().putBoolean("stone", true);
             }
             // Swap boolean for compound state
-            else
-            {
+            else {
                 stack.getTag().putBoolean("stone", !stack.getTag().getBoolean("stone"));
             }
 
             boolean searchForStone = stack.getTag().getBoolean("stone");
 
-            if (searchForStone)
-            {
+            if (searchForStone) {
                 player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.stones"), true);
-            }
-            else
-            {
+            } else {
                 player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.ores"), true);
             }
         }
@@ -158,27 +133,21 @@ public class ProPickItem extends Item
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context)
-    {
+    public ActionResultType onItemUse(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
         Hand hand = context.getHand();
         World worldIn = context.getWorld();
         BlockPos pos = context.getPos();
         Direction facing = context.getFace();
 
-        if (player.isCrouching())
-        {
+        if (player.isCrouching()) {
             this.onItemRightClick(worldIn, player, hand);
-        }
-        else
-        {
-            if (!player.isCreative())
-            {
+        } else {
+            if (!player.isCreative()) {
                 this.attemptDamageItem(player, pos, hand, worldIn);
             }
             // At surface or higher
-            if (worldIn.isRemote)
-            {
+            if (worldIn.isRemote) {
                 player.swingArm(hand);
                 return ActionResultType.PASS;
             }
@@ -186,8 +155,7 @@ public class ProPickItem extends Item
             ItemStack stack = player.getHeldItem(hand);
 
             // If there's no stack compound make one and assume last state was ores
-            if (stack.getTag() == null)
-            {
+            if (stack.getTag() == null) {
                 stack.setTag(new CompoundNBT());
                 stack.getTag().putBoolean("stone", false);
             }
@@ -196,19 +164,13 @@ public class ProPickItem extends Item
 
             int seaLvl = worldIn.getSeaLevel();
 
-            if (player.getPosition().getY() >= seaLvl)
-            {
-                if (searchForStone)
-                {
+            if (player.getPosition().getY() >= seaLvl) {
+                if (searchForStone) {
                     prospectSurfaceStones(worldIn, pos, player);
-                }
-                else
-                {
+                } else {
                     prospectSurfaceOres(worldIn, pos, player);
                 }
-            }
-            else
-            {
+            } else {
                 int xStart;
                 int xEnd;
                 int yStart;
@@ -220,72 +182,70 @@ public class ProPickItem extends Item
 
                 boolean oreFoundUnderground = false;
 
-                switch (facing)
-                {
-                case UP:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -confAmt;
-                    yEnd = 0;
-                    zStart = -(confDmt / 2);
-                    zEnd = (confDmt / 2);
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case DOWN:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = 0;
-                    yEnd = confAmt;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case NORTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = 0;
-                    zEnd = confAmt;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case SOUTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -confAmt;
-                    zEnd = 0;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case EAST:
-                    xStart = -(confAmt);
-                    xEnd = 0;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
-                case WEST:
-                    xStart = 0;
-                    xEnd = confAmt;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
-                            zStart, zEnd);
-                    break;
+                switch (facing) {
+                    case UP:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -confAmt;
+                        yEnd = 0;
+                        zStart = -(confDmt / 2);
+                        zEnd = (confDmt / 2);
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
+                    case DOWN:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = 0;
+                        yEnd = confAmt;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
+                    case NORTH:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = 0;
+                        zEnd = confAmt;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
+                    case SOUTH:
+                        xStart = -(confDmt / 2);
+                        xEnd = confDmt / 2;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -confAmt;
+                        zEnd = 0;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
+                    case EAST:
+                        xStart = -(confAmt);
+                        xEnd = 0;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
+                    case WEST:
+                        xStart = 0;
+                        xEnd = confAmt;
+                        yStart = -(confDmt / 2);
+                        yEnd = confDmt / 2;
+                        zStart = -(confDmt / 2);
+                        zEnd = confDmt / 2;
+                        oreFoundUnderground = prospectUnderground(player, worldIn, pos, facing, xStart, xEnd, yStart,
+                                yEnd, zStart, zEnd);
+                        break;
                 }
                 // If right clicking yielded nothing, then find the ore in the chunk again
-                if (!oreFoundUnderground)
-                {
+                if (!oreFoundUnderground) {
                     prospectSurfaceOres(worldIn, pos, player);
                 }
             }
@@ -296,40 +256,28 @@ public class ProPickItem extends Item
     }
 
     private boolean prospectUnderground(PlayerEntity player, World worldIn, BlockPos pos, Direction facing, int xStart,
-            int xEnd, int yStart, int yEnd, int zStart, int zEnd)
-    {
+            int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
         HashMap<IDeposit, HashSet<BlockState>> foundMap = new HashMap<>();
-        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
-        {
-            if (ore instanceof DepositMultiOre)
-            {
+        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres()) {
+            if (ore instanceof DepositMultiOre) {
                 foundMap.put(ore, new HashSet<>());
             }
         }
 
-        for (int x = xStart; x <= xEnd; x++)
-        {
-            for (int y = yStart; y <= yEnd; y++)
-            {
-                for (int z = zStart; z <= zEnd; z++)
-                {
+        for (int x = xStart; x <= xEnd; x++) {
+            for (int y = yStart; y <= yEnd; y++) {
+                for (int z = zStart; z <= zEnd; z++) {
                     BlockState state = worldIn.getBlockState(pos.add(x, y, z));
-                    for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
-                    {
+                    for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres()) {
                         // Use the Use the foundMap with multIDeposits
-                        if (ore instanceof DepositMultiOre)
-                        {
+                        if (ore instanceof DepositMultiOre) {
                             DepositMultiOre multiOre = (DepositMultiOre) ore;
-                            for (BlockState tmpState : ((DepositMultiOre) ore).oreBlocks.keySet())
-                            {
-                                if (Utils.doStatesMatch(tmpState, state))
-                                {
-                                    if (!foundMap.get(multiOre).contains(state))
-                                    {
+                            for (BlockState tmpState : ((DepositMultiOre) ore).oreBlocks.keySet()) {
+                                if (Utils.doStatesMatch(tmpState, state)) {
+                                    if (!foundMap.get(multiOre).contains(state)) {
                                         foundMap.get(multiOre).add(state);
                                     }
-                                    if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size())
-                                    {
+                                    if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size()) {
                                         Geolosys.proxy.sendProspectingMessage(player,
                                                 Utils.blockStateToStack(ore.getOre()), facing.getOpposite());
                                         return true;
@@ -338,18 +286,15 @@ public class ProPickItem extends Item
                             }
                         }
                         // Just check the ore itself otherwise
-                        else if (Utils.doStatesMatch(ore.getOre(), state))
-                        {
+                        else if (Utils.doStatesMatch(ore.getOre(), state)) {
                             Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
                                     facing.getOpposite());
                             return true;
                         }
                     }
                     // If we didn't find anything yet
-                    for (BlockState state2 : GeolosysAPI.proPickExtras)
-                    {
-                        if (Utils.doStatesMatch(state2, state))
-                        {
+                    for (BlockState state2 : GeolosysAPI.proPickExtras) {
+                        if (Utils.doStatesMatch(state2, state)) {
                             Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
                                     facing.getOpposite());
                             return true;
@@ -361,72 +306,55 @@ public class ProPickItem extends Item
         return false;
     }
 
-    private boolean prospectSurfaceOres(World world, BlockPos pos, PlayerEntity player)
-    {
+    private boolean prospectSurfaceOres(World world, BlockPos pos, PlayerEntity player) {
         ChunkPos tempPos = new ChunkPos(pos);
 
         SURFACE_PROSPECTING_TYPE searchType = CommonConfig.PRO_PICK_SURFACE_MODE.get();
 
         HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
-        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
-        {
-            if (ore instanceof DepositMultiOre)
-            {
+        for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres()) {
+            if (ore instanceof DepositMultiOre) {
                 foundMap.put((DepositMultiOre) ore, new HashSet<>());
             }
         }
 
-        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
-        {
-            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
-            {
-                for (int y = 0; y < world.getHeight(); y++)
-                {
+        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
+            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
+                for (int y = 0; y < world.getHeight(); y++) {
                     BlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-                    for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres())
-                    {
-                        if (ore instanceof DepositMultiOre)
-                        {
+                    for (IDeposit ore : GeolosysAPI.plutonRegistry.getOres()) {
+                        if (ore instanceof DepositMultiOre) {
                             DepositMultiOre multiOre = (DepositMultiOre) ore;
                             for (BlockState multiOreState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
                                     ? multiOre.oreBlocks.keySet()
-                                    : multiOre.sampleBlocks.keySet()))
-                            {
-                                if (Utils.doStatesMatch(state, multiOreState))
-                                {
+                                    : multiOre.sampleBlocks.keySet())) {
+                                if (Utils.doStatesMatch(state, multiOreState)) {
                                     int size = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
                                             ? multiOre.oreBlocks.keySet().size()
                                             : multiOre.sampleBlocks.keySet().size();
-                                    if (!foundMap.get(multiOre).contains(state))
-                                    {
+                                    if (!foundMap.get(multiOre).contains(state)) {
                                         foundMap.get(multiOre).add(state);
                                     }
-                                    if (foundMap.get(multiOre).size() == size)
-                                    {
+                                    if (foundMap.get(multiOre).size() == size) {
                                         Geolosys.proxy.sendProspectingMessage(player,
                                                 Utils.blockStateToStack(multiOre.getOre()), null);
                                         return true;
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             if (Utils.doStatesMatch(state,
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
-                                            : ore.getSample())))
-                            {
+                                            : ore.getSample()))) {
                                 Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
                                         null);
                                 return true;
                             }
                         }
                     }
-                    for (BlockState state2 : GeolosysAPI.proPickExtras)
-                    {
-                        if (Utils.doStatesMatch(state, state2))
-                        {
+                    for (BlockState state2 : GeolosysAPI.proPickExtras) {
+                        if (Utils.doStatesMatch(state, state2)) {
                             Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state), null);
                             return true;
                         }
@@ -439,20 +367,14 @@ public class ProPickItem extends Item
         return false;
     }
 
-    private boolean prospectSurfaceStones(World world, BlockPos pos, PlayerEntity player)
-    {
+    private boolean prospectSurfaceStones(World world, BlockPos pos, PlayerEntity player) {
         ChunkPos tempPos = new ChunkPos(pos);
 
-        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++)
-        {
-            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++)
-            {
-                for (int y = 0; y < Utils.getTopSolidBlock(world, new BlockPos(x, 0, z)).getY(); y++)
-                {
-                    for (IDeposit s : GeolosysAPI.plutonRegistry.getStones())
-                    {
-                        if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z))))
-                        {
+        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
+            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
+                for (int y = 0; y < Utils.getTopSolidBlock(world, new BlockPos(x, 0, z)).getY(); y++) {
+                    for (IDeposit s : GeolosysAPI.plutonRegistry.getStones()) {
+                        if (Utils.doStatesMatch(s.getOre(), world.getBlockState(new BlockPos(x, y, z)))) {
                             Geolosys.proxy.sendProspectingMessage(player,
                                     Utils.blockStateToStack(world.getBlockState(new BlockPos(x, y, z))), null);
                             return true;
@@ -468,35 +390,27 @@ public class ProPickItem extends Item
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public void onDrawScreen(RenderGameOverlayEvent.Post event)
-    {
+    public void onDrawScreen(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
 
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || mc.gameSettings.showDebugInfo
-                || mc.gameSettings.showDebugProfilerChart)
-        {
+                || mc.gameSettings.showDebugProfilerChart) {
             return;
         }
         if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
-                || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem)
-        {
+                || mc.player.getHeldItemOffhand().getItem() instanceof ProPickItem) {
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             RenderSystem.disableLighting();
             int seaLvl = mc.player.getEntityWorld().getSeaLevel();
             int level = (int) (seaLvl - mc.player.getPosY());
-            if (level < 0)
-            {
+            if (level < 0) {
                 mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
-            }
-            else if (level == 0)
-            {
+            } else if (level == 0) {
                 mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.at"),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
-            }
-            else
-            {
+            } else {
                 mc.fontRenderer.drawStringWithShadow(I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
                         ClientConfig.PROPICK_HUD_X.get(), ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }

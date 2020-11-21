@@ -5,10 +5,10 @@ import net.minecraft.util.math.BlockPos;
 import java.io.Serializable;
 
 /**
- * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such, it stores a chunk's X and Z position
+ * ChunkPosSerializable is a serializable version of Mojang's ChunkPos As such,
+ * it stores a chunk's X and Z position
  */
-public class BlockPosDim implements Serializable
-{
+public class BlockPosDim implements Serializable {
     private static final long serialVersionUID = 6006452707959283295L;
     private int x;
     private int y;
@@ -18,8 +18,7 @@ public class BlockPosDim implements Serializable
     /**
      * @param pos A Mojang ChunkPos initializer for ChunkPosSerializable
      */
-    public BlockPosDim(BlockPos pos, String dim)
-    {
+    public BlockPosDim(BlockPos pos, String dim) {
         this(pos.getX(), pos.getY(), pos.getZ(), dim);
     }
 
@@ -27,15 +26,13 @@ public class BlockPosDim implements Serializable
      * @param x The X position which the Chunk starts at
      * @param z The Z position which the Chunk starts at
      */
-    public BlockPosDim(int x, int y, int z, String dim)
-    {
+    public BlockPosDim(int x, int y, int z, String dim) {
         this.x = x;
         this.z = z;
         this.dim = dim;
     }
 
-    public BlockPosDim(String asString)
-    {
+    public BlockPosDim(String asString) {
         String[] parts = asString.replace("[", "").replace("]", "").split(",");
         assert parts.length == 4;
         this.x = Integer.parseInt(parts[0]);
@@ -44,46 +41,36 @@ public class BlockPosDim implements Serializable
         this.dim = parts[3];
     }
 
-    public BlockPos getPos()
-    {
+    public BlockPos getPos() {
         return new BlockPos(this.x, this.y, this.z);
     }
 
-    public int getX()
-    {
+    public int getX() {
         return this.x;
     }
 
-    public int getY()
-    {
+    public int getY() {
         return this.y;
     }
 
-    public int getZ()
-    {
+    public int getZ() {
         return this.z;
     }
 
-    public String getDimension()
-    {
+    public String getDimension() {
         return this.dim;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "[" + this.getX() + "," + this.getY() + "," + this.getZ() + "," + this.getDimension() + "]";
     }
 
     @Override
-    public boolean equals(Object other)
-    {
-        if (other == this)
-        {
+    public boolean equals(Object other) {
+        if (other == this) {
             return true;
-        }
-        else if (other instanceof BlockPosDim)
-        {
+        } else if (other instanceof BlockPosDim) {
             BlockPosDim b = (BlockPosDim) other;
             return b.getX() == this.getX() && b.getY() == this.getY() && b.getZ() == this.getZ()
                     && b.getDimension().equalsIgnoreCase(this.getDimension());

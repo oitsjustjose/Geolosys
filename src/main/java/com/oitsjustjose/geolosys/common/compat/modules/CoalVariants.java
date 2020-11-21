@@ -21,53 +21,39 @@ import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 
-public class CoalVariants extends LootModifier
-{
+public class CoalVariants extends LootModifier {
     Random rand;
 
-    public CoalVariants(ILootCondition[] conditions)
-    {
+    public CoalVariants(ILootCondition[] conditions) {
         super(conditions);
         this.rand = new Random();
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
-    {
-        if (context.get(LootParameters.THIS_ENTITY) instanceof LivingEntity)
-        {
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        if (context.get(LootParameters.THIS_ENTITY) instanceof LivingEntity) {
             LivingEntity harvester = (LivingEntity) context.get(LootParameters.THIS_ENTITY);
 
-            if (CommonConfig.ENABLE_COALS.get())
-            {
+            if (CommonConfig.ENABLE_COALS.get()) {
                 int y = harvester.getPosition().getY();
                 ItemStack stackToAdd = ItemStack.EMPTY;
 
-                if (y <= 12)
-                {
+                if (y <= 12) {
                     stackToAdd = new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:anthracite_coal"));
-                }
-                else if (y <= 24)
-                {
+                } else if (y <= 24) {
                     stackToAdd = new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:bituminous_coal"));
-                }
-                else if (y <= 36)
-                {
+                } else if (y <= 36) {
                     stackToAdd = new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:lignite_coal"));
-                }
-                else if (y <= 48)
-                {
+                } else if (y <= 48) {
                     stackToAdd = new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:peat_coal"));
                 }
 
-                if (!stackToAdd.isEmpty())
-                {
+                if (!stackToAdd.isEmpty()) {
                     int fortuneLvl = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE,
                             harvester.getHeldItemMainhand());
 
-                    if (this.rand.nextInt(5 - fortuneLvl) == 0)
-                    {
+                    if (this.rand.nextInt(5 - fortuneLvl) == 0) {
                         generatedLoot.removeIf(x -> x.getItem() == Items.COAL);
                         generatedLoot.add(stackToAdd);
                     }
@@ -78,11 +64,9 @@ public class CoalVariants extends LootModifier
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<CoalVariants>
-    {
+    public static class Serializer extends GlobalLootModifierSerializer<CoalVariants> {
         @Override
-        public CoalVariants read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn)
-        {
+        public CoalVariants read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
             return new CoalVariants(conditionsIn);
         }
     }

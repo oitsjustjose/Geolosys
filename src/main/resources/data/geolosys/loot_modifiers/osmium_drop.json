@@ -1,12 +1,12 @@
 {
-    "type": "geolosys:osmium_drop",
-    "conditions": [
-        {
-            "condition": "minecraft:block_state_property",
-            "block": "geolosys:platinum_ore"
-        },
-        {
-            "condition": "minecraft:survives_explosion"
-        }
-    ]
+  "type": "geolosys:osmium_drop",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "geolosys:platinum_ore"
+    },
+    {
+      "condition": "minecraft:survives_explosion"
+    }
+  ]
 }

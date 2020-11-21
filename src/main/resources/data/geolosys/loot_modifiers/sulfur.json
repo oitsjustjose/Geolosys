@@ -1,12 +1,12 @@
 {
-    "type": "geolosys:sulfur",
-    "conditions": [
-        {
-            "condition": "minecraft:block_state_property",
-            "block": "geolosys:coal_ore"
-        },
-        {
-            "condition": "minecraft:survives_explosion"
-        }
-    ]
+  "type": "geolosys:sulfur",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "geolosys:coal_ore"
+    },
+    {
+      "condition": "minecraft:survives_explosion"
+    }
+  ]
 }

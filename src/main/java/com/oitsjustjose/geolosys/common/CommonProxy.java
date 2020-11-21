@@ -12,46 +12,37 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.io.File;
 
-public class CommonProxy
-{
+public class CommonProxy {
     public static NetworkManager networkManager = new NetworkManager();
     public static int discriminator = 0;
 
-    public void init()
-    {
+    public void init() {
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
                 PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleServer);
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class,
                 PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
     }
 
-    public void throwDownloadError(File jsonFile)
-    {
+    public void throwDownloadError(File jsonFile) {
         Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
                 + " could neither be found nor downloaded. "
                 + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json "
                 + "and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
     }
 
-    public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction)
-    {
-        if (!(player instanceof ServerPlayerEntity))
-        {
+    public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction) {
+        if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
-        if (direction != null)
-        {
-            PacketStackUnderground msg = new PacketStackUnderground(stack, direction.getName());
+        if (direction != null) {
+            PacketStackUnderground msg = new PacketStackUnderground(stack, direction.getName2());
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
-        }
-        else
-        {
+        } else {
             PacketStackSurface msg = new PacketStackSurface(stack);
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
         }
     }
 
-    public void registerClientSubscribeEvent(Object o)
-    {
+    public void registerClientSubscribeEvent(Object o) {
     }
 }

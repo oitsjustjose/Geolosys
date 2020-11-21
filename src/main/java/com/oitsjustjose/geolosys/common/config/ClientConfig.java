@@ -9,8 +9,7 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
-public class ClientConfig
-{
+public class ClientConfig {
     public static final ForgeConfigSpec CLIENT_CONFIG;
     private static final Builder CLIENT_BUILDER = new Builder();
     private static final String CATEGORY_CLIENT = "client";
@@ -19,14 +18,12 @@ public class ClientConfig
     public static ForgeConfigSpec.IntValue PROPICK_HUD_Y;
     public static ForgeConfigSpec.BooleanValue ENABLE_TAG_DEBUG;
 
-    static
-    {
+    static {
         init();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
     }
 
-    public static void loadConfig(ForgeConfigSpec spec, Path path)
-    {
+    public static void loadConfig(ForgeConfigSpec spec, Path path) {
         final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
                 .writingMode(WritingMode.REPLACE).build();
 
@@ -34,8 +31,7 @@ public class ClientConfig
         spec.setConfig(configData);
     }
 
-    public static void init()
-    {
+    public static void init() {
         CLIENT_BUILDER.comment("Client-Side Settings").push(CATEGORY_CLIENT);
 
         MANUAL_FONT_SCALE = CLIENT_BUILDER.comment("Defines the scale factor of the font for the Field Manual")

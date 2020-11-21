@@ -10,17 +10,14 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GeolosysCapProvider implements ICapabilitySerializable<CompoundNBT>
-{
+public class GeolosysCapProvider implements ICapabilitySerializable<CompoundNBT> {
     private final IGeolosysCapability impl = new GeolosysCapability();
     private final LazyOptional<IGeolosysCapability> cap = LazyOptional.of(() -> impl);
 
     @Override
     @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn, final @Nullable Direction side)
-    {
-        if (capIn == GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
-        {
+    public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn, final @Nullable Direction side) {
+        if (capIn == GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY) {
             return cap.cast();
         }
 
@@ -28,14 +25,12 @@ public class GeolosysCapProvider implements ICapabilitySerializable<CompoundNBT>
     }
 
     @Override
-    public CompoundNBT serializeNBT()
-    {
+    public CompoundNBT serializeNBT() {
         return impl.serializeNBT();
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt)
-    {
+    public void deserializeNBT(CompoundNBT nbt) {
         impl.deserializeNBT(nbt);
     }
 

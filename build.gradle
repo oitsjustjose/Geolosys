@@ -24,7 +24,7 @@ archivesBaseName = "Geolosys-${game_version}"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: "snapshot", version: "${mappings_version}-1.15.1"
+    mappings channel: "snapshot", version: "${mappings_version}"
     runs {
         client {
             workingDirectory project.file('run')
@@ -109,19 +109,22 @@ curseforge {
     changelogType = 'markdown'
     changelog = file("./changelog.md")
     releaseType = 'release'
-    addGameVersion "${game_version}"
+    addGameVersion "1.16.1"
+    addGameVersion "1.16.2"
+    addGameVersion "1.16.3"
+    addGameVersion "1.16.4"
 
     mainArtifact(jar) {
-        displayName = "Geolosys ${game_version} ${mod_version}"
+        displayName = "Geolosys 1.16.x ${mod_version}"
     }
 
 
     addArtifact(deobfJar) {
-        displayName = "Geolosys ${game_version} ${mod_version} Deobf"
+        displayName = "Geolosys 1.16.x ${mod_version} Deobf"
     }
 
     addArtifact(sourcesJar){
-        displayName = "Geolosys ${game_version} ${mod_version} Sources"
+        displayName = "Geolosys 1.16.x ${mod_version} Sources"
     }
   }
 }

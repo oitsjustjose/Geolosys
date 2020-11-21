@@ -6,10 +6,8 @@ import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nullable;
 
-public class Types
-{
-    public enum Vanilla implements IStringSerializable
-    {
+public class Types {
+    public enum Vanilla implements IStringSerializable {
         COAL(0, 0, "coal", "coal", Blocks.COAL_ORE), CINNABAR(1, 2, "cinnabar", "redstone", Blocks.REDSTONE_ORE),
         GOLD(2, 2, "gold", "gold", null), LAPIS(3, 1, "lapis", "lapis", Blocks.LAPIS_ORE),
         QUARTZ(4, 1, "quartz", "various quartz types", Blocks.NETHER_QUARTZ_ORE),
@@ -18,72 +16,66 @@ public class Types
 
         private static final Vanilla[] META_LOOKUP = new Vanilla[values().length];
 
-        static
-        {
-            for (Vanilla type : values())
-            {
+        static {
+            for (Vanilla type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
 
         private final int meta;
         private final int toolLevel;
+        private final String serializedName;
         private final String unlocalizedName;
         private final String resource;
         private final Block parentBlock;
 
-        Vanilla(int meta, int toolLevel, String name, String resource, @Nullable Block parent)
-        {
+        Vanilla(int meta, int toolLevel, String name, String resource, @Nullable Block parent) {
             this.meta = meta;
             this.toolLevel = toolLevel;
             this.unlocalizedName = name;
+            this.serializedName = name;
             this.resource = resource;
             this.parentBlock = parent;
         }
 
-        public static Vanilla byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
+        public static Vanilla byMetadata(int meta) {
+            if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
 
             return META_LOOKUP[meta];
         }
 
-        public Block getVanillaParent()
-        {
+        public Block getVanillaParent() {
             return this.parentBlock;
         }
 
-        public int getToolLevel()
-        {
+        public int getToolLevel() {
             return this.toolLevel;
         }
 
-        public int getMetadata()
-        {
+        public int getMetadata() {
             return this.meta;
         }
 
-        public String toString()
-        {
+        public String toString() {
             return this.unlocalizedName;
         }
 
-        public String getResource()
-        {
+        public String getResource() {
             return this.resource;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return this.unlocalizedName;
+        }
+
+        public String getString() {
+            return this.serializedName;
         }
     }
 
-    public enum Modded implements IStringSerializable
-    {
+    public enum Modded implements IStringSerializable {
         HEMATITE(0, 1, "hematite", "hematite", "iron"), LIMONITE(1, 2, "limonite", "limonite", "nickel"),
         MALACHITE(2, 1, "malachite", "malachite", "poor copper"), AZURITE(3, 2, "azurite", "azurite", "copper"),
         CASSITERITE(4, 1, "cassiterite", "cassiterite", "poor tin"), TEALLITE(5, 2, "teallite", "teallite", "tin"),
@@ -93,10 +85,8 @@ public class Types
 
         private static final Modded[] META_LOOKUP = new Modded[values().length];
 
-        static
-        {
-            for (Modded type : values())
-            {
+        static {
+            for (Modded type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
@@ -107,51 +97,43 @@ public class Types
         private final String unlocalizedName;
         private final String resource;
 
-        Modded(int meta, int toolLevel, String name, String unlocalizedName, String resource)
-        {
+        Modded(int meta, int toolLevel, String name, String unlocalizedName, String resource) {
             this.meta = meta;
             this.toolLevel = toolLevel;
             this.serializedName = name;
             this.unlocalizedName = unlocalizedName;
-            // this.serializedName = (meta == 0 && CommonConfig.compat.vanillaMode) ? name + "_vanilla" : name;
-            // this.unlocalizedName = (meta == 0 && CommonConfig.compat.vanillaMode) ? unlocalizedName + "_vanilla"
-            // : unlocalizedName;
             this.resource = resource;
-
         }
 
-        public static Modded byMetadata(int meta)
-        {
-            if (meta < 0 || meta >= META_LOOKUP.length)
-            {
+        public static Modded byMetadata(int meta) {
+            if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
 
             return META_LOOKUP[meta];
         }
 
-        public int getToolLevel()
-        {
+        public int getToolLevel() {
             return this.toolLevel;
         }
 
-        public int getMetadata()
-        {
+        public int getMetadata() {
             return this.meta;
         }
 
-        public String toString()
-        {
+        public String toString() {
             return this.unlocalizedName;
         }
 
-        public String getResource()
-        {
+        public String getResource() {
             return this.resource;
         }
 
-        public String getName()
-        {
+        public String getName() {
+            return this.serializedName;
+        }
+
+        public String getString() {
             return this.serializedName;
         }
     }

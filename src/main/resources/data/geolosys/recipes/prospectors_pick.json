@@ -1,19 +1,19 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "III",
-        "  S",
-        "  S"
-    ],
-    "key": {
-        "S": {
-            "tag": "forge:rods/wooden"
-        },
-        "I": {
-            "tag": "forge:ingots/iron"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "  S",
+    "  S"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
     },
-    "result": {
-        "item": "geolosys:prospectors_pick"
+    "I": {
+      "tag": "forge:ingots/iron"
     }
+  },
+  "result": {
+    "item": "geolosys:prospectors_pick"
+  }
 }

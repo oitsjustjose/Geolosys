@@ -18,8 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
-public class CommonConfig
-{
+public class CommonConfig {
     public static final ForgeConfigSpec COMMON_CONFIG;
     private static final Builder COMMON_BUILDER = new Builder();
     public static ForgeConfigSpec.BooleanValue ENABLE_INGOTS;
@@ -40,15 +39,13 @@ public class CommonConfig
     private static String CATEGORY_FEATURE_CONTROL = "feature control";
     private static String CATEGORY_PROSPECTING = "prospecting";
 
-    static
-    {
+    static {
         init();
         CompatConfig.init(COMMON_BUILDER);
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
 
-    public static void loadConfig(ForgeConfigSpec spec, Path path)
-    {
+    public static void loadConfig(ForgeConfigSpec spec, Path path) {
         final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
                 .writingMode(WritingMode.REPLACE).build();
 
@@ -57,8 +54,7 @@ public class CommonConfig
     }
 
     @SuppressWarnings("deprecation")
-    private static void init()
-    {
+    private static void init() {
         COMMON_BUILDER.comment("Feature Control").push(CATEGORY_FEATURE_CONTROL);
         ENABLE_INGOTS = COMMON_BUILDER.comment("Enable Geolosys's Ingots").define("enableIngots", true);
         ENABLE_COALS = COMMON_BUILDER.comment("Enable Coal Variants").define("enableCoals", true);
@@ -73,12 +69,10 @@ public class CommonConfig
                 .defineList("defaultReplacementMaterials", Lists.newArrayList("minecraft:stone", "minecraft:andesite",
                         "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone"),
                         rawName -> {
-                            if (rawName instanceof String)
-                            {
+                            if (rawName instanceof String) {
                                 String name = (String) rawName;
                                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                                if (block == null)
-                                {
+                                if (block == null) {
                                     return false;
                                 }
                                 return Utils.addDefaultMatcher(block);
@@ -95,12 +89,10 @@ public class CommonConfig
         SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER.comment("A list of <modid:block> that samples may not be placed on")
                 .defineList("samplePlacementBlacklist", Lists.newArrayList("minecraft:ice", "minecraft:packed_ice"),
                         rawName -> {
-                            if (rawName instanceof String)
-                            {
+                            if (rawName instanceof String) {
                                 String name = (String) rawName;
                                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                                if (block == null || block.getDefaultState().isAir())
-                                {
+                                if (block == null || block.getDefaultState().isAir()) {
                                     return false;
                                 }
                                 SampleUtils.addSamplePlacementBlacklist(block);
@@ -121,12 +113,10 @@ public class CommonConfig
                 .comment("A list of blocks which the prospector's pick should also detect.\n"
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")
                 .defineList("proPickExtras", Lists.newArrayList(), rawName -> {
-                    if (rawName instanceof String)
-                    {
+                    if (rawName instanceof String) {
                         String name = (String) rawName;
                         Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                        if (block == null || block.getDefaultState().isAir())
-                        {
+                        if (block == null || block.getDefaultState().isAir()) {
                             return false;
                         }
                         GeolosysAPI.proPickExtras.add(block.getDefaultState());
@@ -142,8 +132,7 @@ public class CommonConfig
         COMMON_BUILDER.pop();
     }
 
-    public enum SURFACE_PROSPECTING_TYPE
-    {
+    public enum SURFACE_PROSPECTING_TYPE {
         SAMPLES, OREBLOCKS
     }
 }

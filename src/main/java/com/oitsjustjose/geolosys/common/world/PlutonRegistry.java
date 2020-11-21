@@ -18,15 +18,13 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PlutonRegistry
-{
+public class PlutonRegistry {
     private ArrayList<IDeposit> ores;
     private ArrayList<IDeposit> oreWeightList;
     private ArrayList<DepositStone> stones;
     private ArrayList<DepositStone> stoneWeightList;
 
-    public PlutonRegistry()
-    {
+    public PlutonRegistry() {
         this.ores = new ArrayList<>();
         this.oreWeightList = new ArrayList<>();
         this.stones = new ArrayList<>();
@@ -34,69 +32,52 @@ public class PlutonRegistry
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<IDeposit> getOres()
-    {
+    public ArrayList<IDeposit> getOres() {
         return (ArrayList<IDeposit>) this.ores.clone();
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<IDeposit> getStones()
-    {
+    public ArrayList<IDeposit> getStones() {
         return (ArrayList<IDeposit>) this.stones.clone();
     }
 
-    public boolean addOrePluton(IDeposit ore)
-    {
-        if (ore instanceof DepositStone)
-        {
+    public boolean addOrePluton(IDeposit ore) {
+        if (ore instanceof DepositStone) {
             return addStonePluton((DepositStone) ore);
         }
 
-        for (int i = 0; i < ore.getChance(); i++)
-        {
+        for (int i = 0; i < ore.getChance(); i++) {
             oreWeightList.add(ore);
         }
 
         return this.ores.add(ore);
     }
 
-    public boolean addStonePluton(DepositStone stone)
-    {
-        for (int i = 0; i < stone.getChance(); i++)
-        {
+    public boolean addStonePluton(DepositStone stone) {
+        for (int i = 0; i < stone.getChance(); i++) {
             stoneWeightList.add(stone);
         }
         return this.stones.add(stone);
     }
 
-    public IDeposit pickPluton(IWorld world, BlockPos pos, Random rand)
-    {
-        if (this.oreWeightList.size() > 0)
-        {
+    public IDeposit pickPluton(IWorld world, BlockPos pos, Random rand) {
+        if (this.oreWeightList.size() > 0) {
             // Sometimes bias towards specific biomes where applicable
-            if (rand.nextBoolean())
-            {
+            if (rand.nextBoolean()) {
                 Biome b = world.getBiome(pos);
                 ArrayList<IDeposit> forBiome = new ArrayList<>();
-                for (IDeposit d : this.ores)
-                {
-                    if (d instanceof DepositBiomeRestricted)
-                    {
-                        if (((DepositBiomeRestricted) d).canPlaceInBiome(b))
-                        {
+                for (IDeposit d : this.ores) {
+                    if (d instanceof DepositBiomeRestricted) {
+                        if (((DepositBiomeRestricted) d).canPlaceInBiome(b)) {
                             forBiome.add(d);
                         }
-                    }
-                    else if (d instanceof DepositMultiOreBiomeRestricted)
-                    {
-                        if (((DepositMultiOreBiomeRestricted) d).canPlaceInBiome(b))
-                        {
+                    } else if (d instanceof DepositMultiOreBiomeRestricted) {
+                        if (((DepositMultiOreBiomeRestricted) d).canPlaceInBiome(b)) {
                             forBiome.add(d);
                         }
                     }
                 }
-                if (forBiome.size() > 0)
-                {
+                if (forBiome.size() > 0) {
                     int pick = rand.nextInt(forBiome.size());
                     return forBiome.get(pick);
                 }
@@ -108,10 +89,8 @@ public class PlutonRegistry
         return null;
     }
 
-    public DepositStone pickStone()
-    {
-        if (this.stoneWeightList.size() > 0)
-        {
+    public DepositStone pickStone() {
+        if (this.stoneWeightList.size() > 0) {
             Random random = new Random();
             int pick = random.nextInt(this.stoneWeightList.size());
             return this.stoneWeightList.get(pick);
@@ -119,15 +98,12 @@ public class PlutonRegistry
         return null;
     }
 
-    public void registerAsOreGenerator()
-    {
-        for (Biome biome : ForgeRegistries.BIOMES.getValues())
-        {
+    public void registerAsOreGenerator() {
+        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
                     new ConfiguredFeature<>(new PlutonOreFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
         }
-        for (Biome biome : ForgeRegistries.BIOMES.getValues())
-        {
+        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, new ConfiguredFeature<>(
                     new PlutonStoneFeature(NoFeatureConfig::deserialize), new NoFeatureConfig()));
         }

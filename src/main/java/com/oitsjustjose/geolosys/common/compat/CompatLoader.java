@@ -15,12 +15,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber(modid = Constants.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class CompatLoader
-{
+public class CompatLoader {
     @SubscribeEvent
     public static void registerModifierSerializers(
-            @Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event)
-    {
+            @Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
         // Osmium compat for ore and sample
         event.getRegistry().register(
                 new OsmiumDrop.Serializer().setRegistryName(new ResourceLocation(Constants.MODID, "osmium_drop")));

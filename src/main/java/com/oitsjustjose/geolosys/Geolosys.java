@@ -49,14 +49,12 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Constants.MODID)
 @SuppressWarnings("deprecation")
-public class Geolosys
-{
+public class Geolosys {
     private static Geolosys instance;
     public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public Logger LOGGER = LogManager.getLogger();
 
-    public Geolosys()
-    {
+    public Geolosys() {
         instance = this;
 
         // Register the setup method for modloading
@@ -67,26 +65,22 @@ public class Geolosys
         this.configSetup();
     }
 
-    public static Geolosys getInstance()
-    {
+    public static Geolosys getInstance() {
         return instance;
     }
 
-    private void configSetup()
-    {
+    private void configSetup() {
         ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.COMMON_CONFIG);
         CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
     }
 
-    public void setup(final FMLCommonSetupEvent event)
-    {
+    public void setup(final FMLCommonSetupEvent event) {
 
         CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
                 GeolosysCapability::new);
 
-        if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get())
-        {
+        if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get()) {
             DeferredWorkQueue.runLater(FeatureStripper::strip);
         }
 
@@ -97,30 +91,24 @@ public class Geolosys
     }
 
     @SubscribeEvent
-    public void attachCap(AttachCapabilitiesEvent<World> event)
-    {
+    public void attachCap(AttachCapabilitiesEvent<World> event) {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
         LOGGER.info("Geolosys capability attached for " + Utils.dimensionToString(event.getObject().getDimension()));
     }
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public void onHover(ItemTooltipEvent event)
-    {
-        if (!ClientConfig.ENABLE_TAG_DEBUG.get())
-        {
+    public void onHover(ItemTooltipEvent event) {
+        if (!ClientConfig.ENABLE_TAG_DEBUG.get()) {
             return;
         }
 
         Minecraft mc = Minecraft.getInstance();
 
-        if (mc.gameSettings.advancedItemTooltips)
-        {
+        if (mc.gameSettings.advancedItemTooltips) {
             Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
-            if (tags.size() > 0)
-            {
-                for (ResourceLocation tag : tags)
-                {
+            if (tags.size() > 0) {
+                for (ResourceLocation tag : tags) {
                     event.getToolTip().add(new StringTextComponent("\u00A78#" + tag.toString() + "\u00A7r"));
                 }
             }
@@ -128,17 +116,14 @@ public class Geolosys
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents
-    {
+    public static class RegistryEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
-        {
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             BlockInit.getInstance().registerBlocks(blockRegistryEvent);
         }
 
         @SubscribeEvent
-        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent)
-        {
+        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             // Register BlockItems (formerly known as ItemBlocks) for each block initialized
             BlockInit.getInstance().registerBlockItems(itemRegistryEvent);
             ItemInit.getInstance().register(itemRegistryEvent);

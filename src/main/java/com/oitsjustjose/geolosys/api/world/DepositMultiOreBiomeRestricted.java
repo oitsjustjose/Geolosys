@@ -8,11 +8,12 @@ import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class DepositMultiOreBiomeRestricted extends DepositMultiOre
-{
+public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
     private List<Biome> biomes;
     private List<BiomeDictionary.Type> biomeTypes;
     private boolean useWhitelist;
@@ -20,31 +21,25 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
     public DepositMultiOreBiomeRestricted(HashMap<BlockState, Integer> oreBlocks,
             HashMap<BlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
             String[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
-            List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density)
-    {
+            List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
         super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;
     }
 
-    public boolean canPlaceInBiome(Biome biome)
-    {
+    public boolean canPlaceInBiome(Biome biome) {
         // Manually check this since it's always a fucking pain
-        for (Biome b : this.biomes)
-        {
-            if (b == biome)
-            {
+        for (Biome b : this.biomes) {
+            if (b == biome) {
                 return true;
             }
         }
-        for (BiomeDictionary.Type type : this.biomeTypes)
-        {
-            Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(biome);
-            for (BiomeDictionary.Type otherType : dictTypes)
-            {
-                if (type.getName().equalsIgnoreCase(otherType.getName()))
-                {
+        for (BiomeDictionary.Type type : this.biomeTypes) {
+            RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+            Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
+            for (BiomeDictionary.Type otherType : dictTypes) {
+                if (type.getName().equalsIgnoreCase(otherType.getName())) {
                     return true;
                 }
             }
@@ -53,16 +48,13 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
     }
 
     @Override
-    public String getFriendlyName()
-    {
+    public String getFriendlyName() {
         StringBuilder sb = new StringBuilder();
 
-        for (BlockState state : this.oreBlocks.keySet())
-        {
+        for (BlockState state : this.oreBlocks.keySet()) {
             String name = Utils.blockStateToName(state);
             // The name hasn't already been added
-            if (sb.indexOf(name) == -1)
-            {
+            if (sb.indexOf(name) == -1) {
                 sb.append(" & ");
                 sb.append(name);
             }
@@ -71,23 +63,19 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre
         return sb.toString().substring(3);
     }
 
-    public boolean useWhitelist()
-    {
+    public boolean useWhitelist() {
         return this.useWhitelist;
     }
 
-    public boolean useBlacklist()
-    {
+    public boolean useBlacklist() {
         return !this.useWhitelist;
     }
 
-    public List<Biome> getBiomeList()
-    {
+    public List<Biome> getBiomeList() {
         return this.biomes;
     }
 
-    public List<BiomeDictionary.Type> getBiomeTypes()
-    {
+    public List<BiomeDictionary.Type> getBiomeTypes() {
         return this.biomeTypes;
     }
 }
