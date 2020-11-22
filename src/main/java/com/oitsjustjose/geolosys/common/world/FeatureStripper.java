@@ -19,11 +19,11 @@ public class FeatureStripper {
             Blocks.NETHER_QUARTZ_ORE.getDefaultState(), Blocks.REDSTONE_ORE.getDefaultState() };
 
     @SubscribeEvent
-    public static void onBiomesLoaded(BiomeLoadingEvent evt) {
-        BiomeGenerationSettingsBuilder settings = evt.getGeneration();
+    public void onBiomesLoaded(BiomeLoadingEvent evt) {
+        // BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
-        List<Supplier<ConfiguredFeature<?, ?>>> features = settings
-                .getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES);
+        // List<Supplier<ConfiguredFeature<?, ?>>> features = settings
+        //         .getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES);
 
     }
 }

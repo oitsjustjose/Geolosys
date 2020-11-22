@@ -26,8 +26,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
+import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
@@ -44,41 +46,38 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
      * @param plutonStartPos The BlockPos from which the pluton originated
      * @param ore            The IDeposit that was generated
      */
-    private void postPlacement(ServerWorld world, BlockPos plutonStartPos, IDeposit ore) {
+    private void postPlacement(IWorld world, BlockPos plutonStartPos, IDeposit ore) {
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated " + ore.getOre().getBlock().getRegistryName().toString()
                     + " in Chunk " + new ChunkPos(plutonStartPos));
         }
 
-        IGeolosysCapability plutonCapability = world.getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
-        if (plutonCapability != null) {
+        int sampleLimit = SampleUtils.getSampleCount(ore);
+        for (int i = 0; i < sampleLimit; i++) {
+            BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(plutonStartPos), ore.getYMax());
+            if (samplePos == null || SampleUtils.inNonWaterFluid(world, samplePos)) {
+                continue;
+            }
 
-            // Random space between plutons as well
-            plutonCapability.setOrePlutonGenerated(
-                    new ChunkPosDim(plutonStartPos.getX(), plutonStartPos.getZ(), Utils.dimensionToString(world)));
-
-        }
-        if (world.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator) {
-            int sampleLimit = SampleUtils.getSampleCount(ore);
-            for (int i = 0; i < sampleLimit; i++) {
-                BlockPos samplePos = SampleUtils.getSamplePosition(world, new ChunkPos(plutonStartPos), ore.getYMax());
-                if (samplePos == null || SampleUtils.inNonWaterFluid(world, samplePos)) {
-                    continue;
-                }
-                if (world.getBlockState(samplePos) != ore.getSample()) {
-                    boolean isInWater = SampleUtils.isInWater(world, samplePos);
-                    if (ore.getSample().getBlock() instanceof SampleBlock) {
-                        BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
-                                : ore.getSample();
-                        world.setBlockState(samplePos, sampleState, 2 | 16);
+            if (world.getBlockState(samplePos) != ore.getSample()) {
+                boolean isInWater = SampleUtils.isInWater(world, samplePos);
+                if (ore.getSample().getBlock() instanceof SampleBlock) {
+                    BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
+                            : ore.getSample();
+                    world.setBlockState(samplePos, sampleState, 2 | 16);
+                    Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
+                            samplePos.getY(), samplePos.getZ());
+                } else {
+                    // Place a waterlogged variant of whatever block it ends up being
+                    if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable) {
+                        world.setBlockState(samplePos,
+                                ore.getSample().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
+                        Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
+                                samplePos.getY(), samplePos.getZ());
                     } else {
-                        // Place a waterlogged variant of whatever block it ends up being
-                        if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable) {
-                            world.setBlockState(samplePos,
-                                    ore.getSample().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
-                        } else {
-                            world.setBlockState(samplePos, ore.getSample(), 2 | 16);
-                        }
+                        world.setBlockState(samplePos, ore.getSample(), 2 | 16);
+                        Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
+                                samplePos.getY(), samplePos.getZ());
                     }
                 }
             }
@@ -104,7 +103,18 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
             NoFeatureConfig config) {
 
-        ServerWorld world = reader.getWorld();
+        IWorld iworld = reader.getWorld();
+
+        if (!(iworld instanceof ServerWorld)) {
+            return false;
+        }
+
+        ServerWorld world = (ServerWorld) iworld;
+
+        if (world.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator) {
+            Geolosys.getInstance().LOGGER.info("Flat world...?");
+            return false;
+        }
 
         IGeolosysCapability plutonCapability = world.getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
         // Fill in pending Blocks when possible:
@@ -143,38 +153,55 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
             }
         }
 
-        // TODO: This is the slow way -- see the 1.15 branch for the fast way. Can it be
-        // ported??
+        // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
             if (Utils.dimensionToString(world).equals(s)) {
                 return false;
             }
         }
-        boolean placed = false;
 
-        // TODO: This breaks -- why???
-        Geolosys.getInstance().LOGGER.info(world.getBlockState(pos));
-
-        placed = generateSparse(world, pos, rand, pluton, plutonCapability);
-        // if (pluton.getPlutonType() == PlutonType.DENSE) {
-        // placed = generateDense(world, pos, rand, pluton, plutonCapability);
-        // } else if (pluton.getPlutonType() == PlutonType.SPARSE) {
-        // } else if (pluton.getPlutonType() == PlutonType.DIKE) {
-        // placed = generateDike(world, pos, rand, pluton, plutonCapability);
-        // } else if (pluton.getPlutonType() == PlutonType.LAYER) {
-        // placed = generateLayer(world, pos, rand, pluton, plutonCapability);
-        // } else {
-        // Geolosys.getInstance().LOGGER.error("Unknown Generation Logic for PlutonType
-        // {}", pluton.getPlutonType());
-        // }
-
-        if (placed) {
-            this.postPlacement(world, pos, pluton);
+        if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
+            if (plutonCapability != null) {
+                // Random space between plutons as well
+                plutonCapability
+                        .setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
+            }
+            return true;
         }
-        return placed;
+
+        return false;
     }
 
-    private boolean generateLayer(ServerWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    protected boolean func_207803_a(IWorld world, Random rand, BlockPos pos, IDeposit pluton,
+            IGeolosysCapability plutonCapability) {
+
+        if (pluton.getPlutonType() == PlutonType.DENSE) {
+            if (generateDense(world, pos, rand, pluton, plutonCapability)) {
+                this.postPlacement(world, pos, pluton);
+                return true;
+            }
+        } else if (pluton.getPlutonType() == PlutonType.SPARSE) {
+            if (generateSparse(world, pos, rand, pluton, plutonCapability)) {
+                this.postPlacement(world, pos, pluton);
+                return true;
+            }
+        } else if (pluton.getPlutonType() == PlutonType.DIKE) {
+            if (generateDike(world, pos, rand, pluton, plutonCapability)) {
+                this.postPlacement(world, pos, pluton);
+                return true;
+            }
+        } else if (pluton.getPlutonType() == PlutonType.LAYER) {
+            if (generateLayer(world, pos, rand, pluton, plutonCapability)) {
+                this.postPlacement(world, pos, pluton);
+                return true;
+            }
+        }
+
+        Geolosys.getInstance().LOGGER.error("Unknown Generation Logic for PlutonType {}", pluton.getPlutonType());
+        return false;
+    }
+
+    private boolean generateLayer(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -211,7 +238,6 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
                             if (Utils.doStatesMatch(matcherState, state)) {
                                 world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
-
                                 break;
                             }
                         }
@@ -227,7 +253,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
 
     }
 
-    private boolean generateDike(ServerWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    private boolean generateDike(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -291,7 +317,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
 
     }
 
-    private boolean generateSparse(ServerWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    private boolean generateSparse(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -327,7 +353,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         return placed;
     }
 
-    private boolean generateDense(ServerWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    private boolean generateDense(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
 
         // Do this ourselves because by default pos.getY() == 0

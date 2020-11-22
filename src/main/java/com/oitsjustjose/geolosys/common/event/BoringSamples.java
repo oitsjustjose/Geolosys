@@ -1,12 +1,5 @@
 package com.oitsjustjose.geolosys.common.event;
 
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
-import com.oitsjustjose.geolosys.common.utils.Utils;
-
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.event.world.BlockEvent;
-
 public class BoringSamples {
     /**
      * This event is only registered via {@link com.oitsjustjose.geolosys.Geolosys}

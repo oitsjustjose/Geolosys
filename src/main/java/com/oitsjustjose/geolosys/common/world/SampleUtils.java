@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
@@ -17,13 +18,22 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.server.ServerWorld;
 
 public class SampleUtils {
     private static ArrayList<BlockState> samplePlacementBlacklist = new ArrayList<>();
     private static Random random = new Random();
 
     @Nullable
-    public static BlockPos getSamplePosition(IWorld world, ChunkPos chunkPos, int depositHeight) {
+    public static BlockPos getSamplePosition(IWorld iworld, ChunkPos chunkPos, int depositHeight) {
+
+        if (!(iworld instanceof WorldGenRegion)) {
+            return null;
+        }
+
+        WorldGenRegion world = (WorldGenRegion) iworld;
+
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
         int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
         BlockPos searchPos = new BlockPos(blockPosX, 0, blockPosZ);

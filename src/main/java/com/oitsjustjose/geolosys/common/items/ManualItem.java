@@ -1,9 +1,13 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 // import com.oitsjustjose.geolosys.client.manual.ManualScreen;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,9 +23,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ManualItem extends Item {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "field_manual");

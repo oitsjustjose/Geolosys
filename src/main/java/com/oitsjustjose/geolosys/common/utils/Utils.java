@@ -3,15 +3,19 @@ package com.oitsjustjose.geolosys.common.utils;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 public class Utils {
@@ -29,8 +33,19 @@ public class Utils {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
     }
 
-    public static String dimensionToString(World world) {
-        return Objects.requireNonNull(world.getDimensionKey().getRegistryName().toString());
+    public static String dimensionToString(IWorld world) {
+        if (world instanceof World) {
+            return Objects.requireNonNull(((World) world).getDimensionKey().getRegistryName().toString());
+        } else if (world instanceof ClientWorld) {
+            return Objects.requireNonNull(((ClientWorld) world).getDimensionKey().getRegistryName().toString());
+        } else if (world instanceof ServerWorld) {
+            return Objects.requireNonNull(((ServerWorld) world).getDimensionKey().getRegistryName().toString());
+        } else if (world instanceof WorldGenRegion) {
+            return Objects.requireNonNull(((WorldGenRegion) world).getWorld().getDimensionKey().getRegistryName().toString());
+        }
+        Geolosys.getInstance().LOGGER
+                .warn("Utils.dimensionToString called on IWorld object that couldn't be interpreted");
+        return "ERR";
     }
 
     public static BlockPos getTopSolidBlock(IWorld world, BlockPos start) {
