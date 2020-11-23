@@ -29,10 +29,11 @@ public class BlockInit {
             if (vanillaType.getVanillaParent() != null) {
                 blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
                         .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE)
-                        .lootFrom(vanillaType.getVanillaParent());
+                        .lootFrom(vanillaType.getVanillaParent()).setRequiresTool();
             } else {
                 blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
-                        .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE);
+                        .sound(SoundType.STONE).harvestLevel(vanillaType.getToolLevel()).harvestTool(ToolType.PICKAXE)
+                        .setRequiresTool();
             }
 
             Block block = new OreBlock(vanillaType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
@@ -52,7 +53,7 @@ public class BlockInit {
         for (Types.Modded moddedType : Types.Modded.values()) {
             Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(moddedType.getToolLevel())
-                    .harvestTool(ToolType.PICKAXE);
+                    .harvestTool(ToolType.PICKAXE).setRequiresTool();
             Block block = new Block(blockProp).setRegistryName(Constants.MODID, moddedType.getName() + "_ore");
             blocks.put(block.getRegistryName().toString(), block);
 

@@ -81,7 +81,6 @@ public class Geolosys {
 
         if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get()) {
             MinecraftForge.EVENT_BUS.register(new FeatureStripper());
-            // DeferredWorkQueue.runLater(FeatureStripper::strip);
         }
 
         OreConfig.setup(new File("./config"));

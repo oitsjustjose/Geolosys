@@ -64,19 +64,13 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
                     BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
                             : ore.getSample();
                     world.setBlockState(samplePos, sampleState, 2 | 16);
-                    Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
-                            samplePos.getY(), samplePos.getZ());
                 } else {
                     // Place a waterlogged variant of whatever block it ends up being
                     if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable) {
                         world.setBlockState(samplePos,
                                 ore.getSample().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
-                        Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
-                                samplePos.getY(), samplePos.getZ());
                     } else {
                         world.setBlockState(samplePos, ore.getSample(), 2 | 16);
-                        Geolosys.getInstance().LOGGER.info("Set sample state at {}, {}, {}", samplePos.getX(),
-                                samplePos.getY(), samplePos.getZ());
                     }
                 }
             }
@@ -179,21 +173,28 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
                 this.postPlacement(world, pos, pluton);
                 return true;
             }
-        } else if (pluton.getPlutonType() == PlutonType.SPARSE) {
+            return false;
+        }
+        if (pluton.getPlutonType() == PlutonType.SPARSE) {
             if (generateSparse(world, pos, rand, pluton, plutonCapability)) {
                 this.postPlacement(world, pos, pluton);
                 return true;
             }
-        } else if (pluton.getPlutonType() == PlutonType.DIKE) {
+            return false;
+        }
+        if (pluton.getPlutonType() == PlutonType.DIKE) {
             if (generateDike(world, pos, rand, pluton, plutonCapability)) {
                 this.postPlacement(world, pos, pluton);
                 return true;
             }
-        } else if (pluton.getPlutonType() == PlutonType.LAYER) {
+            return false;
+        }
+        if (pluton.getPlutonType() == PlutonType.LAYER) {
             if (generateLayer(world, pos, rand, pluton, plutonCapability)) {
                 this.postPlacement(world, pos, pluton);
                 return true;
             }
+            return false;
         }
 
         Geolosys.getInstance().LOGGER.error("Unknown Generation Logic for PlutonType {}", pluton.getPlutonType());
