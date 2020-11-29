@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.world;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
@@ -103,12 +104,18 @@ public class PlutonRegistry {
 
     @SubscribeEvent(priority = EventPriority.LOWEST) // Lowest priority to run last :)
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
-        // Clear out all of the other underground ore features (sorry mods :()
-        if (CommonConfig.REMOVE_ALL_OTHER_ORES.get()) {
-            evt.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).clear();
+        BiomeGenerationSettingsBuilder settings = evt.getGeneration();
+
+        // Notify the user of the removal if debug mode is on
+        if (CommonConfig.DEBUG_WORLD_GEN.get()) {
+            Geolosys.getInstance().LOGGER.info("Removing {} ore generation(s) from biome {}",
+                    settings.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).size(), evt.getName());
         }
 
-        BiomeGenerationSettingsBuilder settings = evt.getGeneration();
+        // Clear out all of the other underground ore features (sorry mods :()
+        if (CommonConfig.REMOVE_ALL_OTHER_ORES.get()) {
+            settings.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).clear();
+        }
 
         PlutonOreFeature o = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
         PlutonStoneFeature s = new PlutonStoneFeature(NoFeatureConfig.field_236558_a_);
