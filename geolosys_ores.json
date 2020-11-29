@@ -392,7 +392,7 @@
   "stones": [
     {
       "block": "minecraft:granite",
-      "size": 40,
+      "size": 75,
       "chance": 10,
       "yMin": 2,
       "yMax": 70,
@@ -403,7 +403,7 @@
     },
     {
       "block": "minecraft:diorite",
-      "size": 40,
+      "size": 75,
       "chance": 10,
       "yMin": 2,
       "yMax": 70,
@@ -414,7 +414,7 @@
     },
     {
       "block": "minecraft:andesite",
-      "size": 40,
+      "size": 75,
       "chance": 10,
       "yMin": 2,
       "yMax": 70,
