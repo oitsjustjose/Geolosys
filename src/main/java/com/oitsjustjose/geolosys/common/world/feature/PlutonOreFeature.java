@@ -97,19 +97,21 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
             NoFeatureConfig config) {
 
         IWorld iworld = reader.getWorld();
-
         if (!(iworld instanceof ServerWorld)) {
             return false;
         }
 
         ServerWorld world = (ServerWorld) iworld;
-
         if (world.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator) {
-            Geolosys.getInstance().LOGGER.info("Flat world...?");
             return false;
         }
 
         IGeolosysCapability plutonCapability = world.getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        if (plutonCapability == null) {
+            Geolosys.getInstance().LOGGER.info("NULL PLUTON CAPABILITY!!!");
+            return false;
+        }
+
         // Fill in pending Blocks when possible:
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
             if (isInChunk(new ChunkPos(pos), pPos)) {
@@ -154,12 +156,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         }
 
         if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
-            if (plutonCapability != null) {
-                // Random space between plutons as well
-                plutonCapability
-                        .setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
-            }
-            return true;
+            plutonCapability
+                    .setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
         }
 
         return false;

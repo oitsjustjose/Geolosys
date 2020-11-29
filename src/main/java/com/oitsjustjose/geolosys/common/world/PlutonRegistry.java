@@ -7,7 +7,9 @@ import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
+import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -16,6 +18,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class PlutonRegistry {
@@ -98,14 +101,21 @@ public class PlutonRegistry {
         return null;
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST) // Lowest priority to run last :)
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
+        // Clear out all of the other underground ore features (sorry mods :()
+        if (CommonConfig.REMOVE_ALL_OTHER_ORES.get()) {
+            evt.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).clear();
+        }
+
         BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
-        PlutonOreFeature f = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
-        // ForgeRegistries.FEATURES.register(f);
+        PlutonOreFeature o = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
+        PlutonStoneFeature s = new PlutonStoneFeature(NoFeatureConfig.field_236558_a_);
 
         settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                f.withConfiguration(NoFeatureConfig.field_236559_b_));
+                o.withConfiguration(NoFeatureConfig.field_236559_b_));
+        settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                s.withConfiguration(NoFeatureConfig.field_236559_b_));
     }
 }

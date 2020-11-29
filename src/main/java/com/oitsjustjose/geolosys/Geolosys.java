@@ -14,7 +14,6 @@ import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-import com.oitsjustjose.geolosys.common.world.FeatureStripper;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
@@ -78,10 +77,6 @@ public class Geolosys {
 
         CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
                 GeolosysCapability::new);
-
-        if (CommonConfig.DISABLE_VANILLA_ORE_GEN.get()) {
-            MinecraftForge.EVENT_BUS.register(new FeatureStripper());
-        }
 
         OreConfig.setup(new File("./config"));
         OreConfig.getInstance().init();

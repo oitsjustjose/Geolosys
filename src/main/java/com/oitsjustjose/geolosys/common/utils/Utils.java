@@ -41,7 +41,8 @@ public class Utils {
         } else if (world instanceof ServerWorld) {
             return Objects.requireNonNull(((ServerWorld) world).getDimensionKey().getRegistryName().toString());
         } else if (world instanceof WorldGenRegion) {
-            return Objects.requireNonNull(((WorldGenRegion) world).getWorld().getDimensionKey().getRegistryName().toString());
+            return Objects
+                    .requireNonNull(((WorldGenRegion) world).getWorld().getDimensionKey().getRegistryName().toString());
         }
         Geolosys.getInstance().LOGGER
                 .warn("Utils.dimensionToString called on IWorld object that couldn't be interpreted");

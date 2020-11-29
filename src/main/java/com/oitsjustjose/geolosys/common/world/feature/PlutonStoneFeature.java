@@ -19,7 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
@@ -40,30 +42,51 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
     @ParametersAreNonnullByDefault
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
             NoFeatureConfig config) {
-        ServerWorld world = reader.getWorld();
-        IGeolosysCapability plutonCapability = world.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
-                .orElse(null);
-
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(Utils.dimensionToString(world)));
-        if (plutonCapability == null) {
-            Geolosys.getInstance().LOGGER.error("No PlutonCapability present -- things will likely break.");
+        IWorld iworld = reader.getWorld();
+        if (!(iworld instanceof ServerWorld)) {
             return false;
         }
+
+        ServerWorld world = (ServerWorld) iworld;
+        if (world.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator) {
+            return false;
+        }
+
+        IGeolosysCapability plutonCapability = world.getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        if (plutonCapability == null) {
+            Geolosys.getInstance().LOGGER.info("NULL PLUTON CAPABILITY!!!");
+            return false;
+        }
+
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(Utils.dimensionToString(world)));
         if (plutonCapability.hasStonePlutonGenerated(chunkPosDim)) {
             return false;
         }
+
         IDeposit pluton = GeolosysAPI.plutonRegistry.pickStone();
         if (pluton == null) {
             return false;
         }
+        Geolosys.getInstance().LOGGER.info("Generating {} at {}", pluton.getOre(), pos);
 
-        // TODO: This is the slow way -- see the 1.15 branch for the fast way. Can it be
-        // ported??
+        // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
             if (Utils.dimensionToString(world).equals(s)) {
                 return false;
             }
         }
+
+        if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
+            plutonCapability
+                    .setStonePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean func_207803_a(IWorld world, Random rand, BlockPos pos, IDeposit pluton,
+            IGeolosysCapability plutonCapability) {
 
         // Do this ourselves because by default pos.getY() == 0
         int randY = pluton.getYMin() + rand.nextInt(pluton.getYMax() - pluton.getYMin());
@@ -137,9 +160,9 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
             }
         }
         if (placed) {
-            world.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null)
-                    .setStonePlutonGenerated(new ChunkPosDim(pos, Utils.dimensionToString(world)));
+            plutonCapability.setStonePlutonGenerated(new ChunkPosDim(pos, Utils.dimensionToString(world)));
         }
         return placed;
     }
+
 }
