@@ -67,7 +67,6 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
         if (pluton == null) {
             return false;
         }
-        Geolosys.getInstance().LOGGER.info("Generating {} at {}", pluton.getOre(), pos);
 
         // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
