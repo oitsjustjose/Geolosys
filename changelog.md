@@ -1,39 +1,9 @@
-# Geolosys Changelog (1.15)
+# Geolosys Changelog (1.16)
 
-## 4.0.21
+## 4.0.2.1
 
-### Changed
+Initial Port to 1.16! **This is an incomplete build and things may break**. Please be sure to read the Patchouli manual for any guidance!
 
-- Mod Compat Drop Implementation (Works the same, it's just implemented the *right* way now)
+### Changes:
 
-## 4.0.2
-
-### Added
-
-#### Mod Compat Drops are Back!
-- Osmium drops from Platinum (configurable, can be *just* Osmium as well)
-- Yellorium drops from Autunite (configurable)
-- Coal variant drops from Coal (configurable)
-- Sulfur drops from Coal (configurable)./
-
-## 4.0.14
-
-### Fixed
-
-- ConcurrentModificationException with mods like C.O.M.B.A.T.
-
-## 4.0.13
-
-### Fixed
-
-- Fixed invalid translation in `zh_cn` translations
-
-### Changed
-
-- Cleaned up code-base (doesn't affect you at all!)
-
-## 4.0.12
-
-### Initial 1.15 Port!
-
-- Uses new Rendering System for rendering!
+- Migrate Manual over to Patchouli
