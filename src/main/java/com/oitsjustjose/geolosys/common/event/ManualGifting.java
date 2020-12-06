@@ -2,14 +2,14 @@ package com.oitsjustjose.geolosys.common.event;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.items.ItemInit;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
+import vazkii.patchouli.api.PatchouliAPI;
 
 public class ManualGifting {
     @SubscribeEvent
@@ -27,7 +27,7 @@ public class ManualGifting {
 
         if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID())) {
             ItemHandlerHelper.giveItemToPlayer(player,
-                    new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:field_manual")));
+                    PatchouliAPI.get().getBookStack(new ResourceLocation("geolosys", "field_manual")));
             geolosysCap.setPlayerReceivedManual(player.getUniqueID());
         }
     }

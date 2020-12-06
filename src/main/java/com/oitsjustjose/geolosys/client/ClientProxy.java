@@ -3,7 +3,6 @@ package com.oitsjustjose.geolosys.client;
 import java.io.File;
 import java.util.Objects;
 
-// import com.oitsjustjose.geolosys.client.manual.ManualScreen;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
@@ -21,8 +20,6 @@ import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 
 public class ClientProxy extends CommonProxy {
     public void init() {
-        // ManualScreen.initPages();
-
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
                 PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++,

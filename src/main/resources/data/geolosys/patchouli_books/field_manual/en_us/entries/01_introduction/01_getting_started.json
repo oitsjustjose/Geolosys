@@ -1,0 +1,26 @@
+{
+  "name": "Getting Started",
+  "icon": "minecraft:wooden_pickaxe",
+  "category": "geolosys:01_introduction",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Geolosys is a mod which is designed to add difficulty to mining through ore generation mechanics similar to TerraFirmaCraft. In essence, world ore deposits are more realistic, and you'll need to start by finding samples on the surface. These samples tend to lie above (with a few meters in radius) a lager mineral deposit underground. When you find a sample, start digging and prospecting!"
+    },
+    {
+      "type": "image",
+      "title": "Samples",
+      "text": "An example of what samples look like on the surface.",
+      "images": [
+        "geolosys:textures/gui/patchouli/introduction/samples.png"
+      ],
+      "border": true
+    },
+    {
+      "type": "relations",
+      "entries": [
+        "geolosys:introduction/02_ore_plutons"
+      ]
+    }
+  ]
+}

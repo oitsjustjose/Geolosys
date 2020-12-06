@@ -1,0 +1,11 @@
+{
+  "processor": "com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor",
+  "components": [
+    {
+      "type": "text",
+      "text": "#patrons",
+      "x": 4,
+      "y": 10
+    }
+  ]
+}

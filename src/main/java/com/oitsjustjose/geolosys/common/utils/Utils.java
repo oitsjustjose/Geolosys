@@ -9,7 +9,6 @@ import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -36,8 +35,6 @@ public class Utils {
     public static String dimensionToString(IWorld world) {
         if (world instanceof World) {
             return Objects.requireNonNull(((World) world).getDimensionKey().getRegistryName().toString());
-        } else if (world instanceof ClientWorld) {
-            return Objects.requireNonNull(((ClientWorld) world).getDimensionKey().getRegistryName().toString());
         } else if (world instanceof ServerWorld) {
             return Objects.requireNonNull(((ServerWorld) world).getDimensionKey().getRegistryName().toString());
         } else if (world instanceof WorldGenRegion) {

@@ -1,0 +1,15 @@
+{
+  "name": "Patron Shoutout!",
+  "icon": "minecraft:diamond",
+  "category": "geolosys:04_patrons",
+  "pages": [
+    {
+      "type": "patron_list"
+    },
+    {
+      "type": "link",
+      "link_text": "Patreon Page",
+      "url": "https://patreon.com/oitsjustjose"
+    }
+  ]
+}

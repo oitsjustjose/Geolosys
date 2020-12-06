@@ -1,0 +1,11 @@
+{
+  "name": "Other Ores",
+  "icon": "minecraft:iron_ore",
+  "category": "geolosys:01_introduction",
+  "pages": [
+    {
+      "type": "text", 
+      "text": "Due to many of the recent changes in 1.16 with world generation (namely, the ability to create new dimensions and biomes), it's made it difficult to port the \"Remove Vanilla Ores\" feature Geolosys used to have. As a result, in 1.16+ Geolosys will now remove $(l)all ores, including those added by mods$(). Of course, this is configurable!"
+    }
+  ]
+}

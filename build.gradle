@@ -28,7 +28,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
+            properties 'mixin.env.disableRefMap': 'true'
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -40,7 +40,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
+            properties 'mixin.env.disableRefMap': 'true'
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -54,6 +54,16 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${game_version}-${forge_version}"
+}
+
+repositories {
+    maven { url 'https://maven.blamejared.com' }
+}
+
+dependencies {
+    // 1.14+
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

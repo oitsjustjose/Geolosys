@@ -1,0 +1,7 @@
+{
+  "name": "item.geolosys.field_manual",
+  "landing_text": "item.geolosys.field_manual.landing",
+  "model": "geolosys:field_manual",
+  "version": 1,
+  "creative_tab": "geolosys"
+}

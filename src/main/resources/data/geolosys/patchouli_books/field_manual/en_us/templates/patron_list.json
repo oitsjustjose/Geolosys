@@ -1,0 +1,18 @@
+{
+  "include": [
+    {
+      "template": "include/patron_list_template",
+      "as": "patron_list_template",
+      "using": {
+        "patrons": "#patrons"
+      }
+    }
+  ],
+  "components": [
+    {
+      "type": "header",
+      "text": "Thank You To...",
+      "x": -1
+    }
+  ]
+}

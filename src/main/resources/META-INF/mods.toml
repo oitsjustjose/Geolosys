@@ -28,3 +28,10 @@ Support me on Patreon at https://patreon.com/oitsjustjose
     versionRange="[1.16,)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.geolosys]]
+    modId="patchouli"
+    mandatory=true
+    versionRange="[1.16.,)"
+    ordering="NONE"
+    side="BOTH"
