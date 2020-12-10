@@ -1,5 +1,12 @@
 # Geolosys Changelog (1.16)
 
+## 4.0.23
+
+### Changed
+
+- Geolosys's ore disabler once again only disables Vanilla ores! (Thanks Vazkii!!!)
+- `DISABLE_ALL_ORES` has been changed back to `DISABLE_VANILLA_ORES` in the config
+
 ## 4.0.22
 
 ### Added
