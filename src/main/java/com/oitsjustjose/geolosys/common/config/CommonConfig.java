@@ -24,7 +24,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_INGOTS;
     public static ForgeConfigSpec.BooleanValue ENABLE_COALS;
     public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
-    public static ForgeConfigSpec.BooleanValue REMOVE_ALL_OTHER_ORES;
+    public static ForgeConfigSpec.BooleanValue REMOVE_VANILLA_ORES;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
@@ -61,7 +61,7 @@ public class CommonConfig {
 
         DEBUG_WORLD_GEN = COMMON_BUILDER.comment("Output info into the logs when generating Geolosys deposits")
                 .define("debugWorldgen", false);
-        REMOVE_ALL_OTHER_ORES = COMMON_BUILDER.comment("Disable generation of ALL other ores (including mods)")
+        REMOVE_VANILLA_ORES = COMMON_BUILDER.comment("Disable generation of Vanilla ores")
                 .define("disableVanillaOreGen", true);
         DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
                 "The fallback materials which a Deposit can replace if they're not specified by the deposit itself\n"

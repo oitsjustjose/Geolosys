@@ -19,7 +19,6 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class PlutonRegistry {
@@ -102,19 +101,17 @@ public class PlutonRegistry {
         return null;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST) // Lowest priority to run last :)
+    @SubscribeEvent
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
         BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
-        // Notify the user of the removal if debug mode is on
-        if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.info("Removing {} ore generation(s) from biome {}",
-                    settings.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).size(), evt.getName());
-        }
-
-        // Clear out all of the other underground ore features (sorry mods :()
-        if (CommonConfig.REMOVE_ALL_OTHER_ORES.get()) {
-            settings.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).clear();
+        if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
+            int removed = OreRemover.process(settings);
+            // Notify the user of the removal if debug mode is on
+            if (CommonConfig.DEBUG_WORLD_GEN.get()) {
+                Geolosys.getInstance().LOGGER.info("Removing {} ore generation(s) from biome {}", removed,
+                        evt.getName());
+            }
         }
 
         PlutonOreFeature o = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
