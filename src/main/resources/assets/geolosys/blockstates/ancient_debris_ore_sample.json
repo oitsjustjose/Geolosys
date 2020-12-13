@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/ancient_debris_ore_sample"
+      }
+    ]
+  }
+}

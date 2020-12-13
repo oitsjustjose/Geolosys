@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/nether_gold_ore"
+      }
+    ]
+  }
+}
