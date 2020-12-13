@@ -34,12 +34,12 @@ public class Utils {
 
     public static String dimensionToString(IWorld world) {
         if (world instanceof World) {
-            return Objects.requireNonNull(((World) world).getDimensionKey().getRegistryName().toString());
+            return Objects.requireNonNull(((World) world).getDimensionKey().getLocation().toString());
         } else if (world instanceof ServerWorld) {
-            return Objects.requireNonNull(((ServerWorld) world).getDimensionKey().getRegistryName().toString());
+            return Objects.requireNonNull(((ServerWorld) world).getDimensionKey().getLocation().toString());
         } else if (world instanceof WorldGenRegion) {
             return Objects
-                    .requireNonNull(((WorldGenRegion) world).getWorld().getDimensionKey().getRegistryName().toString());
+                    .requireNonNull(((WorldGenRegion) world).getWorld().getDimensionKey().getLocation().toString());
         }
         Geolosys.getInstance().LOGGER
                 .warn("Utils.dimensionToString called on IWorld object that couldn't be interpreted");
