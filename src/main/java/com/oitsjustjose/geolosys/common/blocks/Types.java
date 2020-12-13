@@ -12,7 +12,8 @@ public class Types {
         GOLD(2, 2, "gold", "gold", null), LAPIS(3, 1, "lapis", "lapis", Blocks.LAPIS_ORE),
         QUARTZ(4, 1, "quartz", "various quartz types", Blocks.NETHER_QUARTZ_ORE),
         KIMBERLITE(5, 2, "kimberlite", "diamond", Blocks.DIAMOND_ORE),
-        BERYL(6, 2, "beryl", "emerald", Blocks.EMERALD_ORE);
+        BERYL(6, 2, "beryl", "emerald", Blocks.EMERALD_ORE), NETHER_GOLD(7, 1, "nether_gold", "nether gold", null),
+        ANCIENT_DEBRIS(8, 3, "ancient_debris", "ancient debris", null);
 
         private static final Vanilla[] META_LOOKUP = new Vanilla[values().length];
 

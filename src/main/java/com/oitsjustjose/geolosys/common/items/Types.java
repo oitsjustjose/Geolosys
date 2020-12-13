@@ -158,7 +158,7 @@ public class Types {
     public enum Cluster implements IStringSerializable {
         IRON(0, "iron"), GOLD(1, "gold"), COPPER(2, "copper"), TIN(3, "tin"), SILVER(4, "silver"), LEAD(5, "lead"),
         ALUMINUM(6, "aluminum"), NICKEL(7, "nickel"), PLATINUM(8, "platinum"), URANIUM(9, "uranium"), ZINC(10, "zinc"),
-        YELLORIUM(11, "yellorium"), OSMIUM(12, "osmium");
+        YELLORIUM(11, "yellorium"), OSMIUM(12, "osmium"), ANCIENT_DEBRIS(13, "ancient_debris"), NETHER_GOLD(14, "nether_gold");
 
         private static final Cluster[] META_LOOKUP = new Cluster[values().length];
 
