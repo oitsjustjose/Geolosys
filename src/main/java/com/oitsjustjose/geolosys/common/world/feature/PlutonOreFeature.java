@@ -22,6 +22,7 @@ import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -47,8 +48,10 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
      */
     private void postPlacement(IWorld world, BlockPos plutonStartPos, IDeposit ore) {
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated " + ore.getOre().getBlock().getRegistryName().toString()
-                    + " in Chunk " + new ChunkPos(plutonStartPos));
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos {})", ore.getFriendlyName(),
+                    new ChunkPos(plutonStartPos), plutonStartPos);
+            // Geolosys.getInstance().LOGGER.debug("Generated " +
+            // + " in Chunk " + new ChunkPos(plutonStartPos));
         }
 
         int sampleLimit = SampleUtils.getSampleCount(ore);
@@ -150,7 +153,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
 
         // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
-            if (Utils.dimensionToString(world).equals(s)) {
+            ResourceLocation r = new ResourceLocation(s);
+            if (Utils.dimensionToString(world).equals(r.toString())) {
                 return false;
             }
         }

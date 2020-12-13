@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -70,7 +71,8 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
 
         // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
-            if (Utils.dimensionToString(world).equals(s)) {
+            ResourceLocation r = new ResourceLocation(s);
+            if (Utils.dimensionToString(world).equals(r.toString())) {
                 return false;
             }
         }
