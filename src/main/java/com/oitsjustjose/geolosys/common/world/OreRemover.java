@@ -22,30 +22,38 @@ public class OreRemover {
 
     public static int process(BiomeGenerationSettingsBuilder settings) {
         Collection<Supplier<ConfiguredFeature<?, ?>>> toKeep = new ArrayList<Supplier<ConfiguredFeature<?, ?>>>();
-        int start = settings.getFeatures(Decoration.UNDERGROUND_ORES).size();
+        int total = 0;
+        int newTotal = 0;
 
-        settings.getFeatures(Decoration.UNDERGROUND_ORES).forEach((supp) -> {
-            ConfiguredFeature<?, ?> configuredFeature = supp.get();
-            IFeatureConfig config = configuredFeature.config;
+        for (Decoration stage : Decoration.values()) {
+            int start = settings.getFeatures(stage).size();
+            total += start;
 
-            while (config instanceof DecoratedFeatureConfig) {
-                DecoratedFeatureConfig dconfig = (DecoratedFeatureConfig) config;
-                config = dconfig.feature.get().config;
-            }
+            settings.getFeatures(stage).forEach((supp) -> {
+                ConfiguredFeature<?, ?> configuredFeature = supp.get();
+                IFeatureConfig config = configuredFeature.config;
 
-            if (config instanceof OreFeatureConfig) {
-                OreFeatureConfig conf = (OreFeatureConfig) config;
-                if (!toRm.contains(conf.state.getBlock())) {
+                while (config instanceof DecoratedFeatureConfig) {
+                    DecoratedFeatureConfig dconfig = (DecoratedFeatureConfig) config;
+                    config = dconfig.feature.get().config;
+                }
+
+                if (config instanceof OreFeatureConfig) {
+                    OreFeatureConfig conf = (OreFeatureConfig) config;
+                    if (!toRm.contains(conf.state.getBlock())) {
+                        toKeep.add(supp);
+                    }
+                } else {
                     toKeep.add(supp);
                 }
-            } else {
-                toKeep.add(supp);
-            }
-        });
+            });
 
-        settings.getFeatures(Decoration.UNDERGROUND_ORES).clear();
-        settings.getFeatures(Decoration.UNDERGROUND_ORES).addAll(toKeep);
+            settings.getFeatures(stage).clear();
+            settings.getFeatures(stage).addAll(toKeep);
 
-        return start - settings.getFeatures(Decoration.UNDERGROUND_ORES).size();
+            newTotal += settings.getFeatures(stage).size();
+        }
+
+        return newTotal - total;
     }
 }
