@@ -1,12 +1,15 @@
 package com.oitsjustjose.geolosys.common.recipes;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.items.ItemInit;
 
+import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.BlastingRecipe;
@@ -15,7 +18,11 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.profiler.IProfiler;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
@@ -24,12 +31,30 @@ public class FurnaceRecipeHandler {
     final Field RECIPES = ObfuscationReflectionHelper.findField(RecipeManager.class, "field_199522_d");
 
     @SubscribeEvent
-    public void onServerStart(final FMLServerStartedEvent event) {
+    public void onServerStart(final FMLServerStartedEvent evt) {
+        process(evt.getServer().getRecipeManager());
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onSlashReload(AddReloadListenerEvent evt) {
+        evt.addListener(new ReloadListener<Void>() {
+            @Override
+            protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+                process(evt.getDataPackRegistries().getRecipeManager());
+            }
+
+            @Override
+            protected Void prepare(IResourceManager resourceManagerIn, IProfiler profilerIn) {
+                return null;
+            }
+        });
+    }
+
+    public void process(RecipeManager recipeManager) {
         try {
             @SuppressWarnings("unchecked")
             Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> existingRecipes = Maps
-                    .newHashMap((Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>>) RECIPES
-                            .get(event.getServer().getRecipeManager()));
+                    .newHashMap((Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>>) RECIPES.get(recipeManager));
 
             BlastingRecipe bRecipe = new BlastingRecipe(
                     new ResourceLocation("geolosys", "gold_nuggets_x_4_from_blasting"),
@@ -49,15 +74,19 @@ public class FurnaceRecipeHandler {
             existingRecipes = injectRecipe(existingRecipes, IRecipeType.SMELTING,
                     new ResourceLocation("geolosys", "smelting_with_count"), fRecipe);
 
-            RECIPES.set(event.getServer().getRecipeManager(), ImmutableMap.copyOf(existingRecipes));
+            RECIPES.set(recipeManager, ImmutableMap.copyOf(existingRecipes));
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException("Couldn't get recipes map while removing recipes", e);
+            throw new RuntimeException("[GEOLOSYS]: Couldn't inject custom smelting recipes with quantity", e);
         }
     }
 
     Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> injectRecipe(
             Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> existing, IRecipeType<?> type, ResourceLocation res,
             IRecipe<?> recipe) {
+
+        if (existing.get(type) == null) {
+            existing.put(type, ImmutableMap.copyOf(new HashMap<ResourceLocation, IRecipe<?>>()));
+        }
 
         if (existing.get(type).get(res) == null) {
             // Unlock the map for the given recipe type
