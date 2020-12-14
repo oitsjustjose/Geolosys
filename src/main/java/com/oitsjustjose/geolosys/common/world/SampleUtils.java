@@ -45,8 +45,6 @@ public class SampleUtils {
             if (Block.hasEnoughSolidSide(world, searchPosUp.down(), Direction.UP)) {
                 if (canReplace(world, searchPosUp) && canReplace(world, searchPosUp.up())
                         && canPlaceOn(world, searchPosUp)) {
-                    // Geolosys.getInstance().LOGGER.info("Found sample spot at ({}, {}, {})", searchPosUp.getX(),
-                    //         searchPosUp.getY(), searchPosUp.getZ());
                     return searchPosUp;
                 }
             }
@@ -58,8 +56,6 @@ public class SampleUtils {
             if (Block.hasEnoughSolidSide(world, searchPosDown.down(), Direction.UP)) {
                 if (canReplace(world, searchPosDown) && canReplace(world, searchPosDown.up())
                         && canPlaceOn(world, searchPosDown)) {
-                    // Geolosys.getInstance().LOGGER.info("Found sample spot at ({}, {}, {})", searchPosDown.getX(),
-                    //         searchPosDown.getY(), searchPosDown.getZ());
                     return searchPosDown;
                 }
             }
