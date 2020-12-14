@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "item": "minecraft:netherite_scrap",
+              "type": "forge:item_exists"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:blasting",
+        "ingredient": {
+          "item": "geolosys:ancient_debris_cluster"
+        },
+        "result": "minecraft:netherite_scrap",
+        "experience": 1.0,
+        "cookingtime": 200
+      }
+    }
+  ]
+}
