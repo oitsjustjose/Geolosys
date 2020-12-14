@@ -1,5 +1,27 @@
 # Geolosys Changelog (1.16)
 
+## 4.1.0
+
+### (READ THIS -- You may want to reset / update your Geolosys ore configuration)
+
+### Added
+
+- Nether Ores! Vanilla Ores in the nether are now generated/disabled by Geolosys, and can be found just like overworld ores.
+    - Poor Gold Ore can be broken to obtain a poor gold cluster, which can be smelted into 3 gold nuggets **or blasted into 4 gold nuggets**.
+    - Ancient Debris can be rarely found in a Dike formation. This pluton is not very dense and very uncommon, so once you do finally find it there won't be too much there to obtain!
+
+### Changes
+
+- The prospector's pick got a few changes made in this release:
+    1. The pro pick can be used to scan locally for ores _at any Y level_ now. Before you had to be below sea-level to see "`<Ore Name> found <direction> of you`" prompt. Now it works at any Y level!
+    2. Similar to above, stones can now be locally prospected for. Before you would only know that a stone deposit was in your area, but now you can specifically find said deposit much more easily!
+
+### Fixes
+
+- Fixed dim whitelist not matching properly
+- Fixed overworld stones generating in the nether
+- Fixed ability for samples to spawn on the roof of the nether 😐
+
 ## 4.0.23
 
 ### Changed
