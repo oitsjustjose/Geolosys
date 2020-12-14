@@ -387,6 +387,60 @@
       ],
       "type": "SPARSE",
       "density": 1.0
+    },
+    {
+      "blocks": [
+        "geolosys:ancient_debris_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:ancient_debris_ore_sample",
+        100
+      ],
+      "yMin": 8,
+      "yMax": 22,
+      "chance": 1,
+      "size": 14,
+      "dimBlacklist": [
+        "overworld",
+        "the_end"
+      ],
+      "blockStateMatchers": [
+        "minecraft:netherrack",
+        "minecraft:basalt",
+        "minecraft:blackstone",
+        "minecraft:magma_block",
+        "minecraft:lava"
+      ],
+      "type": "DIKE",
+      "density": 0.4
+    },
+    {
+      "blocks": [
+        "geolosys:nether_gold_ore",
+        100
+      ],
+      "samples": [
+        "geolosys:nether_gold_ore_sample",
+        100
+      ],
+      "yMin": 10,
+      "yMax": 40,
+      "chance": 10,
+      "size": 35,
+      "dimBlacklist": [
+        "overworld",
+        "the_end"
+      ],
+      "blockStateMatchers": [
+        "minecraft:netherrack",
+        "minecraft:basalt",
+        "minecraft:blackstone",
+        "minecraft:magma_block",
+        "minecraft:lava"
+      ],
+      "type": "DENSE",
+      "density": 0.95
     }
   ],
   "stones": [
