@@ -1,0 +1,11 @@
+{
+  "name": "Vanilla Ores",
+  "icon": "minecraft:iron_ore",
+  "category": "geolosys:01_introduction",
+  "pages": [
+    {
+      "type": "text",
+      "text": "If configured, all Vanilla ores can be disabled from generating in the overworld, nether or end! Just enable the config option (it's on by default) and you can begin to rely on Geolosys as a provider for all of your Vanilla resources such as Iron and Redstone!"
+    }
+  ]
+}
