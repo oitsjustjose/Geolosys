@@ -109,7 +109,7 @@ public class ProPickItem extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        if (player.isCrouching()) {
+        if (player.isSneaking()) {
             ItemStack stack = player.getHeldItem(hand);
             // If there's no stack compound make one and assume last state was ores
             if (stack.getTag() == null) {
