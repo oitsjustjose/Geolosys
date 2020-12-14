@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
@@ -17,6 +18,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.WorldGenRegion;
 
 public class SampleUtils {
@@ -34,34 +36,37 @@ public class SampleUtils {
 
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
         int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
-        BlockPos searchPos = new BlockPos(blockPosX, 0, blockPosZ);
 
-        while (searchPos.getY() < world.getHeight()) {
-            world.getBlockState(searchPos.down()).getBlock();
-            if (Block.hasEnoughSolidSide(world, searchPos.down(), Direction.UP)) {
-                // If the current block is air
-                if (canReplace(world, searchPos)) {
-                    // If the block above this state is air,
-                    if (canReplace(world, searchPos.up())) {
-                        // If the block we're going to place on top of is blacklisted
-                        if (canPlaceOn(world, searchPos)) {
-                            // If it's above sea level it's fine
-                            if (searchPos.getY() > world.getSeaLevel()) {
-                                return searchPos;
-                            }
-                            // If not, it's gotta be at least 12 blocks away from it (i.e. below it) but at
-                            // least above the deposit
-                            else if (isWithinRange(world.getSeaLevel(), searchPos.getY(), 12)
-                                    && searchPos.getY() < depositHeight) {
+        BlockPos searchPosUp = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
+        BlockPos searchPosDown = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
 
-                                return searchPos;
-                            }
-                        }
-                    }
+        // Try to get something _above_ sea level first
+        while (searchPosUp.getY() < world.getHeight()) {
+            if (Block.hasEnoughSolidSide(world, searchPosUp.down(), Direction.UP)) {
+                if (canReplace(world, searchPosUp) && canReplace(world, searchPosUp.up())
+                        && canPlaceOn(world, searchPosUp)) {
+                    // Geolosys.getInstance().LOGGER.info("Found sample spot at ({}, {}, {})", searchPosUp.getX(),
+                    //         searchPosUp.getY(), searchPosUp.getZ());
+                    return searchPosUp;
                 }
             }
-            searchPos = searchPos.up();
+            searchPosUp = searchPosUp.up();
         }
+
+        // If all else fails try something below sea level..
+        while (searchPosDown.getY() > 0) {
+            if (Block.hasEnoughSolidSide(world, searchPosDown.down(), Direction.UP)) {
+                if (canReplace(world, searchPosDown) && canReplace(world, searchPosDown.up())
+                        && canPlaceOn(world, searchPosDown)) {
+                    // Geolosys.getInstance().LOGGER.info("Found sample spot at ({}, {}, {})", searchPosDown.getX(),
+                    //         searchPosDown.getY(), searchPosDown.getZ());
+                    return searchPosDown;
+                }
+            }
+            searchPosDown = searchPosDown.down();
+        }
+
+        // Or just forget about it I guess :P
         return null;
     }
 
