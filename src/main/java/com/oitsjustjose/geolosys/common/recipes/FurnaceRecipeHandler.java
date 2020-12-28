@@ -6,8 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.items.ItemInit;
+// import com.oitsjustjose.geolosys.common.items.Items;
 
 import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.ItemStack;
@@ -60,13 +59,13 @@ public class FurnaceRecipeHandler {
                     new ResourceLocation("geolosys", "gold_nuggets_x_4_from_blasting"),
                     "geolosys:nether_gold_cluster_blasting",
                     Ingredient.fromStacks(
-                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:nether_gold_cluster"))),
+                            new ItemStack(com.oitsjustjose.geolosys.common.items.Items.getInstance().getModItems().get("geolosys:nether_gold_cluster"))),
                     new ItemStack(Items.GOLD_NUGGET, 4), 0.15F, 100);
             FurnaceRecipe fRecipe = new FurnaceRecipe(
                     new ResourceLocation("geolosys", "gold_nuggets_x_3_from_smelting"),
                     "geolosys:nether_gold_cluster_smelting",
                     Ingredient.fromStacks(
-                            new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:nether_gold_cluster"))),
+                            new ItemStack(com.oitsjustjose.geolosys.common.items.Items.getInstance().getModItems().get("geolosys:nether_gold_cluster"))),
                     new ItemStack(Items.GOLD_NUGGET, 3), 0.15F, 100);
 
             existingRecipes = injectRecipe(existingRecipes, IRecipeType.BLASTING,

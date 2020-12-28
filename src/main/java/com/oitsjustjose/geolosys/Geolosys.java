@@ -6,12 +6,13 @@ import java.util.Collection;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.common.CommonProxy;
-import com.oitsjustjose.geolosys.common.blocks.BlockInit;
+import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
+import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
-import com.oitsjustjose.geolosys.common.items.ItemInit;
+import com.oitsjustjose.geolosys.common.items.Items;
 import com.oitsjustjose.geolosys.common.recipes.FurnaceRecipeHandler;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
@@ -75,12 +76,12 @@ public class Geolosys {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-
         CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
                 GeolosysCapability::new);
 
         OreConfig.setup(new File("./config"));
         OreConfig.getInstance().init();
+        CompatLoader.init();
         GeolosysAPI.init();
         proxy.init();
     }
@@ -114,14 +115,14 @@ public class Geolosys {
     public static class RegistryEvents {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            BlockInit.getInstance().registerBlocks(blockRegistryEvent);
+            ModBlocks.getInstance().register(blockRegistryEvent);
         }
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             // Register BlockItems (formerly known as ItemBlocks) for each block initialized
-            BlockInit.getInstance().registerBlockItems(itemRegistryEvent);
-            ItemInit.getInstance().register(itemRegistryEvent);
+            ModBlocks.getInstance().registerIb(itemRegistryEvent);
+            Items.getInstance().register(itemRegistryEvent);
         }
     }
 }

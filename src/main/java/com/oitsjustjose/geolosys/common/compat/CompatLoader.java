@@ -1,48 +1,38 @@
-// package com.oitsjustjose.geolosys.common.compat;
+package com.oitsjustjose.geolosys.common.compat;
 
-// import javax.annotation.Nonnull;
+import java.util.Random;
 
-// import com.oitsjustjose.geolosys.common.compat.modules.CoalVariants;
-// import com.oitsjustjose.geolosys.common.compat.modules.OsmiumDrop;
-// import com.oitsjustjose.geolosys.common.compat.modules.Sulfur;
-// import com.oitsjustjose.geolosys.common.compat.modules.YelloriumDrop;
-// import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.compat.modules.drops.OsmiumDrop;
+import com.oitsjustjose.geolosys.common.compat.modules.drops.SulfurDrop;
+import com.oitsjustjose.geolosys.common.compat.modules.drops.YelloriumDrop;
 
-// import net.minecraft.util.ResourceLocation;
-// import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-// import net.minecraftforge.event.RegistryEvent;
-// import net.minecraftforge.eventbus.api.SubscribeEvent;
-// import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
-// @EventBusSubscriber(modid = Constants.MODID, bus =
-// EventBusSubscriber.Bus.MOD)
-// public class CompatLoader {
-// @SubscribeEvent
-// public static void registerModifierSerializers(
-// @Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event)
-// {
-// // Osmium compat for ore and sample
-// event.getRegistry().register(
-// new OsmiumDrop.Serializer().setRegistryName(new
-// ResourceLocation(Constants.MODID, "osmium_drop")));
-// event.getRegistry().register(new OsmiumDrop.Serializer()
-// .setRegistryName(new ResourceLocation(Constants.MODID,
-// "osmium_drop_sample")));
+public class CompatLoader {
+    public static void init() {
+        MinecraftForge.EVENT_BUS.register(new OsmiumDrop());
+        MinecraftForge.EVENT_BUS.register(new SulfurDrop());
+        MinecraftForge.EVENT_BUS.register(new YelloriumDrop());
+    }
 
-// // Yellorium compat for ore and sample
-// event.getRegistry().register(new YelloriumDrop.Serializer()
-// .setRegistryName(new ResourceLocation(Constants.MODID, "yellorium_drop")));
-// event.getRegistry().register(new YelloriumDrop.Serializer()
-// .setRegistryName(new ResourceLocation(Constants.MODID,
-// "yellorium_drop_sample")));
+    public static void injectDrop(World world, BlockPos pos, Random rand, ItemStack stack, boolean replace) {
+        double x = (double) pos.getX();
+        double y = (double) pos.getY();
+        double z = (double) pos.getZ();
+        double dX = (double) (rand.nextFloat() * 0.7F) + (double) 0.15F;
+        double dZ = (double) (rand.nextFloat() * 0.7F) + (double) 0.15F;
 
-// // Sulfur drop (ore only)
-// event.getRegistry()
-// .register(new Sulfur.Serializer().setRegistryName(new
-// ResourceLocation(Constants.MODID, "sulfur")));
-// // Extra coal drops
-// event.getRegistry().register(
-// new CoalVariants.Serializer().setRegistryName(new
-// ResourceLocation(Constants.MODID, "coals")));
-// }
-// }
+        if (replace) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2 | 16);
+        }
+
+        ItemEntity ent = new ItemEntity(world, x + dX, y, z + dZ, stack);
+        ent.setDefaultPickupDelay();
+        world.addEntity(ent);
+    }
+}

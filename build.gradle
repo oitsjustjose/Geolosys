@@ -61,9 +61,9 @@ repositories {
 }
 
 dependencies {
-    // 1.14+
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    runtimeOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${ie_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -14,13 +14,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class ItemInit {
-    private static ItemInit instance;
+public class Items {
+    private static Items instance;
 
     private HashMap<String, Item> items;
     private HashMap<Item, Integer> burnTimes;
 
-    private ItemInit() {
+    private Items() {
         items = Maps.newHashMap();
         burnTimes = Maps.newHashMap();
         if (CommonConfig.ENABLE_COALS.get()) {
@@ -64,9 +64,9 @@ public class ItemInit {
         this.items.put(ProPickItem.REGISTRY_NAME.toString(), new ProPickItem());
     }
 
-    public static ItemInit getInstance() {
+    public static Items getInstance() {
         if (instance == null) {
-            instance = new ItemInit();
+            instance = new Items();
         }
         return instance;
     }
@@ -85,7 +85,7 @@ public class ItemInit {
     @SubscribeEvent
     public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent) {
         if (CommonConfig.ENABLE_COALS.get()) {
-            for (Entry<Item, Integer> fuelPair : ItemInit.getInstance().getModFuels().entrySet()) {
+            for (Entry<Item, Integer> fuelPair : Items.getInstance().getModFuels().entrySet()) {
                 if (fuelBurnoutEvent.getItemStack().getItem().equals(fuelPair.getKey())) {
                     fuelBurnoutEvent.setBurnTime(fuelPair.getValue() * 200);
                 }

@@ -1,5 +1,9 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 
 public class Types {
@@ -201,6 +205,19 @@ public class Types {
 
         public String getString() {
             return this.serializedName;
+        }
+
+        @Nullable
+        public Item getItem() {
+            return Items.getInstance().getModItems().get("geolosys:" + this.serializedName + "_cluster");
+        }
+
+        public ItemStack getItemStack() {
+            Item i = this.getItem();
+            if (i == null) {
+                return ItemStack.EMPTY;
+            }
+            return new ItemStack(i);
         }
     }
 }
