@@ -87,8 +87,8 @@ public class CommonConfig {
                 .defineInRange("maxSamplesPerChunk", 10, 1, 256);
 
         SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER.comment("A list of <modid:block> that samples may not be placed on")
-                .defineList("samplePlacementBlacklist", Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"),
-                        rawName -> {
+                .defineList("samplePlacementBlacklist",
+                        Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"), rawName -> {
                             if (rawName instanceof String) {
                                 String name = (String) rawName;
                                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));

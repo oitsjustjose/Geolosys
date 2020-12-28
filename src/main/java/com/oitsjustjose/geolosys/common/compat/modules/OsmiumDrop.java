@@ -17,31 +17,37 @@
 // import net.minecraftforge.common.loot.LootModifier;
 
 // public class OsmiumDrop extends LootModifier {
-//     Random rand;
+// Random rand;
 
-//     public OsmiumDrop(ILootCondition[] conditions) {
-//         super(conditions);
-//         this.rand = new Random();
-//     }
+// public OsmiumDrop(ILootCondition[] conditions) {
+// super(conditions);
+// this.rand = new Random();
+// }
 
-//     @Nonnull
-//     @Override
-//     public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-//         if (CompatConfig.ENABLE_OSMIUM.get()) {
-//             if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || this.rand.nextBoolean()) {
-//                 generatedLoot.removeIf(
-//                         x -> x.getItem() == ItemInit.getInstance().getModItems().get("geolosys:platinum_cluster"));
-//                 generatedLoot.add(new ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster")));
-//             }
-//         }
+// @Nonnull
+// @Override
+// public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext
+// context) {
+// if (CompatConfig.ENABLE_OSMIUM.get()) {
+// if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || this.rand.nextBoolean())
+// {
+// generatedLoot.removeIf(
+// x -> x.getItem() ==
+// ItemInit.getInstance().getModItems().get("geolosys:platinum_cluster"));
+// generatedLoot.add(new
+// ItemStack(ItemInit.getInstance().getModItems().get("geolosys:osmium_cluster")));
+// }
+// }
 
-//         return generatedLoot;
-//     }
+// return generatedLoot;
+// }
 
-//     public static class Serializer extends GlobalLootModifierSerializer<OsmiumDrop> {
-//         @Override
-//         public OsmiumDrop read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
-//             return new OsmiumDrop(conditionsIn);
-//         }
-//     }
+// public static class Serializer extends
+// GlobalLootModifierSerializer<OsmiumDrop> {
+// @Override
+// public OsmiumDrop read(ResourceLocation name, JsonObject object,
+// ILootCondition[] conditionsIn) {
+// return new OsmiumDrop(conditionsIn);
+// }
+// }
 // }
