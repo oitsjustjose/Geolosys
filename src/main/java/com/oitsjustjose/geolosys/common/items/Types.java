@@ -1,9 +1,6 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 
 public class Types {

@@ -15,6 +15,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ModItems {
     private static ModItems instance;
+
+    public static final Item PRO_PICK = new ProPickItem();
+
     private final String CLUSTER_POSTFIX = "_cluster";
     private final String INGOT_POSTFIX = "_ingot";
     private final String COAL_POSTFIX = "_coal";
@@ -77,6 +80,8 @@ public class ModItems {
                 itemRegistryEvent.getRegistry().register(coke.getItem());
             }
         }
+
+        itemRegistryEvent.getRegistry().register(PRO_PICK);
     }
 
     @SubscribeEvent

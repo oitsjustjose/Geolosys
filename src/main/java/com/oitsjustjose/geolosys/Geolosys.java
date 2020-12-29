@@ -120,7 +120,7 @@ public class Geolosys {
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
-            ModBlocks.getInstance().registerIb(itemRegistryEvent);
+            ModBlocks.getInstance().registerItemBlocks(itemRegistryEvent);
             ModItems.getInstance().register(itemRegistryEvent);
         }
     }
