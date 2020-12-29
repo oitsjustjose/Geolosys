@@ -32,6 +32,7 @@ public class Utils {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
     }
 
+    @SuppressWarnings("deprecation")
     public static String dimensionToString(IWorld world) {
         if (world instanceof World) {
             return Objects.requireNonNull(((World) world).getDimensionKey().getLocation().toString());
