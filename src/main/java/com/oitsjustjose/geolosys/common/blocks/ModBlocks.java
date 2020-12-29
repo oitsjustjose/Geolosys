@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 
@@ -19,28 +18,21 @@ public class ModBlocks {
 
     private ModBlocks() {
         for (Types.Ores oreType : Types.Ores.values()) {
-            Properties blockProp;
-            Geolosys.getInstance().LOGGER.info(oreType.name());
+            final String SAMPLE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore_sample";
+            final String ORE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore";
+            Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
+                    .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(oreType.getToolLevel())
+                    .harvestTool(ToolType.PICKAXE).setRequiresTool();
+
             if (oreType.getVanillaParent() != null) {
-                blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
-                        .sound(SoundType.STONE).harvestLevel(oreType.getToolLevel()).harvestTool(ToolType.PICKAXE)
-                        .lootFrom(oreType.getVanillaParent()).setRequiresTool();
-            } else {
-                blockProp = Properties.create(Material.ROCK, MaterialColor.STONE).hardnessAndResistance(7.5F, 10F)
-                        .sound(SoundType.STONE).harvestLevel(oreType.getToolLevel()).harvestTool(ToolType.PICKAXE)
-                        .setRequiresTool();
+                blockProp.lootFrom(oreType.getVanillaParent());
             }
 
             Block block = new OreBlock(oreType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
-                    oreType.getName() + "_ore");
-
-            Block sample;
-            // We don't want samples to adopt vanilla drops
-            if (oreType.getVanillaParent() != null) {
-                sample = new SampleBlock().setRegistryName(Constants.MODID, oreType.getName() + "_ore_sample");
-            } else {
-                sample = new SampleBlock(block).setRegistryName(Constants.MODID, oreType.getName() + "_ore_sample");
-            }
+                    ORE_REGISTRY_NAME);
+            Block sample = oreType.getVanillaParent() == null
+                    ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
+                    : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
             oreType.setBlock(block);
             oreType.setSample(sample);
@@ -61,18 +53,17 @@ public class ModBlocks {
         }
     }
 
-    public void registerIb(RegistryEvent.Register<Item> itemRegistryEvent) {
+    public void registerItemBlocks(RegistryEvent.Register<Item> itemRegistryEvent) {
         for (Types.Ores oreType : Types.Ores.values()) {
-            // Register the ore
-            Item oreItem = new BlockItem(oreType.getBlock(), new Item.Properties().group(GeolosysGroup.getInstance()))
+            Item iBlock = new BlockItem(oreType.getBlock(), new Item.Properties().group(GeolosysGroup.getInstance()))
                     .setRegistryName(oreType.getBlock().getRegistryName());
-            itemRegistryEvent.getRegistry().register(oreItem);
+            itemRegistryEvent.getRegistry().register(iBlock);
+        }
 
-            // Register the sample
-            Item sampleItem = new BlockItem(oreType.getSample(),
-                    new Item.Properties().group(GeolosysGroup.getInstance()))
-                            .setRegistryName(oreType.getSample().getRegistryName());
-            itemRegistryEvent.getRegistry().register(sampleItem);
+        for (Types.Ores oreType : Types.Ores.values()) {
+            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(oreType.getSample().getRegistryName());
+            itemRegistryEvent.getRegistry().register(iBlock);
         }
     }
 }
