@@ -5,16 +5,13 @@ import java.util.Random;
 import com.oitsjustjose.geolosys.common.blocks.Types.Ores;
 import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
-import com.oitsjustjose.geolosys.common.items.Items;
+import com.oitsjustjose.geolosys.common.items.Types.Clusters;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OsmiumDrop {
-    private final Item OSMIUM_CLUSTER = Items.getInstance().getModItems().get("geolosys:osmium_cluster");
-
     @SubscribeEvent
     public void registerEvent(BlockEvent.BreakEvent evt) {
         if (!CompatConfig.ENABLE_OSMIUM.get()) {
@@ -32,8 +29,8 @@ public class OsmiumDrop {
 
         Random rand = evt.getWorld().getRandom();
         if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || rand.nextInt(100) < 50) {
-            CompatLoader.injectDrop(evt.getPlayer().getEntityWorld(), evt.getPos(), rand, new ItemStack(OSMIUM_CLUSTER),
-                    true);
+            CompatLoader.injectDrop(evt.getPlayer().getEntityWorld(), evt.getPos(), rand,
+                    new ItemStack(Clusters.OSMIUM.getItem()), true);
         }
     }
 }

@@ -1,8 +1,5 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.HashMap;
-
-import com.google.common.collect.Maps;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;

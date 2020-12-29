@@ -7,31 +7,33 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 
 public class Types {
-    public enum Coal implements IStringSerializable {
+    public enum Coals implements IStringSerializable {
         PEAT(0, 12, "peat"), LIGNITE(1, 16, "lignite"), BITUMINOUS(2, 24, "bituminous"),
         ANTHRACITE(3, 32, "anthracite");
 
-        private static final Coal[] META_LOOKUP = new Coal[values().length];
+        private static final Coals[] META_LOOKUP = new Coals[values().length];
 
         static {
-            for (Coal type : values()) {
+            for (Coals type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
+
+        private Item instance;
 
         private final int meta;
         private final int burnTime;
         private final String serializedName;
         private final String unlocalizedName;
 
-        Coal(int meta, int burnTime, String name) {
+        Coals(int meta, int burnTime, String name) {
             this.meta = meta;
             this.burnTime = burnTime;
             this.serializedName = name;
             this.unlocalizedName = name;
         }
 
-        public static Coal byMetadata(int meta) {
+        public static Coals byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -58,32 +60,42 @@ public class Types {
         public String getString() {
             return this.serializedName;
         }
+
+        public void setItem(Item i) {
+            this.instance = i;
+        }
+
+        public Item getItem() {
+            return this.instance;
+        }
     }
 
-    public enum CoalCoke implements IStringSerializable {
+    public enum CoalCokes implements IStringSerializable {
         LIGNITE(0, 24, "lignite"), BITUMINOUS(1, 32, "bituminous");
 
-        private static final CoalCoke[] META_LOOKUP = new CoalCoke[values().length];
+        private static final CoalCokes[] META_LOOKUP = new CoalCokes[values().length];
 
         static {
-            for (CoalCoke type : values()) {
+            for (CoalCokes type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
+
+        private Item instance;
 
         private final int meta;
         private final int burnTime;
         private final String serializedName;
         private final String unlocalizedName;
 
-        CoalCoke(int meta, int burnTime, String name) {
+        CoalCokes(int meta, int burnTime, String name) {
             this.meta = meta;
             this.burnTime = burnTime;
             this.serializedName = name;
             this.unlocalizedName = name;
         }
 
-        public static CoalCoke byMetadata(int meta) {
+        public static CoalCokes byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -110,31 +122,40 @@ public class Types {
         public String getString() {
             return this.serializedName;
         }
+
+        public void setItem(Item i) {
+            this.instance = i;
+        }
+
+        public Item getItem() {
+            return this.instance;
+        }
     }
 
-    public enum Ingot implements IStringSerializable {
+    public enum Ingots implements IStringSerializable {
         COPPER(0, "copper"), TIN(1, "tin"), SILVER(2, "silver"), LEAD(3, "lead"), ALUMINUM(4, "aluminum"),
         NICKEL(5, "nickel"), PLATINUM(6, "platinum"), ZINC(7, "zinc");
 
-        private static final Ingot[] META_LOOKUP = new Ingot[values().length];
+        private static final Ingots[] META_LOOKUP = new Ingots[values().length];
 
         static {
-            for (Ingot type : values()) {
+            for (Ingots type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
+        private Item instance;
 
         private final int meta;
         private final String serializedName;
         private final String unlocalizedName;
 
-        Ingot(int meta, String name) {
+        Ingots(int meta, String name) {
             this.meta = meta;
             this.serializedName = name;
             this.unlocalizedName = name;
         }
 
-        public static Ingot byMetadata(int meta) {
+        public static Ingots byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -157,33 +178,42 @@ public class Types {
         public String getString() {
             return this.serializedName;
         }
+
+        public void setItem(Item i) {
+            this.instance = i;
+        }
+
+        public Item getItem() {
+            return this.instance;
+        }
     }
 
-    public enum Cluster implements IStringSerializable {
+    public enum Clusters implements IStringSerializable {
         IRON(0, "iron"), GOLD(1, "gold"), COPPER(2, "copper"), TIN(3, "tin"), SILVER(4, "silver"), LEAD(5, "lead"),
         ALUMINUM(6, "aluminum"), NICKEL(7, "nickel"), PLATINUM(8, "platinum"), URANIUM(9, "uranium"), ZINC(10, "zinc"),
         YELLORIUM(11, "yellorium"), OSMIUM(12, "osmium"), ANCIENT_DEBRIS(13, "ancient_debris"),
         NETHER_GOLD(14, "nether_gold");
 
-        private static final Cluster[] META_LOOKUP = new Cluster[values().length];
+        private static final Clusters[] META_LOOKUP = new Clusters[values().length];
 
         static {
-            for (Cluster type : values()) {
+            for (Clusters type : values()) {
                 META_LOOKUP[type.getMetadata()] = type;
             }
         }
+        private Item instance;
 
         private final int meta;
         private final String serializedName;
         private final String unlocalizedName;
 
-        Cluster(int meta, String name) {
+        Clusters(int meta, String name) {
             this.meta = meta;
             this.serializedName = name;
             this.unlocalizedName = name;
         }
 
-        public static Cluster byMetadata(int meta) {
+        public static Clusters byMetadata(int meta) {
             if (meta < 0 || meta >= META_LOOKUP.length) {
                 meta = 0;
             }
@@ -207,17 +237,12 @@ public class Types {
             return this.serializedName;
         }
 
-        @Nullable
-        public Item getItem() {
-            return Items.getInstance().getModItems().get("geolosys:" + this.serializedName + "_cluster");
+        public void setItem(Item i) {
+            this.instance = i;
         }
 
-        public ItemStack getItemStack() {
-            Item i = this.getItem();
-            if (i == null) {
-                return ItemStack.EMPTY;
-            }
-            return new ItemStack(i);
+        public Item getItem() {
+            return this.instance;
         }
     }
 }

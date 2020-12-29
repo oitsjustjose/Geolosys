@@ -12,7 +12,7 @@ import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
-import com.oitsjustjose.geolosys.common.items.Items;
+import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.recipes.FurnaceRecipeHandler;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
@@ -120,9 +120,8 @@ public class Geolosys {
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
-            // Register BlockItems (formerly known as ItemBlocks) for each block initialized
             ModBlocks.getInstance().registerIb(itemRegistryEvent);
-            Items.getInstance().register(itemRegistryEvent);
+            ModItems.getInstance().register(itemRegistryEvent);
         }
     }
 }
