@@ -5,6 +5,7 @@ import java.util.Random;
 import com.oitsjustjose.geolosys.common.compat.modules.drops.OsmiumDrop;
 import com.oitsjustjose.geolosys.common.compat.modules.drops.SulfurDrop;
 import com.oitsjustjose.geolosys.common.compat.modules.drops.YelloriumDrop;
+import com.oitsjustjose.geolosys.common.compat.modules.mods.AppEng;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
@@ -18,6 +19,8 @@ public class CompatLoader {
         MinecraftForge.EVENT_BUS.register(new OsmiumDrop());
         MinecraftForge.EVENT_BUS.register(new SulfurDrop());
         MinecraftForge.EVENT_BUS.register(new YelloriumDrop());
+
+        MinecraftForge.EVENT_BUS.register(new AppEng());
     }
 
     public static void injectDrop(World world, BlockPos pos, Random rand, ItemStack stack, boolean replace) {
