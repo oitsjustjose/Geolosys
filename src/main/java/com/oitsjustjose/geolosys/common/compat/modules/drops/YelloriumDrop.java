@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class YelloriumDrop {
     @SubscribeEvent
     public void registerEvent(BlockEvent.BreakEvent evt) {
-        if (!CompatConfig.ENABLE_YELLORIUM.get()) {
+        if (!CompatConfig.ENABLE_YELLORIUM.get() || evt.getPlayer().isCreative()) {
             return;
         }
 

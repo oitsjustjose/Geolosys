@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class OsmiumDrop {
     @SubscribeEvent
     public void registerEvent(BlockEvent.BreakEvent evt) {
-        if (!CompatConfig.ENABLE_OSMIUM.get()) {
+        if (!CompatConfig.ENABLE_OSMIUM.get() || evt.getPlayer().isCreative()) {
             return;
         }
 
