@@ -2,6 +2,7 @@
   "name": "Ore Plutons",
   "icon": "geolosys:hematite_ore",
   "category": "geolosys:01_introduction",
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

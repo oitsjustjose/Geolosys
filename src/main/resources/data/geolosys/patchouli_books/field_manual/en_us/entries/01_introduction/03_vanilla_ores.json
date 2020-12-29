@@ -2,6 +2,7 @@
   "name": "Vanilla Ores",
   "icon": "minecraft:iron_ore",
   "category": "geolosys:01_introduction",
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

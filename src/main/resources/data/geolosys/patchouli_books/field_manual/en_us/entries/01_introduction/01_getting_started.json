@@ -2,6 +2,7 @@
   "name": "Getting Started",
   "icon": "minecraft:wooden_pickaxe",
   "category": "geolosys:01_introduction",
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",

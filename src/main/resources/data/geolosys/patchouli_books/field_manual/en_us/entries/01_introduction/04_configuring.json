@@ -1,0 +1,18 @@
+{
+  "name": "Configuring Geolosys",
+  "icon": "minecraft:redstone",
+  "category": "geolosys:01_introduction",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Geolosys has a very powerful configuration system (found in your configuration folder, named $(o)geolosys.json$()). This system allows you to add, modify or remove any ores you want and control them down to a T. However, looking at this config for the first time can be overwhelming, so I've taken the time to design an online configurator tool that walks you through it much more"
+    },
+    {
+      "type": "link",
+      "text": "nicely than some text file. This configurator will provide you with the $(o)geolosys.json$() that you'll need to get going! Just move it to the config folder to replace the existing one and you're set! If you want to revert to defaults, just delete the $(o)geolosys.json$() file and restart the game!",
+      "url": "https://config.geolosys.com",
+      "link_text": "Open Configurator"
+    }
+  ]
+}
