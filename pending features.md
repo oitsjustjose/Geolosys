@@ -2,13 +2,14 @@
 
 ## Internal / Vanilla
 
-- [ ] Make nether gold a Piglin Protected item (anger Piglins if broken)
+- [x] Make nether gold a Piglin Protected item (anger Piglins if broken)
 - [ ] Coal / Peat integration
-- [ ] Sulfur Compat
 
 ## Mods
 
 - [ ] CraftTweaker compat
-- [ ] AE Compat
 - [ ] IE Compat
-- [ ] BR / ER2 Compat (Yellorium)
+- [x] AE Compat
+- [x] Sulfur Compat
+- [x] Mekanism Compat
+- [x] BR / ER2 Compat (Yellorium)
