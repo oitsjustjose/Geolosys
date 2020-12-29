@@ -1,5 +1,20 @@
 # Geolosys Changelog (1.16)
 
+## 4.2.0
+
+### Added
+
+- Block Tags to aggro Piglins in the Nether if Poor Gold Ores are broken
+- Mekanism Support (`Platinum` -> `Osmium`)
+- Bigger/Extreme Reactors Support (`Autunite`-> `Yellorium`)
+- AE2 Support (`Assorted Quartz` -> `[Charged] Certus Quartz`)
+
+### Changed
+
+- Updated Patchouli book to include words on configuring Geolosys
+- Creative Tab will be better organized, has new cycling icon ^_^
+- Lots of internal things that make small differences to my development but 0 difference to your utilization 😊
+
 ## 4.1.0
 
 ### (READ THIS -- You may want to reset / update your Geolosys ore configuration)
