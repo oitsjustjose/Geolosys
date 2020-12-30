@@ -22,14 +22,13 @@ public class SulfurDrop {
             return;
         }
 
-        ItemStack sulfur = findSulfur();
-
-        if (sulfur.isEmpty()) {
-            Geolosys.getInstance().LOGGER.info("No sulfur :(");
+        if (evt.getState().getBlock() != Ores.COAL.getBlock()) {
             return;
         }
 
-        if (evt.getState().getBlock() != Ores.COAL.getBlock()) {
+        ItemStack sulfur = findSulfur();
+
+        if (sulfur.isEmpty()) {
             return;
         }
 
