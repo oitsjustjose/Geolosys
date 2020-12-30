@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "immersiveengineering"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "immersiveengineering:coke_oven",
+        "result": {
+          "item": "geolosys:bituminous_coal_coke"
+        },
+        "input": {
+          "item": "geolosys:bituminous_coal"
+        },
+        "creosote": 750,
+        "time": 1500
+      }
+    }
+  ]
+}
