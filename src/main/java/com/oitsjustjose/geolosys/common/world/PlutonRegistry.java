@@ -34,6 +34,13 @@ public class PlutonRegistry {
         this.stoneWeightList = new ArrayList<>();
     }
 
+    public void clear() {
+        this.ores = new ArrayList<>();
+        this.oreWeightList = new ArrayList<>();
+        this.stones = new ArrayList<>();
+        this.stoneWeightList = new ArrayList<>();
+    }
+
     @SuppressWarnings("unchecked")
     public ArrayList<IDeposit> getOres() {
         return (ArrayList<IDeposit>) this.ores.clone();
