@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.event;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +28,7 @@ public class ManualGifting {
 
         if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID())) {
             ItemHandlerHelper.giveItemToPlayer(player,
-                    PatchouliAPI.get().getBookStack(new ResourceLocation("geolosys", "field_manual")));
+                    PatchouliAPI.get().getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
             geolosysCap.setPlayerReceivedManual(player.getUniqueID());
         }
     }

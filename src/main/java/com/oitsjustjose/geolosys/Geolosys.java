@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
+import com.oitsjustjose.geolosys.client.render.Cutouts;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.compat.CompatLoader;
@@ -24,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
@@ -42,6 +44,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -57,6 +60,7 @@ public class Geolosys {
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
 
@@ -71,6 +75,10 @@ public class Geolosys {
         ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.COMMON_CONFIG);
         CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
+    }
+
+    private void clientSetup(final FMLClientSetupEvent event) {
+        Cutouts.init();
     }
 
     public void setup(final FMLCommonSetupEvent event) {

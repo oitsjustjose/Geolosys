@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/peat"
+      },
+      {
+        "model": "geolosys:block/peat",
+        "y": 90
+      },
+      {
+        "model": "geolosys:block/peat",
+        "y": 180
+      },
+      {
+        "model": "geolosys:block/peat",
+        "y": 270
+      }
+    ]
+  }
+}

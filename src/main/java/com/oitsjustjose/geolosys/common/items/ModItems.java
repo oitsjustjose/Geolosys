@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.items.Types.Clusters;
-import com.oitsjustjose.geolosys.common.items.Types.CoalCokes;
 import com.oitsjustjose.geolosys.common.items.Types.Coals;
 import com.oitsjustjose.geolosys.common.items.Types.Ingots;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
@@ -41,15 +40,9 @@ public class ModItems {
         // Init Coals
         if (CommonConfig.ENABLE_COALS.get()) {
             for (Coals coal : Coals.values()) {
-                Item item = new Item(genericItemProps).setRegistryName("geolosys", coal.getName() + COAL_POSTFIX);
+                Item item = new CoalItem(coal).setRegistryName("geolosys",
+                        coal.getName() + (coal.isCoalCoke() ? COAL_COKE_POSTFIX : COAL_POSTFIX));
                 coal.setItem(item);
-            }
-        }
-        // Init Coal Cokes
-        if (CommonConfig.ENABLE_COALS.get()) {
-            for (CoalCokes coke : CoalCokes.values()) {
-                Item item = new Item(genericItemProps).setRegistryName("geolosys", coke.getName() + COAL_COKE_POSTFIX);
-                coke.setItem(item);
             }
         }
     }
@@ -75,11 +68,6 @@ public class ModItems {
                 itemRegistryEvent.getRegistry().register(coal.getItem());
             }
         }
-        if (CommonConfig.ENABLE_COALS.get()) {
-            for (CoalCokes coke : CoalCokes.values()) {
-                itemRegistryEvent.getRegistry().register(coke.getItem());
-            }
-        }
 
         itemRegistryEvent.getRegistry().register(PRO_PICK);
     }
@@ -88,11 +76,6 @@ public class ModItems {
     public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent) {
         if (CommonConfig.ENABLE_COALS.get()) {
             for (Coals c : Coals.values()) {
-                if (fuelBurnoutEvent.getItemStack().getItem().equals(c.getItem())) {
-                    fuelBurnoutEvent.setBurnTime(c.getBurnTime() * 200);
-                }
-            }
-            for (CoalCokes c : CoalCokes.values()) {
                 if (fuelBurnoutEvent.getItemStack().getItem().equals(c.getItem())) {
                     fuelBurnoutEvent.setBurnTime(c.getBurnTime() * 200);
                 }

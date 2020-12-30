@@ -16,6 +16,8 @@ import net.minecraftforge.event.RegistryEvent;
 public class ModBlocks {
     private static ModBlocks instance;
 
+    public Block peat;
+
     private ModBlocks() {
         for (Types.Ores oreType : Types.Ores.values()) {
             final String SAMPLE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore_sample";
@@ -37,6 +39,9 @@ public class ModBlocks {
             oreType.setBlock(block);
             oreType.setSample(sample);
         }
+
+        peat = new Block(Properties.create(Material.EARTH, MaterialColor.DIRT).hardnessAndResistance(4F, 3F)
+                .sound(SoundType.SOUL_SOIL).harvestTool(ToolType.SHOVEL)).setRegistryName(Constants.MODID, "peat");
     }
 
     public static ModBlocks getInstance() {
@@ -51,6 +56,7 @@ public class ModBlocks {
             blockRegistryEvent.getRegistry().register(oreType.getBlock());
             blockRegistryEvent.getRegistry().register(oreType.getSample());
         }
+        blockRegistryEvent.getRegistry().register(peat);
     }
 
     public void registerItemBlocks(RegistryEvent.Register<Item> itemRegistryEvent) {
@@ -65,5 +71,9 @@ public class ModBlocks {
                     .setRegistryName(oreType.getSample().getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
+
+        Item iBlock = new BlockItem(peat, new Item.Properties().group(GeolosysGroup.getInstance()))
+                .setRegistryName(peat.getRegistryName());
+        itemRegistryEvent.getRegistry().register(iBlock);
     }
 }
