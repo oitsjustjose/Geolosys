@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "geolosys:nether_gold_cluster"
+  },
+  "result": {
+    "item": "minecraft:gold_nugget",
+    "count": 3
+  },
+  "experience": 0.15,
+  "cookingtime": 200
+}

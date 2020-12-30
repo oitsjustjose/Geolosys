@@ -13,7 +13,6 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
-import com.oitsjustjose.geolosys.common.recipes.FurnaceRecipeHandler;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
@@ -60,7 +59,6 @@ public class Geolosys {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
-        MinecraftForge.EVENT_BUS.register(new FurnaceRecipeHandler());
 
         this.configSetup();
     }

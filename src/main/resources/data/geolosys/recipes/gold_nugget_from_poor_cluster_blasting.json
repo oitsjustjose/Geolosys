@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "geolosys:nether_gold_cluster"
+  },
+  "result": {
+    "item": "minecraft:gold_nugget",
+    "count": 4
+  },
+  "experience": 0.15,
+  "cookingtime": 100
+}
