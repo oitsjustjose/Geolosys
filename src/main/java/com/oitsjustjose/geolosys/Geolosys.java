@@ -25,9 +25,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.Item;
+import net.minecraft.profiler.IProfiler;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
@@ -36,6 +38,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -90,6 +93,24 @@ public class Geolosys {
         CompatLoader.init();
         GeolosysAPI.init();
         proxy.init();
+    }
+
+    @SubscribeEvent
+    public void onSlashReload(AddReloadListenerEvent evt) {
+        evt.addListener(new ReloadListener<Void>() {
+            @Override
+            protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+                Geolosys.getInstance().LOGGER.info("Reloading Geolosys Ore Config from Disk...");
+                GeolosysAPI.plutonRegistry.clear();
+                OreConfig.getInstance().init();
+                Geolosys.getInstance().LOGGER.info("Done Reloading Geolosys Ore Config!");
+            }
+
+            @Override
+            protected Void prepare(IResourceManager resourceManagerIn, IProfiler profilerIn) {
+                return null;
+            }
+        });
     }
 
     @SubscribeEvent
