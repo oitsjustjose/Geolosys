@@ -46,10 +46,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
      */
     private void postPlacement(IWorld world, BlockPos plutonStartPos, IDeposit ore) {
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos {})", ore.getFriendlyName(),
-                    new ChunkPos(plutonStartPos), plutonStartPos);
-            // Geolosys.getInstance().LOGGER.debug("Generated " +
-            // + " in Chunk " + new ChunkPos(plutonStartPos));
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", ore.getFriendlyName(),
+                    new ChunkPos(plutonStartPos), plutonStartPos.getX(), plutonStartPos.getY(), plutonStartPos.getZ());
         }
 
         int sampleLimit = SampleUtils.getSampleCount(ore);
@@ -115,13 +113,17 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         if (plutonCapability.hasOrePlutonGenerated(chunkPosDim)) {
             return false;
         }
+
         IDeposit pluton = GeolosysAPI.plutonRegistry.pickPluton(world, pos, rand);
         if (pluton == null) {
             return false;
         }
-        if (rand.nextInt(100) > pluton.getChance()) {
+        
+        // Logic for spacing out plutons
+        if (rand.nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getChance()) {
             return false;
         }
+
         // Logic to confirm that this can be placed here
         if (pluton instanceof DepositBiomeRestricted) {
             DepositBiomeRestricted restricted = (DepositBiomeRestricted) pluton;
@@ -135,10 +137,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
             }
         }
 
-        // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
-            ResourceLocation r = new ResourceLocation(s);
-            if (Utils.dimensionToString(world).equals(r.toString())) {
+            if (Utils.dimensionToString(world).equals(new ResourceLocation(s).toString())) {
                 return false;
             }
         }
@@ -146,6 +146,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
             plutonCapability
                     .setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
+            return true;
         }
 
         return false;

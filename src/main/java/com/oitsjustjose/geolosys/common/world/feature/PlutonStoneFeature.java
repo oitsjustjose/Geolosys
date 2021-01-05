@@ -58,10 +58,8 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
             return false;
         }
 
-        // TODO: This is the slow way -- see the 1.15 branch for the fast way
         for (String s : pluton.getDimensionBlacklist()) {
-            ResourceLocation r = new ResourceLocation(s);
-            if (Utils.dimensionToString(world).equals(r.toString())) {
+            if (Utils.dimensionToString(world).equals(new ResourceLocation(s).toString())) {
                 return false;
             }
         }
