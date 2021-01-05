@@ -5,6 +5,11 @@ import java.util.Objects;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositStone;
+import com.oitsjustjose.geolosys.api.world.IDeposit;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -80,5 +85,24 @@ public class Utils {
     public static boolean canMine(BlockState state, ItemStack stack) {
         int harvestLvl = stack.getHarvestLevel(ToolType.PICKAXE, null, null);
         return stack.getToolTypes().contains(ToolType.PICKAXE) && state.getHarvestLevel() <= harvestLvl;
+    }
+
+    public static void logDeposit(IDeposit dep) {
+        if (dep instanceof DepositStone) {
+            Geolosys.getInstance().LOGGER.info("Registered a {} stone pluton.",
+                    dep.getOre().getBlock().getRegistryName());
+        } else if (dep instanceof DepositMultiOre) {
+            Geolosys.getInstance().LOGGER.info(
+                    "Registered a {} ore pluton with blocks={}, samples={}, and density={}. This ore {} custom biome registries.",
+                    dep.getPlutonType().toString().toLowerCase(), ((DepositMultiOre) dep).oreBlocks,
+                    ((DepositMultiOre) dep).sampleBlocks, dep.getDensity(),
+                    (dep instanceof DepositMultiOreBiomeRestricted) ? "has" : "does not have");
+        } else {
+            Geolosys.getInstance().LOGGER.info(
+                    "Registered a {} {} ore pluton with sample {}, and density={}. This ore {} custom biome registries.",
+                    dep.getPlutonType().toString().toLowerCase(), dep.getOre().getBlock().getRegistryName(),
+                    dep.getSample().getBlock().getRegistryName(), dep.getDensity(),
+                    (dep instanceof DepositBiomeRestricted) ? "has" : "does not have");
+        }
     }
 }

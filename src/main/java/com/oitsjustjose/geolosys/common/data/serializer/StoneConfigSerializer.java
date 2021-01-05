@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.config.serializer;
+package com.oitsjustjose.geolosys.common.data.serializer;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class StoneConfigSerializer implements JsonDeserializer<DepositStone>, Js
 
             return new DepositStone(block, yMin, yMax, chance, size, dimBlacklist);
         } catch (Exception e) {
-            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file");
+            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
         }
     }

@@ -12,6 +12,7 @@ import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
+import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
@@ -64,6 +65,7 @@ public class Geolosys {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
 
@@ -97,13 +99,12 @@ public class Geolosys {
 
     @SubscribeEvent
     public void onSlashReload(AddReloadListenerEvent evt) {
+        evt.addListener(new WorldGenDataLoader());
+
         evt.addListener(new ReloadListener<Void>() {
             @Override
             protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
-                Geolosys.getInstance().LOGGER.info("Reloading Geolosys Ore Config from Disk...");
-                GeolosysAPI.plutonRegistry.clear();
                 OreConfig.getInstance().init();
-                Geolosys.getInstance().LOGGER.info("Done Reloading Geolosys Ore Config!");
             }
 
             @Override

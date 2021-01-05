@@ -19,7 +19,8 @@ public class ModBlocks {
     private static ModBlocks instance;
     private ArrayList<Block> extras = new ArrayList<Block>();
 
-    public Block rhododendron = new PlantBlock(false, Types.Coals.PEAT.getBlock()).setRegistryName(Constants.MODID, "rhododendron");
+    public Block peat = new PeatBlock().setRegistryName(Constants.MODID, "peat");
+    public Block rhododendron = new PlantBlock(false, peat).setRegistryName(Constants.MODID, "rhododendron");
 
     private ModBlocks() {
         for (Types.Ores oreType : Types.Ores.values()) {
@@ -35,14 +36,18 @@ public class ModBlocks {
 
             Block block = new OreBlock(oreType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
                     ORE_REGISTRY_NAME);
-            Block sample = oreType.getVanillaParent() == null
-                    ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
-                    : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
+
+            if (oreType.hasSample()) {
+                Block sample = oreType.getVanillaParent() == null
+                        ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
+                        : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
+                oreType.setSample(sample);
+            }
 
             oreType.setBlock(block);
-            oreType.setSample(sample);
         }
 
+        extras.add(peat);
         extras.add(rhododendron);
     }
 
@@ -56,11 +61,8 @@ public class ModBlocks {
     public void register(RegistryEvent.Register<Block> blockRegistryEvent) {
         for (Types.Ores oreType : Types.Ores.values()) {
             blockRegistryEvent.getRegistry().register(oreType.getBlock());
-            blockRegistryEvent.getRegistry().register(oreType.getSample());
-        }
-        for (Types.Coals coalType : Types.Coals.values()) {
-            if (coalType.getBlock() != null) {
-                blockRegistryEvent.getRegistry().register(coalType.getBlock());
+            if (oreType.hasSample()) {
+                blockRegistryEvent.getRegistry().register(oreType.getSample());
             }
         }
         for (Block extra : extras) {
@@ -76,16 +78,10 @@ public class ModBlocks {
         }
 
         for (Types.Ores oreType : Types.Ores.values()) {
-            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().group(GeolosysGroup.getInstance()))
-                    .setRegistryName(oreType.getSample().getRegistryName());
-            itemRegistryEvent.getRegistry().register(iBlock);
-        }
-
-        for (Types.Coals coalType : Types.Coals.values()) {
-            if (coalType.getBlock() != null) {
-                Item iBlock = new BlockItem(coalType.getBlock(),
+            if (oreType.hasSample()) {
+                Item iBlock = new BlockItem(oreType.getSample(),
                         new Item.Properties().group(GeolosysGroup.getInstance()))
-                                .setRegistryName(coalType.getBlock().getRegistryName());
+                                .setRegistryName(oreType.getSample().getRegistryName());
                 itemRegistryEvent.getRegistry().register(iBlock);
             }
         }
