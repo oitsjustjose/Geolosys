@@ -7,18 +7,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -30,13 +26,6 @@ import net.minecraft.world.server.ServerWorld;
 public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
     public PlutonStoneFeature(Codec<NoFeatureConfig> p_i231976_1_) {
         super(p_i231976_1_);
-    }
-
-    private boolean isInChunk(ChunkPos chunkPos, BlockPos pos) {
-        int blockX = pos.getX();
-        int blockZ = pos.getZ();
-        return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
-                && blockZ <= chunkPos.getZEnd();
     }
 
     @Override

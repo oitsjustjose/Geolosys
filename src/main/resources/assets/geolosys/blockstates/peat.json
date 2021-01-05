@@ -1,6 +1,6 @@
 {
   "variants": {
-    "": [
+    "is_top=false": [
       {
         "model": "geolosys:block/peat"
       },
@@ -14,6 +14,23 @@
       },
       {
         "model": "geolosys:block/peat",
+        "y": 270
+      }
+    ],
+    "is_top=true": [
+      {
+        "model": "geolosys:block/peat_top"
+      },
+      {
+        "model": "geolosys:block/peat_top",
+        "y": 90
+      },
+      {
+        "model": "geolosys:block/peat_top",
+        "y": 180
+      },
+      {
+        "model": "geolosys:block/peat_top",
         "y": 270
       }
     ]

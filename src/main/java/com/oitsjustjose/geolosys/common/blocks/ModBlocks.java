@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.ArrayList;
+
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 
@@ -15,8 +17,9 @@ import net.minecraftforge.event.RegistryEvent;
 
 public class ModBlocks {
     private static ModBlocks instance;
+    private ArrayList<Block> extras = new ArrayList<Block>();
 
-    public Block peat;
+    public Block rhododendron = new PlantBlock(false, Types.Coals.PEAT.getBlock()).setRegistryName(Constants.MODID, "rhododendron");
 
     private ModBlocks() {
         for (Types.Ores oreType : Types.Ores.values()) {
@@ -40,8 +43,7 @@ public class ModBlocks {
             oreType.setSample(sample);
         }
 
-        peat = new Block(Properties.create(Material.EARTH, MaterialColor.DIRT).hardnessAndResistance(4F, 3F)
-                .sound(SoundType.SOUL_SOIL).harvestTool(ToolType.SHOVEL)).setRegistryName(Constants.MODID, "peat");
+        extras.add(rhododendron);
     }
 
     public static ModBlocks getInstance() {
@@ -56,7 +58,14 @@ public class ModBlocks {
             blockRegistryEvent.getRegistry().register(oreType.getBlock());
             blockRegistryEvent.getRegistry().register(oreType.getSample());
         }
-        blockRegistryEvent.getRegistry().register(peat);
+        for (Types.Coals coalType : Types.Coals.values()) {
+            if (coalType.getBlock() != null) {
+                blockRegistryEvent.getRegistry().register(coalType.getBlock());
+            }
+        }
+        for (Block extra : extras) {
+            blockRegistryEvent.getRegistry().register(extra);
+        }
     }
 
     public void registerItemBlocks(RegistryEvent.Register<Item> itemRegistryEvent) {
@@ -72,8 +81,19 @@ public class ModBlocks {
             itemRegistryEvent.getRegistry().register(iBlock);
         }
 
-        Item iBlock = new BlockItem(peat, new Item.Properties().group(GeolosysGroup.getInstance()))
-                .setRegistryName(peat.getRegistryName());
-        itemRegistryEvent.getRegistry().register(iBlock);
+        for (Types.Coals coalType : Types.Coals.values()) {
+            if (coalType.getBlock() != null) {
+                Item iBlock = new BlockItem(coalType.getBlock(),
+                        new Item.Properties().group(GeolosysGroup.getInstance()))
+                                .setRegistryName(coalType.getBlock().getRegistryName());
+                itemRegistryEvent.getRegistry().register(iBlock);
+            }
+        }
+
+        for (Block extra : extras) {
+            Item iBlock = new BlockItem(extra, new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(extra.getRegistryName());
+            itemRegistryEvent.getRegistry().register(iBlock);
+        }
     }
 }

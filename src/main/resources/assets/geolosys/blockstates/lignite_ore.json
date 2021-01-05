@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/lignite_ore"
+      }
+    ]
+  }
+}

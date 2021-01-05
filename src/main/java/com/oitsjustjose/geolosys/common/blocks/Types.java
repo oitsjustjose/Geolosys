@@ -1,12 +1,72 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.IStringSerializable;
-
 import javax.annotation.Nullable;
 
+import com.oitsjustjose.geolosys.common.utils.Constants;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.util.IStringSerializable;
+import net.minecraftforge.common.ToolType;
+
 public class Types {
+    public static Block.Properties ORE_PROP = Block.Properties.create(Material.ROCK, MaterialColor.STONE)
+            .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).setRequiresTool();
+
+    public enum Coals implements IStringSerializable {
+
+        PEAT("peat", "peat", "Peat", new PeatBlock().setRegistryName(Constants.MODID, "peat")),
+        LIGNITE("lignite", "lignite", "Lignite Coal",
+                new Block(ORE_PROP.harvestLevel(1)).setRegistryName(Constants.MODID, "lignite_ore")),
+        BITUMINOUS("bituminous_coal", "bituminous_coal", "Bituminous Coal",
+                new Block(ORE_PROP.harvestLevel(1)).setRegistryName(Constants.MODID, "bituminous_coal_ore")),
+        ANTHRACITE("anthracite", "anthracite", "Anthracitic Coal",
+                new Block(ORE_PROP.harvestLevel(2)).setRegistryName(Constants.MODID, "anthracite_ore"));
+
+        private final String serializedName;
+        private final String unlocalizedName;
+        private final String resource;
+
+        private Block instance;
+
+        Coals(String name, String unlocalizedName, String resource, @Nullable Block instBlk) {
+            this.serializedName = name;
+            this.unlocalizedName = unlocalizedName;
+            this.resource = resource;
+            if (instBlk != null) {
+                this.instance = instBlk;
+            }
+        }
+
+        public String toString() {
+            return this.unlocalizedName;
+        }
+
+        public String getResource() {
+            return this.resource;
+        }
+
+        public String getName() {
+            return this.serializedName;
+        }
+
+        public String getString() {
+            return this.serializedName;
+        }
+
+        @Nullable
+        public Block getBlock() {
+            return this.instance;
+        }
+
+        public void setBlock(Block b) {
+            this.instance = b;
+        }
+    }
+
     public enum Ores implements IStringSerializable {
         COAL(0, "coal", "coal", "coal", Blocks.COAL_ORE),
         CINNABAR(2, "cinnabar", "redstone", "redstone", Blocks.REDSTONE_ORE), GOLD(2, "gold", "gold", "gold", null),

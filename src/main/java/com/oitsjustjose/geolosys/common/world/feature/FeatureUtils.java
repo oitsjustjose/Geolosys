@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.feature.Features;
 
 public class FeatureUtils {
 
@@ -244,7 +243,6 @@ public class FeatureUtils {
                             if (Utils.doStatesMatch(matcherState, state)) {
                                 world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
-                                Geolosys.getInstance().LOGGER.info("Placed ore at {}", blockpos.toString());
                                 break;
                             }
                         }

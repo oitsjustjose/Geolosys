@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.client.render;
 
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
+import com.oitsjustjose.geolosys.common.blocks.Types;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -23,7 +24,10 @@ public class BlockColorInit {
 
         blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
                 ? BiomeColors.getGrassColor(lightReader, pos)
-                : GrassColors.get(0.5D, 1.0D), ModBlocks.getInstance().peat);
+                : GrassColors.get(0.5D, 1.0D), Types.Coals.PEAT.getBlock());
+        blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
+                ? BiomeColors.getGrassColor(lightReader, pos)
+                : GrassColors.get(0.5D, 1.0D), ModBlocks.getInstance().rhododendron);
 
     }
 
@@ -39,7 +43,8 @@ public class BlockColorInit {
         };
 
         if (itemBlockColourHandler != null) {
-            itemColors.register(itemBlockColourHandler, ModBlocks.getInstance().peat);
+            itemColors.register(itemBlockColourHandler, Types.Coals.PEAT.getBlock());
+            itemColors.register(itemBlockColourHandler, ModBlocks.getInstance().rhododendron);
         }
     }
 }
