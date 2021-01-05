@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.common.world.capability;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
@@ -23,9 +24,9 @@ public interface IGeolosysCapability extends INBTSerializable<CompoundNBT> {
 
     BlockState getPendingBlock(BlockPosDim pos);
 
-    Map<ChunkPosDim, Boolean> getOreGenMap();
+    ConcurrentLinkedQueue<ChunkPosDim> getOreGenMap();
 
-    Map<ChunkPosDim, Boolean> getStoneGenMap();
+    ConcurrentLinkedQueue<ChunkPosDim> getStoneGenMap();
 
     Map<BlockPosDim, BlockState> getPendingBlocks();
 

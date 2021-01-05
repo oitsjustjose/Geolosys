@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.ChunkPosDim;
 
@@ -13,25 +15,25 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 
 public class GeolosysCapability implements IGeolosysCapability {
-    private Map<ChunkPosDim, Boolean> oreGenMap;
-    private Map<ChunkPosDim, Boolean> stoneGenMap;
+    private ConcurrentLinkedQueue<ChunkPosDim> oreGenMap;
+    private ConcurrentLinkedQueue<ChunkPosDim> stoneGenMap;
     private Map<BlockPosDim, BlockState> pendingBlocks;
     private Map<UUID, Boolean> giveMap;
 
     public GeolosysCapability() {
-        this.oreGenMap = new ConcurrentHashMap<>();
-        this.stoneGenMap = new ConcurrentHashMap<>();
+        this.oreGenMap = new ConcurrentLinkedQueue<>();
+        this.stoneGenMap = new ConcurrentLinkedQueue<>();
         this.pendingBlocks = new ConcurrentHashMap<>();
         this.giveMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public Map<ChunkPosDim, Boolean> getOreGenMap() {
+    public ConcurrentLinkedQueue<ChunkPosDim> getOreGenMap() {
         return this.oreGenMap;
     }
 
     @Override
-    public Map<ChunkPosDim, Boolean> getStoneGenMap() {
+    public ConcurrentLinkedQueue<ChunkPosDim> getStoneGenMap() {
         return this.stoneGenMap;
     }
 
@@ -53,22 +55,22 @@ public class GeolosysCapability implements IGeolosysCapability {
 
     @Override
     public void setOrePlutonGenerated(ChunkPosDim dim) {
-        this.oreGenMap.put(dim, true);
+        this.oreGenMap.add(dim);
     }
 
     @Override
     public boolean hasOrePlutonGenerated(ChunkPosDim pos) {
-        return this.oreGenMap.containsKey(pos) && this.oreGenMap.get(pos);
+        return this.oreGenMap.contains(pos);
     }
 
     @Override
-    public void setStonePlutonGenerated(ChunkPosDim dim) {
-        this.stoneGenMap.put(dim, true);
+    public void setStonePlutonGenerated(ChunkPosDim pos) {
+        this.stoneGenMap.add(pos);
     }
 
     @Override
     public boolean hasStonePlutonGenerated(ChunkPosDim pos) {
-        return this.stoneGenMap.containsKey(pos) && this.stoneGenMap.get(pos);
+        return this.stoneGenMap.contains(pos);
     }
 
     @Override
@@ -99,8 +101,8 @@ public class GeolosysCapability implements IGeolosysCapability {
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
-        this.getOreGenMap().forEach((x, y) -> oreDeposits.putBoolean(x.toString(), y));
-        this.getStoneGenMap().forEach((x, y) -> stoneDeposits.putBoolean(x.toString(), y));
+        this.getOreGenMap().forEach(x -> oreDeposits.putBoolean(x.toString(), true));
+        this.getStoneGenMap().forEach(x -> stoneDeposits.putBoolean(x.toString(), true));
         this.getPendingBlocks().forEach((x, y) -> pendingBlocks.put(x.toString(), NBTUtil.writeBlockState(y)));
         this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
 
