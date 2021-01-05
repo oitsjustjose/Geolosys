@@ -5,8 +5,8 @@ import net.minecraft.util.IStringSerializable;
 
 public class Types {
     public enum Coals implements IStringSerializable {
-        PEAT(12, "peat", false), LIGNITE(16, "lignite", false), BITUMINOUS(24, "bituminous", false),
-        ANTHRACITE(32, "anthracite", false), LIGNITE_COKE(24, "lignite", true), BITUMINOUS_COKE(32, "bituminous", true);
+        PEAT(6, "peat", false), LIGNITE(12, "lignite", false), BITUMINOUS(16, "bituminous", false),
+        ANTHRACITE(20, "anthracite", false), LIGNITE_COKE(24, "lignite", true), BITUMINOUS_COKE(32, "bituminous", true);
 
         private Item instance;
 

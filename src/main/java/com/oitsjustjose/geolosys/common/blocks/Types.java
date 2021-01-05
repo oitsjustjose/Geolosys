@@ -24,7 +24,7 @@ public class Types {
         BITUMINOUS("bituminous_coal", "bituminous_coal", "Bituminous Coal",
                 new Block(ORE_PROP.harvestLevel(1)).setRegistryName(Constants.MODID, "bituminous_coal_ore")),
         ANTHRACITE("anthracite", "anthracite", "Anthracitic Coal",
-                new Block(ORE_PROP.harvestLevel(2)).setRegistryName(Constants.MODID, "anthracite_ore"));
+                new Block(ORE_PROP.harvestLevel(2)).setRegistryName(Constants.MODID, "anthracite_coal_ore"));
 
         private final String serializedName;
         private final String unlocalizedName;
