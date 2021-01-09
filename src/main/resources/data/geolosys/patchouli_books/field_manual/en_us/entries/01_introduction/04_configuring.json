@@ -6,13 +6,13 @@
   "pages": [
     {
       "type": "text",
-      "text": "Geolosys has a very powerful configuration system (found in your configuration folder, named $(o)geolosys.json$()). This system allows you to add, modify or remove any ores you want and control them down to a T. However, looking at this config for the first time can be overwhelming, so I've taken the time to design an online configurator tool that walks you through it much more"
+      "text": "As of Geolosys v4.3.0 for Minecraft 1.16.4, Geolosys has moved almost entirely to the DataPack system. You can make a datapack to create, overwrite or flat-out remove existing Plutons, and this means there's built-in CraftTweaker compatibility! You can still use the (now deprecated) configurator found $(l:https://config.geolosys.com)here$(/l), but in general you should use Data Packs where possible."
     },
     {
       "type": "link",
-      "text": "nicely than some text file. This configurator will provide you with the $(o)geolosys.json$() that you'll need to get going! Just move it to the config folder to replace the existing one and you're set! If you want to revert to defaults, just delete the $(o)geolosys.json$() file and restart the game!",
-      "url": "https://config.geolosys.com",
-      "link_text": "Open Configurator"
+      "text": "Geolosys comes with a datapack built-in set of ores in its own data pack, organized as such:$(br)$(li)deposits/ores/<ore>$(li)deposits/stones/<stone>$(li)deposits/other/peat (and others)$(br)If you want to prevent any pre-configured ore, just overwrite the file with the exact path and name. You can find the built-in datapack $(l:https://github.com/oitsjustjose/Geolosys/tree/1.16/src/main/resources/data/geolosys/deposits)here$(/l)!",
+      "url": "https://minecraft.gamepedia.com/Data_Pack",
+      "link_text": "Data Pack Wiki"
     }
   ]
 }
