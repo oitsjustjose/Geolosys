@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "As of Geolosys v4.3.0 for Minecraft 1.16.4, Geolosys has moved almost entirely to the DataPack system. You can make a datapack to create, overwrite or flat-out remove existing Plutons, and this means there's built-in CraftTweaker compatibility! You can still use the (now deprecated) configurator found $(l:https://config.geolosys.com)here$(/l), but in general you should use Data Packs where possible."
+      "text": "As of Geolosys v5 for Minecraft 1.16.4, Geolosys has moved almost entirely to the DataPack system. You can make a datapack to create, overwrite or flat-out remove existing Plutons, and this means there's built-in CraftTweaker compatibility! You can still use the (now deprecated) configurator found $(l:https://config.geolosys.com)here$(/l), but in general you should use Data Packs where possible."
     },
     {
       "type": "link",
