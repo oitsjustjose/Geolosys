@@ -1,5 +1,26 @@
 # Geolosys Changelog (1.16)
 
+## 5.0.0
+
+### The Coals Update!!
+
+### Added:
+
+- NEW BLOCKS:
+    - Dedicated ores & samples for LIgnite, Bituminous Coal and Anthracitic Coal
+    - Peat: This looks like grass, but is a much more acidic, darker variant that generates on the surface
+    - Rhododendron: This is a new flower that can only be harvested with shears. It prefers Peat and is found on top of it, and can be used to craft Purple Dye!
+- New `TOP_LAYER` pluton type, which starts at the surface and works its way down (similar to clay or surface gravel).
+- New Data Pack config option! Instead of using `geolosys.json` or `geolosys_ores.json`, Geolosys now uses Data Packs for configuration
+    - **The old method will still be supported for the duration of 1.16.x updates for convenience**
+    - Geolosys no longer downloads a json config from GitHub if you didn't have one
+    - All of Geolosys's built-in ores are now DP-only, overwrite their path in your own datapack to delete them [see here for files/paths](https://github.com/oitsjustjose/Geolosys/tree/1.16/src/main/resources/data/geolosys/deposits), and [here](https://minecraft.gamepedia.com/Data_Pack) for instructions on how to overwrite/work with datapacks
+    - Geolosys is now inherently [compatible with Craft Tweaker!](https://github.com/CraftTweaker/CraftTweaker-Examples/blob/master/1.14/recipetypes.zs)
+        - The Ore deposit type is `geolosys:ore_deposit`
+        - The Stone deposit type is `geolosys:stone_deposit`
+        - Yes, these are considered "recipes" to the game, but aren't ever treated as such
+        - See any of the JSON files [here](https://github.com/oitsjustjose/Geolosys/tree/1.16/src/main/resources/data/geolosys/deposits) for examples.
+
 ## 4.2.0
 
 ### Added
