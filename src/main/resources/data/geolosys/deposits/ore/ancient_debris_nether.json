@@ -1,0 +1,24 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 8,
+    "yMax": 22,
+    "chance": 1,
+    "size": 14,
+    "dimBlacklist": [
+      "overworld",
+      "the_end"
+    ],
+    "blockStateMatchers": [
+      "minecraft:netherrack",
+      "minecraft:basalt",
+      "minecraft:blackstone",
+      "minecraft:magma_block",
+      "minecraft:lava"
+    ],
+    "type": "DIKE",
+    "density": 0.4,
+    "block": "geolosys:ancient_debris_ore",
+    "sample": "geolosys:ancient_debris_ore_sample"
+  }
+}

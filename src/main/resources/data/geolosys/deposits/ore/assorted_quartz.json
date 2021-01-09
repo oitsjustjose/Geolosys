@@ -1,0 +1,17 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 6,
+    "yMax": 29,
+    "chance": 6,
+    "size": 40,
+    "type": "DIKE",
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "density": 1.0,
+    "block": "geolosys:quartz_ore",
+    "sample": "geolosys:quartz_ore_sample"
+  }
+}

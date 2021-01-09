@@ -268,7 +268,7 @@ public class OreConfigSerializer {
         List<Biome> ret = new ArrayList<Biome>();
 
         for (String s : toStringArray(arr)) {
-            ResourceLocation r = new ResourceLocation(s);
+            ResourceLocation r = new ResourceLocation(s.toLowerCase());
             if (ForgeRegistries.BIOMES.containsKey(r)) {
                 ret.add(ForgeRegistries.BIOMES.getValue(r));
             }

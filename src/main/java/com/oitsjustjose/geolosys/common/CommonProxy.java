@@ -23,13 +23,6 @@ public class CommonProxy {
                 PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
     }
 
-    public void throwDownloadError(File jsonFile) {
-        Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
-                + " could neither be found nor downloaded. "
-                + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json "
-                + "and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
-    }
-
     public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction) {
         if (!(player instanceof ServerPlayerEntity)) {
             return;

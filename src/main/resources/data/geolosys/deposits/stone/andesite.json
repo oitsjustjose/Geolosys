@@ -1,0 +1,14 @@
+{
+  "type": "geolosys:stone_deposit",
+  "config": {
+    "block": "minecraft:andesite",
+    "size": 75,
+    "chance": 10,
+    "yMin": 2,
+    "yMax": 70,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ]
+  }
+}

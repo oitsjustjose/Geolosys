@@ -37,27 +37,31 @@ public class WorldGenDataLoader extends JsonReloadListener {
             IProfiler profiler) {
         GeolosysAPI.plutonRegistry.clear();
         datamap.forEach((rl, json) -> {
-            JsonObject jsonobject = JSONUtils.getJsonObject(json, "geolosys deposit config");
-            JsonObject config = jsonobject.get("config").getAsJsonObject();
+            try {
+                JsonObject jsonobject = JSONUtils.getJsonObject(json, "geolosys deposit config");
+                JsonObject config = jsonobject.get("config").getAsJsonObject();
 
-            switch (jsonobject.get("type").getAsString()) {
-                case "geolosys:ore_deposit":
-                    IDeposit dep = oreSerializer.deserialize(config, null, null);
-                    if (dep != null) {
-                        Utils.logDeposit(dep);
-                        GeolosysAPI.plutonRegistry.addOrePluton(dep);
-                    }
-                    return;
-                case "geolosys:stone_deposit":
-                    DepositStone stone = stoneSerializer.deserialize(config, null, null);
-                    if (stone != null) {
-                        Utils.logDeposit(stone);
-                        GeolosysAPI.plutonRegistry.addStonePluton(stone);
-                    }
-                    break;
-                default:
-                    Geolosys.getInstance().LOGGER.info("Unknown JSON type. Received JSON {}", json.toString());
-                    return;
+                switch (jsonobject.get("type").getAsString()) {
+                    case "geolosys:ore_deposit":
+                        IDeposit dep = oreSerializer.deserialize(config, null, null);
+                        if (dep != null) {
+                            Utils.logDeposit(dep);
+                            GeolosysAPI.plutonRegistry.addOrePluton(dep);
+                        }
+                        return;
+                    case "geolosys:stone_deposit":
+                        DepositStone stone = stoneSerializer.deserialize(config, null, null);
+                        if (stone != null) {
+                            Utils.logDeposit(stone);
+                            GeolosysAPI.plutonRegistry.addStonePluton(stone);
+                        }
+                        break;
+                    default:
+                        Geolosys.getInstance().LOGGER.info("Unknown JSON type. Received JSON {}", json.toString());
+                        return;
+                }
+            } catch (NullPointerException ex) {
+                Geolosys.getInstance().LOGGER.info("Skipping registration of ore {}", rl);
             }
         });
     }

@@ -1,0 +1,21 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 4,
+    "yMax": 32,
+    "chance": 3,
+    "size": 16,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "DIKE",
+    "density": 1.0,
+    "biomes": [
+      "MOUNTAIN"
+    ],
+    "isWhitelist": true,
+    "block": "geolosys:beryl_ore",
+    "sample": "geolosys:beryl_ore_sample"
+  }
+}

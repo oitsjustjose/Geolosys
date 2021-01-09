@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:autunite_ore",
+        "chance": 85
+      },
+      {
+        "block": "minecraft:granite",
+        "chance": 15
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:autunite_ore_sample",
+        "chance": 100
+      }
+    ],
+    "yMin": 8,
+    "yMax": 33,
+    "chance": 4,
+    "size": 48,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "SPARSE",
+    "density": 1.0,
+    "biomes": [
+      "MOUNTAIN"
+    ],
+    "isWhitelist": true
+  }
+}

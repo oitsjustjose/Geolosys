@@ -1,0 +1,17 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 2,
+    "yMax": 15,
+    "chance": 3,
+    "size": 20,
+    "type": "DIKE",
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "density": 1.0,
+    "block": "geolosys:kimberlite_ore",
+    "sample": "geolosys:kimberlite_ore_sample"
+  }
+}

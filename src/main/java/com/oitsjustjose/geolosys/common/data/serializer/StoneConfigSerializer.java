@@ -36,7 +36,7 @@ public class StoneConfigSerializer implements JsonDeserializer<DepositStone>, Js
             int yMin = jsonobject.get("yMin").getAsInt();
             int yMax = jsonobject.get("yMax").getAsInt();
 
-            JsonArray dBl = jsonobject.get("dimBlackist").getAsJsonArray();
+            JsonArray dBl = jsonobject.get("dimBlacklist").getAsJsonArray();
             String[] dimBlacklist = new String[dBl.size()];
 
             for (int i = 0; i < dBl.size(); i++) {

@@ -1,0 +1,17 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 2,
+    "yMax": 10,
+    "chance": 4,
+    "size": 9,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "LAYER",
+    "density": 1.0,
+    "block": "geolosys:anthracite_coal_ore",
+    "sample": "geolosys:anthracite_coal_ore_sample"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 40,
+    "yMax": 70,
+    "chance": 7,
+    "size": 10,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "LAYER",
+    "density": 1.0,
+    "block": "geolosys:lignite_ore",
+    "sample": "geolosys:lignite_ore_sample"
+  }
+}

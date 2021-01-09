@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:malachite_ore",
+        "chance": 40
+      },
+      {
+        "block": "geolosys:azurite_ore",
+        "chance": 60
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:malachite_ore_sample",
+        "chance": 40
+      },
+      {
+        "block": "geolosys:azurite_ore_sample",
+        "chance": 60
+      }
+    ],
+    "yMin": 12,
+    "yMax": 44,
+    "chance": 4,
+    "size": 80,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "DENSE",
+    "density": 1.0
+  }
+}

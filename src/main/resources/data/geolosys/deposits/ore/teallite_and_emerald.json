@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:teallite_ore",
+        "chance": 90
+      },
+      {
+        "block": "geolosys:beryl_ore",
+        "chance": 10
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:teallite_ore_sample",
+        "chance": 100
+      }
+    ],
+    "yMin": 8,
+    "yMax": 43,
+    "chance": 2,
+    "size": 80,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "type": "DIKE",
+    "density": 1.0,
+    "biomes": [
+      "RIVER"
+    ],
+    "isWhitelist": true
+  }
+}

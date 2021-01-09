@@ -1,0 +1,17 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "yMin": 32,
+    "yMax": 60,
+    "chance": 6,
+    "size": 24,
+    "type": "DIKE",
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "density": 1.0,
+    "block": "geolosys:hematite_ore",
+    "sample": "geolosys:hematite_ore_sample"
+  }
+}

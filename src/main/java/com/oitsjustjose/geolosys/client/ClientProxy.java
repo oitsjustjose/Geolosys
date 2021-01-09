@@ -28,19 +28,6 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void throwDownloadError(File jsonFile) {
-        ModInfo geolosysModInfo = null;
-        for (ModInfo info : ModList.get().getMods()) {
-            if (info.getModId().equalsIgnoreCase(Constants.MODID)) {
-                geolosysModInfo = info;
-                break;
-            }
-        }
-        throw new ModLoadingException(Objects.requireNonNull(geolosysModInfo), ModLoadingStage.COMMON_SETUP,
-                "geolosys.download.error.string", new RuntimeException());
-    }
-
-    @Override
     public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction) {
         if (direction != null) {
             player.sendStatusMessage(

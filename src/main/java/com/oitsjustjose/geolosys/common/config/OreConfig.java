@@ -56,24 +56,12 @@ public class OreConfig {
 
     public void init() {
         try {
-            InputStream jsonStream = new FileInputStream(jsonFile);
-            this.read(jsonStream);
-        } catch (IOException e) {
-            // Download the file from GitHub if it can't be found
-            try {
-                Geolosys.getInstance().LOGGER.info("Could not find geolosys.json. Downloading it from GitHub...");
-                BufferedInputStream in = new BufferedInputStream(
-                        new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.16/geolosys_ores.json")
-                                .openStream());
-                Files.copy(in, Paths.get(jsonFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
-                Geolosys.getInstance().LOGGER.info("Done downloading geolosys.json from GitHub!");
+            if (jsonFile.exists()) {
                 InputStream jsonStream = new FileInputStream(jsonFile);
                 this.read(jsonStream);
-
-            } catch (IOException f) {
-                Geolosys.getInstance().LOGGER.warn(f.getLocalizedMessage());
-                Geolosys.proxy.throwDownloadError(this.jsonFile);
             }
+        } catch (IOException e) {
+            // Ignore it now, we have datapacks :)
         }
     }
 
