@@ -327,7 +327,7 @@ public class ProPickItem extends Item {
                         } else {
                             if (Utils.doStatesMatch(state,
                                     (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? dep.getOre()
-                                            : dep.getSample()))) {
+                                            : dep.getSampleBlock()))) {
                                 Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(dep.getOre()),
                                         null);
                                 return true;

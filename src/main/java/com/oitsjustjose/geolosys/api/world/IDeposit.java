@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 public interface IDeposit {
     BlockState getOre();
 
-    BlockState getSample();
+    BlockState getSampleBlock();
 
     String getFriendlyName();
 

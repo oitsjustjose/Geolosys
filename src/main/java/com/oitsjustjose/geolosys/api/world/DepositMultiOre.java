@@ -89,7 +89,7 @@ public class DepositMultiOre implements IDeposit {
         return backup;
     }
 
-    public BlockState getSample() {
+    public BlockState getSampleBlock() {
         BlockState backup = null;
         try {
             return this.samples.get(new Random().nextInt(100));

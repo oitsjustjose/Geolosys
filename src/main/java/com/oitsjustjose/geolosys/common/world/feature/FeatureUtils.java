@@ -1,14 +1,18 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
+import java.util.List;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -44,7 +48,6 @@ public class FeatureUtils {
         double d4 = randY + rand.nextInt(3) - 2;
         double d5 = randY + rand.nextInt(3) - 2;
 
-        ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
 
         for (int i = 0; i < pluton.getSize(); ++i) {
@@ -76,7 +79,7 @@ public class FeatureUtils {
                                 if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D) {
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
-                                    if (isInChunk(thisChunk, blockpos) || world.chunkExists(l1 >> 4, j2 >> 4)) {
+                                    if (world.chunkExists(l1 >> 4, j2 >> 4)) {
                                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                                         if (rand.nextFloat() > density) {
@@ -253,6 +256,78 @@ public class FeatureUtils {
                 }
             }
         }
+        return placed;
+    }
+
+    public static boolean generateTopLayer(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+            IGeolosysCapability plutonCapability) {
+        ChunkPos thisChunk = new ChunkPos(pos);
+        boolean placed = false;
+
+        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
+        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - rand.nextInt(8) + rand.nextInt(16);
+        int radX = pluton.getSize() + rand.nextInt(Math.max(1, x % pluton.getSize()));
+        int radZ = pluton.getSize() + rand.nextInt(Math.max(1, z % pluton.getSize()));
+
+        BlockPos basePos = new BlockPos(x, 0, z);
+        List<BlockState> matchers = pluton.getBlockStateMatchers() == null ? Utils.getDefaultMatchers()
+                : pluton.getBlockStateMatchers();
+
+        for (int dX = -radZ; dX <= radZ; dX++) {
+            for (int dZ = -radZ; dZ <= radZ; dZ++) {
+
+                if (((dX * dX) + (dZ * dZ)) > pluton.getSize() + rand.nextInt(Math.max(1, pluton.getSize() / 2))) {
+                    continue;
+                }
+
+                BlockPos blockPos = Utils.getTopSolidBlock(world, basePos.add(dX, 0, dZ));
+
+                for (int i = 0; i < ((radX + radZ) / 2) / 2; i++) {
+                    blockPos = blockPos.add(0, -i, 0);
+                    boolean isTopBlock = !world.getBlockState(blockPos.up()).isSolid();
+
+                    if (isInChunk(thisChunk, blockPos) || world.chunkExists(x >> 4, z >> 4)) {
+                        float density = Math.min(pluton.getDensity(), 1.0F);
+                        if (rand.nextFloat() > density) {
+                            continue;
+                        }
+
+                        BlockState state = world.getBlockState(blockPos);
+
+                        for (BlockState matcherState : matchers) {
+                            if (Utils.doStatesMatch(matcherState, state)) {
+
+                                BlockState toPlace = pluton.getOre();
+                                if (pluton.getOre().hasProperty(BlockStateProperties.BOTTOM)) {
+                                    toPlace = toPlace.with(BlockStateProperties.BOTTOM,
+                                            world.getBlockState(blockPos.up()).isSolid());
+                                }
+
+                                world.setBlockState(blockPos, toPlace, 2 | 16);
+                                if (isTopBlock && world.getBlockState(blockPos.up()).getMaterial() == Material.AIR
+                                        && rand.nextInt(5) == 0) {
+                                    world.setBlockState(blockPos.up(), pluton.getSampleBlock(), 2 | 16);
+                                }
+
+                                placed = true;
+                                break;
+                            }
+                        }
+
+                    } else {
+                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(world)),
+                                pluton.getOre());
+                    }
+                }
+
+            }
+        }
+
+        if (placed && CommonConfig.DEBUG_WORLD_GEN.get()) {
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", pluton.getFriendlyName(),
+                    new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
+        }
+
         return placed;
     }
 }

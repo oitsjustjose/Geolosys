@@ -57,20 +57,18 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
                 continue;
             }
 
-            if (world.getBlockState(samplePos) != ore.getSample()) {
+            if (world.getBlockState(samplePos) != ore.getSampleBlock()) {
                 boolean isInWater = SampleUtils.isInWater(world, samplePos);
-                if (ore.getSample().getBlock() instanceof SampleBlock) {
-                    BlockState sampleState = isInWater ? ore.getSample().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
-                            : ore.getSample();
+                if (ore.getSampleBlock().getBlock() instanceof SampleBlock) {
+                    BlockState sampleState = isInWater
+                            ? ore.getSampleBlock().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
+                            : ore.getSampleBlock();
                     world.setBlockState(samplePos, sampleState, 2 | 16);
+                } else if (isInWater && ore.getSampleBlock().getBlock() instanceof IWaterLoggable) {
+                    world.setBlockState(samplePos,
+                            ore.getSampleBlock().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
                 } else {
-                    // Place a waterlogged variant of whatever block it ends up being
-                    if (isInWater && ore.getSample().getBlock() instanceof IWaterLoggable) {
-                        world.setBlockState(samplePos,
-                                ore.getSample().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
-                    } else {
-                        world.setBlockState(samplePos, ore.getSample(), 2 | 16);
-                    }
+                    world.setBlockState(samplePos, ore.getSampleBlock(), 2 | 16);
                 }
             }
         }
@@ -118,7 +116,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         if (pluton == null) {
             return false;
         }
-        
+
         // Logic for spacing out plutons
         if (rand.nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getChance()) {
             return false;
@@ -144,6 +142,9 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         }
 
         if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
+            if (pluton.getPlutonType() == PlutonType.TOP_LAYER && rand.nextInt(10) == 0) {
+                return generate(reader, generator, rand, pos, config);
+            }
             plutonCapability
                     .setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
             return true;
@@ -179,6 +180,13 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         if (pluton.getPlutonType() == PlutonType.LAYER) {
             if (FeatureUtils.generateLayer(world, pos, rand, pluton, plutonCapability)) {
                 this.postPlacement(world, pos, pluton);
+                return true;
+            }
+            return false;
+        }
+
+        if (pluton.getPlutonType() == PlutonType.TOP_LAYER) {
+            if (FeatureUtils.generateTopLayer(world, pos, rand, pluton, plutonCapability)) {
                 return true;
             }
             return false;

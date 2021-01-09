@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/bituminous_coal_ore_sample"
+      }
+    ]
+  }
+}

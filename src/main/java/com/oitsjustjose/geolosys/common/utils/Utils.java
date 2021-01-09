@@ -101,7 +101,7 @@ public class Utils {
             Geolosys.getInstance().LOGGER.info(
                     "Registered a {} {} ore pluton with sample {}, and density={}. This ore {} custom biome registries.",
                     dep.getPlutonType().toString().toLowerCase(), dep.getOre().getBlock().getRegistryName(),
-                    dep.getSample().getBlock().getRegistryName(), dep.getDensity(),
+                    dep.getSampleBlock().getBlock().getRegistryName(), dep.getDensity(),
                     (dep instanceof DepositBiomeRestricted) ? "has" : "does not have");
         }
     }

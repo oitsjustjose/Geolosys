@@ -25,7 +25,6 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -79,7 +78,7 @@ public class OreConfigSerializer {
             config.add("samples", deconstructMultiBlockMap(dmo.sampleBlocks));
         } else {
             config.addProperty("block", dep.getOre().getBlock().getRegistryName().toString());
-            config.addProperty("sample", dep.getSample().getBlock().getRegistryName().toString());
+            config.addProperty("sample", dep.getSampleBlock().getBlock().getRegistryName().toString());
         }
 
         if (dep instanceof DepositBiomeRestricted || dep instanceof DepositMultiOreBiomeRestricted) {
@@ -92,43 +91,6 @@ public class OreConfigSerializer {
         json.add("config", config);
 
         return json;
-    }
-
-    public CompoundNBT serialize(IDeposit dep) {
-        CompoundNBT nbt = new CompoundNBT();
-
-        // Add the base set
-        nbt.putString("class", dep.getClass().getName());
-        nbt.putInt("size", dep.getSize());
-        nbt.putInt("chance", dep.getChance());
-        nbt.putInt("yMin", dep.getYMin());
-        nbt.putInt("yMax", dep.getYMax());
-        nbt.putString("type", dep.getPlutonType().name());
-        nbt.putFloat("density", dep.getDensity());
-        nbt.putString("dimBlacklist", deconstruct(dep.getDimensionBlacklist()));
-
-        // Now add extras
-        if (dep instanceof DepositMultiOre) {
-            DepositMultiOre dmo = (DepositMultiOre) dep;
-
-            // config.add("blocks", deconstructMultiBlockMap(dmo.oreBlocks));
-            // config.add("samples", deconstructMultiBlockMap(dmo.sampleBlocks));
-        } else {
-            // config.addProperty("block",
-            // dep.getOre().getBlock().getRegistryName().toString());
-            // config.addProperty("sample",
-            // dep.getSample().getBlock().getRegistryName().toString());
-        }
-
-        if (dep instanceof DepositBiomeRestricted || dep instanceof DepositMultiOreBiomeRestricted) {
-            DepositBiomeRestricted dbr = (DepositBiomeRestricted) dep;
-            // config.add("biomes", deconstructBiomes(dbr.getBiomeList(),
-            // dbr.getBiomeTypes()));
-            // config.addProperty("isWhitelist", dbr.useWhitelist());
-        }
-        // NBTUtil.writeBlockState(tag)
-
-        return nbt;
     }
 
     private Deposit deserializeDeposit(JsonObject json) {
@@ -147,7 +109,7 @@ public class OreConfigSerializer {
                 blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new Deposit(block, sample, yMin, yMax, chance, size, dimBlacklist, blockStateMatchers, type,
+            return new Deposit(block, sample, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, type,
                     density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -171,7 +133,7 @@ public class OreConfigSerializer {
                 blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositMultiOre(blocks, samples, yMin, yMax, chance, size, dimBlacklist, blockStateMatchers,
+            return new DepositMultiOre(blocks, samples, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
                     type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -199,7 +161,7 @@ public class OreConfigSerializer {
                 blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositBiomeRestricted(block, sample, yMin, yMax, chance, size, dimBlacklist, blockStateMatchers,
+            return new DepositBiomeRestricted(block, sample, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
                     biomes, biomeTypes, isWhitelist, type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -227,7 +189,7 @@ public class OreConfigSerializer {
                 blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositMultiOreBiomeRestricted(blocks, samples, yMin, yMax, chance, size, dimBlacklist,
+            return new DepositMultiOreBiomeRestricted(blocks, samples, yMin, yMax, size, chance, dimBlacklist,
                     blockStateMatchers, biomes, biomeTypes, isWhitelist, type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -327,20 +289,5 @@ public class OreConfigSerializer {
         }
 
         return ret;
-    }
-
-    private String deconstruct(String[] arr) {
-        StringBuilder sb = new StringBuilder();
-
-        for (String s : arr) {
-            sb.append(",");
-            sb.append(s);
-        }
-
-        return sb.substring(1).toString();
-    }
-
-    private String[] construct(String str) {
-        return str.split(",");
     }
 }

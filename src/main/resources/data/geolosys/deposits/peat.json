@@ -1,0 +1,21 @@
+{
+  "type": "geolosys:ore_deposit",
+  "config": {
+    "block": "geolosys:peat",
+    "sample": "geolosys:rhododendron",
+    "yMin": 0,
+    "yMax": 256,
+    "chance": 9,
+    "size": 11,
+    "type": "TOP_LAYER",
+    "density": 1.0,
+    "dimBlacklist": [
+      "the_nether",
+      "the_end"
+    ],
+    "blockStateMatchers": [
+      "minecraft:dirt",
+      "minecraft:grass_block"
+    ]
+  }
+}

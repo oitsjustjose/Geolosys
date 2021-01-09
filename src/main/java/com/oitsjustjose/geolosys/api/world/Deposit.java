@@ -37,7 +37,7 @@ public class Deposit implements IDeposit {
         return this.oreBlock;
     }
 
-    public BlockState getSample() {
+    public BlockState getSampleBlock() {
         return this.sampleBlock;
     }
 

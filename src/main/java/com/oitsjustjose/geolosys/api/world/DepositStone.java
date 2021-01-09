@@ -32,7 +32,7 @@ public class DepositStone implements IDeposit {
         return this.block;
     }
 
-    public BlockState getSample() {
+    public BlockState getSampleBlock() {
         return null;
     }
 

@@ -36,14 +36,11 @@ public class ModBlocks {
 
             Block block = new OreBlock(oreType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
                     ORE_REGISTRY_NAME);
+            Block sample = oreType.getVanillaParent() == null
+                    ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
+                    : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
-            if (oreType.hasSample()) {
-                Block sample = oreType.getVanillaParent() == null
-                        ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
-                        : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
-                oreType.setSample(sample);
-            }
-
+            oreType.setSample(sample);
             oreType.setBlock(block);
         }
 
@@ -61,9 +58,7 @@ public class ModBlocks {
     public void register(RegistryEvent.Register<Block> blockRegistryEvent) {
         for (Types.Ores oreType : Types.Ores.values()) {
             blockRegistryEvent.getRegistry().register(oreType.getBlock());
-            if (oreType.hasSample()) {
-                blockRegistryEvent.getRegistry().register(oreType.getSample());
-            }
+            blockRegistryEvent.getRegistry().register(oreType.getSample());
         }
         for (Block extra : extras) {
             blockRegistryEvent.getRegistry().register(extra);
@@ -78,12 +73,9 @@ public class ModBlocks {
         }
 
         for (Types.Ores oreType : Types.Ores.values()) {
-            if (oreType.hasSample()) {
-                Item iBlock = new BlockItem(oreType.getSample(),
-                        new Item.Properties().group(GeolosysGroup.getInstance()))
-                                .setRegistryName(oreType.getSample().getRegistryName());
-                itemRegistryEvent.getRegistry().register(iBlock);
-            }
+            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(oreType.getSample().getRegistryName());
+            itemRegistryEvent.getRegistry().register(iBlock);
         }
 
         for (Block extra : extras) {
