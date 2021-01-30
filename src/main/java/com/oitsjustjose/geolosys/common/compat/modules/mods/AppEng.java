@@ -44,11 +44,11 @@ public class AppEng {
 
         if (rand.nextInt(100) < 25 + (7 * enchLvl)) {
             CompatLoader.injectDrop(evt.getPlayer().getEntityWorld(), evt.getPos(), rand,
-                    new ItemStack(certusQuartz, rand.nextInt(2) + rand.nextInt(enchLvl) + 1), false);
+                    new ItemStack(certusQuartz, rand.nextInt(2) + rand.nextInt(enchLvl + 1)), false);
         }
         if (rand.nextInt(100) < 10 + (3 * enchLvl)) {
             CompatLoader.injectDrop(evt.getPlayer().getEntityWorld(), evt.getPos(), rand,
-                    new ItemStack(chargedCertusQuartz, rand.nextInt(enchLvl) + 1), false);
+                    new ItemStack(chargedCertusQuartz, rand.nextInt(enchLvl + 1)), false);
         }
     }
 }
