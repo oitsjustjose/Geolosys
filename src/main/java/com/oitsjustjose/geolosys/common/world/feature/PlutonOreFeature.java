@@ -19,7 +19,6 @@ import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -64,7 +63,7 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
                             ? ore.getSampleBlock().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
                             : ore.getSampleBlock();
                     world.setBlockState(samplePos, sampleState, 2 | 16);
-                } else if (isInWater && ore.getSampleBlock().getBlock() instanceof IWaterLoggable) {
+                } else if (isInWater && ore.getSampleBlock().hasProperty(BlockStateProperties.WATERLOGGED)) {
                     world.setBlockState(samplePos,
                             ore.getSampleBlock().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
                 } else {
