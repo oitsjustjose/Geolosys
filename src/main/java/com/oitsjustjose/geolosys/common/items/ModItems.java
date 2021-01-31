@@ -8,6 +8,8 @@ import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
