@@ -1,5 +1,12 @@
 # Geolosys Changelog (1.16)
 
+## 5.0.1
+
+### Fixed:
+
+- Feature crash when checking for samples' abilities to be waterlogged
+- Crash when breaking Assorted Quartz when Applied Energistics is installed
+
 ## 5.0.0
 
 ### The Coals Update!!
