@@ -19,6 +19,7 @@ import com.oitsjustjose.geolosys.common.util.Utils;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -379,6 +380,9 @@ public class ItemProPick extends Item {
                             for (IBlockState multiOreState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
                                     ? multiOre.oreBlocks.keySet()
                                     : multiOre.sampleBlocks.keySet())) {
+                                if (multiOreState.getBlock() == Blocks.AIR) {
+                                    continue;
+                                }
                                 if (Utils.doStatesMatch(state, multiOreState)) {
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == multiOre.oreBlocks.keySet().size()) {
@@ -389,9 +393,9 @@ public class ItemProPick extends Item {
                                 }
                             }
                         } else {
-                            if (Utils.doStatesMatch(state,
-                                    (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
-                                            : ore.getSample()))) {
+                            IBlockState target = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? ore.getOre()
+                                    : ore.getSample();
+                            if (Utils.doStatesMatch(state, target) && target.getBlock() != Blocks.AIR) {
                                 Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(ore.getOre()),
                                         null);
                                 return true;
