@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -13,12 +15,14 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
 public class OreRemover {
     private static List<Block> toRm = Arrays.asList(Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.LAPIS_ORE,
             Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE,
-            Blocks.NETHER_GOLD_ORE, Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE);
+            Blocks.NETHER_GOLD_ORE, Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE,
+            Blocks.INFESTED_STONE);
 
     public static int process(BiomeGenerationSettingsBuilder settings) {
         Collection<Supplier<ConfiguredFeature<?, ?>>> toKeep = new ArrayList<Supplier<ConfiguredFeature<?, ?>>>();
@@ -42,6 +46,14 @@ public class OreRemover {
                     OreFeatureConfig conf = (OreFeatureConfig) config;
                     if (!toRm.contains(conf.state.getBlock())) {
                         toKeep.add(supp);
+                    }
+                } else if (config instanceof ReplaceBlockConfig) {
+                    ReplaceBlockConfig conf = (ReplaceBlockConfig) config;
+                    if (!toRm.contains(conf.state.getBlock())) {
+                        toKeep.add(supp);
+                    } else {
+                        Geolosys.getInstance().LOGGER.info("Removed {} from ReplaceBlockConfig",
+                                conf.state.getBlock().getRegistryName());
                     }
                 } else {
                     toKeep.add(supp);
