@@ -57,13 +57,8 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
             }
 
             if (world.getBlockState(samplePos) != ore.getSampleBlock()) {
-                boolean isInWater = SampleUtils.isInWater(world, samplePos);
-                if (ore.getSampleBlock().getBlock() instanceof SampleBlock) {
-                    BlockState sampleState = isInWater
-                            ? ore.getSampleBlock().with(SampleBlock.WATERLOGGED, Boolean.TRUE)
-                            : ore.getSampleBlock();
-                    world.setBlockState(samplePos, sampleState, 2 | 16);
-                } else if (isInWater && ore.getSampleBlock().hasProperty(BlockStateProperties.WATERLOGGED)) {
+                if (SampleUtils.isInWater(world, samplePos)
+                        && ore.getSampleBlock().hasProperty(BlockStateProperties.WATERLOGGED)) {
                     world.setBlockState(samplePos,
                             ore.getSampleBlock().with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
                 } else {
