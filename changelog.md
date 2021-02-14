@@ -1,5 +1,16 @@
 # Geolosys Changelog (1.16)
 
+## 5.0.2
+
+### Fixed:
+
+* `Cannot set property BooleanProperty{name=waterlogged}` crash
+* Emerald and Infested Stone still generating in Extreme Hills
+
+### Removed:
+
+* `enableIngots` config option (due to a recent vanilla Minecraft change)
+
 ## 5.0.1
 
 ### Fixed:
