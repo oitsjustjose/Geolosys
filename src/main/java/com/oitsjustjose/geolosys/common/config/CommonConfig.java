@@ -21,7 +21,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class CommonConfig {
     public static final ForgeConfigSpec COMMON_CONFIG;
     private static final Builder COMMON_BUILDER = new Builder();
-    public static ForgeConfigSpec.BooleanValue ENABLE_INGOTS;
     public static ForgeConfigSpec.BooleanValue ENABLE_COALS;
     public static ForgeConfigSpec.BooleanValue ENABLE_COAL_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
@@ -58,7 +57,6 @@ public class CommonConfig {
     @SuppressWarnings("deprecation")
     private static void init() {
         COMMON_BUILDER.comment("Feature Control").push(CATEGORY_FEATURE_CONTROL);
-        ENABLE_INGOTS = COMMON_BUILDER.comment("Enable Geolosys's Ingots").define("enableIngots", true);
         ENABLE_COALS = COMMON_BUILDER.comment("Enable Coal Variants").define("enableCoals", true);
         ENABLE_COAL_WORLD_GEN = COMMON_BUILDER.comment(
                 "Enables Coal Worldgen. Coal worldgen is custom and separate from the rest of the deposit system in Geolosys.")

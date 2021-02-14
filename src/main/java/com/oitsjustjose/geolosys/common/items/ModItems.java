@@ -32,12 +32,9 @@ public class ModItems {
             Item item = new Item(genericItemProps).setRegistryName("geolosys", cluster.getName() + CLUSTER_POSTFIX);
             cluster.setItem(item);
         }
-        // Init Ingots
-        if (CommonConfig.ENABLE_INGOTS.get()) {
-            for (Ingots ingot : Ingots.values()) {
-                Item item = new Item(genericItemProps).setRegistryName("geolosys", ingot.getName() + INGOT_POSTFIX);
-                ingot.setItem(item);
-            }
+        for (Ingots ingot : Ingots.values()) {
+            Item item = new Item(genericItemProps).setRegistryName("geolosys", ingot.getName() + INGOT_POSTFIX);
+            ingot.setItem(item);
         }
         // Init Coals
         if (CommonConfig.ENABLE_COALS.get()) {
@@ -60,10 +57,8 @@ public class ModItems {
         for (Clusters cluster : Clusters.values()) {
             itemRegistryEvent.getRegistry().register(cluster.getItem());
         }
-        if (CommonConfig.ENABLE_INGOTS.get()) {
-            for (Ingots ingot : Ingots.values()) {
-                itemRegistryEvent.getRegistry().register(ingot.getItem());
-            }
+        for (Ingots ingot : Ingots.values()) {
+            itemRegistryEvent.getRegistry().register(ingot.getItem());
         }
         if (CommonConfig.ENABLE_COALS.get()) {
             for (Coals coal : Coals.values()) {
