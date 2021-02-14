@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "geolosys:lead_cluster"
+    "geolosys:lead_cluster",
+    "geolosys:galena_ore"
   ]
 }

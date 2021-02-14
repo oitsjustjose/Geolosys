@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "geolosys:copper_cluster"
+    "geolosys:copper_cluster",
+    "geolosys:malachite_ore",
+    "geolosys:azurite_ore"
   ]
 }

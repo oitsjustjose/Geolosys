@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "geolosys:iron_cluster"
+    "geolosys:iron_cluster",
+    "geolosys:hematite_ore",
+    "geolosys:limonite_ore"
   ]
 }
