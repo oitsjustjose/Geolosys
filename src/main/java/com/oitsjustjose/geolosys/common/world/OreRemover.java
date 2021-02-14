@@ -51,9 +51,6 @@ public class OreRemover {
                     ReplaceBlockConfig conf = (ReplaceBlockConfig) config;
                     if (!toRm.contains(conf.state.getBlock())) {
                         toKeep.add(supp);
-                    } else {
-                        Geolosys.getInstance().LOGGER.info("Removed {} from ReplaceBlockConfig",
-                                conf.state.getBlock().getRegistryName());
                     }
                 } else {
                     toKeep.add(supp);
