@@ -1,5 +1,12 @@
 # Geolosys Changelog (1.16)
 
+## 5.0.3
+
+### Fixed:
+
+* Field Manual not opening with `Patchouli 1.16.4-49` or greater.
+* Cleaned up internal code.
+
 ## 5.0.2
 
 ### Fixed:
