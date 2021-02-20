@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.oitsjustjose.geolosys.Geolosys;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage.Decoration;

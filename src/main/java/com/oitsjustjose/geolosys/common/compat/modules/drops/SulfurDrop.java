@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.common.compat.modules.drops;
 
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.blocks.Types.Ores;
 import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;

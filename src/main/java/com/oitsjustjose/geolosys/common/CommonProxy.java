@@ -1,16 +1,14 @@
 package com.oitsjustjose.geolosys.common;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.network.NetworkManager;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraftforge.fml.network.PacketDistributor;
-
-import java.io.File;
 
 public class CommonProxy {
     public static NetworkManager networkManager = new NetworkManager();
