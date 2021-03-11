@@ -72,6 +72,14 @@
   "item.geolosys.nickel_ingot": "Barra de Níquel",
   "item.geolosys.platinum_ingot": "Barra de Platina",
   "item.geolosys.zinc_ingot": "Barra de Zinco",
+  "item.geolosys.aluminum_nugget": "Pepita de Alumínio"
+  "item.geolosys.copper_nugget": "Pepita de Cobre"
+  "item.geolosys.lead_nugget": "Pepita de Chumbo"
+  "item.geolosys.nickel_nugget": "Pepita de Níquel"
+  "item.geolosys.platinum_nugget": "Pepita de Platina"
+  "item.geolosys.silver_nugget": "Pepita de Prata"
+  "item.geolosys.tin_nugget": "Pepita de Estanho"
+  "item.geolosys.zinc_nugget": "Pepita de Zinco"
   "item.geolosys.peat_coal": "Turfa",
   "item.geolosys.lignite_coal": "Carvão de Linhite",
   "item.geolosys.bituminous_coal": "Carvão Betuminoso",

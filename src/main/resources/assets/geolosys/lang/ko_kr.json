@@ -72,6 +72,14 @@
   "item.geolosys.nickel_ingot": "니켈괴",
   "item.geolosys.platinum_ingot": "백금괴",
   "item.geolosys.zinc_ingot": "아연괴",
+  "item.geolosys.aluminum_nugget": "알루미늄 덩어리"
+  "item.geolosys.copper_nugget": "구리 덩어리"
+  "item.geolosys.lead_nugget": "납 덩이"
+  "item.geolosys.nickel_nugget": "니켈 덩어리"
+  "item.geolosys.platinum_nugget": "백금 덩어리"
+  "item.geolosys.silver_nugget": "은 덩어리"
+  "item.geolosys.tin_nugget": "주석 덩어리"
+  "item.geolosys.zinc_nugget": "아연 덩어리"
   "item.geolosys.peat_coal": "토탄",
   "item.geolosys.lignite_coal": "갈탄",
   "item.geolosys.bituminous_coal": "역청탄",
