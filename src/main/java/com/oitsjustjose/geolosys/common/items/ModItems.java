@@ -4,6 +4,7 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.items.Types.Clusters;
 import com.oitsjustjose.geolosys.common.items.Types.Coals;
 import com.oitsjustjose.geolosys.common.items.Types.Ingots;
+import com.oitsjustjose.geolosys.common.items.Types.Nuggets;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 
 import net.minecraft.item.Item;
@@ -21,6 +22,7 @@ public class ModItems {
 
     private final String CLUSTER_POSTFIX = "_cluster";
     private final String INGOT_POSTFIX = "_ingot";
+	private final String NUGGET_POSTFIX = "_nugget";
     private final String COAL_POSTFIX = "_coal";
     private final String COAL_COKE_POSTFIX = "_coal_coke";
 
@@ -36,6 +38,10 @@ public class ModItems {
             Item item = new Item(genericItemProps).setRegistryName("geolosys", ingot.getName() + INGOT_POSTFIX);
             ingot.setItem(item);
         }
+		for (Nuggets nugget : Nuggets.values()) {
+			Item item = new Item(genericItemProps).setRegistryName("geolosys", nugget.getName() + NUGGET_POSTFIX);
+			nugget.setItem(item);
+		}
         // Init Coals
         if (CommonConfig.ENABLE_COALS.get()) {
             for (Coals coal : Coals.values()) {
@@ -59,6 +65,9 @@ public class ModItems {
         }
         for (Ingots ingot : Ingots.values()) {
             itemRegistryEvent.getRegistry().register(ingot.getItem());
+        }
+		for (Nuggets nugget : Nuggets.values()) {
+            itemRegistryEvent.getRegistry().register(nugget.getItem());
         }
         if (CommonConfig.ENABLE_COALS.get()) {
             for (Coals coal : Coals.values()) {
