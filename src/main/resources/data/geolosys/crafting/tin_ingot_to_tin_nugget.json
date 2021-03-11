@@ -1,5 +1,0 @@
-{
-   "type":"minecraft:crafting_shapeless",
-   "ingredients":[{"item":"geolosys:tin_ingot"}],
-   "result":{"item":"geolosys:tin_nugget","count":9}
-}

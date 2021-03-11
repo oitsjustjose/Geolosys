@@ -1,0 +1,5 @@
+{
+   "type":"minecraft:crafting_shapeless",
+   "ingredients":[{"item":"geolosys:aluminum_ingot"}],
+   "result":{"item":"geolosys:aluminum_nugget","count":9}
+}

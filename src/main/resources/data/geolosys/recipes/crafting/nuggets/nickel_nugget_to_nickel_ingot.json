@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "tag": "forge:nuggets/nickel"
+    },
+    "i": {
+      "item": "geolosys:nickel_nugget"
+    }
+  },
+  "result": {
+    "item": "geolosys:nickel_ingot"
+  }
+}

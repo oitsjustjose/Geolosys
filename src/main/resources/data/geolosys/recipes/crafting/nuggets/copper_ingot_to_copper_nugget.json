@@ -1,0 +1,5 @@
+{
+   "type":"minecraft:crafting_shapeless",
+   "ingredients":[{"item":"geolosys:copper_ingot"}],
+   "result":{"item":"geolosys:copper_nugget","count":9}
+}

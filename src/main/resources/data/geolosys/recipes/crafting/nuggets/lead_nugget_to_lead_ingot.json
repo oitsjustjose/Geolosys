@@ -1,0 +1,6 @@
+{
+"type":"minecraft:crafting_shaped",
+   "pattern":["sss","sis","sss"],
+   "key":{"s":{"tag":"forge:nuggets/lead"},"i":{"item":"geolosys:lead_nugget"}},
+   "result":{"item":"geolosys:lead_ingot"}
+}
