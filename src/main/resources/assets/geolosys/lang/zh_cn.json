@@ -72,14 +72,14 @@
   "item.geolosys.nickel_ingot": "镍锭",
   "item.geolosys.platinum_ingot": "铂锭",
   "item.geolosys.zinc_ingot": "锌锭",
-  "item.geolosys.aluminum_nugget": "铝块"
-  "item.geolosys.copper_nugget": "铜块"
-  "item.geolosys.lead_nugget": "铅块"
-  "item.geolosys.nickel_nugget": "镍块"
-  "item.geolosys.platinum_nugget": "铂金块"
-  "item.geolosys.silver_nugget": "银块"
-  "item.geolosys.tin_nugget": "锡块"
-  "item.geolosys.zinc_nugget": "锌块"
+  "item.geolosys.aluminum_nugget": "铝块",
+  "item.geolosys.copper_nugget": "铜块",
+  "item.geolosys.lead_nugget": "铅块",
+  "item.geolosys.nickel_nugget": "镍块",
+  "item.geolosys.platinum_nugget": "铂金块",
+  "item.geolosys.silver_nugget": "银块",
+  "item.geolosys.tin_nugget": "锡块",
+  "item.geolosys.zinc_nugget": "锌块",
   "item.geolosys.peat_coal": "泥炭",
   "item.geolosys.lignite_coal": "褐煤",
   "item.geolosys.bituminous_coal": "烟煤",
