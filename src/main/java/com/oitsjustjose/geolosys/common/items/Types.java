@@ -86,6 +86,41 @@ public class Types {
         }
     }
 
+    public enum Nuggets implements IStringSerializable {
+        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
+        PLATINUM("platinum"), ZINC("zinc");
+
+        private Item instance;
+
+        private final String serializedName;
+        private final String unlocalizedName;
+
+        Nuggets(String name) {
+            this.serializedName = name;
+            this.unlocalizedName = name;
+        }
+
+        public String toString() {
+            return this.unlocalizedName;
+        }
+
+        public String getName() {
+            return this.serializedName;
+        }
+
+        public String getString() {
+            return this.serializedName;
+        }
+
+        public void setItem(Item i) {
+            this.instance = i;
+        }
+
+        public Item getItem() {
+            return this.instance;
+        }
+    }
+
     public enum Clusters implements IStringSerializable {
         IRON("iron"), GOLD("gold"), COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"),
         NICKEL("nickel"), PLATINUM("platinum"), URANIUM("uranium"), ZINC("zinc"), YELLORIUM("yellorium"),
