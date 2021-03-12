@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "condition": "block_state_property",
+      "block": "geolosys:platinum_ore"
+    }
+  ],
+  "item": "geolosys:osmium_cluster",
+  "chance": 0.5,
+  "qty": 1
+}

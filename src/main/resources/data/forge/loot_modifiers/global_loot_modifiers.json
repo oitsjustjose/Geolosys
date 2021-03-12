@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "entries": [
+    "geolosys:osmium",
+    "geolosys:quartzes",
+    "geolosys:yellorium",
+    "geolosys:sulfur"
+  ]
+}

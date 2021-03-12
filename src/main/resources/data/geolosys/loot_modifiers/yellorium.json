@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "condition": "block_state_property",
+      "block": "geolosys:autunite_ore"
+    }
+  ],
+  "item": "geolosys:yellorium_cluster",
+  "chance": 0.5,
+  "qty": 1
+}

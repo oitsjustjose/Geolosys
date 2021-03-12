@@ -8,11 +8,14 @@ import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
-import com.oitsjustjose.geolosys.common.compat.CompatLoader;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
+import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
+import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
+import com.oitsjustjose.geolosys.common.data.modifiers.SulfurDropModifier;
+import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
@@ -39,6 +42,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -92,7 +96,6 @@ public class Geolosys {
 
         OreConfig.setup(new File("./config"));
         OreConfig.getInstance().init();
-        CompatLoader.init();
         GeolosysAPI.init();
         proxy.init();
     }
@@ -150,6 +153,19 @@ public class Geolosys {
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             ModBlocks.getInstance().registerItemBlocks(itemRegistryEvent);
             ModItems.getInstance().register(itemRegistryEvent);
+        }
+
+        @SubscribeEvent
+        public static void onModifierSerializersRegistry(
+                final RegistryEvent.Register<GlobalLootModifierSerializer<?>> evt) {
+            evt.getRegistry().register(new OsmiumDropModifier.Serializer()
+                    .setRegistryName(new ResourceLocation(Constants.MODID, "osmium")));
+            evt.getRegistry().register(new QuartzDropModifier.Serializer()
+                    .setRegistryName(new ResourceLocation(Constants.MODID, "quartzes")));
+            evt.getRegistry().register(new YelloriumDropModifier.Serializer()
+                    .setRegistryName(new ResourceLocation(Constants.MODID, "yellorium")));
+            evt.getRegistry().register(new SulfurDropModifier.Serializer()
+                    .setRegistryName(new ResourceLocation(Constants.MODID, "sulfur")));
         }
     }
 }

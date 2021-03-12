@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "condition": "block_state_property",
+      "block": "geolosys:coal_ore"
+    }
+  ],
+  "tag": "minecraft:logs",
+  "chance": 0.5,
+  "qty": 1
+}
