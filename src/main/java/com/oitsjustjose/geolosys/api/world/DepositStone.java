@@ -1,11 +1,11 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import java.util.HashSet;
+
 import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
-
-import java.util.List;
 
 public class DepositStone implements IDeposit {
     private BlockState block;
@@ -61,7 +61,7 @@ public class DepositStone implements IDeposit {
         return false;
     }
 
-    public List<BlockState> getBlockStateMatchers() {
+    public HashSet<BlockState> getBlockStateMatchers() {
         return null;
     }
 

@@ -10,6 +10,7 @@ import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.config.ModItemsParser;
 import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
 import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
@@ -72,6 +73,7 @@ public class Geolosys {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
+        MinecraftForge.EVENT_BUS.register(new ModItemsParser());
 
         this.configSetup();
     }

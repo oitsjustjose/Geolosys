@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -10,20 +11,23 @@ import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class Utils {
-    private static ArrayList<BlockState> defaultMatchersCached = null;
+    private static HashSet<BlockState> defaultMatchersCached = null;
 
     public static String blockStateToName(BlockState state) {
         return I18n.format(state.getBlock().getTranslationKey());
@@ -64,16 +68,25 @@ public class Utils {
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<BlockState> getDefaultMatchers() {
-        return (ArrayList<BlockState>) defaultMatchersCached.clone();
+    public static HashSet<BlockState> getDefaultMatchers() {
+        // If the cached data isn't there yet, load it.
+        if (defaultMatchersCached == null) {
+            defaultMatchersCached = new HashSet<BlockState>();
+            GeolosysAPI.plutonRegistry.getStones().forEach(x -> defaultMatchersCached.add(x.getOre()));
+
+            CommonConfig.DEFAULT_REPLACEMENT_MATS.get().forEach(s -> {
+                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
+                if (block == null || !addDefaultMatcher(block)) {
+                    Geolosys.getInstance().LOGGER.warn("{} is not a valid block. Please verify.", s);
+                }
+            });
+        }
+
+        return (HashSet<BlockState>) defaultMatchersCached.clone();
     }
 
     @SuppressWarnings("deprecation")
     public static boolean addDefaultMatcher(Block block) {
-        if (defaultMatchersCached == null) {
-            defaultMatchersCached = new ArrayList<BlockState>();
-            GeolosysAPI.plutonRegistry.getStones().forEach(x -> defaultMatchersCached.add(x.getOre()));
-        }
         BlockState defaultState = block.getDefaultState();
         if (!defaultState.isAir()) {
             defaultMatchersCached.add(defaultState);

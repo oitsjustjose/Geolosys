@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
+import java.util.HashSet;
 
 import com.oitsjustjose.geolosys.api.PlutonType;
 
@@ -29,7 +29,7 @@ public interface IDeposit {
 
     boolean sampleMatches(BlockState other);
 
-    List<BlockState> getBlockStateMatchers();
+    HashSet<BlockState> getBlockStateMatchers();
 
     PlutonType getPlutonType();
 

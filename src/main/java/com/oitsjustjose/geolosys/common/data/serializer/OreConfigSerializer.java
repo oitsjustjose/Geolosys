@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -102,7 +103,7 @@ public class OreConfigSerializer {
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
-            List<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
+            HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             if (json.has("blockStateMatchers")) {
@@ -126,7 +127,7 @@ public class OreConfigSerializer {
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
-            List<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
+            HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             if (json.has("blockStateMatchers")) {
@@ -150,7 +151,7 @@ public class OreConfigSerializer {
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
-            List<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
+            HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             boolean isWhitelist = json.get("isWhitelist").getAsBoolean();
@@ -178,7 +179,7 @@ public class OreConfigSerializer {
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
-            List<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
+            HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             boolean isWhitelist = json.get("isWhitelist").getAsBoolean();
@@ -213,8 +214,8 @@ public class OreConfigSerializer {
         return ret;
     }
 
-    private List<BlockState> toBlockStateList(JsonArray arr) {
-        List<BlockState> ret = new ArrayList<BlockState>();
+    private HashSet<BlockState> toBlockStateList(JsonArray arr) {
+        HashSet<BlockState> ret = new HashSet<BlockState>();
 
         for (String s : toStringArray(arr)) {
             ret.add(fromString(s));

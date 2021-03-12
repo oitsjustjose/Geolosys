@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -270,7 +270,7 @@ public class FeatureUtils {
         int radZ = pluton.getSize() + rand.nextInt(Math.max(1, z % pluton.getSize()));
 
         BlockPos basePos = new BlockPos(x, 0, z);
-        List<BlockState> matchers = pluton.getBlockStateMatchers() == null ? Utils.getDefaultMatchers()
+        HashSet<BlockState> matchers = pluton.getBlockStateMatchers() == null ? Utils.getDefaultMatchers()
                 : pluton.getBlockStateMatchers();
 
         for (int dX = -radZ; dX <= radZ; dX++) {

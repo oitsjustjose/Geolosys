@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.api.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.api.PlutonType;
@@ -21,12 +21,12 @@ public class DepositMultiOre implements IDeposit {
     private int size;
     private int chance;
     private String[] dimensionBlacklist;
-    private List<BlockState> blockStateMatchers;
+    private HashSet<BlockState> blockStateMatchers;
     private PlutonType type;
     private float density;
 
     public DepositMultiOre(HashMap<BlockState, Integer> oreBlocks, HashMap<BlockState, Integer> sampleBlocks, int yMin,
-            int yMax, int size, int chance, String[] dimensionBlacklist, List<BlockState> blockStateMatchers,
+            int yMax, int size, int chance, String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers,
             PlutonType type, float density) {
         // Sanity checking:
         int sum = 0;
@@ -149,7 +149,7 @@ public class DepositMultiOre implements IDeposit {
         return this.blockStateMatchers.contains(state);
     }
 
-    public List<BlockState> getBlockStateMatchers() {
+    public HashSet<BlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 

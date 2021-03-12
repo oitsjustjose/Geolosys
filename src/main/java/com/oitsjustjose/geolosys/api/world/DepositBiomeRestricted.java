@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class DepositBiomeRestricted extends Deposit {
     private boolean useWhitelist;
 
     public DepositBiomeRestricted(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
+            String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
         super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
         this.biomes = biomes;

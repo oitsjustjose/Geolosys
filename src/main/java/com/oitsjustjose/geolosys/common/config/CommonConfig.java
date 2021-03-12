@@ -6,16 +6,10 @@ import java.util.List;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.Lists;
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.utils.Utils;
-import com.oitsjustjose.geolosys.common.world.SampleUtils;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
 public class CommonConfig {
@@ -54,7 +48,6 @@ public class CommonConfig {
         spec.setConfig(configData);
     }
 
-    @SuppressWarnings("deprecation")
     private static void init() {
         COMMON_BUILDER.comment("Feature Control").push(CATEGORY_FEATURE_CONTROL);
         ENABLE_COALS = COMMON_BUILDER.comment("Enable Coal Variants").define("enableCoals", true);
@@ -69,19 +62,10 @@ public class CommonConfig {
         DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
                 "The fallback materials which a Deposit can replace if they're not specified by the deposit itself\n"
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")
-                .defineList("defaultReplacementMaterials", Lists.newArrayList("minecraft:stone", "minecraft:andesite",
-                        "minecraft:diorite", "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone"),
-                        rawName -> {
-                            if (rawName instanceof String) {
-                                String name = (String) rawName;
-                                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                                if (block == null) {
-                                    return false;
-                                }
-                                return Utils.addDefaultMatcher(block);
-                            }
-                            return false;
-                        });
+                .defineList("defaultReplacementMaterials",
+                        Lists.newArrayList("minecraft:stone", "minecraft:andesite", "minecraft:diorite",
+                                "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone"),
+                        rawName -> rawName instanceof String);
         COMMON_BUILDER.pop();
 
         COMMON_BUILDER.comment("Prospecting Options").push(CATEGORY_PROSPECTING);
@@ -94,18 +78,8 @@ public class CommonConfig {
 
         SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER.comment("A list of <modid:block> that samples may not be placed on")
                 .defineList("samplePlacementBlacklist",
-                        Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"), rawName -> {
-                            if (rawName instanceof String) {
-                                String name = (String) rawName;
-                                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                                if (block == null || block.getDefaultState().isAir()) {
-                                    return false;
-                                }
-                                SampleUtils.addSamplePlacementBlacklist(block);
-                                return true;
-                            }
-                            return false;
-                        });
+                        Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"),
+                        rawName -> rawName instanceof String);
         ENABLE_PRO_PICK = COMMON_BUILDER.comment("Enable the prospector's pickaxe").define("enableProPick", true);
         ENABLE_PRO_PICK_DMG = COMMON_BUILDER.comment("Allow the prospector's pick to get damaged")
                 .define("enableProPickDmg", false);
@@ -118,18 +92,7 @@ public class CommonConfig {
         PRO_PICK_EXTRAS = COMMON_BUILDER
                 .comment("A list of blocks which the prospector's pick should also detect.\n"
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")
-                .defineList("proPickExtras", Lists.newArrayList(), rawName -> {
-                    if (rawName instanceof String) {
-                        String name = (String) rawName;
-                        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name));
-                        if (block == null || block.getDefaultState().isAir()) {
-                            return false;
-                        }
-                        GeolosysAPI.proPickExtras.add(block.getDefaultState());
-                        return true;
-                    }
-                    return false;
-                });
+                .defineList("proPickExtras", Lists.newArrayList(), rawName -> rawName instanceof String);
         PRO_PICK_SURFACE_MODE = COMMON_BUILDER.comment(
                 "What Surface Prospecting Results display; SAMPLES means it's based off of samples in the chunk - OREBLOCKS means it's based on the actual ores in the ground")
                 .defineEnum("surfaceProspectingResults", SURFACE_PROSPECTING_TYPE.OREBLOCKS);

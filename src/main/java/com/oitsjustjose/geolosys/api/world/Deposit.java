@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.List;
+import java.util.HashSet;
 
 import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.common.utils.Utils;
@@ -15,12 +15,12 @@ public class Deposit implements IDeposit {
     private int size;
     private int chance;
     private String[] dimensionBlacklist;
-    private List<BlockState> blockStateMatchers;
+    private HashSet<BlockState> blockStateMatchers;
     private PlutonType type;
     private float density;
 
     public Deposit(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, PlutonType type, float density) {
+            String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers, PlutonType type, float density) {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
         this.yMin = yMin;
@@ -73,7 +73,7 @@ public class Deposit implements IDeposit {
         return false;
     }
 
-    public List<BlockState> getBlockStateMatchers() {
+    public HashSet<BlockState> getBlockStateMatchers() {
         return this.blockStateMatchers;
     }
 

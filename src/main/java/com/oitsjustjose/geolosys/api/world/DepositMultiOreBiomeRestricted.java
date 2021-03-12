@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.api.world;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
 
     public DepositMultiOreBiomeRestricted(HashMap<BlockState, Integer> oreBlocks,
             HashMap<BlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, List<BlockState> blockStateMatchers, List<Biome> biomes,
+            String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
         super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
         this.biomes = biomes;
