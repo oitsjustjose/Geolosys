@@ -21,15 +21,17 @@
     "yMax": 33,
     "chance": 4,
     "size": 48,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "SPARSE",
     "density": 1.0,
     "biomes": [
       "MOUNTAIN"
     ],
-    "isWhitelist": true
+    "isWhitelist": true,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

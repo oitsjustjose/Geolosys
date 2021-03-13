@@ -5,10 +5,6 @@
     "yMax": 32,
     "chance": 3,
     "size": 16,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DIKE",
     "density": 1.0,
     "biomes": [
@@ -16,6 +12,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:beryl_ore",
-    "sample": "geolosys:beryl_ore_sample"
+    "sample": "geolosys:beryl_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

@@ -127,8 +127,15 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
             }
         }
 
-        for (String s : pluton.getDimensionBlacklist()) {
-            if (Utils.dimensionToString(world).equals(new ResourceLocation(s).toString())) {
+        for (String s : pluton.getDimensionFilter()) {
+            boolean a = pluton.isDimensionFilterBlacklist();
+            boolean b = Utils.dimensionToString(world).equals(new ResourceLocation(s).toString());
+
+            /*
+             * If dim blacklist and the current dim is in the BL, cancel OR if dim whitelist
+             * and the current dim is NOT in the BL, cancel
+             */
+            if ((a && b) || (!a && !b)) {
                 return false;
             }
         }

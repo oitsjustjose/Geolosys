@@ -5,10 +5,12 @@
     "yMax": 22,
     "chance": 1,
     "size": 14,
-    "dimBlacklist": [
-      "overworld",
-      "the_end"
-    ],
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "the_nether"
+      ]
+    },
     "blockStateMatchers": [
       "minecraft:netherrack",
       "minecraft:basalt",

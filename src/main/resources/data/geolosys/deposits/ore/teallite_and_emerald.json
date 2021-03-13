@@ -21,15 +21,17 @@
     "yMax": 43,
     "chance": 2,
     "size": 80,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DIKE",
     "density": 1.0,
     "biomes": [
       "RIVER"
     ],
-    "isWhitelist": true
+    "isWhitelist": true,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

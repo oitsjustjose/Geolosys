@@ -240,7 +240,8 @@ public class OreConfig {
         if (state == null) {
             return false;
         }
-        GeolosysAPI.plutonRegistry.addStonePluton(new DepositStone(state, yMin, yMax, chance, size, dimBlacklist));
+        GeolosysAPI.plutonRegistry
+                .addStonePluton(new DepositStone(state, yMin, yMax, chance, size, dimBlacklist, true));
 
         Geolosys.getInstance().LOGGER.info("Registered a stone pluton of {}.", stone);
 
@@ -328,16 +329,17 @@ public class OreConfig {
         if (oreBlocks.size() > 0 || sampleBlocks.size() > 0) {
             if (biomes.size() > 0 || biomeTypes.size() > 0) {
                 toRegister = new DepositMultiOreBiomeRestricted(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size,
-                        chance, dimBlacklist, blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, type, density);
+                        chance, dimBlacklist, true, blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, type,
+                        density);
             } else {
                 toRegister = new DepositMultiOre(oreBlocksParsed, sampleBlocksParsed, yMin, yMax, size, chance,
-                        dimBlacklist, blockStateMatchersParsed, type, density);
+                        dimBlacklist, true, blockStateMatchersParsed, type, density);
             }
         } else {
             if (biomes.size() > 0 || biomeTypes.size() > 0) {
                 for (BlockState b : oreBlocksParsed.keySet()) {
                     for (BlockState s : sampleBlocksParsed.keySet()) {
-                        toRegister = new DepositBiomeRestricted(b, s, yMin, yMax, size, chance, dimBlacklist,
+                        toRegister = new DepositBiomeRestricted(b, s, yMin, yMax, size, chance, dimBlacklist, true,
                                 blockStateMatchersParsed, biomes, biomeTypes, isWhitelist, type, density);
                         break;
                     }
@@ -346,8 +348,8 @@ public class OreConfig {
             } else {
                 for (BlockState b : oreBlocksParsed.keySet()) {
                     for (BlockState s : sampleBlocksParsed.keySet()) {
-                        toRegister = new Deposit(b, s, yMin, yMax, size, chance, dimBlacklist, blockStateMatchersParsed,
-                                type, density);
+                        toRegister = new Deposit(b, s, yMin, yMax, size, chance, dimBlacklist, true,
+                                blockStateMatchersParsed, type, density);
                         break;
                     }
                     break;

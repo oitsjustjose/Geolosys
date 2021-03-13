@@ -5,13 +5,15 @@
     "yMax": 50,
     "chance": 5,
     "size": 11,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "LAYER",
     "density": 1.0,
     "block": "geolosys:bituminous_coal_ore",
-    "sample": "geolosys:bituminous_coal_ore_sample"
+    "sample": "geolosys:bituminous_coal_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

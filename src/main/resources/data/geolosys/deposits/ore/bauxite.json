@@ -5,10 +5,6 @@
     "yMax": 70,
     "chance": 4,
     "size": 64,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DIKE",
     "density": 1.0,
     "biomes": [
@@ -17,6 +13,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:bauxite_ore",
-    "sample": "geolosys:bauxite_ore_sample"
+    "sample": "geolosys:bauxite_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

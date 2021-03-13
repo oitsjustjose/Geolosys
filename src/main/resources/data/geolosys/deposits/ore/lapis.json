@@ -5,10 +5,6 @@
     "yMax": 24,
     "chance": 5,
     "size": 32,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "SPARSE",
     "density": 1.0,
     "biomes": [
@@ -16,6 +12,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:lapis_ore",
-    "sample": "geolosys:lapis_ore_sample"
+    "sample": "geolosys:lapis_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

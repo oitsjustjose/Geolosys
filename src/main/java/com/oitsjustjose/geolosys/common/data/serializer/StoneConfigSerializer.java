@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import javax.annotation.Nullable;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -35,15 +34,10 @@ public class StoneConfigSerializer implements JsonDeserializer<DepositStone>, Js
             int chance = jsonobject.get("chance").getAsInt();
             int yMin = jsonobject.get("yMin").getAsInt();
             int yMax = jsonobject.get("yMax").getAsInt();
+            String[] dimFilter = Utility.getDimFilter(jsonobject);
+            boolean isDimFilterBl = Utility.getIsDimFilterBl(jsonobject);
 
-            JsonArray dBl = jsonobject.get("dimBlacklist").getAsJsonArray();
-            String[] dimBlacklist = new String[dBl.size()];
-
-            for (int i = 0; i < dBl.size(); i++) {
-                dimBlacklist[i] = dBl.get(i).getAsString();
-            }
-
-            return new DepositStone(block, yMin, yMax, chance, size, dimBlacklist);
+            return new DepositStone(block, yMin, yMax, chance, size, dimFilter, isDimFilterBl);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
@@ -60,7 +54,7 @@ public class StoneConfigSerializer implements JsonDeserializer<DepositStone>, Js
         config.addProperty("chance", dep.getChance());
         config.addProperty("yMin", dep.getYMin());
         config.addProperty("yMax", dep.getYMax());
-        config.add("dimBlacklist", parser.parse(Arrays.toString(dep.getDimensionBlacklist())));
+        config.add("dimBlacklist", parser.parse(Arrays.toString(dep.getDimensionFilter())));
 
         json.addProperty("type", "geolosys:stone_deposit");
         json.add("config", config);

@@ -20,14 +20,15 @@ public class DepositMultiOre implements IDeposit {
     private int yMax;
     private int size;
     private int chance;
-    private String[] dimensionBlacklist;
+    private String[] dimFilter;
+    private boolean isDimFilterBl;
     private HashSet<BlockState> blockStateMatchers;
     private PlutonType type;
     private float density;
 
     public DepositMultiOre(HashMap<BlockState, Integer> oreBlocks, HashMap<BlockState, Integer> sampleBlocks, int yMin,
-            int yMax, int size, int chance, String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers,
-            PlutonType type, float density) {
+            int yMax, int size, int chance, String[] dimFilter, boolean isDimFilterBl,
+            HashSet<BlockState> blockStateMatchers, PlutonType type, float density) {
         // Sanity checking:
         int sum = 0;
         for (BlockState key : oreBlocks.keySet()) {
@@ -62,7 +63,8 @@ public class DepositMultiOre implements IDeposit {
         this.yMax = yMax;
         this.size = size;
         this.chance = chance;
-        this.dimensionBlacklist = dimensionBlacklist;
+        this.dimFilter = dimFilter;
+        this.isDimFilterBl = isDimFilterBl;
         this.blockStateMatchers = blockStateMatchers;
         this.type = type;
         this.density = density;
@@ -133,8 +135,12 @@ public class DepositMultiOre implements IDeposit {
         return this.size;
     }
 
-    public String[] getDimensionBlacklist() {
-        return this.dimensionBlacklist;
+    public String[] getDimensionFilter() {
+        return this.dimFilter;
+    }
+
+    public boolean isDimensionFilterBlacklist() {
+        return this.isDimFilterBl;
     }
 
     public boolean canReplace(BlockState state) {

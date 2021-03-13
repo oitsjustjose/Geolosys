@@ -20,10 +20,11 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
     private boolean useWhitelist;
 
     public DepositMultiOreBiomeRestricted(HashMap<BlockState, Integer> oreBlocks,
-            HashMap<BlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
+            HashMap<BlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance, String[] dimFilter,
+            boolean isDimFilterBl, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
-        super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
+        super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimFilter, isDimFilterBl, blockStateMatchers, type,
+                density);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;

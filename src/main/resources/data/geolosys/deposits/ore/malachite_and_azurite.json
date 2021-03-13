@@ -25,11 +25,13 @@
     "yMax": 44,
     "chance": 4,
     "size": 80,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DENSE",
-    "density": 1.0
+    "density": 1.0,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

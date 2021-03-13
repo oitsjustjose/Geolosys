@@ -5,13 +5,15 @@
     "yMax": 30,
     "chance": 4,
     "size": 40,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DENSE",
     "density": 1.0,
     "block": "geolosys:gold_ore",
-    "sample": "geolosys:gold_ore_sample"
+    "sample": "geolosys:gold_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

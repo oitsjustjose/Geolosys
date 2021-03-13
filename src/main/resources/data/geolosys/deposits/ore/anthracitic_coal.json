@@ -5,10 +5,12 @@
     "yMax": 10,
     "chance": 4,
     "size": 9,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
     "type": "LAYER",
     "density": 1.0,
     "block": "geolosys:anthracite_coal_ore",

@@ -21,7 +21,9 @@ public interface IDeposit {
 
     int getSize();
 
-    String[] getDimensionBlacklist();
+    String[] getDimensionFilter();
+
+    boolean isDimensionFilterBlacklist();
 
     boolean canReplace(BlockState state);
 

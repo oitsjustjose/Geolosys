@@ -19,9 +19,9 @@ public class DepositBiomeRestricted extends Deposit {
     private boolean useWhitelist;
 
     public DepositBiomeRestricted(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            String[] dimensionBlacklist, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
+            String[] dimFilter, boolean isDimFilterBl, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
-        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, type, density);
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimFilter, isDimFilterBl, blockStateMatchers, type, density);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;

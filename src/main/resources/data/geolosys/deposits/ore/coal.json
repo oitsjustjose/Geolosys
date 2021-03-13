@@ -5,13 +5,15 @@
     "yMax": 78,
     "chance": 8,
     "size": 64,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "SPARSE",
     "density": 1.0,
     "block": "geolosys:coal_ore",
-    "sample": "geolosys:coal_ore_sample"
+    "sample": "geolosys:coal_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

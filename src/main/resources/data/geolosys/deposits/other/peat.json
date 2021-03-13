@@ -9,13 +9,15 @@
     "size": 11,
     "type": "TOP_LAYER",
     "density": 1.0,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "blockStateMatchers": [
       "minecraft:dirt",
       "minecraft:grass_block"
-    ]
+    ],
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

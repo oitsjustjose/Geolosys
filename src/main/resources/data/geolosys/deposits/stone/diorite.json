@@ -6,9 +6,11 @@
     "chance": 10,
     "yMin": 2,
     "yMax": 70,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ]
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

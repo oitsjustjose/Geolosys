@@ -1,16 +1,11 @@
 package com.oitsjustjose.geolosys.common.data.serializer;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 
-import javax.annotation.Nullable;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,10 +21,8 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class OreConfigSerializer {
     public IDeposit deserialize(JsonObject jsonConfig, Type type, JsonDeserializationContext ctx) {
@@ -62,6 +55,11 @@ public class OreConfigSerializer {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();
         JsonParser parser = new JsonParser();
+        JsonObject dim = new JsonObject();
+
+        // Add custom logic for the dimension blacklist
+        dim.addProperty("isBlacklist", true);
+        dim.add("filter", parser.parse(Arrays.toString(new String[] {})));
 
         // Add the base set
         config.addProperty("size", dep.getSize());
@@ -70,13 +68,13 @@ public class OreConfigSerializer {
         config.addProperty("yMax", dep.getYMax());
         config.addProperty("type", dep.getPlutonType().name());
         config.addProperty("density", dep.getDensity());
-        config.add("dimBlacklist", parser.parse(Arrays.toString(dep.getDimensionBlacklist())));
+        config.add("dimensions", dim);
 
         // Now add extras
         if (dep instanceof DepositMultiOre) {
             DepositMultiOre dmo = (DepositMultiOre) dep;
-            config.add("blocks", deconstructMultiBlockMap(dmo.oreBlocks));
-            config.add("samples", deconstructMultiBlockMap(dmo.sampleBlocks));
+            config.add("blocks", Utility.deconstructMultiBlockMap(dmo.oreBlocks));
+            config.add("samples", Utility.deconstructMultiBlockMap(dmo.sampleBlocks));
         } else {
             config.addProperty("block", dep.getOre().getBlock().getRegistryName().toString());
             config.addProperty("sample", dep.getSampleBlock().getBlock().getRegistryName().toString());
@@ -84,7 +82,7 @@ public class OreConfigSerializer {
 
         if (dep instanceof DepositBiomeRestricted || dep instanceof DepositMultiOreBiomeRestricted) {
             DepositBiomeRestricted dbr = (DepositBiomeRestricted) dep;
-            config.add("biomes", deconstructBiomes(dbr.getBiomeList(), dbr.getBiomeTypes()));
+            config.add("biomes", Utility.deconstructBiomes(dbr.getBiomeList(), dbr.getBiomeTypes()));
             config.addProperty("isWhitelist", dbr.useWhitelist());
         }
 
@@ -96,22 +94,23 @@ public class OreConfigSerializer {
 
     private Deposit deserializeDeposit(JsonObject json) {
         try {
-            BlockState block = fromString(json.get("block").getAsString());
-            BlockState sample = fromString(json.get("sample").getAsString());
+            BlockState block = Utility.fromString(json.get("block").getAsString());
+            BlockState sample = Utility.fromString(json.get("sample").getAsString());
             int size = json.get("size").getAsInt();
             int chance = json.get("chance").getAsInt();
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
-            String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
+            String[] dimFilter = Utility.getDimFilter(json);
+            boolean isDimFilterBl = Utility.getIsDimFilterBl(json);
             HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = Utility.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new Deposit(block, sample, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, type,
-                    density);
+            return new Deposit(block, sample, yMin, yMax, size, chance, dimFilter, isDimFilterBl, blockStateMatchers,
+                    type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
@@ -120,22 +119,23 @@ public class OreConfigSerializer {
 
     private DepositMultiOre deserializeDepositMultiOre(JsonObject json) {
         try {
-            HashMap<BlockState, Integer> blocks = buildMultiBlockMap(json.get("blocks").getAsJsonArray());
-            HashMap<BlockState, Integer> samples = buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Integer> blocks = Utility.buildMultiBlockMap(json.get("blocks").getAsJsonArray());
+            HashMap<BlockState, Integer> samples = Utility.buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int size = json.get("size").getAsInt();
             int chance = json.get("chance").getAsInt();
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
-            String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
+            String[] dimFilter = Utility.getDimFilter(json);
+            boolean isDimFilterBl = Utility.getIsDimFilterBl(json);
             HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = Utility.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositMultiOre(blocks, samples, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
-                    type, density);
+            return new DepositMultiOre(blocks, samples, yMin, yMax, size, chance, dimFilter, isDimFilterBl,
+                    blockStateMatchers, type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
@@ -144,26 +144,27 @@ public class OreConfigSerializer {
 
     private DepositBiomeRestricted deserializeDepositBiomeRestricted(JsonObject json) {
         try {
-            BlockState block = fromString(json.get("block").getAsString());
-            BlockState sample = fromString(json.get("sample").getAsString());
+            BlockState block = Utility.fromString(json.get("block").getAsString());
+            BlockState sample = Utility.fromString(json.get("sample").getAsString());
             int size = json.get("size").getAsInt();
             int chance = json.get("chance").getAsInt();
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
-            String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
+            String[] dimFilter = Utility.getDimFilter(json);
+            boolean isDimFilterBl = Utility.getIsDimFilterBl(json);
             HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             boolean isWhitelist = json.get("isWhitelist").getAsBoolean();
-            List<BiomeDictionary.Type> biomeTypes = extractBiomeTypes(json.get("biomes").getAsJsonArray());
-            List<Biome> biomes = extractBiomes(json.get("biomes").getAsJsonArray());
+            List<BiomeDictionary.Type> biomeTypes = Utility.extractBiomeTypes(json.get("biomes").getAsJsonArray());
+            List<Biome> biomes = Utility.extractBiomes(json.get("biomes").getAsJsonArray());
 
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = Utility.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositBiomeRestricted(block, sample, yMin, yMax, size, chance, dimBlacklist, blockStateMatchers,
-                    biomes, biomeTypes, isWhitelist, type, density);
+            return new DepositBiomeRestricted(block, sample, yMin, yMax, size, chance, dimFilter, isDimFilterBl,
+                    blockStateMatchers, biomes, biomeTypes, isWhitelist, type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
@@ -172,123 +173,30 @@ public class OreConfigSerializer {
 
     private DepositMultiOreBiomeRestricted deserializeDepositMultiOreBiomeRestricted(JsonObject json) {
         try {
-            HashMap<BlockState, Integer> blocks = buildMultiBlockMap(json.get("blocks").getAsJsonArray());
-            HashMap<BlockState, Integer> samples = buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Integer> blocks = Utility.buildMultiBlockMap(json.get("blocks").getAsJsonArray());
+            HashMap<BlockState, Integer> samples = Utility.buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int size = json.get("size").getAsInt();
             int chance = json.get("chance").getAsInt();
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
-            String[] dimBlacklist = toStringArray(json.get("dimBlacklist").getAsJsonArray());
+            String[] dimFilter = Utility.getDimFilter(json);
+            boolean isDimFilterBl = Utility.getIsDimFilterBl(json);
             HashSet<BlockState> blockStateMatchers = Utils.getDefaultMatchers();
             PlutonType type = PlutonType.valueOf(json.get("type").getAsString());
             float density = json.get("density").getAsFloat();
             boolean isWhitelist = json.get("isWhitelist").getAsBoolean();
-            List<BiomeDictionary.Type> biomeTypes = extractBiomeTypes(json.get("biomes").getAsJsonArray());
-            List<Biome> biomes = extractBiomes(json.get("biomes").getAsJsonArray());
+            List<BiomeDictionary.Type> biomeTypes = Utility.extractBiomeTypes(json.get("biomes").getAsJsonArray());
+            List<Biome> biomes = Utility.extractBiomes(json.get("biomes").getAsJsonArray());
 
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = Utility.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DepositMultiOreBiomeRestricted(blocks, samples, yMin, yMax, size, chance, dimBlacklist,
-                    blockStateMatchers, biomes, biomeTypes, isWhitelist, type, density);
+            return new DepositMultiOreBiomeRestricted(blocks, samples, yMin, yMax, size, chance, dimFilter,
+                    isDimFilterBl, blockStateMatchers, biomes, biomeTypes, isWhitelist, type, density);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
         }
-    }
-
-    @Nullable
-    private BlockState fromString(String string) {
-        ResourceLocation r = new ResourceLocation(string);
-        return ForgeRegistries.BLOCKS.getValue(r).getDefaultState();
-    }
-
-    private String[] toStringArray(JsonArray arr) {
-        String[] ret = new String[arr.size()];
-
-        for (int i = 0; i < arr.size(); i++) {
-            ret[i] = arr.get(i).getAsString();
-        }
-
-        return ret;
-    }
-
-    private HashSet<BlockState> toBlockStateList(JsonArray arr) {
-        HashSet<BlockState> ret = new HashSet<BlockState>();
-
-        for (String s : toStringArray(arr)) {
-            ret.add(fromString(s));
-        }
-
-        return ret;
-    }
-
-    private HashMap<BlockState, Integer> buildMultiBlockMap(JsonArray arr) {
-        HashMap<BlockState, Integer> ret = new HashMap<BlockState, Integer>();
-
-        for (JsonElement j : arr) {
-            JsonObject pair = j.getAsJsonObject();
-            ret.put(fromString(pair.get("block").getAsString()), pair.get("chance").getAsInt());
-        }
-
-        return ret;
-    }
-
-    private JsonArray deconstructMultiBlockMap(HashMap<BlockState, Integer> in) {
-        JsonArray ret = new JsonArray();
-
-        for (Entry<BlockState, Integer> e : in.entrySet()) {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("block", e.getKey().getBlock().getRegistryName().toString());
-            obj.addProperty("chance", e.getValue());
-            ret.add(obj);
-        }
-
-        return ret;
-    }
-
-    private List<BiomeDictionary.Type> extractBiomeTypes(JsonArray arr) {
-        List<BiomeDictionary.Type> ret = new ArrayList<BiomeDictionary.Type>();
-
-        for (BiomeDictionary.Type biomeType : BiomeDictionary.Type.getAll()) {
-            for (String type : toStringArray(arr)) {
-                if (biomeType.getName().equalsIgnoreCase(type)) {
-                    if (!ret.contains(biomeType)) {
-                        ret.add(biomeType);
-                    }
-                    break;
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    private List<Biome> extractBiomes(JsonArray arr) {
-        List<Biome> ret = new ArrayList<Biome>();
-
-        for (String s : toStringArray(arr)) {
-            ResourceLocation r = new ResourceLocation(s.toLowerCase());
-            if (ForgeRegistries.BIOMES.containsKey(r)) {
-                ret.add(ForgeRegistries.BIOMES.getValue(r));
-            }
-        }
-
-        return ret;
-    }
-
-    private JsonArray deconstructBiomes(List<Biome> biomes, List<BiomeDictionary.Type> types) {
-        JsonArray ret = new JsonArray();
-
-        for (Biome b : biomes) {
-            ret.add(b.getRegistryName().toString());
-        }
-
-        for (BiomeDictionary.Type t : types) {
-            ret.add(t.getName());
-        }
-
-        return ret;
     }
 }

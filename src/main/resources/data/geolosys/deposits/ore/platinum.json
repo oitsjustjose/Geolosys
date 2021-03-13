@@ -5,10 +5,6 @@
     "yMax": 25,
     "chance": 4,
     "size": 32,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DIKE",
     "density": 1.0,
     "biomes": [
@@ -16,6 +12,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:platinum_ore",
-    "sample": "geolosys:platinum_ore_sample"
+    "sample": "geolosys:platinum_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

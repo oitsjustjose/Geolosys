@@ -13,19 +13,26 @@ public class DepositStone implements IDeposit {
     private int yMax;
     private int chance;
     private int size;
-    private String[] dimBlacklist;
+    private String[] dimFilter;
+    private boolean isDimFilterBl;
 
-    public DepositStone(BlockState stoneBlock, int yMin, int yMax, int chance, int size, String[] dimBlacklist) {
+    public DepositStone(BlockState stoneBlock, int yMin, int yMax, int chance, int size, String[] dimFilter,
+            boolean isDimFilterBl) {
         this.block = stoneBlock;
         this.yMin = yMin;
         this.yMax = yMax;
         this.chance = chance;
         this.size = size;
-        this.dimBlacklist = dimBlacklist;
+        this.dimFilter = dimFilter;
+        this.isDimFilterBl = isDimFilterBl;
     }
 
-    public String[] getDimensionBlacklist() {
-        return this.dimBlacklist;
+    public String[] getDimensionFilter() {
+        return this.dimFilter;
+    }
+
+    public boolean isDimensionFilterBlacklist() {
+        return this.isDimFilterBl;
     }
 
     public BlockState getOre() {

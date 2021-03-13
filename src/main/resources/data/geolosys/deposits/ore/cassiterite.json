@@ -5,10 +5,6 @@
     "yMax": 68,
     "chance": 6,
     "size": 24,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DENSE",
     "density": 1.0,
     "biomes": [
@@ -17,6 +13,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:cassiterite_ore",
-    "sample": "geolosys:cassiterite_ore_sample"
+    "sample": "geolosys:cassiterite_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }

@@ -5,10 +5,6 @@
     "yMax": 40,
     "chance": 10,
     "size": 35,
-    "dimBlacklist": [
-      "overworld",
-      "the_end"
-    ],
     "blockStateMatchers": [
       "minecraft:netherrack",
       "minecraft:basalt",
@@ -19,6 +15,12 @@
     "type": "DENSE",
     "density": 0.95,
     "block": "geolosys:nether_gold_ore",
-    "sample": "geolosys:nether_gold_ore_sample"
+    "sample": "geolosys:nether_gold_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "the_nether"
+      ]
+    }
   }
 }

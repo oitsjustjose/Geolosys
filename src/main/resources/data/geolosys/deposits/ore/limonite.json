@@ -5,10 +5,6 @@
     "yMax": 32,
     "chance": 4,
     "size": 80,
-    "dimBlacklist": [
-      "the_nether",
-      "the_end"
-    ],
     "type": "DIKE",
     "density": 1.0,
     "biomes": [
@@ -18,6 +14,12 @@
     ],
     "isWhitelist": true,
     "block": "geolosys:limonite_ore",
-    "sample": "geolosys:limonite_ore_sample"
+    "sample": "geolosys:limonite_ore_sample",
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    }
   }
 }
