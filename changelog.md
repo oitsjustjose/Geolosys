@@ -1,5 +1,33 @@
 # Geolosys Changelog (1.16)
 
+## 5.1.0
+
+### Added:
+
+- Nuggets! This was all thanks to [@rsslcs](https://github.com/rsslcs) and their hard work
+- New Dimension Whitelist (**for Datapacks only**)
+    - Not implemented for old `geolosys.json` config -- you *need* to update for this feature
+    - If you're using datapacks, don't worry! This feature doesn't break any existing datapacks, just adds a new option
+    - The syntax looks like:
+
+    ```json
+    {
+      ...
+      "dimensions": {
+        "isBlacklist": false,
+        "filter": [ "overworld" ]
+      }
+    }
+    ```
+
+### Fixed:
+
+- Veinmining potentially not working with Autunite, Platinum, Assorted Quartz and/or Coal
+    - This was due to a hacky method of adding extra blocks to these 4 ores
+    - I'm now using the proper, Forge supported way even if it killed me inside a bit
+- Prospector's Pick, Sample Placement Blacklist and Default Placement Blacklist not working with all modded blocks
+- Other small internal things, really this release is more a cleanup and facelift to the code than anything else.
+
 ## 5.0.3
 
 ### Fixed:
