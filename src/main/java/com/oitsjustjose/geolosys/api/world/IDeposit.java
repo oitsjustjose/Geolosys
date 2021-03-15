@@ -11,8 +11,6 @@ public interface IDeposit {
 
     BlockState getSampleBlock();
 
-    String getFriendlyName();
-
     int getYMin();
 
     int getYMax();

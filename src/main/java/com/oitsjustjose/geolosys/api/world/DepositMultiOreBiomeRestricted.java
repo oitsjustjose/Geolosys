@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.PlutonType;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
@@ -54,7 +54,7 @@ public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
         StringBuilder sb = new StringBuilder();
 
         for (BlockState state : this.oreBlocks.keySet()) {
-            String name = Utils.blockStateToName(state);
+            String name = Geolosys.proxy.blockStateToName(state);
             // The name hasn't already been added
             if (sb.indexOf(name) == -1) {
                 sb.append(" & ");

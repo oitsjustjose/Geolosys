@@ -29,10 +29,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Utils {
     private static HashSet<BlockState> defaultMatchersCached = null;
 
-    public static String blockStateToName(BlockState state) {
-        return I18n.format(state.getBlock().getTranslationKey());
-    }
-
     public static ItemStack blockStateToStack(BlockState state) {
         return new ItemStack(state.getBlock().asItem(), 1);
     }

@@ -99,8 +99,4 @@ public class Deposit implements IDeposit {
     public float getDensity() {
         return this.density;
     }
-
-    public String getFriendlyName() {
-        return Utils.blockStateToName(this.getOre());
-    }
 }

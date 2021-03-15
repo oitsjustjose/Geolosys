@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.oitsjustjose.geolosys.api.PlutonType;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
@@ -21,7 +20,8 @@ public class DepositBiomeRestricted extends Deposit {
     public DepositBiomeRestricted(BlockState oreBlock, BlockState sampleBlock, int yMin, int yMax, int size, int chance,
             String[] dimFilter, boolean isDimFilterBl, HashSet<BlockState> blockStateMatchers, List<Biome> biomes,
             List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, PlutonType type, float density) {
-        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimFilter, isDimFilterBl, blockStateMatchers, type, density);
+        super(oreBlock, sampleBlock, yMin, yMax, size, chance, dimFilter, isDimFilterBl, blockStateMatchers, type,
+                density);
         this.biomes = biomes;
         this.biomeTypes = biomeTypes;
         this.useWhitelist = useWhitelist;
@@ -59,9 +59,5 @@ public class DepositBiomeRestricted extends Deposit {
 
     public List<BiomeDictionary.Type> getBiomeTypes() {
         return this.biomeTypes;
-    }
-
-    public String getFriendlyName() {
-        return Utils.blockStateToName(this.getOre());
     }
 }
