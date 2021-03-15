@@ -16,7 +16,7 @@ public class PatronProcessor implements IComponentProcessor {
     @Override
     public void setup(IVariableProvider variables) {
         try {
-            URL url = new URL("https://patreon.forgeserv.net");
+            URL url = new URL("https://patrons.geolosys.com/");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String line;

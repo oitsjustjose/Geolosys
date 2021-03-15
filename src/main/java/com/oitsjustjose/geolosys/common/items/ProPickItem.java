@@ -168,60 +168,60 @@ public class ProPickItem extends Item {
             int confDmt = CommonConfig.PRO_PICK_DIAMETER.get();
 
             switch (facing) {
-                case UP:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -confAmt;
-                    yEnd = 0;
-                    zStart = -(confDmt / 2);
-                    zEnd = (confDmt / 2);
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case DOWN:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = 0;
-                    yEnd = confAmt;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case NORTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = 0;
-                    zEnd = confAmt;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case SOUTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -confAmt;
-                    zEnd = 0;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case EAST:
-                    xStart = -(confAmt);
-                    xEnd = 0;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case WEST:
-                    xStart = 0;
-                    xEnd = confAmt;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
+            case UP:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -confAmt;
+                yEnd = 0;
+                zStart = -(confDmt / 2);
+                zEnd = (confDmt / 2);
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case DOWN:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = 0;
+                yEnd = confAmt;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case NORTH:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = 0;
+                zEnd = confAmt;
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case SOUTH:
+                xStart = -(confDmt / 2);
+                xEnd = confDmt / 2;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -confAmt;
+                zEnd = 0;
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case EAST:
+                xStart = -(confAmt);
+                xEnd = 0;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
+            case WEST:
+                xStart = 0;
+                xEnd = confAmt;
+                yStart = -(confDmt / 2);
+                yEnd = confDmt / 2;
+                zStart = -(confDmt / 2);
+                zEnd = confDmt / 2;
+                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                break;
             }
 
             player.swingArm(hand);

@@ -3,10 +3,8 @@ package com.oitsjustjose.geolosys.common.world.feature;
 import java.util.HashSet;
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
@@ -321,11 +319,6 @@ public class FeatureUtils {
                 }
 
             }
-        }
-
-        if (placed && CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", pluton.getFriendlyName(),
-                    new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
 
         return placed;

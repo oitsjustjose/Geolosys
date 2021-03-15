@@ -1,5 +1,6 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -10,6 +11,7 @@ import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
+import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -17,6 +19,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -43,7 +46,26 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
      */
     private void postPlacement(IWorld world, BlockPos plutonStartPos, IDeposit ore) {
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", ore.getFriendlyName(),
+            StringBuilder sb = new StringBuilder();
+            String plutonSummary = "";
+
+            if (ore instanceof DepositMultiOre) {
+                DepositMultiOre d = (DepositMultiOre) ore;
+                HashSet<BlockState> unique = new HashSet<BlockState>();
+
+                d.getOres().forEach((e) -> unique.add(e));
+                unique.forEach((state) -> {
+                    sb.append(state.getBlock().getRegistryName().toString());
+                    sb.append(", ");
+                });
+                // Convert to string, remove straggling ", "
+                plutonSummary = sb.toString();
+                plutonSummary = plutonSummary.substring(0, plutonSummary.length() - 2);
+            } else {
+                plutonSummary = ore.getOre().getBlock().getRegistryName().toString();
+            }
+
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", plutonSummary,
                     new ChunkPos(plutonStartPos), plutonStartPos.getX(), plutonStartPos.getY(), plutonStartPos.getZ());
         }
 

@@ -88,8 +88,4 @@ public class DepositStone implements IDeposit {
     public PlutonType getPlutonType() {
         return PlutonType.DENSE;
     }
-
-    public String getFriendlyName() {
-        return Geolosys.proxy.blockStateToName(this.getOre());
-    }
 }

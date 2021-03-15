@@ -10,7 +10,7 @@ Compatibility:
 - Mekanism (Osmium)
 - Big/Extreme Reactors (Uranium)
 
-Don't see an ore or stone you want included? There's a config section for you!  You can add any block you want and Geolosys will handle generating it in the same manner it generates its own ores! You can even specify a Cluster block for the surface if you want!
+Don't see an ore or stone you want included? There's a config section for you! You can add any block you want and Geolosys will handle generating it in the same manner it generates its own ores! You can even specify a Cluster block for the surface if you want!
 
 ## Compiling
 
