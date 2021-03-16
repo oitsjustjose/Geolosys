@@ -6,7 +6,6 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 
 import com.google.gson.JsonObject;
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 
 import net.minecraft.item.Item;

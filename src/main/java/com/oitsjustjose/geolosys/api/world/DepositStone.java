@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.api.world;
 
 import java.util.HashSet;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.PlutonType;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 

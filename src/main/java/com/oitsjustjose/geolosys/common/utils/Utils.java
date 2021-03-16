@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.utils;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -15,7 +14,6 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
