@@ -118,7 +118,7 @@ public class FeatureUtils {
                 int x = pos.getX() + rand.nextInt(16);
                 int z = pos.getZ() + rand.nextInt(16);
                 BlockPos blockpos = new BlockPos(x, y, z);
-                if (isInChunk(thisChunk, blockpos) || world.chunkExists(x >> 4, z >> 4)) {
+                if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
                     float density = Math.min(pluton.getDensity(), 1.0F);
 
                     if (rand.nextFloat() > density) {
@@ -169,7 +169,7 @@ public class FeatureUtils {
                     // basePos.add(dX, 0, dZ)
                     BlockPos blockpos = new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ);
 
-                    if (isInChunk(thisChunk, blockpos) || world.chunkExists(x >> 4, z >> 4)) {
+                    if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                         if (rand.nextFloat() > density) {
@@ -231,7 +231,7 @@ public class FeatureUtils {
 
                     BlockPos blockpos = basePos.add(dX, dY, dZ);
 
-                    if (isInChunk(thisChunk, blockpos) || world.chunkExists(x >> 4, z >> 4)) {
+                    if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                         if (rand.nextFloat() > density) {
@@ -284,7 +284,7 @@ public class FeatureUtils {
                     blockPos = blockPos.add(0, -i, 0);
                     boolean isTopBlock = !world.getBlockState(blockPos.up()).isSolid();
 
-                    if (isInChunk(thisChunk, blockPos) || world.chunkExists(x >> 4, z >> 4)) {
+                    if (isInChunk(thisChunk, blockPos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
                         if (rand.nextFloat() > density) {
                             continue;
