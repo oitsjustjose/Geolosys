@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.16)
 
+## 5.1.2
+
+### Fixed:
+
+- Server hang/crash when generating pending blocks
+
 ## 5.1.1
 
 ### Fixed:

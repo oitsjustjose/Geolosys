@@ -112,12 +112,18 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         // Fill in pending Blocks when possible:
         plutonCapability.getPendingBlocks().forEach((pPos, pState) -> {
             if (FeatureUtils.isInChunk(new ChunkPos(pos), pPos)) {
-                if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-                    Geolosys.getInstance().LOGGER.info(
-                            "Generated pending block " + pState.getBlock().getRegistryName().toString() + " at " + pos);
+                if (func_207803_a(reader, pPos.getPos(), pState)) {
+                    plutonCapability.getPendingBlocks().remove(pPos);
+                    if (CommonConfig.DEBUG_WORLD_GEN.get()) {
+                        Geolosys.getInstance().LOGGER.info("Generated pending block "
+                                + pState.getBlock().getRegistryName().toString() + " at " + pos);
+                    }
+                } else {
+                    if (CommonConfig.DEBUG_WORLD_GEN.get()) {
+                        Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "
+                                + pState.getBlock().getRegistryName().toString() + " at " + pos);
+                    }
                 }
-                world.setBlockState(pPos.getPos(), pState, 2 | 16);
-                plutonCapability.getPendingBlocks().remove(pPos);
             }
         });
 
@@ -172,6 +178,11 @@ public class PlutonOreFeature extends Feature<NoFeatureConfig> {
         }
 
         return false;
+    }
+
+    /* Wrote this weird code to fix server hangs on populating pending blocks */
+    protected boolean func_207803_a(IWorld world, BlockPos pos, BlockState state) {
+        return world.setBlockState(pos, state, 2 | 16);
     }
 
     protected boolean func_207803_a(IWorld world, Random rand, BlockPos pos, IDeposit pluton,
