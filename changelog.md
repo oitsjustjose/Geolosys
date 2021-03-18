@@ -2,8 +2,14 @@
 
 ## 5.1.2
 
+### Added:
+
+- Additional documentation to the field manual -- keep in mind modpack creators and even server maintainers can change the plutons from their default configuration - these entries are **NOT** dynamic, just bare-minimum info for those that need it.
+    - PACK MAKERS: Feel free to use the script in the new `scripts/` directory to dynamically create patchouli entries for your data packs.
+
 ### Fixed:
 
+- Pending blocks not being used properly, which revealed:
 - Server hang/crash when generating pending blocks
 
 ## 5.1.1
