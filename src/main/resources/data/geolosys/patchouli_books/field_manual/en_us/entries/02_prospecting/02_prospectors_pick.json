@@ -1,0 +1,21 @@
+{
+  "name": "Prospecting",
+  "icon": "geolosys:prospectors_pick",
+  "category": "geolosys:02_prospecting",
+  "pages": [
+    {
+      "type": "crafting",
+      "title": "Prospecting",
+      "text": "The Prospector's Pick (Recipe Shown Above) is a useful tool after you've been rummaging around underground for long enough. This tool is made with a decent amount of iron, and can be used in a few ways to help you detect and find other    ore plutons.",
+      "recipe": "geolosys:crafting/prospectors_pick_from_crafting"
+    },
+    {
+      "type": "text",
+      "text": "When held, this tool shows you how many meters away you are above/below sea level. This can be used in conjunction with this book to help you determine how much deeper you'll need to go.$(br2)  When right-clicked above sea-level the prospector's pick will inform you if there's a deposit in your general vicinity, and if so, where. Once you're underground, it'll scan a configurable area in the direction you're looking and tell you what you might find."
+    },
+    {
+      "type": "text",
+      "text": "If there's nothing in that direction, it'll fall back to telling you what deposit is in that region (if any) to help you gauge if you're on the right track."
+    }
+  ]
+}
