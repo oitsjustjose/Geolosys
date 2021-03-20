@@ -10,7 +10,7 @@
 ### Fixed:
 
 - Pending blocks not being used properly, which revealed:
-- Server hang/crash when generating pending blocks
+    - Server hang/crash when generating pending blocks. This fixes issues with Terraforged as well.
 
 ## 5.1.1
 
