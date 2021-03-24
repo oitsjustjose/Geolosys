@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:ores/iron",
+    "#forge:ores/gold",
+    "#forge:ores/copper",
+    "#forge:ores/tin",
+    "#forge:ores/silver",
+    "#forge:ores/lead",
+    "#forge:ores/aluminum",
+    "#forge:ores/nickel",
+    "#forge:ores/platinum",
+    "#forge:ores/uranium",
+    "#forge:ores/zinc",
+    "#forge:ores/yellorium",
+    "#forge:ores/osmium"
+  ]
+}
