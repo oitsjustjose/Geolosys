@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.16)
 
+## 5.1.3
+
+### Changed:
+
+- Geolosys ore **blocks** are now added to Forge Tags (specifically `forge:ores`)
+
 ## 5.1.2
 
 ### Added:
