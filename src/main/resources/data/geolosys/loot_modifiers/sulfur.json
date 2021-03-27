@@ -5,7 +5,7 @@
       "block": "geolosys:coal_ore"
     }
   ],
-  "tag": "minecraft:logs",
+  "tag": "forge:dusts/sulfur",
   "chance": 0.5,
   "qty": 1
 }

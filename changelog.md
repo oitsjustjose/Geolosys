@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.16)
 
+## 5.1.4
+
+### Fixed:
+
+- Logs dropping from Geolosys Coal if `dropSulfur` is enabled (definitely didn't forget to change that back after debugging 😉)
+
 ## 5.1.3
 
 ### Changed:
@@ -11,12 +17,12 @@
 ### Added:
 
 - Additional documentation to the field manual -- keep in mind modpack creators and even server maintainers can change the plutons from their default configuration - these entries are **NOT** dynamic, just bare-minimum info for those that need it.
-    - PACK MAKERS: Feel free to use the script in the new `scripts/` directory to dynamically create patchouli entries for your data packs.
+  - PACK MAKERS: Feel free to use the script in the new `scripts/` directory to dynamically create patchouli entries for your data packs.
 
 ### Fixed:
 
 - Pending blocks not being used properly, which revealed:
-    - Server hang/crash when generating pending blocks. This fixes issues with Terraforged as well.
+  - Server hang/crash when generating pending blocks. This fixes issues with Terraforged as well.
 
 ## 5.1.1
 
