@@ -1,26 +1,35 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Supplier;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.NoExposedOreFeature;
+import net.minecraft.world.gen.feature.OreFeature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraft.world.gen.feature.ReplaceBlockFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
 public class OreRemover {
 
-    private static List<Block> toRm = Arrays.asList(
-            Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.LAPIS_ORE,
-            Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE,
-            Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE, Blocks.NETHER_GOLD_ORE,
-            Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE,
-            Blocks.INFESTED_STONE
-    );
+    private static List<Block> toRm = Arrays.asList(Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.LAPIS_ORE,
+            Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE,
+            Blocks.NETHER_GOLD_ORE, Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE,
+            Blocks.INFESTED_STONE);
 
     // List of removed features
     public static List<Supplier<ConfiguredFeature<?, ?>>> removed = new LinkedList<>();
@@ -31,14 +40,16 @@ public class OreRemover {
             if (toRm.contains(targetBlock)) {
                 removed.add(targetFeature);
                 if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-                    Geolosys.getInstance().LOGGER.info(targetBlock.getRegistryName() + " : " + targetFeature.get().feature.getRegistryName() + " removed");
+                    Geolosys.getInstance().LOGGER.info(targetBlock.getRegistryName() + " : "
+                            + targetFeature.get().feature.getRegistryName() + " removed");
                 }
             }
         }
     }
 
     // Filters the features before sending em to the featureRemover()
-    public static List<Supplier<ConfiguredFeature<?, ?>>> filterFeatures(List<Supplier<ConfiguredFeature<?, ?>>> features) {
+    public static List<Supplier<ConfiguredFeature<?, ?>>> filterFeatures(
+            List<Supplier<ConfiguredFeature<?, ?>>> features) {
         for (Supplier<ConfiguredFeature<?, ?>> feature : features) {
             Block targetBlock = null;
             ConfiguredFeature<?, ?> targetFeature = FeatureUtils.getFeature(feature.get());

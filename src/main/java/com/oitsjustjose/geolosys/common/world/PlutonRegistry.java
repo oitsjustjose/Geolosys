@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
@@ -111,8 +110,10 @@ public class PlutonRegistry {
         return null;
     }
 
-    // Collects UNDERGROUND_ORES & UNDERGROUND_DECORATION to make it easier to iterate
-    private static final List<GenerationStage.Decoration> decorations = new LinkedList<>(); static {
+    // Collects UNDERGROUND_ORES & UNDERGROUND_DECORATION to make it easier to
+    // iterate
+    private static final List<GenerationStage.Decoration> decorations = new LinkedList<>();
+    static {
         decorations.add(GenerationStage.Decoration.UNDERGROUND_ORES);
         decorations.add(GenerationStage.Decoration.UNDERGROUND_DECORATION);
     }
@@ -124,7 +125,8 @@ public class PlutonRegistry {
         // Removes vanilla ores
         if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
             for (GenerationStage.Decoration deco : decorations) {
-                FeatureUtils.destroyFeature(settings.getFeatures(deco), OreRemover.filterFeatures(settings.getFeatures(deco)));
+                FeatureUtils.destroyFeature(settings.getFeatures(deco),
+                        OreRemover.filterFeatures(settings.getFeatures(deco)));
             }
         }
 
