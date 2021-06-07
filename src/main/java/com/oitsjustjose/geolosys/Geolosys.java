@@ -20,7 +20,6 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
@@ -122,7 +121,8 @@ public class Geolosys {
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
         event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
-        LOGGER.info("Geolosys capability attached for " + Utils.dimensionToString(event.getObject()));
+        String dimName = event.getObject().getDimensionKey().getLocation().toString();
+        LOGGER.info("Geolosys capability attached for {}", dimName);
     }
 
     @SubscribeEvent
