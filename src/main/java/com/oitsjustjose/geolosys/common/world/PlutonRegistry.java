@@ -13,7 +13,7 @@ import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -70,11 +70,11 @@ public class PlutonRegistry {
         return this.stones.add(stone);
     }
 
-    public IDeposit pickPluton(IWorld world, BlockPos pos, Random rand) {
+    public IDeposit pickPluton(ISeedReader reader, BlockPos pos, Random rand) {
         if (this.oreWeightList.size() > 0) {
             // Sometimes bias towards specific biomes where applicable
             if (rand.nextBoolean()) {
-                Biome b = world.getBiome(pos);
+                Biome b = reader.getBiome(pos);
                 ArrayList<IDeposit> forBiome = new ArrayList<>();
                 for (IDeposit d : this.ores) {
                     if (d instanceof DepositBiomeRestricted) {

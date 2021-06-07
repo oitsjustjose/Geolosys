@@ -14,7 +14,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 
 public class FeatureUtils {
 
@@ -32,7 +32,7 @@ public class FeatureUtils {
                 && blockZ <= chunkPos.getZEnd();
     }
 
-    public static boolean generateDense(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    public static boolean generateDense(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
 
         // Do this ourselves because by default pos.getY() == 0
@@ -77,25 +77,25 @@ public class FeatureUtils {
                                 if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D) {
                                     BlockPos blockpos = new BlockPos(l1, i2, j2);
 
-                                    if (world.chunkExists(l1 >> 4, j2 >> 4)) {
+                                    if (reader.chunkExists(l1 >> 4, j2 >> 4)) {
                                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                                         if (rand.nextFloat() > density) {
                                             continue;
                                         }
-                                        BlockState state = world.getBlockState(blockpos);
+                                        BlockState state = reader.getBlockState(blockpos);
                                         for (BlockState matcherState : (pluton.getBlockStateMatchers() == null
                                                 ? Utils.getDefaultMatchers()
                                                 : pluton.getBlockStateMatchers())) {
                                             if (Utils.doStatesMatch(matcherState, state)) {
-                                                world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                                reader.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                                 placed = true;
                                                 break;
                                             }
                                         }
                                     } else {
                                         plutonCapability.putPendingBlock(
-                                                new BlockPosDim(pos, Utils.dimensionToString(world)), pluton.getOre());
+                                                new BlockPosDim(pos, Utils.dimensionToString(reader)), pluton.getOre());
                                     }
                                 }
                             }
@@ -107,7 +107,7 @@ public class FeatureUtils {
         return placed;
     }
 
-    public static boolean generateSparse(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    public static boolean generateSparse(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -118,24 +118,24 @@ public class FeatureUtils {
                 int x = pos.getX() + rand.nextInt(16);
                 int z = pos.getZ() + rand.nextInt(16);
                 BlockPos blockpos = new BlockPos(x, y, z);
-                if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
+                if (isInChunk(thisChunk, blockpos) && reader.chunkExists(thisChunk.x, thisChunk.z)) {
                     float density = Math.min(pluton.getDensity(), 1.0F);
 
                     if (rand.nextFloat() > density) {
                         continue;
                     }
-                    BlockState state = world.getBlockState(blockpos);
+                    BlockState state = reader.getBlockState(blockpos);
 
                     for (BlockState matcherState : (pluton.getBlockStateMatchers() == null ? Utils.getDefaultMatchers()
                             : pluton.getBlockStateMatchers())) {
                         if (Utils.doStatesMatch(matcherState, state)) {
-                            world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                            reader.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                             placed = true;
                             break;
                         }
                     }
                 } else {
-                    plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(world)),
+                    plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)),
                             pluton.getOre());
                 }
             }
@@ -143,7 +143,7 @@ public class FeatureUtils {
         return placed;
     }
 
-    public static boolean generateDike(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    public static boolean generateDike(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -169,24 +169,24 @@ public class FeatureUtils {
                     // basePos.add(dX, 0, dZ)
                     BlockPos blockpos = new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ);
 
-                    if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
+                    if (isInChunk(thisChunk, blockpos) && reader.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                         if (rand.nextFloat() > density) {
                             continue;
                         }
-                        BlockState state = world.getBlockState(blockpos);
+                        BlockState state = reader.getBlockState(blockpos);
                         for (BlockState matcherState : (pluton.getBlockStateMatchers() == null
                                 ? Utils.getDefaultMatchers()
                                 : pluton.getBlockStateMatchers())) {
                             if (Utils.doStatesMatch(matcherState, state)) {
-                                world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                reader.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
                                 break;
                             }
                         }
                     } else {
-                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(world)),
+                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)),
                                 pluton.getOre());
                         placed = true;
                     }
@@ -204,7 +204,7 @@ public class FeatureUtils {
         return placed;
     }
 
-    public static boolean generateLayer(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    public static boolean generateLayer(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -231,24 +231,24 @@ public class FeatureUtils {
 
                     BlockPos blockpos = basePos.add(dX, dY, dZ);
 
-                    if (isInChunk(thisChunk, blockpos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
+                    if (isInChunk(thisChunk, blockpos) && reader.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
 
                         if (rand.nextFloat() > density) {
                             continue;
                         }
-                        BlockState state = world.getBlockState(blockpos);
+                        BlockState state = reader.getBlockState(blockpos);
                         for (BlockState matcherState : (pluton.getBlockStateMatchers() == null
                                 ? Utils.getDefaultMatchers()
                                 : pluton.getBlockStateMatchers())) {
                             if (Utils.doStatesMatch(matcherState, state)) {
-                                world.setBlockState(blockpos, pluton.getOre(), 2 | 16);
+                                reader.setBlockState(blockpos, pluton.getOre(), 2 | 16);
                                 placed = true;
                                 break;
                             }
                         }
                     } else {
-                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(world)),
+                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)),
                                 pluton.getOre());
                     }
                 }
@@ -257,7 +257,7 @@ public class FeatureUtils {
         return placed;
     }
 
-    public static boolean generateTopLayer(IWorld world, BlockPos pos, Random rand, IDeposit pluton,
+    public static boolean generateTopLayer(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
             IGeolosysCapability plutonCapability) {
         ChunkPos thisChunk = new ChunkPos(pos);
         boolean placed = false;
@@ -278,19 +278,19 @@ public class FeatureUtils {
                     continue;
                 }
 
-                BlockPos blockPos = Utils.getTopSolidBlock(world, basePos.add(dX, 0, dZ));
+                BlockPos blockPos = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
 
                 for (int i = 0; i < ((radX + radZ) / 2) / 2; i++) {
                     blockPos = blockPos.add(0, -i, 0);
-                    boolean isTopBlock = !world.getBlockState(blockPos.up()).isSolid();
+                    boolean isTopBlock = !reader.getBlockState(blockPos.up()).isSolid();
 
-                    if (isInChunk(thisChunk, blockPos) && world.chunkExists(thisChunk.x, thisChunk.z)) {
+                    if (isInChunk(thisChunk, blockPos) && reader.chunkExists(thisChunk.x, thisChunk.z)) {
                         float density = Math.min(pluton.getDensity(), 1.0F);
                         if (rand.nextFloat() > density) {
                             continue;
                         }
 
-                        BlockState state = world.getBlockState(blockPos);
+                        BlockState state = reader.getBlockState(blockPos);
 
                         for (BlockState matcherState : matchers) {
                             if (Utils.doStatesMatch(matcherState, state)) {
@@ -298,13 +298,13 @@ public class FeatureUtils {
                                 BlockState toPlace = pluton.getOre();
                                 if (pluton.getOre().hasProperty(BlockStateProperties.BOTTOM)) {
                                     toPlace = toPlace.with(BlockStateProperties.BOTTOM,
-                                            world.getBlockState(blockPos.up()).isSolid());
+                                            reader.getBlockState(blockPos.up()).isSolid());
                                 }
 
-                                world.setBlockState(blockPos, toPlace, 2 | 16);
-                                if (isTopBlock && world.getBlockState(blockPos.up()).getMaterial() == Material.AIR
+                                reader.setBlockState(blockPos, toPlace, 2 | 16);
+                                if (isTopBlock && reader.getBlockState(blockPos.up()).getMaterial() == Material.AIR
                                         && rand.nextInt(5) == 0) {
-                                    world.setBlockState(blockPos.up(), pluton.getSampleBlock(), 2 | 16);
+                                    reader.setBlockState(blockPos.up(), pluton.getSampleBlock(), 2 | 16);
                                 }
 
                                 placed = true;
@@ -313,7 +313,7 @@ public class FeatureUtils {
                         }
 
                     } else {
-                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(world)),
+                        plutonCapability.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)),
                                 pluton.getOre());
                     }
                 }

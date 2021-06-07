@@ -16,12 +16,10 @@ import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.server.ServerWorld;
 
 public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
     public PlutonStoneFeature(Codec<NoFeatureConfig> p_i231976_1_) {
@@ -32,23 +30,18 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
     @ParametersAreNonnullByDefault
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
             NoFeatureConfig config) {
-        IWorld iworld = reader.getWorld();
-        if (!(iworld instanceof ServerWorld)) {
+        if (generator instanceof FlatChunkGenerator) {
             return false;
         }
 
-        ServerWorld world = (ServerWorld) iworld;
-        if (world.getChunkProvider().getChunkGenerator() instanceof FlatChunkGenerator) {
-            return false;
-        }
-
-        IGeolosysCapability plutonCapability = world.getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        IGeolosysCapability plutonCapability = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
+                .orElse(null);
         if (plutonCapability == null) {
             Geolosys.getInstance().LOGGER.info("NULL PLUTON CAPABILITY!!!");
             return false;
         }
 
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(Utils.dimensionToString(world)));
+        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, Objects.requireNonNull(Utils.dimensionToString(reader)));
         if (plutonCapability.hasStonePlutonGenerated(chunkPosDim)) {
             return false;
         }
@@ -60,7 +53,7 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
 
         for (String s : pluton.getDimensionFilter()) {
             boolean a = pluton.isDimensionFilterBlacklist();
-            boolean b = Utils.dimensionToString(world).equals(new ResourceLocation(s).toString());
+            boolean b = Utils.dimensionToString(reader).equals(new ResourceLocation(s).toString());
 
             /*
              * If dim blacklist and the current dim is in the BL, cancel OR if dim whitelist
@@ -71,21 +64,12 @@ public class PlutonStoneFeature extends Feature<NoFeatureConfig> {
             }
         }
 
-        if (func_207803_a(reader, rand, pos, pluton, plutonCapability)) {
+        if (FeatureUtils.generateDense(reader, pos, rand, pluton, plutonCapability)) {
             plutonCapability
-                    .setStonePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(world)));
+                    .setStonePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), Utils.dimensionToString(reader)));
             return true;
         }
 
         return false;
     }
-
-    protected boolean func_207803_a(IWorld world, Random rand, BlockPos pos, IDeposit pluton,
-            IGeolosysCapability plutonCapability) {
-        if (FeatureUtils.generateDense(world, pos, rand, pluton, plutonCapability)) {
-            return true;
-        }
-        return false;
-    }
-
 }
