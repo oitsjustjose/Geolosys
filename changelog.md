@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.16)
 
+## 5.1.5
+
+### Fixed:
+
+- Too Many Lakes (HUGE thanks to EwyBoy for [his fix](https://github.com/oitsjustjose/Geolosys/pull/274/files))
+
 ## 5.1.4
 
 ### Fixed:
