@@ -1,6 +1,8 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import com.oitsjustjose.geolosys.Geolosys;
@@ -9,6 +11,7 @@ import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.api.world.DepositStone;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
 import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 
@@ -108,16 +111,20 @@ public class PlutonRegistry {
         return null;
     }
 
+    // Collects UNDERGROUND_ORES & UNDERGROUND_DECORATION to make it easier to iterate
+    private static final List<GenerationStage.Decoration> decorations = new LinkedList<>(); static {
+        decorations.add(GenerationStage.Decoration.UNDERGROUND_ORES);
+        decorations.add(GenerationStage.Decoration.UNDERGROUND_DECORATION);
+    }
+
     @SubscribeEvent
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
         BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
+        // Removes vanilla ores
         if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-            int removed = OreRemover.process(settings);
-            // Notify the user of the removal if debug mode is on
-            if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-                Geolosys.getInstance().LOGGER.info("Removing {} ore generation(s) from biome {}", removed,
-                        evt.getName());
+            for (GenerationStage.Decoration deco : decorations) {
+                FeatureUtils.destroyFeature(settings.getFeatures(deco), OreRemover.filterFeatures(settings.getFeatures(deco)));
             }
         }
 
