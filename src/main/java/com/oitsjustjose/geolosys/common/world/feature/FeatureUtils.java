@@ -1,7 +1,9 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -15,6 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 
 public class FeatureUtils {
 
@@ -30,6 +35,23 @@ public class FeatureUtils {
         int blockZ = pos.getZ();
         return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
                 && blockZ <= chunkPos.getZEnd();
+    }
+
+    public static ConfiguredFeature<?, ?> getFeature(ConfiguredFeature<?, ?> feature) {
+        ConfiguredFeature<?, ?> currentFeature = feature;
+        if (currentFeature.feature instanceof DecoratedFeature) {
+            do {
+                currentFeature = ((DecoratedFeatureConfig) currentFeature.getConfig()).feature.get();
+            } while (currentFeature.feature instanceof DecoratedFeature);
+        }
+        return currentFeature;
+    }
+
+    public static void destroyFeature(List<Supplier<ConfiguredFeature<?, ?>>> features,
+            List<Supplier<ConfiguredFeature<?, ?>>> destroy) {
+        for (Supplier<ConfiguredFeature<?, ?>> feature : destroy) {
+            features.remove(feature);
+        }
     }
 
     public static boolean generateDense(ISeedReader reader, BlockPos pos, Random rand, IDeposit pluton,
