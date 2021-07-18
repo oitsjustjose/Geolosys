@@ -88,16 +88,6 @@ public class SampleUtils {
     }
 
     /**
-     * @param ore an instance of an IDeposit to determine the sample count of
-     * @return an integer bound by {@link CommonConfig}'s MAX_SAMPLES_PER_CHUNK
-     */
-    public static int getSampleCount(IDeposit ore) {
-        int count = (ore.getSize() / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
-                + (ore.getSize() % CommonConfig.MAX_SAMPLES_PER_CHUNK.get());
-        return Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), count);
-    }
-
-    /**
      * @param world an IWorld instance
      * @param pos   A BlockPos to check in and around
      * @return true if the block is water (since we can waterlog)

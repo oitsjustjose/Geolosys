@@ -10,7 +10,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
+// import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -168,60 +168,60 @@ public class ProPickItem extends Item {
             int confDmt = CommonConfig.PRO_PICK_DIAMETER.get();
 
             switch (facing) {
-            case UP:
-                xStart = -(confDmt / 2);
-                xEnd = confDmt / 2;
-                yStart = -confAmt;
-                yEnd = 0;
-                zStart = -(confDmt / 2);
-                zEnd = (confDmt / 2);
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
-            case DOWN:
-                xStart = -(confDmt / 2);
-                xEnd = confDmt / 2;
-                yStart = 0;
-                yEnd = confAmt;
-                zStart = -(confDmt / 2);
-                zEnd = confDmt / 2;
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
-            case NORTH:
-                xStart = -(confDmt / 2);
-                xEnd = confDmt / 2;
-                yStart = -(confDmt / 2);
-                yEnd = confDmt / 2;
-                zStart = 0;
-                zEnd = confAmt;
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
-            case SOUTH:
-                xStart = -(confDmt / 2);
-                xEnd = confDmt / 2;
-                yStart = -(confDmt / 2);
-                yEnd = confDmt / 2;
-                zStart = -confAmt;
-                zEnd = 0;
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
-            case EAST:
-                xStart = -(confAmt);
-                xEnd = 0;
-                yStart = -(confDmt / 2);
-                yEnd = confDmt / 2;
-                zStart = -(confDmt / 2);
-                zEnd = confDmt / 2;
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
-            case WEST:
-                xStart = 0;
-                xEnd = confAmt;
-                yStart = -(confDmt / 2);
-                yEnd = confDmt / 2;
-                zStart = -(confDmt / 2);
-                zEnd = confDmt / 2;
-                prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                break;
+                case UP:
+                    xStart = -(confDmt / 2);
+                    xEnd = confDmt / 2;
+                    yStart = -confAmt;
+                    yEnd = 0;
+                    zStart = -(confDmt / 2);
+                    zEnd = (confDmt / 2);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
+                case DOWN:
+                    xStart = -(confDmt / 2);
+                    xEnd = confDmt / 2;
+                    yStart = 0;
+                    yEnd = confAmt;
+                    zStart = -(confDmt / 2);
+                    zEnd = confDmt / 2;
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
+                case NORTH:
+                    xStart = -(confDmt / 2);
+                    xEnd = confDmt / 2;
+                    yStart = -(confDmt / 2);
+                    yEnd = confDmt / 2;
+                    zStart = 0;
+                    zEnd = confAmt;
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
+                case SOUTH:
+                    xStart = -(confDmt / 2);
+                    xEnd = confDmt / 2;
+                    yStart = -(confDmt / 2);
+                    yEnd = confDmt / 2;
+                    zStart = -confAmt;
+                    zEnd = 0;
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
+                case EAST:
+                    xStart = -(confAmt);
+                    xEnd = 0;
+                    yStart = -(confDmt / 2);
+                    yEnd = confDmt / 2;
+                    zStart = -(confDmt / 2);
+                    zEnd = confDmt / 2;
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
+                case WEST:
+                    xStart = 0;
+                    xEnd = confAmt;
+                    yStart = -(confDmt / 2);
+                    yEnd = confDmt / 2;
+                    zStart = -(confDmt / 2);
+                    zEnd = confDmt / 2;
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    break;
             }
 
             player.swingArm(hand);
@@ -232,120 +232,131 @@ public class ProPickItem extends Item {
     private boolean prospect(PlayerEntity player, ItemStack stack, World worldIn, BlockPos pos, Direction facing,
             int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
-        boolean searchingForStone = stack.getTag().getBoolean("stone");
-        HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
+        return true;
+        // boolean searchingForStone = stack.getTag().getBoolean("stone");
+        // HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
 
-        GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
-            if (ore instanceof DepositMultiOre) {
-                foundMap.put((DepositMultiOre) ore, new HashSet<>());
-            }
-        });
+        // GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
+        // if (ore instanceof DepositMultiOre) {
+        // foundMap.put((DepositMultiOre) ore, new HashSet<>());
+        // }
+        // });
 
-        for (int x = xStart; x <= xEnd; x++) {
-            for (int y = yStart; y <= yEnd; y++) {
-                for (int z = zStart; z <= zEnd; z++) {
-                    BlockState state = worldIn.getBlockState(pos.add(x, y, z));
+        // for (int x = xStart; x <= xEnd; x++) {
+        // for (int y = yStart; y <= yEnd; y++) {
+        // for (int z = zStart; z <= zEnd; z++) {
+        // BlockState state = worldIn.getBlockState(pos.add(x, y, z));
 
-                    for (IDeposit dep : (searchingForStone ? GeolosysAPI.plutonRegistry.getStones()
-                            : GeolosysAPI.plutonRegistry.getOres())) {
-                        // Use the Use the foundMap with multIDeposits
-                        if (dep instanceof DepositMultiOre) {
-                            DepositMultiOre multiOre = (DepositMultiOre) dep;
-                            for (BlockState tmpState : ((DepositMultiOre) dep).oreBlocks.keySet()) {
-                                if (Utils.doStatesMatch(tmpState, state)) {
-                                    if (!foundMap.get(multiOre).contains(state)) {
-                                        foundMap.get(multiOre).add(state);
-                                    }
-                                    if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size()) {
-                                        Geolosys.proxy.sendProspectingMessage(player,
-                                                Utils.blockStateToStack(dep.getOre()), facing.getOpposite());
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                        // Just check the ore itself otherwise
-                        else if (Utils.doStatesMatch(dep.getOre(), state)) {
-                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(dep.getOre()),
-                                    facing.getOpposite());
-                            return true;
-                        }
-                    }
-                    // If we didn't find anything yet
-                    for (BlockState state2 : GeolosysAPI.proPickExtras) {
-                        if (Utils.doStatesMatch(state2, state)) {
-                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
-                                    facing.getOpposite());
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return prospectChunk(worldIn, stack, pos, player);
+        // for (IDeposit dep : (searchingForStone ?
+        // GeolosysAPI.plutonRegistry.getStones()
+        // : GeolosysAPI.plutonRegistry.getOres())) {
+        // // Use the Use the foundMap with multIDeposits
+        // if (dep instanceof DepositMultiOre) {
+        // DepositMultiOre multiOre = (DepositMultiOre) dep;
+        // for (BlockState tmpState : ((DepositMultiOre) dep).oreBlocks.keySet()) {
+        // if (Utils.doStatesMatch(tmpState, state)) {
+        // if (!foundMap.get(multiOre).contains(state)) {
+        // foundMap.get(multiOre).add(state);
+        // }
+        // if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size()) {
+        // Geolosys.proxy.sendProspectingMessage(player,
+        // Utils.blockStateToStack(dep.getOre()), facing.getOpposite());
+        // return true;
+        // }
+        // }
+        // }
+        // }
+        // // Just check the ore itself otherwise
+        // else if (Utils.doStatesMatch(dep.getOre(), state)) {
+        // Geolosys.proxy.sendProspectingMessage(player,
+        // Utils.blockStateToStack(dep.getOre()),
+        // facing.getOpposite());
+        // return true;
+        // }
+        // }
+        // // If we didn't find anything yet
+        // for (BlockState state2 : GeolosysAPI.proPickExtras) {
+        // if (Utils.doStatesMatch(state2, state)) {
+        // Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
+        // facing.getOpposite());
+        // return true;
+        // }
+        // }
+        // }
+        // }
+        // }
+        // return prospectChunk(worldIn, stack, pos, player);
     }
 
     private boolean prospectChunk(World world, ItemStack stack, BlockPos pos, PlayerEntity player) {
-        ChunkPos tempPos = new ChunkPos(pos);
+        return true;
+        // ChunkPos tempPos = new ChunkPos(pos);
 
-        boolean searchingForStone = stack.getTag().getBoolean("stone");
-        HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
-        SURFACE_PROSPECTING_TYPE searchType = CommonConfig.PRO_PICK_SURFACE_MODE.get();
+        // boolean searchingForStone = stack.getTag().getBoolean("stone");
+        // HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
+        // SURFACE_PROSPECTING_TYPE searchType =
+        // CommonConfig.PRO_PICK_SURFACE_MODE.get();
 
-        GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
-            if (ore instanceof DepositMultiOre) {
-                foundMap.put((DepositMultiOre) ore, new HashSet<>());
-            }
-        });
+        // GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
+        // if (ore instanceof DepositMultiOre) {
+        // foundMap.put((DepositMultiOre) ore, new HashSet<>());
+        // }
+        // });
 
-        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
-            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
-                for (int y = 0; y < world.getHeight(); y++) {
-                    BlockState state = world.getBlockState(new BlockPos(x, y, z));
+        // for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
+        // for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
+        // for (int y = 0; y < world.getHeight(); y++) {
+        // BlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-                    for (IDeposit dep : (searchingForStone ? GeolosysAPI.plutonRegistry.getStones()
-                            : GeolosysAPI.plutonRegistry.getOres())) {
-                        if (dep instanceof DepositMultiOre) {
-                            DepositMultiOre multiOre = (DepositMultiOre) dep;
-                            for (BlockState multiOreState : (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-                                    ? multiOre.oreBlocks.keySet()
-                                    : multiOre.sampleBlocks.keySet())) {
-                                if (Utils.doStatesMatch(state, multiOreState)) {
-                                    int size = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-                                            ? multiOre.oreBlocks.keySet().size()
-                                            : multiOre.sampleBlocks.keySet().size();
-                                    if (!foundMap.get(multiOre).contains(state)) {
-                                        foundMap.get(multiOre).add(state);
-                                    }
-                                    if (foundMap.get(multiOre).size() == size) {
-                                        Geolosys.proxy.sendProspectingMessage(player,
-                                                Utils.blockStateToStack(multiOre.getOre()), null);
-                                        return true;
-                                    }
-                                }
-                            }
-                        } else {
-                            if (Utils.doStatesMatch(state,
-                                    (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? dep.getOre()
-                                            : dep.getSampleBlock()))) {
-                                Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(dep.getOre()),
-                                        null);
-                                return true;
-                            }
-                        }
-                    }
-                    for (BlockState state2 : GeolosysAPI.proPickExtras) {
-                        if (Utils.doStatesMatch(state, state2)) {
-                            Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state), null);
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
+        // for (IDeposit dep : (searchingForStone ?
+        // GeolosysAPI.plutonRegistry.getStones()
+        // : GeolosysAPI.plutonRegistry.getOres())) {
+        // if (dep instanceof DepositMultiOre) {
+        // DepositMultiOre multiOre = (DepositMultiOre) dep;
+        // for (BlockState multiOreState : (searchType ==
+        // SURFACE_PROSPECTING_TYPE.OREBLOCKS
+        // ? multiOre.oreBlocks.keySet()
+        // : multiOre.sampleBlocks.keySet())) {
+        // if (Utils.doStatesMatch(state, multiOreState)) {
+        // int size = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
+        // ? multiOre.oreBlocks.keySet().size()
+        // : multiOre.sampleBlocks.keySet().size();
+        // if (!foundMap.get(multiOre).contains(state)) {
+        // foundMap.get(multiOre).add(state);
+        // }
+        // if (foundMap.get(multiOre).size() == size) {
+        // Geolosys.proxy.sendProspectingMessage(player,
+        // Utils.blockStateToStack(multiOre.getOre()), null);
+        // return true;
+        // }
+        // }
+        // }
+        // } else {
+        // if (Utils.doStatesMatch(state,
+        // (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? dep.getOre()
+        // : dep.getSampleBlock()))) {
+        // Geolosys.proxy.sendProspectingMessage(player,
+        // Utils.blockStateToStack(dep.getOre()),
+        // null);
+        // return true;
+        // }
+        // }
+        // }
+        // for (BlockState state2 : GeolosysAPI.proPickExtras) {
+        // if (Utils.doStatesMatch(state, state2)) {
+        // Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
+        // null);
+        // return true;
+        // }
+        // }
+        // }
+        // }
+        // }
 
-        player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
-        return false;
+        // player.sendStatusMessage(new
+        // TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"),
+        // true);
+        // return false;
     }
 
     @SubscribeEvent

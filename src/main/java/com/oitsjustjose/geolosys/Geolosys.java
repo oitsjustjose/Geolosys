@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.File;
 import java.util.Collection;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
@@ -11,7 +10,6 @@ import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.ModItemsParser;
-import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
 import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
@@ -30,10 +28,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.Item;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
@@ -95,8 +90,6 @@ public class Geolosys {
         CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
                 GeolosysCapability::new);
 
-        OreConfig.setup(new File("./config"));
-        OreConfig.getInstance().init();
         GeolosysAPI.init();
         proxy.init();
     }
@@ -104,18 +97,6 @@ public class Geolosys {
     @SubscribeEvent
     public void onSlashReload(AddReloadListenerEvent evt) {
         evt.addListener(new WorldGenDataLoader());
-
-        evt.addListener(new ReloadListener<Void>() {
-            @Override
-            protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
-                OreConfig.getInstance().init();
-            }
-
-            @Override
-            protected Void prepare(IResourceManager resourceManagerIn, IProfiler profilerIn) {
-                return null;
-            }
-        });
     }
 
     @SubscribeEvent

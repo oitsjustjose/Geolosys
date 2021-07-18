@@ -1,19 +1,25 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:ore_deposit_dense",
   "config": {
-    "yMin": 32,
-    "yMax": 60,
-    "chance": 6,
+    "blocks": [
+      { "block": "geolosys:hematite_ore", "chance": 0.8 },
+      { "block": null, "chance": 0.2 }
+    ],
+    "samples": [
+      { "block": "geolosys:hematite_ore_sample", "chance": 0.2 },
+      { "block": null, "chance": 0.8 }
+    ],
+    "yMin": 1,
+    "yMax": 255,
+    "generationWeight": 1,
     "size": 24,
-    "type": "DIKE",
-    "density": 1.0,
-    "block": "geolosys:hematite_ore",
-    "sample": "geolosys:hematite_ore_sample",
     "dimensions": {
-      "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
+      "isBlacklist": true,
+      "filter": ["the_nether", "the_end"]
+    },
+    "biomes": {
+      "isBlacklist": true,
+      "filter": ["minecraft:plains"]
     }
   }
 }
