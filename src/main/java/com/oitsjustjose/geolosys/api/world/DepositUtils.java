@@ -13,6 +13,7 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -58,37 +59,36 @@ public class DepositUtils {
             rng -= wt;
         }
 
-        Geolosys.getInstance().LOGGER.info("Could not reach decision on block to place at Utils#pick");
+        Geolosys.getInstance().LOGGER.error("Could not reach decision on block to place at Utils#pick");
         return null;
     }
 
-    public static boolean canPlaceInBiome(Biome biome, List<Biome> biomes, List<BiomeDictionary.Type> biomeTypes,
-            boolean isBiomeFilterBl) {
-        boolean matchForBiome = biomes.stream().anyMatch((b) -> {
-            return b == biome;
-        });
-
+    public static boolean canPlaceInBiome(Biome biome, @Nullable List<Biome> biomes,
+            @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
+        boolean matchForBiome = false;
         boolean matchForBiomeType = false;
-        for (BiomeDictionary.Type type : biomeTypes) {
-            RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
-            Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
-            matchForBiomeType = dictTypes.stream().anyMatch((dictType) -> {
-                return type.getName().equalsIgnoreCase(dictType.getName());
-            });
 
-            // Break out of search -- we've found it.
-            if (matchForBiomeType) {
-                break;
+        if (biomes != null) {
+            matchForBiome = biomes.stream().anyMatch((b) -> {
+                return b == biome;
+            });
+        }
+
+        if (biomeTypes != null) {
+            for (BiomeDictionary.Type type : biomeTypes) {
+                RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+                Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
+                matchForBiomeType = dictTypes.stream().anyMatch((dictType) -> {
+                    return type.getName().equalsIgnoreCase(dictType.getName());
+                });
+                if (matchForBiomeType) {
+                    break;
+                }
             }
         }
 
-        /*
-         * -- Truth table time!! <3 -- | biome | biomeType | isBl | result | | 0 | 0 | 0
-         * | 0 | | 1 | 0 | 0 | 1 | | 0 | 1 | 0 | 1 | | 1 | 1 | 0 | 1 |
-         * ------------------------------------- | 0 | 0 | 1 | 1 | | 1 | 0 | 1 | 0 | | 0
-         * | 1 | 1 | 0 | | 1 | 1 | 1 | 0 |
-         */
-        return (matchForBiome || matchForBiomeType) && !isBiomeFilterBl;
+        return ((matchForBiome || matchForBiomeType) && !isBiomeFilterBl)
+                || (!(matchForBiome || matchForBiomeType) && isBiomeFilterBl);
     }
 
     @SuppressWarnings("unchecked")
@@ -130,7 +130,6 @@ public class DepositUtils {
      *         improvement is found..
      */
     public static int getMaxTerrainHeight(IWorld iworld, int x, int z) {
-        // TODO: Correct odd behavior.
         if (!(iworld instanceof WorldGenRegion)) {
             return Integer.MAX_VALUE;
         }

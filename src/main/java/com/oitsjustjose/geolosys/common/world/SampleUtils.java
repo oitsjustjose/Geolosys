@@ -5,9 +5,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

@@ -10,8 +10,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.DenseDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.DenseDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.LayerDeposit;
 import com.oitsjustjose.geolosys.common.data.serializer.DenseDepositSerializer;
+import com.oitsjustjose.geolosys.common.data.serializer.LayerDepositSerializer;
 
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
@@ -23,6 +25,7 @@ public class WorldGenDataLoader extends JsonReloadListener {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private DenseDepositSerializer denseDepSer = new DenseDepositSerializer();
+    private LayerDepositSerializer layerDepSer = new LayerDepositSerializer();
 
     public WorldGenDataLoader() {
         super(GSON, "deposits");
@@ -43,6 +46,15 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         if (denseDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(denseDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(denseDeposit);
+                        } else {
+                            Geolosys.getInstance().LOGGER.info("ERROR ERROR halp");
+                        }
+                        return;
+                    case "geolosys:ore_deposit_layer":
+                        LayerDeposit layerDeposit = layerDepSer.deserialize(config, null);
+                        if (layerDeposit != null) {
+                            Geolosys.getInstance().LOGGER.info(layerDeposit.toString());
+                            GeolosysAPI.plutonRegistry.addDeposit(layerDeposit);
                         } else {
                             Geolosys.getInstance().LOGGER.info("ERROR ERROR halp");
                         }

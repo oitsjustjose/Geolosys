@@ -10,9 +10,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GeolosysCapProvider implements ICapabilitySerializable<CompoundNBT> {
-    private final IGeolosysCapability impl = new GeolosysCapability();
-    private final LazyOptional<IGeolosysCapability> cap = LazyOptional.of(() -> impl);
+public class DepositCapProvider implements ICapabilitySerializable<CompoundNBT> {
+    private final IDepositCapability impl = new DepositCapability();
+    private final LazyOptional<IDepositCapability> cap = LazyOptional.of(() -> impl);
 
     @Override
     @Nonnull

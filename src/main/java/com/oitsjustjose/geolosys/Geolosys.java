@@ -18,10 +18,10 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,8 +87,8 @@ public class Geolosys {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-        CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
-                GeolosysCapability::new);
+        CapabilityManager.INSTANCE.register(IDepositCapability.class, new DepositCapStorage(),
+                DepositCapability::new);
 
         GeolosysAPI.init();
         proxy.init();
@@ -101,7 +101,7 @@ public class Geolosys {
 
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new DepositCapProvider());
         String dimName = event.getObject().getDimensionKey().getLocation().toString();
         LOGGER.info("Geolosys capability attached for {}", dimName);
     }

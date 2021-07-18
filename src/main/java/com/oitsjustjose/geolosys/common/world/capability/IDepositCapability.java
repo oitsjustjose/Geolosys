@@ -11,7 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IGeolosysCapability extends INBTSerializable<CompoundNBT> {
+public interface IDepositCapability extends INBTSerializable<CompoundNBT> {
     boolean hasOrePlutonGenerated(ChunkPosDim pos);
 
     void setOrePlutonGenerated(ChunkPosDim pos);

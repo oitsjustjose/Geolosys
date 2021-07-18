@@ -13,13 +13,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 
-public class GeolosysCapability implements IGeolosysCapability {
+public class DepositCapability implements IDepositCapability {
     private ConcurrentLinkedQueue<ChunkPosDim> oreGenMap;
     private ConcurrentLinkedQueue<ChunkPosDim> stoneGenMap;
     private Map<BlockPosDim, BlockState> pendingBlocks;
     private Map<UUID, Boolean> giveMap;
 
-    public GeolosysCapability() {
+    public DepositCapability() {
         this.oreGenMap = new ConcurrentLinkedQueue<>();
         this.stoneGenMap = new ConcurrentLinkedQueue<>();
         this.pendingBlocks = new ConcurrentHashMap<>();

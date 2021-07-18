@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import com.oitsjustjose.geolosys.api.world.DenseDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.DenseDeposit;
 
 public class DenseDepositSerializer {
     public DenseDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {

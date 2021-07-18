@@ -33,17 +33,19 @@ public class SerializerUtils {
         return true;
     }
 
+    @Nullable
     public static String[] getBiomeFilter(JsonObject obj) {
         if (obj.has("biomes") && obj.get("biomes").isJsonObject()) {
             return toStringArray(obj.get("biomes").getAsJsonObject().get("filter").getAsJsonArray());
         }
-        return toStringArray(obj.get("dimBlacklist").getAsJsonArray());
+        return null;
     }
 
     public static boolean getIsBiomeFilterBl(JsonObject obj) {
         if (obj.has("biomes") && obj.get("biomes").isJsonObject()) {
             return obj.get("biomes").getAsJsonObject().get("isBlacklist").getAsBoolean();
         }
+        // Return true so that we have an empty blacklist
         return true;
     }
 

@@ -1,5 +1,5 @@
 {
-  "type": "geolosys:ore_deposit_dense",
+  "type": "geolosys:ore_deposit_layer",
   "config": {
     "blocks": [
       { "block": "geolosys:hematite_ore", "chance": 0.8 },
@@ -12,14 +12,11 @@
     "yMin": 1,
     "yMax": 255,
     "generationWeight": 1,
-    "size": 24,
+    "radius": 12,
+    "depth": 6,
     "dimensions": {
       "isBlacklist": true,
       "filter": ["the_nether", "the_end"]
-    },
-    "biomes": {
-      "isBlacklist": true,
-      "filter": ["minecraft:plains"]
     }
   }
 }
