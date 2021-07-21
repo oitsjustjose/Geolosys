@@ -82,12 +82,12 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                     cap.getPendingBlocks().remove(e.getKey());
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.info("Generated pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + pos);
+                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
                     }
                 } else {
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + pos);
+                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
                     }
                 }
             }

@@ -33,15 +33,14 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class LayerDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_layer";
+public class DikeDeposit implements IDeposit {
+    public static final String JSON_TYPE = "geolosys:ore_deposit_dike";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();
     private int yMin;
     private int yMax;
-    private int radius;
-    private int depth;
+    private int baseRadius;
     private int genWt;
     private HashSet<BlockState> blockStateMatchers;
     private String[] dimFilter;
@@ -58,16 +57,15 @@ public class LayerDeposit implements IDeposit {
     private float sumWtOres = 0.0F;
     private float sumWtSamples = 0.0F;
 
-    public LayerDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin,
-            int yMax, int radius, int depth, int genWt, String[] dimFilter, boolean isDimFilterBl,
+    public DikeDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin,
+            int yMax, int baseRadius, int genWt, String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
         this.sampleToWtMap = sampleBlocks;
         this.yMin = yMin;
         this.yMax = yMax;
-        this.radius = radius;
-        this.depth = depth;
+        this.baseRadius = baseRadius;
         this.genWt = genWt;
         this.dimFilter = dimFilter;
         this.isDimFilterBl = isDimFilterBl;
@@ -133,7 +131,7 @@ public class LayerDeposit implements IDeposit {
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        ret.append("Layer deposit with Blocks=");
+        ret.append("Dike deposit with Blocks=");
         ret.append(Arrays.toString(this.oreToWtMap.keySet().toArray()));
         ret.append(", Samples=");
         ret.append(Arrays.toString(this.sampleToWtMap.keySet().toArray()));
@@ -141,10 +139,8 @@ public class LayerDeposit implements IDeposit {
         ret.append(this.yMin);
         ret.append(",");
         ret.append(this.yMax);
-        ret.append("], Radius=");
-        ret.append(this.radius);
-        ret.append(", Depth=");
-        ret.append(this.depth);
+        ret.append("], Radius of Base=");
+        ret.append(this.baseRadius);
         return ret.toString();
     }
 
@@ -174,45 +170,38 @@ public class LayerDeposit implements IDeposit {
         }
 
         int totlPlaced = 0;
+        int rad = this.baseRadius;
 
         ChunkPos thisChunk = new ChunkPos(pos);
-
-        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-        int y = this.yMin + reader.getRandom().nextInt(Math.abs(this.yMax - this.yMin));
-        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-
+        int height = Math.abs((this.yMax - this.yMin));
+        int x = thisChunk.getXStart() + reader.getRandom().nextInt(16);
+        int z = thisChunk.getZStart() + reader.getRandom().nextInt(16);
+        int y = this.yMin + reader.getRandom().nextInt(height);
         int max = DepositUtils.getMaxTerrainHeight(reader, pos.getX(), pos.getZ());
         if (y > max) {
             y = Math.max(yMin, max);
         }
-
-        // These are just modifiers for dx and dz to prevent perfect cylinders
-        int dXMod = reader.getRandom().nextInt(this.radius / 2);
-        int dZMod = reader.getRandom().nextInt(this.radius / 2);
-
         BlockPos basePos = new BlockPos(x, y, z);
 
-        for (int dX = -this.radius; dX <= this.radius; dX++) {
-            for (int dZ = -this.radius; dZ <= this.radius; dZ++) {
-                for (int dY = 0; dY < depth; dY++) {
-                    float dist = ((dX + dXMod) * (dX + dXMod)) + ((dZ + dZMod) * (dZ + dZMod));
-                    if (dist > this.radius) {
+        for (int dY = y; dY <= this.yMax; dY++) {
+            for (int dX = -rad; dX <= rad; dX++) {
+                for (int dZ = -rad; dZ <= rad; dZ++) {
+                    float dist = (dX * dX) + (dZ * dZ);
+                    if (dist > rad) {
                         continue;
                     }
 
-                    BlockPos blockpos = basePos.add(dX, dY, dZ);
+                    BlockPos placePos = new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ);
+                    BlockState state = reader.getBlockState(placePos);
                     BlockState tmp = this.getOre();
                     if (tmp == null) {
                         continue;
                     }
 
-                    BlockState state = reader.getBlockState(blockpos);
                     for (BlockState matcherState : (this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
                             : this.blockStateMatchers)) {
                         if (Utils.doStatesMatch(matcherState, state)) {
-                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, blockpos, tmp, cap)) {
+                            if (FeatureUtils.tryPlaceBlock(reader, new ChunkPos(pos), placePos, tmp, cap)) {
                                 totlPlaced++;
                             }
                             break;
@@ -220,7 +209,16 @@ public class LayerDeposit implements IDeposit {
                     }
                 }
             }
+
+            // After a layer is done, *maybe* shrink it.
+            if (reader.getRandom().nextInt(100) % this.baseRadius == 0) {
+                rad -= 1;
+                if (rad < 0) {
+                    return totlPlaced;
+                }
+            }
         }
+
         return totlPlaced;
     }
 
@@ -236,8 +234,8 @@ public class LayerDeposit implements IDeposit {
         }
 
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
-                (this.radius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
-                        + (this.radius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
+                (this.baseRadius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
+                        + (this.baseRadius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         for (int i = 0; i < maxSampleCnt; i++) {
             BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos), this.yMax);
             BlockState tmp = this.getSample();
@@ -262,7 +260,7 @@ public class LayerDeposit implements IDeposit {
         }
     }
 
-    public static LayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
+    public static DikeDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
         if (json == null) {
             return null;
         }
@@ -275,8 +273,7 @@ public class LayerDeposit implements IDeposit {
                     .buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
-            int radius = json.get("radius").getAsInt();
-            int depth = json.get("depth").getAsInt();
+            int baseRadius = json.get("baseRadius").getAsInt();
             int genWt = json.get("generationWeight").getAsInt();
 
             // Dimensions
@@ -300,7 +297,7 @@ public class LayerDeposit implements IDeposit {
                 blockStateMatchers = SerializerUtils.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new LayerDeposit(oreBlocks, sampleBlocks, yMin, yMax, radius, depth, genWt, dimFilter, isDimFilterBl,
+            return new DikeDeposit(oreBlocks, sampleBlocks, yMin, yMax, baseRadius, genWt, dimFilter, isDimFilterBl,
                     biomeTypeFilter, biomeFilter, isBiomeFilterBl, blockStateMatchers);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -308,7 +305,7 @@ public class LayerDeposit implements IDeposit {
         }
     }
 
-    public JsonElement serialize(LayerDeposit dep, JsonSerializationContext ctx) {
+    public JsonElement serialize(DikeDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();
         JsonParser parser = new JsonParser();
@@ -328,8 +325,7 @@ public class LayerDeposit implements IDeposit {
         config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
         config.addProperty("yMin", this.yMin);
         config.addProperty("yMax", this.yMax);
-        config.addProperty("radius", this.radius);
-        config.addProperty("depth", this.depth);
+        config.addProperty("baseRadius", this.baseRadius);
         config.addProperty("generationWeight", this.genWt);
         config.add("dimensions", dimensions);
         config.add("biomes", biomes);

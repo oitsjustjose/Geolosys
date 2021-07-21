@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.world.feature;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.BlockPosDim;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
@@ -55,6 +56,10 @@ public class FeatureUtils {
         }
         
         cap.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)), state);
+        // Geolosys.getInstance().LOGGER.info(cap.getPendingBlocks().size());
+        cap.getPendingBlocks().forEach((dim, block) -> {
+            Geolosys.getInstance().LOGGER.info(dim.getPos());
+        });
         return false;
     }
 
