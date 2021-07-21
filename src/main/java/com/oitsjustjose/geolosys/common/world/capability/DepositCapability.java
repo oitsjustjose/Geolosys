@@ -6,70 +6,54 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.oitsjustjose.geolosys.api.BlockPosDim;
-import com.oitsjustjose.geolosys.api.ChunkPosDim;
+import com.oitsjustjose.geolosys.Geolosys;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 
 public class DepositCapability implements IDepositCapability {
-    private ConcurrentLinkedQueue<ChunkPosDim> oreGenMap;
-    private ConcurrentLinkedQueue<ChunkPosDim> stoneGenMap;
-    private Map<BlockPosDim, BlockState> pendingBlocks;
+    private ConcurrentLinkedQueue<ChunkPos> oreGenMap;
+    private Map<BlockPos, BlockState> pendingBlocks;
     private Map<UUID, Boolean> giveMap;
 
     public DepositCapability() {
         this.oreGenMap = new ConcurrentLinkedQueue<>();
-        this.stoneGenMap = new ConcurrentLinkedQueue<>();
         this.pendingBlocks = new ConcurrentHashMap<>();
         this.giveMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public ConcurrentLinkedQueue<ChunkPosDim> getOreGenMap() {
+    public ConcurrentLinkedQueue<ChunkPos> getOreGenMap() {
         return this.oreGenMap;
     }
 
     @Override
-    public ConcurrentLinkedQueue<ChunkPosDim> getStoneGenMap() {
-        return this.stoneGenMap;
-    }
-
-    @Override
-    public Map<BlockPosDim, BlockState> getPendingBlocks() {
+    public Map<BlockPos, BlockState> getPendingBlocks() {
         return this.pendingBlocks;
     }
 
     @Override
-    public void putPendingBlock(BlockPosDim pos, BlockState state) {
+    public void putPendingBlock(BlockPos pos, BlockState state) {
         this.pendingBlocks.put(pos, state);
     }
 
     @Override
-    public BlockState getPendingBlock(BlockPosDim pos) {
+    public BlockState getPendingBlock(BlockPos pos) {
         BlockState ret = this.pendingBlocks.get(pos);
         return ret;
     }
 
     @Override
-    public void setOrePlutonGenerated(ChunkPosDim dim) {
-        this.oreGenMap.add(dim);
+    public void setOrePlutonGenerated(ChunkPos pos) {
+        this.oreGenMap.add(pos);
     }
 
     @Override
-    public boolean hasOrePlutonGenerated(ChunkPosDim pos) {
+    public boolean hasOrePlutonGenerated(ChunkPos pos) {
         return this.oreGenMap.contains(pos);
-    }
-
-    @Override
-    public void setStonePlutonGenerated(ChunkPosDim pos) {
-        this.stoneGenMap.add(pos);
-    }
-
-    @Override
-    public boolean hasStonePlutonGenerated(ChunkPosDim pos) {
-        return this.stoneGenMap.contains(pos);
     }
 
     @Override
@@ -90,20 +74,18 @@ public class DepositCapability implements IDepositCapability {
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();
-        compound.put("WorldOreDeposits", new CompoundNBT());
-        compound.put("WorldStoneDeposits", new CompoundNBT());
-        compound.put("PendingBlocks", new CompoundNBT());
+        compound.put("WorldOreDeposits", new CompoundNBT()); // { chunkPosX: int, chunkPosZ: int }
+        compound.put("PendingBlocks", new CompoundNBT()); // { pos: BlockPos: state: BlockState }
         compound.put("PlayersGifted", new CompoundNBT());
 
         CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
-        CompoundNBT stoneDeposits = compound.getCompound("WorldStoneDeposits");
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
-        this.getOreGenMap().forEach(x -> oreDeposits.putBoolean(x.toString(), true));
-        this.getStoneGenMap().forEach(x -> stoneDeposits.putBoolean(x.toString(), true));
-        this.getPendingBlocks().forEach((x, y) -> pendingBlocks.put(x.toString(), NBTUtil.writeBlockState(y)));
-        this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
+        this.getOreGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
+        this.getPendingBlocks()
+                .forEach((pos, state) -> pendingBlocks.put(serializeBlockPos(pos), NBTUtil.writeBlockState(state)));
+        this.getGivenMap().keySet().forEach((uuid) -> playersGifted.putBoolean(uuid.toString(), true));
 
         return compound;
     }
@@ -111,14 +93,34 @@ public class DepositCapability implements IDepositCapability {
     @Override
     public void deserializeNBT(CompoundNBT compound) {
         CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
-        CompoundNBT stoneDeposits = compound.getCompound("WorldStoneDeposits");
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
-        oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(new ChunkPosDim(key)));
-        stoneDeposits.keySet().forEach(key -> this.setStonePlutonGenerated(new ChunkPosDim(key)));
-        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(new BlockPosDim(key),
+        oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(deSerializeChunkPos(key)));
+        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(deSerializeBlockPos(key),
                 NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));
+
+        Geolosys.getInstance().LOGGER.info(oreGenMap);
+        Geolosys.getInstance().LOGGER.info(pendingBlocks);
+        Geolosys.getInstance().LOGGER.info(giveMap);
+    }
+
+    private String serializeChunkPos(ChunkPos pos) {
+        return pos.x + "," + pos.z;
+    }
+
+    private String serializeBlockPos(BlockPos pos) {
+        return pos.getX() + "," + pos.getY() + "," + pos.getZ();
+    }
+
+    private ChunkPos deSerializeChunkPos(String asStr) {
+        String[] parts = asStr.split(",");
+        return new ChunkPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+    }
+
+    private BlockPos deSerializeBlockPos(String asStr) {
+        String[] parts = asStr.split(",");
+        return new BlockPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
     }
 }

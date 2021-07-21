@@ -7,8 +7,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.BlockPosDim;
-import com.oitsjustjose.geolosys.api.ChunkPosDim;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -46,8 +44,8 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         boolean placedPending = placePendingBlocks(reader, cap, pos);
 
         String dimName = Utils.dimensionToString(reader);
-        ChunkPosDim chunkPosDim = new ChunkPosDim(pos, dimName);
-        if (cap.hasOrePlutonGenerated(chunkPosDim)) {
+        ChunkPos chunkPos = new ChunkPos(pos);
+        if (cap.hasOrePlutonGenerated(chunkPos)) {
             return false;
         }
 
@@ -65,7 +63,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             // {
             // return generate(reader, generator, rand, pos, config);
             // }
-            cap.setOrePlutonGenerated(new ChunkPosDim(pos.getX(), pos.getZ(), dimName));
+            cap.setOrePlutonGenerated(chunkPos);
             return true;
         }
 
@@ -75,9 +73,9 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
     private boolean placePendingBlocks(ISeedReader reader, IDepositCapability cap, BlockPos pos) {
         boolean placedAny = false;
 
-        for (Entry<BlockPosDim, BlockState> e : cap.getPendingBlocks().entrySet()) {
+        for (Entry<BlockPos, BlockState> e : cap.getPendingBlocks().entrySet()) {
             if (FeatureUtils.isInChunk(new ChunkPos(pos), e.getKey())) {
-                if (reader.setBlockState(e.getKey().getPos(), e.getValue(), 2 | 16)) {
+                if (reader.setBlockState(e.getKey(), e.getValue(), 2 | 16)) {
                     placedAny = true;
                     cap.getPendingBlocks().remove(e.getKey());
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {

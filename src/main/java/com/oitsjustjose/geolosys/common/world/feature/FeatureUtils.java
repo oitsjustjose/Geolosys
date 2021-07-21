@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.BlockPosDim;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import net.minecraft.block.BlockState;
@@ -19,13 +17,6 @@ import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 public class FeatureUtils {
 
     public static boolean isInChunk(ChunkPos chunkPos, BlockPos pos) {
-        int blockX = pos.getX();
-        int blockZ = pos.getZ();
-        return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
-                && blockZ <= chunkPos.getZEnd();
-    }
-
-    public static boolean isInChunk(ChunkPos chunkPos, BlockPosDim pos) {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
         return blockX >= chunkPos.getXStart() && blockX <= chunkPos.getXEnd() && blockZ >= chunkPos.getZStart()
@@ -55,10 +46,10 @@ public class FeatureUtils {
             return reader.setBlockState(pos, state, 2 | 16);
         }
         
-        cap.putPendingBlock(new BlockPosDim(pos, Utils.dimensionToString(reader)), state);
+        cap.putPendingBlock(new BlockPos(pos), state);
         // Geolosys.getInstance().LOGGER.info(cap.getPendingBlocks().size());
-        cap.getPendingBlocks().forEach((dim, block) -> {
-            Geolosys.getInstance().LOGGER.info(dim.getPos());
+        cap.getPendingBlocks().forEach((bp, block) -> {
+            Geolosys.getInstance().LOGGER.info(bp);
         });
         return false;
     }
@@ -94,8 +85,8 @@ public class FeatureUtils {
     // }
     // }
     // } else {
-    // plutonCapability.putPendingBlock(new BlockPosDim(pos,
-    // Utils.dimensionToString(reader)),
+    // plutonCapability.putPendingBlock(new BlockPos(pos,
+    // Utils.ensionToString(reader)),
     // pluton.getOre());
     // }
     // }
@@ -150,8 +141,8 @@ public class FeatureUtils {
     // }
     // }
     // } else {
-    // plutonCapability.putPendingBlock(new BlockPosDim(pos,
-    // Utils.dimensionToString(reader)),
+    // plutonCapability.putPendingBlock(new BlockPos(pos,
+    // Utils.ensionToString(reader)),
     // pluton.getOre());
     // placed = true;
     // }
@@ -234,8 +225,8 @@ public class FeatureUtils {
     // }
 
     // } else {
-    // plutonCapability.putPendingBlock(new BlockPosDim(pos,
-    // Utils.dimensionToString(reader)),
+    // plutonCapability.putPendingBlock(new BlockPos(pos,
+    // Utils.ensionToString(reader)),
     // pluton.getOre());
     // }
     // }
