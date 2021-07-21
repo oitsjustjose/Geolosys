@@ -45,12 +45,8 @@ public class FeatureUtils {
         if (isInChunk(chunk, pos) && reader.chunkExists(chunk.x, chunk.z)) {
             return reader.setBlockState(pos, state, 2 | 16);
         }
-        
+
         cap.putPendingBlock(new BlockPos(pos), state);
-        // Geolosys.getInstance().LOGGER.info(cap.getPendingBlocks().size());
-        cap.getPendingBlocks().forEach((bp, block) -> {
-            Geolosys.getInstance().LOGGER.info(bp);
-        });
         return false;
     }
 

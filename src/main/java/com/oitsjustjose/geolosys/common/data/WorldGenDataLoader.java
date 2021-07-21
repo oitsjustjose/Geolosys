@@ -49,8 +49,6 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         if (denseDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(denseDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(denseDeposit);
-                        } else {
-                            Geolosys.getInstance().LOGGER.info("ERROR ERROR halp");
                         }
                         return;
                     case "geolosys:ore_deposit_layer":
@@ -58,8 +56,6 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         if (layerDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(layerDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(layerDeposit);
-                        } else {
-                            Geolosys.getInstance().LOGGER.info("ERROR ERROR halp");
                         }
                         return;
                     case "geolosys:ore_deposit_dike":
@@ -67,12 +63,10 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         if (dikeDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(dikeDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(dikeDeposit);
-                        } else {
-                            Geolosys.getInstance().LOGGER.info("ERROR ERROR halp");
                         }
                         return;
                     default:
-                        Geolosys.getInstance().LOGGER.info("Unknown JSON type. Received JSON {}", json.toString());
+                        Geolosys.getInstance().LOGGER.warn("Unknown JSON type. Received JSON {}", json.toString());
                         return;
                 }
             } catch (NullPointerException ex) {

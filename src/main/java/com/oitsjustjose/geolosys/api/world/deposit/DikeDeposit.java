@@ -236,6 +236,7 @@ public class DikeDeposit implements IDeposit {
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
                 (this.baseRadius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
                         + (this.baseRadius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
+        maxSampleCnt = Math.max(maxSampleCnt, 1);
         for (int i = 0; i < maxSampleCnt; i++) {
             BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos), this.yMax);
             BlockState tmp = this.getSample();

@@ -100,10 +100,6 @@ public class DepositCapability implements IDepositCapability {
         pendingBlocks.keySet().forEach(key -> this.putPendingBlock(deSerializeBlockPos(key),
                 NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));
-
-        Geolosys.getInstance().LOGGER.info(oreGenMap);
-        Geolosys.getInstance().LOGGER.info(pendingBlocks);
-        Geolosys.getInstance().LOGGER.info(giveMap);
     }
 
     private String serializeChunkPos(ChunkPos pos) {
