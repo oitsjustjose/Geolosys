@@ -26,7 +26,6 @@ import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -156,8 +155,8 @@ public class DenseDeposit implements IDeposit {
     }
 
     /**
-     * Handles full-on generation of this type of pluton (dense). Requires 0
-     * arguments as everything is self-contained in this class
+     * Handles full-on generation of this type of pluton. Requires 0 arguments as
+     * everything is self-contained in this class
      * 
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
      *         should be evaluted as a false for use of Mojang's sort-of sketchy
@@ -167,7 +166,6 @@ public class DenseDeposit implements IDeposit {
     @Override
     public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
-
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
                 this.isBiomeFilterBl)) {
@@ -175,7 +173,7 @@ public class DenseDeposit implements IDeposit {
         }
 
         int totlPlaced = 0;
-
+        ChunkPos thisChunk = new ChunkPos(pos);
         int randY = this.yMin + reader.getRandom().nextInt(this.yMax - this.yMin);
         int max = DepositUtils.getMaxTerrainHeight(reader, pos.getX(), pos.getZ());
         if (randY > max) {
@@ -217,7 +215,7 @@ public class DenseDeposit implements IDeposit {
 
                                 if (layerRadX * layerRadX + layerRadY * layerRadY + layerRadZ * layerRadZ < 1.0D) {
                                     BlockPos placePos = new BlockPos(x, y, z);
-                                    BlockState state = reader.getBlockState(placePos);
+                                    BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
                                     BlockState tmp = this.getOre();
                                     if (tmp == null) {
                                         continue;

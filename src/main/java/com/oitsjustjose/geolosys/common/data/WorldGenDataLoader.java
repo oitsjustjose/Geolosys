@@ -13,9 +13,11 @@ import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.deposit.DenseDeposit;
 import com.oitsjustjose.geolosys.api.world.deposit.DikeDeposit;
 import com.oitsjustjose.geolosys.api.world.deposit.LayerDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.SparseDeposit;
 import com.oitsjustjose.geolosys.common.data.serializer.DenseDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.DikeDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.LayerDepositSerializer;
+import com.oitsjustjose.geolosys.common.data.serializer.SparseDepositSerializer;
 
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
@@ -29,6 +31,7 @@ public class WorldGenDataLoader extends JsonReloadListener {
     private DenseDepositSerializer denseDepSer = new DenseDepositSerializer();
     private LayerDepositSerializer layerDepSer = new LayerDepositSerializer();
     private DikeDepositSerializer dikeDepSer = new DikeDepositSerializer();
+    private SparseDepositSerializer sparseDepSer = new SparseDepositSerializer();
 
     public WorldGenDataLoader() {
         super(GSON, "deposits");
@@ -63,6 +66,13 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         if (dikeDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(dikeDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(dikeDeposit);
+                        }
+                        return;
+                    case "geolosys:ore_deposit_sparse":
+                        SparseDeposit sparseDeposit = sparseDepSer.deserialize(config, null);
+                        if (sparseDeposit != null) {
+                            Geolosys.getInstance().LOGGER.info(sparseDeposit.toString());
+                            GeolosysAPI.plutonRegistry.addDeposit(sparseDeposit);
                         }
                         return;
                     default:

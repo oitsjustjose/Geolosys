@@ -74,8 +74,8 @@ public class DepositCapability implements IDepositCapability {
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();
-        compound.put("WorldOreDeposits", new CompoundNBT()); // { chunkPosX: int, chunkPosZ: int }
-        compound.put("PendingBlocks", new CompoundNBT()); // { pos: BlockPos: state: BlockState }
+        compound.put("WorldOreDeposits", new CompoundNBT());
+        compound.put("PendingBlocks", new CompoundNBT());
         compound.put("PlayersGifted", new CompoundNBT());
 
         CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
@@ -85,8 +85,7 @@ public class DepositCapability implements IDepositCapability {
         this.getOreGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
         this.getPendingBlocks()
                 .forEach((pos, state) -> pendingBlocks.put(serializeBlockPos(pos), NBTUtil.writeBlockState(state)));
-        this.getGivenMap().keySet().forEach((uuid) -> playersGifted.putBoolean(uuid.toString(), true));
-
+        this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
         return compound;
     }
 

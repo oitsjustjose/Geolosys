@@ -159,8 +159,8 @@ public class LayerDeposit implements IDeposit {
     }
 
     /**
-     * Handles full-on generation of this type of pluton (dense). Requires 0
-     * arguments as everything is self-contained in this class
+     * Handles full-on generation of this type of pluton. Requires 0 arguments as
+     * everything is self-contained in this class
      * 
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
      *         should be evaluted as a false for use of Mojang's sort-of sketchy
@@ -168,7 +168,7 @@ public class LayerDeposit implements IDeposit {
      *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap, String dimName) {
+    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
@@ -205,17 +205,17 @@ public class LayerDeposit implements IDeposit {
                         continue;
                     }
 
-                    BlockPos blockpos = basePos.add(dX, dY, dZ);
+                    BlockPos placePos = basePos.add(dX, dY, dZ);
+                    BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
                     BlockState tmp = this.getOre();
                     if (tmp == null) {
                         continue;
                     }
 
-                    BlockState state = reader.getBlockState(blockpos);
                     for (BlockState matcherState : (this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
                             : this.blockStateMatchers)) {
                         if (Utils.doStatesMatch(matcherState, state)) {
-                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, blockpos, tmp, cap)) {
+                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                                 totlPlaced++;
                             }
                             break;

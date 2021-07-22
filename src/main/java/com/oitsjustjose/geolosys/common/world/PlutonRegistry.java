@@ -60,8 +60,6 @@ public class PlutonRegistry {
             return true;
         });
 
-        Geolosys.getInstance().LOGGER.info(choices);
-
         if (choices.size() == 0) {
             return null;
         }

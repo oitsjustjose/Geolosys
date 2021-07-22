@@ -1,5 +1,5 @@
 {
-  "type": "geolosys:ore_deposit_dike",
+  "type": "geolosys:ore_deposit_sparse",
   "config": {
     "blocks": [
       { "block": "geolosys:hematite_ore", "chance": 0.8 },
@@ -12,7 +12,9 @@
     "yMin": 10,
     "yMax": 40,
     "generationWeight": 1,
-    "baseRadius": 4,
+    "maxAmt": 48,
+    "spread": 32,
+    "rolls": 4,
     "dimensions": {
       "isBlacklist": true,
       "filter": ["the_nether", "the_end"]
