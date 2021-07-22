@@ -1,8 +1,8 @@
 {
   "type": "geolosys:ore_deposit_dike",
   "config": {
-    "blocks": [{ "block": "geolosys:diamond_ore", "chance": 1.0 }],
-    "samples": [{ "block": "geolosys:diamond_block", "chance": 1.0 }],
+    "blocks": [{ "block": "minecraft:diamond_ore", "chance": 1.0 }],
+    "samples": [{ "block": "minecraft:diamond_block", "chance": 1.0 }],
     "yMin": 10,
     "yMax": 40,
     "generationWeight": 1,

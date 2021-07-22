@@ -131,6 +131,16 @@ public class LayerDeposit implements IDeposit {
     }
 
     @Override
+    public String[] getDimensionFilter() {
+        return this.dimFilter;
+    }
+
+    @Override
+    public boolean isDimensionFilterBl() {
+        return this.isDimFilterBl;
+    }
+
+    @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
         ret.append("Layer deposit with Blocks=");
@@ -159,14 +169,7 @@ public class LayerDeposit implements IDeposit {
      */
     @Override
     public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap, String dimName) {
-        /* Check dimension allowance */
-        for (String s : this.dimFilter) {
-            boolean doDimNmsMatch = dimName.equals(new ResourceLocation(s).toString());
-            if ((this.isDimFilterBl && doDimNmsMatch) || (!this.isDimFilterBl && !doDimNmsMatch)) {
-                return 0;
-            }
-        }
-
+        /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
                 this.isBiomeFilterBl)) {

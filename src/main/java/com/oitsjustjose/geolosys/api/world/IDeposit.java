@@ -7,7 +7,7 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 
 public interface IDeposit {
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap, String dimName);
+    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap);
 
     public void afterGen(ISeedReader reader, BlockPos pos);
 
@@ -16,4 +16,8 @@ public interface IDeposit {
     public boolean canPlaceInBiome(Biome biome);
 
     public boolean hasBiomeRestrictions();
+
+    public String[] getDimensionFilter();
+
+    public boolean isDimensionFilterBl();
 }

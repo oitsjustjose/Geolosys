@@ -5,12 +5,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.GenerationStage;
@@ -39,9 +43,28 @@ public class PlutonRegistry {
         return this.deposits.add(ore);
     }
 
+    @Nullable
     public IDeposit pick(ISeedReader reader, BlockPos pos, Random rand) {
         @SuppressWarnings("unchecked")
         ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
+        // Dimension Filtering done here!
+        choices.removeIf((dep) -> {
+            ResourceLocation dim = reader.getWorld().getDimensionKey().getLocation();
+            boolean isDimFilterBl = dep.isDimensionFilterBl();
+            for (String dim2Raw : dep.getDimensionFilter()) {
+                boolean match = new ResourceLocation(dim2Raw).equals(dim);
+                if (match && !isDimFilterBl || !match && isDimFilterBl) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        Geolosys.getInstance().LOGGER.info(choices);
+
+        if (choices.size() == 0) {
+            return null;
+        }
 
         /* 1/3 chance to lean towards a biome restricted deposit */
         if (rand.nextInt(3) > 1) {

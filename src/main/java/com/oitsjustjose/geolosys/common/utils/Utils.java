@@ -3,7 +3,6 @@ package com.oitsjustjose.geolosys.common.utils;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.common.ToolType;
 
@@ -14,10 +13,6 @@ public class Utils {
 
     public static boolean doStatesMatch(BlockState state1, BlockState state2) {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
-    }
-
-    public static String dimensionToString(ISeedReader reader) {
-        return reader.getWorld().getDimensionKey().getLocation().toString();
     }
 
     public static BlockPos getTopSolidBlock(IWorld world, BlockPos start) {

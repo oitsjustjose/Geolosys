@@ -130,6 +130,16 @@ public class DenseDeposit implements IDeposit {
     }
 
     @Override
+    public String[] getDimensionFilter() {
+        return this.dimFilter;
+    }
+
+    @Override
+    public boolean isDimensionFilterBl() {
+        return this.isDimFilterBl;
+    }
+
+    @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
         ret.append("Dense deposit with Blocks=");
@@ -155,14 +165,8 @@ public class DenseDeposit implements IDeposit {
      *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap, String dimName) {
-        /* Check dimension allowance */
-        for (String s : this.dimFilter) {
-            boolean doDimNmsMatch = dimName.equals(new ResourceLocation(s).toString());
-            if ((this.isDimFilterBl && doDimNmsMatch) || (!this.isDimFilterBl && !doDimNmsMatch)) {
-                return 0;
-            }
-        }
+    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+        /* Dimension checking is done in PlutonRegistry#pick */
 
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,

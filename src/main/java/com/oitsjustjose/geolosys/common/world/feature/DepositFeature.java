@@ -42,20 +42,20 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         }
 
         boolean placedPending = placePendingBlocks(reader, cap, pos);
-
-        String dimName = Utils.dimensionToString(reader);
         ChunkPos chunkPos = new ChunkPos(pos);
         if (cap.hasOrePlutonGenerated(chunkPos)) {
             return false;
         }
 
         IDeposit pluton = GeolosysAPI.plutonRegistry.pick(reader, pos, rand);
+        if (pluton == null) { // Could be no pluton for the dimension
+            return false;
+        }
         if (rand.nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getGenWt()) {
             return false;
         }
 
-        boolean anyGenerated = pluton.generate(reader, pos, cap, dimName) > 0;
-        pluton.afterGen(reader, pos);
+        boolean anyGenerated = pluton.generate(reader, pos, cap) > 0;
 
         if (anyGenerated) {
             // TODO: for top layer plutons repeat about 10-ish times, see "algo" below.
@@ -63,6 +63,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             // {
             // return generate(reader, generator, rand, pos, config);
             // }
+            pluton.afterGen(reader, pos);
             cap.setOrePlutonGenerated(chunkPos);
             return true;
         }
