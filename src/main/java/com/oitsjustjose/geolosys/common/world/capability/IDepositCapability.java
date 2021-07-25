@@ -11,15 +11,15 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IDepositCapability extends INBTSerializable<CompoundNBT> {
-    boolean hasOrePlutonGenerated(ChunkPos pos);
+    boolean hasPlutonGenerated(ChunkPos pos);
 
-    void setOrePlutonGenerated(ChunkPos pos);
+    void setPlutonGenerated(ChunkPos pos);
 
     void putPendingBlock(BlockPos pos, BlockState state);
 
     BlockState getPendingBlock(BlockPos pos);
 
-    ConcurrentLinkedQueue<ChunkPos> getOreGenMap();
+    ConcurrentLinkedQueue<ChunkPos> getGenMap();
 
     Map<BlockPos, BlockState> getPendingBlocks();
 

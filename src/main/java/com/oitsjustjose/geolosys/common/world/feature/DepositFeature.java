@@ -43,7 +43,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
 
         boolean placedPending = placePendingBlocks(reader, cap, pos);
         ChunkPos chunkPos = new ChunkPos(pos);
-        if (cap.hasOrePlutonGenerated(chunkPos)) {
+        if (cap.hasPlutonGenerated(chunkPos)) {
             return false;
         }
 
@@ -64,7 +64,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             // return generate(reader, generator, rand, pos, config);
             // }
             pluton.afterGen(reader, pos);
-            cap.setOrePlutonGenerated(chunkPos);
+            cap.setPlutonGenerated(chunkPos);
             return true;
         }
 

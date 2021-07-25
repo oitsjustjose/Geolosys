@@ -1,9 +1,7 @@
 package com.oitsjustjose.geolosys.common.data;
 
 import java.util.Map;
-
 import javax.annotation.Nonnull;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -14,11 +12,12 @@ import com.oitsjustjose.geolosys.api.world.deposit.DenseDeposit;
 import com.oitsjustjose.geolosys.api.world.deposit.DikeDeposit;
 import com.oitsjustjose.geolosys.api.world.deposit.LayerDeposit;
 import com.oitsjustjose.geolosys.api.world.deposit.SparseDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.TopLayerDeposit;
 import com.oitsjustjose.geolosys.common.data.serializer.DenseDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.DikeDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.LayerDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.SparseDepositSerializer;
-
+import com.oitsjustjose.geolosys.common.data.serializer.TopLayerDepositSerializer;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
@@ -26,10 +25,12 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 
 public class WorldGenDataLoader extends JsonReloadListener {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    private static final Gson GSON =
+            new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private DenseDepositSerializer denseDepSer = new DenseDepositSerializer();
     private LayerDepositSerializer layerDepSer = new LayerDepositSerializer();
+    private TopLayerDepositSerializer topLayerDepSer = new TopLayerDepositSerializer();
     private DikeDepositSerializer dikeDepSer = new DikeDepositSerializer();
     private SparseDepositSerializer sparseDepSer = new SparseDepositSerializer();
 
@@ -38,8 +39,8 @@ public class WorldGenDataLoader extends JsonReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> datamap, @Nonnull IResourceManager manager,
-            IProfiler profiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> datamap,
+            @Nonnull IResourceManager manager, IProfiler profiler) {
         GeolosysAPI.plutonRegistry.clear();
         datamap.forEach((rl, json) -> {
             try {
@@ -61,6 +62,13 @@ public class WorldGenDataLoader extends JsonReloadListener {
                             GeolosysAPI.plutonRegistry.addDeposit(layerDeposit);
                         }
                         return;
+                    case "geolosys:ore_deposit_top_layer":
+                        TopLayerDeposit topLayerDeposit = topLayerDepSer.deserialize(config, null);
+                        if (topLayerDeposit != null) {
+                            Geolosys.getInstance().LOGGER.info(topLayerDeposit.toString());
+                            GeolosysAPI.plutonRegistry.addDeposit(topLayerDeposit);
+                        }
+                        return;
                     case "geolosys:ore_deposit_dike":
                         DikeDeposit dikeDeposit = dikeDepSer.deserialize(config, null);
                         if (dikeDeposit != null) {
@@ -76,7 +84,8 @@ public class WorldGenDataLoader extends JsonReloadListener {
                         }
                         return;
                     default:
-                        Geolosys.getInstance().LOGGER.warn("Unknown JSON type. Received JSON {}", json.toString());
+                        Geolosys.getInstance().LOGGER.warn("Unknown JSON type. Received JSON {}",
+                                json.toString());
                         return;
                 }
             } catch (NullPointerException ex) {

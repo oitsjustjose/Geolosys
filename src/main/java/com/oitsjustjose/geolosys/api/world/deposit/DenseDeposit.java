@@ -175,7 +175,7 @@ public class DenseDeposit implements IDeposit {
         int totlPlaced = 0;
         ChunkPos thisChunk = new ChunkPos(pos);
         int randY = this.yMin + reader.getRandom().nextInt(this.yMax - this.yMin);
-        int max = DepositUtils.getMaxTerrainHeight(reader, pos.getX(), pos.getZ());
+        int max = Utils.getTopSolidBlock(reader, pos).getY();
         if (randY > max) {
             randY = Math.max(yMin, max);
         }
@@ -258,7 +258,7 @@ public class DenseDeposit implements IDeposit {
                 (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
                         + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos), this.yMax);
+            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos));
             BlockState tmp = this.getSample();
 
             if (tmp == null) {

@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,7 +21,6 @@ import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
@@ -32,16 +29,13 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class SparseDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_sparse";
+public class TopLayerDeposit implements IDeposit {
+    public static final String JSON_TYPE = "geolosys:ore_deposit_top_layer";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();
-    private int yMin;
-    private int yMax;
-    private int maxAmt;
-    private int spread;
-    private int rolls;
+    private int radius;
+    private int depth;
     private int genWt;
     private HashSet<BlockState> blockStateMatchers;
     private String[] dimFilter;
@@ -58,18 +52,15 @@ public class SparseDeposit implements IDeposit {
     private float sumWtOres = 0.0F;
     private float sumWtSamples = 0.0F;
 
-    public SparseDeposit(HashMap<BlockState, Float> oreBlocks,
-            HashMap<BlockState, Float> sampleBlocks, int yMin, int yMax, int maxAmt, int spread,
-            int rolls, int genWt, String[] dimFilter, boolean isDimFilterBl,
+    public TopLayerDeposit(HashMap<BlockState, Float> oreBlocks,
+            HashMap<BlockState, Float> sampleBlocks, int radius, int depth, int genWt,
+            String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
         this.sampleToWtMap = sampleBlocks;
-        this.yMin = yMin;
-        this.yMax = yMax;
-        this.maxAmt = maxAmt;
-        this.spread = spread;
-        this.rolls = rolls;
+        this.radius = radius;
+        this.depth = depth;
         this.genWt = genWt;
         this.dimFilter = dimFilter;
         this.isDimFilterBl = isDimFilterBl;
@@ -142,20 +133,14 @@ public class SparseDeposit implements IDeposit {
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        ret.append("Sparse deposit with Blocks=");
+        ret.append("Top Layer deposit with Blocks=");
         ret.append(Arrays.toString(this.oreToWtMap.keySet().toArray()));
         ret.append(", Samples=");
         ret.append(Arrays.toString(this.sampleToWtMap.keySet().toArray()));
-        ret.append(", Y Range=[");
-        ret.append(this.yMin);
-        ret.append(",");
-        ret.append(this.yMax);
-        ret.append("], Count in Chunk=");
-        ret.append(this.maxAmt);
-        ret.append(", Spread=");
-        ret.append(this.spread);
-        ret.append(", Rolls=");
-        ret.append(this.rolls);
+        ret.append(", Radius=");
+        ret.append(this.radius);
+        ret.append(", Depth=");
+        ret.append(this.depth);
         return ret.toString();
     }
 
@@ -177,36 +162,50 @@ public class SparseDeposit implements IDeposit {
         }
 
         int totlPlaced = 0;
+
         ChunkPos thisChunk = new ChunkPos(pos);
 
-        for (int y = yMin; y < yMax; y++) {
-            for (int roll = 0; roll < this.rolls; roll++) {
-                int x = pos.getX() + (reader.getRandom().nextInt(this.spread))
-                        * (reader.getRandom().nextBoolean() ? 1 : -1);
-                int z = pos.getZ() + (reader.getRandom().nextInt(this.spread))
-                        * (reader.getRandom().nextBoolean() ? 1 : -1);
-                BlockPos placePos = new BlockPos(x, y, z);
-                BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);// reader.getBlockState(placePos);
-                BlockState tmp = this.getOre();
-                if (tmp == null) {
+        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - reader.getRandom().nextInt(8)
+                + reader.getRandom().nextInt(16);
+        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - reader.getRandom().nextInt(8)
+                + reader.getRandom().nextInt(16);
+
+        // These are just modifiers for dx and dz to prevent perfect cylinders
+        int dXMod = reader.getRandom().nextInt(this.radius / 2);
+        int dZMod = reader.getRandom().nextInt(this.radius / 2);
+
+        BlockPos basePos = new BlockPos(x, 0, z);
+
+        for (int dX = -this.radius; dX <= this.radius; dX++) {
+            for (int dZ = -this.radius; dZ <= this.radius; dZ++) {
+                float dist = ((dX + dXMod) * (dX + dXMod)) + ((dZ + dZMod) * (dZ + dZMod));
+                if (dist > this.radius) {
                     continue;
                 }
 
-                for (BlockState matcherState : (this.blockStateMatchers == null
-                        ? DepositUtils.getDefaultMatchers()
-                        : this.blockStateMatchers)) {
-                    if (Utils.doStatesMatch(matcherState, state)) {
-                        ChunkPos placeChunk = new ChunkPos(pos);
-                        if (FeatureUtils.tryPlaceBlock(reader, placeChunk, placePos, tmp, cap)) {
-                            totlPlaced++;
-                            if (!cap.hasPlutonGenerated(placeChunk)) {
-                                cap.setPlutonGenerated(placeChunk);
+                BlockPos startPos = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
+
+                for (int i = 0; i < this.depth; i++) {
+                    BlockPos placePos = startPos.add(0, i, 0);
+                    boolean isTopBlock = !reader.getBlockState(placePos.up()).isSolid();
+
+                    BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
+                    BlockState tmp = this.getOre();
+                    if (tmp == null) {
+                        continue;
+                    } else if (tmp.hasProperty(BlockStateProperties.BOTTOM)) {
+                        tmp = tmp.with(BlockStateProperties.BOTTOM, isTopBlock);
+                    }
+
+                    for (BlockState matcherState : (this.blockStateMatchers == null
+                            ? DepositUtils.getDefaultMatchers()
+                            : this.blockStateMatchers)) {
+                        if (Utils.doStatesMatch(matcherState, state)) {
+                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                                totlPlaced++;
                             }
-                            if (totlPlaced == this.maxAmt) {
-                                return totlPlaced;
-                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
@@ -227,8 +226,8 @@ public class SparseDeposit implements IDeposit {
         }
 
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
-                (this.maxAmt / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
-                        + (this.maxAmt % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
+                (this.radius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
+                        + (this.radius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         for (int i = 0; i < maxSampleCnt; i++) {
             BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos));
             BlockState tmp = this.getSample();
@@ -255,7 +254,7 @@ public class SparseDeposit implements IDeposit {
         }
     }
 
-    public static SparseDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
+    public static TopLayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
         if (json == null) {
             return null;
         }
@@ -266,11 +265,8 @@ public class SparseDeposit implements IDeposit {
                     SerializerUtils.buildMultiBlockMap(json.get("blocks").getAsJsonArray());
             HashMap<BlockState, Float> sampleBlocks =
                     SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
-            int yMin = json.get("yMin").getAsInt();
-            int yMax = json.get("yMax").getAsInt();
-            int maxAmt = json.get("maxAmt").getAsInt();
-            int spread = json.get("spread").getAsInt();
-            int rolls = json.get("rolls").getAsInt();
+            int radius = json.get("radius").getAsInt();
+            int depth = json.get("depth").getAsInt();
             int genWt = json.get("generationWeight").getAsInt();
 
             // Dimensions
@@ -295,8 +291,8 @@ public class SparseDeposit implements IDeposit {
                         .toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new SparseDeposit(oreBlocks, sampleBlocks, yMin, yMax, maxAmt, spread, rolls,
-                    genWt, dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
+            return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, genWt, dimFilter,
+                    isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
                     blockStateMatchers);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -304,7 +300,7 @@ public class SparseDeposit implements IDeposit {
         }
     }
 
-    public JsonElement serialize(SparseDeposit dep, JsonSerializationContext ctx) {
+    public JsonElement serialize(TopLayerDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();
         JsonParser parser = new JsonParser();
@@ -323,11 +319,8 @@ public class SparseDeposit implements IDeposit {
         // Add basics of Plutons
         config.add("blocks", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
         config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
-        config.addProperty("yMin", this.yMin);
-        config.addProperty("yMax", this.yMax);
-        config.addProperty("maxAmt", this.maxAmt);
-        config.addProperty("spread", this.spread);
-        config.addProperty("rolls", this.rolls);
+        config.addProperty("radius", this.radius);
+        config.addProperty("depth", this.depth);
         config.addProperty("generationWeight", this.genWt);
         config.add("dimensions", dimensions);
         config.add("biomes", biomes);

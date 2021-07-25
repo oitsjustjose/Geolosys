@@ -21,7 +21,7 @@ public class SampleUtils {
     private static Random random = new Random();
 
     @Nullable
-    public static BlockPos getSamplePosition(IWorld iworld, ChunkPos chunkPos, int depositHeight) {
+    public static BlockPos getSamplePosition(IWorld iworld, ChunkPos chunkPos) {
 
         if (!(iworld instanceof WorldGenRegion)) {
             return null;

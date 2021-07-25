@@ -180,8 +180,7 @@ public class DikeDeposit implements IDeposit {
         int x = thisChunk.getXStart() + reader.getRandom().nextInt(16);
         int z = thisChunk.getZStart() + reader.getRandom().nextInt(16);
         int y = this.yMin + reader.getRandom().nextInt(height);
-        int max = DepositUtils.getMaxTerrainHeight(reader, pos.getX(), pos.getZ());
-        if (y > max) {
+        int max = Utils.getTopSolidBlock(reader, pos).getY();        if (y > max) {
             y = Math.max(yMin, max);
         }
         BlockPos basePos = new BlockPos(x, y, z);
@@ -241,7 +240,7 @@ public class DikeDeposit implements IDeposit {
                         + (this.baseRadius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         maxSampleCnt = Math.max(maxSampleCnt, 1);
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos), this.yMax);
+            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos));
             BlockState tmp = this.getSample();
 
             if (tmp == null) {

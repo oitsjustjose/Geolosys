@@ -26,7 +26,7 @@ public class DepositCapability implements IDepositCapability {
     }
 
     @Override
-    public ConcurrentLinkedQueue<ChunkPos> getOreGenMap() {
+    public ConcurrentLinkedQueue<ChunkPos> getGenMap() {
         return this.oreGenMap;
     }
 
@@ -47,12 +47,12 @@ public class DepositCapability implements IDepositCapability {
     }
 
     @Override
-    public void setOrePlutonGenerated(ChunkPos pos) {
+    public void setPlutonGenerated(ChunkPos pos) {
         this.oreGenMap.add(pos);
     }
 
     @Override
-    public boolean hasOrePlutonGenerated(ChunkPos pos) {
+    public boolean hasPlutonGenerated(ChunkPos pos) {
         return this.oreGenMap.contains(pos);
     }
 
@@ -82,7 +82,7 @@ public class DepositCapability implements IDepositCapability {
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
-        this.getOreGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
+        this.getGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
         this.getPendingBlocks()
                 .forEach((pos, state) -> pendingBlocks.put(serializeBlockPos(pos), NBTUtil.writeBlockState(state)));
         this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
@@ -95,7 +95,7 @@ public class DepositCapability implements IDepositCapability {
         CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
-        oreDeposits.keySet().forEach(key -> this.setOrePlutonGenerated(deSerializeChunkPos(key)));
+        oreDeposits.keySet().forEach(key -> this.setPlutonGenerated(deSerializeChunkPos(key)));
         pendingBlocks.keySet().forEach(key -> this.putPendingBlock(deSerializeBlockPos(key),
                 NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));

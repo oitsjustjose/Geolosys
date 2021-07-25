@@ -119,32 +119,4 @@ public class DepositUtils {
         }
         return false;
     }
-
-    /**
-     * Takes a given BlockPos and world, and clamps the Y to be below the highest
-     * block in that x/z.
-     * 
-     * @param iworld
-     * @param pos
-     * @return the provided pos if iworld is WorldGenRegion or somehow no
-     *         improvement is found..
-     */
-    public static int getMaxTerrainHeight(IWorld iworld, int x, int z) {
-        if (!(iworld instanceof WorldGenRegion)) {
-            return Integer.MAX_VALUE;
-        }
-
-        WorldGenRegion world = (WorldGenRegion) iworld;
-        BlockPos searchPos = new BlockPos(x, 0, z);
-
-        while (searchPos.getY() < world.getHeight()) {
-            BlockState s = world.getBlockState(searchPos);
-            if (!s.isAir() && s.isSolid() && world.canBlockSeeSky(searchPos)) {
-                return searchPos.down(3).getY();
-            }
-            searchPos = searchPos.up();
-        }
-
-        return Integer.MAX_VALUE;
-    }
 }
