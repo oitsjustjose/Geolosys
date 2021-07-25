@@ -36,6 +36,7 @@ public class TopLayerDeposit implements IDeposit {
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();
     private int radius;
     private int depth;
+    private float sampleChance;
     private int genWt;
     private HashSet<BlockState> blockStateMatchers;
     private String[] dimFilter;
@@ -53,14 +54,15 @@ public class TopLayerDeposit implements IDeposit {
     private float sumWtSamples = 0.0F;
 
     public TopLayerDeposit(HashMap<BlockState, Float> oreBlocks,
-            HashMap<BlockState, Float> sampleBlocks, int radius, int depth, int genWt,
-            String[] dimFilter, boolean isDimFilterBl,
+            HashMap<BlockState, Float> sampleBlocks, int radius, int depth, float sampleChance,
+            int genWt, String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
         this.sampleToWtMap = sampleBlocks;
         this.radius = radius;
         this.depth = depth;
+        this.sampleChance = sampleChance;
         this.genWt = genWt;
         this.dimFilter = dimFilter;
         this.isDimFilterBl = isDimFilterBl;
@@ -186,7 +188,7 @@ public class TopLayerDeposit implements IDeposit {
                 BlockPos startPos = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
 
                 for (int i = 0; i < this.depth; i++) {
-                    BlockPos placePos = startPos.add(0, i, 0);
+                    BlockPos placePos = startPos.add(0, -i, 0);
                     boolean isTopBlock = !reader.getBlockState(placePos.up()).isSolid();
 
                     BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
@@ -203,6 +205,15 @@ public class TopLayerDeposit implements IDeposit {
                         if (Utils.doStatesMatch(matcherState, state)) {
                             if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                                 totlPlaced++;
+
+                                if (isTopBlock
+                                        && reader.getRandom().nextFloat() <= this.sampleChance) {
+                                    BlockState smpl = this.getSample();
+                                    if (smpl != null) {
+                                        FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(),
+                                                smpl, cap);
+                                    }
+                                }
                             }
                             break;
                         }
@@ -224,34 +235,6 @@ public class TopLayerDeposit implements IDeposit {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
                     this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
-
-        int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
-                (this.radius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
-                        + (this.radius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
-        for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos));
-            BlockState tmp = this.getSample();
-
-            if (tmp == null) {
-                continue;
-            }
-
-            if (samplePos == null || SampleUtils.inNonWaterFluid(reader, samplePos)) {
-                continue;
-            }
-
-            // Prevent replacing the block with the same block
-            if (reader.getBlockState(samplePos) != tmp) {
-                // Waterlog if possible
-                if (SampleUtils.isInWater(reader, samplePos)
-                        && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                    reader.setBlockState(samplePos,
-                            tmp.with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
-                } else { // Default to std state if not possible
-                    reader.setBlockState(samplePos, tmp, 2 | 16);
-                }
-            }
-        }
     }
 
     public static TopLayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
@@ -267,6 +250,7 @@ public class TopLayerDeposit implements IDeposit {
                     SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int radius = json.get("radius").getAsInt();
             int depth = json.get("depth").getAsInt();
+            float sampleChance = json.get("chanceForSample").getAsFloat();
             int genWt = json.get("generationWeight").getAsInt();
 
             // Dimensions
@@ -291,8 +275,8 @@ public class TopLayerDeposit implements IDeposit {
                         .toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, genWt, dimFilter,
-                    isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
+            return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, sampleChance, genWt,
+                    dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
                     blockStateMatchers);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
@@ -321,6 +305,7 @@ public class TopLayerDeposit implements IDeposit {
         config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
         config.addProperty("radius", this.radius);
         config.addProperty("depth", this.depth);
+        config.addProperty("chanceForSample", this.sampleChance);
         config.addProperty("generationWeight", this.genWt);
         config.add("dimensions", dimensions);
         config.add("biomes", biomes);
