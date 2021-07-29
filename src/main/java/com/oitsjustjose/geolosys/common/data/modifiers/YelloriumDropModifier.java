@@ -48,8 +48,10 @@ public class YelloriumDropModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<YelloriumDropModifier> {
         @Override
-        public YelloriumDropModifier read(ResourceLocation name, JsonObject obj, ILootCondition[] cond) {
-            Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(obj, "item")));
+        public YelloriumDropModifier read(ResourceLocation name, JsonObject obj,
+                ILootCondition[] cond) {
+            Item i = ForgeRegistries.ITEMS
+                    .getValue(new ResourceLocation(JSONUtils.getString(obj, "item")));
             float chance = JSONUtils.getFloat(obj, "chance");
             int qty = JSONUtils.getInt(obj, "qty");
             return new YelloriumDropModifier(cond, i, chance, qty);

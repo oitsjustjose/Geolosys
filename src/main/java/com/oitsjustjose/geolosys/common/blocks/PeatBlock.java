@@ -17,7 +17,8 @@ public class PeatBlock extends Block {
     public PeatBlock() {
         super(Properties.create(Material.EARTH, MaterialColor.DIRT).hardnessAndResistance(4F, 3F)
                 .sound(SoundType.SOUL_SOIL).harvestTool(ToolType.SHOVEL));
-        this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.BOTTOM, Boolean.TRUE));
+        this.setDefaultState(
+                this.stateContainer.getBaseState().with(BlockStateProperties.BOTTOM, Boolean.TRUE));
     }
 
     @Override
@@ -35,15 +36,18 @@ public class PeatBlock extends Block {
 
     @Override
     @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
-            boolean isMoving) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn,
+            BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
-        if (!worldIn.getBlockState(pos.up()).isSolid() && state.get(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
-            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.FALSE), 2 | 16);
+        if (!worldIn.getBlockState(pos.up()).isSolid()
+                && state.get(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
+            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.FALSE),
+                    2 | 16);
         } else if (worldIn.getBlockState(pos.up()).isSolid()
                 && state.get(BlockStateProperties.BOTTOM) != Boolean.TRUE) {
-            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.TRUE), 2 | 16);
+            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.TRUE),
+                    2 | 16);
         }
     }
 }

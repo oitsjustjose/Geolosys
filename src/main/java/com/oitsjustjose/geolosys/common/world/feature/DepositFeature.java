@@ -2,17 +2,13 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import java.util.Map.Entry;
 import java.util.Random;
-
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -35,7 +31,8 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             return false;
         }
 
-        IDepositCapability cap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        IDepositCapability cap =
+                reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
         if (cap == null) {
             Geolosys.getInstance().LOGGER.error("NULL PLUTON CAPABILITY!!!");
             return false;
@@ -58,11 +55,6 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         boolean anyGenerated = pluton.generate(reader, pos, cap) > 0;
 
         if (anyGenerated) {
-            // TODO: for top layer plutons repeat about 10-ish times, see "algo" below.
-            // if (pluton.getPlutonType() == PlutonType.TOP_LAYER && rand.nextInt(10) == 0)
-            // {
-            // return generate(reader, generator, rand, pos, config);
-            // }
             pluton.afterGen(reader, pos);
             cap.setPlutonGenerated(chunkPos);
             return true;
@@ -81,12 +73,14 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                     cap.getPendingBlocks().remove(e.getKey());
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.info("Generated pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
+                                + e.getValue().getBlock().getRegistryName().toString() + " at "
+                                + e.getKey());
                     }
                 } else {
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
+                                + e.getValue().getBlock().getRegistryName().toString() + " at "
+                                + e.getKey());
                     }
                 }
             }

@@ -1,5 +1,5 @@
 {
-   "type":"minecraft:crafting_shapeless",
-   "ingredients":[{"item":"geolosys:silver_ingot"}],
-   "result":{"item":"geolosys:silver_nugget","count":9}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{ "item": "geolosys:silver_ingot" }],
+  "result": { "item": "geolosys:silver_nugget", "count": 9 }
 }

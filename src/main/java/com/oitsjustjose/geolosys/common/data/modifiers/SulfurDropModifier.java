@@ -51,7 +51,8 @@ public class SulfurDropModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<SulfurDropModifier> {
         @Override
-        public SulfurDropModifier read(ResourceLocation name, JsonObject obj, ILootCondition[] cond) {
+        public SulfurDropModifier read(ResourceLocation name, JsonObject obj,
+                ILootCondition[] cond) {
             Item i = null;
             float chance = JSONUtils.getFloat(obj, "chance");
             int qty = JSONUtils.getInt(obj, "qty");

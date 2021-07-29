@@ -1,1 +1,14 @@
-{"name": "Ancient Debris", "icon": "geolosys:ancient_debris_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Ancient Debris", "item": "geolosys:ancient_debris_ore", "link_recipe": false, "text": "This dike pluton generates between 42 meters below and 56 meters below sea level. It can only be found in the nether. This pluton can be found in any biome."}]}
+{
+  "name": "Ancient Debris",
+  "icon": "geolosys:ancient_debris_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Ancient Debris",
+      "item": "geolosys:ancient_debris_ore",
+      "link_recipe": false,
+      "text": "This dike pluton generates between 42 meters below and 56 meters below sea level. It can only be found in the nether. This pluton can be found in any biome."
+    }
+  ]
+}

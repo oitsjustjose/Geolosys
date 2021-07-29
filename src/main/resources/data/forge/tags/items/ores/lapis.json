@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:lapis_ore"
-  ]
+  "values": ["geolosys:lapis_ore"]
 }

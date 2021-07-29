@@ -16,7 +16,8 @@ public class DepositCapProvider implements ICapabilitySerializable<CompoundNBT> 
 
     @Override
     @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn, final @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> capIn,
+            final @Nullable Direction side) {
         if (capIn == GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY) {
             return cap.cast();
         }

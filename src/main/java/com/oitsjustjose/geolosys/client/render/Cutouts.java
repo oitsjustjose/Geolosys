@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 public class Cutouts {
     public static void init() {
         RenderTypeLookup.setRenderLayer(ModBlocks.getInstance().peat, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.getInstance().rhododendron, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.getInstance().rhododendron,
+                RenderType.getCutoutMipped());
     }
 }

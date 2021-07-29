@@ -5,8 +5,9 @@ import net.minecraft.util.IStringSerializable;
 
 public class Types {
     public enum Coals implements IStringSerializable {
-        PEAT(6, "peat", false), LIGNITE(12, "lignite", false), BITUMINOUS(16, "bituminous", false),
-        ANTHRACITE(20, "anthracite", false), LIGNITE_COKE(24, "lignite", true), BITUMINOUS_COKE(32, "bituminous", true);
+        PEAT(6, "peat", false), LIGNITE(12, "lignite", false), BITUMINOUS(16, "bituminous",
+                false), ANTHRACITE(20, "anthracite", false), LIGNITE_COKE(24, "lignite",
+                        true), BITUMINOUS_COKE(32, "bituminous", true);
 
         private Item instance;
 
@@ -52,8 +53,8 @@ public class Types {
     }
 
     public enum Ingots implements IStringSerializable {
-        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
-        PLATINUM("platinum"), ZINC("zinc");
+        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL(
+                "nickel"), PLATINUM("platinum"), ZINC("zinc");
 
         private Item instance;
 
@@ -87,8 +88,8 @@ public class Types {
     }
 
     public enum Nuggets implements IStringSerializable {
-        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
-        PLATINUM("platinum"), ZINC("zinc");
+        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL(
+                "nickel"), PLATINUM("platinum"), ZINC("zinc");
 
         private Item instance;
 
@@ -122,9 +123,11 @@ public class Types {
     }
 
     public enum Clusters implements IStringSerializable {
-        IRON("iron"), GOLD("gold"), COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"),
-        NICKEL("nickel"), PLATINUM("platinum"), URANIUM("uranium"), ZINC("zinc"), YELLORIUM("yellorium"),
-        OSMIUM("osmium"), ANCIENT_DEBRIS("ancient_debris"), NETHER_GOLD("nether_gold");
+        IRON("iron"), GOLD("gold"), COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD(
+                "lead"), ALUMINUM("aluminum"), NICKEL("nickel"), PLATINUM("platinum"), URANIUM(
+                        "uranium"), ZINC("zinc"), YELLORIUM("yellorium"), OSMIUM(
+                                "osmium"), ANCIENT_DEBRIS(
+                                        "ancient_debris"), NETHER_GOLD("nether_gold");
 
         private Item instance;
 

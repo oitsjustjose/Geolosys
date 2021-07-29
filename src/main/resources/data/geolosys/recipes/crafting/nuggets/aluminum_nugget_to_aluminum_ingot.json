@@ -1,6 +1,9 @@
 {
-"type":"minecraft:crafting_shaped",
-   "pattern":["sss","sis","sss"],
-   "key":{"s":{"tag":"forge:nuggets/aluminum"},"i":{"item":"geolosys:aluminum_nugget"}},
-   "result":{"item":"geolosys:aluminum_ingot"}
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["sss", "sis", "sss"],
+  "key": {
+    "s": { "tag": "forge:nuggets/aluminum" },
+    "i": { "item": "geolosys:aluminum_nugget" }
+  },
+  "result": { "item": "geolosys:aluminum_ingot" }
 }

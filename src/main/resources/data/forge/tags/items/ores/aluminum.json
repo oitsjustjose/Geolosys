@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:aluminum_cluster",
-    "geolosys:bauxite_ore"
-  ]
+  "values": ["geolosys:aluminum_cluster", "geolosys:bauxite_ore"]
 }

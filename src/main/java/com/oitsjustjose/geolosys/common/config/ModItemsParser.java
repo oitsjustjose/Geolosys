@@ -29,11 +29,13 @@ public class ModItemsParser {
             Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
             if (block != null) {
                 SampleUtils.addSamplePlacementBlacklist(block);
-                Geolosys.getInstance().LOGGER.info("Successfully added block {} to samplePlacementBlacklist",
+                Geolosys.getInstance().LOGGER.info(
+                        "Successfully added block {} to samplePlacementBlacklist",
                         block.getRegistryName());
             } else {
-                Geolosys.getInstance().LOGGER
-                        .warn("The item {} in the samplePlacementBlacklist config option was not valid", s);
+                Geolosys.getInstance().LOGGER.warn(
+                        "The item {} in the samplePlacementBlacklist config option was not valid",
+                        s);
             }
         });
     }
@@ -46,7 +48,8 @@ public class ModItemsParser {
                 Geolosys.getInstance().LOGGER.info("Successfully added block {} to proPickExtras",
                         block.getRegistryName());
             } else {
-                Geolosys.getInstance().LOGGER.warn("The item {} in the proPickExtras config option was not valid", s);
+                Geolosys.getInstance().LOGGER
+                        .warn("The item {} in the proPickExtras config option was not valid", s);
             }
         });
     }
@@ -67,7 +70,8 @@ public class ModItemsParser {
 
             @Override
             @Nonnull // Ironic considering I'm returning null anyways.. ok tho
-            protected Void prepare(@Nonnull IResourceManager resourceMgr, @Nonnull IProfiler profilerIn) {
+            protected Void prepare(@Nonnull IResourceManager resourceMgr,
+                    @Nonnull IProfiler profilerIn) {
                 return null;
             }
         });

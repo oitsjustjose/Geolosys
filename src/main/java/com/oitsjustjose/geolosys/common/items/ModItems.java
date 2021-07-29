@@ -29,15 +29,18 @@ public class ModItems {
     private ModItems() {
         // Init Clusters
         for (Clusters cluster : Clusters.values()) {
-            Item item = new Item(genericItemProps).setRegistryName("geolosys", cluster.getName() + CLUSTER_POSTFIX);
+            Item item = new Item(genericItemProps).setRegistryName("geolosys",
+                    cluster.getName() + CLUSTER_POSTFIX);
             cluster.setItem(item);
         }
         for (Ingots ingot : Ingots.values()) {
-            Item item = new Item(genericItemProps).setRegistryName("geolosys", ingot.getName() + INGOT_POSTFIX);
+            Item item = new Item(genericItemProps).setRegistryName("geolosys",
+                    ingot.getName() + INGOT_POSTFIX);
             ingot.setItem(item);
         }
         for (Nuggets nugget : Nuggets.values()) {
-            Item item = new Item(genericItemProps).setRegistryName("geolosys", nugget.getName() + NUGGET_POSTFIX);
+            Item item = new Item(genericItemProps).setRegistryName("geolosys",
+                    nugget.getName() + NUGGET_POSTFIX);
             nugget.setItem(item);
         }
         // Init Coals

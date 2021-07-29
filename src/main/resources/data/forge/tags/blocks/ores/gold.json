@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:gold_ore",
-    "geolosys:nether_gold_ore"
-  ]
+  "values": ["geolosys:gold_ore", "geolosys:nether_gold_ore"]
 }

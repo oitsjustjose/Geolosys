@@ -23,8 +23,8 @@ public class PlantBlock extends BushBlock {
     private boolean isExclusive;
 
     public PlantBlock(boolean exclusive, Block... placeable) {
-        super(Properties.create(Material.PLANTS).doesNotBlockMovement().sound(SoundType.SWEET_BERRY_BUSH)
-                .tickRandomly());
+        super(Properties.create(Material.PLANTS).doesNotBlockMovement()
+                .sound(SoundType.SWEET_BERRY_BUSH).tickRandomly());
         this.placelist = Arrays.asList(placeable);
         this.isExclusive = exclusive;
     }
@@ -48,11 +48,12 @@ public class PlantBlock extends BushBlock {
     public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
         if (this.placelist.contains(worldIn.getBlockState(pos.down()).getBlock())
                 && worldIn.getLightSubtracted(pos.up(), 0) >= 9
-                && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, random.nextInt(10) == 0)) {
+                && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state,
+                        random.nextInt(10) == 0)) {
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                    if (worldIn.getBlockState(pos.add(x, 0, z)).isAir()
-                            && this.placelist.contains(worldIn.getBlockState(pos.add(x, -1, z)).getBlock())) {
+                    if (worldIn.getBlockState(pos.add(x, 0, z)).isAir() && this.placelist
+                            .contains(worldIn.getBlockState(pos.add(x, -1, z)).getBlock())) {
                         worldIn.setBlockState(pos.add(x, 0, z), this.getDefaultState(), 2 | 16);
                         return;
                     }

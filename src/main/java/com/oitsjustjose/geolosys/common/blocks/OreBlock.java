@@ -19,7 +19,8 @@ public class OreBlock extends Block {
      * Spawns the given amount of experience into the World as XP orb entities
      */
     @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune,
+            int silktouch) {
         if (vanillaParent != null) {
             return vanillaParent.getExpDrop(state, reader, pos, fortune, silktouch);
         }

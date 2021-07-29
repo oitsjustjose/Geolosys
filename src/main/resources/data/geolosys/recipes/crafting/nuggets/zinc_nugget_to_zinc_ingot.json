@@ -1,6 +1,9 @@
 {
-"type":"minecraft:crafting_shaped",
-   "pattern":["sss","sis","sss"],
-   "key":{"s":{"tag":"forge:nuggets/zinc"},"i":{"item":"geolosys:zinc_nugget"}},
-   "result":{"item":"geolosys:zinc_ingot"}
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["sss", "sis", "sss"],
+  "key": {
+    "s": { "tag": "forge:nuggets/zinc" },
+    "i": { "item": "geolosys:zinc_nugget" }
+  },
+  "result": { "item": "geolosys:zinc_ingot" }
 }

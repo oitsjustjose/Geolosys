@@ -28,6 +28,7 @@ public class Utils {
 
     public static boolean canMine(BlockState state, ItemStack stack) {
         int harvestLvl = stack.getHarvestLevel(ToolType.PICKAXE, null, null);
-        return stack.getToolTypes().contains(ToolType.PICKAXE) && state.getHarvestLevel() <= harvestLvl;
+        return stack.getToolTypes().contains(ToolType.PICKAXE)
+                && state.getHarvestLevel() <= harvestLvl;
     }
 }

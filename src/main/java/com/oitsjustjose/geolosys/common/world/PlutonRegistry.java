@@ -71,7 +71,8 @@ public class PlutonRegistry {
                 return dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos));
             })) {
                 choices.removeIf((dep) -> {
-                    return !(dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos)));
+                    return !(dep.hasBiomeRestrictions()
+                            && dep.canPlaceInBiome(reader.getBiome(pos)));
                 });
             }
         }
@@ -90,7 +91,8 @@ public class PlutonRegistry {
             rng -= wt;
         }
 
-        Geolosys.getInstance().LOGGER.error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
+        Geolosys.getInstance().LOGGER
+                .error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
         return null;
     }
 

@@ -49,7 +49,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ProPickItem extends Item {
-    public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "prospectors_pick");
+    public static final ResourceLocation REGISTRY_NAME =
+            new ResourceLocation(Constants.MODID, "prospectors_pick");
 
     public ProPickItem() {
         super(new Item.Properties().maxStackSize(1).group(GeolosysGroup.getInstance()));
@@ -64,7 +65,8 @@ public class ProPickItem extends Item {
                 stack.setTag(new CompoundNBT());
                 stack.getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
             }
-            return 1D - (double) stack.getTag().getInt("damage") / (double) CommonConfig.PRO_PICK_DURABILITY.get();
+            return 1D - (double) stack.getTag().getInt("damage")
+                    / (double) CommonConfig.PRO_PICK_DURABILITY.get();
         } else {
             return 1;
         }
@@ -72,14 +74,16 @@ public class ProPickItem extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-            ITooltipFlag flagIn) {
-        if (CommonConfig.ENABLE_PRO_PICK_DMG.get() && Minecraft.getInstance().gameSettings.advancedItemTooltips) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn,
+            List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        if (CommonConfig.ENABLE_PRO_PICK_DMG.get()
+                && Minecraft.getInstance().gameSettings.advancedItemTooltips) {
             if (stack.getTag() == null || !stack.getTag().contains("damage")) {
-                tooltip.add(new StringTextComponent("Durability: " + CommonConfig.PRO_PICK_DURABILITY.get()));
+                tooltip.add(new StringTextComponent(
+                        "Durability: " + CommonConfig.PRO_PICK_DURABILITY.get()));
             } else {
-                tooltip.add(new StringTextComponent("Durability: " + stack.getTag().getInt("damage") + "/"
-                        + CommonConfig.PRO_PICK_DURABILITY.get()));
+                tooltip.add(new StringTextComponent("Durability: " + stack.getTag().getInt("damage")
+                        + "/" + CommonConfig.PRO_PICK_DURABILITY.get()));
             }
         }
     }
@@ -94,13 +98,15 @@ public class ProPickItem extends Item {
             if (player.getHeldItem(hand).getItem() instanceof ProPickItem) {
                 if (player.getHeldItem(hand).getTag() == null) {
                     player.getHeldItem(hand).setTag(new CompoundNBT());
-                    player.getHeldItem(hand).getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
+                    player.getHeldItem(hand).getTag().putInt("damage",
+                            CommonConfig.PRO_PICK_DURABILITY.get());
                 }
                 int prevDmg = player.getHeldItem(hand).getTag().getInt("damage");
                 player.getHeldItem(hand).getTag().putInt("damage", (prevDmg - 1));
                 if (player.getHeldItem(hand).getTag().getInt("damage") <= 0) {
                     player.setHeldItem(hand, ItemStack.EMPTY);
-                    worldIn.playSound(player, pos, new SoundEvent(new ResourceLocation("entity.item.break")),
+                    worldIn.playSound(player, pos,
+                            new SoundEvent(new ResourceLocation("entity.item.break")),
                             SoundCategory.PLAYERS, 1.0F, 0.85F);
                 }
             }
@@ -124,9 +130,12 @@ public class ProPickItem extends Item {
             boolean searchForStone = stack.getTag().getBoolean("stone");
 
             if (searchForStone) {
-                player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.stones"), true);
+                player.sendStatusMessage(
+                        new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.stones"),
+                        true);
             } else {
-                player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.ores"), true);
+                player.sendStatusMessage(
+                        new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.ores"), true);
             }
         }
         return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
@@ -175,7 +184,8 @@ public class ProPickItem extends Item {
                     yEnd = 0;
                     zStart = -(confDmt / 2);
                     zEnd = (confDmt / 2);
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case DOWN:
                     xStart = -(confDmt / 2);
@@ -184,7 +194,8 @@ public class ProPickItem extends Item {
                     yEnd = confAmt;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case NORTH:
                     xStart = -(confDmt / 2);
@@ -193,7 +204,8 @@ public class ProPickItem extends Item {
                     yEnd = confDmt / 2;
                     zStart = 0;
                     zEnd = confAmt;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case SOUTH:
                     xStart = -(confDmt / 2);
@@ -202,7 +214,8 @@ public class ProPickItem extends Item {
                     yEnd = confDmt / 2;
                     zStart = -confAmt;
                     zEnd = 0;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case EAST:
                     xStart = -(confAmt);
@@ -211,7 +224,8 @@ public class ProPickItem extends Item {
                     yEnd = confDmt / 2;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
                 case WEST:
                     xStart = 0;
@@ -220,7 +234,8 @@ public class ProPickItem extends Item {
                     yEnd = confDmt / 2;
                     zStart = -(confDmt / 2);
                     zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
+                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd,
+                            zStart, zEnd);
                     break;
             }
 
@@ -229,8 +244,8 @@ public class ProPickItem extends Item {
         return ActionResultType.SUCCESS;
     }
 
-    private boolean prospect(PlayerEntity player, ItemStack stack, World worldIn, BlockPos pos, Direction facing,
-            int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
+    private boolean prospect(PlayerEntity player, ItemStack stack, World worldIn, BlockPos pos,
+            Direction facing, int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
         return true;
         // boolean searchingForStone = stack.getTag().getBoolean("stone");
@@ -365,8 +380,8 @@ public class ProPickItem extends Item {
     public void onDrawScreen(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
 
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || mc.gameSettings.showDebugInfo
-                || mc.gameSettings.showDebugProfilerChart) {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL
+                || mc.gameSettings.showDebugInfo || mc.gameSettings.showDebugProfilerChart) {
             return;
         }
         if (mc.player.getHeldItemMainhand().getItem() instanceof ProPickItem
@@ -379,14 +394,18 @@ public class ProPickItem extends Item {
             if (level < 0) {
                 mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),
                         I18n.format("geolosys.pro_pick.depth.above", Math.abs(level)),
-                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                        (float) ClientConfig.PROPICK_HUD_X.get(),
+                        (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             } else if (level == 0) {
-                mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(), I18n.format("geolosys.pro_pick.depth.at"),
-                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),
+                        I18n.format("geolosys.pro_pick.depth.at"),
+                        (float) ClientConfig.PROPICK_HUD_X.get(),
+                        (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             } else {
                 mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),
                         I18n.format("geolosys.pro_pick.depth.below", Math.abs(level)),
-                        (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
+                        (float) ClientConfig.PROPICK_HUD_X.get(),
+                        (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
             RenderSystem.color4f(1F, 1F, 1F, 1F);
         }

@@ -1,6 +1,4 @@
-  {
-    "replace": false,
-    "values": [
-      "geolosys:tin_ingot"
-    ]
-  }
+{
+  "replace": false,
+  "values": ["geolosys:tin_ingot"]
+}

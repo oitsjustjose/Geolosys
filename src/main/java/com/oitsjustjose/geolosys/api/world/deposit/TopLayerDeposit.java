@@ -17,11 +17,11 @@ import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
-import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -164,39 +164,49 @@ public class TopLayerDeposit implements IDeposit {
         }
 
         int totlPlaced = 0;
-
         ChunkPos thisChunk = new ChunkPos(pos);
 
         int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - reader.getRandom().nextInt(8)
                 + reader.getRandom().nextInt(16);
         int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - reader.getRandom().nextInt(8)
                 + reader.getRandom().nextInt(16);
-
-        // These are just modifiers for dx and dz to prevent perfect cylinders
-        int dXMod = reader.getRandom().nextInt(this.radius / 2);
-        int dZMod = reader.getRandom().nextInt(this.radius / 2);
+        int radX = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
+        int radZ = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
 
         BlockPos basePos = new BlockPos(x, 0, z);
 
-        for (int dX = -this.radius; dX <= this.radius; dX++) {
-            for (int dZ = -this.radius; dZ <= this.radius; dZ++) {
-                float dist = ((dX + dXMod) * (dX + dXMod)) + ((dZ + dZMod) * (dZ + dZMod));
-                if (dist > this.radius) {
+        for (int dX = -radX; dX <= radX; dX++) {
+            for (int dZ = -radZ; dZ <= radZ; dZ++) {
+                if (((dX * dX) + (dZ * dZ)) > this.radius
+                        + reader.getRandom().nextInt(Math.max(1, this.radius / 2))) {
                     continue;
                 }
 
-                BlockPos startPos = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
+                BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
+
+
+                /*
+                 * Thoughts on progress here:
+                 * 
+                 * 1. Find the top block 2. Iterate over every Y between top block and (top block -
+                 * depth)
+                 */
+
 
                 for (int i = 0; i < this.depth; i++) {
-                    BlockPos placePos = startPos.add(0, -i, 0);
-                    boolean isTopBlock = !reader.getBlockState(placePos.up()).isSolid();
-
-                    BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
+                    BlockPos placePos = baseForXZ.down(i);
+                    BlockState state = reader.getBlockState(placePos);
                     BlockState tmp = this.getOre();
+                    // Trying this out -- TODO: Verify??
+                    boolean isTop = i == 0;
+
+                    // boolean isTop = reader.getBlockState(placePos.up()).getMaterial() ==
+                    // Material.AIR;
+
                     if (tmp == null) {
                         continue;
                     } else if (tmp.hasProperty(BlockStateProperties.BOTTOM)) {
-                        tmp = tmp.with(BlockStateProperties.BOTTOM, isTopBlock);
+                        tmp = tmp.with(BlockStateProperties.BOTTOM, !isTop);
                     }
 
                     for (BlockState matcherState : (this.blockStateMatchers == null
@@ -205,9 +215,7 @@ public class TopLayerDeposit implements IDeposit {
                         if (Utils.doStatesMatch(matcherState, state)) {
                             if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                                 totlPlaced++;
-
-                                if (isTopBlock
-                                        && reader.getRandom().nextFloat() <= this.sampleChance) {
+                                if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
                                     BlockState smpl = this.getSample();
                                     if (smpl != null) {
                                         FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(),
@@ -219,6 +227,7 @@ public class TopLayerDeposit implements IDeposit {
                         }
                     }
                 }
+
             }
         }
 

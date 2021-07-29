@@ -1,5 +1,5 @@
 {
-   "type":"minecraft:crafting_shapeless",
-   "ingredients":[{"item":"geolosys:zinc_ingot"}],
-   "result":{"item":"geolosys:zinc_nugget","count":9}
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{ "item": "geolosys:zinc_ingot" }],
+  "result": { "item": "geolosys:zinc_nugget", "count": 9 }
 }

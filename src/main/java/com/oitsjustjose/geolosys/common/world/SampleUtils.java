@@ -65,7 +65,7 @@ public class SampleUtils {
      * Determines if the sample can be placed on this block
      * 
      * @param world: an IWorld instance
-     * @param pos:   The current searching position that will be used to confirm
+     * @param pos: The current searching position that will be used to confirm
      * @return true if the block below is solid on top AND isn't in the blacklist
      */
     public static boolean canPlaceOn(IWorld world, BlockPos pos) {
@@ -75,7 +75,7 @@ public class SampleUtils {
 
     /**
      * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param pos A BlockPos to check in and around
      * @return true if the block at pos is replaceable
      */
     public static boolean canReplace(IWorld world, BlockPos pos) {
@@ -86,7 +86,7 @@ public class SampleUtils {
 
     /**
      * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param pos A BlockPos to check in and around
      * @return true if the block is water (since we can waterlog)
      */
     public static boolean isInWater(IWorld world, BlockPos pos) {
@@ -95,7 +95,7 @@ public class SampleUtils {
 
     /**
      * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param pos A BlockPos to check in and around
      * @return true if the block is in a non-water fluid
      */
     public static boolean inNonWaterFluid(IWorld world, BlockPos pos) {
@@ -105,8 +105,7 @@ public class SampleUtils {
     /**
      * @param posA
      * @param posB
-     * @param range An integer representing how far is acceptable to be considered
-     *              in range
+     * @param range An integer representing how far is acceptable to be considered in range
      * @return true if within range
      */
     public static boolean isWithinRange(int posA, int posB, int range) {

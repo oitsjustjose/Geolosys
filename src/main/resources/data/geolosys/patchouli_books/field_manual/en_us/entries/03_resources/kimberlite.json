@@ -1,1 +1,14 @@
-{"name": "Kimberlite", "icon": "geolosys:kimberlite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Kimberlite", "item": "geolosys:kimberlite_ore", "link_recipe": false, "text": "This dike pluton generates between 49 meters below and 62 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."}]}
+{
+  "name": "Kimberlite",
+  "icon": "geolosys:kimberlite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Kimberlite",
+      "item": "geolosys:kimberlite_ore",
+      "link_recipe": false,
+      "text": "This dike pluton generates between 49 meters below and 62 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."
+    }
+  ]
+}

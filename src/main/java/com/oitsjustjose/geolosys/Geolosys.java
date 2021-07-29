@@ -55,7 +55,8 @@ import net.minecraftforge.fml.loading.FMLPaths;
 @Mod(Constants.MODID)
 public class Geolosys {
     private static Geolosys instance;
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy =
+            DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public Logger LOGGER = LogManager.getLogger();
 
     public Geolosys() {
@@ -79,7 +80,8 @@ public class Geolosys {
     private void configSetup() {
         ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.COMMON_CONFIG);
-        CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
+        CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG,
+                FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -101,7 +103,8 @@ public class Geolosys {
 
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new DepositCapProvider());
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"),
+                new DepositCapProvider());
         String dimName = event.getObject().getDimensionKey().getLocation().toString();
         LOGGER.info("Geolosys capability attached for {}", dimName);
     }
@@ -116,10 +119,12 @@ public class Geolosys {
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.gameSettings.advancedItemTooltips) {
-            Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
+            Collection<ResourceLocation> tags =
+                    ItemTags.getCollection().getOwningTags(event.getItemStack().getItem());
             if (tags.size() > 0) {
                 for (ResourceLocation tag : tags) {
-                    event.getToolTip().add(new StringTextComponent("\u00A78#" + tag.toString() + "\u00A7r"));
+                    event.getToolTip()
+                            .add(new StringTextComponent("\u00A78#" + tag.toString() + "\u00A7r"));
                 }
             }
         }
@@ -128,7 +133,8 @@ public class Geolosys {
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+        public static void onBlocksRegistry(
+                final RegistryEvent.Register<Block> blockRegistryEvent) {
             ModBlocks.getInstance().register(blockRegistryEvent);
         }
 

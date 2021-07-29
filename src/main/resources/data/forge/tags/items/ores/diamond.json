@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:kimberlite_ore"
-  ]
+  "values": ["geolosys:kimberlite_ore"]
 }

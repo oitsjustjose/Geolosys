@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:silver_ingot"
-  ]
+  "values": ["geolosys:silver_ingot"]
 }

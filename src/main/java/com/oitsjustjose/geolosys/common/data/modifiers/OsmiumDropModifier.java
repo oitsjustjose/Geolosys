@@ -48,8 +48,10 @@ public class OsmiumDropModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<OsmiumDropModifier> {
         @Override
-        public OsmiumDropModifier read(ResourceLocation name, JsonObject obj, ILootCondition[] cond) {
-            Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getString(obj, "item")));
+        public OsmiumDropModifier read(ResourceLocation name, JsonObject obj,
+                ILootCondition[] cond) {
+            Item i = ForgeRegistries.ITEMS
+                    .getValue(new ResourceLocation(JSONUtils.getString(obj, "item")));
             float chance = JSONUtils.getFloat(obj, "chance");
             int qty = JSONUtils.getInt(obj, "qty");
             return new OsmiumDropModifier(cond, i, chance, qty);

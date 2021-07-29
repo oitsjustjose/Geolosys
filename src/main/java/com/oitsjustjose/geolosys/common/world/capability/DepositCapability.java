@@ -83,8 +83,8 @@ public class DepositCapability implements IDepositCapability {
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
         this.getGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
-        this.getPendingBlocks()
-                .forEach((pos, state) -> pendingBlocks.put(serializeBlockPos(pos), NBTUtil.writeBlockState(state)));
+        this.getPendingBlocks().forEach((pos, state) -> pendingBlocks.put(serializeBlockPos(pos),
+                NBTUtil.writeBlockState(state)));
         this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
         return compound;
     }
@@ -96,8 +96,8 @@ public class DepositCapability implements IDepositCapability {
         CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
 
         oreDeposits.keySet().forEach(key -> this.setPlutonGenerated(deSerializeChunkPos(key)));
-        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(deSerializeBlockPos(key),
-                NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
+        pendingBlocks.keySet().forEach(key -> this.putPendingBlock(deSerializeBlockPos(key), NBTUtil
+                .readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)))));
         playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));
     }
 
@@ -116,6 +116,7 @@ public class DepositCapability implements IDepositCapability {
 
     private BlockPos deSerializeBlockPos(String asStr) {
         String[] parts = asStr.split(",");
-        return new BlockPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+        return new BlockPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2]));
     }
 }

@@ -27,8 +27,8 @@ public class ManualGifting {
         }
 
         if (!geolosysCap.hasPlayerReceivedManual(player.getUniqueID())) {
-            ItemHandlerHelper.giveItemToPlayer(player,
-                    PatchouliAPI.get().getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
+            ItemHandlerHelper.giveItemToPlayer(player, PatchouliAPI.get()
+                    .getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
             geolosysCap.setPlayerReceivedManual(player.getUniqueID());
         }
     }

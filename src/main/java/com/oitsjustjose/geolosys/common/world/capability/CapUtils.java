@@ -9,6 +9,7 @@ public class CapUtils {
 
     public static BlockPos fromString(String s) {
         String[] parts = s.replace("[", "").replace("]", "").split(",");
-        return new BlockPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+        return new BlockPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2]));
     }
 }

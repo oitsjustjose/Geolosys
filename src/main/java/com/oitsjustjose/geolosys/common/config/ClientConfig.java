@@ -34,12 +34,15 @@ public class ClientConfig {
     public static void init() {
         CLIENT_BUILDER.comment("Client-Side Settings").push(CATEGORY_CLIENT);
 
-        MANUAL_FONT_SCALE = CLIENT_BUILDER.comment("Defines the scale factor of the font for the Field Manual")
-                .defineInRange("manualFontScale", 0.75D, 0.1D, 3.0D);
-        PROPICK_HUD_X = CLIENT_BUILDER.comment("The X-position of the Prospector's Pickaxe Depth HUD")
-                .defineInRange("propickHUDX", 2, 0, Integer.MAX_VALUE);
-        PROPICK_HUD_Y = CLIENT_BUILDER.comment("The Y-position of the Prospector's Pickaxe Depth HUD")
-                .defineInRange("propickHUDY", 2, 0, Integer.MAX_VALUE);
+        MANUAL_FONT_SCALE =
+                CLIENT_BUILDER.comment("Defines the scale factor of the font for the Field Manual")
+                        .defineInRange("manualFontScale", 0.75D, 0.1D, 3.0D);
+        PROPICK_HUD_X =
+                CLIENT_BUILDER.comment("The X-position of the Prospector's Pickaxe Depth HUD")
+                        .defineInRange("propickHUDX", 2, 0, Integer.MAX_VALUE);
+        PROPICK_HUD_Y =
+                CLIENT_BUILDER.comment("The Y-position of the Prospector's Pickaxe Depth HUD")
+                        .defineInRange("propickHUDY", 2, 0, Integer.MAX_VALUE);
         ENABLE_TAG_DEBUG = CLIENT_BUILDER
                 .comment("Enable Minecraft object tag tooltip with Advanced Tooltips on (F3+\"H\")")
                 .define("enableTagDebug", true);

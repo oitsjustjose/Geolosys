@@ -57,8 +57,9 @@ public class DikeDeposit implements IDeposit {
     private float sumWtOres = 0.0F;
     private float sumWtSamples = 0.0F;
 
-    public DikeDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin,
-            int yMax, int baseRadius, int genWt, String[] dimFilter, boolean isDimFilterBl,
+    public DikeDeposit(HashMap<BlockState, Float> oreBlocks,
+            HashMap<BlockState, Float> sampleBlocks, int yMin, int yMax, int baseRadius, int genWt,
+            String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
@@ -86,13 +87,11 @@ public class DikeDeposit implements IDeposit {
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random ore block to
-     * return.
+     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random ore block to return.
      * 
-     * @return the random ore block chosen (based on weight) Can be null to
-     *         represent "density" of the ore -- null results should be used to
-     *         determine if the block in the world should be replaced. If null,
-     *         don't replace 😉
+     * @return the random ore block chosen (based on weight) Can be null to represent "density" of
+     *         the ore -- null results should be used to determine if the block in the world should
+     *         be replaced. If null, don't replace 😉
      */
     @Nullable
     public BlockState getOre() {
@@ -100,13 +99,11 @@ public class DikeDeposit implements IDeposit {
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random pluton sample
-     * to return.
+     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random pluton sample to return.
      * 
-     * @return the random pluton sample chosen (based on weight) Can be null to
-     *         represent "density" of the samples -- null results should be used to
-     *         determine if the sample in the world should be replaced. If null,
-     *         don't replace 😉
+     * @return the random pluton sample chosen (based on weight) Can be null to represent "density"
+     *         of the samples -- null results should be used to determine if the sample in the world
+     *         should be replaced. If null, don't replace 😉
      */
     @Nullable
     public BlockState getSample() {
@@ -115,7 +112,8 @@ public class DikeDeposit implements IDeposit {
 
     @Override
     public boolean canPlaceInBiome(Biome b) {
-        return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter, this.isBiomeFilterBl);
+        return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter,
+                this.isBiomeFilterBl);
     }
 
     @Override
@@ -155,20 +153,19 @@ public class DikeDeposit implements IDeposit {
     }
 
     /**
-     * Handles full-on generation of this type of pluton. Requires 0 arguments as
-     * everything is self-contained in this class
+     * Handles full-on generation of this type of pluton. Requires 0 arguments as everything is
+     * self-contained in this class
      * 
-     * @return (int) the number of pluton resource blocks placed. If 0 -- this
-     *         should be evaluted as a false for use of Mojang's sort-of sketchy
-     *         generation code in
+     * @return (int) the number of pluton resource blocks placed. If 0 -- this should be evaluted as
+     *         a false for use of Mojang's sort-of sketchy generation code in
      *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
     public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
-        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
-                this.isBiomeFilterBl)) {
+        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter,
+                this.biomeTypeFilter, this.isBiomeFilterBl)) {
             return 0;
         }
 
@@ -180,7 +177,8 @@ public class DikeDeposit implements IDeposit {
         int x = thisChunk.getXStart() + reader.getRandom().nextInt(16);
         int z = thisChunk.getZStart() + reader.getRandom().nextInt(16);
         int y = this.yMin + reader.getRandom().nextInt(height);
-        int max = Utils.getTopSolidBlock(reader, pos).getY();        if (y > max) {
+        int max = Utils.getTopSolidBlock(reader, pos).getY();
+        if (y > max) {
             y = Math.max(yMin, max);
         }
         BlockPos basePos = new BlockPos(x, y, z);
@@ -200,10 +198,12 @@ public class DikeDeposit implements IDeposit {
                         continue;
                     }
 
-                    for (BlockState matcherState : (this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
+                    for (BlockState matcherState : (this.blockStateMatchers == null
+                            ? DepositUtils.getDefaultMatchers()
                             : this.blockStateMatchers)) {
                         if (Utils.doStatesMatch(matcherState, state)) {
-                            if (FeatureUtils.tryPlaceBlock(reader, new ChunkPos(pos), placePos, tmp, cap)) {
+                            if (FeatureUtils.tryPlaceBlock(reader, new ChunkPos(pos), placePos, tmp,
+                                    cap)) {
                                 totlPlaced++;
                             }
                             break;
@@ -231,8 +231,8 @@ public class DikeDeposit implements IDeposit {
     public void afterGen(ISeedReader reader, BlockPos pos) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
-                    new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
+                    this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
 
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
@@ -254,8 +254,10 @@ public class DikeDeposit implements IDeposit {
             // Prevent replacing the block with the same block
             if (reader.getBlockState(samplePos) != tmp) {
                 // Waterlog if possible
-                if (SampleUtils.isInWater(reader, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                    reader.setBlockState(samplePos, tmp.with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
+                if (SampleUtils.isInWater(reader, samplePos)
+                        && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
+                    reader.setBlockState(samplePos,
+                            tmp.with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
                 } else { // Default to std state if not possible
                     reader.setBlockState(samplePos, tmp, 2 | 16);
                 }
@@ -270,10 +272,10 @@ public class DikeDeposit implements IDeposit {
 
         try {
             // Plutons 101 -- basics and intro to getting one gen'd
-            HashMap<BlockState, Float> oreBlocks = SerializerUtils
-                    .buildMultiBlockMap(json.get("blocks").getAsJsonArray());
-            HashMap<BlockState, Float> sampleBlocks = SerializerUtils
-                    .buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Float> oreBlocks =
+                    SerializerUtils.buildMultiBlockMap(json.get("blocks").getAsJsonArray());
+            HashMap<BlockState, Float> sampleBlocks =
+                    SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             int baseRadius = json.get("baseRadius").getAsInt();
@@ -297,11 +299,13 @@ public class DikeDeposit implements IDeposit {
             // Block State Matchers
             HashSet<BlockState> blockStateMatchers = DepositUtils.getDefaultMatchers();
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = SerializerUtils.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = SerializerUtils
+                        .toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new DikeDeposit(oreBlocks, sampleBlocks, yMin, yMax, baseRadius, genWt, dimFilter, isDimFilterBl,
-                    biomeTypeFilter, biomeFilter, isBiomeFilterBl, blockStateMatchers);
+            return new DikeDeposit(oreBlocks, sampleBlocks, yMin, yMax, baseRadius, genWt,
+                    dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
+                    blockStateMatchers);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
             return null;
@@ -316,7 +320,8 @@ public class DikeDeposit implements IDeposit {
         // Custom logic for the biome filtering
         JsonObject biomes = new JsonObject();
         biomes.addProperty("isBlacklist", this.isBiomeFilterBl);
-        biomes.add("filter", SerializerUtils.deconstructBiomes(this.biomeFilter, this.biomeTypeFilter));
+        biomes.add("filter",
+                SerializerUtils.deconstructBiomes(this.biomeFilter, this.biomeTypeFilter));
 
         // Custom logic for the dimension filtering
         JsonObject dimensions = new JsonObject();

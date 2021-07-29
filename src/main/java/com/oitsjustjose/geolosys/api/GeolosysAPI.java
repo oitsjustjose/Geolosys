@@ -10,9 +10,8 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import java.util.ArrayList;
 
 /**
- * The Geolosys API is intended for use by anyone who wants to tap into all the
- * locations that deposits exist Access is pretty easy, just reference this
- * class's currentWorldDeposits HashMap
+ * The Geolosys API is intended for use by anyone who wants to tap into all the locations that
+ * deposits exist Access is pretty easy, just reference this class's currentWorldDeposits HashMap
  */
 public class GeolosysAPI {
     @CapabilityInject(IDepositCapability.class)

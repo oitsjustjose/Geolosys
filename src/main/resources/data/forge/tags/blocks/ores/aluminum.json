@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:bauxite_ore"
-  ]
+  "values": ["geolosys:bauxite_ore"]
 }
