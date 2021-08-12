@@ -21,7 +21,6 @@ import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -30,7 +29,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class TopLayerDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_top_layer";
+    public static final String JSON_TYPE = "geolosys:deposit_top_layer";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();

@@ -48,35 +48,35 @@ public class WorldGenDataLoader extends JsonReloadListener {
                 JsonObject config = jsonobject.get("config").getAsJsonObject();
 
                 switch (jsonobject.get("type").getAsString()) {
-                    case "geolosys:ore_deposit_dense":
+                    case "geolosys:deposit_dense":
                         DenseDeposit denseDeposit = denseDepSer.deserialize(config, null);
                         if (denseDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(denseDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(denseDeposit);
                         }
                         return;
-                    case "geolosys:ore_deposit_layer":
+                    case "geolosys:deposit_layer":
                         LayerDeposit layerDeposit = layerDepSer.deserialize(config, null);
                         if (layerDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(layerDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(layerDeposit);
                         }
                         return;
-                    case "geolosys:ore_deposit_top_layer":
+                    case "geolosys:deposit_top_layer":
                         TopLayerDeposit topLayerDeposit = topLayerDepSer.deserialize(config, null);
                         if (topLayerDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(topLayerDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(topLayerDeposit);
                         }
                         return;
-                    case "geolosys:ore_deposit_dike":
+                    case "geolosys:deposit_dike":
                         DikeDeposit dikeDeposit = dikeDepSer.deserialize(config, null);
                         if (dikeDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(dikeDeposit.toString());
                             GeolosysAPI.plutonRegistry.addDeposit(dikeDeposit);
                         }
                         return;
-                    case "geolosys:ore_deposit_sparse":
+                    case "geolosys:deposit_sparse":
                         SparseDeposit sparseDeposit = sparseDepSer.deserialize(config, null);
                         if (sparseDeposit != null) {
                             Geolosys.getInstance().LOGGER.info(sparseDeposit.toString());

@@ -38,7 +38,11 @@ A refactor is finally much needed after all the things that the Geolosys codebas
   const onWorldGen = (pluton) => PlutonRegistry.pick().generate();
   ```
 
-  4. ✨✨✨✨✨
+## Update Datapacks
+
+- [ ] Update the datapacks to the newest format, because that'll take forever............
+
+## ✨✨✨✨✨
 
 - [x] Remove `density` attribute, repro this feature using `null`as a block type.
   - [ ] Explain this in the changelog as well as in the wiki 🤔

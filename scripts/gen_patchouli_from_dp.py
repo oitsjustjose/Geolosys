@@ -109,7 +109,7 @@ for root, _, files in os.walk('../../../../../deposits'):
         
         config = data["config"]
         output_d = None
-        if data["type"] == "geolosys:ore_deposit":
+        if data["type"] == "geolosys:deposit":
             output_d = generate_ore(config)
         else:
             output_d = generate_stone(config)

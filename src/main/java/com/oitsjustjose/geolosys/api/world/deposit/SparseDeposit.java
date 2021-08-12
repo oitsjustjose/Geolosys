@@ -33,7 +33,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class SparseDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_sparse";
+    public static final String JSON_TYPE = "geolosys:deposit_sparse";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();

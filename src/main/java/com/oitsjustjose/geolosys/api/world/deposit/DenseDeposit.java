@@ -34,7 +34,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class DenseDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_dense";
+    public static final String JSON_TYPE = "geolosys:deposit_dense";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();

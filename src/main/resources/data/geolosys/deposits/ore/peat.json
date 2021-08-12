@@ -1,5 +1,5 @@
 {
-  "type": "geolosys:ore_deposit_top_layer",
+  "type": "geolosys:deposit_top_layer",
   "config": {
     "blocks": [
       {

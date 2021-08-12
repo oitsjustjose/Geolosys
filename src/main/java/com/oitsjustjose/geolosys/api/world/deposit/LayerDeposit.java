@@ -30,7 +30,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class LayerDeposit implements IDeposit {
-    public static final String JSON_TYPE = "geolosys:ore_deposit_layer";
+    public static final String JSON_TYPE = "geolosys:deposit_layer";
 
     private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();
