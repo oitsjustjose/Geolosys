@@ -1,0 +1,27 @@
+{
+  "type": "geolosys:deposit_dike",
+  "config": {
+    "yMin": 6,
+    "yMax": 29,
+    "baseRadius": 7,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:quartz_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:quartz_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 6
+  }
+}

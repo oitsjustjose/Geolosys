@@ -1,0 +1,33 @@
+{
+  "type": "geolosys:deposit_dike",
+  "config": {
+    "yMin": 3,
+    "yMax": 25,
+    "baseRadius": 5,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "MOUNTAIN"
+      ]
+    },
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:platinum_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:platinum_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 4
+  }
+}

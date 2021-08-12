@@ -287,7 +287,7 @@ public class TopLayerDeposit implements IDeposit {
                     dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
                     blockStateMatchers);
         } catch (Exception e) {
-            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
+            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", json.toString());
             return null;
         }
     }

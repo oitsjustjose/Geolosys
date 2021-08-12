@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:deposit_dense",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:malachite_ore",
+        "chance": 0.4
+      },
+      {
+        "block": "geolosys:azurite_ore",
+        "chance": 0.6
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:malachite_ore_sample",
+        "chance": 0.4
+      },
+      {
+        "block": "geolosys:azurite_ore_sample",
+        "chance": 0.6
+      }
+    ],
+    "yMin": 12,
+    "yMax": 44,
+    "size": 80,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "generationWeight": 4
+  }
+}

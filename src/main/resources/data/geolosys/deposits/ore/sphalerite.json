@@ -1,0 +1,29 @@
+{
+  "type": "geolosys:deposit_sparse",
+  "config": {
+    "yMin": 37,
+    "yMax": 46,
+    "maxAmt": 16,
+    "spread": 8,
+    "rolls": 3,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:sphalerite_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:sphalerite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 5
+  }
+}

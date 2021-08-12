@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:deposit_dike",
+  "config": {
+    "yMin": 6,
+    "yMax": 32,
+    "baseRadius": 6,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "SWAMP",
+        "MUSHROOM",
+        "WET"
+      ]
+    },
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:limonite_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:limonite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 4
+  }
+}

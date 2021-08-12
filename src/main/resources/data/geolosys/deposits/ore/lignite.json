@@ -1,0 +1,28 @@
+{
+  "type": "geolosys:deposit_layer",
+  "config": {
+    "yMin": 40,
+    "yMax": 70,
+    "radius": 3,
+    "depth": 4,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:lignite_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:lignite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 7
+  }
+}

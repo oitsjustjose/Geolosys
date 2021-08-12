@@ -1,0 +1,27 @@
+{
+  "type": "geolosys:deposit_dense",
+  "config": {
+    "yMin": 5,
+    "yMax": 30,
+    "size": 40,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:gold_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:gold_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 4
+  }
+}

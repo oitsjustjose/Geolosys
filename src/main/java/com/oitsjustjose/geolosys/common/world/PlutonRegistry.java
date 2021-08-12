@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
 import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.api.world.deposit.TopLayerDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -41,6 +38,36 @@ public class PlutonRegistry {
 
     public boolean addDeposit(IDeposit ore) {
         return this.deposits.add(ore);
+    }
+
+    @Nullable
+    public IDeposit pickTopLayer(ISeedReader reader, BlockPos pos, Random rand) {
+        ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
+        choices.removeIf((dep) -> {
+            return !(dep instanceof TopLayerDeposit);
+        });
+
+        if (choices.size() == 0) {
+            return null;
+        }
+
+        int totalWt = 0;
+        for (IDeposit d : choices) {
+            totalWt += d.getGenWt();
+        }
+
+        int rng = rand.nextInt(totalWt);
+        for (IDeposit d : choices) {
+            int wt = d.getGenWt();
+            if (rng < wt) {
+                return d;
+            }
+            rng -= wt;
+        }
+
+        Geolosys.getInstance().LOGGER
+                .error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
+        return null;
     }
 
     @Nullable

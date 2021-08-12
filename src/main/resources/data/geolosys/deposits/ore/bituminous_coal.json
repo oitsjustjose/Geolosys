@@ -1,0 +1,28 @@
+{
+  "type": "geolosys:deposit_layer",
+  "config": {
+    "yMin": 30,
+    "yMax": 50,
+    "radius": 4,
+    "depth": 2,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:bituminous_coal_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:bituminous_coal_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 5
+  }
+}

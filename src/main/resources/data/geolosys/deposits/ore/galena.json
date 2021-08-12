@@ -1,0 +1,35 @@
+{
+  "type": "geolosys:deposit_sparse",
+  "config": {
+    "yMin": 16,
+    "yMax": 50,
+    "maxAmt": 72,
+    "spread": 32,
+    "rolls": 5,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "PLAINS"
+      ]
+    },
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:galena_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:galena_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 6
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "geolosys:deposit_dike",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:teallite_ore",
+        "chance": 0.9
+      },
+      {
+        "block": "geolosys:beryl_ore",
+        "chance": 0.1
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:teallite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "yMin": 8,
+    "yMax": 43,
+    "baseRadius": 6,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "RIVER"
+      ]
+    },
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "generationWeight": 2
+  }
+}

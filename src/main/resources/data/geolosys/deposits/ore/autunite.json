@@ -1,0 +1,39 @@
+{
+  "type": "geolosys:deposit_sparse",
+  "config": {
+    "blocks": [
+      {
+        "block": "geolosys:autunite_ore",
+        "chance": 0.85
+      },
+      {
+        "block": "minecraft:granite",
+        "chance": 0.15
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:autunite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "yMin": 8,
+    "yMax": 33,
+    "maxAmt": 24,
+    "spread": 12,
+    "rolls": 1,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "MOUNTAIN"
+      ]
+    },
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "generationWeight": 4
+  }
+}

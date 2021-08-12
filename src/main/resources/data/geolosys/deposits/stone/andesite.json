@@ -1,0 +1,27 @@
+{
+  "type": "geolosys:deposit_dense",
+  "config": {
+    "size": 75,
+    "yMin": 2,
+    "yMax": 70,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "minecraft:andesite",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": null,
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 2
+  }
+}

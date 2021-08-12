@@ -186,7 +186,7 @@ public class SparseDeposit implements IDeposit {
                 int z = pos.getZ() + (reader.getRandom().nextInt(this.spread))
                         * (reader.getRandom().nextBoolean() ? 1 : -1);
                 BlockPos placePos = new BlockPos(x, y, z);
-                BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);// reader.getBlockState(placePos);
+                BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
                 BlockState tmp = this.getOre();
                 if (tmp == null) {
                     continue;
@@ -299,7 +299,7 @@ public class SparseDeposit implements IDeposit {
                     genWt, dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
                     blockStateMatchers);
         } catch (Exception e) {
-            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", e);
+            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", json.toString());
             return null;
         }
     }

@@ -40,7 +40,14 @@ A refactor is finally much needed after all the things that the Geolosys codebas
 
 ## Update Datapacks
 
-- [ ] Update the datapacks to the newest format, because that'll take forever............
+- [x] Update the datapacks to the newest format, because that'll take forever............
+
+## Fix Sparse Ores
+
+- [ ] Sparse ores and the "rolls" mechanic doesn't work. Something like "Frequency" to dictate the space between blocks - essentially think more like an exploded dense pluton. Thoughts on this: generate a list of essentially what is a dense deposit. Rather than generate this, take each BlockPos and add frequency to it - dense ores further out would be further out in the "explosion". This would two params:
+
+* Size (of the dense pluton created)
+* Frequency - spread of the blocks from within the pluton
 
 ## ✨✨✨✨✨
 
