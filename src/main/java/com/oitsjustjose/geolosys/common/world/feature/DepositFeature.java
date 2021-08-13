@@ -38,26 +38,10 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             return false;
         }
 
-        boolean placedDecorator = false;
         boolean placedPending = placePendingBlocks(reader, cap, pos);
         ChunkPos chunkPos = new ChunkPos(pos);
         if (cap.hasPlutonGenerated(chunkPos)) {
             return false;
-        }
-
-        /*
-         * This chunk of code adds decorative top layer deposits that **can** overlap w/ other deps
-         * in chunk
-         */
-        IDeposit decorator = GeolosysAPI.plutonRegistry.pickTopLayer(reader, pos, rand);
-        if (decorator != null) {
-            if (rand.nextInt(CommonConfig.TOP_LAYER_SKIP_CHANCE.get()) < decorator.getGenWt()) {
-                boolean anyDecorGenerated = decorator.generate(reader, pos, cap) > 0;
-                if (anyDecorGenerated) {
-                    decorator.afterGen(reader, pos);
-                    placedDecorator = true;
-                }
-            }
         }
 
         IDeposit pluton = GeolosysAPI.plutonRegistry.pick(reader, pos, rand);
@@ -78,17 +62,21 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             return true;
         }
 
-        return placedPending || placedDecorator;
+        return placedPending;
     }
 
     private boolean placePendingBlocks(ISeedReader reader, IDepositCapability cap, BlockPos pos) {
         boolean placedAny = false;
-
         for (Entry<BlockPos, BlockState> e : cap.getPendingBlocks().entrySet()) {
             if (FeatureUtils.isInChunk(new ChunkPos(pos), e.getKey())) {
                 if (reader.setBlockState(e.getKey(), e.getValue(), 2 | 16)) {
                     placedAny = true;
                     cap.getPendingBlocks().remove(e.getKey());
+                    if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
+                        Geolosys.getInstance().LOGGER.info("Generated pending block "
+                                + e.getValue().getBlock().getRegistryName().toString() + " at "
+                                + e.getKey());
+                    }
                 } else {
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "

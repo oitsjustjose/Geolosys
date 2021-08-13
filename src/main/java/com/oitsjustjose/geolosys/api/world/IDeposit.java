@@ -1,7 +1,8 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import java.util.HashSet;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
@@ -20,4 +21,6 @@ public interface IDeposit {
     public String[] getDimensionFilter();
 
     public boolean isDimensionFilterBl();
+
+    public HashSet<BlockState> getBlockStateMatchers();
 }

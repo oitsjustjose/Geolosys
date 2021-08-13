@@ -200,9 +200,7 @@ public class LayerDeposit implements IDeposit {
                         continue;
                     }
 
-                    for (BlockState matcherState : (this.blockStateMatchers == null
-                            ? DepositUtils.getDefaultMatchers()
-                            : this.blockStateMatchers)) {
+                    for (BlockState matcherState : this.getBlockStateMatchers()) {
                         if (Utils.doStatesMatch(matcherState, state)) {
                             if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                                 totlPlaced++;
@@ -252,8 +250,15 @@ public class LayerDeposit implements IDeposit {
                 } else { // Default to std state if not possible
                     reader.setBlockState(samplePos, tmp, 2 | 16);
                 }
+                FeatureUtils.fixSnowyBlock(reader, samplePos);
             }
         }
+    }
+
+    @Override
+    public HashSet<BlockState> getBlockStateMatchers() {
+        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
+                : this.blockStateMatchers;
     }
 
     public static LayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {

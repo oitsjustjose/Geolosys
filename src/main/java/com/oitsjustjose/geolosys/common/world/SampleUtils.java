@@ -32,6 +32,10 @@ public class SampleUtils {
         int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
         int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
 
+        if (!world.chunkExists(chunkPos.x, chunkPos.z)) {
+            return null;
+        }
+
         BlockPos searchPosUp = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
         BlockPos searchPosDown = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
 

@@ -196,11 +196,7 @@ public class TopLayerDeposit implements IDeposit {
                     BlockPos placePos = baseForXZ.down(i);
                     BlockState state = reader.getBlockState(placePos);
                     BlockState tmp = this.getOre();
-                    // Trying this out -- TODO: Verify??
                     boolean isTop = i == 0;
-
-                    // boolean isTop = reader.getBlockState(placePos.up()).getMaterial() ==
-                    // Material.AIR;
 
                     if (tmp == null) {
                         continue;
@@ -208,9 +204,7 @@ public class TopLayerDeposit implements IDeposit {
                         tmp = tmp.with(BlockStateProperties.BOTTOM, !isTop);
                     }
 
-                    for (BlockState matcherState : (this.blockStateMatchers == null
-                            ? DepositUtils.getDefaultMatchers()
-                            : this.blockStateMatchers)) {
+                    for (BlockState matcherState : this.getBlockStateMatchers()) {
                         if (Utils.doStatesMatch(matcherState, state)) {
                             if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                                 totlPlaced++;
@@ -219,6 +213,7 @@ public class TopLayerDeposit implements IDeposit {
                                     if (smpl != null) {
                                         FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(),
                                                 smpl, cap);
+                                        FeatureUtils.fixSnowyBlock(reader, placePos);
                                     }
                                 }
                             }
@@ -243,6 +238,12 @@ public class TopLayerDeposit implements IDeposit {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
                     this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
+    }
+
+    @Override
+    public HashSet<BlockState> getBlockStateMatchers() {
+        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
+                : this.blockStateMatchers;
     }
 
     public static TopLayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {

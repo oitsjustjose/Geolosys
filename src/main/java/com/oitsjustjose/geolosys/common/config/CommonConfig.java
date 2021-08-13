@@ -15,12 +15,10 @@ import net.minecraftforge.fml.common.Mod;
 public class CommonConfig {
     public static final ForgeConfigSpec COMMON_CONFIG;
     private static final Builder COMMON_BUILDER = new Builder();
-    public static ForgeConfigSpec.BooleanValue ENABLE_COALS;
-    public static ForgeConfigSpec.BooleanValue ENABLE_COAL_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
+    public static ForgeConfigSpec.BooleanValue ADVANCED_DEBUG_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue REMOVE_VANILLA_ORES;
     public static ForgeConfigSpec.IntValue CHUNK_SKIP_CHANCE;
-    public static ForgeConfigSpec.IntValue TOP_LAYER_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
@@ -51,14 +49,12 @@ public class CommonConfig {
 
     private static void init() {
         COMMON_BUILDER.comment("Feature Control").push(CATEGORY_FEATURE_CONTROL);
-        ENABLE_COALS = COMMON_BUILDER.comment("Enable Coal Variants").define("enableCoals", true);
-        ENABLE_COAL_WORLD_GEN = COMMON_BUILDER.comment(
-                "Enables Coal Worldgen. Coal worldgen is custom and separate from the rest of the deposit system in Geolosys.")
-                .define("enableCoalWorldgen", true);
-
         DEBUG_WORLD_GEN = COMMON_BUILDER
                 .comment("Output info into the logs when generating Geolosys deposits")
                 .define("debugWorldgen", false);
+        ADVANCED_DEBUG_WORLD_GEN =
+                COMMON_BUILDER.comment("Outputs really advanced info when generating deposits.")
+                        .define("advancedDebugWorldGen", false);
         REMOVE_VANILLA_ORES = COMMON_BUILDER.comment("Disable generation of Vanilla ores")
                 .define("disableVanillaOreGen", true);
         DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
@@ -78,9 +74,6 @@ public class CommonConfig {
         CHUNK_SKIP_CHANCE = COMMON_BUILDER.comment(
                 "The upper limit of RNG for generating any pluton in a given chunk.\nLarger values indicate further distance between plutons.")
                 .defineInRange("chunkSkipChance", 100, 1, Integer.MAX_VALUE);
-        TOP_LAYER_SKIP_CHANCE = COMMON_BUILDER.comment(
-                "The upper limit of RNG for generating any top layer decorator in a given chunk.\nLarger values indicate further distance between top layer plutons.")
-                .defineInRange("topLayerSkipChance", 100, 1, Integer.MAX_VALUE);
         SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER
                 .comment("A list of <modid:block> that samples may not be placed on").defineList(
                         "samplePlacementBlacklist", Lists.newArrayList("minecraft:ice",

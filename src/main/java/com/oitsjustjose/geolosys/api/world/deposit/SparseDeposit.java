@@ -172,6 +172,7 @@ public class SparseDeposit implements IDeposit {
 
         int totlPlaced = 0;
         ChunkPos thisChunk = new ChunkPos(pos);
+        HashSet<ChunkPos> placedChunks = new HashSet<ChunkPos>();
         int randY = this.yMin + reader.getRandom().nextInt(this.yMax - this.yMin);
         int max = Utils.getTopSolidBlock(reader, pos).getY();
         if (randY > max) {
@@ -214,15 +215,17 @@ public class SparseDeposit implements IDeposit {
 
                                 if (layerRadX * layerRadX + layerRadY * layerRadY
                                         + layerRadZ * layerRadZ < 1.0D) {
-                                    int xSpread = (this.spread / 2)
-                                            + reader.getRandom().nextInt(this.spread / 2);
-                                    int ySpread = (this.spread / 2)
-                                            + reader.getRandom().nextInt(this.spread / 2);
-                                    int zSpread = (this.spread / 2)
-                                            + reader.getRandom().nextInt(this.spread / 2);
 
-                                    BlockPos placePos =
-                                            new BlockPos(x + xSpread, y + ySpread, z + zSpread);
+                                    // Randomize spread on the X and Z Axes
+                                    int xSpread = reader.getRandom().nextInt(this.spread)
+                                            * (reader.getRandom().nextBoolean() ? 1 : -1);
+                                    int zSpread = reader.getRandom().nextInt(this.spread)
+                                            * (reader.getRandom().nextBoolean() ? 1 : -1);
+                                    Geolosys.getInstance().LOGGER.debug(
+                                            "Wanted to place at ({}, {}, {}), now placing at ({}, {}, {})",
+                                            x, y, z, x + xSpread, y, z + zSpread);
+
+                                    BlockPos placePos = new BlockPos(x + xSpread, y, z + zSpread);
                                     BlockState state = FeatureUtils.tryGetBlockState(reader,
                                             thisChunk, placePos);
                                     BlockState tmp = this.getOre();
@@ -230,14 +233,15 @@ public class SparseDeposit implements IDeposit {
                                         continue;
                                     }
 
-                                    for (BlockState matcherState : (this.blockStateMatchers == null
-                                            ? DepositUtils.getDefaultMatchers()
-                                            : this.blockStateMatchers)) {
+                                    for (BlockState matcherState : this.getBlockStateMatchers()) {
                                         if (Utils.doStatesMatch(matcherState, state)) {
-                                            if (FeatureUtils.tryPlaceBlock(reader,
-                                                    new ChunkPos(pos), placePos, tmp, cap)) {
+                                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk,
+                                                    placePos, tmp, cap)) {
                                                 totlPlaced++;
                                             }
+                                            FeatureUtils.tryPlaceBlock(reader, thisChunk,
+                                                    placePos.add(0, 128, 0), tmp, cap);
+                                            placedChunks.add(new ChunkPos(placePos));
                                             break;
                                         }
                                     }
@@ -249,7 +253,15 @@ public class SparseDeposit implements IDeposit {
             }
         }
 
-        return totlPlaced;
+        System.out.println(placedChunks);
+
+        // Mark all of these chunks with samples :)
+        placedChunks.forEach((cp) -> {
+            cap.setPlutonGenerated(cp);
+            afterGen(reader, new BlockPos(cp.getXStart(), 128, cp.getZStart()));
+        });
+
+        return 0;
     }
 
     /**
@@ -259,8 +271,8 @@ public class SparseDeposit implements IDeposit {
     public void afterGen(ISeedReader reader, BlockPos pos) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
-                    this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
+            // Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
+            // this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
 
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
@@ -288,8 +300,15 @@ public class SparseDeposit implements IDeposit {
                 } else { // Default to std state if not possible
                     reader.setBlockState(samplePos, tmp, 2 | 16);
                 }
+                FeatureUtils.fixSnowyBlock(reader, samplePos);
             }
         }
+    }
+
+    @Override
+    public HashSet<BlockState> getBlockStateMatchers() {
+        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
+                : this.blockStateMatchers;
     }
 
     public static SparseDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {

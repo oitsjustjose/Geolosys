@@ -41,36 +41,6 @@ public class PlutonRegistry {
     }
 
     @Nullable
-    public IDeposit pickTopLayer(ISeedReader reader, BlockPos pos, Random rand) {
-        ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
-        choices.removeIf((dep) -> {
-            return !(dep instanceof TopLayerDeposit);
-        });
-
-        if (choices.size() == 0) {
-            return null;
-        }
-
-        int totalWt = 0;
-        for (IDeposit d : choices) {
-            totalWt += d.getGenWt();
-        }
-
-        int rng = rand.nextInt(totalWt);
-        for (IDeposit d : choices) {
-            int wt = d.getGenWt();
-            if (rng < wt) {
-                return d;
-            }
-            rng -= wt;
-        }
-
-        Geolosys.getInstance().LOGGER
-                .error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
-        return null;
-    }
-
-    @Nullable
     public IDeposit pick(ISeedReader reader, BlockPos pos, Random rand) {
         @SuppressWarnings("unchecked")
         ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
@@ -92,7 +62,7 @@ public class PlutonRegistry {
         }
 
         /* 1/3 chance to lean towards a biome restricted deposit */
-        if (rand.nextInt(3) > 1) {
+        if (rand.nextInt(3) == 0) {
             // Only remove the entries if there's at least one.
             if (choices.stream().anyMatch((dep) -> {
                 return dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos));
