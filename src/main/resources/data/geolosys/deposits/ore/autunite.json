@@ -19,9 +19,8 @@
     ],
     "yMin": 8,
     "yMax": 33,
-    "maxAmt": 24,
-    "spread": 12,
-    "rolls": 1,
+    "spread": 32,
+    "size": 24,
     "biomes": {
       "isBlacklist": false,
       "filter": [

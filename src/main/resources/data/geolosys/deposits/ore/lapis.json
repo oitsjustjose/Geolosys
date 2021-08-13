@@ -3,9 +3,8 @@
   "config": {
     "yMin": 10,
     "yMax": 24,
-    "maxAmt": 30,
+    "size": 30,
     "spread": 24,
-    "rolls": 2,
     "biomes": {
       "isBlacklist": false,
       "filter": [

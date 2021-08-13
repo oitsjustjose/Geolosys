@@ -3,9 +3,8 @@
   "config": {
     "yMin": 8,
     "yMax": 78,
-    "maxAmt": 72,
+    "size": 48,
     "spread": 48,
-    "rolls": 2,
     "dimensions": {
       "isBlacklist": false,
       "filter": [

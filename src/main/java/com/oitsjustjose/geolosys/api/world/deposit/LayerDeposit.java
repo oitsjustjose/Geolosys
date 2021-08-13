@@ -183,17 +183,13 @@ public class LayerDeposit implements IDeposit {
             y = Math.max(yMin, max);
         }
 
-        // These are just modifiers for dx and dz to prevent perfect cylinders
-        int dXMod = reader.getRandom().nextInt(this.radius / 2);
-        int dZMod = reader.getRandom().nextInt(this.radius / 2);
-
         BlockPos basePos = new BlockPos(x, y, z);
 
         for (int dX = -this.radius; dX <= this.radius; dX++) {
             for (int dZ = -this.radius; dZ <= this.radius; dZ++) {
                 for (int dY = 0; dY < depth; dY++) {
-                    float dist = ((dX + dXMod) * (dX + dXMod)) + ((dZ + dZMod) * (dZ + dZMod));
-                    if (dist > this.radius) {
+                    float dist = dX * dX + dZ * dZ;
+                    if (dist > this.radius * 2) {
                         continue;
                     }
 
