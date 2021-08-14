@@ -57,7 +57,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         boolean anyGenerated = pluton.generate(reader, pos, cap) > 0;
 
         if (anyGenerated) {
-            pluton.afterGen(reader, pos);
+            pluton.afterGen(reader, pos, cap);
             cap.setPlutonGenerated(chunkPos);
             return true;
         }

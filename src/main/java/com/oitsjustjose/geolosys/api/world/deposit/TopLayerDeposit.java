@@ -184,17 +184,8 @@ public class TopLayerDeposit implements IDeposit {
                 BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
 
 
-                /*
-                 * Thoughts on progress here:
-                 * 
-                 * 1. Find the top block 2. Iterate over every Y between top block and (top block -
-                 * depth)
-                 */
-
-
                 for (int i = 0; i < this.depth; i++) {
                     BlockPos placePos = baseForXZ.down(i);
-                    BlockState state = reader.getBlockState(placePos);
                     BlockState tmp = this.getOre();
                     boolean isTop = i == 0;
 
@@ -204,24 +195,25 @@ public class TopLayerDeposit implements IDeposit {
                         tmp = tmp.with(BlockStateProperties.BOTTOM, !isTop);
                     }
 
-                    for (BlockState matcherState : this.getBlockStateMatchers()) {
-                        if (Utils.doStatesMatch(matcherState, state)) {
-                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
-                                totlPlaced++;
-                                if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
-                                    BlockState smpl = this.getSample();
-                                    if (smpl != null) {
-                                        FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(),
-                                                smpl, cap);
-                                        FeatureUtils.fixSnowyBlock(reader, placePos);
-                                    }
-                                }
+                    // Skip this block if it can't replace the target block
+                    if (!this.getBlockStateMatchers()
+                            .contains(FeatureUtils.tryGetBlockState(reader, thisChunk, placePos))) {
+                        continue;
+                    }
+
+
+                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                        totlPlaced++;
+                        if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
+                            BlockState smpl = this.getSample();
+                            if (smpl != null) {
+                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(), smpl,
+                                        cap);
+                                FeatureUtils.fixSnowyBlock(reader, placePos);
                             }
-                            break;
                         }
                     }
                 }
-
             }
         }
 
@@ -232,7 +224,7 @@ public class TopLayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(ISeedReader reader, BlockPos pos) {
+    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",

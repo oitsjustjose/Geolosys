@@ -194,19 +194,20 @@ public class LayerDeposit implements IDeposit {
                     }
 
                     BlockPos placePos = basePos.add(dX, dY, dZ);
-                    BlockState state = FeatureUtils.tryGetBlockState(reader, thisChunk, placePos);
                     BlockState tmp = this.getOre();
                     if (tmp == null) {
                         continue;
                     }
 
-                    for (BlockState matcherState : this.getBlockStateMatchers()) {
-                        if (Utils.doStatesMatch(matcherState, state)) {
-                            if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
-                                totlPlaced++;
-                            }
-                            break;
-                        }
+                    // Skip this block if it can't replace the target block
+                    if (!this.getBlockStateMatchers()
+                            .contains(FeatureUtils.tryGetBlockState(reader, thisChunk, placePos))) {
+                        continue;
+                    }
+
+
+                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                        totlPlaced++;
                     }
                 }
             }
@@ -218,13 +219,14 @@ public class LayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(ISeedReader reader, BlockPos pos) {
+    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
                     this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
 
+        ChunkPos thisChunk = new ChunkPos(pos);
         int maxSampleCnt = Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(),
                 (this.radius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
                         + (this.radius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
@@ -240,18 +242,13 @@ public class LayerDeposit implements IDeposit {
                 continue;
             }
 
-            // Prevent replacing the block with the same block
-            if (reader.getBlockState(samplePos) != tmp) {
-                // Waterlog if possible
-                if (SampleUtils.isInWater(reader, samplePos)
-                        && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                    reader.setBlockState(samplePos,
-                            tmp.with(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2 | 16);
-                } else { // Default to std state if not possible
-                    reader.setBlockState(samplePos, tmp, 2 | 16);
-                }
-                FeatureUtils.fixSnowyBlock(reader, samplePos);
+            if (SampleUtils.isInWater(reader, samplePos)
+                    && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
+                tmp = tmp.with(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
+
+            FeatureUtils.tryPlaceBlock(reader, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.fixSnowyBlock(reader, samplePos);
         }
     }
 
