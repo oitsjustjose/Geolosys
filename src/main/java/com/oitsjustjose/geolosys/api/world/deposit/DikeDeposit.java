@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
 import com.google.gson.JsonDeserializationContext;
@@ -165,21 +166,26 @@ public class DikeDeposit implements IDeposit {
             return 0;
         }
 
-        int totlPlaced = 0;
-        int rad = this.baseRadius;
-
         ChunkPos thisChunk = new ChunkPos(pos);
         int height = Math.abs((this.yMax - this.yMin));
         int x = thisChunk.getXStart() + reader.getRandom().nextInt(16);
         int z = thisChunk.getZStart() + reader.getRandom().nextInt(16);
-        int y = this.yMin + reader.getRandom().nextInt(height);
+        int yMin = this.yMin + reader.getRandom().nextInt(height / 4);
+        int yMax = this.yMax - reader.getRandom().nextInt(height / 4);
         int max = Utils.getTopSolidBlock(reader, pos).getY();
-        if (y > max) {
-            y = Math.max(yMin, max);
+        if (yMin > max) {
+            yMin = Math.max(yMin, max);
+        } else if (yMin == yMax) {
+            yMax = this.yMax;
         }
-        BlockPos basePos = new BlockPos(x, y, z);
+        BlockPos basePos = new BlockPos(x, yMin, z);
 
-        for (int dY = y; dY <= this.yMax; dY++) {
+        int totlPlaced = 0;
+        int htRnd = Math.abs((yMax - yMin));
+        int rad = this.baseRadius / 2;
+        boolean shouldSub = false;
+
+        for (int dY = yMin; dY <= yMax; dY++) {
             for (int dX = -rad; dX <= rad; dX++) {
                 for (int dZ = -rad; dZ <= rad; dZ++) {
                     float dist = (dX * dX) + (dZ * dZ);
@@ -199,17 +205,19 @@ public class DikeDeposit implements IDeposit {
                         continue;
                     }
 
-
                     if (FeatureUtils.tryPlaceBlock(reader, new ChunkPos(pos), placePos, tmp, cap)) {
                         totlPlaced++;
                     }
                 }
             }
 
-            // After a layer is done, *maybe* shrink it.
-            if (reader.getRandom().nextInt(100) % this.baseRadius == 0) {
-                rad -= 1;
-                if (rad < 0) {
+            // flip at around the halfway point.
+            if (yMin + (htRnd / 2) <= dY) {
+                shouldSub = true;
+            }
+            if (reader.getWorld().getRandom().nextInt(3) == 0) {
+                rad += shouldSub ? -1 : 1;
+                if (rad <= 0) {
                     return totlPlaced;
                 }
             }

@@ -1,9 +1,9 @@
 {
   "type": "geolosys:deposit_dike",
   "config": {
-    "yMin": 2,
-    "yMax": 15,
-    "baseRadius": 3,
+    "yMin": 3,
+    "yMax": 10,
+    "baseRadius": 4,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
@@ -22,6 +22,6 @@
         "chance": 1.0
       }
     ],
-    "generationWeight": 3
+    "generationWeight": 4
   }
 }
