@@ -33,13 +33,13 @@ public class DepositUtils {
     private static HashSet<BlockState> defaultMatchersCached = null;
 
     /**
-     * picks a choice out of a mapping between blockstate to weight passing -1.0F as totl will
-     * result in a total being calculated.
+     * picks a choice out of a mapping between blockstate to weight passing -1.0F as
+     * totl will result in a total being calculated.
      * 
      * @param map
      * @param totl
-     * @return null if no block should be used or placed, T instanceof BlockState if actual block
-     *         should be placed.
+     * @return null if no block should be used or placed, T instanceof BlockState if
+     *         actual block should be placed.
      */
     @Nullable
     public static BlockState pick(HashMap<BlockState, Float> map, float totl) {
@@ -59,8 +59,7 @@ public class DepositUtils {
             rng -= wt;
         }
 
-        Geolosys.getInstance().LOGGER
-                .error("Could not reach decision on block to place at Utils#pick");
+        Geolosys.getInstance().LOGGER.error("Could not reach decision on block to place at Utils#pick");
         return null;
     }
 
@@ -77,8 +76,7 @@ public class DepositUtils {
 
         if (biomeTypes != null) {
             for (BiomeDictionary.Type type : biomeTypes) {
-                RegistryKey<Biome> regKey =
-                        RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+                RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
                 Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
                 matchForBiomeType = dictTypes.stream().anyMatch((dictType) -> {
                     return type.getName().equalsIgnoreCase(dictType.getName());
@@ -104,8 +102,7 @@ public class DepositUtils {
             CommonConfig.DEFAULT_REPLACEMENT_MATS.get().forEach(s -> {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
                 if (block == null || !addDefaultMatcher(block)) {
-                    Geolosys.getInstance().LOGGER.warn("{} is not a valid block. Please verify.",
-                            s);
+                    Geolosys.getInstance().LOGGER.warn("{} is not a valid block. Please verify.", s);
                 }
             });
         }

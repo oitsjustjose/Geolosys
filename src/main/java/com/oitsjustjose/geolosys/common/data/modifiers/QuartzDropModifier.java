@@ -27,8 +27,7 @@ public class QuartzDropModifier extends LootModifier {
     private HashMap<Item, Float> quartzes;
     private float chance;
 
-    public QuartzDropModifier(ILootCondition[] conditions, HashMap<Item, Float> quartzes,
-            float chance) {
+    public QuartzDropModifier(ILootCondition[] conditions, HashMap<Item, Float> quartzes, float chance) {
         super(conditions);
         this.quartzes = quartzes;
         this.chance = chance;
@@ -60,8 +59,7 @@ public class QuartzDropModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<QuartzDropModifier> {
         @Override
-        public QuartzDropModifier read(ResourceLocation name, JsonObject obj,
-                ILootCondition[] cond) {
+        public QuartzDropModifier read(ResourceLocation name, JsonObject obj, ILootCondition[] cond) {
             JsonArray a = JSONUtils.getJsonArray(obj, "quartzes");
             HashMap<Item, Float> quartzes = new HashMap<Item, Float>();
             float occChance = JSONUtils.getFloat(obj, "chance");

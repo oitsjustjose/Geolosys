@@ -1,10 +1,8 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
 import java.util.ArrayList;
-
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -20,28 +18,18 @@ public class ModBlocks {
     private ArrayList<Block> extras = new ArrayList<Block>();
 
     public Block peat = new PeatBlock().setRegistryName(Constants.MODID, "peat");
-    public Block rhododendron =
-            new PlantBlock(false, peat).setRegistryName(Constants.MODID, "rhododendron");
+    public Block rhododendron = new PlantBlock(false, peat).setRegistryName(Constants.MODID, "rhododendron");
 
     private ModBlocks() {
         for (Types.Ores oreType : Types.Ores.values()) {
             final String SAMPLE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore_sample";
             final String ORE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore";
             Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
-                    .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE)
-                    .harvestLevel(oreType.getToolLevel()).harvestTool(ToolType.PICKAXE)
-                    .setRequiresTool();
+                    .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(oreType.getToolLevel())
+                    .harvestTool(ToolType.PICKAXE).setRequiresTool();
 
-            if (oreType.getVanillaParent() != null) {
-                blockProp.lootFrom(oreType.getVanillaParent());
-            }
-
-            Block block = new OreBlock(oreType.getVanillaParent(), blockProp)
-                    .setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
-            Block sample = oreType.getVanillaParent() == null
-                    ? sample = new SampleBlock(block).setRegistryName(Constants.MODID,
-                            SAMPLE_REGISTRY_NAME)
-                    : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
+            Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
+            Block sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
             oreType.setSample(sample);
             oreType.setBlock(block);
@@ -70,23 +58,20 @@ public class ModBlocks {
 
     public void registerItemBlocks(RegistryEvent.Register<Item> itemRegistryEvent) {
         for (Types.Ores oreType : Types.Ores.values()) {
-            Item iBlock = new BlockItem(oreType.getBlock(),
-                    new Item.Properties().group(GeolosysGroup.getInstance()))
-                            .setRegistryName(oreType.getBlock().getRegistryName());
+            Item iBlock = new BlockItem(oreType.getBlock(), new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(oreType.getBlock().getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
 
         for (Types.Ores oreType : Types.Ores.values()) {
-            Item iBlock = new BlockItem(oreType.getSample(),
-                    new Item.Properties().group(GeolosysGroup.getInstance()))
-                            .setRegistryName(oreType.getSample().getRegistryName());
+            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(oreType.getSample().getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
 
         for (Block extra : extras) {
-            Item iBlock =
-                    new BlockItem(extra, new Item.Properties().group(GeolosysGroup.getInstance()))
-                            .setRegistryName(extra.getRegistryName());
+            Item iBlock = new BlockItem(extra, new Item.Properties().group(GeolosysGroup.getInstance()))
+                    .setRegistryName(extra.getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
     }

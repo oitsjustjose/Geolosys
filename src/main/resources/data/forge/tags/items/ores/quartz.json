@@ -1,4 +1,6 @@
 {
   "replace": false,
-  "values": ["geolosys:quartz_ore"]
+  "values": [
+    "geolosys:quartz_ore"
+  ]
 }

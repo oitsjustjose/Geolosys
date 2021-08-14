@@ -1,1 +1,6 @@
-{ "replace": false, "values": ["geolosys:silver_nugget"] }
+{
+  "replace": false,
+  "values": [
+    "geolosys:silver_nugget"
+  ]
+}

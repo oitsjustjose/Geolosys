@@ -52,9 +52,8 @@ public class TopLayerDeposit implements IDeposit {
     private float sumWtOres = 0.0F;
     private float sumWtSamples = 0.0F;
 
-    public TopLayerDeposit(HashMap<BlockState, Float> oreBlocks,
-            HashMap<BlockState, Float> sampleBlocks, int radius, int depth, float sampleChance,
-            int genWt, String[] dimFilter, boolean isDimFilterBl,
+    public TopLayerDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int radius,
+            int depth, float sampleChance, int genWt, String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
@@ -82,11 +81,13 @@ public class TopLayerDeposit implements IDeposit {
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random ore block to return.
+     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random ore block to
+     * return.
      * 
-     * @return the random ore block chosen (based on weight) Can be null to represent "density" of
-     *         the ore -- null results should be used to determine if the block in the world should
-     *         be replaced. If null, don't replace 😉
+     * @return the random ore block chosen (based on weight) Can be null to
+     *         represent "density" of the ore -- null results should be used to
+     *         determine if the block in the world should be replaced. If null,
+     *         don't replace 😉
      */
     @Nullable
     public BlockState getOre() {
@@ -94,11 +95,13 @@ public class TopLayerDeposit implements IDeposit {
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random pluton sample to return.
+     * Uses {@link DepositUtils#pick(HashMap, float)} to find a random pluton sample
+     * to return.
      * 
-     * @return the random pluton sample chosen (based on weight) Can be null to represent "density"
-     *         of the samples -- null results should be used to determine if the sample in the world
-     *         should be replaced. If null, don't replace 😉
+     * @return the random pluton sample chosen (based on weight) Can be null to
+     *         represent "density" of the samples -- null results should be used to
+     *         determine if the sample in the world should be replaced. If null,
+     *         don't replace 😉
      */
     @Nullable
     public BlockState getSample() {
@@ -107,8 +110,7 @@ public class TopLayerDeposit implements IDeposit {
 
     @Override
     public boolean canPlaceInBiome(Biome b) {
-        return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter,
-                this.isBiomeFilterBl);
+        return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter, this.isBiomeFilterBl);
     }
 
     @Override
@@ -146,19 +148,20 @@ public class TopLayerDeposit implements IDeposit {
     }
 
     /**
-     * Handles full-on generation of this type of pluton. Requires 0 arguments as everything is
-     * self-contained in this class
+     * Handles full-on generation of this type of pluton. Requires 0 arguments as
+     * everything is self-contained in this class
      * 
-     * @return (int) the number of pluton resource blocks placed. If 0 -- this should be evaluted as
-     *         a false for use of Mojang's sort-of sketchy generation code in
+     * @return (int) the number of pluton resource blocks placed. If 0 -- this
+     *         should be evaluted as a false for use of Mojang's sort-of sketchy
+     *         generation code in
      *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
     public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
-        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter,
-                this.biomeTypeFilter, this.isBiomeFilterBl)) {
+        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
+                this.isBiomeFilterBl)) {
             return 0;
         }
 
@@ -176,13 +179,11 @@ public class TopLayerDeposit implements IDeposit {
 
         for (int dX = -radX; dX <= radX; dX++) {
             for (int dZ = -radZ; dZ <= radZ; dZ++) {
-                if (((dX * dX) + (dZ * dZ)) > this.radius
-                        + reader.getRandom().nextInt(Math.max(1, this.radius / 2))) {
+                if (((dX * dX) + (dZ * dZ)) > this.radius + reader.getRandom().nextInt(Math.max(1, this.radius / 2))) {
                     continue;
                 }
 
                 BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
-
 
                 for (int i = 0; i < this.depth; i++) {
                     BlockPos placePos = baseForXZ.down(i);
@@ -201,14 +202,12 @@ public class TopLayerDeposit implements IDeposit {
                         continue;
                     }
 
-
                     if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
                         totlPlaced++;
                         if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
                             BlockState smpl = this.getSample();
                             if (smpl != null) {
-                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(), smpl,
-                                        cap);
+                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(), smpl, cap);
                                 FeatureUtils.fixSnowyBlock(reader, placePos);
                             }
                         }
@@ -227,15 +226,14 @@ public class TopLayerDeposit implements IDeposit {
     public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])",
-                    this.toString(), new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
+            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
+                    new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
     }
 
     @Override
     public HashSet<BlockState> getBlockStateMatchers() {
-        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers()
-                : this.blockStateMatchers;
+        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers() : this.blockStateMatchers;
     }
 
     public static TopLayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
@@ -245,10 +243,10 @@ public class TopLayerDeposit implements IDeposit {
 
         try {
             // Plutons 101 -- basics and intro to getting one gen'd
-            HashMap<BlockState, Float> oreBlocks =
-                    SerializerUtils.buildMultiBlockMap(json.get("blocks").getAsJsonArray());
-            HashMap<BlockState, Float> sampleBlocks =
-                    SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Float> oreBlocks = SerializerUtils
+                    .buildMultiBlockMap(json.get("blocks").getAsJsonArray());
+            HashMap<BlockState, Float> sampleBlocks = SerializerUtils
+                    .buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int radius = json.get("radius").getAsInt();
             int depth = json.get("depth").getAsInt();
             float sampleChance = json.get("chanceForSample").getAsFloat();
@@ -272,13 +270,11 @@ public class TopLayerDeposit implements IDeposit {
             // Block State Matchers
             HashSet<BlockState> blockStateMatchers = DepositUtils.getDefaultMatchers();
             if (json.has("blockStateMatchers")) {
-                blockStateMatchers = SerializerUtils
-                        .toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
+                blockStateMatchers = SerializerUtils.toBlockStateList(json.get("blockStateMatchers").getAsJsonArray());
             }
 
-            return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, sampleChance, genWt,
-                    dimFilter, isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl,
-                    blockStateMatchers);
+            return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, sampleChance, genWt, dimFilter,
+                    isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl, blockStateMatchers);
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", json.toString());
             return null;
@@ -293,8 +289,7 @@ public class TopLayerDeposit implements IDeposit {
         // Custom logic for the biome filtering
         JsonObject biomes = new JsonObject();
         biomes.addProperty("isBlacklist", this.isBiomeFilterBl);
-        biomes.add("filter",
-                SerializerUtils.deconstructBiomes(this.biomeFilter, this.biomeTypeFilter));
+        biomes.add("filter", SerializerUtils.deconstructBiomes(this.biomeFilter, this.biomeTypeFilter));
 
         // Custom logic for the dimension filtering
         JsonObject dimensions = new JsonObject();

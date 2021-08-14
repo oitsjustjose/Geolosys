@@ -21,17 +21,12 @@ public class BlockColorInit {
     public static void registerBlockColors(ColorHandlerEvent.Block evt) {
         BlockColors blockColors = evt.getBlockColors();
 
-        blockColors.register(
-                (unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
-                        ? BiomeColors.getGrassColor(lightReader, pos)
-                        : GrassColors.get(0.5D, 1.0D),
-                ModBlocks.getInstance().peat);
-        blockColors
-                .register(
-                        (unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
-                                ? BiomeColors.getGrassColor(lightReader, pos)
-                                : GrassColors.get(0.5D, 1.0D),
-                        ModBlocks.getInstance().rhododendron);
+        blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
+                ? BiomeColors.getGrassColor(lightReader, pos)
+                : GrassColors.get(0.5D, 1.0D), ModBlocks.getInstance().peat);
+        blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
+                ? BiomeColors.getGrassColor(lightReader, pos)
+                : GrassColors.get(0.5D, 1.0D), ModBlocks.getInstance().rhododendron);
 
     }
 

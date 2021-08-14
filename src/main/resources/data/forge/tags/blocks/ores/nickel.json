@@ -1,4 +1,6 @@
 {
   "replace": false,
-  "values": ["geolosys:limonite_ore"]
+  "values": [
+    "geolosys:limonite_ore"
+  ]
 }

@@ -35,12 +35,9 @@ public class SampleUtils {
         int xCenter = (chunkPos.getXStart() + chunkPos.getXEnd()) / 2;
         int zCenter = (chunkPos.getZStart() + chunkPos.getZEnd()) / 2;
 
-
         // Only put things in the negative X|Z if the spread is provided.
-        int blockPosX = xCenter
-                + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
-        int blockPosZ = zCenter
-                + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosX = xCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosZ = zCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
 
         if (!world.chunkExists(chunkPos.x, chunkPos.z)) {
             return null;
@@ -79,7 +76,7 @@ public class SampleUtils {
      * Determines if the sample can be placed on this block
      * 
      * @param world: an ISeedReader instance
-     * @param pos: The current searching position that will be used to confirm
+     * @param pos:   The current searching position that will be used to confirm
      * @return true if the block below is solid on top AND isn't in the blacklist
      */
     public static boolean canPlaceOn(ISeedReader reader, BlockPos pos) {
@@ -89,7 +86,7 @@ public class SampleUtils {
 
     /**
      * @param reader an ISeedReader instance
-     * @param pos A BlockPos to check in and around
+     * @param pos    A BlockPos to check in and around
      * @return true if the block at pos is replaceable
      */
     public static boolean canReplace(ISeedReader reader, BlockPos pos) {
@@ -100,7 +97,7 @@ public class SampleUtils {
 
     /**
      * @param reader an ISeedReader instance
-     * @param pos A BlockPos to check in and around
+     * @param pos    A BlockPos to check in and around
      * @return true if the block is water (since we can waterlog)
      */
     public static boolean isInWater(ISeedReader reader, BlockPos pos) {
@@ -109,7 +106,7 @@ public class SampleUtils {
 
     /**
      * @param reader an ISeedReader instance
-     * @param pos A BlockPos to check in and around
+     * @param pos    A BlockPos to check in and around
      * @return true if the block is in a non-water fluid
      */
     public static boolean inNonWaterFluid(ISeedReader reader, BlockPos pos) {
@@ -119,7 +116,8 @@ public class SampleUtils {
     /**
      * @param posA
      * @param posB
-     * @param range An integer representing how far is acceptable to be considered in range
+     * @param range An integer representing how far is acceptable to be considered
+     *              in range
      * @return true if within range
      */
     public static boolean isWithinRange(int posA, int posB, int range) {

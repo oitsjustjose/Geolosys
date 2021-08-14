@@ -1,4 +1,6 @@
 {
   "replace": false,
-  "values": ["geolosys:galena_ore"]
+  "values": [
+    "geolosys:galena_ore"
+  ]
 }

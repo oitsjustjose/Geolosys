@@ -1,5 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": [{ "item": "geolosys:lead_ingot" }],
-  "result": { "item": "geolosys:lead_nugget", "count": 9 }
+  "ingredients": [
+    {
+      "item": "geolosys:lead_ingot"
+    }
+  ],
+  "result": {
+    "item": "geolosys:lead_nugget",
+    "count": 9
+  }
 }

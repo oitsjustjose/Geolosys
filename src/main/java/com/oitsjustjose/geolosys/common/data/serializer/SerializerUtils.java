@@ -21,8 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class SerializerUtils {
     public static String[] getDimFilter(JsonObject obj) {
         if (obj.has("dimensions") && obj.get("dimensions").isJsonObject()) {
-            return toStringArray(
-                    obj.get("dimensions").getAsJsonObject().get("filter").getAsJsonArray());
+            return toStringArray(obj.get("dimensions").getAsJsonObject().get("filter").getAsJsonArray());
         }
         return toStringArray(obj.get("dimBlacklist").getAsJsonArray());
     }
@@ -37,8 +36,7 @@ public class SerializerUtils {
     @Nullable
     public static String[] getBiomeFilter(JsonObject obj) {
         if (obj.has("biomes") && obj.get("biomes").isJsonObject()) {
-            return toStringArray(
-                    obj.get("biomes").getAsJsonObject().get("filter").getAsJsonArray());
+            return toStringArray(obj.get("biomes").getAsJsonObject().get("filter").getAsJsonArray());
         }
         return null;
     }
@@ -51,8 +49,7 @@ public class SerializerUtils {
         return true;
     }
 
-    public static JsonArray deconstructBiomes(List<Biome> biomes,
-            List<BiomeDictionary.Type> types) {
+    public static JsonArray deconstructBiomes(List<Biome> biomes, List<BiomeDictionary.Type> types) {
         JsonArray ret = new JsonArray();
 
         for (Biome b : biomes) {
@@ -100,8 +97,7 @@ public class SerializerUtils {
             if (pair.get("block").isJsonNull()) {
                 ret.put(null, pair.get("chance").getAsFloat());
             } else {
-                ret.put(fromString(pair.get("block").getAsString()),
-                        pair.get("chance").getAsFloat());
+                ret.put(fromString(pair.get("block").getAsString()), pair.get("chance").getAsFloat());
             }
         }
 

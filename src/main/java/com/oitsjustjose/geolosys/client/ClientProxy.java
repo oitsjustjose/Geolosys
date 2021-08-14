@@ -12,22 +12,23 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
     public void init() {
+        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
+                PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++,
-                PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode,
-                PacketStackSurface::handleClient);
-        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++,
-                PacketStackUnderground.class, PacketStackUnderground::encode,
-                PacketStackUnderground::decode, PacketStackUnderground::handleClient);
+                PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode,
+                PacketStackUnderground::handleClient);
     }
 
     @Override
     public void sendProspectingMessage(PlayerEntity player, ItemStack stack, Direction direction) {
         if (direction != null) {
-            player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.found",
-                    stack.getDisplayName(), direction), true);
+            player.sendStatusMessage(
+                    new TranslationTextComponent("geolosys.pro_pick.tooltip.found", stack.getDisplayName(), direction),
+                    true);
         } else {
-            player.sendStatusMessage(new TranslationTextComponent(
-                    "geolosys.pro_pick.tooltip.found_surface", stack.getDisplayName()), true);
+            player.sendStatusMessage(
+                    new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface", stack.getDisplayName()),
+                    true);
         }
     }
 

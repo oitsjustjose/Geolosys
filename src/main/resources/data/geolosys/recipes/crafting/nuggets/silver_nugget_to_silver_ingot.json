@@ -1,9 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["sss", "sis", "sss"],
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
   "key": {
-    "s": { "tag": "forge:nuggets/silver" },
-    "i": { "item": "geolosys:silver_nugget" }
+    "s": {
+      "tag": "forge:nuggets/silver"
+    },
+    "i": {
+      "item": "geolosys:silver_nugget"
+    }
   },
-  "result": { "item": "geolosys:silver_ingot" }
+  "result": {
+    "item": "geolosys:silver_ingot"
+  }
 }

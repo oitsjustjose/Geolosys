@@ -1,4 +1,6 @@
 {
   "replace": false,
-  "values": ["geolosys:lead_ingot"]
+  "values": [
+    "geolosys:lead_ingot"
+  ]
 }

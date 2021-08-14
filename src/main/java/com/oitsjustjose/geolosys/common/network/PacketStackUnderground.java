@@ -40,8 +40,7 @@ public class PacketStackUnderground {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void handleClient(PacketStackUnderground msg,
-            Supplier<NetworkEvent.Context> context) {
+    public static void handleClient(PacketStackUnderground msg, Supplier<NetworkEvent.Context> context) {
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             context.get().enqueueWork(() -> {
                 Minecraft mc = Minecraft.getInstance();
@@ -53,8 +52,8 @@ public class PacketStackUnderground {
 
     @OnlyIn(Dist.CLIENT)
     private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators) {
-        TranslationTextComponent msg =
-                new TranslationTextComponent("geolosys.pro_pick.tooltip.found", messageDecorators);
+        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found",
+                messageDecorators);
         player.sendStatusMessage(msg, true);
     }
 }

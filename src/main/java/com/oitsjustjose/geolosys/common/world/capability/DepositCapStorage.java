@@ -9,8 +9,8 @@ import javax.annotation.Nullable;
 
 public class DepositCapStorage implements Capability.IStorage<IDepositCapability> {
     @Override
-    public void readNBT(Capability<IDepositCapability> capability, IDepositCapability instance,
-            Direction side, INBT nbt) {
+    public void readNBT(Capability<IDepositCapability> capability, IDepositCapability instance, Direction side,
+            INBT nbt) {
         if (nbt instanceof CompoundNBT) {
             instance.deserializeNBT(((CompoundNBT) nbt));
         }
@@ -18,8 +18,7 @@ public class DepositCapStorage implements Capability.IStorage<IDepositCapability
 
     @Nullable
     @Override
-    public INBT writeNBT(Capability<IDepositCapability> capability, IDepositCapability instance,
-            Direction side) {
+    public INBT writeNBT(Capability<IDepositCapability> capability, IDepositCapability instance, Direction side) {
         // Initialize the Compound with WorldDeposits and RetroGen:
         return instance.serializeNBT();
     }

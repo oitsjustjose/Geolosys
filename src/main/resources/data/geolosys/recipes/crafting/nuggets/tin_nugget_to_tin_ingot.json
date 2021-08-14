@@ -1,9 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["sss", "sis", "sss"],
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
   "key": {
-    "s": { "tag": "forge:nuggets/tin" },
-    "i": { "item": "geolosys:tin_nugget" }
+    "s": {
+      "tag": "forge:nuggets/tin"
+    },
+    "i": {
+      "item": "geolosys:tin_nugget"
+    }
   },
-  "result": { "item": "geolosys:tin_ingot" }
+  "result": {
+    "item": "geolosys:tin_ingot"
+  }
 }

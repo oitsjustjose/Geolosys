@@ -24,8 +24,7 @@ public class FeatureUtils {
         ConfiguredFeature<?, ?> currentFeature = feature;
         if (currentFeature.feature instanceof DecoratedFeature) {
             do {
-                currentFeature =
-                        ((DecoratedFeatureConfig) currentFeature.getConfig()).feature.get();
+                currentFeature = ((DecoratedFeatureConfig) currentFeature.getConfig()).feature.get();
             } while (currentFeature.feature instanceof DecoratedFeature);
         }
         return currentFeature;
@@ -46,8 +45,8 @@ public class FeatureUtils {
         return Blocks.BARRIER.getDefaultState();
     }
 
-    public static boolean tryPlaceBlock(ISeedReader reader, ChunkPos chunk, BlockPos pos,
-            BlockState state, IDepositCapability cap) {
+    public static boolean tryPlaceBlock(ISeedReader reader, ChunkPos chunk, BlockPos pos, BlockState state,
+            IDepositCapability cap) {
         if (isInChunk(chunk, pos) && reader.chunkExists(chunk.x, chunk.z)) {
             boolean ret = reader.setBlockState(pos, state, 2 | 16);
             if (!ret) {
@@ -63,8 +62,8 @@ public class FeatureUtils {
     public static void fixSnowyBlock(ISeedReader reader, BlockPos posPlaced) {
         BlockState below = reader.getBlockState(posPlaced.down());
         if (below.hasProperty(BlockStateProperties.SNOWY)) {
-            reader.setBlockState(posPlaced.down(),
-                    below.with(BlockStateProperties.SNOWY, Boolean.valueOf(false)), 2 | 16);
+            reader.setBlockState(posPlaced.down(), below.with(BlockStateProperties.SNOWY, Boolean.valueOf(false)),
+                    2 | 16);
         }
     }
 }

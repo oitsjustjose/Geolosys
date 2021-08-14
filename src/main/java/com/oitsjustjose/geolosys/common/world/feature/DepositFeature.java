@@ -31,8 +31,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             return false;
         }
 
-        IDepositCapability cap =
-                reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
+        IDepositCapability cap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
         if (cap == null) {
             Geolosys.getInstance().LOGGER.error("NULL PLUTON CAPABILITY!!!");
             return false;
@@ -48,7 +47,6 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         if (pluton == null) { // Could be no pluton for the dimension
             return false;
         }
-
 
         if (rand.nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getGenWt()) {
             return false;
@@ -74,14 +72,12 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                     cap.getPendingBlocks().remove(e.getKey());
                     if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.info("Generated pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at "
-                                + e.getKey());
+                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
                     }
                 } else {
                     if (CommonConfig.DEBUG_WORLD_GEN.get()) {
                         Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at "
-                                + e.getKey());
+                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
                     }
                 }
             }
