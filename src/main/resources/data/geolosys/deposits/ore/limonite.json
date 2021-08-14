@@ -21,7 +21,11 @@
     "blocks": [
       {
         "block": "geolosys:limonite_ore",
-        "chance": 1.0
+        "chance": 0.65
+      },
+      {
+        "block": null,
+        "chance": 0.35
       }
     ],
     "samples": [

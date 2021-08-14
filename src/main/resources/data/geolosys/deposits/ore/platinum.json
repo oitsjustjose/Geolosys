@@ -1,9 +1,9 @@
 {
   "type": "geolosys:deposit_dike",
   "config": {
-    "yMin": 3,
+    "yMin": 12,
     "yMax": 25,
-    "baseRadius": 5,
+    "baseRadius": 4,
     "biomes": {
       "isBlacklist": false,
       "filter": [
@@ -19,7 +19,11 @@
     "blocks": [
       {
         "block": "geolosys:platinum_ore",
-        "chance": 1.0
+        "chance": 0.67
+      },
+      {
+        "block": null,
+        "chance": 0.33
       }
     ],
     "samples": [

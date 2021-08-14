@@ -4,11 +4,15 @@
     "blocks": [
       {
         "block": "geolosys:teallite_ore",
-        "chance": 0.9
+        "chance": 0.6
       },
       {
         "block": "geolosys:beryl_ore",
-        "chance": 0.1
+        "chance": 0.15
+      },
+      {
+        "block": null,
+        "chance": 0.25
       }
     ],
     "samples": [
@@ -23,7 +27,8 @@
     "biomes": {
       "isBlacklist": false,
       "filter": [
-        "RIVER"
+        "RIVER",
+        "HOT"
       ]
     },
     "dimensions": {

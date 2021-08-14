@@ -31,13 +31,15 @@ public class SampleUtils {
         }
 
         WorldGenRegion world = (WorldGenRegion) reader;
-        int usedSpread = Math.max(16, spread);
+        int usedSpread = Math.max(8, spread);
+        int xCenter = (chunkPos.getXStart() + chunkPos.getXEnd()) / 2;
+        int zCenter = (chunkPos.getZStart() + chunkPos.getZEnd()) / 2;
 
 
         // Only put things in the negative X|Z if the spread is provided.
-        int blockPosX = ((chunkPos.getXStart() + chunkPos.getXEnd()) / 2)
+        int blockPosX = xCenter
                 + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
-        int blockPosZ = ((chunkPos.getZStart() + chunkPos.getZEnd()) / 2)
+        int blockPosZ = zCenter
                 + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
 
         if (!world.chunkExists(chunkPos.x, chunkPos.z)) {

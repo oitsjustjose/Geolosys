@@ -19,7 +19,7 @@
     ],
     "yMin": 8,
     "yMax": 33,
-    "spread": 32,
+    "spread": 6,
     "size": 24,
     "biomes": {
       "isBlacklist": false,
