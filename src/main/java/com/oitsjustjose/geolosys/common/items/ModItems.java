@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.items.Types.Clusters;
 import com.oitsjustjose.geolosys.common.items.Types.Coals;
 import com.oitsjustjose.geolosys.common.items.Types.Ingots;

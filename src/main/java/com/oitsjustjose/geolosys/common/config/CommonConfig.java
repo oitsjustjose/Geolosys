@@ -26,8 +26,6 @@ public class CommonConfig {
     public static ForgeConfigSpec.IntValue PRO_PICK_DURABILITY;
     public static ForgeConfigSpec.IntValue PRO_PICK_RANGE;
     public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> PRO_PICK_EXTRAS;
-    public static ForgeConfigSpec.EnumValue<SURFACE_PROSPECTING_TYPE> PRO_PICK_SURFACE_MODE;
     public static ForgeConfigSpec.BooleanValue GIVE_MANUAL_TO_NEW;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> DEFAULT_REPLACEMENT_MATS;
     private static String CATEGORY_FEATURE_CONTROL = "feature control";
@@ -84,19 +82,8 @@ public class CommonConfig {
                 .defineInRange("proPickRange", 5, 1, Integer.MAX_VALUE);
         PRO_PICK_DIAMETER = COMMON_BUILDER.comment("The diameter of the prospector's pick prospecting cycle")
                 .defineInRange("proPickDiameter", 5, 1, Integer.MAX_VALUE);
-        PRO_PICK_EXTRAS = COMMON_BUILDER
-                .comment("A list of blocks which the prospector's pick should also detect.\n"
-                        + "Format: Comma-delimited set of <modid:block> (see default for example)")
-                .defineList("proPickExtras", Lists.newArrayList(), rawName -> rawName instanceof String);
-        PRO_PICK_SURFACE_MODE = COMMON_BUILDER.comment(
-                "What Surface Prospecting Results display; SAMPLES means it's based off of samples in the chunk - OREBLOCKS means it's based on the actual ores in the ground")
-                .defineEnum("surfaceProspectingResults", SURFACE_PROSPECTING_TYPE.OREBLOCKS);
         GIVE_MANUAL_TO_NEW = COMMON_BUILDER.comment("Give players a Field Manual if they haven't gotten one")
                 .define("giveManual", true);
         COMMON_BUILDER.pop();
-    }
-
-    public enum SURFACE_PROSPECTING_TYPE {
-        SAMPLES, OREBLOCKS
     }
 }

@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -9,15 +8,11 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
-// import com.oitsjustjose.geolosys.api.world.DepositMultiOre;
-import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.config.CommonConfig.SURFACE_PROSPECTING_TYPE;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-import com.oitsjustjose.geolosys.common.utils.Utils;
+import com.oitsjustjose.geolosys.common.utils.Prospecting;
 
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +25,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -108,31 +102,6 @@ public class ProPickItem extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        if (player.isSneaking()) {
-            ItemStack stack = player.getHeldItem(hand);
-            // If there's no stack compound make one and assume last state was ores
-            if (stack.getTag() == null) {
-                stack.setTag(new CompoundNBT());
-                stack.getTag().putBoolean("stone", true);
-            }
-            // Swap boolean for compound state
-            else {
-                stack.getTag().putBoolean("stone", !stack.getTag().getBoolean("stone"));
-            }
-
-            boolean searchForStone = stack.getTag().getBoolean("stone");
-
-            if (searchForStone) {
-                player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.stones"), true);
-            } else {
-                player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.mode.ores"), true);
-            }
-        }
-        return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
-    }
-
-    @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
         Hand hand = context.getHand();
@@ -153,10 +122,6 @@ public class ProPickItem extends Item {
             }
 
             ItemStack stack = player.getHeldItem(hand);
-            if (stack.getTag() == null) {
-                stack.setTag(new CompoundNBT());
-                stack.getTag().putBoolean("stone", false);
-            }
 
             int xStart;
             int xEnd;
@@ -232,131 +197,51 @@ public class ProPickItem extends Item {
     private boolean prospect(PlayerEntity player, ItemStack stack, World worldIn, BlockPos pos, Direction facing,
             int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
-        return true;
-        // boolean searchingForStone = stack.getTag().getBoolean("stone");
-        // HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
+        HashSet<BlockState> foundBlocks = new HashSet<BlockState>();
+        HashSet<BlockState> depositBlocks = Prospecting.getDepositBlocks();
 
-        // GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
-        // if (ore instanceof DepositMultiOre) {
-        // foundMap.put((DepositMultiOre) ore, new HashSet<>());
-        // }
-        // });
+        for (int x = xStart; x <= xEnd; x++) {
+            for (int y = yStart; y <= yEnd; y++) {
+                for (int z = zStart; z <= zEnd; z++) {
+                    BlockState state = worldIn.getBlockState(pos.add(x, y, z));
+                    if (depositBlocks.contains(state)) {
+                        foundBlocks.add(state);
+                    }
+                }
+            }
+        }
 
-        // for (int x = xStart; x <= xEnd; x++) {
-        // for (int y = yStart; y <= yEnd; y++) {
-        // for (int z = zStart; z <= zEnd; z++) {
-        // BlockState state = worldIn.getBlockState(pos.add(x, y, z));
-
-        // for (IDeposit dep : (searchingForStone ?
-        // GeolosysAPI.plutonRegistry.getStones()
-        // : GeolosysAPI.plutonRegistry.getOres())) {
-        // // Use the Use the foundMap with multIDeposits
-        // if (dep instanceof DepositMultiOre) {
-        // DepositMultiOre multiOre = (DepositMultiOre) dep;
-        // for (BlockState tmpState : ((DepositMultiOre) dep).oreBlocks.keySet()) {
-        // if (Utils.doStatesMatch(tmpState, state)) {
-        // if (!foundMap.get(multiOre).contains(state)) {
-        // foundMap.get(multiOre).add(state);
-        // }
-        // if (foundMap.get(multiOre).size() == multiOre.oreBlocks.keySet().size()) {
-        // Geolosys.proxy.sendProspectingMessage(player,
-        // Utils.blockStateToStack(dep.getOre()), facing.getOpposite());
-        // return true;
-        // }
-        // }
-        // }
-        // }
-        // // Just check the ore itself otherwise
-        // else if (Utils.doStatesMatch(dep.getOre(), state)) {
-        // Geolosys.proxy.sendProspectingMessage(player,
-        // Utils.blockStateToStack(dep.getOre()),
-        // facing.getOpposite());
-        // return true;
-        // }
-        // }
-        // // If we didn't find anything yet
-        // for (BlockState state2 : GeolosysAPI.proPickExtras) {
-        // if (Utils.doStatesMatch(state2, state)) {
-        // Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
-        // facing.getOpposite());
-        // return true;
-        // }
-        // }
-        // }
-        // }
-        // }
-        // return prospectChunk(worldIn, stack, pos, player);
+        if (!foundBlocks.isEmpty()) {
+            Geolosys.proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
+            return true;
+        }
+        return prospectChunk(worldIn, stack, pos, player);
     }
 
     private boolean prospectChunk(World world, ItemStack stack, BlockPos pos, PlayerEntity player) {
-        return true;
-        // ChunkPos tempPos = new ChunkPos(pos);
+        HashSet<BlockState> foundBlocks = new HashSet<BlockState>();
+        HashSet<BlockState> depositBlocks = Prospecting.getDepositBlocks();
+        ChunkPos tempPos = new ChunkPos(pos);
 
-        // boolean searchingForStone = stack.getTag().getBoolean("stone");
-        // HashMap<DepositMultiOre, HashSet<BlockState>> foundMap = new HashMap<>();
-        // SURFACE_PROSPECTING_TYPE searchType =
-        // CommonConfig.PRO_PICK_SURFACE_MODE.get();
+        for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
+            for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
+                for (int y = 0; y < world.getHeight(); y++) {
+                    BlockState state = world.getBlockState(new BlockPos(x, y, z));
+                    if (depositBlocks.contains(state)) {
+                        foundBlocks.add(state);
+                    }
+                }
+            }
+        }
 
-        // GeolosysAPI.plutonRegistry.getOres().forEach((ore) -> {
-        // if (ore instanceof DepositMultiOre) {
-        // foundMap.put((DepositMultiOre) ore, new HashSet<>());
-        // }
-        // });
+        if (!foundBlocks.isEmpty()) {
+            Geolosys.proxy.sendProspectingMessage(player, foundBlocks, null);
+            return true;
+        } else {
+            player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
+        }
 
-        // for (int x = tempPos.getXStart(); x <= tempPos.getXEnd(); x++) {
-        // for (int z = tempPos.getZStart(); z <= tempPos.getZEnd(); z++) {
-        // for (int y = 0; y < world.getHeight(); y++) {
-        // BlockState state = world.getBlockState(new BlockPos(x, y, z));
-
-        // for (IDeposit dep : (searchingForStone ?
-        // GeolosysAPI.plutonRegistry.getStones()
-        // : GeolosysAPI.plutonRegistry.getOres())) {
-        // if (dep instanceof DepositMultiOre) {
-        // DepositMultiOre multiOre = (DepositMultiOre) dep;
-        // for (BlockState multiOreState : (searchType ==
-        // SURFACE_PROSPECTING_TYPE.OREBLOCKS
-        // ? multiOre.oreBlocks.keySet()
-        // : multiOre.sampleBlocks.keySet())) {
-        // if (Utils.doStatesMatch(state, multiOreState)) {
-        // int size = searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS
-        // ? multiOre.oreBlocks.keySet().size()
-        // : multiOre.sampleBlocks.keySet().size();
-        // if (!foundMap.get(multiOre).contains(state)) {
-        // foundMap.get(multiOre).add(state);
-        // }
-        // if (foundMap.get(multiOre).size() == size) {
-        // Geolosys.proxy.sendProspectingMessage(player,
-        // Utils.blockStateToStack(multiOre.getOre()), null);
-        // return true;
-        // }
-        // }
-        // }
-        // } else {
-        // if (Utils.doStatesMatch(state,
-        // (searchType == SURFACE_PROSPECTING_TYPE.OREBLOCKS ? dep.getOre()
-        // : dep.getSampleBlock()))) {
-        // Geolosys.proxy.sendProspectingMessage(player,
-        // Utils.blockStateToStack(dep.getOre()),
-        // null);
-        // return true;
-        // }
-        // }
-        // }
-        // for (BlockState state2 : GeolosysAPI.proPickExtras) {
-        // if (Utils.doStatesMatch(state, state2)) {
-        // Geolosys.proxy.sendProspectingMessage(player, Utils.blockStateToStack(state),
-        // null);
-        // return true;
-        // }
-        // }
-        // }
-        // }
-        // }
-
-        // player.sendStatusMessage(new
-        // TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"),
-        // true);
-        // return false;
+        return false;
     }
 
     @SubscribeEvent

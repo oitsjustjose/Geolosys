@@ -1,8 +1,15 @@
 package com.oitsjustjose.geolosys.common.network;
 
+import java.util.HashSet;
+import java.util.function.Supplier;
+
+import com.oitsjustjose.geolosys.Geolosys;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,18 +17,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
-
 public class PacketStackSurface {
 
-    public ItemStack stack;
+    public HashSet<BlockState> blocks;
 
     public PacketStackSurface(PacketBuffer buf) {
-        this.stack = buf.readItemStack();
+        CompoundNBT comp = buf.readCompoundTag();
+        this.blocks = PacketHelpers.decodeBlocks(comp);
+        Geolosys.getInstance().LOGGER.info(this.blocks);
     }
 
-    public PacketStackSurface(ItemStack data) {
-        this.stack = data;
+    public PacketStackSurface(HashSet<BlockState> d1) {
+        this.blocks = d1;
     }
 
     public static PacketStackSurface decode(PacketBuffer buf) {
@@ -29,7 +36,7 @@ public class PacketStackSurface {
     }
 
     public static void encode(PacketStackSurface msg, PacketBuffer buf) {
-        buf.writeItemStack(msg.stack);
+        buf.writeCompoundTag(PacketHelpers.encodeBlocks(msg.blocks));
     }
 
     public void handleServer(Supplier<NetworkEvent.Context> context) {
@@ -41,7 +48,7 @@ public class PacketStackSurface {
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             context.get().enqueueWork(() -> {
                 Minecraft mc = Minecraft.getInstance();
-                sendProspectingMessage(mc.player, msg.stack.getDisplayName());
+                sendProspectingMessage(mc.player, PacketHelpers.messagify(msg.blocks));
             });
         }
         context.get().setPacketHandled(true);

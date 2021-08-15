@@ -18,6 +18,8 @@ import com.oitsjustjose.geolosys.common.data.serializer.DikeDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.LayerDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.SparseDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.TopLayerDepositSerializer;
+import com.oitsjustjose.geolosys.common.utils.Prospecting;
+
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
@@ -90,5 +92,7 @@ public class WorldGenDataLoader extends JsonReloadListener {
                 Geolosys.getInstance().LOGGER.info("Skipping registration of ore {}", rl);
             }
         });
+
+        Prospecting.populateDepositBlocks();
     }
 }
