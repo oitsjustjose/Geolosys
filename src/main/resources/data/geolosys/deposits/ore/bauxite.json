@@ -1,0 +1,31 @@
+{
+  "type": "geolosys:deposit_dense",
+  "config": {
+    "yMin": 48,
+    "yMax": 65,
+    "size": 25,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "blocks": [
+      {
+        "block": "geolosys:bauxite_ore",
+        "chance": 0.9
+      },
+      {
+        "block": null,
+        "chance": 0.1
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:bauxite_ore",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 2
+  }
+}

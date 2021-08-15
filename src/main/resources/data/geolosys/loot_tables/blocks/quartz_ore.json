@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "geolosys:cassiterite_ore"
+              "name": "minecraft:nether_quartz_ore"
             },
             {
               "type": "minecraft:item",
@@ -38,7 +38,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "geolosys:tin_cluster"
+              "name": "minecraft:quartz"
             }
           ]
         }

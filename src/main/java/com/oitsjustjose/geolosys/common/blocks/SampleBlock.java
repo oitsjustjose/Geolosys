@@ -38,7 +38,7 @@ public class SampleBlock extends Block implements IWaterLoggable {
 
     public SampleBlock(Block parentOre) {
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
-                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).lootFrom(parentOre).notSolid());
+                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
     }
 

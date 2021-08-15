@@ -24,11 +24,19 @@
                   }
                 }
               ],
-              "name": "geolosys:cassiterite_ore"
+              "name": "minecraft:lapis_ore"
             },
             {
               "type": "minecraft:item",
               "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 4.0,
+                    "max": 9.0,
+                    "type": "minecraft:uniform"
+                  }
+                },
                 {
                   "function": "minecraft:apply_bonus",
                   "enchantment": "minecraft:fortune",
@@ -38,7 +46,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "geolosys:tin_cluster"
+              "name": "minecraft:lapis_lazuli"
             }
           ]
         }

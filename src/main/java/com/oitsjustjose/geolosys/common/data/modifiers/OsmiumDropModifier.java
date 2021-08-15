@@ -8,9 +8,12 @@ import javax.annotation.Nonnull;
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
@@ -35,11 +38,15 @@ public class OsmiumDropModifier extends LootModifier {
     @Nonnull
     @Override
     public List<ItemStack> doApply(List<ItemStack> gennedLoot, LootContext ctx) {
-
+        ItemStack ctxTool = ctx.get(LootParameters.TOOL);
+        // ItemStack ctxTool = ctx.getParamOrNull(LootParameters.TOOL);
         if (CompatConfig.ENABLE_OSMIUM.get()) {
             if (CompatConfig.ENABLE_OSMIUM_EXCLUSIVELY.get() || (rand.nextFloat() < this.chance)) {
-                gennedLoot.clear();
-                gennedLoot.add(new ItemStack(this.item, this.qty));
+                if (ctxTool != null && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, ctxTool) == 0) {
+                    gennedLoot.clear();
+                    int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, ctxTool);
+                    gennedLoot.add(new ItemStack(this.item, this.qty * ctx.getRandom().nextInt(fortune + 1)));
+                }
             }
         }
 
