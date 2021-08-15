@@ -114,6 +114,18 @@ public class DenseDeposit implements IDeposit {
     }
 
     @Override
+    @Nullable
+    public HashSet<BlockState> getAllOres() {
+        HashSet<BlockState> ret = new HashSet<BlockState>();
+        this.oreToWtMap.keySet().forEach((bs) -> {
+            if (bs != null) {
+                ret.add(bs);
+            }
+        });
+        return ret.isEmpty() ? null : ret;
+    }
+
+    @Override
     public boolean canPlaceInBiome(Biome b) {
         return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter, this.isBiomeFilterBl);
     }

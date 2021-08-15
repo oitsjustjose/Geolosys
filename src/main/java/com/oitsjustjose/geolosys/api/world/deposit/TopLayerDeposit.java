@@ -109,6 +109,12 @@ public class TopLayerDeposit implements IDeposit {
     }
 
     @Override
+    @Nullable
+    public HashSet<BlockState> getAllOres() {
+        return null;
+    }
+
+    @Override
     public boolean canPlaceInBiome(Biome b) {
         return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter, this.isBiomeFilterBl);
     }

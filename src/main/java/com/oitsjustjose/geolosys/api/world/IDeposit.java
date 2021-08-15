@@ -12,6 +12,8 @@ public interface IDeposit {
 
     public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap);
 
+    public HashSet<BlockState> getAllOres();
+
     public int getGenWt();
 
     public boolean canPlaceInBiome(Biome biome);
