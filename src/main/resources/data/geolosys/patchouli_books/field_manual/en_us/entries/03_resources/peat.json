@@ -1,14 +1,1 @@
-{
-  "name": "Peat",
-  "icon": "geolosys:peat",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Peat",
-      "item": "geolosys:peat",
-      "link_recipe": false,
-      "text": "This top layer pluton generates between 192 meters above and 64 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."
-    }
-  ]
-}
+{"name": "Peat", "icon": "geolosys:peat", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Peat", "item": "geolosys:peat", "link_recipe": false, "text": "This top layer deposit can be found directly on the surface with Rhododendron on top of it. It cannot be found in the nether or end and can be found in any biome."}]}

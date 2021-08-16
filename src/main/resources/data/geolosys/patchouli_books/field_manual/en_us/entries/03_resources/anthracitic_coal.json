@@ -1,14 +1,1 @@
-{
-  "name": "Anthracite Coal",
-  "icon": "geolosys:anthracite_coal_ore",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Anthracite Coal",
-      "item": "geolosys:anthracite_coal_ore",
-      "link_recipe": false,
-      "text": "This layer pluton generates between 54 meters below and 62 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."
-    }
-  ]
-}
+{"name": "Anthracite Coal", "icon": "geolosys:anthracite_coal_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Anthracite Coal", "item": "geolosys:anthracite_coal_ore", "link_recipe": false, "text": "This layer deposit can be found between 54 meters below and 62 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}

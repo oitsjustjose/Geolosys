@@ -1,14 +1,1 @@
-{
-  "name": "Lapis",
-  "icon": "geolosys:lapis_ore",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Lapis",
-      "item": "geolosys:lapis_ore",
-      "link_recipe": false,
-      "text": "This sparse pluton generates between 40 meters below and 54 meters below sea level. It can only be found in the overworld. This pluton is only found in sandy biomes."
-    }
-  ]
-}
+{"name": "Lapis", "icon": "geolosys:lapis_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Lapis", "item": "geolosys:lapis_ore", "link_recipe": false, "text": "This sparse deposit can be found between 40 meters below and 54 meters below sea level. It can only be found in the overworld and is only found in sandy biomes."}]}
