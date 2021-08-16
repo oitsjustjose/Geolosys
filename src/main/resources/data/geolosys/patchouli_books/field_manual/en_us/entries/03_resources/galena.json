@@ -1,1 +1,14 @@
-{"name": "Galena", "icon": "geolosys:galena_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Galena", "item": "geolosys:galena_ore", "link_recipe": false, "text": "This sparse deposit can be found between 14 meters below and 48 meters below sea level. It can only be found in the overworld and is only found in plains biomes."}]}
+{
+  "name": "Galena",
+  "icon": "geolosys:galena_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Galena",
+      "item": "geolosys:galena_ore",
+      "link_recipe": false,
+      "text": "This sparse deposit can be found between 14 meters below and 48 meters below sea level. It can only be found in the overworld and is only found in plains biomes."
+    }
+  ]
+}

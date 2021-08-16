@@ -1,1 +1,14 @@
-{"name": "Kimberlite", "icon": "geolosys:kimberlite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Kimberlite", "item": "geolosys:kimberlite_ore", "link_recipe": false, "text": "This dike deposit can be found between 48 meters below and 61 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Kimberlite",
+  "icon": "geolosys:kimberlite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Kimberlite",
+      "item": "geolosys:kimberlite_ore",
+      "link_recipe": false,
+      "text": "This dike deposit can be found between 48 meters below and 61 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

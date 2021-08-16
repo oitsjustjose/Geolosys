@@ -1,1 +1,14 @@
-{"name": "Autunite and Granite", "icon": "geolosys:autunite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Autunite and Granite", "item": "geolosys:autunite_ore", "link_recipe": false, "text": "This sparse deposit can be found between 31 meters below and 56 meters below sea level. It can only be found in the overworld and is only found in mountain biomes."}]}
+{
+  "name": "Autunite and Granite",
+  "icon": "geolosys:autunite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Autunite and Granite",
+      "item": "geolosys:autunite_ore",
+      "link_recipe": false,
+      "text": "This sparse deposit can be found between 31 meters below and 56 meters below sea level. It can only be found in the overworld and is only found in mountain biomes."
+    }
+  ]
+}

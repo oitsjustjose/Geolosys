@@ -1,1 +1,14 @@
-{"name": "Coal", "icon": "geolosys:coal_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Coal", "item": "geolosys:coal_ore", "link_recipe": false, "text": "This sparse deposit can be found between 14 meters above and 56 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Coal",
+  "icon": "geolosys:coal_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Coal",
+      "item": "geolosys:coal_ore",
+      "link_recipe": false,
+      "text": "This sparse deposit can be found between 14 meters above and 56 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

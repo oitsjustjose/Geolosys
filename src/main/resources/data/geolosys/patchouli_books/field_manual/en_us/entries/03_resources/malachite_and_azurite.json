@@ -1,1 +1,14 @@
-{"name": "Malachite and Azurite", "icon": "geolosys:malachite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Malachite and Azurite", "item": "geolosys:malachite_ore", "link_recipe": false, "text": "This dense deposit can be found between 20 meters below and 52 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Malachite and Azurite",
+  "icon": "geolosys:malachite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Malachite and Azurite",
+      "item": "geolosys:malachite_ore",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 20 meters below and 52 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

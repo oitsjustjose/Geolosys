@@ -1,1 +1,14 @@
-{"name": "Gold", "icon": "geolosys:gold_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Gold", "item": "geolosys:gold_ore", "link_recipe": false, "text": "This dense deposit can be found between 34 meters below and 59 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Gold",
+  "icon": "geolosys:gold_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Gold",
+      "item": "geolosys:gold_ore",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 34 meters below and 59 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}
