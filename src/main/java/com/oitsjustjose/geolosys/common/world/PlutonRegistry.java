@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
 import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.api.world.deposit.TopLayerDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -111,9 +113,9 @@ public class PlutonRegistry {
             }
         }
 
-        DepositFeature o = new DepositFeature(NoFeatureConfig.field_236558_a_);
+        DepositFeature o = new DepositFeature(NoFeatureConfig.CODEC);
 
         settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                o.withConfiguration(NoFeatureConfig.field_236559_b_));
+                o.withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG));
     }
 }
