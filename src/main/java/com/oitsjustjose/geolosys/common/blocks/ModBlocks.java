@@ -29,7 +29,7 @@ public class ModBlocks {
                     .harvestTool(ToolType.PICKAXE).setRequiresTool();
 
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
-            Block sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
+            Block sample = new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
             oreType.setSample(sample);
             oreType.setBlock(block);

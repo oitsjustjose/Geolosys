@@ -36,12 +36,6 @@ import net.minecraftforge.common.ToolType;
 public class SampleBlock extends Block implements IWaterLoggable {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public SampleBlock(Block parentOre) {
-        super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
-                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
-    }
-
     public SampleBlock() {
         super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
                 .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL));

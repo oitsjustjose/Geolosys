@@ -22,7 +22,7 @@
     ],
     "samples": [
       {
-        "block": "geolosys:bauxite_ore",
+        "block": "geolosys:bauxite_ore_sample",
         "chance": 1.0
       }
     ],
