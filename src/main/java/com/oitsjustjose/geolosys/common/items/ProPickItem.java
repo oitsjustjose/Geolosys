@@ -198,14 +198,17 @@ public class ProPickItem extends Item {
             int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
         HashSet<BlockState> foundBlocks = new HashSet<BlockState>();
+        HashSet<BlockPos> foundBlockPos = new HashSet<BlockPos>();
         HashSet<BlockState> depositBlocks = Prospecting.getDepositBlocks();
 
         for (int x = xStart; x <= xEnd; x++) {
             for (int y = yStart; y <= yEnd; y++) {
                 for (int z = zStart; z <= zEnd; z++) {
-                    BlockState state = worldIn.getBlockState(pos.add(x, y, z));
+                    BlockPos tmpPos = pos.add(x, y, z);
+                    BlockState state = worldIn.getBlockState(tmpPos);
                     if (depositBlocks.contains(state)) {
                         foundBlocks.add(state);
+                        foundBlockPos.add(tmpPos);
                     }
                 }
             }
@@ -213,6 +216,7 @@ public class ProPickItem extends Item {
 
         if (!foundBlocks.isEmpty()) {
             Geolosys.proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
+            Geolosys.proxy.highlightBlocks(foundBlockPos, player);
             return true;
         }
         return prospectChunk(worldIn, stack, pos, player);

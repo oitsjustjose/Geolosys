@@ -17,6 +17,8 @@ public class ClientConfig {
     public static ForgeConfigSpec.IntValue PROPICK_HUD_X;
     public static ForgeConfigSpec.IntValue PROPICK_HUD_Y;
     public static ForgeConfigSpec.BooleanValue ENABLE_TAG_DEBUG;
+    public static ForgeConfigSpec.BooleanValue ENABLE_DEPOSIT_HIGHLIGHT;
+    public static ForgeConfigSpec.IntValue DEPOSIT_HIGHLIGHT_DURATION;
 
     static {
         init();
@@ -43,7 +45,12 @@ public class ClientConfig {
         ENABLE_TAG_DEBUG = CLIENT_BUILDER
                 .comment("Enable Minecraft object tag tooltip with Advanced Tooltips on (F3+\"H\")")
                 .define("enableTagDebug", true);
-
+        ENABLE_DEPOSIT_HIGHLIGHT = CLIENT_BUILDER.comment(
+                "When using a prospector's pick, blocks located nearby are highlighted ONLY when below ground. The server owner has control of this functionality, so if this is enabled and on a server it isn't, this effect will not work.")
+                .define("enableDepositHighlight", true);
+        DEPOSIT_HIGHLIGHT_DURATION = CLIENT_BUILDER
+                .comment("How long these highlights (if enabled) should stay around for (in seconds)")
+                .defineInRange("depositHighlightDuration", 15, 1, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
     }
 }
