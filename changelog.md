@@ -1,5 +1,152 @@
 # Geolosys Changelog (1.16)
 
+## 6.0.0 - The Big Refactor!
+
+### Changed:
+
+#### Datapack Format
+
+**There are now four possible types, and a few properties in each type are the same across the board.** I know that the changes here are a lot and it'll be primarily manual-work to port to this new format, but it has been a HUGE deal to me to be able to make this more extensible. In the future I can easily add new deposit types with just 2 files: 1 changed and 1 that describes the whole deposit type. 
+
+#### Datapack Properties
+
+**The following properties are the same across the board:**
+
+```json
+{
+    "blocks": [{
+        "block": null or "modid:blockname",
+        "chance": (0.0,1.0)
+    }],
+	"samples": [{
+        "block": null or "modid:blockname",
+        "chance": (0.0,1.0)
+    }],
+    "dimensions": {
+        "isBlacklist": true or false,
+        "filter": ["the_nether", "the_end", "twilight_forest", "etc.."]
+    },
+	"biomes": {
+        "isBlacklist": true or false,
+        "filter": ["SANDY", "minecraft:extreme_hills", "etc.."]
+    },
+	"blockStateMatchers": [
+      "minecraft:lava"
+    ],
+	"generationWeight": 1
+}
+```
+
+Let me explain some details here:
+
+- In blocks or samples, a `null` block will not place anything i.e. if you give `iron_ore` a chance of `0.5` and you give `null`a chance of `0.5`, then there is a 50% chance when placing this deposit that the block `iron_ore` *will* be placed, and a 50% chance that it won't be placed and the block that was there beforehand will stay the same
+- All chances in `blocks` should add up to `1.0`. Same for samples.
+- `generationWeight` is just `chance`, but with a new name for clarity.
+- `blockStateMatchers` is optional, and describes a custom list of blocks this pluton can overwrite. There is a fallback list in `geolosys-common.toml` if you don't describe anything here.
+
+There are also some new, distinct values for each type of pluton. Here are a few examples:
+
+* A Dense deposit:
+
+  ```json
+  {
+    "type": "geolosys:deposit_dense",
+    "config": {
+      "yMin": 48,
+      "yMax": 65,
+      "size": 25
+    }
+  }
+  ```
+
+  `yMin` and `yMax` should be pretty clear. `size` describes the max radius from the center of the pluton - this wasn't renamed just to keep that one thing the same across this update.
+
+* A Dike Deposit:
+
+  ```json
+  {
+    "type": "geolosys:deposit_dike",
+    "config": {
+      "yMin": 8,
+      "yMax": 22,
+      "baseRadius": 3
+    }
+  }
+  ```
+
+  `yMin` and `yMax` should be pretty clear. `baseRadius` describes the base radius of the dike which will go up and down to essentially form an obelisk.
+
+* A Sparse Deposit:
+
+  ```json
+  {
+    "type": "geolosys:deposit_sparse",
+    "config": {
+      "yMin": 8,
+      "yMax": 33,
+      "spread": 6,
+      "size": 24
+    }
+  }
+  ```
+
+  `yMin` and `yMax` should be pretty clear. `size` is the same as `size` for a dense deposit, but every block is randomly placed at `originalX + random(spread), originalY, originalZ + random(spread)`. A larger spread will spread across multiple chunks and **this is ok**  - Geolosys handles spreading gracefully and won't cause world gen lag. Additionally, samples will spread across all the possible chunks.
+
+* A Layer Deposit:
+
+  ```json
+  {
+    "type": "geolosys:deposit_layer",
+    "config": {
+      "yMin": 2,
+      "yMax": 10,
+      "radius": 3,
+      "depth": 4
+    }
+  }
+  ```
+
+  `yMin` and `yMax` should be pretty clear. `radius` is the size of the layer, but with *some* noise to make these seem more natural. `depth` is how deep this layer should go (in blocks, with some noise as well).
+
+* A Top-Layer Deposit:
+
+  ```json
+  {
+    "type": "geolosys:deposit_top_layer",
+    "config": {
+      "radius": 4,
+      "depth": 4,
+      "chanceForSample": 0.25
+    }
+  }
+  ```
+
+  **There is no `yMin` or `yMax` for this one**. It just generates on the top layer of the world (i.e. grass, stone, etc.). `radius` describes the radius, with noise, of the deposit. `depth` is how deep this layer should go (in blocks, with some noise as well). `chanceForSample` is a way to control how many samples appear directly above this top  layer. You can set this anywhere between `0.0` and `1.0`. This type of deposit is the only type that uses this custom logic for slapping a sample directly on top of the deposit (like Peat generates with Rhododendron above it).
+
+#### Dropped Support for `geolosys-ores.json`
+
+The `geolosys.json` (or `geolosys-ores.json`) file in the `config` folder is no longer supported. In 5.x, support was deprecated by myself as Datapacks are so significantly better, but in the 6.x refactor I removed all code regarding this entirely. No, there isn't a tool to help you port from it. Sorry 🙁
+
+#### Textures for Vanilla
+
+I have created new Emerald Block and Item textures to match Beryl, as well as a new Diamond Block texture to match Kimberlite better. If you don't like these changes, you can just go to `Options -> Resource Packs` and set Minecraft Resources to be above Mod Resources.
+
+#### Ore Drops
+
+By popular demand, all Geolosys ores (not samples) can now be affected by Fortune to keep parity with the new 1.17 update. Additionally, all Geolosys ores can be slik-touched. Vanilla-like ores will give you the vanilla counterpart (i.e. Hematite would drop Iron Ore), and non-Vanilla-like will just drop themselves. If you don't care for this, feel free to overwrite the loot tables in a Data pack!
+
+#### Block Highlighting
+
+#### Reworked Prospecting
+
+**Prospecting**
+
+When prospecting anywhere (above or below ground), instead of receiving a message for the whole pluton that can be found in your region, you'll get a tooltip of any deposit blocks found in your region. This may be hard to visualize - try out the Propick on your own to see what I mean by this 🙂
+
+**Block Highlighting**
+
+When prospecting, if you would normally see the message `Found <DEPOSIT> <North/South/East/West/Above/Below> you`, it will also highlight these blocks with a cool effect that [you can preview here](https://twitter.com/oitsjustjose/status/1427484103008563200). If a server owner has this turned off, you - the client - will never see this affect. Likewise if you don't like it but the server owner has it on, you can disable it for yourself as well as adjust the duration of the glow on the client-side.
+
 ## 5.1.4
 
 ### Fixed:

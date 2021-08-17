@@ -123,11 +123,8 @@ curseforge {
     id = '271856'
     changelogType = 'markdown'
     changelog = file("./changelog.md")
-    releaseType = 'release'
-    addGameVersion "1.16.1"
-    addGameVersion "1.16.2"
-    addGameVersion "1.16.3"
-    addGameVersion "1.16.4"
+    releaseType = 'beta'
+    addGameVersion "1.16.5"
     
     relations {
       requiredDependency 'patchouli'
@@ -138,16 +135,16 @@ curseforge {
     }
 
     mainArtifact(jar) {
-        displayName = "Geolosys 1.16.x ${mod_version}"
+        displayName = "Geolosys 1.16.5 ${mod_version}"
     }
 
 
     addArtifact(deobfJar) {
-        displayName = "Geolosys 1.16.x ${mod_version} Deobf"
+        displayName = "Geolosys 1.16.5 ${mod_version} Deobf"
     }
 
     addArtifact(sourcesJar){
-        displayName = "Geolosys 1.16.x ${mod_version} Sources"
+        displayName = "Geolosys 1.16.5 ${mod_version} Sources"
     }
   }
 }
