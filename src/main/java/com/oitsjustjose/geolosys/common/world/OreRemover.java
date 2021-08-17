@@ -29,7 +29,7 @@ public class OreRemover {
     private static List<Block> toRm = Arrays.asList(Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.LAPIS_ORE,
             Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE,
             Blocks.NETHER_GOLD_ORE, Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE,
-            Blocks.INFESTED_STONE, Blocks.MAGMA_BLOCK, Blocks.BLACKSTONE, Blocks.BASALT);
+            Blocks.INFESTED_STONE);
 
     // List of removed features
     public static List<Supplier<ConfiguredFeature<?, ?>>> removed = new LinkedList<>();
