@@ -23,7 +23,6 @@ public class PacketStackSurface {
     public PacketStackSurface(PacketBuffer buf) {
         CompoundNBT comp = buf.readCompoundTag();
         this.blocks = PacketHelpers.decodeBlocks(comp);
-        Geolosys.getInstance().LOGGER.info(this.blocks);
     }
 
     public PacketStackSurface(HashSet<BlockState> d1) {

@@ -34,8 +34,6 @@ public class DepositCapability implements IDepositCapability {
 
     @Override
     public void putPendingBlock(BlockPos pos, BlockState state) {
-        // Geolosys.getInstance().LOGGER.info("Putting pending block {} at {}", state,
-        // pos);
         this.pendingBlocks.put(pos, state);
     }
 

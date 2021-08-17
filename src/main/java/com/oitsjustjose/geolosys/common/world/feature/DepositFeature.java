@@ -71,7 +71,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                     placedAny = true;
                     cap.getPendingBlocks().remove(e.getKey());
                     if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
-                        Geolosys.getInstance().LOGGER.info("Generated pending block "
+                        Geolosys.getInstance().LOGGER.debug("Generated pending block "
                                 + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
                     }
                 } else {

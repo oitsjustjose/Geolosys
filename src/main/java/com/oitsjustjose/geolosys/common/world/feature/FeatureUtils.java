@@ -49,9 +49,6 @@ public class FeatureUtils {
             IDepositCapability cap) {
         if (isInChunk(chunk, pos) && reader.chunkExists(chunk.x, chunk.z)) {
             boolean ret = reader.setBlockState(pos, state, 2 | 16);
-            if (!ret) {
-                Geolosys.getInstance().LOGGER.info("FUK");
-            }
             return ret;
         }
 
