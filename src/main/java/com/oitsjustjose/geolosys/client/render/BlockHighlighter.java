@@ -30,10 +30,18 @@ import java.util.Set;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
@@ -43,13 +51,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class BlockHighlighter {
 
     protected Set<SelectionInfo> selectedBlocks = new HashSet<>();
+    private Minecraft mc = Minecraft.getInstance();
 
     public void selectBlock(BlockPos pos, long expireTime) {
         this.selectBlock(pos, expireTime, new Color(1.0f, 1.0f, 1.0f, 0.8f));
     }
 
     public void selectBlock(BlockPos pos, long expireTime, Color color) {
-        SelectionInfo info = new SelectionInfo(pos, expireTime, color);
+        SelectionInfo info = new SelectionInfo(pos, expireTime);
         if (this.selectedBlocks.contains(info)) {
             this.selectedBlocks.remove(info);
         }
@@ -70,10 +79,10 @@ public class BlockHighlighter {
             long time = System.currentTimeMillis();
 
             MatrixStack matrixStack = event.getMatrixStack();
-            IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+            IRenderTypeBuffer.Impl buffer = mc.getRenderTypeBuffers().getBufferSource();
             IVertexBuilder builder = buffer.getBuffer(GeolosysRenderType.BLOCK_SELECTION);
             matrixStack.push();
-            Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+            Vector3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
             matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
             Matrix4f transform = matrixStack.getLast().getMatrix();
 
@@ -106,10 +115,17 @@ public class BlockHighlighter {
         public long selectionExpireTime;
         public Color color;
 
-        public SelectionInfo(BlockPos selectedBlock, long selectionExpireTime, Color color) {
+        // public SelectionInfo(BlockPos selectedBlock, long selectionExpireTime, Color
+        // color) {
+        // this.selectedBlock = selectedBlock;
+        // this.selectionExpireTime = selectionExpireTime;
+        // this.color = color;
+        // }
+
+        public SelectionInfo(BlockPos selectedBlock, long selectionExpireTime) {
             this.selectedBlock = selectedBlock;
             this.selectionExpireTime = selectionExpireTime;
-            this.color = color;
+            this.color = getColor(mc.world.getBlockState(selectedBlock));
         }
 
         @Override
@@ -172,5 +188,53 @@ public class BlockHighlighter {
         buffer.pos(transform, x + 1, y, z + 1).color(r, g, b, a).endVertex();
         buffer.pos(transform, x, y, z + 1).color(r, g, b, a).endVertex();
         buffer.pos(transform, x, y + 1, z + 1).color(r, g, b, a).endVertex();
+    }
+
+    @SuppressWarnings("deprecation")
+    public Color getColor(BlockState state) {
+        ItemStack itemstack = Utils.blockStateToStack(state);
+        ItemRenderer renderItem = Minecraft.getInstance().getItemRenderer();
+        ItemModelMesher itemModelMesher = renderItem.getItemModelMesher();
+        IBakedModel itemModel = itemModelMesher.getItemModel(itemstack);
+        TextureAtlasSprite textureAtlasSprite = itemModel.getParticleTexture();
+
+        if (textureAtlasSprite == null) {
+            return new Color(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+
+        final int iconWidth = textureAtlasSprite.getWidth();
+        final int iconHeight = textureAtlasSprite.getHeight();
+        final int frameCount = textureAtlasSprite.getFrameCount();
+
+        if (iconWidth <= 0 || iconHeight <= 0 || frameCount <= 0) {
+            return null;
+        }
+
+        /* I'm aware that color averaging is stupid. I don't care. */
+        Color avg = null;
+
+        for (int x = 0; x < iconWidth; x++) {
+            for (int y = 0; y < iconHeight; y++) {
+                for (int frame = 0; frame < textureAtlasSprite.getFrameCount(); frame++) {
+                    int rgba = textureAtlasSprite.getPixelRGBA(frame, x, y);
+                    /* Break down RGBA to BGR, ignoring Alpha because I just want solid colors */
+                    int blue = (rgba >> 16) & 0xFF;
+                    int green = (rgba >> 8) & 0xFF;
+                    int red = rgba & 0xFF;
+                    if (!(red == blue && blue == green)) {
+                        if (avg == null) {
+                            avg = new Color(red / 255F, green / 255F, blue / 255F, 1F);
+                        } else {
+                            int newRed = (avg.getRed() + red) / 2;
+                            int newBlue = (avg.getBlue() + blue) / 2;
+                            int newGreen = (avg.getGreen() + green) / 2;
+                            avg = new Color(newRed / 255F, newGreen / 255F, newBlue / 255F, 1F);
+                        }
+                    }
+                }
+            }
+        }
+
+        return avg;
     }
 }
