@@ -31,6 +31,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
@@ -194,7 +195,7 @@ public class ProPickItem extends Item {
         return ActionResultType.SUCCESS;
     }
 
-    private boolean prospect(PlayerEntity player, ItemStack stack, World worldIn, BlockPos pos, Direction facing,
+    private boolean prospect(PlayerEntity player, ItemStack stack, World world, BlockPos pos, Direction facing,
             int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
         HashSet<BlockState> foundBlocks = new HashSet<BlockState>();
@@ -205,7 +206,7 @@ public class ProPickItem extends Item {
             for (int y = yStart; y <= yEnd; y++) {
                 for (int z = zStart; z <= zEnd; z++) {
                     BlockPos tmpPos = pos.add(x, y, z);
-                    BlockState state = worldIn.getBlockState(tmpPos);
+                    BlockState state = world.getBlockState(tmpPos);
                     if (depositBlocks.contains(state)) {
                         foundBlocks.add(state);
                         foundBlockPos.add(tmpPos);
@@ -216,10 +217,12 @@ public class ProPickItem extends Item {
 
         if (!foundBlocks.isEmpty()) {
             Geolosys.proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
-            Geolosys.proxy.highlightBlocks(foundBlockPos, player);
+            foundBlockPos.forEach((_pos) -> {
+                world.playSound(null, _pos, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5F, 2F);
+            });
             return true;
         }
-        return prospectChunk(worldIn, stack, pos, player);
+        return prospectChunk(world, stack, pos, player);
     }
 
     private boolean prospectChunk(World world, ItemStack stack, BlockPos pos, PlayerEntity player) {
@@ -241,10 +244,10 @@ public class ProPickItem extends Item {
         if (!foundBlocks.isEmpty()) {
             Geolosys.proxy.sendProspectingMessage(player, foundBlocks, null);
             return true;
-        } else {
-            player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
         }
 
+        player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
+        world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5F, 0.65F);
         return false;
     }
 

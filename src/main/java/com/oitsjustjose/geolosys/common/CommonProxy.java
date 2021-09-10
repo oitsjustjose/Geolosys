@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.network.NetworkManager;
-import com.oitsjustjose.geolosys.common.network.PacketHighlightPos;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
 
@@ -26,8 +25,6 @@ public class CommonProxy {
                 PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleServer);
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class,
                 PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackUnderground::handleServer);
-        networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketHighlightPos.class,
-                PacketHighlightPos::encode, PacketHighlightPos::decode, PacketHighlightPos::handleServer);
     }
 
     public void sendProspectingMessage(PlayerEntity player, HashSet<BlockState> blocks, @Nullable Direction direction) {
@@ -39,13 +36,6 @@ public class CommonProxy {
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
         } else {
             PacketStackSurface msg = new PacketStackSurface(blocks);
-            networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
-        }
-    }
-
-    public void highlightBlocks(HashSet<BlockPos> posns, PlayerEntity player) {
-        if (CommonConfig.ENABLE_DEPOSIT_HIGHLIGHT.get()) {
-            PacketHighlightPos msg = new PacketHighlightPos(posns);
             networkManager.networkWrapper.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), msg);
         }
     }

@@ -30,7 +30,6 @@ public class CommonConfig {
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> DEFAULT_REPLACEMENT_MATS;
     private static String CATEGORY_FEATURE_CONTROL = "feature control";
     private static String CATEGORY_PROSPECTING = "prospecting";
-    public static ForgeConfigSpec.BooleanValue ENABLE_DEPOSIT_HIGHLIGHT;
 
     static {
         init();
@@ -85,10 +84,6 @@ public class CommonConfig {
                 .defineInRange("proPickDiameter", 5, 1, Integer.MAX_VALUE);
         GIVE_MANUAL_TO_NEW = COMMON_BUILDER.comment("Give players a Field Manual if they haven't gotten one")
                 .define("giveManual", true);
-        ENABLE_DEPOSIT_HIGHLIGHT = COMMON_BUILDER
-                .comment(
-                        "When using a prospector's pick, blocks located nearby are highlighted ONLY when below ground.")
-                .define("enableDepositHighlight", true);
         COMMON_BUILDER.pop();
     }
 }
