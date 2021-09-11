@@ -21,6 +21,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.IntValue CHUNK_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
+    public static ForgeConfigSpec.BooleanValue SAMPLE_TICK_ENABLED;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK_DMG;
     public static ForgeConfigSpec.IntValue PRO_PICK_DURABILITY;
@@ -73,6 +74,9 @@ public class CommonConfig {
                 .defineList("samplePlacementBlacklist",
                         Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"),
                         rawName -> rawName instanceof String);
+        SAMPLE_TICK_ENABLED = COMMON_BUILDER.comment(
+                "Whether or not Samples randomly tick (like crops). This can be bad for performance but fixes waterlogging issues on worldgen")
+                .define("shouldSamplesTick", true);
         ENABLE_PRO_PICK = COMMON_BUILDER.comment("Enable the prospector's pickaxe").define("enableProPick", true);
         ENABLE_PRO_PICK_DMG = COMMON_BUILDER.comment("Allow the prospector's pick to get damaged")
                 .define("enableProPickDmg", false);

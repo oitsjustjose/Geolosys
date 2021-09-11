@@ -4,6 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,14 +33,16 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 public class SampleBlock extends Block implements IWaterLoggable {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final Properties BASE_PROPS = Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY)
+            .hardnessAndResistance(0.125F, 2F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL);
 
     public SampleBlock() {
-        super(Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.125F, 2F)
-                .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL));
+        super(CommonConfig.SAMPLE_TICK_ENABLED.get() ? BASE_PROPS.tickRandomly() : BASE_PROPS);
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
     }
 
@@ -110,14 +114,39 @@ public class SampleBlock extends Block implements IWaterLoggable {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
         if (!this.isValidPosition(state, worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
-        }
-        // Update the water from flowing to still or vice-versa
-        else if (state.get(WATERLOGGED)) {
+        } else if (state.get(WATERLOGGED)) { // Update the water from flowing to still or vice-versa
             worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
     }
 
     public BlockState asWaterlogged() {
         return this.getDefaultState().with(WATERLOGGED, Boolean.TRUE);
+    }
+
+    // Only tick randomly whenever not waterlogged, to make it waterlogged.
+    public boolean ticksRandomly(BlockState state) {
+        return CommonConfig.SAMPLE_TICK_ENABLED.get()
+                && (state.hasProperty(WATERLOGGED) && state.get(WATERLOGGED).equals(Boolean.FALSE));
+    }
+
+    public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
+        if (!worldIn.isAreaLoaded(pos, 1)) {
+            return;
+        }
+
+        BlockState[] neighbors = new BlockState[] { worldIn.getBlockState(pos.add(1, 0, 0)),
+                worldIn.getBlockState(pos.add(-1, 0, 0)), worldIn.getBlockState(pos.add(0, 0, 1)),
+                worldIn.getBlockState(pos.add(0, 0, -1)) };
+
+        int waterNeighbors = 0;
+        for (BlockState b : neighbors) {
+            if (b.getFluidState() == Fluids.WATER.getStillFluidState(false)) {
+                waterNeighbors++;
+            }
+        }
+
+        if (waterNeighbors > 1) {
+            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.TRUE), 2 | 16);
+        }
     }
 }
