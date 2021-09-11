@@ -1,12 +1,22 @@
 # Geolosys Changelog (1.16)
 
+## 6.0.1_beta
+
+### Changed:
+
+- Deposits being highlighted has been removed, and in placel a sound system (with caption support) has been implemented instead. Suggestions for different sounds are greatly welcome!
+
+### Fixed:
+
+- `isBlacklist` property not working as expected for Dimension filtering.
+
 ## 6.0.0 - The Big Refactor!
 
 ### Changed:
 
 #### Datapack Format
 
-**There are now four possible types, and a few properties in each type are the same across the board.** I know that the changes here are a lot and it'll be primarily manual-work to port to this new format, but it has been a HUGE deal to me to be able to make this more extensible. In the future I can easily add new deposit types with just 2 files: 1 changed and 1 that describes the whole deposit type. 
+**There are now four possible types, and a few properties in each type are the same across the board.** I know that the changes here are a lot and it'll be primarily manual-work to port to this new format, but it has been a HUGE deal to me to be able to make this more extensible. In the future I can easily add new deposit types with just 2 files: 1 changed and 1 that describes the whole deposit type.
 
 #### Datapack Properties
 
@@ -39,14 +49,14 @@
 
 Let me explain some details here:
 
-- In blocks or samples, a `null` block will not place anything i.e. if you give `iron_ore` a chance of `0.5` and you give `null`a chance of `0.5`, then there is a 50% chance when placing this deposit that the block `iron_ore` *will* be placed, and a 50% chance that it won't be placed and the block that was there beforehand will stay the same
+- In blocks or samples, a `null` block will not place anything i.e. if you give `iron_ore` a chance of `0.5` and you give `null`a chance of `0.5`, then there is a 50% chance when placing this deposit that the block `iron_ore` _will_ be placed, and a 50% chance that it won't be placed and the block that was there beforehand will stay the same
 - All chances in `blocks` should add up to `1.0`. Same for samples.
 - `generationWeight` is just `chance`, but with a new name for clarity.
 - `blockStateMatchers` is optional, and describes a custom list of blocks this pluton can overwrite. There is a fallback list in `geolosys-common.toml` if you don't describe anything here.
 
 There are also some new, distinct values for each type of pluton. Here are a few examples:
 
-* A Dense deposit:
+- A Dense deposit:
 
   ```json
   {
@@ -61,7 +71,7 @@ There are also some new, distinct values for each type of pluton. Here are a few
 
   `yMin` and `yMax` should be pretty clear. `size` describes the max radius from the center of the pluton - this wasn't renamed just to keep that one thing the same across this update.
 
-* A Dike Deposit:
+- A Dike Deposit:
 
   ```json
   {
@@ -76,7 +86,7 @@ There are also some new, distinct values for each type of pluton. Here are a few
 
   `yMin` and `yMax` should be pretty clear. `baseRadius` describes the base radius of the dike which will go up and down to essentially form an obelisk.
 
-* A Sparse Deposit:
+- A Sparse Deposit:
 
   ```json
   {
@@ -90,9 +100,9 @@ There are also some new, distinct values for each type of pluton. Here are a few
   }
   ```
 
-  `yMin` and `yMax` should be pretty clear. `size` is the same as `size` for a dense deposit, but every block is randomly placed at `originalX + random(spread), originalY, originalZ + random(spread)`. A larger spread will spread across multiple chunks and **this is ok**  - Geolosys handles spreading gracefully and won't cause world gen lag. Additionally, samples will spread across all the possible chunks.
+  `yMin` and `yMax` should be pretty clear. `size` is the same as `size` for a dense deposit, but every block is randomly placed at `originalX + random(spread), originalY, originalZ + random(spread)`. A larger spread will spread across multiple chunks and **this is ok** - Geolosys handles spreading gracefully and won't cause world gen lag. Additionally, samples will spread across all the possible chunks.
 
-* A Layer Deposit:
+- A Layer Deposit:
 
   ```json
   {
@@ -106,9 +116,9 @@ There are also some new, distinct values for each type of pluton. Here are a few
   }
   ```
 
-  `yMin` and `yMax` should be pretty clear. `radius` is the size of the layer, but with *some* noise to make these seem more natural. `depth` is how deep this layer should go (in blocks, with some noise as well).
+  `yMin` and `yMax` should be pretty clear. `radius` is the size of the layer, but with _some_ noise to make these seem more natural. `depth` is how deep this layer should go (in blocks, with some noise as well).
 
-* A Top-Layer Deposit:
+- A Top-Layer Deposit:
 
   ```json
   {
@@ -121,7 +131,7 @@ There are also some new, distinct values for each type of pluton. Here are a few
   }
   ```
 
-  **There is no `yMin` or `yMax` for this one**. It just generates on the top layer of the world (i.e. grass, stone, etc.). `radius` describes the radius, with noise, of the deposit. `depth` is how deep this layer should go (in blocks, with some noise as well). `chanceForSample` is a way to control how many samples appear directly above this top  layer. You can set this anywhere between `0.0` and `1.0`. This type of deposit is the only type that uses this custom logic for slapping a sample directly on top of the deposit (like Peat generates with Rhododendron above it).
+  **There is no `yMin` or `yMax` for this one**. It just generates on the top layer of the world (i.e. grass, stone, etc.). `radius` describes the radius, with noise, of the deposit. `depth` is how deep this layer should go (in blocks, with some noise as well). `chanceForSample` is a way to control how many samples appear directly above this top layer. You can set this anywhere between `0.0` and `1.0`. This type of deposit is the only type that uses this custom logic for slapping a sample directly on top of the deposit (like Peat generates with Rhododendron above it).
 
 #### Dropped Support for `geolosys-ores.json`
 

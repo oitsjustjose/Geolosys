@@ -52,11 +52,11 @@ public class PlutonRegistry {
             boolean isDimFilterBl = dep.isDimensionFilterBl();
             for (String dim2Raw : dep.getDimensionFilter()) {
                 boolean match = new ResourceLocation(dim2Raw).equals(dim);
-                if (match && !isDimFilterBl || !match && isDimFilterBl) {
-                    return false;
+                if ((isDimFilterBl && match) || (!isDimFilterBl && !match)) {
+                    return true;
                 }
             }
-            return true;
+            return false;
         });
 
         if (choices.size() == 0) {

@@ -218,7 +218,7 @@ public class ProPickItem extends Item {
         if (!foundBlocks.isEmpty()) {
             Geolosys.proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
             foundBlockPos.forEach((_pos) -> {
-                world.playSound(null, _pos, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5F, 2F);
+                world.playSound(null, _pos, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.15F, 2F);
             });
             return true;
         }
@@ -247,7 +247,6 @@ public class ProPickItem extends Item {
         }
 
         player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
-        world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5F, 0.65F);
         return false;
     }
 
