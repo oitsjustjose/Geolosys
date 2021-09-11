@@ -56,20 +56,21 @@ public class DepositUtils {
         return null;
     }
 
-    public static boolean canPlaceInBiome(Biome biome, @Nullable List<Biome> biomes,
+    public static boolean canPlaceInBiome(Biome targetBiome, @Nullable List<Biome> biomes,
             @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
         boolean matchForBiome = false;
         boolean matchForBiomeType = false;
 
         if (biomes != null) {
             matchForBiome = biomes.stream().anyMatch((b) -> {
-                return b == biome;
+                return b.getRegistryName().equals(targetBiome.getRegistryName());
             });
         }
 
         if (biomeTypes != null) {
             for (BiomeDictionary.Type type : biomeTypes) {
-                RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName());
+                RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY,
+                        targetBiome.getRegistryName());
                 Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
                 matchForBiomeType = dictTypes.stream().anyMatch((dictType) -> {
                     return type.getName().equalsIgnoreCase(dictType.getName());
@@ -81,7 +82,7 @@ public class DepositUtils {
         }
 
         return ((matchForBiome || matchForBiomeType) && !isBiomeFilterBl)
-                || (!(matchForBiome || matchForBiomeType) && isBiomeFilterBl);
+                || (!matchForBiome && !matchForBiomeType && isBiomeFilterBl);
     }
 
     @SuppressWarnings("unchecked")
