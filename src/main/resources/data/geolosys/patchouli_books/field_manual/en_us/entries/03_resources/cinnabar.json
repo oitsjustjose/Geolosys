@@ -1,1 +1,14 @@
-{"name": "Cinnabar", "icon": "geolosys:cinnabar_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Cinnabar", "item": "geolosys:cinnabar_ore", "link_recipe": false, "text": "This sparse pluton generates between 52 meters below and 59 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."}]}
+{
+  "name": "Cinnabar",
+  "icon": "geolosys:cinnabar_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Cinnabar",
+      "item": "geolosys:cinnabar_ore",
+      "link_recipe": false,
+      "text": "This sparse deposit can be found between 52 meters below and 59 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

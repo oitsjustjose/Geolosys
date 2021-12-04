@@ -1,6 +1,19 @@
 {
-"type":"minecraft:crafting_shaped",
-   "pattern":["sss","sis","sss"],
-   "key":{"s":{"tag":"forge:nuggets/platinum"},"i":{"item":"geolosys:platinum_nugget"}},
-   "result":{"item":"geolosys:platinum_ingot"}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "tag": "forge:nuggets/platinum"
+    },
+    "i": {
+      "item": "geolosys:platinum_nugget"
+    }
+  },
+  "result": {
+    "item": "geolosys:platinum_ingot"
+  }
 }

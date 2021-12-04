@@ -1,37 +1,28 @@
 package com.oitsjustjose.geolosys.api.world;
 
 import java.util.HashSet;
-
-import com.oitsjustjose.geolosys.api.PlutonType;
-
+import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.biome.Biome;
 
 public interface IDeposit {
-    BlockState getOre();
+    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap);
 
-    BlockState getSampleBlock();
+    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap);
 
-    int getYMin();
+    public HashSet<BlockState> getAllOres();
 
-    int getYMax();
+    public int getGenWt();
 
-    int getChance();
+    public boolean canPlaceInBiome(Biome biome);
 
-    int getSize();
+    public boolean hasBiomeRestrictions();
 
-    String[] getDimensionFilter();
+    public String[] getDimensionFilter();
 
-    boolean isDimensionFilterBlacklist();
+    public boolean isDimensionFilterBl();
 
-    boolean canReplace(BlockState state);
-
-    boolean oreMatches(BlockState other);
-
-    boolean sampleMatches(BlockState other);
-
-    HashSet<BlockState> getBlockStateMatchers();
-
-    PlutonType getPlutonType();
-
-    float getDensity();
+    public HashSet<BlockState> getBlockStateMatchers();
 }

@@ -1,24 +1,31 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_dense",
   "config": {
-    "yMin": 45,
-    "yMax": 70,
-    "chance": 4,
-    "size": 64,
-    "type": "DIKE",
-    "density": 1.0,
-    "biomes": [
-      "JUNGLE",
-      "SAVANNA"
-    ],
-    "isWhitelist": true,
-    "block": "geolosys:bauxite_ore",
-    "sample": "geolosys:bauxite_ore_sample",
+    "yMin": 48,
+    "yMax": 65,
+    "size": 25,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:bauxite_ore",
+        "chance": 0.9
+      },
+      {
+        "block": null,
+        "chance": 0.1
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:bauxite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 2
   }
 }

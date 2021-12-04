@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.common.event;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
+import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +20,7 @@ public class ManualGifting {
         }
         PlayerEntity player = event.getPlayer();
 
-        IGeolosysCapability geolosysCap = event.getEntity().getEntityWorld()
+        IDepositCapability geolosysCap = event.getEntity().getEntityWorld()
                 .getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
         if (geolosysCap == null) {
             return;

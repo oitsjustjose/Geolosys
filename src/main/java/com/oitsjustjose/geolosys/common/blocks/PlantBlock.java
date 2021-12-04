@@ -45,6 +45,7 @@ public class PlantBlock extends BushBlock {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
         if (this.placelist.contains(worldIn.getBlockState(pos.down()).getBlock())
                 && worldIn.getLightSubtracted(pos.up(), 0) >= 9

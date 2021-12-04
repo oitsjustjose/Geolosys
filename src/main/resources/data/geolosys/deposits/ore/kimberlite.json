@@ -1,19 +1,31 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_dike",
   "config": {
-    "yMin": 2,
-    "yMax": 15,
-    "chance": 3,
-    "size": 20,
-    "type": "DIKE",
-    "density": 1.0,
-    "block": "geolosys:kimberlite_ore",
-    "sample": "geolosys:kimberlite_ore_sample",
+    "yMin": 3,
+    "yMax": 16,
+    "baseRadius": 3,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:kimberlite_ore",
+        "chance": 0.5
+      },
+      {
+        "block": null,
+        "chance": 0.5
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:kimberlite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 2
   }
 }

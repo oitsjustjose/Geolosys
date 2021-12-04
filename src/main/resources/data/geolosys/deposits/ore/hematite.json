@@ -1,19 +1,27 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_dike",
   "config": {
     "yMin": 32,
     "yMax": 60,
-    "chance": 6,
-    "size": 24,
-    "type": "DIKE",
-    "density": 1.0,
-    "block": "geolosys:hematite_ore",
-    "sample": "geolosys:hematite_ore_sample",
+    "baseRadius": 2,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:hematite_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:hematite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 6
   }
 }

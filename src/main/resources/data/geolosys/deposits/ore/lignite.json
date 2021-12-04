@@ -1,19 +1,32 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_layer",
   "config": {
     "yMin": 40,
     "yMax": 70,
-    "chance": 7,
-    "size": 10,
-    "type": "LAYER",
-    "density": 1.0,
-    "block": "geolosys:lignite_ore",
-    "sample": "geolosys:lignite_ore_sample",
+    "radius": 3,
+    "depth": 4,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:lignite_ore",
+        "chance": 0.85
+      },
+      {
+        "block": null,
+        "chance": 0.15
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:lignite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 7
   }
 }

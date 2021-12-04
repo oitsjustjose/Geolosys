@@ -1,23 +1,34 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_sparse",
   "config": {
     "yMin": 10,
     "yMax": 24,
-    "chance": 5,
-    "size": 32,
-    "type": "SPARSE",
-    "density": 1.0,
-    "biomes": [
-      "SANDY"
-    ],
-    "isWhitelist": true,
-    "block": "geolosys:lapis_ore",
-    "sample": "geolosys:lapis_ore_sample",
+    "size": 30,
+    "spread": 24,
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "SANDY"
+      ]
+    },
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:lapis_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:lapis_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 5
   }
 }

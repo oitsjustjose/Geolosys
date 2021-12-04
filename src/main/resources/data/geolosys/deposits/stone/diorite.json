@@ -1,9 +1,7 @@
 {
-  "type": "geolosys:stone_deposit",
+  "type": "geolosys:deposit_dense",
   "config": {
-    "block": "minecraft:diorite",
     "size": 75,
-    "chance": 10,
     "yMin": 2,
     "yMax": 70,
     "dimensions": {
@@ -11,6 +9,19 @@
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "minecraft:diorite",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": null,
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 2
   }
 }

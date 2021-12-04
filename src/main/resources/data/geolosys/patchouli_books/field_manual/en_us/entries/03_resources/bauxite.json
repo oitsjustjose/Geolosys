@@ -1,1 +1,14 @@
-{"name": "Bauxite", "icon": "geolosys:bauxite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Bauxite", "item": "geolosys:bauxite_ore", "link_recipe": false, "text": "This dike pluton generates between 6 meters above and 19 meters below sea level. It can only be found in the overworld. This pluton is only found in jungle and savanna biomes."}]}
+{
+  "name": "Bauxite",
+  "icon": "geolosys:bauxite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Bauxite",
+      "item": "geolosys:bauxite_ore",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 1 meters above and 16 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

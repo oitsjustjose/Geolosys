@@ -5,18 +5,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.oitsjustjose.geolosys.api.world.DepositBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.DepositMultiOreBiomeRestricted;
-import com.oitsjustjose.geolosys.api.world.DepositStone;
+import javax.annotation.Nullable;
+
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonOreFeature;
-import com.oitsjustjose.geolosys.common.world.feature.PlutonStoneFeature;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -24,89 +23,73 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class PlutonRegistry {
-    private ArrayList<IDeposit> ores;
-    private ArrayList<IDeposit> oreWeightList;
-    private ArrayList<DepositStone> stones;
-    private ArrayList<DepositStone> stoneWeightList;
+    private ArrayList<IDeposit> deposits;
 
     public PlutonRegistry() {
-        this.ores = new ArrayList<>();
-        this.oreWeightList = new ArrayList<>();
-        this.stones = new ArrayList<>();
-        this.stoneWeightList = new ArrayList<>();
+        this.deposits = new ArrayList<>();
     }
 
     public void clear() {
-        this.ores = new ArrayList<>();
-        this.oreWeightList = new ArrayList<>();
-        this.stones = new ArrayList<>();
-        this.stoneWeightList = new ArrayList<>();
+        this.deposits = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<IDeposit> getOres() {
-        return (ArrayList<IDeposit>) this.ores.clone();
+        return (ArrayList<IDeposit>) this.deposits.clone();
     }
 
-    @SuppressWarnings("unchecked")
-    public ArrayList<IDeposit> getStones() {
-        return (ArrayList<IDeposit>) this.stones.clone();
+    public boolean addDeposit(IDeposit ore) {
+        return this.deposits.add(ore);
     }
 
-    public boolean addOrePluton(IDeposit ore) {
-        if (ore instanceof DepositStone) {
-            return addStonePluton((DepositStone) ore);
-        }
-
-        for (int i = 0; i < ore.getChance(); i++) {
-            oreWeightList.add(ore);
-        }
-
-        return this.ores.add(ore);
-    }
-
-    public boolean addStonePluton(DepositStone stone) {
-        for (int i = 0; i < stone.getChance(); i++) {
-            stoneWeightList.add(stone);
-        }
-        return this.stones.add(stone);
-    }
-
-    public IDeposit pickPluton(ISeedReader reader, BlockPos pos, Random rand) {
-        if (this.oreWeightList.size() > 0) {
-            // Sometimes bias towards specific biomes where applicable
-            if (rand.nextBoolean()) {
-                Biome b = reader.getBiome(pos);
-                ArrayList<IDeposit> forBiome = new ArrayList<>();
-                for (IDeposit d : this.ores) {
-                    if (d instanceof DepositBiomeRestricted) {
-                        if (((DepositBiomeRestricted) d).canPlaceInBiome(b)) {
-                            forBiome.add(d);
-                        }
-                    } else if (d instanceof DepositMultiOreBiomeRestricted) {
-                        if (((DepositMultiOreBiomeRestricted) d).canPlaceInBiome(b)) {
-                            forBiome.add(d);
-                        }
-                    }
-                }
-                if (forBiome.size() > 0) {
-                    int pick = rand.nextInt(forBiome.size());
-                    return forBiome.get(pick);
+    @Nullable
+    public IDeposit pick(ISeedReader reader, BlockPos pos, Random rand) {
+        @SuppressWarnings("unchecked")
+        ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
+        // Dimension Filtering done here!
+        choices.removeIf((dep) -> {
+            ResourceLocation dim = reader.getWorld().getDimensionKey().getLocation();
+            boolean isDimFilterBl = dep.isDimensionFilterBl();
+            for (String dim2Raw : dep.getDimensionFilter()) {
+                boolean match = new ResourceLocation(dim2Raw).equals(dim);
+                if ((isDimFilterBl && match) || (!isDimFilterBl && !match)) {
+                    return true;
                 }
             }
-            int pick = rand.nextInt(this.oreWeightList.size());
-            return this.oreWeightList.get(pick);
+            return false;
+        });
 
+        if (choices.size() == 0) {
+            return null;
         }
-        return null;
-    }
 
-    public DepositStone pickStone() {
-        if (this.stoneWeightList.size() > 0) {
-            Random random = new Random();
-            int pick = random.nextInt(this.stoneWeightList.size());
-            return this.stoneWeightList.get(pick);
+        /* 1/3 chance to lean towards a biome restricted deposit */
+        if (rand.nextInt(3) == 0) {
+            // Only remove the entries if there's at least one.
+            if (choices.stream().anyMatch((dep) -> {
+                return dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos));
+            })) {
+                choices.removeIf((dep) -> {
+                    return !(dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos)));
+                });
+            }
         }
+
+        int totalWt = 0;
+        for (IDeposit d : choices) {
+            totalWt += d.getGenWt();
+        }
+
+        int rng = rand.nextInt(totalWt);
+        for (IDeposit d : choices) {
+            int wt = d.getGenWt();
+            if (rng < wt) {
+                return d;
+            }
+            rng -= wt;
+        }
+
+        Geolosys.getInstance().LOGGER.error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
         return null;
     }
 
@@ -130,12 +113,9 @@ public class PlutonRegistry {
             }
         }
 
-        PlutonOreFeature o = new PlutonOreFeature(NoFeatureConfig.field_236558_a_);
-        PlutonStoneFeature s = new PlutonStoneFeature(NoFeatureConfig.field_236558_a_);
+        DepositFeature o = new DepositFeature(NoFeatureConfig.CODEC);
 
         settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                o.withConfiguration(NoFeatureConfig.field_236559_b_));
-        settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                s.withConfiguration(NoFeatureConfig.field_236559_b_));
+                o.withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG));
     }
 }

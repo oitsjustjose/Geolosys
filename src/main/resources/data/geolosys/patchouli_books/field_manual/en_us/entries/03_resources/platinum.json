@@ -1,1 +1,14 @@
-{"name": "Platinum", "icon": "geolosys:platinum_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Platinum", "item": "geolosys:platinum_ore", "link_recipe": false, "text": "This dike pluton generates between 39 meters below and 61 meters below sea level. It can only be found in the overworld. This pluton is only found in mountain biomes."}]}
+{
+  "name": "Platinum",
+  "icon": "geolosys:platinum_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Platinum",
+      "item": "geolosys:platinum_ore",
+      "link_recipe": false,
+      "text": "This dike deposit can be found between 39 meters below and 52 meters below sea level. It can only be found in the overworld and is only found in mountain biomes."
+    }
+  ]
+}

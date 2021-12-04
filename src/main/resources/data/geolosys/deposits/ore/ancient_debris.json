@@ -1,0 +1,38 @@
+{
+  "type": "geolosys:deposit_dike",
+  "config": {
+    "yMin": 8,
+    "yMax": 22,
+    "baseRadius": 3,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "the_nether"
+      ]
+    },
+    "blockStateMatchers": [
+      "minecraft:netherrack",
+      "minecraft:basalt",
+      "minecraft:blackstone",
+      "minecraft:magma_block",
+      "minecraft:lava"
+    ],
+    "blocks": [
+      {
+        "block": "geolosys:ancient_debris_ore",
+        "chance": 0.6
+      },
+      {
+        "block": null,
+        "chance": 0.4
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:ancient_debris_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 1
+  }
+}

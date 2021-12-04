@@ -2,12 +2,7 @@ package com.oitsjustjose.geolosys.common.world;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.annotation.Nullable;
-
-import com.oitsjustjose.geolosys.api.world.IDeposit;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -16,7 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.WorldGenRegion;
 
 public class SampleUtils {
@@ -24,16 +19,29 @@ public class SampleUtils {
     private static Random random = new Random();
 
     @Nullable
-    public static BlockPos getSamplePosition(IWorld iworld, ChunkPos chunkPos, int depositHeight) {
+    public static BlockPos getSamplePosition(ISeedReader reader, ChunkPos chunkPos) {
+        return getSamplePosition(reader, chunkPos, -1);
+    }
 
-        if (!(iworld instanceof WorldGenRegion)) {
+    @Nullable
+    public static BlockPos getSamplePosition(ISeedReader reader, ChunkPos chunkPos, int spread) {
+
+        if (!(reader instanceof WorldGenRegion)) {
             return null;
         }
 
-        WorldGenRegion world = (WorldGenRegion) iworld;
+        WorldGenRegion world = (WorldGenRegion) reader;
+        int usedSpread = Math.max(8, spread);
+        int xCenter = (chunkPos.getXStart() + chunkPos.getXEnd()) / 2;
+        int zCenter = (chunkPos.getZStart() + chunkPos.getZEnd()) / 2;
 
-        int blockPosX = (chunkPos.x << 4) + random.nextInt(16);
-        int blockPosZ = (chunkPos.z << 4) + random.nextInt(16);
+        // Only put things in the negative X|Z if the spread is provided.
+        int blockPosX = xCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosZ = zCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
+
+        if (!world.chunkExists(chunkPos.x, chunkPos.z)) {
+            return null;
+        }
 
         BlockPos searchPosUp = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
         BlockPos searchPosDown = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
@@ -67,52 +75,42 @@ public class SampleUtils {
     /**
      * Determines if the sample can be placed on this block
      * 
-     * @param world: an IWorld instance
+     * @param world: an ISeedReader instance
      * @param pos:   The current searching position that will be used to confirm
      * @return true if the block below is solid on top AND isn't in the blacklist
      */
-    public static boolean canPlaceOn(IWorld world, BlockPos pos) {
-        return !samplePlacementBlacklist.contains(world.getBlockState(pos.down()))
-                && Block.hasEnoughSolidSide(world, pos.down(), Direction.UP);
+    public static boolean canPlaceOn(ISeedReader reader, BlockPos pos) {
+        return !samplePlacementBlacklist.contains(reader.getBlockState(pos.down()))
+                && Block.hasEnoughSolidSide(reader, pos.down(), Direction.UP);
     }
 
     /**
-     * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param reader an ISeedReader instance
+     * @param pos    A BlockPos to check in and around
      * @return true if the block at pos is replaceable
      */
-    public static boolean canReplace(IWorld world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
+    public static boolean canReplace(ISeedReader reader, BlockPos pos) {
+        BlockState state = reader.getBlockState(pos);
         Material mat = state.getMaterial();
         return BlockTags.LEAVES.contains(state.getBlock()) || mat.isReplaceable();
     }
 
     /**
-     * @param ore an instance of an IDeposit to determine the sample count of
-     * @return an integer bound by {@link CommonConfig}'s MAX_SAMPLES_PER_CHUNK
-     */
-    public static int getSampleCount(IDeposit ore) {
-        int count = (ore.getSize() / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
-                + (ore.getSize() % CommonConfig.MAX_SAMPLES_PER_CHUNK.get());
-        return Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), count);
-    }
-
-    /**
-     * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param reader an ISeedReader instance
+     * @param pos    A BlockPos to check in and around
      * @return true if the block is water (since we can waterlog)
      */
-    public static boolean isInWater(IWorld world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() == Blocks.WATER;
+    public static boolean isInWater(ISeedReader reader, BlockPos pos) {
+        return reader.getBlockState(pos).getBlock() == Blocks.WATER;
     }
 
     /**
-     * @param world an IWorld instance
-     * @param pos   A BlockPos to check in and around
+     * @param reader an ISeedReader instance
+     * @param pos    A BlockPos to check in and around
      * @return true if the block is in a non-water fluid
      */
-    public static boolean inNonWaterFluid(IWorld world, BlockPos pos) {
-        return world.getBlockState(pos).getMaterial().isLiquid() && !isInWater(world, pos);
+    public static boolean inNonWaterFluid(ISeedReader reader, BlockPos pos) {
+        return reader.getBlockState(pos).getMaterial().isLiquid() && !isInWater(reader, pos);
     }
 
     /**

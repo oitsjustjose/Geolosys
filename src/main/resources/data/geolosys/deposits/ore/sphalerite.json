@@ -1,19 +1,28 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_sparse",
   "config": {
     "yMin": 37,
     "yMax": 46,
-    "chance": 5,
-    "size": 24,
-    "type": "SPARSE",
-    "density": 1.0,
-    "block": "geolosys:sphalerite_ore",
-    "sample": "geolosys:sphalerite_ore_sample",
+    "spread": 48,
+    "size": 28,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:sphalerite_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:sphalerite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 5
   }
 }

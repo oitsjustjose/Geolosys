@@ -1,1 +1,14 @@
-{"name": "Lignite", "icon": "geolosys:lignite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Lignite", "item": "geolosys:lignite_ore", "link_recipe": false, "text": "This layer pluton generates between 6 meters above and 24 meters below sea level. It can only be found in the overworld. This pluton can be found in any biome."}]}
+{
+  "name": "Lignite",
+  "icon": "geolosys:lignite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Lignite",
+      "item": "geolosys:lignite_ore",
+      "link_recipe": false,
+      "text": "This layer deposit can be found between 6 meters above and 24 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

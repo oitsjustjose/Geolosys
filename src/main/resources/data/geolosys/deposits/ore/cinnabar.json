@@ -1,19 +1,28 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_sparse",
   "config": {
     "yMin": 5,
     "yMax": 12,
-    "chance": 7,
-    "size": 40,
-    "type": "SPARSE",
-    "density": 1.0,
-    "block": "geolosys:cinnabar_ore",
-    "sample": "geolosys:cinnabar_ore_sample",
+    "size": 64,
+    "spread": 48,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:cinnabar_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:cinnabar_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 4
   }
 }

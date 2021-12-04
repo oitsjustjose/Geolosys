@@ -43,7 +43,6 @@ public class ClientConfig {
         ENABLE_TAG_DEBUG = CLIENT_BUILDER
                 .comment("Enable Minecraft object tag tooltip with Advanced Tooltips on (F3+\"H\")")
                 .define("enableTagDebug", true);
-
         CLIENT_BUILDER.pop();
     }
 }

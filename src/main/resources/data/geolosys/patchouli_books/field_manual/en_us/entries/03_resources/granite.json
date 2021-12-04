@@ -1,1 +1,14 @@
-{"name": "Granite", "icon": "minecraft:granite", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Granite", "item": "minecraft:granite", "link_recipe": false, "text": "This stone pluton generates between 6 meters above and 62 meters below sea level. It can only be found in the overworld."}]}
+{
+  "name": "Granite",
+  "icon": "minecraft:granite",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Granite",
+      "item": "minecraft:granite",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 6 meters above and 62 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

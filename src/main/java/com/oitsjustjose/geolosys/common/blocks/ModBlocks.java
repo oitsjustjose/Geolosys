@@ -1,10 +1,8 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
 import java.util.ArrayList;
-
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -30,15 +28,8 @@ public class ModBlocks {
                     .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(oreType.getToolLevel())
                     .harvestTool(ToolType.PICKAXE).setRequiresTool();
 
-            if (oreType.getVanillaParent() != null) {
-                blockProp.lootFrom(oreType.getVanillaParent());
-            }
-
-            Block block = new OreBlock(oreType.getVanillaParent(), blockProp).setRegistryName(Constants.MODID,
-                    ORE_REGISTRY_NAME);
-            Block sample = oreType.getVanillaParent() == null
-                    ? sample = new SampleBlock(block).setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME)
-                    : new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
+            Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
+            Block sample = new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
             oreType.setSample(sample);
             oreType.setBlock(block);

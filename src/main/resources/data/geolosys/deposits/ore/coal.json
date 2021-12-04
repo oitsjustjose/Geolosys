@@ -1,19 +1,28 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_sparse",
   "config": {
     "yMin": 8,
     "yMax": 78,
-    "chance": 8,
-    "size": 64,
-    "type": "SPARSE",
-    "density": 1.0,
-    "block": "geolosys:coal_ore",
-    "sample": "geolosys:coal_ore_sample",
+    "size": 48,
+    "spread": 48,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:coal_ore",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:coal_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 6
   }
 }

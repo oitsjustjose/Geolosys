@@ -1,6 +1,19 @@
 {
-"type":"minecraft:crafting_shaped",
-   "pattern":["sss","sis","sss"],
-   "key":{"s":{"tag":"forge:nuggets/copper"},"i":{"item":"geolosys:copper_nugget"}},
-   "result":{"item":"geolosys:copper_ingot"}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sis",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "tag": "forge:nuggets/copper"
+    },
+    "i": {
+      "item": "geolosys:copper_nugget"
+    }
+  },
+  "result": {
+    "item": "geolosys:copper_ingot"
+  }
 }

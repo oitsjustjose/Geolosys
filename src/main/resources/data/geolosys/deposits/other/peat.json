@@ -1,23 +1,32 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_top_layer",
   "config": {
-    "block": "geolosys:peat",
-    "sample": "geolosys:rhododendron",
-    "yMin": 0,
-    "yMax": 256,
-    "chance": 9,
-    "size": 11,
-    "type": "TOP_LAYER",
-    "density": 1.0,
+    "blocks": [
+      {
+        "block": "geolosys:peat",
+        "chance": 1.0
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:rhododendron",
+        "chance": 1.0
+      }
+    ],
+    "radius": 4,
+    "depth": 4,
+    "chanceForSample": 0.25,
+    "generationWeight": 3,
+    "dimensions": {
+      "isBlacklist": true,
+      "filter": [
+        "the_nether",
+        "the_end"
+      ]
+    },
     "blockStateMatchers": [
       "minecraft:dirt",
       "minecraft:grass_block"
-    ],
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
-    }
+    ]
   }
 }

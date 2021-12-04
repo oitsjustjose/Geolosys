@@ -1,24 +1,40 @@
 {
-  "type": "geolosys:ore_deposit",
+  "type": "geolosys:deposit_dense",
   "config": {
     "yMin": 44,
     "yMax": 68,
-    "chance": 6,
     "size": 24,
-    "type": "DENSE",
     "density": 1.0,
-    "biomes": [
-      "BEACH",
-      "OCEAN"
-    ],
-    "isWhitelist": true,
-    "block": "geolosys:cassiterite_ore",
-    "sample": "geolosys:cassiterite_ore_sample",
+    "biomes": {
+      "isBlacklist": false,
+      "filter": [
+        "BEACH",
+        "OCEAN",
+        "HOT"
+      ]
+    },
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
-    }
+    },
+    "blocks": [
+      {
+        "block": "geolosys:cassiterite_ore",
+        "chance": 0.75
+      },
+      {
+        "block": null,
+        "chance": 0.25
+      }
+    ],
+    "samples": [
+      {
+        "block": "geolosys:cassiterite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "generationWeight": 6
   }
 }

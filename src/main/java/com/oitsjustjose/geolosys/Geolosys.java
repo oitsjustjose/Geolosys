@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import java.io.File;
 import java.util.Collection;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
@@ -11,7 +10,6 @@ import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.config.ModItemsParser;
-import com.oitsjustjose.geolosys.common.config.OreConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
 import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
@@ -20,20 +18,17 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapProvider;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapStorage;
-import com.oitsjustjose.geolosys.common.world.capability.GeolosysCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IGeolosysCapability;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.Item;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
@@ -92,11 +87,8 @@ public class Geolosys {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-        CapabilityManager.INSTANCE.register(IGeolosysCapability.class, new GeolosysCapStorage(),
-                GeolosysCapability::new);
+        CapabilityManager.INSTANCE.register(IDepositCapability.class, new DepositCapStorage(), DepositCapability::new);
 
-        OreConfig.setup(new File("./config"));
-        OreConfig.getInstance().init();
         GeolosysAPI.init();
         proxy.init();
     }
@@ -104,23 +96,11 @@ public class Geolosys {
     @SubscribeEvent
     public void onSlashReload(AddReloadListenerEvent evt) {
         evt.addListener(new WorldGenDataLoader());
-
-        evt.addListener(new ReloadListener<Void>() {
-            @Override
-            protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
-                OreConfig.getInstance().init();
-            }
-
-            @Override
-            protected Void prepare(IResourceManager resourceManagerIn, IProfiler profilerIn) {
-                return null;
-            }
-        });
     }
 
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new GeolosysCapProvider());
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new DepositCapProvider());
         String dimName = event.getObject().getDimensionKey().getLocation().toString();
         LOGGER.info("Geolosys capability attached for {}", dimName);
     }
