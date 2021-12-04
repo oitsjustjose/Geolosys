@@ -157,6 +157,12 @@ When prospecting anywhere (above or below ground), instead of receiving a messag
 
 When prospecting, if you would normally see the message `Found <DEPOSIT> <North/South/East/West/Above/Below> you`, it will also highlight these blocks with a cool effect that [you can preview here](https://twitter.com/oitsjustjose/status/1427484103008563200). If a server owner has this turned off, you - the client - will never see this affect. Likewise if you don't like it but the server owner has it on, you can disable it for yourself as well as adjust the duration of the glow on the client-side.
 
+## 5.1.5
+
+### Fixed:
+
+- Too Many Lakes (HUGE thanks to EwyBoy for [his fix](https://github.com/oitsjustjose/Geolosys/pull/274/files))
+
 ## 5.1.4
 
 ### Fixed:
