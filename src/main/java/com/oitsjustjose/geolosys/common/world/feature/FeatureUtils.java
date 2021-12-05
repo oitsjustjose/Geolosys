@@ -11,7 +11,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class FeatureUtils {
 
@@ -19,23 +19,8 @@ public class FeatureUtils {
         return new ChunkPos(pos).equals(chunkPos);
     }
 
-    // public static ConfiguredFeature<?, ?> getFeature(ConfiguredFeature<?, ?>
-    // feature) {
-    // TODO: Sort this out
-    // ConfiguredFeature<?, ?> currentFeature = feature;
-    // if (currentFeature.feature instanceof FeatureConfig) {
-    // do {
-    // currentFeature = ((DecoratedFeatureConfig)
-    // currentFeature.getConfig()).feature.get();
-    // } while (currentFeature.feature instanceof DecoratedFeature);
-    // }
-    // OreFeature
-    // return currentFeature;
-    // }
-
-    public static void destroyFeature(List<Supplier<ConfiguredFeature<?, ?>>> features,
-            List<Supplier<ConfiguredFeature<?, ?>>> destroy) {
-        for (Supplier<ConfiguredFeature<?, ?>> feature : destroy) {
+    public static void destroyFeature(List<Supplier<PlacedFeature>> features, List<Supplier<PlacedFeature>> destroy) {
+        for (Supplier<PlacedFeature> feature : destroy) {
             features.remove(feature);
         }
     }

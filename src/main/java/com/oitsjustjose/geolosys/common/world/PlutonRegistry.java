@@ -3,18 +3,22 @@ package com.oitsjustjose.geolosys.common.world;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
+import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -103,35 +107,22 @@ public class PlutonRegistry {
         BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
         // Removes vanilla ores
-        // if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-        // for (GenerationStep.Decoration deco : decorations) {
-        // FeatureUtils.destroyFeature(settings.getFeatures(deco),
-        // OreRemover.filterFeatures(settings.getFeatures(deco)));
-        // }
-        // }
+        if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
+            for (GenerationStep.Decoration deco : decorations) {
+                List<Supplier<PlacedFeature>> feats = settings.getFeatures(deco);
+                FeatureUtils.destroyFeature(feats, OreRemover.filterFeatures(feats));
+            }
+        }
 
-        PlacedFeature feature = new DepositFeature(NoneFeatureConfiguration.CODEC)
-                .configured(NoneFeatureConfiguration.NONE)
-                .placed(HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(384)));
-        // TODO: Try out these other ones?
-        // .placed(List.of(RarityFilter.onAverageOnceEvery(6),
-        // InSquarePlacement.spread(), y, BiomeFilter.biome()));
+        ConfiguredFeature<NoneFeatureConfiguration, ?> depositFeature = new DepositFeature(
+                NoneFeatureConfiguration.CODEC).configured(NoneFeatureConfiguration.NONE);
+
+        net.minecraft.data.worldgen.features.FeatureUtils.register(
+                String.format("geolosys:%s_%s_deposits", evt.getName().getNamespace(), evt.getName().getPath()),
+                depositFeature);
+
+        PlacedFeature feature = depositFeature.placed(
+                HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(384)));
         settings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
-
-        // public static final PlacedFeature ORE_GRANITE_UPPER =
-        // PlacementUtils.register("ore_granite_upper",
-        // OreFeatures.ORE_GRANITE.placed(rareOrePlacement(6,
-        // HeightRangePlacement.uniform(VerticalAnchor.absolute(64),
-        // VerticalAnchor.absolute(128)))));
-        // private static List<PlacementModifier> orePlacement(PlacementModifier
-        // p_195347_, PlacementModifier p_195348_) {
-        // return List.of(p_195347_, InSquarePlacement.spread(), p_195348_,
-        // BiomeFilter.biome());
-        // }
-
-        // private static List<PlacementModifier> rareOrePlacement(int p_195350_,
-        // PlacementModifier p_195351_) {
-        // return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
-        // }
     }
 }
