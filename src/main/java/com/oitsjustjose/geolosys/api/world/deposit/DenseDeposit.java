@@ -1,18 +1,6 @@
 package com.oitsjustjose.geolosys.api.world.deposit;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -21,17 +9,19 @@ import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class DenseDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_dense";
@@ -173,10 +163,9 @@ public class DenseDeposit implements IDeposit {
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
      *         should be evaluted as a false for use of Mojang's sort-of sketchy
      *         generation code in
-     *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
@@ -193,10 +182,10 @@ public class DenseDeposit implements IDeposit {
         }
 
         float ranFlt = reader.getRandom().nextFloat() * (float) Math.PI;
-        double x1 = (float) (pos.getX() + 8) + MathHelper.sin(ranFlt) * (float) this.size / 8.0F;
-        double x2 = (float) (pos.getX() + 8) - MathHelper.sin(ranFlt) * (float) this.size / 8.0F;
-        double z1 = (float) (pos.getZ() + 8) + MathHelper.cos(ranFlt) * (float) this.size / 8.0F;
-        double z2 = (float) (pos.getZ() + 8) - MathHelper.cos(ranFlt) * (float) this.size / 8.0F;
+        double x1 = (float) (pos.getX() + 8) + Mth.sin(ranFlt) * (float) this.size / 8.0F;
+        double x2 = (float) (pos.getX() + 8) - Mth.sin(ranFlt) * (float) this.size / 8.0F;
+        double z1 = (float) (pos.getZ() + 8) + Mth.cos(ranFlt) * (float) this.size / 8.0F;
+        double z2 = (float) (pos.getZ() + 8) - Mth.cos(ranFlt) * (float) this.size / 8.0F;
         double y1 = randY + reader.getRandom().nextInt(3) - 2;
         double y2 = randY + reader.getRandom().nextInt(3) - 2;
 
@@ -206,13 +195,13 @@ public class DenseDeposit implements IDeposit {
             double yn = y1 + (y2 - y1) * (double) radScl;
             double zn = z1 + (z2 - z1) * (double) radScl;
             double noise = reader.getRandom().nextDouble() * (double) this.size / 16.0D;
-            double radius = (double) (MathHelper.sin((float) Math.PI * radScl) + 1.0F) * noise + 1.0D;
-            int xmin = MathHelper.floor(xn - radius / 2.0D);
-            int ymin = MathHelper.floor(yn - radius / 2.0D);
-            int zmin = MathHelper.floor(zn - radius / 2.0D);
-            int xmax = MathHelper.floor(xn + radius / 2.0D);
-            int ymax = MathHelper.floor(yn + radius / 2.0D);
-            int zmax = MathHelper.floor(zn + radius / 2.0D);
+            double radius = (double) (Mth.sin((float) Math.PI * radScl) + 1.0F) * noise + 1.0D;
+            int xmin = Mth.floor(xn - radius / 2.0D);
+            int ymin = Mth.floor(yn - radius / 2.0D);
+            int zmin = Mth.floor(zn - radius / 2.0D);
+            int xmax = Mth.floor(xn + radius / 2.0D);
+            int ymax = Mth.floor(yn + radius / 2.0D);
+            int zmax = Mth.floor(zn + radius / 2.0D);
 
             for (int x = xmin; x <= xmax; ++x) {
                 double layerRadX = ((double) x + 0.5D - xn) / (radius / 2.0D);
@@ -256,7 +245,7 @@ public class DenseDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
@@ -280,7 +269,7 @@ public class DenseDeposit implements IDeposit {
             }
 
             if (SampleUtils.isInWater(reader, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
-                tmp = tmp.with(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
+                tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
             FeatureUtils.tryPlaceBlock(reader, thisChunk, samplePos, tmp, cap);

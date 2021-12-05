@@ -1,16 +1,6 @@
 package com.oitsjustjose.geolosys.api.world.deposit;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import javax.annotation.Nullable;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -18,15 +8,18 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TopLayerDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_top_layer";
@@ -160,10 +153,9 @@ public class TopLayerDeposit implements IDeposit {
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
      *         should be evaluted as a false for use of Mojang's sort-of sketchy
      *         generation code in
-     *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
@@ -174,9 +166,9 @@ public class TopLayerDeposit implements IDeposit {
         int totlPlaced = 0;
         ChunkPos thisChunk = new ChunkPos(pos);
 
-        int x = ((thisChunk.getXStart() + thisChunk.getXEnd()) / 2) - reader.getRandom().nextInt(8)
+        int x = ((thisChunk.getMinBlockX() + thisChunk.getMaxBlockX()) / 2) - reader.getRandom().nextInt(8)
                 + reader.getRandom().nextInt(16);
-        int z = ((thisChunk.getZStart() + thisChunk.getZEnd()) / 2) - reader.getRandom().nextInt(8)
+        int z = ((thisChunk.getMinBlockZ() + thisChunk.getMaxBlockZ()) / 2) - reader.getRandom().nextInt(8)
                 + reader.getRandom().nextInt(16);
         int radX = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
         int radZ = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
@@ -189,17 +181,17 @@ public class TopLayerDeposit implements IDeposit {
                     continue;
                 }
 
-                BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.add(dX, 0, dZ));
+                BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.offset(dX, 0, dZ));
 
                 for (int i = 0; i < this.depth; i++) {
-                    BlockPos placePos = baseForXZ.down(i);
+                    BlockPos placePos = baseForXZ.below(i);
                     BlockState tmp = this.getOre();
                     boolean isTop = i == 0;
 
                     if (tmp == null) {
                         continue;
                     } else if (tmp.hasProperty(BlockStateProperties.BOTTOM)) {
-                        tmp = tmp.with(BlockStateProperties.BOTTOM, !isTop);
+                        tmp = tmp.setValue(BlockStateProperties.BOTTOM, !isTop);
                     }
 
                     // Skip this block if it can't replace the target block
@@ -213,7 +205,7 @@ public class TopLayerDeposit implements IDeposit {
                         if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
                             BlockState smpl = this.getSample();
                             if (smpl != null) {
-                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.up(), smpl, cap);
+                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.above(), smpl, cap);
                                 FeatureUtils.fixSnowyBlock(reader, placePos);
                             }
                         }
@@ -229,7 +221,7 @@ public class TopLayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),

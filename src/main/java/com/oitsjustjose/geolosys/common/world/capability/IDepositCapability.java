@@ -1,16 +1,16 @@
 package com.oitsjustjose.geolosys.common.world.capability;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.INBTSerializable;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraftforge.common.util.INBTSerializable;
-
-public interface IDepositCapability extends INBTSerializable<CompoundNBT> {
+public interface IDepositCapability extends INBTSerializable<CompoundTag> {
     boolean hasPlutonGenerated(ChunkPos pos);
 
     void setPlutonGenerated(ChunkPos pos);

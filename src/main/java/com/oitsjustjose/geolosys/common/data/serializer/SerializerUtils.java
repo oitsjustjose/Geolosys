@@ -1,22 +1,20 @@
 package com.oitsjustjose.geolosys.common.data.serializer;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class SerializerUtils {
     public static String[] getDimFilter(JsonObject obj) {
@@ -66,7 +64,7 @@ public class SerializerUtils {
     @Nullable
     public static BlockState fromString(@Nullable String string) {
         ResourceLocation r = new ResourceLocation(string);
-        return ForgeRegistries.BLOCKS.getValue(r).getDefaultState();
+        return ForgeRegistries.BLOCKS.getValue(r).defaultBlockState();
     }
 
     public static String[] toStringArray(JsonArray arr) {

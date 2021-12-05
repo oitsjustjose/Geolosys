@@ -2,10 +2,11 @@ package com.oitsjustjose.geolosys.api;
 
 import com.oitsjustjose.geolosys.common.world.PlutonRegistry;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,9 @@ import java.util.ArrayList;
  * class's currentWorldDeposits HashMap
  */
 public class GeolosysAPI {
-    @CapabilityInject(IDepositCapability.class)
-    public static final Capability<IDepositCapability> GEOLOSYS_WORLD_CAPABILITY = null;
+    // TODO: redo the GEolosys storage as per https://github.com/oitsjustjose/Persistent-Bits/blob/1.17/src/main/java/com/oitsjustjose/persistentbits/common/capability/ChunkLoaderList.java
+    public static final Capability<IDepositCapability> GEOLOSYS_WORLD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+    });
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
     // An instance of the registry for all generatable plutons

@@ -1,16 +1,17 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.HashSet;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.HashSet;
 
 public interface IDeposit {
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap);
+    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap);
 
-    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap);
+    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap);
 
     public HashSet<BlockState> getAllOres();
 

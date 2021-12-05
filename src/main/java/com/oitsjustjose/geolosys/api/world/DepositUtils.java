@@ -1,25 +1,17 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class DepositUtils {
     private static Random random = new Random();
@@ -57,28 +49,20 @@ public class DepositUtils {
     }
 
     public static boolean canPlaceInBiome(Biome targetBiome, @Nullable List<Biome> biomes,
-            @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
+                                          @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
         boolean matchForBiome = false;
         boolean matchForBiomeType = false;
 
         if (biomes != null) {
-            matchForBiome = biomes.stream().anyMatch((b) -> {
-                return b.getRegistryName().equals(targetBiome.getRegistryName());
-            });
+            matchForBiome = biomes.stream().anyMatch((b) -> Objects.equals(b.getRegistryName(), targetBiome.getRegistryName()));
         }
 
         if (biomeTypes != null) {
-            for (BiomeDictionary.Type type : biomeTypes) {
-                RegistryKey<Biome> regKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY,
-                        targetBiome.getRegistryName());
-                Set<BiomeDictionary.Type> dictTypes = BiomeDictionary.getTypes(regKey);
-                matchForBiomeType = dictTypes.stream().anyMatch((dictType) -> {
-                    return type.getName().equalsIgnoreCase(dictType.getName());
-                });
-                if (matchForBiomeType) {
-                    break;
-                }
-            }
+            Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).get());
+            matchForBiomeType = types.stream().anyMatch(a -> {
+                // TODO: Verify that type comparison works here.
+               return biomeTypes.contains(a);
+            });
         }
 
         return ((matchForBiome || matchForBiomeType) && !isBiomeFilterBl)
@@ -89,10 +73,7 @@ public class DepositUtils {
     public static HashSet<BlockState> getDefaultMatchers() {
         // If the cached data isn't there yet, load it.
         if (defaultMatchersCached == null) {
-            defaultMatchersCached = new HashSet<BlockState>();
-            // GeolosysAPI.plutonRegistry.getStones().forEach(x ->
-            // defaultMatchersCached.add(x.getOre()));
-
+            defaultMatchersCached = new HashSet<>();
             CommonConfig.DEFAULT_REPLACEMENT_MATS.get().forEach(s -> {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
                 if (block == null || !addDefaultMatcher(block)) {
@@ -106,7 +87,7 @@ public class DepositUtils {
 
     @SuppressWarnings("deprecation")
     public static boolean addDefaultMatcher(Block block) {
-        BlockState defaultState = block.getDefaultState();
+        BlockState defaultState = block.defaultBlockState();
         if (!defaultState.isAir()) {
             defaultMatchersCached.add(defaultState);
             return true;

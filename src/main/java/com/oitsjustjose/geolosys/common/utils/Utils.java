@@ -1,10 +1,9 @@
 package com.oitsjustjose.geolosys.common.utils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class Utils {
     public static ItemStack blockStateToStack(BlockState state) {
@@ -15,19 +14,14 @@ public class Utils {
         return (state1.getBlock().getRegistryName() == state2.getBlock().getRegistryName());
     }
 
-    public static BlockPos getTopSolidBlock(IWorld world, BlockPos start) {
+    public static BlockPos getTopSolidBlock(LevelReader world, BlockPos start) {
         BlockPos retPos = new BlockPos(start.getX(), world.getHeight() - 1, start.getZ());
         while (retPos.getY() > 0) {
             if (world.getBlockState(retPos).getMaterial().isSolid()) {
                 break;
             }
-            retPos = retPos.down();
+            retPos = retPos.below();
         }
         return retPos;
-    }
-
-    public static boolean canMine(BlockState state, ItemStack stack) {
-        int harvestLvl = stack.getHarvestLevel(ToolType.PICKAXE, null, null);
-        return stack.getToolTypes().contains(ToolType.PICKAXE) && state.getHarvestLevel() <= harvestLvl;
     }
 }
