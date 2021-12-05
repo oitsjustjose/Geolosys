@@ -1,10 +1,9 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.item.Item;
 
 public class Types {
-    public enum Coals implements IStringSerializable {
+    public enum Coals {
         PEAT(6, "peat", false), LIGNITE(12, "lignite", false), BITUMINOUS(16, "bituminous", false),
         ANTHRACITE(20, "anthracite", false), LIGNITE_COKE(24, "lignite", true), BITUMINOUS_COKE(32, "bituminous", true);
 
@@ -51,7 +50,7 @@ public class Types {
         }
     }
 
-    public enum Ingots implements IStringSerializable {
+    public enum Ingots {
         COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
         PLATINUM("platinum"), ZINC("zinc");
 
@@ -86,7 +85,7 @@ public class Types {
         }
     }
 
-    public enum Nuggets implements IStringSerializable {
+    public enum Nuggets {
         COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
         PLATINUM("platinum"), ZINC("zinc");
 
@@ -121,7 +120,7 @@ public class Types {
         }
     }
 
-    public enum Clusters implements IStringSerializable {
+    public enum Clusters {
         IRON("iron"), GOLD("gold"), COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"),
         NICKEL("nickel"), PLATINUM("platinum"), URANIUM("uranium"), ZINC("zinc"), YELLORIUM("yellorium"),
         OSMIUM("osmium"), ANCIENT_DEBRIS("ancient_debris"), NETHER_GOLD("nether_gold");

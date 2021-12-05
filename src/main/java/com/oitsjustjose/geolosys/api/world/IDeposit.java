@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashSet;
 
 public interface IDeposit {
-    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap);
+    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability cap);
 
-    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap);
+    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap);
 
     public HashSet<BlockState> getAllOres();
 

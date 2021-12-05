@@ -36,7 +36,7 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     // TODO: impl data-driven tool dependencies.
     private static final Properties BASE_PROPS = Properties.of(Material.DIRT, MaterialColor.STONE)
-            .strength(0.125F, 2F).sound(SoundType.GRAVEL);
+            .strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape();
 
     public SampleBlock() {
         super(CommonConfig.SAMPLE_TICK_ENABLED.get() ? BASE_PROPS.randomTicks() : BASE_PROPS);
@@ -85,7 +85,8 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos).isSolidRender(worldIn, pos);
+        BlockState below = worldIn.getBlockState(pos.below());
+        return below.isSolidRender(worldIn, pos.below());
     }
 
     @Override
@@ -121,7 +122,7 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
 
     // Only tick randomly whenever not waterlogged, to make it waterlogged.
     @Override
-    public boolean isRandomlyTicking(BlockState state){
+    public boolean isRandomlyTicking(BlockState state) {
         return CommonConfig.SAMPLE_TICK_ENABLED.get()
                 && (state.hasProperty(WATERLOGGED) && state.getValue(WATERLOGGED).equals(Boolean.FALSE));
     }
@@ -131,9 +132,9 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
             return;
         }
 
-        BlockState[] neighbors = new BlockState[] { worldIn.getBlockState(pos.offset(1, 0, 0)),
+        BlockState[] neighbors = new BlockState[]{worldIn.getBlockState(pos.offset(1, 0, 0)),
                 worldIn.getBlockState(pos.offset(-1, 0, 0)), worldIn.getBlockState(pos.offset(0, 0, 1)),
-                worldIn.getBlockState(pos.offset(0, 0, -1)) };
+                worldIn.getBlockState(pos.offset(0, 0, -1))};
 
         int waterNeighbors = 0;
         for (BlockState b : neighbors) {

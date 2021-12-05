@@ -1,19 +1,17 @@
 package com.oitsjustjose.geolosys.client;
 
-import java.util.HashSet;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketHelpers;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
 
 public class ClientProxy extends CommonProxy {
     public void init() {
@@ -25,12 +23,12 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void sendProspectingMessage(PlayerEntity player, HashSet<BlockState> blocks, @Nullable Direction direction) {
+    public void sendProspectingMessage(Player player, HashSet<BlockState> blocks, @Nullable Direction direction) {
         if (direction != null) {
-            player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.found",
+            player.displayClientMessage(new TranslatableComponent("geolosys.pro_pick.tooltip.found",
                     PacketHelpers.messagify(blocks), direction), true);
         } else {
-            player.sendStatusMessage(new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface",
+            player.displayClientMessage(new TranslatableComponent("geolosys.pro_pick.tooltip.found_surface",
                     PacketHelpers.messagify(blocks)), true);
         }
     }

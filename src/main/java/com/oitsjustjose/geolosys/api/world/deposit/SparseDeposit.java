@@ -172,10 +172,10 @@ public class SparseDeposit implements IDeposit {
      *         generation code in
      */
     @Override
-    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
-        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
+        if (!DepositUtils.canPlaceInBiome(level.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
                 this.isBiomeFilterBl)) {
             return 0;
         }
@@ -183,26 +183,26 @@ public class SparseDeposit implements IDeposit {
         int totlPlaced = 0;
         int totlPnding = 0;
         ChunkPos thisChunk = new ChunkPos(pos);
-        int randY = this.yMin + reader.getRandom().nextInt(this.yMax - this.yMin);
-        int max = Utils.getTopSolidBlock(reader, pos).getY();
+        int randY = this.yMin + level.getRandom().nextInt(this.yMax - this.yMin);
+        int max = Utils.getTopSolidBlock(level, pos).getY();
         if (randY > max) {
             randY = Math.max(yMin, max);
         }
 
-        float ranFlt = reader.getRandom().nextFloat() * (float) Math.PI;
+        float ranFlt = level.getRandom().nextFloat() * (float) Math.PI;
         double x1 = (float) (pos.getX() + 8) + Mth.sin(ranFlt) * (float) this.size / 8.0F;
         double x2 = (float) (pos.getX() + 8) - Mth.sin(ranFlt) * (float) this.size / 8.0F;
         double z1 = (float) (pos.getZ() + 8) + Mth.cos(ranFlt) * (float) this.size / 8.0F;
         double z2 = (float) (pos.getZ() + 8) - Mth.cos(ranFlt) * (float) this.size / 8.0F;
-        double y1 = randY + reader.getRandom().nextInt(3) - 2;
-        double y2 = randY + reader.getRandom().nextInt(3) - 2;
+        double y1 = randY + level.getRandom().nextInt(3) - 2;
+        double y2 = randY + level.getRandom().nextInt(3) - 2;
 
         for (int i = 0; i < this.size; ++i) {
             float radScl = (float) i / (float) this.size;
             double xn = x1 + (x2 - x1) * (double) radScl;
             double yn = y1 + (y2 - y1) * (double) radScl;
             double zn = z1 + (z2 - z1) * (double) radScl;
-            double noise = reader.getRandom().nextDouble() * (double) this.size / 16.0D;
+            double noise = level.getRandom().nextDouble() * (double) this.size / 16.0D;
             double radius = (double) (Mth.sin((float) Math.PI * radScl) + 1.0F) * noise + 1.0D;
             int xmin = Mth.floor(xn - radius / 2.0D);
             int ymin = Mth.floor(yn - radius / 2.0D);
@@ -225,10 +225,10 @@ public class SparseDeposit implements IDeposit {
                                 if (layerRadX * layerRadX + layerRadY * layerRadY + layerRadZ * layerRadZ < 1.0D) {
 
                                     // Randomize spread on the X and Z Axes
-                                    int xSpread = reader.getRandom().nextInt(this.spread)
-                                            * (reader.getRandom().nextBoolean() ? 1 : -1);
-                                    int zSpread = reader.getRandom().nextInt(this.spread)
-                                            * (reader.getRandom().nextBoolean() ? 1 : -1);
+                                    int xSpread = level.getRandom().nextInt(this.spread)
+                                            * (level.getRandom().nextBoolean() ? 1 : -1);
+                                    int zSpread = level.getRandom().nextInt(this.spread)
+                                            * (level.getRandom().nextBoolean() ? 1 : -1);
 
                                     BlockPos placePos = new BlockPos(x + xSpread, y, z + zSpread);
                                     BlockState tmp = this.getOre();
@@ -237,10 +237,10 @@ public class SparseDeposit implements IDeposit {
                                     }
                                     // Skip this block if it can't replace the target block
                                     if (!this.getBlockStateMatchers()
-                                            .contains(FeatureUtils.tryGetBlockState(reader, thisChunk, placePos))) {
+                                            .contains(FeatureUtils.tryGetBlockState(level, thisChunk, placePos))) {
                                         continue;
                                     }
-                                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                                    if (FeatureUtils.tryPlaceBlock(level, thisChunk, placePos, tmp, cap)) {
                                         totlPlaced++;
                                     } else {
                                         totlPnding++;
@@ -260,7 +260,7 @@ public class SparseDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
@@ -274,23 +274,23 @@ public class SparseDeposit implements IDeposit {
                 * ((int) (spread / 16));
 
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos), this.spread);
+            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos), this.spread);
             BlockState tmp = this.getSample();
 
             if (tmp == null) {
                 continue;
             }
 
-            if (samplePos == null || SampleUtils.inNonWaterFluid(reader, samplePos)) {
+            if (samplePos == null || SampleUtils.inNonWaterFluid(level, samplePos)) {
                 continue;
             }
 
-            if (SampleUtils.isInWater(reader, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
+            if (SampleUtils.isInWater(level, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
                 tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.tryPlaceBlock(reader, thisChunk, samplePos, tmp, cap);
-            FeatureUtils.fixSnowyBlock(reader, samplePos);
+            FeatureUtils.tryPlaceBlock(level, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.fixSnowyBlock(level, samplePos);
         }
     }
 

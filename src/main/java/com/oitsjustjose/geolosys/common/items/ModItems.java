@@ -5,9 +5,7 @@ import com.oitsjustjose.geolosys.common.items.Types.Coals;
 import com.oitsjustjose.geolosys.common.items.Types.Ingots;
 import com.oitsjustjose.geolosys.common.items.Types.Nuggets;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +21,7 @@ public class ModItems {
     private final String COAL_POSTFIX = "_coal";
     private final String COAL_COKE_POSTFIX = "_coal_coke";
 
-    private final Properties genericItemProps = new Properties().group(GeolosysGroup.getInstance());
+    private final Item.Properties genericItemProps = new Item.Properties().tab(GeolosysGroup.getInstance());
 
     private ModItems() {
         // Init Clusters

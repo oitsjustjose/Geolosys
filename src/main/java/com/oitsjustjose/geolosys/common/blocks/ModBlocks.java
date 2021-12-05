@@ -2,15 +2,13 @@ package com.oitsjustjose.geolosys.common.blocks;
 
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-import net.minecraft.block.AbstractBlock.Properties;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.event.RegistryEvent;
 
 import java.util.ArrayList;
@@ -26,9 +24,9 @@ public class ModBlocks {
         for (Types.Ores oreType : Types.Ores.values()) {
             final String SAMPLE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore_sample";
             final String ORE_REGISTRY_NAME = oreType.getName().toLowerCase() + "_ore";
-            Properties blockProp = Properties.create(Material.ROCK, MaterialColor.STONE)
-                    .hardnessAndResistance(7.5F, 10F).sound(SoundType.STONE).harvestLevel(oreType.getToolLevel())
-                    .harvestTool(ToolType.PICKAXE).setRequiresTool();
+            BlockBehaviour.Properties blockProp = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+                    .strength(7.5F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops()
+                    ; // TODO: Datapack for making this require the reight tool and right durability.
 
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
             Block sample = new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
@@ -60,19 +58,19 @@ public class ModBlocks {
 
     public void registerItemBlocks(RegistryEvent.Register<Item> itemRegistryEvent) {
         for (Types.Ores oreType : Types.Ores.values()) {
-            Item iBlock = new BlockItem(oreType.getBlock(), new Item.Properties().group(GeolosysGroup.getInstance()))
+            Item iBlock = new BlockItem(oreType.getBlock(), new Item.Properties().tab(GeolosysGroup.getInstance()))
                     .setRegistryName(oreType.getBlock().getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
 
         for (Types.Ores oreType : Types.Ores.values()) {
-            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().group(GeolosysGroup.getInstance()))
+            Item iBlock = new BlockItem(oreType.getSample(), new Item.Properties().tab(GeolosysGroup.getInstance()))
                     .setRegistryName(oreType.getSample().getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }
 
         for (Block extra : extras) {
-            Item iBlock = new BlockItem(extra, new Item.Properties().group(GeolosysGroup.getInstance()))
+            Item iBlock = new BlockItem(extra, new Item.Properties().tab(GeolosysGroup.getInstance()))
                     .setRegistryName(extra.getRegistryName());
             itemRegistryEvent.getRegistry().register(iBlock);
         }

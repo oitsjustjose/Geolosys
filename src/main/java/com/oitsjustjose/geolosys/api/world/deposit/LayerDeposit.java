@@ -169,12 +169,13 @@ public class LayerDeposit implements IDeposit {
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
      *         should be evaluted as a false for use of Mojang's sort-of sketchy
      *         generation code in
-]     */
+     *         ]
+     */
     @Override
-    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
-        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
+        if (!DepositUtils.canPlaceInBiome(level.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
                 this.isBiomeFilterBl)) {
             return 0;
         }
@@ -183,12 +184,12 @@ public class LayerDeposit implements IDeposit {
 
         ChunkPos thisChunk = new ChunkPos(pos);
 
-        int x = ((thisChunk.getMinBlockX() + thisChunk.getMaxBlockX()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-        int y = this.yMin + reader.getRandom().nextInt(Math.abs(this.yMax - this.yMin));
-        int z = ((thisChunk.getMinBlockZ() + thisChunk.getMaxBlockZ()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-        int max = Utils.getTopSolidBlock(reader, pos).getY();
+        int x = ((thisChunk.getMinBlockX() + thisChunk.getMaxBlockX()) / 2) - level.getRandom().nextInt(8)
+                + level.getRandom().nextInt(16);
+        int y = this.yMin + level.getRandom().nextInt(Math.abs(this.yMax - this.yMin));
+        int z = ((thisChunk.getMinBlockZ() + thisChunk.getMaxBlockZ()) / 2) - level.getRandom().nextInt(8)
+                + level.getRandom().nextInt(16);
+        int max = Utils.getTopSolidBlock(level, pos).getY();
         if (y > max) {
             y = Math.max(yMin, max);
         }
@@ -211,11 +212,11 @@ public class LayerDeposit implements IDeposit {
 
                     // Skip this block if it can't replace the target block
                     if (!this.getBlockStateMatchers()
-                            .contains(FeatureUtils.tryGetBlockState(reader, thisChunk, placePos))) {
+                            .contains(FeatureUtils.tryGetBlockState(level, thisChunk, placePos))) {
                         continue;
                     }
 
-                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                    if (FeatureUtils.tryPlaceBlock(level, thisChunk, placePos, tmp, cap)) {
                         totlPlaced++;
                     }
                 }
@@ -228,7 +229,7 @@ public class LayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
@@ -240,23 +241,23 @@ public class LayerDeposit implements IDeposit {
                 (this.radius / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
                         + (this.radius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(reader, new ChunkPos(pos));
+            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             BlockState tmp = this.getSample();
 
             if (tmp == null) {
                 continue;
             }
 
-            if (samplePos == null || SampleUtils.inNonWaterFluid(reader, samplePos)) {
+            if (samplePos == null || SampleUtils.inNonWaterFluid(level, samplePos)) {
                 continue;
             }
 
-            if (SampleUtils.isInWater(reader, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
+            if (SampleUtils.isInWater(level, samplePos) && tmp.hasProperty(BlockStateProperties.WATERLOGGED)) {
                 tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.tryPlaceBlock(reader, thisChunk, samplePos, tmp, cap);
-            FeatureUtils.fixSnowyBlock(reader, samplePos);
+            FeatureUtils.tryPlaceBlock(level, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.fixSnowyBlock(level, samplePos);
         }
     }
 

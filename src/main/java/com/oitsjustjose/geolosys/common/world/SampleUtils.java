@@ -1,73 +1,63 @@
 package com.oitsjustjose.geolosys.common.world;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class SampleUtils {
     private static ArrayList<BlockState> samplePlacementBlacklist = new ArrayList<>();
     private static Random random = new Random();
 
     @Nullable
-    public static BlockPos getSamplePosition(WorldGenLevel reader, ChunkPos chunkPos) {
-        return getSamplePosition(reader, chunkPos, -1);
+    public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos) {
+        return getSamplePosition(level, chunkPos, -1);
     }
 
     @Nullable
-    public static BlockPos getSamplePosition(WorldGenLevel reader, ChunkPos chunkPos, int spread) {
+    public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos, int spread) {
 
-        if (!(reader instanceof WorldGenRegion)) {
+        if (!(level instanceof WorldGenRegion)) {
             return null;
         }
 
-        WorldGenRegion world = (WorldGenRegion) reader;
+        WorldGenRegion world = (WorldGenRegion) level;
         int usedSpread = Math.max(8, spread);
         int xCenter = (chunkPos.getMinBlockX() + chunkPos.getMaxBlockX()) / 2;
         int zCenter = (chunkPos.getMinBlockZ() + chunkPos.getMaxBlockZ()) / 2;
 
         // Only put things in the negative X|Z if the spread is provided.
-        int blockPosX = xCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
-        int blockPosZ = zCenter + (random.nextInt(usedSpread) * ((reader.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosX = xCenter + (random.nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosZ = zCenter + (random.nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
 
         if (!world.hasChunk(chunkPos.x, chunkPos.z)) {
             return null;
         }
 
-        BlockPos searchPosUp = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
-        BlockPos searchPosDown = new BlockPos(blockPosX, world.getSeaLevel(), blockPosZ);
+        BlockPos searchPos = new BlockPos(blockPosX, world.getHeight(), blockPosZ);
 
-        // Try to get something _above_ sea level first
-        while (searchPosUp.getY() < world.getHeight()) {
-            BlockState stateBelow = world.getBlockState(searchPosUp.below());
-            if (Block.isShapeFullBlock(stateBelow.getShape(world, searchPosUp.below()))) {
-                if (canReplace(world, searchPosUp) && canReplace(world, searchPosUp.above())
-                        && canPlaceOn(world, searchPosUp)) {
-                    return searchPosUp;
+        // With worlds being so much deeper,
+        // it makes most sense to take a top-down approach
+        while (searchPos.getY() > world.getMinBuildHeight()) {
+            BlockState blockToPlaceOn = world.getBlockState(searchPos);
+            // Check if the location itself is solid
+            if (Block.isFaceFull(blockToPlaceOn.getShape(world, searchPos), Direction.UP)) {
+                // Then check if the block above it is either air, or replacable
+                BlockPos actualPlacePos = searchPos.above();
+                if (canReplace(world, actualPlacePos)) {
+                    return actualPlacePos;
                 }
             }
-            searchPosUp = searchPosUp.above();
-        }
-
-        // If all else fails try something below sea level..
-        while (searchPosDown.getY() > 0) {
-            BlockState stateBelow = world.getBlockState(searchPosDown.below());
-            if (Block.isShapeFullBlock(stateBelow.getShape(world, searchPosDown.below()))) {
-                if (canReplace(world, searchPosDown) && canReplace(world, searchPosDown.above())
-                        && canPlaceOn(world, searchPosDown)) {
-                    return searchPosDown;
-                }
-            }
-            searchPosDown = searchPosDown.below();
+            searchPos = searchPos.below();
         }
 
         return null;
@@ -76,43 +66,42 @@ public class SampleUtils {
     /**
      * Determines if the sample can be placed on this block
      * 
-     * @param world: an ISeedReader instance
+     * @param world: an WorldGenLevel instance
      * @param pos:   The current searching position that will be used to confirm
      * @return true if the block below is solid on top AND isn't in the blacklist
      */
-    public static boolean canPlaceOn(WorldGenLevel reader, BlockPos pos) {
-        BlockState state = reader.getBlockState(pos);
-        return !samplePlacementBlacklist.contains(reader.getBlockState(pos.below()))
-                && Block.isShapeFullBlock(state.getShape(reader, pos));
+    public static boolean canPlaceOn(WorldGenLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        return !samplePlacementBlacklist.contains(level.getBlockState(pos.below()))
+                && Block.isShapeFullBlock(state.getShape(level, pos));
     }
 
     /**
-     * @param reader an ISeedReader instance
-     * @param pos    A BlockPos to check in and around
+     * @param level an WorldGenLevel instance
+     * @param pos   A BlockPos to check in and around
      * @return true if the block at pos is replaceable
      */
-    public static boolean canReplace(WorldGenLevel reader, BlockPos pos) {
-        BlockState state = reader.getBlockState(pos);
-        Material mat = state.getMaterial();
-        return BlockTags.LEAVES.contains(state.getBlock()) || mat.isReplaceable();
+    public static boolean canReplace(WorldGenLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        return state.getMaterial().isReplaceable() || state.isAir();
     }
 
     /**
-     * @param reader an ISeedReader instance
-     * @param pos    A BlockPos to check in and around
+     * @param level an WorldGenLevel instance
+     * @param pos   A BlockPos to check in and around
      * @return true if the block is water (since we can waterlog)
      */
-    public static boolean isInWater(WorldGenLevel reader, BlockPos pos) {
-        return reader.getBlockState(pos).getBlock() == Blocks.WATER;
+    public static boolean isInWater(WorldGenLevel level, BlockPos pos) {
+        return level.getBlockState(pos).getBlock() == Blocks.WATER;
     }
 
     /**
-     * @param reader an ISeedReader instance
-     * @param pos    A BlockPos to check in and around
+     * @param level an WorldGenLevel instance
+     * @param pos   A BlockPos to check in and around
      * @return true if the block is in a non-water fluid
      */
-    public static boolean inNonWaterFluid(WorldGenLevel reader, BlockPos pos) {
-        return reader.getBlockState(pos).getMaterial().isLiquid() && !isInWater(reader, pos);
+    public static boolean inNonWaterFluid(WorldGenLevel level, BlockPos pos) {
+        return level.getBlockState(pos).getMaterial().isLiquid() && !isInWater(level, pos);
     }
 
     /**

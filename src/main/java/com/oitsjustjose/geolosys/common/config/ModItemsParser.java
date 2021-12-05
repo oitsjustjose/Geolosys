@@ -2,20 +2,20 @@
 
 package com.oitsjustjose.geolosys.common.config;
 
-import javax.annotation.Nonnull;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.resources.ReloadListener;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class ModItemsParser {
     private void load() {
@@ -37,23 +37,18 @@ public class ModItemsParser {
     }
 
     @SubscribeEvent
-    public void onServerStart(final FMLServerAboutToStartEvent evt) {
+    public void onServerStart(final ServerAboutToStartEvent evt) {
         load();
     }
 
     @SubscribeEvent
-    public void registerSlashReloadLogic(AddReloadListenerEvent evt) {
-        evt.addListener(new ReloadListener<Void>() {
+    public void onSlashReload(AddReloadListenerEvent evt) {
+        evt.addListener(new PreparableReloadListener() {
             @Override
-            protected void apply(@Nonnull Void objectIn, @Nonnull IResourceManager resourceMgr,
-                    @Nonnull IProfiler profilerIn) {
-                load();
-            }
-
-            @Override
-            @Nonnull // Ironic considering I'm returning null anyways.. ok tho
-            protected Void prepare(@Nonnull IResourceManager resourceMgr, @Nonnull IProfiler profilerIn) {
-                return null;
+            public CompletableFuture<Void> reload(PreparationBarrier p_10638_, ResourceManager p_10639_, ProfilerFiller p_10640_, ProfilerFiller p_10641_, Executor p_10642_, Executor p_10643_) {
+                return CompletableFuture.runAsync(() -> {
+                    load();
+                }, p_10642_).thenCompose(p_10638_::wait);
             }
         });
     }

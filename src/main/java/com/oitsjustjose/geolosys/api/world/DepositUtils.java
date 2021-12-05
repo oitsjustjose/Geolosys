@@ -20,11 +20,11 @@ public class DepositUtils {
     /**
      * picks a choice out of a mapping between blockstate to weight passing -1.0F as
      * totl will result in a total being calculated.
-     * 
+     *
      * @param map
      * @param totl
      * @return null if no block should be used or placed, T instanceof BlockState if
-     *         actual block should be placed.
+     * actual block should be placed.
      */
     @Nullable
     public static BlockState pick(HashMap<BlockState, Float> map, float totl) {
@@ -58,11 +58,15 @@ public class DepositUtils {
         }
 
         if (biomeTypes != null) {
-            Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).get());
-            matchForBiomeType = types.stream().anyMatch(a -> {
-                // TODO: Verify that type comparison works here.
-               return biomeTypes.contains(a);
-            });
+            try {
+                Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).orElse(null));
+                matchForBiomeType = types.stream().anyMatch(a -> {
+                    // TODO: Verify that type comparison works here.
+                    return biomeTypes.contains(a);
+                });
+            } catch (NullPointerException e) {
+                Geolosys.getInstance().LOGGER.error(e);
+            }
         }
 
         return ((matchForBiome || matchForBiomeType) && !isBiomeFilterBl)

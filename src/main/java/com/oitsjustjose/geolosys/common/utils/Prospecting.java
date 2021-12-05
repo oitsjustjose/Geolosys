@@ -1,24 +1,23 @@
 package com.oitsjustjose.geolosys.common.utils;
 
-import java.util.HashSet;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import net.minecraft.world.level.block.state.BlockState;
 
-import net.minecraft.block.BlockState;
+import java.util.HashSet;
 
 public class Prospecting {
     private static HashSet<BlockState> depositBlocks;
 
     public static HashSet<BlockState> getDepositBlocks() {
         if (depositBlocks == null) {
-            depositBlocks = new HashSet<BlockState>();
+            depositBlocks = new HashSet<>();
             populateDepositBlocks();
         }
         return depositBlocks;
     }
 
     public static void populateDepositBlocks() {
-        depositBlocks = new HashSet<BlockState>();
+        depositBlocks = new HashSet<>();
 
         GeolosysAPI.plutonRegistry.getOres().forEach((pluton) -> {
             HashSet<BlockState> ores = pluton.getAllOres();

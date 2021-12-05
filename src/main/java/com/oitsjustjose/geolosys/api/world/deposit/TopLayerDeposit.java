@@ -155,10 +155,10 @@ public class TopLayerDeposit implements IDeposit {
      *         generation code in
      */
     @Override
-    public int generate(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
-        if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
+        if (!DepositUtils.canPlaceInBiome(level.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
                 this.isBiomeFilterBl)) {
             return 0;
         }
@@ -166,22 +166,22 @@ public class TopLayerDeposit implements IDeposit {
         int totlPlaced = 0;
         ChunkPos thisChunk = new ChunkPos(pos);
 
-        int x = ((thisChunk.getMinBlockX() + thisChunk.getMaxBlockX()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-        int z = ((thisChunk.getMinBlockZ() + thisChunk.getMaxBlockZ()) / 2) - reader.getRandom().nextInt(8)
-                + reader.getRandom().nextInt(16);
-        int radX = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
-        int radZ = (this.radius / 2) + reader.getRandom().nextInt(this.radius / 2);
+        int x = ((thisChunk.getMinBlockX() + thisChunk.getMaxBlockX()) / 2) - level.getRandom().nextInt(8)
+                + level.getRandom().nextInt(16);
+        int z = ((thisChunk.getMinBlockZ() + thisChunk.getMaxBlockZ()) / 2) - level.getRandom().nextInt(8)
+                + level.getRandom().nextInt(16);
+        int radX = (this.radius / 2) + level.getRandom().nextInt(this.radius / 2);
+        int radZ = (this.radius / 2) + level.getRandom().nextInt(this.radius / 2);
 
         BlockPos basePos = new BlockPos(x, 0, z);
 
         for (int dX = -radX; dX <= radX; dX++) {
             for (int dZ = -radZ; dZ <= radZ; dZ++) {
-                if (((dX * dX) + (dZ * dZ)) > this.radius + reader.getRandom().nextInt(Math.max(1, this.radius / 2))) {
+                if (((dX * dX) + (dZ * dZ)) > this.radius + level.getRandom().nextInt(Math.max(1, this.radius / 2))) {
                     continue;
                 }
 
-                BlockPos baseForXZ = Utils.getTopSolidBlock(reader, basePos.offset(dX, 0, dZ));
+                BlockPos baseForXZ = Utils.getTopSolidBlock(level, basePos.offset(dX, 0, dZ));
 
                 for (int i = 0; i < this.depth; i++) {
                     BlockPos placePos = baseForXZ.below(i);
@@ -196,17 +196,17 @@ public class TopLayerDeposit implements IDeposit {
 
                     // Skip this block if it can't replace the target block
                     if (!this.getBlockStateMatchers()
-                            .contains(FeatureUtils.tryGetBlockState(reader, thisChunk, placePos))) {
+                            .contains(FeatureUtils.tryGetBlockState(level, thisChunk, placePos))) {
                         continue;
                     }
 
-                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                    if (FeatureUtils.tryPlaceBlock(level, thisChunk, placePos, tmp, cap)) {
                         totlPlaced++;
-                        if (isTop && reader.getRandom().nextFloat() <= this.sampleChance) {
+                        if (isTop && level.getRandom().nextFloat() <= this.sampleChance) {
                             BlockState smpl = this.getSample();
                             if (smpl != null) {
-                                FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos.above(), smpl, cap);
-                                FeatureUtils.fixSnowyBlock(reader, placePos);
+                                FeatureUtils.tryPlaceBlock(level, thisChunk, placePos.above(), smpl, cap);
+                                FeatureUtils.fixSnowyBlock(level, placePos);
                             }
                         }
                     }
@@ -221,7 +221,7 @@ public class TopLayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(WorldGenLevel reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),

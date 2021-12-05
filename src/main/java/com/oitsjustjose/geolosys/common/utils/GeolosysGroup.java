@@ -1,14 +1,13 @@
 package com.oitsjustjose.geolosys.common.utils;
 
 import com.oitsjustjose.geolosys.common.blocks.Types.Ores;
-
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class GeolosysGroup extends ItemGroup {
+public class GeolosysGroup extends CreativeModeTab {
     private static GeolosysGroup instance;
 
     private int counter = -1;
@@ -27,7 +26,7 @@ public class GeolosysGroup extends ItemGroup {
     }
 
     @Override
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
         return new ItemStack(Blocks.STONE);
     }
 

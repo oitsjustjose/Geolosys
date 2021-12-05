@@ -1,27 +1,27 @@
 package com.oitsjustjose.geolosys.common.network;
 
-import java.util.HashSet;
-import java.util.function.Supplier;
-
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.HashSet;
+import java.util.function.Supplier;
 
 public class PacketStackUnderground {
     public HashSet<BlockState> blocks;
     public String direction;
 
-    public PacketStackUnderground(PacketBuffer buf) {
-        CompoundNBT comp = buf.readCompoundTag();
+    public PacketStackUnderground(FriendlyByteBuf buf) {
+        CompoundTag comp = buf.readNbt();
         this.blocks = PacketHelpers.decodeBlocks(comp);
-        this.direction = buf.readString();
+        this.direction = buf.readUtf();
     }
 
     public PacketStackUnderground(HashSet<BlockState> d1, String d2) {
@@ -29,13 +29,13 @@ public class PacketStackUnderground {
         this.direction = d2;
     }
 
-    public static PacketStackUnderground decode(PacketBuffer buf) {
+    public static PacketStackUnderground decode(FriendlyByteBuf buf) {
         return new PacketStackUnderground(buf);
     }
 
-    public static void encode(PacketStackUnderground msg, PacketBuffer buf) {
-        buf.writeCompoundTag(PacketHelpers.encodeBlocks(msg.blocks));
-        buf.writeString(msg.direction);
+    public static void encode(PacketStackUnderground msg, FriendlyByteBuf buf) {
+        buf.writeNbt(PacketHelpers.encodeBlocks(msg.blocks));
+        buf.writeUtf(msg.direction);
     }
 
     public void handleServer(Supplier<NetworkEvent.Context> context) {
@@ -54,9 +54,9 @@ public class PacketStackUnderground {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators) {
-        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found",
+    private static void sendProspectingMessage(LocalPlayer player, Object... messageDecorators) {
+        TranslatableComponent msg = new TranslatableComponent("geolosys.pro_pick.tooltip.found",
                 messageDecorators);
-        player.sendStatusMessage(msg, true);
+        player.displayClientMessage(msg, true);
     }
 }

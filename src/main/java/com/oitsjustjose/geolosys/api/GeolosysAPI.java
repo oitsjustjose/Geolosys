@@ -16,11 +16,6 @@ import java.util.ArrayList;
  * class's currentWorldDeposits HashMap
  */
 public class GeolosysAPI {
-    // TODO: redo the GEolosys storage as per https://github.com/oitsjustjose/Persistent-Bits/blob/1.17/src/main/java/com/oitsjustjose/persistentbits/common/capability/ChunkLoaderList.java
-    public static final Capability<IDepositCapability> GEOLOSYS_WORLD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
-    });
-    // A collection of blocks to ignore in the OreConverter feature
-    public static ArrayList<BlockState> oreConverterBlacklist = new ArrayList<>();
     // An instance of the registry for all generatable plutons
     public static PlutonRegistry plutonRegistry = new PlutonRegistry();
 

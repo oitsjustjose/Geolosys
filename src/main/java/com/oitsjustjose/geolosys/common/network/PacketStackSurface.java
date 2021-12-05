@@ -1,27 +1,25 @@
 package com.oitsjustjose.geolosys.common.network;
 
-import java.util.HashSet;
-import java.util.function.Supplier;
-
-import com.oitsjustjose.geolosys.Geolosys;
-
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.HashSet;
+import java.util.function.Supplier;
 
 public class PacketStackSurface {
 
     public HashSet<BlockState> blocks;
 
-    public PacketStackSurface(PacketBuffer buf) {
-        CompoundNBT comp = buf.readCompoundTag();
+    public PacketStackSurface(FriendlyByteBuf buf) {
+        CompoundTag comp = buf.readNbt();
         this.blocks = PacketHelpers.decodeBlocks(comp);
     }
 
@@ -29,12 +27,12 @@ public class PacketStackSurface {
         this.blocks = d1;
     }
 
-    public static PacketStackSurface decode(PacketBuffer buf) {
+    public static PacketStackSurface decode(FriendlyByteBuf buf) {
         return new PacketStackSurface(buf);
     }
 
-    public static void encode(PacketStackSurface msg, PacketBuffer buf) {
-        buf.writeCompoundTag(PacketHelpers.encodeBlocks(msg.blocks));
+    public static void encode(PacketStackSurface msg, FriendlyByteBuf buf) {
+        buf.writeNbt(PacketHelpers.encodeBlocks(msg.blocks));
     }
 
     public void handleServer(Supplier<NetworkEvent.Context> context) {
@@ -53,9 +51,9 @@ public class PacketStackSurface {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void sendProspectingMessage(PlayerEntity player, Object... messageDecorators) {
-        TranslationTextComponent msg = new TranslationTextComponent("geolosys.pro_pick.tooltip.found_surface",
+    private static void sendProspectingMessage(Player player, Object... messageDecorators) {
+        TranslatableComponent msg = new TranslatableComponent("geolosys.pro_pick.tooltip.found_surface",
                 messageDecorators);
-        player.sendStatusMessage(msg, true);
+        player.displayClientMessage(msg, true);
     }
 }

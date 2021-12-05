@@ -70,7 +70,7 @@ dependencies {
     // TODO: Reimpl
     // compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     // runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:worldstripper-250603:3334904")
+    //    implementation fg.deobf("curse.maven:worldstripper-250603:3334904")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -103,16 +103,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'Sources'
     from sourceSets.main.allSource
 }
-
-processResources {
-    version = "${mod_version}"
-    from(sourceSets.main.resources) {
-        include '**/mods.toml'
-        expand 'version': version
-    }
-}
-
-build.dependsOn processResources
 
 artifacts {
     archives deobfJar

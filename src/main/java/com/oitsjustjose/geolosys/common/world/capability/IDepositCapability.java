@@ -4,13 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public interface IDepositCapability extends INBTSerializable<CompoundTag> {
+public interface IDepositCapability {
     boolean hasPlutonGenerated(ChunkPos pos);
 
     void setPlutonGenerated(ChunkPos pos);
@@ -28,4 +27,8 @@ public interface IDepositCapability extends INBTSerializable<CompoundTag> {
     void setPlayerReceivedManual(UUID uuid);
 
     Map<UUID, Boolean> getGivenMap();
+
+    CompoundTag serializeNBT();
+
+    void deserializeNBT(CompoundTag nbt);
 }

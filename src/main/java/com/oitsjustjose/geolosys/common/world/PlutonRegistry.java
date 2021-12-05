@@ -1,26 +1,32 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
-
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.data.worldgen.placement.OrePlacements;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class PlutonRegistry {
     private ArrayList<IDeposit> deposits;
@@ -43,12 +49,12 @@ public class PlutonRegistry {
     }
 
     @Nullable
-    public IDeposit pick(ISeedReader reader, BlockPos pos, Random rand) {
+    public IDeposit pick(WorldGenLevel level, BlockPos pos) {
         @SuppressWarnings("unchecked")
         ArrayList<IDeposit> choices = (ArrayList<IDeposit>) this.deposits.clone();
         // Dimension Filtering done here!
         choices.removeIf((dep) -> {
-            ResourceLocation dim = reader.getWorld().getDimensionKey().getLocation();
+            ResourceLocation dim = level.getLevel().dimension().location();
             boolean isDimFilterBl = dep.isDimensionFilterBl();
             for (String dim2Raw : dep.getDimensionFilter()) {
                 boolean match = new ResourceLocation(dim2Raw).equals(dim);
@@ -64,14 +70,11 @@ public class PlutonRegistry {
         }
 
         /* 1/3 chance to lean towards a biome restricted deposit */
-        if (rand.nextInt(3) == 0) {
+        if (level.getRandom().nextInt(3) == 0) {
             // Only remove the entries if there's at least one.
-            if (choices.stream().anyMatch((dep) -> {
-                return dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos));
-            })) {
-                choices.removeIf((dep) -> {
-                    return !(dep.hasBiomeRestrictions() && dep.canPlaceInBiome(reader.getBiome(pos)));
-                });
+            if (choices.stream()
+                    .anyMatch((dep) -> dep.hasBiomeRestrictions() && dep.canPlaceInBiome(level.getBiome(pos)))) {
+                choices.removeIf((dep) -> !(dep.hasBiomeRestrictions() && dep.canPlaceInBiome(level.getBiome(pos))));
             }
         }
 
@@ -80,7 +83,7 @@ public class PlutonRegistry {
             totalWt += d.getGenWt();
         }
 
-        int rng = rand.nextInt(totalWt);
+        int rng = level.getRandom().nextInt(totalWt);
         for (IDeposit d : choices) {
             int wt = d.getGenWt();
             if (rng < wt) {
@@ -95,10 +98,10 @@ public class PlutonRegistry {
 
     // Collects UNDERGROUND_ORES & UNDERGROUND_DECORATION to make it easier to
     // iterate
-    private static final List<GenerationStage.Decoration> decorations = new LinkedList<>();
+    private static final List<GenerationStep.Decoration> decorations = new LinkedList<>();
     static {
-        decorations.add(GenerationStage.Decoration.UNDERGROUND_ORES);
-        decorations.add(GenerationStage.Decoration.UNDERGROUND_DECORATION);
+        decorations.add(GenerationStep.Decoration.UNDERGROUND_ORES);
+        decorations.add(GenerationStep.Decoration.UNDERGROUND_DECORATION);
     }
 
     @SubscribeEvent
@@ -106,16 +109,35 @@ public class PlutonRegistry {
         BiomeGenerationSettingsBuilder settings = evt.getGeneration();
 
         // Removes vanilla ores
-        if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-            for (GenerationStage.Decoration deco : decorations) {
-                FeatureUtils.destroyFeature(settings.getFeatures(deco),
-                        OreRemover.filterFeatures(settings.getFeatures(deco)));
-            }
-        }
+        // if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
+        // for (GenerationStep.Decoration deco : decorations) {
+        // FeatureUtils.destroyFeature(settings.getFeatures(deco),
+        // OreRemover.filterFeatures(settings.getFeatures(deco)));
+        // }
+        // }
 
-        DepositFeature o = new DepositFeature(NoFeatureConfig.CODEC);
+        PlacedFeature feature = new DepositFeature(NoneFeatureConfiguration.CODEC)
+                .configured(NoneFeatureConfiguration.NONE)
+                .placed(HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(384)));
+        // TODO: Try out these other ones?
+        // .placed(List.of(RarityFilter.onAverageOnceEvery(6),
+        // InSquarePlacement.spread(), y, BiomeFilter.biome()));
+        settings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
 
-        settings.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                o.withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG));
+        // public static final PlacedFeature ORE_GRANITE_UPPER =
+        // PlacementUtils.register("ore_granite_upper",
+        // OreFeatures.ORE_GRANITE.placed(rareOrePlacement(6,
+        // HeightRangePlacement.uniform(VerticalAnchor.absolute(64),
+        // VerticalAnchor.absolute(128)))));
+        // private static List<PlacementModifier> orePlacement(PlacementModifier
+        // p_195347_, PlacementModifier p_195348_) {
+        // return List.of(p_195347_, InSquarePlacement.spread(), p_195348_,
+        // BiomeFilter.biome());
+        // }
+
+        // private static List<PlacementModifier> rareOrePlacement(int p_195350_,
+        // PlacementModifier p_195351_) {
+        // return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
+        // }
     }
 }
