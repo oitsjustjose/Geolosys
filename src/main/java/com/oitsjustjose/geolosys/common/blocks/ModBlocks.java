@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.ArrayList;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.block.AbstractBlock.Properties;
@@ -10,8 +9,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
+
+import java.util.ArrayList;
 
 public class ModBlocks {
     private static ModBlocks instance;

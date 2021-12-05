@@ -1,49 +1,48 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
 public class PeatBlock extends Block {
 
     public PeatBlock() {
-        super(Properties.create(Material.EARTH, MaterialColor.DIRT).hardnessAndResistance(4F, 3F)
-                .sound(SoundType.SOUL_SOIL).harvestTool(ToolType.SHOVEL));
-        this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.BOTTOM, Boolean.TRUE));
+        // TODO: new data-driven tool requirements
+        super(Properties.of(Material.DIRT, MaterialColor.GRASS).strength(4F, 3F).sound(SoundType.SOUL_SOIL));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(BlockStateProperties.BOTTOM, Boolean.TRUE));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.BOTTOM);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        if (!context.getWorld().getBlockState(context.getPos().up()).isSolid()) {
-            return this.getDefaultState().with(BlockStateProperties.BOTTOM, Boolean.FALSE);
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        if (!context.getLevel().getBlockState(context.getClickedPos().above()).isSolidRender(context.getLevel(), context.getClickedPos())) {
+            return this.defaultBlockState().setValue(BlockStateProperties.BOTTOM, Boolean.FALSE);
         }
-        return this.getDefaultState();
+        return this.defaultBlockState();
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
-            boolean isMoving) {
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
+                                boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
-        if (!worldIn.getBlockState(pos.up()).isSolid() && state.get(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
-            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.FALSE), 2 | 16);
-        } else if (worldIn.getBlockState(pos.up()).isSolid()
-                && state.get(BlockStateProperties.BOTTOM) != Boolean.TRUE) {
-            worldIn.setBlockState(pos, state.with(BlockStateProperties.BOTTOM, Boolean.TRUE), 2 | 16);
+        if (!worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above()) && state.getValue(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
+            worldIn.setBlock(pos, state.setValue(BlockStateProperties.BOTTOM, Boolean.FALSE), 2 | 16);
+        } else if (worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above())
+                && state.getValue(BlockStateProperties.BOTTOM) != Boolean.TRUE) {
+            worldIn.setBlock(pos, state.setValue(BlockStateProperties.BOTTOM, Boolean.TRUE), 2 | 16);
         }
     }
 }

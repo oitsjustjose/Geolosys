@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import java.util.Collection;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
@@ -22,24 +20,15 @@ import com.oitsjustjose.geolosys.common.world.capability.DepositCapProvider;
 import com.oitsjustjose.geolosys.common.world.capability.DepositCapStorage;
 import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -51,6 +40,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Collection;
 
 @Mod(Constants.MODID)
 public class Geolosys {
@@ -87,8 +80,6 @@ public class Geolosys {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-        CapabilityManager.INSTANCE.register(IDepositCapability.class, new DepositCapStorage(), DepositCapability::new);
-
         GeolosysAPI.init();
         proxy.init();
     }

@@ -20,13 +20,12 @@ import com.oitsjustjose.geolosys.common.data.serializer.SparseDepositSerializer;
 import com.oitsjustjose.geolosys.common.data.serializer.TopLayerDepositSerializer;
 import com.oitsjustjose.geolosys.common.utils.Prospecting;
 
-import net.minecraft.client.resources.JsonReloadListener;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+//import net.minecraft.client.resources.JsonReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleResource;
+import net.minecraft.util.profiling.ProfilerFiller;
 
-public class WorldGenDataLoader extends JsonReloadListener {
+public class WorldGenDataLoader  {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private DenseDepositSerializer denseDepSer = new DenseDepositSerializer();
@@ -39,9 +38,9 @@ public class WorldGenDataLoader extends JsonReloadListener {
         super(GSON, "deposits");
     }
 
-    @Override
+                        @Override
     protected void apply(Map<ResourceLocation, JsonElement> datamap, @Nonnull IResourceManager manager,
-            IProfiler profiler) {
+                        IProfiler profiler) {
         GeolosysAPI.plutonRegistry.clear();
         datamap.forEach((rl, json) -> {
             try {

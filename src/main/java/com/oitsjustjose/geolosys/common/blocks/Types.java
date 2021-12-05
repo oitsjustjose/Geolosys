@@ -1,12 +1,11 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import net.minecraft.world.level.block.Block;
+
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.IStringSerializable;
-
 public class Types {
-    public enum Ores implements IStringSerializable {
+    public enum Ores  {
         LIGNITE_COAL(1, "lignite", "lignite", "Lignite Coal", 2),
         BITUMINOUS_COAL(1, "bituminous_coal", "bituminous_coal", "Bituminous Coal", 2),
         ANTHRACITE_COAL(2, "anthracite_coal", "anthracite_coal", "Anthracitic Coal", 2),

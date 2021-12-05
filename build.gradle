@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
     dependencies {
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
@@ -21,10 +21,11 @@ apply plugin: 'com.matthewprenger.cursegradle'
 group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Geolosys-${game_version}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
-    mappings channel: "snapshot", version: "${mappings_version}"
+    mappings channel: 'official', version: '1.18'
     runs {
         client {
             workingDirectory project.file('run')
@@ -66,8 +67,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    // TODO: Reimpl
+    // compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    // runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     implementation fg.deobf("curse.maven:worldstripper-250603:3334904")
 }
 
@@ -124,10 +126,11 @@ curseforge {
     changelogType = 'markdown'
     changelog = file("./changelog.md")
     releaseType = 'beta'
-    addGameVersion "1.16.5"
+    addGameVersion "1.18"
     
     relations {
-      requiredDependency 'patchouli'
+    // TODO: Reimpl
+    //   requiredDependency 'patchouli'
       optionalDependency 'applied-energistics-2'
       optionalDependency 'extreme-reactors'
       optionalDependency 'biggerreactors'
@@ -135,16 +138,16 @@ curseforge {
     }
 
     mainArtifact(jar) {
-        displayName = "Geolosys 1.16.5 ${mod_version}"
+        displayName = "Geolosys ${game_version} ${mod_version}"
     }
 
 
     addArtifact(deobfJar) {
-        displayName = "Geolosys 1.16.5 ${mod_version} Deobf"
+        displayName = "Geolosys ${game_version} ${mod_version} Deobf"
     }
 
     addArtifact(sourcesJar){
-        displayName = "Geolosys 1.16.5 ${mod_version} Sources"
+        displayName = "Geolosys ${game_version} ${mod_version} Sources"
     }
   }
 }
