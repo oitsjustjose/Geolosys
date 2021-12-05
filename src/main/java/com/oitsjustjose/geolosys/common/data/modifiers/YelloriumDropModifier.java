@@ -1,22 +1,21 @@
 package com.oitsjustjose.geolosys.common.data.modifiers;
 
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
 
 public class YelloriumDropModifier extends LootModifier {
 

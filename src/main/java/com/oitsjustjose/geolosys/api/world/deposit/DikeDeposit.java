@@ -322,6 +322,7 @@ public class DikeDeposit implements IDeposit {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JsonElement serialize(DikeDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();

@@ -68,7 +68,7 @@ public class ProPickItem extends Item {
         } else {
             if (!player.isCreative()) {
                 // TODO: Work on manually implementing damage
-//                this.attemptDamageItem(player, pos, hand, worldIn);
+                // this.attemptDamageItem(player, pos, hand, worldIn);
             }
             // At surface or higher
             if (worldIn.isClientSide) {
@@ -150,7 +150,7 @@ public class ProPickItem extends Item {
     }
 
     private boolean prospect(Player player, ItemStack stack, Level level, BlockPos pos, Direction facing,
-                             int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
+            int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
 
         HashSet<BlockState> foundBlocks = new HashSet<>();
         HashSet<BlockPos> foundBlockPos = new HashSet<>();
@@ -206,7 +206,6 @@ public class ProPickItem extends Item {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    @SuppressWarnings("deprecation")
     public void onDrawScreen(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
 
@@ -218,7 +217,7 @@ public class ProPickItem extends Item {
                 || mc.player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ProPickItem) {
             GlStateManager._enableBlend();
             GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-//            RenderSystem.disableLighting();
+            // RenderSystem.disableLighting();
             int seaLvl = mc.player.getLevel().getSeaLevel();
             int level = (int) (seaLvl - mc.player.getY());
             if (level < 0) {
@@ -233,7 +232,7 @@ public class ProPickItem extends Item {
                         I18n.get("geolosys.pro_pick.depth.below", Math.abs(level)),
                         (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
-//            RenderSystem.color4f(1F, 1F, 1F, 1F);
+            // RenderSystem.color4f(1F, 1F, 1F, 1F);
         }
     }
 }

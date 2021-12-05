@@ -279,6 +279,7 @@ public class TopLayerDeposit implements IDeposit {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JsonElement serialize(TopLayerDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();

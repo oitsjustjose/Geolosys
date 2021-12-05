@@ -1,6 +1,18 @@
 package com.oitsjustjose.geolosys.api.world.deposit;
 
-import com.google.gson.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -10,6 +22,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
@@ -18,10 +31,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
-
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.Map.Entry;
 
 public class DenseDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_dense";
@@ -327,6 +336,7 @@ public class DenseDeposit implements IDeposit {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JsonElement serialize(DenseDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();

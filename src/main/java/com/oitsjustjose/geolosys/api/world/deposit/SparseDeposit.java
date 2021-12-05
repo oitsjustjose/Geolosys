@@ -345,6 +345,7 @@ public class SparseDeposit implements IDeposit {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JsonElement serialize(SparseDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();

@@ -1,5 +1,9 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -14,10 +18,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
 public class PlantBlock extends BushBlock {
     public List<Block> placelist;
     private boolean isExclusive;
@@ -26,8 +26,7 @@ public class PlantBlock extends BushBlock {
         super(Properties.of(Material.PLANT)
                 .noCollission()
                 .sound(SoundType.SWEET_BERRY_BUSH)
-                .randomTicks()
-        );
+                .randomTicks());
         this.placelist = Arrays.asList(placeable);
         this.isExclusive = exclusive;
     }
@@ -48,7 +47,6 @@ public class PlantBlock extends BushBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
         if (this.placelist.contains(worldIn.getBlockState(pos.below()).getBlock())
                 && worldIn.getRawBrightness(pos.above(), 0) >= 9

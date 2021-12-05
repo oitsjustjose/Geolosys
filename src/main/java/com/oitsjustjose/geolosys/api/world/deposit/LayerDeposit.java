@@ -312,6 +312,7 @@ public class LayerDeposit implements IDeposit {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JsonElement serialize(LayerDeposit dep, JsonSerializationContext ctx) {
         JsonObject json = new JsonObject();
         JsonObject config = new JsonObject();

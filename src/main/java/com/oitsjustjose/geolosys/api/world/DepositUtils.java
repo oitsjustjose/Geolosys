@@ -24,7 +24,7 @@ public class DepositUtils {
      * @param map
      * @param totl
      * @return null if no block should be used or placed, T instanceof BlockState if
-     * actual block should be placed.
+     *         actual block should be placed.
      */
     @Nullable
     public static BlockState pick(HashMap<BlockState, Float> map, float totl) {
@@ -49,17 +49,19 @@ public class DepositUtils {
     }
 
     public static boolean canPlaceInBiome(Biome targetBiome, @Nullable List<Biome> biomes,
-                                          @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
+            @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
         boolean matchForBiome = false;
         boolean matchForBiomeType = false;
 
         if (biomes != null) {
-            matchForBiome = biomes.stream().anyMatch((b) -> Objects.equals(b.getRegistryName(), targetBiome.getRegistryName()));
+            matchForBiome = biomes.stream()
+                    .anyMatch((b) -> Objects.equals(b.getRegistryName(), targetBiome.getRegistryName()));
         }
 
         if (biomeTypes != null) {
             try {
-                Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).orElse(null));
+                Set<BiomeDictionary.Type> types = BiomeDictionary
+                        .getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).orElse(null));
                 matchForBiomeType = types.stream().anyMatch(a -> {
                     // TODO: Verify that type comparison works here.
                     return biomeTypes.contains(a);
@@ -89,7 +91,6 @@ public class DepositUtils {
         return (HashSet<BlockState>) defaultMatchersCached.clone();
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean addDefaultMatcher(Block block) {
         BlockState defaultState = block.defaultBlockState();
         if (!defaultState.isAir()) {

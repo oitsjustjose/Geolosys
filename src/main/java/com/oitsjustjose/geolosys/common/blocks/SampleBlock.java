@@ -53,7 +53,6 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     @Nonnull
-    @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         Vec3 offset = state.getOffset(worldIn, pos);
         return Shapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.2D, 0.8D).move(offset.x, offset.y, offset.z);
@@ -72,8 +71,8 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Nonnull
-    @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+            BlockHitResult hit) {
         if (!player.isCrouching()) {
             worldIn.destroyBlock(pos, true);
             player.swing(handIn);
@@ -81,7 +80,6 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
         }
         return InteractionResult.PASS;
     }
-
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
@@ -106,10 +104,10 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-
     @Override
     @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
+            boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
         if (!this.canSurvive(state, worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
@@ -127,14 +125,15 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
                 && (state.hasProperty(WATERLOGGED) && state.getValue(WATERLOGGED).equals(Boolean.FALSE));
     }
 
+    @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
         if (!worldIn.isAreaLoaded(pos, 1)) {
             return;
         }
 
-        BlockState[] neighbors = new BlockState[]{worldIn.getBlockState(pos.offset(1, 0, 0)),
+        BlockState[] neighbors = new BlockState[] { worldIn.getBlockState(pos.offset(1, 0, 0)),
                 worldIn.getBlockState(pos.offset(-1, 0, 0)), worldIn.getBlockState(pos.offset(0, 0, 1)),
-                worldIn.getBlockState(pos.offset(0, 0, -1))};
+                worldIn.getBlockState(pos.offset(0, 0, -1)) };
 
         int waterNeighbors = 0;
         for (BlockState b : neighbors) {
