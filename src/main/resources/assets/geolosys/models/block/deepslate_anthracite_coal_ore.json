@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "geolosys:blocks/deepslate_anthracite_coal_ore"
+  }
+}

@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
+import java.util.HashSet;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
@@ -7,6 +9,9 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.utils.Prospecting;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -29,11 +34,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-
-import org.lwjgl.opengl.GL11;
-
-import java.util.HashSet;
 
 public class ProPickItem extends Item {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "prospectors_pick");

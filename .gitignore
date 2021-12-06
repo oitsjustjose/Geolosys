@@ -28,3 +28,8 @@ src/main/resources/assets/base/models/item/wrench.json
 .idea
 .vscode/**
 logs
+
+scripts/**/*.png
+scripts/**/overlays
+scripts/generators/blocks/blockstates
+scripts/generators/blocks/models

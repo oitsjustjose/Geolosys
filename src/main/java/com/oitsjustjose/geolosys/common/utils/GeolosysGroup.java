@@ -30,8 +30,9 @@ public class GeolosysGroup extends CreativeModeTab {
         return new ItemStack(Blocks.STONE);
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
-    public ItemStack getIcon() {
+    public ItemStack getIconItem() {
         // Init the anim only when the first ore is init'd
         if (Ores.COAL.getBlock() != null && counter == -1) {
             counter = 0;

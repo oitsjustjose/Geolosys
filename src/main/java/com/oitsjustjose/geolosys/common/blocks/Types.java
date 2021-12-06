@@ -5,57 +5,48 @@ import net.minecraft.world.level.block.Block;
 import javax.annotation.Nullable;
 
 public class Types {
-    public enum Ores  {
-        LIGNITE_COAL(1, "lignite", "lignite", "Lignite Coal", 2),
-        BITUMINOUS_COAL(1, "bituminous_coal", "bituminous_coal", "Bituminous Coal", 2),
-        ANTHRACITE_COAL(2, "anthracite_coal", "anthracite_coal", "Anthracitic Coal", 2),
-        COAL(0, "coal", "coal", "coal", 2), CINNABAR(2, "cinnabar", "redstone", "redstone", 0),
-        GOLD(2, "gold", "gold", "gold", 0), LAPIS(1, "lapis", "lapis", "lapis", 5),
-        QUARTZ(1, "quartz", "various quartz types", "quartz", 5), KIMBERLITE(2, "kimberlite", "diamond", "diamond", 7),
-        BERYL(2, "beryl", "emerald", "emerald", 7), NETHER_GOLD(1, "nether_gold", "nether gold", "gold", 1),
-        ANCIENT_DEBRIS(3, "ancient_debris", "ancient debris", "netherite", 0),
-        HEMATITE(1, "hematite", "hematite", "iron", 0), LIMONITE(2, "limonite", "limonite", "nickel", 0),
-        MALACHITE(1, "malachite", "malachite", "poor copper", 0), AZURITE(2, "azurite", "azurite", "copper", 0),
-        CASSITERITE(1, "cassiterite", "cassiterite", "poor tin", 0), TEALLITE(2, "teallite", "teallite", "tin", 0),
-        GALENA(2, "galena", "galena", "silver & lead", 0), BAUXITE(0, "bauxite", "bauxite", "aluminum", 0),
-        PLATINUM(2, "platinum", "platinum", "platinum", 0), AUTUNITE(2, "autunite", "autunite", "uranium", 0),
-        SPHALERITE(1, "sphalerite", "sphalerite", "zinc", 0);
+    public enum Ores {
+        LIGNITE_COAL("lignite", 2),
+        BITUMINOUS_COAL("bituminous_coal", 2),
+        ANTHRACITE_COAL("anthracite_coal", 2),
+        COAL("coal", 2),
+        CINNABAR("cinnabar", 0),
+        GOLD("gold", 0),
+        LAPIS("lapis", 5),
+        QUARTZ("quartz", 5),
+        KIMBERLITE("kimberlite", 7),
+        BERYL("beryl", 7),
+        NETHER_GOLD("nether_gold", 1),
+        ANCIENT_DEBRIS("ancient_debris", 0),
+        HEMATITE("hematite", 0),
+        LIMONITE("limonite", 0),
+        MALACHITE("malachite", 0),
+        AZURITE("azurite", 0),
+        CASSITERITE("cassiterite", 0),
+        TEALLITE("teallite", 0),
+        GALENA("galena", 0),
+        BAUXITE("bauxite", 0),
+        PLATINUM("platinum", 0),
+        AUTUNITE("autunite", 0),
+        SPHALERITE("sphalerite", 0);
 
-        private final int toolLevel;
-        private final String serializedName;
         private final String unlocalizedName;
-        private final String resource;
         private final int xp;
 
         private Block instance;
         private Block sample;
 
-        Ores(int toolLevel, String name, String unlocalizedName, String resource, int xp) {
-            this.toolLevel = toolLevel;
-            this.serializedName = name;
+        Ores(String unlocalizedName, int xp) {
             this.unlocalizedName = unlocalizedName;
-            this.resource = resource;
             this.xp = xp;
-        }
-
-        public int getToolLevel() {
-            return this.toolLevel;
         }
 
         public String toString() {
             return this.unlocalizedName;
         }
 
-        public String getResource() {
-            return this.resource;
-        }
-
-        public String getName() {
-            return this.serializedName;
-        }
-
-        public String getString() {
-            return this.serializedName;
+        public String getUnlocalizedName() {
+            return this.unlocalizedName;
         }
 
         public int getXp() {
@@ -65,6 +56,78 @@ public class Types {
         @Nullable
         public Block getBlock() {
             return this.instance;
+        }
+
+        @Nullable
+        public Block getSample() {
+            return this.sample;
+        }
+
+        public void setBlock(Block b) {
+            this.instance = b;
+        }
+
+        public void setSample(Block b) {
+            this.sample = b;
+        }
+    }
+
+    public enum DeepslateOres {
+        DEEPSLATE_LIGNITE_COAL("deepslate_lignite", Ores.LIGNITE_COAL, 2),
+        DEEPSLATE_BITUMINOUS_COAL("deepslate_bituminous_coal", Ores.BITUMINOUS_COAL, 2),
+        DEEPSLATE_ANTHRACITE_COAL("deepslate_anthracite_coal", Ores.ANTHRACITE_COAL, 2),
+        DEEPSLATE_COAL("deepslate_coal", Ores.COAL, 2),
+        DEEPSLATE_CINNABAR("deepslate_cinnabar", Ores.CINNABAR, 0),
+        DEEPSLATE_GOLD("deepslate_gold", Ores.GOLD, 0),
+        DEEPSLATE_LAPIS("deepslate_lapis", Ores.LAPIS, 5),
+        DEEPSLATE_QUARTZ("deepslate_quartz", Ores.QUARTZ, 5),
+        DEEPSLATE_KIMBERLITE("deepslate_kimberlite", Ores.KIMBERLITE, 7),
+        DEEPSLATE_BERYL("deepslate_beryl", Ores.BERYL, 7),
+        DEEPSLATE_HEMATITE("deepslate_hematite", Ores.HEMATITE, 0),
+        DEEPSLATE_LIMONITE("deepslate_limonite", Ores.LIMONITE, 0),
+        DEEPSLATE_MALACHITE("deepslate_malachite", Ores.MALACHITE, 0),
+        DEEPSLATE_AZURITE("deepslate_azurite", Ores.AZURITE, 0),
+        DEEPSLATE_CASSITERITE("deepslate_cassiterite", Ores.CASSITERITE, 0),
+        DEEPSLATE_TEALLITE("deepslate_teallite", Ores.TEALLITE, 0),
+        DEEPSLATE_GALENA("deepslate_galena", Ores.GALENA, 0),
+        DEEPSLATE_BAUXITE("deepslate_bauxite", Ores.BAUXITE, 0),
+        DEEPSLATE_PLATINUM("deepslate_platinum", Ores.PLATINUM, 0),
+        DEEPSLATE_AUTUNITE("deepslate_autunite", Ores.AUTUNITE, 0),
+        DEEPSLATE_SPHALERITE("deepslate_sphalerite", Ores.SPHALERITE, 0);
+
+        private final String unlocalizedName;
+        private final int xp;
+
+        private Block instance;
+        private Block sample;
+        private Ores origin;
+
+        DeepslateOres(String unlocalizedName, Ores origin, int xp) {
+            this.unlocalizedName = unlocalizedName;
+            this.origin = origin;
+            this.xp = xp;
+        }
+
+        public String toString() {
+            return this.unlocalizedName;
+        }
+
+        public String getUnlocalizedName() {
+            return this.unlocalizedName;
+        }
+
+        public int getXp() {
+            return this.xp;
+        }
+
+        @Nullable
+        public Block getBlock() {
+            return this.instance;
+        }
+
+        @Nullable
+        public Ores getOrigin() {
+            return this.origin;
         }
 
         @Nullable

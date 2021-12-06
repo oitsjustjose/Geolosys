@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "geolosys:block/deepslate_anthracite_coal_ore"
+      }
+    ]
+  }
+}
