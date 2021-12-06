@@ -24,13 +24,17 @@ import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class DenseDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_dense";
@@ -94,8 +98,26 @@ public class DenseDeposit implements IDeposit {
      *         don't replace 😉
      */
     @Nullable
-    public BlockState getOre() {
-        return DepositUtils.pick(this.oreToWtMap, this.sumWtOres);
+    public BlockState getOre(BlockState currentState) {
+        BlockState picked = DepositUtils.pick(this.oreToWtMap, this.sumWtOres);
+        if (picked != null) {
+            if (currentState.getBlock() == Blocks.DEEPSLATE) {
+                ResourceLocation base = picked.getBlock().getRegistryName();
+                ResourceLocation potentialMatch1 = new ResourceLocation(
+                        base.getNamespace() + ":deepslate_" + base.getPath());
+                ResourceLocation potentialMatch2 = new ResourceLocation(
+                        base.getNamespace() + ":" + base.getPath() + "_deepslate");
+
+                if (ForgeRegistries.BLOCKS.getValue(potentialMatch1) != null) {
+                    return ForgeRegistries.BLOCKS.getValue(potentialMatch1).defaultBlockState();
+                }
+
+                if (ForgeRegistries.BLOCKS.getValue(potentialMatch2) != null) {
+                    return ForgeRegistries.BLOCKS.getValue(potentialMatch2).defaultBlockState();
+                }
+            }
+        }
+        return picked;
     }
 
     /**
@@ -225,7 +247,8 @@ public class DenseDeposit implements IDeposit {
 
                                 if (layerRadX * layerRadX + layerRadY * layerRadY + layerRadZ * layerRadZ < 1.0D) {
                                     BlockPos placePos = new BlockPos(x, y, z);
-                                    BlockState tmp = this.getOre();
+                                    BlockState tmp = this.getOre(level.getBlockState(placePos));
+
                                     if (tmp == null) {
                                         continue;
                                     }

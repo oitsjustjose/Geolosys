@@ -117,8 +117,11 @@ public class PlutonRegistry {
         ConfiguredFeature<NoneFeatureConfiguration, ?> depositFeature = new DepositFeature(
                 NoneFeatureConfiguration.CODEC).configured(NoneFeatureConfiguration.NONE);
 
+        // TODO: make these static non-evt based items global to reduce duplicate
+        // registrations
         net.minecraft.data.worldgen.features.FeatureUtils.register(
-                String.format("geolosys:%s_%s_deposits", evt.getName().getNamespace(), evt.getName().getPath()),
+                String.format("geolosys_%s_%s_deposits", evt.getName().getNamespace(),
+                        evt.getName().getPath()),
                 depositFeature);
 
         PlacedFeature feature = depositFeature.placed(

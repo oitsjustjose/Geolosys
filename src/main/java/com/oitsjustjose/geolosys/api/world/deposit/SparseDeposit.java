@@ -1,6 +1,18 @@
 package com.oitsjustjose.geolosys.api.world.deposit;
 
-import com.google.gson.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
@@ -10,21 +22,18 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class SparseDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_sparse";
@@ -90,8 +99,26 @@ public class SparseDeposit implements IDeposit {
      *         don't replace 😉
      */
     @Nullable
-    public BlockState getOre() {
-        return DepositUtils.pick(this.oreToWtMap, this.sumWtOres);
+    public BlockState getOre(BlockState currentState) {
+        BlockState picked = DepositUtils.pick(this.oreToWtMap, this.sumWtOres);
+        if (picked != null) {
+            if (currentState.getBlock() == Blocks.DEEPSLATE) {
+                ResourceLocation base = picked.getBlock().getRegistryName();
+                ResourceLocation potentialMatch1 = new ResourceLocation(
+                        base.getNamespace() + ":deepslate_" + base.getPath());
+                ResourceLocation potentialMatch2 = new ResourceLocation(
+                        base.getNamespace() + ":" + base.getPath() + "_deepslate");
+
+                if (ForgeRegistries.BLOCKS.getValue(potentialMatch1) != null) {
+                    return ForgeRegistries.BLOCKS.getValue(potentialMatch1).defaultBlockState();
+                }
+
+                if (ForgeRegistries.BLOCKS.getValue(potentialMatch2) != null) {
+                    return ForgeRegistries.BLOCKS.getValue(potentialMatch2).defaultBlockState();
+                }
+            }
+        }
+        return picked;
     }
 
     /**
@@ -231,7 +258,7 @@ public class SparseDeposit implements IDeposit {
                                             * (level.getRandom().nextBoolean() ? 1 : -1);
 
                                     BlockPos placePos = new BlockPos(x + xSpread, y, z + zSpread);
-                                    BlockState tmp = this.getOre();
+                                    BlockState tmp = this.getOre(level.getBlockState(placePos));
                                     if (tmp == null) {
                                         continue;
                                     }

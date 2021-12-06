@@ -59,7 +59,8 @@ public class CommonConfig {
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")
                 .defineList("defaultReplacementMaterials",
                         Lists.newArrayList("minecraft:stone", "minecraft:andesite", "minecraft:diorite",
-                                "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone"),
+                                "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone",
+                                "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite", "minecraft:dripstone"),
                         rawName -> rawName instanceof String);
         COMMON_BUILDER.pop();
 

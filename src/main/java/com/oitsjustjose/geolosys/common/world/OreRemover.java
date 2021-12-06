@@ -11,8 +11,6 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.OreFeature;
-import net.minecraft.world.level.levelgen.feature.ReplaceBlockFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -43,14 +41,12 @@ public class OreRemover {
     // Filters the features before sending em to the featureRemover()
     public static List<Supplier<PlacedFeature>> filterFeatures(List<Supplier<PlacedFeature>> features) {
         List<Supplier<PlacedFeature>> removed = new LinkedList<Supplier<PlacedFeature>>();
-
         for (Supplier<PlacedFeature> feature : features) {
             feature.get().getFeatures().forEach((confFeat) -> {
                 List<OreConfiguration.TargetBlockState> targets = null;
-                if (confFeat.feature instanceof OreFeature && confFeat.config instanceof OreConfiguration) {
+                if (confFeat.config instanceof OreConfiguration) {
                     targets = ((OreConfiguration) confFeat.config).targetStates;
-                } else if (confFeat.feature instanceof ReplaceBlockFeature
-                        && confFeat.config instanceof ReplaceBlockConfiguration) {
+                } else if (confFeat.config instanceof ReplaceBlockConfiguration) {
                     targets = ((ReplaceBlockConfiguration) confFeat.config).targetStates;
                 }
 
