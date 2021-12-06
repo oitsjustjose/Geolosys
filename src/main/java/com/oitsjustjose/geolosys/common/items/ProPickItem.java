@@ -29,6 +29,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashSet;
@@ -78,72 +80,17 @@ public class ProPickItem extends Item {
 
             ItemStack stack = player.getItemInHand(hand);
 
-            int xStart;
-            int xEnd;
-            int yStart;
-            int yEnd;
-            int zStart;
-            int zEnd;
-            int confAmt = CommonConfig.PRO_PICK_RANGE.get();
-            int confDmt = CommonConfig.PRO_PICK_DIAMETER.get();
+            int range = CommonConfig.PRO_PICK_RANGE.get();
+            int diam = CommonConfig.PRO_PICK_DIAMETER.get();
 
-            switch (facing) {
-                case UP:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -confAmt;
-                    yEnd = 0;
-                    zStart = -(confDmt / 2);
-                    zEnd = (confDmt / 2);
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case DOWN:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = 0;
-                    yEnd = confAmt;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case NORTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = 0;
-                    zEnd = confAmt;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case SOUTH:
-                    xStart = -(confDmt / 2);
-                    xEnd = confDmt / 2;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -confAmt;
-                    zEnd = 0;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case EAST:
-                    xStart = -(confAmt);
-                    xEnd = 0;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-                case WEST:
-                    xStart = 0;
-                    xEnd = confAmt;
-                    yStart = -(confDmt / 2);
-                    yEnd = confDmt / 2;
-                    zStart = -(confDmt / 2);
-                    zEnd = confDmt / 2;
-                    prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
-                    break;
-            }
+            int zStart = facing == Direction.NORTH ? 0 : facing == Direction.SOUTH ? -range : -(diam / 2);
+            int zEnd = facing == Direction.NORTH ? range : facing == Direction.SOUTH ? 0 : diam / 2;
+            int xStart = facing == Direction.EAST ? -range : facing == Direction.WEST ? 0 : -(diam / 2);
+            int xEnd = facing == Direction.EAST ? 0 : facing == Direction.WEST ? range : diam / 2;
+            int yStart = facing == Direction.UP ? -range : facing == Direction.DOWN ? 0 : -(diam / 2);
+            int yEnd = facing == Direction.UP ? 0 : facing == Direction.DOWN ? range : diam / 2;
 
+            prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
             player.swing(hand);
         }
         return InteractionResult.SUCCESS;
