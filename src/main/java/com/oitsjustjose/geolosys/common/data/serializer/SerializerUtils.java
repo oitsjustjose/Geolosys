@@ -115,6 +115,29 @@ public class SerializerUtils {
         return ret;
     }
 
+    public static HashMap<String, HashMap<BlockState, Float>> buildMultiBlockMatcherMap(JsonObject obj) {
+        HashMap<String, HashMap<BlockState, Float>> ret = new HashMap<>();
+
+        obj.keySet().forEach((key) -> {
+            HashMap<BlockState, Float> value = buildMultiBlockMap(obj.get(key).getAsJsonArray());
+            ret.put(key, value);
+        });
+
+        return ret;
+    }
+
+    public static JsonObject deconstructMultiBlockMatcherMap(HashMap<String, HashMap<BlockState, Float>> in) {
+        JsonObject ret = new JsonObject();
+
+        for (Entry<String, HashMap<BlockState, Float>> i : in.entrySet()) {
+            String key = i.getKey();
+            JsonArray value = deconstructMultiBlockMap(i.getValue());
+            ret.add(key, value);
+        }
+
+        return ret;
+    }
+
     public static List<BiomeDictionary.Type> extractBiomeTypes(String[] arr) {
         List<BiomeDictionary.Type> ret = new ArrayList<BiomeDictionary.Type>();
 
