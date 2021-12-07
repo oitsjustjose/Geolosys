@@ -11,12 +11,20 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:cinnabar_ore",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:cinnabar_ore",
+          "chance": 1.0
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_cinnabar_ore",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:cinnabar_ore_sample",

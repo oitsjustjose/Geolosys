@@ -1,16 +1,28 @@
 {
   "type": "geolosys:deposit_sparse",
   "config": {
-    "blocks": [
-      {
-        "block": "geolosys:autunite_ore",
-        "chance": 0.85
-      },
-      {
-        "block": "minecraft:granite",
-        "chance": 0.15
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:autunite_ore",
+          "chance": 0.85
+        },
+        {
+          "block": "minecraft:granite",
+          "chance": 0.15
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_autunite_ore",
+          "chance": 0.85
+        },
+        {
+          "block": "minecraft:deepslate_granite",
+          "chance": 0.15
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:autunite_ore_sample",

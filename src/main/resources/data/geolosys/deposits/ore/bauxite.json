@@ -10,16 +10,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:bauxite_ore",
-        "chance": 0.9
-      },
-      {
-        "block": null,
-        "chance": 0.1
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:bauxite_ore",
+          "chance": 0.9
+        },
+        {
+          "block": null,
+          "chance": 0.1
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_bauxite_ore",
+          "chance": 0.9
+        },
+        {
+          "block": null,
+          "chance": 0.1
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:bauxite_ore_sample",

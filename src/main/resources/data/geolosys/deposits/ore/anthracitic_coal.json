@@ -11,16 +11,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:anthracite_coal_ore",
-        "chance": 0.65
-      },
-      {
-        "block": null,
-        "chance": 0.35
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:anthracite_coal_ore",
+          "chance": 0.65
+        },
+        {
+          "block": null,
+          "chance": 0.35
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_anthracite_coal_ore",
+          "chance": 0.65
+        },
+        {
+          "block": null,
+          "chance": 0.35
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:anthracite_coal_ore_sample",

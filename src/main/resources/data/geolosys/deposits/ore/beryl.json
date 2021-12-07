@@ -16,16 +16,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:beryl_ore",
-        "chance": 0.45
-      },
-      {
-        "block": null,
-        "chance": 0.55
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:beryl_ore",
+          "chance": 0.45
+        },
+        {
+          "block": null,
+          "chance": 0.55
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_beryl_ore",
+          "chance": 0.45
+        },
+        {
+          "block": null,
+          "chance": 0.55
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:beryl_ore_sample",

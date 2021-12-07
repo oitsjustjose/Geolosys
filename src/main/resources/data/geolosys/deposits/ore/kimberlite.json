@@ -10,16 +10,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:kimberlite_ore",
-        "chance": 0.5
-      },
-      {
-        "block": null,
-        "chance": 0.5
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:kimberlite_ore",
+          "chance": 0.5
+        },
+        {
+          "block": null,
+          "chance": 0.5
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_kimberlite_ore",
+          "chance": 0.5
+        },
+        {
+          "block": null,
+          "chance": 0.5
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:kimberlite_ore_sample",

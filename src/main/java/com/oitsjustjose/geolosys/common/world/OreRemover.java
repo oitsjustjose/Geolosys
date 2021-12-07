@@ -50,7 +50,7 @@ public class OreRemover {
             if (toRm.contains(targetBlock)) {
                 removed.add(targetFeature);
                 if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
-                    Geolosys.getInstance().LOGGER.debug("{} removed from worldgen", targetBlock.getRegistryName());
+                    Geolosys.getInstance().LOGGER.info("{} removed from worldgen", targetBlock.getRegistryName());
                 }
             }
         }

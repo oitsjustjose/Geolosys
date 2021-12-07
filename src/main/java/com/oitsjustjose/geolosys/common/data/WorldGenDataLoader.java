@@ -32,12 +32,13 @@ public class WorldGenDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> datamap, @Nonnull ResourceManager manager,
-                         ProfilerFiller profiler) {
+            ProfilerFiller profiler) {
         GeolosysAPI.plutonRegistry.clear();
         datamap.forEach((rl, json) -> {
             try {
                 JsonObject jsonobject = json.getAsJsonObject();
                 JsonObject config = jsonobject.get("config").getAsJsonObject();
+                Geolosys.getInstance().LOGGER.info("Preparing to load deposit datafile {}", rl.toString());
 
                 switch (jsonobject.get("type").getAsString()) {
                     case "geolosys:deposit_dense":

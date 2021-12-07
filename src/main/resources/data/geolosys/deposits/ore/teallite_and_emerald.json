@@ -1,20 +1,36 @@
 {
   "type": "geolosys:deposit_dike",
   "config": {
-    "blocks": [
-      {
-        "block": "geolosys:teallite_ore",
-        "chance": 0.6
-      },
-      {
-        "block": "geolosys:beryl_ore",
-        "chance": 0.15
-      },
-      {
-        "block": null,
-        "chance": 0.25
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:teallite_ore",
+          "chance": 0.6
+        },
+        {
+          "block": "geolosys:beryl_ore",
+          "chance": 0.15
+        },
+        {
+          "block": null,
+          "chance": 0.25
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_teallite_ore",
+          "chance": 0.6
+        },
+        {
+          "block": "geolosys:deepslate_beryl_ore",
+          "chance": 0.15
+        },
+        {
+          "block": null,
+          "chance": 0.25
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:teallite_ore_sample",

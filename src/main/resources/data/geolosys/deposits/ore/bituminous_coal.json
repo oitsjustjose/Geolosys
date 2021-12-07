@@ -11,16 +11,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:bituminous_coal_ore",
-        "chance": 0.55
-      },
-      {
-        "block": null,
-        "chance": 0.45
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:bituminous_coal_ore",
+          "chance": 0.55
+        },
+        {
+          "block": null,
+          "chance": 0.45
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_bituminous_coal_ore",
+          "chance": 0.55
+        },
+        {
+          "block": null,
+          "chance": 0.45
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:bituminous_coal_ore_sample",

@@ -17,12 +17,20 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:lapis_ore",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:lapis_ore",
+          "chance": 1.0
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_lapis_ore",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:lapis_ore_sample",

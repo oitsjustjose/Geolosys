@@ -10,12 +10,20 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:quartz_ore",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:quartz_ore",
+          "chance": 1.0
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_quartz_ore",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:quartz_ore_sample",

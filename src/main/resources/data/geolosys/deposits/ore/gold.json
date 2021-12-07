@@ -10,16 +10,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:gold_ore",
-        "chance": 0.85
-      },
-      {
-        "block": null,
-        "chance": 0.15
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:gold_ore",
+          "chance": 0.85
+        },
+        {
+          "block": null,
+          "chance": 0.15
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_gold_ore",
+          "chance": 0.85
+        },
+        {
+          "block": null,
+          "chance": 0.15
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:gold_ore_sample",

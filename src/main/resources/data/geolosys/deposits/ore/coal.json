@@ -11,12 +11,20 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:coal_ore",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:coal_ore",
+          "chance": 1.0
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_coal_ore",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:coal_ore_sample",

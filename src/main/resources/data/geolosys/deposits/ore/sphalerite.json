@@ -11,12 +11,20 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:sphalerite_ore",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:sphalerite_ore",
+          "chance": 1.0
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_sphalerite_ore",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:sphalerite_ore_sample",

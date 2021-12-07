@@ -19,16 +19,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:cassiterite_ore",
-        "chance": 0.75
-      },
-      {
-        "block": null,
-        "chance": 0.25
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:cassiterite_ore",
+          "chance": 0.75
+        },
+        {
+          "block": null,
+          "chance": 0.25
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_cassiterite_ore",
+          "chance": 0.75
+        },
+        {
+          "block": null,
+          "chance": 0.25
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:cassiterite_ore_sample",

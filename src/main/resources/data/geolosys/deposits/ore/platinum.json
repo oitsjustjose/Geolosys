@@ -16,16 +16,28 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:platinum_ore",
-        "chance": 0.67
-      },
-      {
-        "block": null,
-        "chance": 0.33
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:platinum_ore",
+          "chance": 0.67
+        },
+        {
+          "block": null,
+          "chance": 0.33
+        }
+      ],
+      "deepslate": [
+        {
+          "block": "geolosys:deepslate_platinum_ore",
+          "chance": 0.67
+        },
+        {
+          "block": null,
+          "chance": 0.33
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:platinum_ore_sample",

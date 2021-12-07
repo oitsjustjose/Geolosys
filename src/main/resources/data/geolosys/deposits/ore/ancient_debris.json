@@ -17,16 +17,18 @@
       "minecraft:magma_block",
       "minecraft:lava"
     ],
-    "blocks": [
-      {
-        "block": "geolosys:ancient_debris_ore",
-        "chance": 0.6
-      },
-      {
-        "block": null,
-        "chance": 0.4
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:ancient_debris_ore",
+          "chance": 0.6
+        },
+        {
+          "block": null,
+          "chance": 0.4
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:ancient_debris_ore_sample",

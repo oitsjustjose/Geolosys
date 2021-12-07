@@ -23,20 +23,17 @@ import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class TopLayerDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_top_layer";
 
-    private HashMap<BlockState, Float> oreToWtMap = new HashMap<>();
+    private HashMap<String, HashMap<BlockState, Float>> oreToWtMap = new HashMap<>();
     private HashMap<BlockState, Float> sampleToWtMap = new HashMap<>();
     private int radius;
     private int depth;
@@ -54,10 +51,12 @@ public class TopLayerDeposit implements IDeposit {
     @Nullable
     private boolean isBiomeFilterBl;
 
-    private float sumWtOres = 0.0F;
+    /* Hashmap of blockMatcher.getRegistryName(): sumWt */
+    private HashMap<String, Float> cumulOreWtMap = new HashMap<>();
     private float sumWtSamples = 0.0F;
 
-    public TopLayerDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int radius,
+    public TopLayerDeposit(HashMap<String, HashMap<BlockState, Float>> oreBlocks,
+            HashMap<BlockState, Float> sampleBlocks, int radius,
             int depth, float sampleChance, int genWt, String[] dimFilter, boolean isDimFilterBl,
             @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
             @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
@@ -74,15 +73,33 @@ public class TopLayerDeposit implements IDeposit {
         this.blockStateMatchers = blockStateMatchers;
         this.biomeFilter = biomeFilter;
 
-        for (Entry<BlockState, Float> e : this.oreToWtMap.entrySet()) {
-            this.sumWtOres += e.getValue();
+        // Verify that blocks.default exists.
+        if (!this.oreToWtMap.containsKey("default")) {
+            throw new RuntimeException("Pluton blocks should always have a default key");
         }
-        assert sumWtOres == 1.0F : "Sum of weights for pluton blocks should equal 1.0";
+
+        for (Entry<String, HashMap<BlockState, Float>> i : this.oreToWtMap.entrySet()) {
+            if (!this.cumulOreWtMap.containsKey(i.getKey())) {
+                this.cumulOreWtMap.put(i.getKey(), 0.0F);
+            }
+
+            for (Entry<BlockState, Float> j : i.getValue().entrySet()) {
+                float v = this.cumulOreWtMap.get(i.getKey());
+                this.cumulOreWtMap.put(i.getKey(), v + j.getValue());
+            }
+
+            if (this.cumulOreWtMap.get(i.getKey()) != 1.0F) {
+                throw new RuntimeException("Sum of weights for pluton blocks should equal 1.0");
+            }
+        }
 
         for (Entry<BlockState, Float> e : this.sampleToWtMap.entrySet()) {
             this.sumWtSamples += e.getValue();
         }
-        assert sumWtSamples == 1.0F : "Sum of weights for pluton samples should equal 1.0";
+
+        if (sumWtSamples != 1.0F) {
+            throw new RuntimeException("Sum of weights for pluton samples should equal 1.0");
+        }
     }
 
     /**
@@ -96,25 +113,13 @@ public class TopLayerDeposit implements IDeposit {
      */
     @Nullable
     public BlockState getOre(BlockState currentState) {
-        BlockState picked = DepositUtils.pick(this.oreToWtMap, this.sumWtOres);
-        if (picked != null) {
-            if (currentState.getBlock() == Blocks.DEEPSLATE) {
-                ResourceLocation base = picked.getBlock().getRegistryName();
-                ResourceLocation potentialMatch1 = new ResourceLocation(
-                        base.getNamespace() + ":deepslate_" + base.getPath());
-                ResourceLocation potentialMatch2 = new ResourceLocation(
-                        base.getNamespace() + ":" + base.getPath() + "_deepslate");
-
-                if (ForgeRegistries.BLOCKS.getValue(potentialMatch1) != null) {
-                    return ForgeRegistries.BLOCKS.getValue(potentialMatch1).defaultBlockState();
-                }
-
-                if (ForgeRegistries.BLOCKS.getValue(potentialMatch2) != null) {
-                    return ForgeRegistries.BLOCKS.getValue(potentialMatch2).defaultBlockState();
-                }
-            }
+        String res = currentState.getBlock().getRegistryName().toString();
+        if (this.oreToWtMap.containsKey(res)) {
+            // Return a choice from a specialized set here
+            HashMap<BlockState, Float> mp = this.oreToWtMap.get(res);
+            return DepositUtils.pick(mp, this.cumulOreWtMap.get(res));
         }
-        return picked;
+        return DepositUtils.pick(this.oreToWtMap.get("default"), this.cumulOreWtMap.get("default"));
     }
 
     /**
@@ -166,7 +171,7 @@ public class TopLayerDeposit implements IDeposit {
     public String toString() {
         StringBuilder ret = new StringBuilder();
         ret.append("Top Layer deposit with Blocks=");
-        ret.append(Arrays.toString(this.oreToWtMap.keySet().toArray()));
+        ret.append(this.getAllOres());
         ret.append(", Samples=");
         ret.append(Arrays.toString(this.sampleToWtMap.keySet().toArray()));
         ret.append(", Radius=");
@@ -215,7 +220,8 @@ public class TopLayerDeposit implements IDeposit {
 
                 for (int i = 0; i < this.depth; i++) {
                     BlockPos placePos = baseForXZ.below(i);
-                    BlockState tmp = this.getOre(level.getBlockState(placePos));
+                    BlockState current = level.getBlockState(placePos);
+                    BlockState tmp = this.getOre(current);
                     boolean isTop = i == 0;
 
                     if (tmp == null) {
@@ -224,9 +230,10 @@ public class TopLayerDeposit implements IDeposit {
                         tmp = tmp.setValue(BlockStateProperties.BOTTOM, !isTop);
                     }
 
-                    // Skip this block if it can't replace the target block
-                    if (!this.getBlockStateMatchers()
-                            .contains(FeatureUtils.tryGetBlockState(level, thisChunk, placePos))) {
+                    // Skip this block if it can't replace the target block or doesn't have a
+                    // manually-configured replacer in the blocks object
+                    if (!(this.getBlockStateMatchers().contains(current)
+                            || this.oreToWtMap.containsKey(current.getBlock().getRegistryName().toString()))) {
                         continue;
                     }
 
@@ -254,7 +261,7 @@ public class TopLayerDeposit implements IDeposit {
     public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
+            Geolosys.getInstance().LOGGER.info("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
                     new ChunkPos(pos), pos.getX(), pos.getY(), pos.getZ());
         }
     }
@@ -271,8 +278,8 @@ public class TopLayerDeposit implements IDeposit {
 
         try {
             // Plutons 101 -- basics and intro to getting one gen'd
-            HashMap<BlockState, Float> oreBlocks = SerializerUtils
-                    .buildMultiBlockMap(json.get("blocks").getAsJsonArray());
+            HashMap<String, HashMap<BlockState, Float>> oreBlocks = SerializerUtils
+                    .buildMultiBlockMatcherMap(json.get("blocks").getAsJsonObject());
             HashMap<BlockState, Float> sampleBlocks = SerializerUtils
                     .buildMultiBlockMap(json.get("samples").getAsJsonArray());
             int radius = json.get("radius").getAsInt();
@@ -304,7 +311,7 @@ public class TopLayerDeposit implements IDeposit {
             return new TopLayerDeposit(oreBlocks, sampleBlocks, radius, depth, sampleChance, genWt, dimFilter,
                     isDimFilterBl, biomeTypeFilter, biomeFilter, isBiomeFilterBl, blockStateMatchers);
         } catch (Exception e) {
-            Geolosys.getInstance().LOGGER.error("Failed to parse JSON file: {}", json.toString());
+            Geolosys.getInstance().LOGGER.error("Failed to parse: {}", e.getMessage());
             return null;
         }
     }
@@ -326,8 +333,8 @@ public class TopLayerDeposit implements IDeposit {
         dimensions.add("filter", parser.parse(Arrays.toString(this.dimFilter)));
 
         // Add basics of Plutons
-        config.add("blocks", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
-        config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.oreToWtMap));
+        config.add("blocks", SerializerUtils.deconstructMultiBlockMatcherMap(this.oreToWtMap));
+        config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.sampleToWtMap));
         config.addProperty("radius", this.radius);
         config.addProperty("depth", this.depth);
         config.addProperty("chanceForSample", this.sampleChance);
