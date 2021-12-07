@@ -1,12 +1,14 @@
 {
   "type": "geolosys:deposit_top_layer",
   "config": {
-    "blocks": [
-      {
-        "block": "geolosys:peat",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:peat",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:rhododendron",

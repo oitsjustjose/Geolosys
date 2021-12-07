@@ -10,12 +10,14 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "minecraft:diorite",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "minecraft:diorite",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": null,

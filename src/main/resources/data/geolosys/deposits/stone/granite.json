@@ -10,12 +10,14 @@
         "overworld"
       ]
     },
-    "blocks": [
-      {
-        "block": "minecraft:granite",
-        "chance": 1.0
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "minecraft:granite",
+          "chance": 1.0
+        }
+      ]
+    },
     "samples": [
       {
         "block": null,

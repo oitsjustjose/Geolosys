@@ -17,16 +17,18 @@
         "the_nether"
       ]
     },
-    "blocks": [
-      {
-        "block": "geolosys:nether_gold_ore",
-        "chance": 0.30
-      },
-      {
-        "block": null,
-        "chance": 0.70
-      }
-    ],
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:nether_gold_ore",
+          "chance": 0.30
+        },
+        {
+          "block": null,
+          "chance": 0.70
+        }
+      ]
+    },
     "samples": [
       {
         "block": "geolosys:nether_gold_ore_sample",
