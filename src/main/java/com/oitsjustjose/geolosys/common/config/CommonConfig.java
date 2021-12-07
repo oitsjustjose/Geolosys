@@ -20,6 +20,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue REMOVE_VANILLA_ORES;
     public static ForgeConfigSpec.IntValue CHUNK_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
+    public static ForgeConfigSpec.IntValue NUMBER_PLUTONS_PER_CHUNK;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
     public static ForgeConfigSpec.BooleanValue SAMPLE_TICK_ENABLED;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
@@ -68,6 +69,9 @@ public class CommonConfig {
         MAX_SAMPLES_PER_CHUNK = COMMON_BUILDER
                 .comment("Maximum samples that can generate with each pluton within a chunk")
                 .defineInRange("maxSamplesPerChunk", 10, 1, 256);
+        NUMBER_PLUTONS_PER_CHUNK = COMMON_BUILDER
+                .comment("The number of times Geolosys will attempt to place plutons in a given chunk")
+                .defineInRange("numPlutonsPerChunk", 2, 1, Integer.MAX_VALUE);
         CHUNK_SKIP_CHANCE = COMMON_BUILDER.comment(
                 "The upper limit of RNG for generating any pluton in a given chunk.\nLarger values indicate further distance between plutons.")
                 .defineInRange("chunkSkipChance", 100, 1, Integer.MAX_VALUE);

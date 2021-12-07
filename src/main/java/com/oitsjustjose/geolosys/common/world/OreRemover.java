@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -18,6 +19,13 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 public class OreRemover {
 
     private static List<Block> toRm = Arrays.asList(
+            Blocks.DIORITE,
+            Blocks.ANDESITE,
+            Blocks.GRANITE,
+            Blocks.INFESTED_STONE,
+            Blocks.INFESTED_DEEPSLATE,
+
+            Blocks.COPPER_ORE,
             Blocks.IRON_ORE,
             Blocks.COAL_ORE,
             Blocks.LAPIS_ORE,
@@ -28,18 +36,14 @@ public class OreRemover {
             Blocks.NETHER_QUARTZ_ORE,
             Blocks.NETHER_GOLD_ORE,
             Blocks.ANCIENT_DEBRIS,
-            Blocks.DIORITE,
-            Blocks.ANDESITE,
-            Blocks.GRANITE,
-            Blocks.INFESTED_STONE,
+            Blocks.DEEPSLATE_COPPER_ORE,
             Blocks.DEEPSLATE_IRON_ORE,
             Blocks.DEEPSLATE_COAL_ORE,
             Blocks.DEEPSLATE_LAPIS_ORE,
             Blocks.DEEPSLATE_DIAMOND_ORE,
             Blocks.DEEPSLATE_EMERALD_ORE,
             Blocks.DEEPSLATE_GOLD_ORE,
-            Blocks.DEEPSLATE_REDSTONE_ORE,
-            Blocks.INFESTED_DEEPSLATE);
+            Blocks.DEEPSLATE_REDSTONE_ORE);
 
     // Validates, removes and logs each feature
     private static List<ConfiguredFeature<?, ?>> featureRemover(Block targetBlock,
@@ -70,8 +74,13 @@ public class OreRemover {
                 }
 
                 if (targets != null) {
-                    targets.forEach((x) -> featureRemover(x.state.getBlock(), confFeat));
-                    removed.add(feature);
+                    List<Boolean> mapped = targets.parallelStream()
+                            .map(t -> Boolean.valueOf(featureRemover(t.state.getBlock(), confFeat).size() > 0))
+                            .collect(Collectors.toList());
+
+                    if (mapped.contains(Boolean.valueOf(true))) {
+                        removed.add(feature);
+                    }
                 }
             });
         }

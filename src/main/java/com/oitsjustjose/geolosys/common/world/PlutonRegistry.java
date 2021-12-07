@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -99,11 +98,21 @@ public class PlutonRegistry {
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
         BiomeGenerationSettingsBuilder gen = evt.getGeneration();
 
-        // Removes vanilla ores
+        /*
+         * Removes vanilla ores. A note:
+         * In 1.18, noise caves were added. these come with large veins of
+         * Copper (raw or ore) and Iron (raw or ore). These are hard-coded
+         * and are part of the generator, BUT they can only generate in
+         * Granite and Tuff Respectively. This is why Tuff is in
+         * OreRemover#toRm
+         */
         if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-            for (GenerationStep.Decoration deco : decorations) {
-                List<Supplier<PlacedFeature>> feats = gen.getFeatures(deco);
-                FeatureUtils.destroyFeature(feats, OreRemover.filterFeatures(feats));
+            for (GenerationStep.Decoration stage : decorations) {
+                List<Supplier<PlacedFeature>> feats = gen.getFeatures(stage);
+                List<Supplier<PlacedFeature>> filtered = OreRemover.filterFeatures(feats);
+                for (Supplier<PlacedFeature> feature : filtered) {
+                    feats.remove(feature);
+                }
             }
         }
 

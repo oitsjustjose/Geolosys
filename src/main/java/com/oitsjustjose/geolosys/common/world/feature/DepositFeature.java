@@ -46,24 +46,24 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
 
-        IDeposit pluton = GeolosysAPI.plutonRegistry.pick(level, pos);
-        if (pluton == null) { // Could be no pluton for the dimension
-            return false;
+        boolean placedPluton = false;
+
+        for (int p = 0; p < CommonConfig.NUMBER_PLUTONS_PER_CHUNK.get(); p++) {
+            IDeposit pluton = GeolosysAPI.plutonRegistry.pick(level, pos);
+            if (pluton != null) {
+                if (level.getRandom().nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getGenWt()) {
+                    continue;
+                }
+            }
+            boolean anyGenerated = pluton.generate(level, pos, cap) > 0;
+            if (anyGenerated) {
+                placedPluton = true;
+                pluton.afterGen(level, pos, cap);
+                cap.setPlutonGenerated(chunkPos);
+            }
         }
 
-        if (level.getRandom().nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getGenWt()) {
-            return false;
-        }
-
-        boolean anyGenerated = pluton.generate(level, pos, cap) > 0;
-
-        if (anyGenerated) {
-            pluton.afterGen(level, pos, cap);
-            cap.setPlutonGenerated(chunkPos);
-            return true;
-        }
-
-        return placedPending;
+        return placedPluton || placedPending;
     }
 
     private boolean placePendingBlocks(WorldGenLevel level, IDepositCapability cap, BlockPos pos) {
