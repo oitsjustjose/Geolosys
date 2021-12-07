@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys;
 
+import java.util.Collection;
+
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
@@ -15,8 +17,13 @@ import com.oitsjustjose.geolosys.common.data.modifiers.SulfurDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
 import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -47,10 +54,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Collection;
 
 @Mod(Constants.MODID)
 public class Geolosys {
@@ -66,7 +69,7 @@ public class Geolosys {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-//        MinecraftForge.EVENT_BUS.register(new ManualGifting());
+        // MinecraftForge.EVENT_BUS.register(new ManualGifting());
         MinecraftForge.EVENT_BUS.register(new ModItemsParser());
 
         this.configSetup();
@@ -88,6 +91,7 @@ public class Geolosys {
 
     public void setup(final FMLCommonSetupEvent event) {
         GeolosysAPI.init();
+        GeolosysFeatures.init();
         proxy.init();
     }
 

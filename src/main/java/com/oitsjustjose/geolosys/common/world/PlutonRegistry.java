@@ -10,17 +10,12 @@ import javax.annotation.Nullable;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -94,8 +89,6 @@ public class PlutonRegistry {
         return null;
     }
 
-    // Collects UNDERGROUND_ORES & UNDERGROUND_DECORATION to make it easier to
-    // iterate
     private static final List<GenerationStep.Decoration> decorations = new LinkedList<>();
     static {
         decorations.add(GenerationStep.Decoration.UNDERGROUND_ORES);
@@ -104,28 +97,16 @@ public class PlutonRegistry {
 
     @SubscribeEvent
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
-        BiomeGenerationSettingsBuilder settings = evt.getGeneration();
+        BiomeGenerationSettingsBuilder gen = evt.getGeneration();
 
         // Removes vanilla ores
         if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
             for (GenerationStep.Decoration deco : decorations) {
-                List<Supplier<PlacedFeature>> feats = settings.getFeatures(deco);
+                List<Supplier<PlacedFeature>> feats = gen.getFeatures(deco);
                 FeatureUtils.destroyFeature(feats, OreRemover.filterFeatures(feats));
             }
         }
 
-        ConfiguredFeature<NoneFeatureConfiguration, ?> depositFeature = new DepositFeature(
-                NoneFeatureConfiguration.CODEC).configured(NoneFeatureConfiguration.NONE);
-
-        // TODO: make these static non-evt based items global to reduce duplicate
-        // registrations
-        net.minecraft.data.worldgen.features.FeatureUtils.register(
-                String.format("geolosys_%s_%s_deposits", evt.getName().getNamespace(),
-                        evt.getName().getPath()),
-                depositFeature);
-
-        PlacedFeature feature = depositFeature.placed(
-                HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(384)));
-        settings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
+        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.DEPOSITS_ALL_PLACED);
     }
 }
