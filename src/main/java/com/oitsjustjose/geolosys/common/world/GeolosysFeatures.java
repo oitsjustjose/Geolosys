@@ -22,5 +22,4 @@ public class GeolosysFeatures {
         Registry<ConfiguredFeature<?, ?>> r = BuiltinRegistries.CONFIGURED_FEATURE;
         BuiltinRegistries.register(r, new ResourceLocation(Constants.MODID, "deposits"), DEPOSITS_ALL);
     }
-
 }

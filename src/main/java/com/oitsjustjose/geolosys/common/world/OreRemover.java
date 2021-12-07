@@ -17,10 +17,29 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class OreRemover {
 
-    private static List<Block> toRm = Arrays.asList(Blocks.IRON_ORE, Blocks.COAL_ORE, Blocks.LAPIS_ORE,
-            Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE,
-            Blocks.NETHER_GOLD_ORE, Blocks.ANCIENT_DEBRIS, Blocks.DIORITE, Blocks.ANDESITE, Blocks.GRANITE,
-            Blocks.INFESTED_STONE);
+    private static List<Block> toRm = Arrays.asList(
+            Blocks.IRON_ORE,
+            Blocks.COAL_ORE,
+            Blocks.LAPIS_ORE,
+            Blocks.DIAMOND_ORE,
+            Blocks.EMERALD_ORE,
+            Blocks.GOLD_ORE,
+            Blocks.REDSTONE_ORE,
+            Blocks.NETHER_QUARTZ_ORE,
+            Blocks.NETHER_GOLD_ORE,
+            Blocks.ANCIENT_DEBRIS,
+            Blocks.DIORITE,
+            Blocks.ANDESITE,
+            Blocks.GRANITE,
+            Blocks.INFESTED_STONE,
+            Blocks.DEEPSLATE_IRON_ORE,
+            Blocks.DEEPSLATE_COAL_ORE,
+            Blocks.DEEPSLATE_LAPIS_ORE,
+            Blocks.DEEPSLATE_DIAMOND_ORE,
+            Blocks.DEEPSLATE_EMERALD_ORE,
+            Blocks.DEEPSLATE_GOLD_ORE,
+            Blocks.DEEPSLATE_REDSTONE_ORE,
+            Blocks.INFESTED_DEEPSLATE);
 
     // Validates, removes and logs each feature
     private static List<ConfiguredFeature<?, ?>> featureRemover(Block targetBlock,
