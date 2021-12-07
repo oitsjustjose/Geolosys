@@ -6,7 +6,7 @@
         {
           "values": [
             {
-              "item": "geolosys:copper_ingot",
+              "item": "minecraft:copper_ingot",
               "type": "forge:item_exists"
             }
           ],
@@ -18,7 +18,7 @@
         "ingredient": {
           "item": "geolosys:copper_cluster"
         },
-        "result": "geolosys:copper_ingot",
+        "result": "minecraft:copper_ingot",
         "experience": 0.7,
         "cookingtime": 100
       }

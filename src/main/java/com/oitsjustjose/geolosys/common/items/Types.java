@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 public class Types {
     public enum Coals {
@@ -51,7 +52,7 @@ public class Types {
     }
 
     public enum Ingots {
-        COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
+        TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
         PLATINUM("platinum"), ZINC("zinc");
 
         private Item instance;
