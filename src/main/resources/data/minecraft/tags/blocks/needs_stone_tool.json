@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "lignite_ore",
+    "bituminous_coal_ore",
+    "lapis_ore",
+    "quartz_ore",
+    "nether_gold_ore",
+    "hematite_ore",
+    "malachite_ore",
+    "cassiterite_ore",
+    "sphalerite_ore",
+    "deepslate_lignite_ore",
+    "deepslate_bituminous_coal_ore",
+    "deepslate_lapis_ore",
+    "deepslate_quartz_ore",
+    "deepslate_hematite_ore",
+    "deepslate_malachite_ore",
+    "deepslate_cassiterite_ore",
+    "deepslate_sphalerite_ore"
+  ]
+}
