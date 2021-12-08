@@ -14,7 +14,6 @@ import net.minecraft.world.level.material.MaterialColor;
 public class PeatBlock extends Block {
 
     public PeatBlock() {
-        // TODO: new data-driven tool requirements
         super(Properties.of(Material.DIRT, MaterialColor.GRASS).strength(4F, 3F).sound(SoundType.SOUL_SOIL));
         this.registerDefaultState(this.getStateDefinition().any().setValue(BlockStateProperties.BOTTOM, Boolean.TRUE));
     }
@@ -26,7 +25,8 @@ public class PeatBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        if (!context.getLevel().getBlockState(context.getClickedPos().above()).isSolidRender(context.getLevel(), context.getClickedPos())) {
+        if (!context.getLevel().getBlockState(context.getClickedPos().above()).isSolidRender(context.getLevel(),
+                context.getClickedPos())) {
             return this.defaultBlockState().setValue(BlockStateProperties.BOTTOM, Boolean.FALSE);
         }
         return this.defaultBlockState();
@@ -35,10 +35,11 @@ public class PeatBlock extends Block {
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
-                                boolean isMoving) {
+            boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
-        if (!worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above()) && state.getValue(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
+        if (!worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above())
+                && state.getValue(BlockStateProperties.BOTTOM) != Boolean.FALSE) {
             worldIn.setBlock(pos, state.setValue(BlockStateProperties.BOTTOM, Boolean.FALSE), 2 | 16);
         } else if (worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above())
                 && state.getValue(BlockStateProperties.BOTTOM) != Boolean.TRUE) {

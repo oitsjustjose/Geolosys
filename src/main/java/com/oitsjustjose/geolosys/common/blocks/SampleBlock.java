@@ -34,7 +34,6 @@ import java.util.Random;
 
 public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    // TODO: impl data-driven tool dependencies.
     private static final Properties BASE_PROPS = Properties.of(Material.DIRT, MaterialColor.STONE)
             .strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape();
 

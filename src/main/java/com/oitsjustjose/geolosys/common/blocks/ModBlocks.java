@@ -1,7 +1,10 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
+import java.util.ArrayList;
+
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -10,8 +13,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.event.RegistryEvent;
-
-import java.util.ArrayList;
 
 public class ModBlocks {
     private static ModBlocks instance;
@@ -27,7 +28,6 @@ public class ModBlocks {
             BlockBehaviour.Properties blockProp = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
                     .strength(7.5F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
 
-            // TODO: Datapack for making this require the right tool and right durability.
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
             Block sample = new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
 
@@ -39,9 +39,8 @@ public class ModBlocks {
             // No sample for deepslate ores - they use the standard stone sample.
             final String ORE_REGISTRY_NAME = oreType.getUnlocalizedName().toLowerCase() + "_ore";
             BlockBehaviour.Properties blockProp = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
-                    .strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
+                    .strength(9F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
 
-            // TODO: Datapack for making this require the right tool and right durability.
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
             oreType.setBlock(block);
             oreType.setSample(oreType.getOrigin().getSample());
