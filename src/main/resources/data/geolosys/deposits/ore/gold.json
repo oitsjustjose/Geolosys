@@ -1,8 +1,8 @@
 {
   "type": "geolosys:deposit_dense",
   "config": {
-    "yMin": 5,
-    "yMax": 30,
+    "yMin": -64,
+    "yMax": 32,
     "size": 40,
     "dimensions": {
       "isBlacklist": false,

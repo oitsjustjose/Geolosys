@@ -1,8 +1,8 @@
 {
   "type": "geolosys:deposit_dike",
   "config": {
-    "yMin": 4,
-    "yMax": 32,
+    "yMin": -56,
+    "yMax": 19,
     "baseRadius": 2,
     "biomes": {
       "isBlacklist": false,

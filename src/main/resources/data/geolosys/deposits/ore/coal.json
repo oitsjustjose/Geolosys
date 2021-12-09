@@ -1,7 +1,7 @@
 {
   "type": "geolosys:deposit_sparse",
   "config": {
-    "yMin": 24,
+    "yMin": 34,
     "yMax": 78,
     "size": 48,
     "spread": 48,

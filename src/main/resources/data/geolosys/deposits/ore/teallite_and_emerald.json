@@ -37,8 +37,8 @@
         "chance": 1.0
       }
     ],
-    "yMin": 8,
-    "yMax": 43,
+    "yMin": -52,
+    "yMax": -40,
     "baseRadius": 6,
     "biomes": {
       "isBlacklist": false,

@@ -1,8 +1,8 @@
 {
   "type": "geolosys:deposit_sparse",
   "config": {
-    "yMin": 10,
-    "yMax": 24,
+    "yMin": -64,
+    "yMax": 64,
     "size": 30,
     "spread": 24,
     "biomes": {
