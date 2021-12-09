@@ -98,14 +98,6 @@ public class PlutonRegistry {
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
         BiomeGenerationSettingsBuilder gen = evt.getGeneration();
 
-        /*
-         * Removes vanilla ores. A note:
-         * In 1.18, noise caves were added. these come with large veins of
-         * Copper (raw or ore) and Iron (raw or ore). These are hard-coded
-         * and are part of the generator, BUT they can only generate in
-         * Granite and Tuff Respectively. This is why Tuff is in
-         * OreRemover#toRm
-         */
         if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
             for (GenerationStep.Decoration stage : decorations) {
                 List<Supplier<PlacedFeature>> feats = gen.getFeatures(stage);
@@ -117,5 +109,6 @@ public class PlutonRegistry {
         }
 
         gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.DEPOSITS_ALL_PLACED);
+        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.REMOVE_VEINS_ALL_PLACED);
     }
 }
