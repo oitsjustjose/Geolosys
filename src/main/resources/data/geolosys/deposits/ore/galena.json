@@ -24,7 +24,7 @@
           "chance": 1.0
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_galena_ore",
           "chance": 1.0

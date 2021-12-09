@@ -30,7 +30,7 @@
           "chance": 0.25
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_cassiterite_ore",
           "chance": 0.75

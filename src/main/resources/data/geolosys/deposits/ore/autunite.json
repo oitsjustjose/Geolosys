@@ -12,7 +12,7 @@
           "chance": 0.15
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_autunite_ore",
           "chance": 0.85

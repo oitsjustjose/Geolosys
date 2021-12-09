@@ -1,22 +1,14 @@
 {
   "replace": false,
   "values": [
-    "geolosys:lignite_ore",
     "geolosys:bituminous_coal_ore",
-    "geolosys:lapis_ore",
-    "geolosys:quartz_ore",
-    "geolosys:nether_gold_ore",
-    "geolosys:hematite_ore",
-    "geolosys:malachite_ore",
     "geolosys:cassiterite_ore",
-    "geolosys:sphalerite_ore",
-    "geolosys:deepslate_lignite_ore",
-    "geolosys:deepslate_bituminous_coal_ore",
-    "geolosys:deepslate_lapis_ore",
-    "geolosys:deepslate_quartz_ore",
-    "geolosys:deepslate_hematite_ore",
-    "geolosys:deepslate_malachite_ore",
-    "geolosys:deepslate_cassiterite_ore",
-    "geolosys:deepslate_sphalerite_ore"
+    "geolosys:hematite_ore",
+    "geolosys:lapis_ore",
+    "geolosys:lignite_ore",
+    "geolosys:malachite_ore",
+    "geolosys:nether_gold_ore",
+    "geolosys:quartz_ore",
+    "geolosys:sphalerite_ore"
   ]
 }

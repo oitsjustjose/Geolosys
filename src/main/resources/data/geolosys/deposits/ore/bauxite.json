@@ -21,7 +21,7 @@
           "chance": 0.1
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_bauxite_ore",
           "chance": 0.9

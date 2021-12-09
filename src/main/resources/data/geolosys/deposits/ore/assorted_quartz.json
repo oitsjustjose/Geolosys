@@ -17,7 +17,7 @@
           "chance": 1.0
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_quartz_ore",
           "chance": 1.0

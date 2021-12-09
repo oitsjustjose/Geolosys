@@ -29,7 +29,7 @@
           "chance": 0.35
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_limonite_ore",
           "chance": 0.65

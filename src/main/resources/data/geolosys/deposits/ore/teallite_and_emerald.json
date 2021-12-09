@@ -16,7 +16,7 @@
           "chance": 0.25
         }
       ],
-      "deepslate": [
+      "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_teallite_ore",
           "chance": 0.6
