@@ -26,7 +26,7 @@ public class ModBlocks {
             final String SAMPLE_REGISTRY_NAME = oreType.getUnlocalizedName().toLowerCase() + "_ore_sample";
             final String ORE_REGISTRY_NAME = oreType.getUnlocalizedName().toLowerCase() + "_ore";
             BlockBehaviour.Properties blockProp = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
-                    .strength(7.5F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+                    .strength(5.0F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
 
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
             Block sample = new SampleBlock().setRegistryName(Constants.MODID, SAMPLE_REGISTRY_NAME);
@@ -39,7 +39,7 @@ public class ModBlocks {
             // No sample for deepslate ores - they use the standard stone sample.
             final String ORE_REGISTRY_NAME = oreType.getUnlocalizedName().toLowerCase() + "_ore";
             BlockBehaviour.Properties blockProp = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
-                    .strength(9F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
+                    .strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
 
             Block block = new OreBlock(blockProp, oreType.getXp()).setRegistryName(Constants.MODID, ORE_REGISTRY_NAME);
             oreType.setBlock(block);
