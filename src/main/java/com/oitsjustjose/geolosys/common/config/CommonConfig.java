@@ -61,7 +61,8 @@ public class CommonConfig {
                 .defineList("defaultReplacementMaterials",
                         Lists.newArrayList("minecraft:stone", "minecraft:andesite", "minecraft:diorite",
                                 "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone",
-                                "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite", "minecraft:dripstone"),
+                                "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite",
+                                "minecraft:dripstone_block"),
                         rawName -> rawName instanceof String);
         COMMON_BUILDER.pop();
 

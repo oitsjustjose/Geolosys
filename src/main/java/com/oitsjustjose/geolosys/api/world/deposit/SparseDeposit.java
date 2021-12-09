@@ -28,6 +28,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.BiomeDictionary;
@@ -144,9 +145,8 @@ public class SparseDeposit implements IDeposit {
     @Nullable
     public HashSet<BlockState> getAllOres() {
         HashSet<BlockState> ret = new HashSet<BlockState>();
-        for (HashMap<BlockState, Float> i : this.oreToWtMap.values()) {
-            ret.addAll(i.keySet());
-        }
+        this.oreToWtMap.values().forEach(x -> x.keySet().forEach(y -> ret.add(y)));
+        ret.remove(Blocks.AIR.defaultBlockState());
         return ret.isEmpty() ? null : ret;
     }
 

@@ -66,7 +66,11 @@ public class PacketHelpers {
         // I hate old for-loops but I need the index.
         int idx = 0;
         for (BlockState b : blocks) {
-            sb.append((new ItemStack(b.getBlock())).getDisplayName().getString());
+            sb.append(new ItemStack(b.getBlock())
+                    .getDisplayName()
+                    .getString()
+                    .replace("[", "")
+                    .replace("]", ""));
             if ((idx + 2) == blocks.size()) {
                 sb.append(" & ");
             } else if ((idx + 1) != blocks.size()) {

@@ -37,24 +37,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ProPickItem extends Item {
     public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(Constants.MODID, "prospectors_pick");
+    public static Item.Properties props = CommonConfig.ENABLE_PRO_PICK_DMG.get()
+            ? new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance())
+                    .durability(CommonConfig.PRO_PICK_DURABILITY.get())
+            : new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance());
 
     public ProPickItem() {
-        super(new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance()));
+        super(props);
         this.setRegistryName(REGISTRY_NAME);
         Geolosys.proxy.registerClientSubscribeEvent(this);
-    }
-
-    @Override
-    public int getBarWidth(ItemStack stack) {
-        if (CommonConfig.ENABLE_PRO_PICK_DMG.get()) {
-            if (stack.getTag() == null) {
-                stack.setTag(new CompoundTag());
-                stack.getTag().putInt("damage", CommonConfig.PRO_PICK_DURABILITY.get());
-            }
-            return 1 - stack.getTag().getInt("damage") / CommonConfig.PRO_PICK_DURABILITY.get();
-        } else {
-            return 1;
-        }
     }
 
     @Override
@@ -68,17 +59,16 @@ public class ProPickItem extends Item {
         if (player.isCrouching()) {
             return InteractionResult.PASS;
         } else {
-            if (!player.isCreative()) {
-                // TODO: Work on manually implementing damage
-                // this.attemptDamageItem(player, pos, hand, worldIn);
-            }
-            // At surface or higher
+            ItemStack stack = player.getItemInHand(hand);
+
             if (worldIn.isClientSide) {
                 player.swing(hand);
                 return InteractionResult.PASS;
             }
 
-            ItemStack stack = player.getItemInHand(hand);
+            if (!player.isCreative()) {
+                stack.hurtAndBreak(1, player, (x) -> x.broadcastBreakEvent(hand));
+            }
 
             int range = CommonConfig.PRO_PICK_RANGE.get();
             int diam = CommonConfig.PRO_PICK_DIAMETER.get();
@@ -133,7 +123,7 @@ public class ProPickItem extends Item {
 
         for (int x = tempPos.getMinBlockX(); x <= tempPos.getMaxBlockX(); x++) {
             for (int z = tempPos.getMinBlockZ(); z <= tempPos.getMaxBlockZ(); z++) {
-                for (int y = 0; y < level.getHeight(); y++) {
+                for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
                     BlockState state = level.getBlockState(new BlockPos(x, y, z));
                     if (depositBlocks.contains(state)) {
                         foundBlocks.add(state);
@@ -164,7 +154,6 @@ public class ProPickItem extends Item {
                 || mc.player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ProPickItem) {
             GlStateManager._enableBlend();
             GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            // RenderSystem.disableLighting();
             int seaLvl = mc.player.getLevel().getSeaLevel();
             int level = (int) (seaLvl - mc.player.getY());
             if (level < 0) {
@@ -179,7 +168,6 @@ public class ProPickItem extends Item {
                         I18n.get("geolosys.pro_pick.depth.below", Math.abs(level)),
                         (float) ClientConfig.PROPICK_HUD_X.get(), (float) ClientConfig.PROPICK_HUD_Y.get(), 0xFFFFFFFF);
             }
-            // RenderSystem.color4f(1F, 1F, 1F, 1F);
         }
     }
 }
