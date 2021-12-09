@@ -114,7 +114,7 @@ curseforge {
     id = '271856'
     changelogType = 'markdown'
     changelog = file("./changelog.md")
-    releaseType = 'beta'
+    releaseType = 'alpha'
     addGameVersion "1.18"
     
     relations {

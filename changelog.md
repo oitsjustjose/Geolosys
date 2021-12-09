@@ -1,5 +1,16 @@
 # Geolosys Changelog (1.16)
 
+## 7.0.0-alpha
+
+Pretty much just a port rather than the full rewrite I wanted from before. Some things to note:
+
+- Cave biomes can be used for Geolosys now!
+- You can now control how many deposits try to generate in a single chunk
+- New deepslate variants made
+- Changes to the datapacks: [https://twitter.com/oitsjustjose/status/1467995430059487239](https://twitter.com/oitsjustjose/status/1467995430059487239)
+- I know about the `Detected setBlock in a far chunk` bug. I can't fix it. I don't care.
+- Patchouli isn't out yet so no field manual.. yet.
+
 ## 6.0.1_beta
 
 ### Changed:
