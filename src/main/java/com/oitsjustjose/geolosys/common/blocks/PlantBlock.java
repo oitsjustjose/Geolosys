@@ -40,10 +40,11 @@ public class PlantBlock extends BushBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+        BlockState below = worldIn.getBlockState(pos.below());
         if (this.isExclusive) {
-            return placelist.contains(state.getBlock());
+            return placelist.contains(below.getBlock());
         }
-        return super.canSurvive(state, worldIn, pos) || placelist.contains(state.getBlock());
+        return super.canSurvive(state, worldIn, pos) || placelist.contains(below.getBlock());
     }
 
     @Override
