@@ -207,7 +207,6 @@ public class DenseDeposit implements IDeposit {
         }
 
         int totlPlaced = 0;
-        ChunkPos thisChunk = new ChunkPos(pos);
         int randY = this.yMin + level.getRandom().nextInt(this.yMax - this.yMin);
         int max = Utils.getTopSolidBlock(level, pos).getY();
         if (randY > max) {
