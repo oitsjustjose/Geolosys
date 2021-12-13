@@ -25,9 +25,8 @@ public class FeatureUtils {
 
     public static boolean tryPlaceBlock(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
             IDepositCapability cap) {
-        if (isInChunk(chunk, pos) && level.hasChunk(chunk.x, chunk.z) && level.ensureCanWrite(pos)) {
-            boolean ret = level.setBlock(pos, state, 2 | 16);
-            return ret;
+        if (isInChunk(chunk, pos) && level.hasChunk(chunk.x, chunk.z)) {
+            return level.setBlock(pos, state, 2 | 16);
         }
 
         cap.putPendingBlock(new BlockPos(pos), state);
