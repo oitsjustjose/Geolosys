@@ -13,5 +13,4 @@ public class NetworkManager {
         networkWrapper = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MODID, "main"),
                 () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
     }
-
 }
