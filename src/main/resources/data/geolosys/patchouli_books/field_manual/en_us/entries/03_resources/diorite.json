@@ -1,14 +1,1 @@
-{
-  "name": "Diorite",
-  "icon": "minecraft:diorite",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Diorite",
-      "item": "minecraft:diorite",
-      "link_recipe": false,
-      "text": "This dense deposit can be found between 6 meters above and 62 meters below sea level. It can only be found in the overworld and can be found in any biome."
-    }
-  ]
-}
+{"name": "Diorite", "icon": "minecraft:diorite", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Diorite", "item": "minecraft:diorite", "link_recipe": false, "text": "This dense deposit can be found between 6 meters above and 84 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}

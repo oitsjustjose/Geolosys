@@ -1,14 +1,1 @@
-{
-  "name": "Bituminous Coal",
-  "icon": "geolosys:bituminous_coal_ore",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Bituminous Coal",
-      "item": "geolosys:bituminous_coal_ore",
-      "link_recipe": false,
-      "text": "This layer deposit can be found between 14 meters below and 34 meters below sea level. It can only be found in the overworld and can be found in any biome."
-    }
-  ]
-}
+{"name": "Bituminous Coal", "icon": "geolosys:bituminous_coal_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Bituminous Coal", "item": "geolosys:bituminous_coal_ore", "link_recipe": false, "text": "This layer deposit can be found between 80 meters below and 96 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}

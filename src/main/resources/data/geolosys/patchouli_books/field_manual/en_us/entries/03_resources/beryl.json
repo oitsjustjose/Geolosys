@@ -1,14 +1,1 @@
-{
-  "name": "Beryl",
-  "icon": "geolosys:beryl_ore",
-  "category": "geolosys:03_resources",
-  "pages": [
-    {
-      "type": "spotlight",
-      "title": "Beryl",
-      "item": "geolosys:beryl_ore",
-      "link_recipe": false,
-      "text": "This dike deposit can be found between 32 meters below and 60 meters below sea level. It can only be found in the overworld and is only found in mountain biomes."
-    }
-  ]
-}
+{"name": "Beryl", "icon": "geolosys:beryl_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Beryl", "item": "geolosys:beryl_ore", "link_recipe": false, "text": "This dike deposit can be found between 45 meters below and 120 meters below sea level. It can only be found in the overworld and is only found in mountain biomes."}]}
