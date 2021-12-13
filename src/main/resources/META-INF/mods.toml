@@ -29,10 +29,9 @@ Support me on Patreon at https://patreon.com/oitsjustjose
     ordering="NONE"
     side="BOTH"
 
-# TODO: Reimpl
-# [[dependencies.geolosys]]
-#     modId="patchouli"
-#     mandatory=true
-#     versionRange="[1.16.,)"
-#     ordering="NONE"
-#     side="BOTH"
+[[dependencies.geolosys]]
+    modId="patchouli"
+    mandatory=false
+    versionRange="[1.18.,)"
+    ordering="NONE"
+    side="BOTH"

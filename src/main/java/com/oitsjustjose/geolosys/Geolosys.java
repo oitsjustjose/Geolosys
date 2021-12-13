@@ -15,6 +15,7 @@ import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.SulfurDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
+import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
@@ -45,6 +46,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -65,11 +67,12 @@ public class Geolosys {
         instance = this;
 
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
+        bus.addListener(this::clientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        // MinecraftForge.EVENT_BUS.register(new ManualGifting());
+        MinecraftForge.EVENT_BUS.register(new ManualGifting());
         MinecraftForge.EVENT_BUS.register(new ModItemsParser());
 
         this.configSetup();
