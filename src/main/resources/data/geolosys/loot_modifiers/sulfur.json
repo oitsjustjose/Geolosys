@@ -1,4 +1,5 @@
 {
+  "type": "block",
   "conditions": [
     {
       "condition": "block_state_property",

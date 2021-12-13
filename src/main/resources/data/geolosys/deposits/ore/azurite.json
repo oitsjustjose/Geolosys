@@ -1,0 +1,43 @@
+{
+  "type": "geolosys:deposit_dense",
+  "config": {
+    "blocks": {
+      "default": [
+        {
+          "block": "geolosys:azurite_ore",
+          "chance": 0.85
+        },
+        {
+          "block": null,
+          "chance": 0.15
+        }
+      ],
+      "minecraft:deepslate": [
+        {
+          "block": "geolosys:deepslate_azurite_ore",
+          "chance": 0.85
+        },
+        {
+          "block": null,
+          "chance": 0.15
+        }
+      ]
+    },
+    "samples": [
+      {
+        "block": "geolosys:azurite_ore_sample",
+        "chance": 1.0
+      }
+    ],
+    "yMin": -49,
+    "yMax": 13,
+    "size": 80,
+    "dimensions": {
+      "isBlacklist": false,
+      "filter": [
+        "overworld"
+      ]
+    },
+    "generationWeight": 3
+  }
+}

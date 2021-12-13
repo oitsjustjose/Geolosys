@@ -1,5 +1,22 @@
 # Geolosys Changelog (1.16)
 
+## 7.0.0-alpha-2
+
+### Added
+
+- Patchouli Compatibility
+-
+
+### Fixed
+
+- Copper and Raw Copper Still Generating
+
+### Changed
+
+- Malachite & Azurite are now separate.
+  - Malachite is more commonly found and is found usually more higher up, though it _can_ be found in deepslate.
+  - Azurite is less frequently found, but comes in larger deposits. Usually found in deepslate levels.
+
 ## 7.0.0-alpha
 
 Pretty much just a port rather than the full rewrite I wanted from before. Some things to note:

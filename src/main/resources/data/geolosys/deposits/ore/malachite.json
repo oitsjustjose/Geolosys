@@ -5,43 +5,39 @@
       "default": [
         {
           "block": "geolosys:malachite_ore",
-          "chance": 0.4
+          "chance": 0.9
         },
         {
-          "block": "geolosys:azurite_ore",
-          "chance": 0.6
+          "block": null,
+          "chance": 0.1
         }
       ],
       "minecraft:deepslate": [
         {
           "block": "geolosys:deepslate_malachite_ore",
-          "chance": 0.4
+          "chance": 0.9
         },
         {
-          "block": "geolosys:deepslate_azurite_ore",
-          "chance": 0.6
+          "block": null,
+          "chance": 0.1
         }
       ]
     },
     "samples": [
       {
         "block": "geolosys:malachite_ore_sample",
-        "chance": 0.4
-      },
-      {
-        "block": "geolosys:azurite_ore_sample",
-        "chance": 0.6
+        "chance": 1.0
       }
     ],
     "yMin": -16,
-    "yMax": 60,
-    "size": 80,
+    "yMax": 90,
+    "size": 45,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
         "overworld"
       ]
     },
-    "generationWeight": 4
+    "generationWeight": 6
   }
 }

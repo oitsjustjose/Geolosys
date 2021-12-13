@@ -91,7 +91,7 @@ public class Geolosys {
 
     public void setup(final FMLCommonSetupEvent event) {
         GeolosysAPI.init();
-        GeolosysFeatures.init();
+        GeolosysFeatures.createRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
         proxy.init();
     }
 
