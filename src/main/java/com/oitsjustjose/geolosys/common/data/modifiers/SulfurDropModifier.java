@@ -1,32 +1,40 @@
 package com.oitsjustjose.geolosys.common.data.modifiers;
 
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
 
 public class SulfurDropModifier extends LootModifier {
 
     private Random rand = new Random();
     private float chance;
     private Item item;
+    private String tag;
     private int qty;
 
-    public SulfurDropModifier(LootItemCondition[] conditions, Item item, float chance, int qty) {
+    public SulfurDropModifier(LootItemCondition[] conditions, Item item, String tag, float chance, int qty) {
         super(conditions);
         this.chance = chance;
         this.item = item;
+        this.tag = tag;
         this.qty = qty;
     }
 
@@ -37,10 +45,20 @@ public class SulfurDropModifier extends LootModifier {
             return gennedLoot;
         }
 
-        if (CompatConfig.ENABLE_SULFUR.get()) {
-            if (rand.nextFloat() < this.chance) {
-                gennedLoot.add(new ItemStack(this.item, this.qty));
-            }
+        ItemStack ctxTool = ctx.getParam(LootContextParams.TOOL);
+
+        /* Case for silk-touching ores */
+        if (ctxTool != null && !ctxTool.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH,
+                ctxTool) > 0) {
+            return gennedLoot;
+        }
+
+        if (!CompatConfig.ENABLE_SULFUR.get()) {
+            return gennedLoot;
+        }
+
+        if (rand.nextFloat() < this.chance) {
+            gennedLoot.add(new ItemStack(this.item, this.qty));
         }
 
         return gennedLoot;
@@ -50,21 +68,26 @@ public class SulfurDropModifier extends LootModifier {
         @Override
         public SulfurDropModifier read(ResourceLocation name, JsonObject obj, LootItemCondition[] cond) {
             Item i = null;
-            float chance = obj.get("chance").getAsFloat();
-            int qty = obj.get("qty").getAsInt();
+            String tag = GsonHelper.getAsString(obj, "tag");
+            float chance = GsonHelper.getAsFloat(obj, "chance");
+            int qty = GsonHelper.getAsInt(obj, "qty");
 
-            ResourceLocation tagRes = new ResourceLocation(obj.get("item").getAsString());
-            Tag<Item> tag = ItemTags.getAllTags().getTag(tagRes);
-            if (tag != null && tag.getValues().size() > 0) {
-                i = tag.getValues().get(0);
+            ResourceLocation tagRes = new ResourceLocation(tag);
+            Tag<Item> itemTag = ItemTags.getAllTags().getTag(tagRes);
+            if (itemTag != null && itemTag.getValues().size() > 0) {
+                i = itemTag.getValues().get(0);
             }
 
-            return new SulfurDropModifier(cond, i, chance, qty);
+            return new SulfurDropModifier(cond, i, tag, chance, qty);
         }
 
         @Override
         public JsonObject write(SulfurDropModifier instance) {
-            return null;
+            JsonObject obj = makeConditions(instance.conditions);
+            obj.addProperty("tag", instance.tag);
+            obj.addProperty("chance", instance.chance);
+            obj.addProperty("qty", instance.qty);
+            return obj;
         }
     }
 }

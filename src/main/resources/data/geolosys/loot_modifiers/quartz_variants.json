@@ -1,5 +1,5 @@
 {
-  "type": "block",
+  "type": "geolosys:quartzes",
   "conditions": [
     {
       "condition": "block_state_property",

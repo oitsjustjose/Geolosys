@@ -1,5 +1,5 @@
 {
-  "type": "block",
+  "type": "geolosys:sulfur",
   "conditions": [
     {
       "condition": "block_state_property",
@@ -7,6 +7,6 @@
     }
   ],
   "tag": "forge:dusts/sulfur",
-  "chance": 0.5,
+  "chance": 0.15,
   "qty": 1
 }

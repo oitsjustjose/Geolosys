@@ -9,9 +9,13 @@ import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -34,12 +38,21 @@ public class YelloriumDropModifier extends LootModifier {
     @Nonnull
     @Override
     public List<ItemStack> doApply(List<ItemStack> gennedLoot, LootContext ctx) {
+        ItemStack ctxTool = ctx.getParam(LootContextParams.TOOL);
 
-        if (CompatConfig.ENABLE_YELLORIUM.get()) {
-            if ((rand.nextFloat() < this.chance)) {
-                gennedLoot.clear();
-                gennedLoot.add(new ItemStack(this.item, this.qty));
-            }
+        /* Case for silk-touching ores */
+        if (ctxTool != null && !ctxTool.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH,
+                ctxTool) > 0) {
+            return gennedLoot;
+        }
+
+        if (!CompatConfig.ENABLE_YELLORIUM.get()) {
+            return gennedLoot;
+        }
+
+        if ((rand.nextFloat() < this.chance)) {
+            gennedLoot.clear();
+            gennedLoot.add(new ItemStack(this.item, this.qty));
         }
 
         return gennedLoot;
@@ -48,15 +61,19 @@ public class YelloriumDropModifier extends LootModifier {
     public static class Serializer extends GlobalLootModifierSerializer<YelloriumDropModifier> {
         @Override
         public YelloriumDropModifier read(ResourceLocation name, JsonObject obj, LootItemCondition[] cond) {
-            Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(obj.get("item").getAsString()));
-            float chance = obj.get("chance").getAsFloat();
-            int qty = obj.get("qty").getAsInt();
+            Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(obj, "item")));
+            float chance = GsonHelper.getAsFloat(obj, "chance");
+            int qty = GsonHelper.getAsInt(obj, "qty");
             return new YelloriumDropModifier(cond, i, chance, qty);
         }
 
         @Override
         public JsonObject write(YelloriumDropModifier instance) {
-            return null;
+            JsonObject obj = makeConditions(instance.conditions);
+            obj.addProperty("item", instance.item.getRegistryName().toString());
+            obj.addProperty("chance", instance.chance);
+            obj.addProperty("qty", instance.qty);
+            return obj;
         }
     }
 }

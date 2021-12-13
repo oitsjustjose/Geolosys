@@ -1,12 +1,12 @@
 {
-  "type": "block",
+  "type": "geolosys:osmium",
   "conditions": [
     {
       "condition": "block_state_property",
-      "block": "geolosys:platinum_ore"
+      "block": "geolosys:deepslate_platinum_ore"
     }
   ],
   "item": "geolosys:osmium_cluster",
-  "chance": 0.5,
+  "chance": 0.65,
   "qty": 1
 }

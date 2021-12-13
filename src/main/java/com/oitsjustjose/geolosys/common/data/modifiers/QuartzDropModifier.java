@@ -1,22 +1,29 @@
 package com.oitsjustjose.geolosys.common.data.modifiers;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.annotation.Nonnull;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.oitsjustjose.geolosys.common.config.CompatConfig;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class QuartzDropModifier extends LootModifier {
 
@@ -33,9 +40,18 @@ public class QuartzDropModifier extends LootModifier {
     @Nonnull
     @Override
     public List<ItemStack> doApply(List<ItemStack> gennedLoot, LootContext ctx) {
+        ItemStack ctxTool = ctx.getParam(LootContextParams.TOOL);
+
+        /* Case for silk-touching ores */
+        if (ctxTool != null && !ctxTool.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH,
+                ctxTool) > 0) {
+            return gennedLoot;
+        }
+
         if (rand.nextFloat() < this.chance) {
             gennedLoot.add(new ItemStack(pick(), 1));
         }
+
         return gennedLoot;
     }
 
@@ -57,17 +73,17 @@ public class QuartzDropModifier extends LootModifier {
     public static class Serializer extends GlobalLootModifierSerializer<QuartzDropModifier> {
         @Override
         public QuartzDropModifier read(ResourceLocation name, JsonObject obj, LootItemCondition[] cond) {
-            JsonArray a = obj.get("quartzes").getAsJsonArray();
+            JsonArray a = GsonHelper.getAsJsonArray(obj, "quartzes");
             HashMap<Item, Float> quartzes = new HashMap<>();
 
-            float occChance = obj.get("chance").getAsFloat();
+            float occChance = GsonHelper.getAsFloat(obj, "chance");
 
             a.forEach((el) -> {
                 JsonObject j = el.getAsJsonObject();
-                String iName = j.get("item").getAsString();
-                float chance = j.get("chance").getAsFloat();
+                String resLoc = GsonHelper.getAsString(j, "item");
+                float chance = GsonHelper.getAsFloat(j, "chance");
 
-                Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(iName));
+                Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(resLoc));
                 if (i != null && i != Items.AIR) {
                     quartzes.put(i, chance);
                 }
@@ -78,7 +94,18 @@ public class QuartzDropModifier extends LootModifier {
 
         @Override
         public JsonObject write(QuartzDropModifier instance) {
-            return null;
+            JsonObject obj = makeConditions(instance.conditions);
+            JsonArray a = new JsonArray();
+            instance.quartzes.forEach((q, c) -> {
+                JsonObject entry = new JsonObject();
+                entry.addProperty("item", q.getRegistryName().toString());
+                entry.addProperty("chance", c);
+                a.add(entry);
+            });
+
+            obj.addProperty("chance", 0.5F);
+            obj.add("quartzes", a);
+            return obj;
         }
     }
 }

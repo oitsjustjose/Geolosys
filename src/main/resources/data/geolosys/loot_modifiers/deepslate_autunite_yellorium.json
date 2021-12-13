@@ -1,12 +1,12 @@
 {
-  "type": "block",
+  "type": "geolosys:yellorium",
   "conditions": [
     {
       "condition": "block_state_property",
-      "block": "geolosys:autunite_ore"
+      "block": "geolosys:deepslate_autunite_ore"
     }
   ],
   "item": "geolosys:yellorium_cluster",
-  "chance": 0.5,
+  "chance": 0.55,
   "qty": 1
 }
