@@ -63,7 +63,6 @@ public class DepositUtils {
                 Set<BiomeDictionary.Type> types = BiomeDictionary
                         .getTypes(ForgeRegistries.BIOMES.getResourceKey(targetBiome).orElse(null));
                 matchForBiomeType = types.stream().anyMatch(a -> {
-                    // TODO: Verify that type comparison works here.
                     return biomeTypes.contains(a);
                 });
             } catch (NullPointerException e) {

@@ -1,13 +1,9 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import com.electronwill.nightconfig.core.Config;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.RemoveVeinsFeature;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
