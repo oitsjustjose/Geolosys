@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.oitsjustjose.geolosys.common.config.CompatConfig;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
