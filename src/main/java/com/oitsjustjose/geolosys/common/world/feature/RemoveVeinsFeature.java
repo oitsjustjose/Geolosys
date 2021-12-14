@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
-import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
 import net.minecraft.core.BlockPos;
@@ -42,27 +41,17 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
 
         WorldGenLevel level = f.level();
         ChunkPos cp = new ChunkPos(f.origin());
-        int rm = 0;
 
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
                     BlockPos p = new BlockPos(x, y, z);
-                    if (!FeatureUtils.isInChunk(cp, p)) {
-                        continue;
-                    }
-
                     BlockState state = level.getBlockState(p);
                     if (UNACCEPTABLE.contains(state.getBlock())) {
                         level.setBlock(p, Blocks.TUFF.defaultBlockState(), 2 | 16);
-                        rm++;
                     }
                 }
             }
-        }
-
-        if (rm > 0 && CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
-            Geolosys.getInstance().LOGGER.info("Removed {} vein blocks in chunk {}", rm, cp);
         }
 
         return true;

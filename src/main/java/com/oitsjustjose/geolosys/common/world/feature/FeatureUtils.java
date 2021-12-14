@@ -5,32 +5,17 @@ import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class FeatureUtils {
-
-    public static boolean isInChunk(ChunkPos chunkPos, BlockPos pos) {
-        return new ChunkPos(pos).equals(chunkPos);
-    }
-
-    public static BlockState tryGetBlockState(WorldGenLevel level, ChunkPos chunk, BlockPos pos) {
-        if (level.hasChunk(chunk.x, chunk.z)) {
-            return level.getBlockState(pos);
-        }
-
-        return Blocks.BARRIER.defaultBlockState();
-    }
-
     public static boolean tryPlaceBlock(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
             IDepositCapability cap) {
-        if (isInChunk(chunk, pos) && level.hasChunk(chunk.x, chunk.z)) {
-            return level.setBlock(pos, state, 2 | 16);
+        if (!level.setBlock(pos, state, 2 | 16)) {
+            cap.putPendingBlock(new BlockPos(pos), state);
+            return false;
         }
-
-        cap.putPendingBlock(new BlockPos(pos), state);
-        return false;
+        return true;
     }
 
     public static void fixSnowyBlock(WorldGenLevel level, BlockPos posPlaced) {

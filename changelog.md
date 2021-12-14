@@ -10,12 +10,18 @@
 ### Fixed
 
 - Copper and Raw Copper Still Generating
+- **[Potentially Fixed]** Deposits being cut off at chunk borders.
 
 ### Changed
 
 - Malachite & Azurite are now separate.
-  - Malachite is more commonly found and is found usually more higher up, though it _can_ be found in deepslate.
-  - Azurite is less frequently found, but comes in larger deposits. Usually found in deepslate levels.
+  - Malachite is more commonly found and is found usually more higher up, though it _can_ be found in deepslate
+  - Azurite is less frequently found, but comes in larger deposits. Usually found in deepslate levels
+- `chunkSkipChance` is now a `double` (ranges from `0.0` to `1.0`) rather than a somewhat-arbitrary integer
+  - it is used in a more logical way as well - rather than being based on the `generationWeight` for a randomly picked pluton
+- Stored data for Geolosys deposit placement has been removed. This may come back if someone finds a critical issue with this
+- Stored data for Manual Gifting has been moved to player-level to make it easier to maintain for server owners as well as myself
+- `[CODE]` Reworked serialization/deserialization of pending blocks in Capability
 
 ## 7.0.0-alpha
 

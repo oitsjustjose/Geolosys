@@ -18,7 +18,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue ADVANCED_DEBUG_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue REMOVE_VANILLA_ORES;
-    public static ForgeConfigSpec.IntValue CHUNK_SKIP_CHANCE;
+    public static ForgeConfigSpec.DoubleValue CHUNK_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.IntValue NUMBER_PLUTONS_PER_CHUNK;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
@@ -75,7 +75,7 @@ public class CommonConfig {
                 .defineInRange("numPlutonsPerChunk", 2, 1, Integer.MAX_VALUE);
         CHUNK_SKIP_CHANCE = COMMON_BUILDER.comment(
                 "The upper limit of RNG for generating any pluton in a given chunk.\nLarger values indicate further distance between plutons.")
-                .defineInRange("chunkSkipChance", 100, 1, Integer.MAX_VALUE);
+                .defineInRange("chunkSkipChance", 0.9, 0.0, 1.0);
         SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER.comment("A list of <modid:block> that samples may not be placed on")
                 .defineList("samplePlacementBlacklist",
                         Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"),
