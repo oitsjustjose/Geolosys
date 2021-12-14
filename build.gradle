@@ -19,7 +19,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.matthewprenger.cursegradle'
 
 group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Geolosys-${game_version}"
+archivesBaseName = "Geolosys-${game_version}-${mod_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
