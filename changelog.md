@@ -4,8 +4,10 @@
 
 ### Added
 
-- Patchouli Compatibility
--
+- ⚠️ Patchouli Compatibility ⚠️
+  - Patchouli is once again required for Geolosys to run.
+  - You'll need to get the latest build [from the Patchouli Maven](https://maven.blamejared.com/vazkii/patchouli/Patchouli/1.18-58-SNAPSHOT/) - choose `Patchouli-1.18-58-20211211.180957-1.jar`
+  - Apologies that it's not yet on CurseForge, but it's not in my control and Geolosys _is_ currently in alpha, so...
 
 ### Fixed
 

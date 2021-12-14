@@ -118,7 +118,7 @@ curseforge {
     addGameVersion '1.18.1'
     
     relations {
-      optionalDependency 'patchouli'
+      requiredDependency 'patchouli'
       optionalDependency 'applied-energistics-2'
       optionalDependency 'extreme-reactors'
       optionalDependency 'biggerreactors'
