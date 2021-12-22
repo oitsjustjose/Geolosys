@@ -97,7 +97,7 @@ public class ProPickItem extends Item {
                 for (int z = zStart; z <= zEnd; z++) {
                     BlockPos tmpPos = pos.offset(x, y, z);
                     BlockState state = level.getBlockState(tmpPos);
-                    if (depositBlocks.contains(state)) {
+                    if (depositBlocks.contains(state) && !Prospecting.isBlacklistedFromDetection(state)) {
                         foundBlocks.add(state);
                         foundBlockPos.add(tmpPos);
                     }
@@ -124,7 +124,7 @@ public class ProPickItem extends Item {
             for (int z = tempPos.getMinBlockZ(); z <= tempPos.getMaxBlockZ(); z++) {
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
                     BlockState state = level.getBlockState(new BlockPos(x, y, z));
-                    if (depositBlocks.contains(state)) {
+                    if (depositBlocks.contains(state) && !Prospecting.isBlacklistedFromDetection(state)) {
                         foundBlocks.add(state);
                     }
                 }

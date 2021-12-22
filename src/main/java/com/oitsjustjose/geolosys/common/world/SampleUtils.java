@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -16,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class SampleUtils {
     private static ArrayList<BlockState> samplePlacementBlacklist = new ArrayList<>();
-    private static Random random = new Random();
 
     @Nullable
     public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos) {
@@ -36,8 +34,10 @@ public class SampleUtils {
         int zCenter = (chunkPos.getMinBlockZ() + chunkPos.getMaxBlockZ()) / 2;
 
         // Only put things in the negative X|Z if the spread is provided.
-        int blockPosX = xCenter + (random.nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
-        int blockPosZ = zCenter + (random.nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosX = xCenter
+                + (level.getRandom().nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
+        int blockPosZ = zCenter
+                + (level.getRandom().nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
 
         if (!world.hasChunk(chunkPos.x, chunkPos.z)) {
             return null;

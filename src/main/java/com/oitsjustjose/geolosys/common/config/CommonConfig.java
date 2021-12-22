@@ -28,10 +28,17 @@ public class CommonConfig {
     public static ForgeConfigSpec.IntValue PRO_PICK_DURABILITY;
     public static ForgeConfigSpec.IntValue PRO_PICK_RANGE;
     public static ForgeConfigSpec.IntValue PRO_PICK_DIAMETER;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> PRO_PICK_DETECTION_BLACKLIST;
     public static ForgeConfigSpec.BooleanValue GIVE_MANUAL_TO_NEW;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> DEFAULT_REPLACEMENT_MATS;
     private static String CATEGORY_FEATURE_CONTROL = "feature control";
     private static String CATEGORY_PROSPECTING = "prospecting";
+
+    private static List<String> stoneIshMaterials = Lists.newArrayList("minecraft:stone", "minecraft:andesite",
+            "minecraft:diorite",
+            "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone",
+            "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite",
+            "minecraft:dripstone_block");
 
     static {
         init();
@@ -59,10 +66,7 @@ public class CommonConfig {
                 "The fallback materials which a Deposit can replace if they're not specified by the deposit itself\n"
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")
                 .defineList("defaultReplacementMaterials",
-                        Lists.newArrayList("minecraft:stone", "minecraft:andesite", "minecraft:diorite",
-                                "minecraft:granite", "minecraft:netherrack", "minecraft:sandstone",
-                                "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite",
-                                "minecraft:dripstone_block"),
+                        stoneIshMaterials,
                         rawName -> rawName instanceof String);
         COMMON_BUILDER.pop();
 
@@ -92,6 +96,9 @@ public class CommonConfig {
                 .defineInRange("proPickRange", 5, 1, Integer.MAX_VALUE);
         PRO_PICK_DIAMETER = COMMON_BUILDER.comment("The diameter of the prospector's pick prospecting cycle")
                 .defineInRange("proPickDiameter", 5, 1, Integer.MAX_VALUE);
+        PRO_PICK_DETECTION_BLACKLIST = COMMON_BUILDER
+                .comment("A list of blocks to always ignore when prospecting, even if they're in a deposit.")
+                .defineList("proPickDetectionBlacklist", stoneIshMaterials, rawName -> rawName instanceof String);
         GIVE_MANUAL_TO_NEW = COMMON_BUILDER.comment("Give players a Field Manual if they haven't gotten one")
                 .define("giveManual", true);
         COMMON_BUILDER.pop();
