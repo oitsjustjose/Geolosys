@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.1-beta-2
+
+### Fixed
+
+- Crash when no plutons are defined for a given condition, dimension, etc.
+
 ## 7.0.1-beta-1
 
 ### Added
