@@ -51,8 +51,10 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
 
         for (int p = 0; p < CommonConfig.NUMBER_PLUTONS_PER_CHUNK.get(); p++) {
             IDeposit pluton = GeolosysAPI.plutonRegistry.pick(level, pos);
-            if (pluton != null) {
+            if (pluton == null) {
+                continue;
             }
+            
             boolean anyGenerated = pluton.generate(level, pos, cap) > 0;
             if (anyGenerated) {
                 placedPluton = true;
