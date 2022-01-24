@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "geolosys:gold_ore",
-    "geolosys:nether_gold_ore"
+    "geolosys:nether_gold_ore",
+    "geolosys:deepslate_gold_ore"
   ]
 }

@@ -1,8 +1,9 @@
 {
   "replace": false,
   "values": [
-    "geolosys:tin_cluster",
     "geolosys:cassiterite_ore",
-    "geolosys:teallite_ore"
+    "geolosys:teallite_ore",
+    "geolosys:deepslate_cassiterite_ore",
+    "geolosys:deepslate_teallite_ore"
   ]
 }

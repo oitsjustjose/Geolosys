@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:sphalerite_ore"
-  ]
+  "values": ["geolosys:sphalerite_ore", "geolosys:deepslate_sphalerite_ore"]
 }

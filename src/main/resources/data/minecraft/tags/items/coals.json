@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "geolosys:peat_coal",
+    "geolosys:lignite_coal",
+    "geolosys:bituminous_coal",
+    "geolosys:anthracite_coal"
+  ]
+}

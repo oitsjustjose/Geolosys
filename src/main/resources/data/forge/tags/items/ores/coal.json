@@ -4,6 +4,10 @@
     "geolosys:lignite_ore",
     "geolosys:bituminous_coal_ore",
     "geolosys:anthracite_coal_ore",
-    "geolosys:coal_ore"
+    "geolosys:coal_ore",
+    "geolosys:deepslate_lignite_ore",
+    "geolosys:deepslate_bituminous_coal_ore",
+    "geolosys:deepslate_anthracite_coal_ore",
+    "geolosys:deepslate_coal_ore"
   ]
 }

@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:nickel_cluster",
-    "geolosys:limonite_ore"
-  ]
+  "values": ["geolosys:limonite_ore", "geolosys:deepslate_limonite_ore"]
 }

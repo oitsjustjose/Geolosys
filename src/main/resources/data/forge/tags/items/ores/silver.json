@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:silver_cluster",
-    "geolosys:galena_ore"
-  ]
+  "values": ["geolosys:galena_ore", "geolosys:deepslate_galena_ore"]
 }

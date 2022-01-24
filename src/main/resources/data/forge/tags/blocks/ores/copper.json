@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "geolosys:malachite_ore",
-    "geolosys:azurite_ore"
+    "geolosys:azurite_ore",
+    "geolosys:deepslate_malachite_ore",
+    "geolosys:deepslate_azurite_ore"
   ]
 }

@@ -1,5 +1,13 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.1-beta-3
+
+### Fixed
+
+- Wrong tags being used for Clusters. Should now work better with your machinery
+- Deepslate ores not being registered as #forge:ore
+- Coals not being usable for Torch recipe, not being registered as #minecraft:coal
+
 ## 7.0.1-beta-2
 
 ### Fixed

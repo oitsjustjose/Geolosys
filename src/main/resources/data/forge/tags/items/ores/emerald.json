@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "geolosys:beryl_ore",
-    "geolosys:teallite_ore"
+    "geolosys:teallite_ore",
+    "geolosys:deepslate_beryl_ore",
+    "geolosys:deepslate_teallite_ore"
   ]
 }

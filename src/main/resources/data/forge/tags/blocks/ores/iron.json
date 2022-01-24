@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "geolosys:hematite_ore",
-    "geolosys:limonite_ore"
+    "geolosys:limonite_ore",
+    "geolosys:deepslate_hematite_ore",
+    "geolosys:deepslate_limonite_ore"
   ]
 }

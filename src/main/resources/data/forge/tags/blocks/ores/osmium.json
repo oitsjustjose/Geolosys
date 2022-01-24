@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:platinum_ore"
-  ]
+  "values": ["geolosys:platinum_ore", "geolosys:deepslate_platinum_ore"]
 }

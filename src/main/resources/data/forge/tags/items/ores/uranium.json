@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:uranium_cluster",
-    "geolosys:autunite_ore"
-  ]
+  "values": ["geolosys:autunite_ore", "geolosys:deepslate_autunite_ore"]
 }

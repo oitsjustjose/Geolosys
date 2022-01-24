@@ -1,7 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:osmium_cluster",
-    "geolosys:platinum_ore"
-  ]
+  "values": ["geolosys:platinum_ore", "geolosys:deepslate_platinum_ore"]
 }

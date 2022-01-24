@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:raw_materials/aluminum",
+    "#forge:raw_materials/copper",
+    "#forge:raw_materials/gold",
+    "#forge:raw_materials/iron",
+    "#forge:raw_materials/lead",
+    "#forge:raw_materials/nickel",
+    "#forge:raw_materials/osmium",
+    "#forge:raw_materials/platinum",
+    "#forge:raw_materials/silver",
+    "#forge:raw_materials/tin",
+    "#forge:raw_materials/uranium",
+    "#forge:raw_materials/yellorium",
+    "#forge:raw_materials/zinc"
+  ]
+}
