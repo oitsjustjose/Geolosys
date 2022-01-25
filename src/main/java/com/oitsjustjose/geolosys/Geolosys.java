@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
+import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
@@ -95,6 +96,7 @@ public class Geolosys {
     public void setup(final FMLCommonSetupEvent event) {
         GeolosysAPI.init();
         GeolosysFeatures.createRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
+        PatronProcessor.fetchPatrons();
         proxy.init();
     }
 

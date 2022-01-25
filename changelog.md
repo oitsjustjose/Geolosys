@@ -1,5 +1,12 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.1-beta-4
+
+### Fixed
+
+- Patron chapter in the Field Manual causing significant lag on reload/join
+- Patron chapter in the Field Manual not rendering Patrons
+
 ## 7.0.1-beta-3
 
 ### Fixed

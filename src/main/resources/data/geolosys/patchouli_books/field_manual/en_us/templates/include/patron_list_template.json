@@ -2,7 +2,7 @@
   "processor": "com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor",
   "components": [
     {
-      "type": "text",
+      "type": "patchouli:text",
       "text": "#patrons",
       "x": 4,
       "y": 10

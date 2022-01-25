@@ -8,11 +8,5 @@
       }
     }
   ],
-  "components": [
-    {
-      "type": "header",
-      "text": "Thank You To...",
-      "x": -1
-    }
-  ]
+  "components": []
 }
