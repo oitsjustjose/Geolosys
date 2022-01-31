@@ -284,13 +284,12 @@ public class DikeDeposit implements IDeposit {
                         + (this.baseRadius % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         maxSampleCnt = Math.max(maxSampleCnt, 1);
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             BlockState tmp = this.getSample();
-
             if (tmp == null) {
                 continue;
             }
 
+            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             if (samplePos == null || SampleUtils.inNonWaterFluid(level, samplePos)) {
                 continue;
             }

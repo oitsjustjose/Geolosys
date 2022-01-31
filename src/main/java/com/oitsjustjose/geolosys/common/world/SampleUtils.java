@@ -1,12 +1,16 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
+
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.utils.Constants;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +18,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SampleUtils {
-    private static ArrayList<BlockState> samplePlacementBlacklist = new ArrayList<>();
-
     @Nullable
     public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos) {
         return getSamplePosition(level, chunkPos, -1);
@@ -51,6 +53,10 @@ public class SampleUtils {
             BlockState blockToPlaceOn = world.getBlockState(searchPos);
             // Check if the location itself is solid
             if (Block.isFaceFull(blockToPlaceOn.getShape(world, searchPos), Direction.UP)) {
+                if (!blockToPlaceOn.getBlock().getTags().contains(Constants.SAMPLE_PLACEMENT_TAG)) {
+                    searchPos = searchPos.below();
+                    continue;
+                }
                 // Then check if the block above it is either air, or replacable
                 BlockPos actualPlacePos = searchPos.above();
                 if (canReplace(world, actualPlacePos)) {
@@ -61,19 +67,6 @@ public class SampleUtils {
         }
 
         return null;
-    }
-
-    /**
-     * Determines if the sample can be placed on this block
-     * 
-     * @param world: an WorldGenLevel instance
-     * @param pos:   The current searching position that will be used to confirm
-     * @return true if the block below is solid on top AND isn't in the blacklist
-     */
-    public static boolean canPlaceOn(WorldGenLevel level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        return !samplePlacementBlacklist.contains(level.getBlockState(pos.below()))
-                && Block.isShapeFullBlock(state.getShape(level, pos));
     }
 
     /**
@@ -114,9 +107,4 @@ public class SampleUtils {
     public static boolean isWithinRange(int posA, int posB, int range) {
         return (Math.abs(posA - posB) <= range);
     }
-
-    public static void addSamplePlacementBlacklist(Block block) {
-        samplePlacementBlacklist.add(block.defaultBlockState());
-    }
-
 }

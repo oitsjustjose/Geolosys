@@ -308,13 +308,12 @@ public class SparseDeposit implements IDeposit {
                 * ((int) (spread / 16));
 
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos), this.spread);
             BlockState tmp = this.getSample();
-
             if (tmp == null) {
                 continue;
             }
 
+            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             if (samplePos == null || SampleUtils.inNonWaterFluid(level, samplePos)) {
                 continue;
             }

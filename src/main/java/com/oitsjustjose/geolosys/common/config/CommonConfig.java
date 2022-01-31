@@ -21,7 +21,6 @@ public class CommonConfig {
     public static ForgeConfigSpec.DoubleValue CHUNK_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.IntValue NUMBER_PLUTONS_PER_CHUNK;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SAMPLE_PLACEMENT_BLACKLIST;
     public static ForgeConfigSpec.BooleanValue SAMPLE_TICK_ENABLED;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK;
     public static ForgeConfigSpec.BooleanValue ENABLE_PRO_PICK_DMG;
@@ -80,10 +79,6 @@ public class CommonConfig {
         CHUNK_SKIP_CHANCE = COMMON_BUILDER.comment(
                 "The upper limit of RNG for generating any pluton in a given chunk.\nLarger values indicate further distance between plutons.")
                 .defineInRange("chunkSkipChance", 0.9, 0.0, 1.0);
-        SAMPLE_PLACEMENT_BLACKLIST = COMMON_BUILDER.comment("A list of <modid:block> that samples may not be placed on")
-                .defineList("samplePlacementBlacklist",
-                        Lists.newArrayList("minecraft:ice", "minecraft:packed_ice", "minecraft:bedrock"),
-                        rawName -> rawName instanceof String);
         SAMPLE_TICK_ENABLED = COMMON_BUILDER.comment(
                 "Whether or not Samples randomly tick (like crops). This can be bad for performance but fixes waterlogging issues on worldgen")
                 .define("shouldSamplesTick", true);

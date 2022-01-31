@@ -292,13 +292,12 @@ public class DenseDeposit implements IDeposit {
                 (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get())
                         + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()));
         for (int i = 0; i < maxSampleCnt; i++) {
-            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             BlockState tmp = this.getSample();
-
             if (tmp == null) {
                 continue;
             }
 
+            BlockPos samplePos = SampleUtils.getSamplePosition(level, new ChunkPos(pos));
             if (samplePos == null || SampleUtils.inNonWaterFluid(level, samplePos)) {
                 continue;
             }
