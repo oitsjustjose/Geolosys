@@ -10,7 +10,6 @@ import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.config.ModItemsParser;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
 import com.oitsjustjose.geolosys.common.data.modifiers.OsmiumDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
@@ -35,6 +34,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,7 +74,6 @@ public class Geolosys {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
-        MinecraftForge.EVENT_BUS.register(new ModItemsParser());
 
         this.configSetup();
     }
@@ -95,7 +94,6 @@ public class Geolosys {
 
     public void setup(final FMLCommonSetupEvent event) {
         GeolosysAPI.init();
-        GeolosysFeatures.createRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
         PatronProcessor.fetchPatrons();
         proxy.init();
     }
@@ -174,6 +172,11 @@ public class Geolosys {
         public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
             ModBlocks.getInstance().registerItemBlocks(itemRegistryEvent);
             ModItems.getInstance().register(itemRegistryEvent);
+        }
+
+        @SubscribeEvent
+        public static void onFeaturesRegistry(final RegistryEvent.Register<Feature<?>> featureRegistryEvent) {
+            GeolosysFeatures.register(featureRegistryEvent);
         }
 
         @SubscribeEvent

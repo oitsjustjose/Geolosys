@@ -13,6 +13,7 @@ import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,6 +25,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 public class DepositFeature extends Feature<NoneFeatureConfiguration> {
     public DepositFeature(Codec<NoneFeatureConfiguration> p_i231976_1_) {
         super(p_i231976_1_);
+    }
+
+    public final DepositFeature withRegistryName(String modID, String name) {
+        this.setRegistryName(new ResourceLocation(modID, name));
+        return this;
     }
 
     @Override
@@ -54,7 +60,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
             if (pluton == null) {
                 continue;
             }
-            
+
             boolean anyGenerated = pluton.generate(level, pos, cap) > 0;
             if (anyGenerated) {
                 placedPluton = true;

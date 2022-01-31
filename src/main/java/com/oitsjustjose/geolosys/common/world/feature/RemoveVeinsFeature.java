@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -26,6 +27,11 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
 
     public RemoveVeinsFeature(Codec<NoneFeatureConfiguration> p_i231976_1_) {
         super(p_i231976_1_);
+    }
+
+    public final RemoveVeinsFeature withRegistryName(String modID, String name) {
+        this.setRegistryName(new ResourceLocation(modID, name));
+        return this;
     }
 
     @Override
