@@ -3,6 +3,7 @@ package com.oitsjustjose.geolosys.common.event;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -19,10 +20,11 @@ public class ManualGifting {
         }
 
         Player player = event.getPlayer();
-        if (!player.getPersistentData().contains(Constants.MANUAL_GIVE_NBT_KEY)) {
+        CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
+        if (!tag.contains(Constants.MANUAL_GIVE_NBT_KEY)) {
             ItemHandlerHelper.giveItemToPlayer(player,
                     PatchouliAPI.get().getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
-            player.getPersistentData().putBoolean(Constants.MANUAL_GIVE_NBT_KEY, true);
+            tag.putBoolean(Constants.MANUAL_GIVE_NBT_KEY, true);
         }
     }
 }
