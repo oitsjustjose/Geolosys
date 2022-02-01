@@ -56,13 +56,13 @@ public class ProPickItem extends Item {
         Direction facing = context.getClickedFace();
 
         if (player.isCrouching()) {
-            return InteractionResult.PASS;
+            return InteractionResult.CONSUME;
         } else {
             ItemStack stack = player.getItemInHand(hand);
 
             if (worldIn.isClientSide) {
                 player.swing(hand);
-                return InteractionResult.PASS;
+                return InteractionResult.CONSUME;
             }
 
             if (!player.isCreative()) {
@@ -82,7 +82,7 @@ public class ProPickItem extends Item {
             prospect(player, stack, worldIn, pos, facing, xStart, xEnd, yStart, yEnd, zStart, zEnd);
             player.swing(hand);
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.CONSUME;
     }
 
     private boolean prospect(Player player, ItemStack stack, Level level, BlockPos pos, Direction facing,
