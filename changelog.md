@@ -1,5 +1,20 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.2
+
+Relegating to status of Release, because ForgeCraft has found most of the nasty bugs
+
+### Changed
+
+- The config item `samplePlacementBlacklist` has been removed in favor of using a new block tag that ats as a _white_-list: `geolosys:supports_sample`
+
+### Fixed
+
+- Persistent data not being persistent
+- Crashes / errors with Patreon fetching
+- When holding a block/item in your offhand and a ProPick in your mainhand, both hands' items would be used
+- Geolosys features showing up as `null` rather than `geolosys:deposits`, etc.. (i.e. properly register features so the game no get angy)
+
 ## 7.0.1-beta-4
 
 ### Fixed
