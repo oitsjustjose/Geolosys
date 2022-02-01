@@ -6,16 +6,18 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
+import com.oitsjustjose.geolosys.Geolosys;
+
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
 public class PatronProcessor implements IComponentProcessor {
 
-    private static IVariable patrons;
+    private static IVariable patrons = IVariable.wrap("Haven't grabbed patrons from API");
 
     public static void fetchPatrons() {
-        CompletableFuture.runAsync(() -> {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             try {
                 URL url = new URL("https://patrons.geolosys.com/");
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -28,12 +30,16 @@ public class PatronProcessor implements IComponentProcessor {
                     }
                 }
                 in.close();
-
-                patrons = IVariable.wrap(allData.toString());
+                return allData.toString();
             } catch (IOException e) {
-                patrons = IVariable.wrap("Failed to grab patrons from API");
+                return "Failed to grab patrons from API";
             }
         });
+
+        future.thenAccept((d) -> {
+            patrons = IVariable.wrap(d);
+        });
+
     }
 
     @Override
