@@ -1,5 +1,13 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.3
+
+### Fixed
+
+- `setBlock detected in far chunk` spam. As it happens, this was on my end 😑
+- Fixed biome types not working as expected
+- Potential fix for servers crashing with no log (🤞)
+
 ## 7.0.2
 
 Relegating to status of Release, because ForgeCraft has found most of the nasty bugs
