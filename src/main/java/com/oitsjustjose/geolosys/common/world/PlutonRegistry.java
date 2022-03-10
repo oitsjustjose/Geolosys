@@ -8,11 +8,14 @@ import javax.annotation.Nullable;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -95,15 +98,16 @@ public class PlutonRegistry {
     public void onBiomesLoaded(BiomeLoadingEvent evt) {
         BiomeGenerationSettingsBuilder gen = evt.getGeneration();
 
-        // if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-        // for (GenerationStep.Decoration stage : decorations) {
-        // List<Supplier<PlacedFeature>> feats = gen.getFeatures(stage);
-        // List<Supplier<PlacedFeature>> filtered = OreRemover.filterFeatures(feats);
-        // for (Supplier<PlacedFeature> feature : filtered) {
-        // feats.remove(feature);
-        // }
-        // }
-        // }
+        if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
+            for (GenerationStep.Decoration stage : decorations) {
+                List<Holder<PlacedFeature>> feats = gen.getFeatures(stage);
+                List<Holder<PlacedFeature>> filtered = OreRemover.filterFeatures(feats);
+                Geolosys.getInstance().LOGGER.info("Removing {} Vanilla Ore Entries", filtered.size());
+                for (Holder<PlacedFeature> feature : filtered) {
+                    feats.remove(feature);
+                }
+            }
+        }
 
         gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.DEPOSITS_ALL_PLACED);
         gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.REMOVE_VEINS_ALL_PLACED);
