@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.4
+
+### Ported to 1.18.2
+
+With the major changes in this version, any and all input on any issues faced with Geolosys are insanely helpful. Please leave any bug reports over at [https://issues.geolosys.com](https://issues.geolosys.com)
+
 ## 7.0.3
 
 ### Fixed
