@@ -114,8 +114,7 @@ curseforge {
     changelogType = 'markdown'
     changelog = file("./changelog.md")
     releaseType = 'release'
-    addGameVersion '1.18'
-    addGameVersion '1.18.1'
+    addGameVersion '1.18.2'
     
     relations {
       requiredDependency 'patchouli'

@@ -9,11 +9,10 @@ import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.common.config.CompatConfig;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -21,20 +20,19 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class SulfurDropModifier extends LootModifier {
 
     private Random rand = new Random();
     private float chance;
     private Item item;
-    private String tag;
     private int qty;
 
-    public SulfurDropModifier(LootItemCondition[] conditions, Item item, String tag, float chance, int qty) {
+    public SulfurDropModifier(LootItemCondition[] conditions, Item item, float chance, int qty) {
         super(conditions);
         this.chance = chance;
         this.item = item;
-        this.tag = tag;
         this.qty = qty;
     }
 
@@ -67,24 +65,23 @@ public class SulfurDropModifier extends LootModifier {
     public static class Serializer extends GlobalLootModifierSerializer<SulfurDropModifier> {
         @Override
         public SulfurDropModifier read(ResourceLocation name, JsonObject obj, LootItemCondition[] cond) {
-            Item i = null;
-            String tag = GsonHelper.getAsString(obj, "tag");
+            String item = GsonHelper.getAsString(obj, "item");
             float chance = GsonHelper.getAsFloat(obj, "chance");
             int qty = GsonHelper.getAsInt(obj, "qty");
 
-            ResourceLocation tagRes = new ResourceLocation(tag);
-            Tag<Item> itemTag = ItemTags.getAllTags().getTag(tagRes);
-            if (itemTag != null && itemTag.getValues().size() > 0) {
-                i = itemTag.getValues().get(0);
+            ResourceLocation itemRes = new ResourceLocation(item);
+            Item i = ForgeRegistries.ITEMS.getValue(itemRes);
+            if (i == null) {
+                i = Items.AIR;
             }
 
-            return new SulfurDropModifier(cond, i, tag, chance, qty);
+            return new SulfurDropModifier(cond, i, chance, qty);
         }
 
         @Override
         public JsonObject write(SulfurDropModifier instance) {
             JsonObject obj = makeConditions(instance.conditions);
-            obj.addProperty("tag", instance.tag);
+            obj.addProperty("item", instance.item.getRegistryName().toString());
             obj.addProperty("chance", instance.chance);
             obj.addProperty("qty", instance.qty);
             return obj;

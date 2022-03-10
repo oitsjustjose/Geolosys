@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.api.world;
 
 import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +18,7 @@ public interface IDeposit {
 
     public int getGenWt();
 
-    public boolean canPlaceInBiome(Biome biome);
+    public boolean canPlaceInBiome(Holder<Biome> biome);
 
     public boolean hasBiomeRestrictions();
 

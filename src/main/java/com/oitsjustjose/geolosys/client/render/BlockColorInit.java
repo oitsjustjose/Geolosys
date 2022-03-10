@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.client.render;
 
-import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
+import com.oitsjustjose.geolosys.Registry;
+
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
@@ -22,10 +23,10 @@ public class BlockColorInit {
 
         blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
                 ? BiomeColors.getAverageGrassColor(lightReader, pos)
-                : GrassColor.get(0.5D, 1.0D), ModBlocks.getInstance().peat);
+                : GrassColor.get(0.5D, 1.0D), Registry.PEAT);
         blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
                 ? BiomeColors.getAverageGrassColor(lightReader, pos)
-                : GrassColor.get(0.5D, 1.0D), ModBlocks.getInstance().rhododendron);
+                : GrassColor.get(0.5D, 1.0D), Registry.RHODODENDRON);
 
     }
 
@@ -41,8 +42,8 @@ public class BlockColorInit {
         };
 
         if (itemBlockColourHandler != null) {
-            itemColors.register(itemBlockColourHandler, ModBlocks.getInstance().peat);
-            itemColors.register(itemBlockColourHandler, ModBlocks.getInstance().rhododendron);
+            itemColors.register(itemBlockColourHandler, Registry.PEAT);
+            itemColors.register(itemBlockColourHandler, Registry.RHODODENDRON);
         }
     }
 }

@@ -24,6 +24,7 @@ import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -150,7 +151,7 @@ public class LayerDeposit implements IDeposit {
     }
 
     @Override
-    public boolean canPlaceInBiome(Biome b) {
+    public boolean canPlaceInBiome(Holder<Biome> b) {
         return DepositUtils.canPlaceInBiome(b, this.biomeFilter, this.biomeTypeFilter, this.isBiomeFilterBl);
     }
 

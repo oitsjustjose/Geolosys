@@ -1,13 +1,10 @@
 package com.oitsjustjose.geolosys;
 
-import java.util.Collection;
-
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
 import com.oitsjustjose.geolosys.common.CommonProxy;
-import com.oitsjustjose.geolosys.common.blocks.ModBlocks;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
@@ -16,7 +13,6 @@ import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.SulfurDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
-import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
 import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
@@ -30,10 +26,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -152,28 +145,14 @@ public class Geolosys {
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.options.advancedItemTooltips) {
-            Collection<ResourceLocation> tags = ItemTags.getAllTags().getMatchingTags(event.getItemStack().getItem());
-            if (tags.size() > 0) {
-                for (ResourceLocation tag : tags) {
-                    event.getToolTip().add(new TextComponent("\u00A78#" + tag.toString() + "\u00A7r"));
-                }
-            }
+            event.getItemStack().getTags().forEach(x -> {
+                event.getToolTip().add(new TextComponent("\u00A78#" + x.location() + "\u00A7r"));
+            });
         }
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            ModBlocks.getInstance().register(blockRegistryEvent);
-        }
-
-        @SubscribeEvent
-        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
-            ModBlocks.getInstance().registerItemBlocks(itemRegistryEvent);
-            ModItems.getInstance().register(itemRegistryEvent);
-        }
-
         @SubscribeEvent
         public static void onFeaturesRegistry(final RegistryEvent.Register<Feature<?>> featureRegistryEvent) {
             GeolosysFeatures.register(featureRegistryEvent);

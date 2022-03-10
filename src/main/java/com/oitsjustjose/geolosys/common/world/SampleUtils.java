@@ -1,16 +1,12 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.utils.Constants;
+import com.oitsjustjose.geolosys.Registry;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -53,11 +49,10 @@ public class SampleUtils {
             BlockState blockToPlaceOn = world.getBlockState(searchPos);
             // Check if the location itself is solid
             if (Block.isFaceFull(blockToPlaceOn.getShape(world, searchPos), Direction.UP)) {
-                if (!blockToPlaceOn.getBlock().getTags().contains(Constants.SAMPLE_PLACEMENT_TAG)) {
+                if (!blockToPlaceOn.is(Registry.SUPPORTS_SAMPLE)) {
                     searchPos = searchPos.below();
                     continue;
                 }
-                // Then check if the block above it is either air, or replacable
                 BlockPos actualPlacePos = searchPos.above();
                 if (canReplace(world, actualPlacePos)) {
                     return actualPlacePos;
