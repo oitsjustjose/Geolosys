@@ -75,7 +75,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
         ChunkPos cp = new ChunkPos(origin);
         /* Filter out only pending blocks for *this* chunk */
         Map<BlockPos, BlockState> forThisChunk = cap.getPendingBlocks(cp);
-        forThisChunk.forEach((pos, state) -> level.setBlock(pos, state, 2 | 16));
+        forThisChunk.forEach((pos, state) -> FeatureUtils.tryPlaceBlock(level, cp, pos, state, cap));
         forThisChunk.forEach((pos, state) -> cap.removePendingBlock(pos, state));
         return forThisChunk.size() > 0;
     }
