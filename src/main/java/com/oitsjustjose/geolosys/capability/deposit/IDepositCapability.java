@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.capability;
+package com.oitsjustjose.geolosys.capability.deposit;
 
 import java.util.Map;
 

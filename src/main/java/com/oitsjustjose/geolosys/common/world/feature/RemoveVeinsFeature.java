@@ -7,8 +7,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;

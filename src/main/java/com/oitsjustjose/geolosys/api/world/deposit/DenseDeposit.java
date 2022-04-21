@@ -20,7 +20,7 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;

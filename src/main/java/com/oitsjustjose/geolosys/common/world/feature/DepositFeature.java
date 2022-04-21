@@ -9,8 +9,8 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -46,11 +46,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
 
-        IDepositCapability cap = level.getLevel().getCapability(DepositCapability.CAPABILITY).orElse(null);
-        if (cap == null) {
-            Geolosys.getInstance().LOGGER.error("NULL PLUTON CAPABILITY!!!");
-            return false;
-        }
+        IDepositCapability cap = level.getLevel().getCapability(DepositCapability.CAPABILITY).orElseThrow(() -> new RuntimeException("Geolosys Pluton Capability Is Null.."));
 
         boolean placedPending = placePendingBlocks(level, cap, pos);
         boolean placedPluton = false;

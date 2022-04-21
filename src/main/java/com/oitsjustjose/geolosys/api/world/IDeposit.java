@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.api.world;
 
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.WorldGenLevel;

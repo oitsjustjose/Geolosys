@@ -1,5 +1,10 @@
 package com.oitsjustjose.geolosys.common.event;
 
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.player.IPlayerCapability;
+import com.oitsjustjose.geolosys.capability.player.PlayerCapability;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 
@@ -19,12 +24,16 @@ public class ManualGifting {
             return;
         }
 
-        Player player = event.getPlayer();
-        CompoundTag tag = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
-        if (!tag.contains(Constants.MANUAL_GIVE_NBT_KEY)) {
-            ItemHandlerHelper.giveItemToPlayer(player,
-                    PatchouliAPI.get().getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
-            tag.putBoolean(Constants.MANUAL_GIVE_NBT_KEY, true);
+        try {
+            Player player = event.getPlayer();
+            IPlayerCapability cap = player.getLevel().getCapability(PlayerCapability.CAPABILITY).orElseThrow(() -> new RuntimeException("Player Capability is Null.."));
+            if (!cap.hasManualBeenReceived(player.getUUID())) {
+                ItemHandlerHelper.giveItemToPlayer(player,
+                        PatchouliAPI.get().getBookStack(new ResourceLocation(Constants.MODID, "field_manual")));
+                cap.setManualReceived(player.getUUID());
+            }
+        } catch (RuntimeException ex) {
+            Geolosys.getInstance().LOGGER.error(ex);
         }
     }
 }

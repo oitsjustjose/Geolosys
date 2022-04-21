@@ -1,6 +1,8 @@
 package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.capability.player.IPlayerCapability;
+import com.oitsjustjose.geolosys.capability.player.PlayerCapability;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
@@ -15,8 +17,8 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,6 +52,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(Constants.MODID)
 public class Geolosys {
@@ -99,6 +102,7 @@ public class Geolosys {
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
         event.register(DepositCapability.class);
+        event.register(PlayerCapability.class);
     }
 
     @SubscribeEvent
@@ -108,27 +112,54 @@ public class Geolosys {
         }
 
         try {
-            final LazyOptional<IDepositCapability> inst = LazyOptional.of(() -> new DepositCapability());
-            final ICapabilitySerializable<CompoundTag> provider = new ICapabilitySerializable<CompoundTag>() {
+            final LazyOptional<IDepositCapability> inst = LazyOptional.of(DepositCapability::new);
+            final ICapabilitySerializable<CompoundTag> provider = new ICapabilitySerializable<>() {
                 @Override
-                public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+                public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
                     return DepositCapability.CAPABILITY.orEmpty(cap, inst);
                 }
 
                 @Override
                 public CompoundTag serializeNBT() {
-                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElse(null);
+                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElseThrow(RuntimeException::new);
                     return cap.serializeNBT();
                 }
 
                 @Override
                 public void deserializeNBT(CompoundTag nbt) {
-                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElse(null);
+                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElseThrow(RuntimeException::new);
                     cap.deserializeNBT(nbt);
                 }
             };
-            event.addCapability(Constants.CAPABILITY_NAME, provider);
-            event.addListener(() -> inst.invalidate());
+            event.addCapability(Constants.DEPOSIT_CAPABILITY_NAME, provider);
+            event.addListener(inst::invalidate);
+        } catch (Exception e) {
+            LOGGER.error("Geolosys has faced a fatal error. The game will crash...");
+            throw new RuntimeException(e);
+        }
+
+        try {
+            final LazyOptional<IPlayerCapability> inst = LazyOptional.of(PlayerCapability::new);
+            final ICapabilitySerializable<CompoundTag> provider = new ICapabilitySerializable<>() {
+                @Override
+                public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
+                    return PlayerCapability.CAPABILITY.orEmpty(cap, inst);
+                }
+
+                @Override
+                public CompoundTag serializeNBT() {
+                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    return cap.serializeNBT();
+                }
+
+                @Override
+                public void deserializeNBT(CompoundTag nbt) {
+                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    cap.deserializeNBT(nbt);
+                }
+            };
+            event.addCapability(Constants.PLAYER_CAPABILITY_NAME, provider);
+            event.addListener(inst::invalidate);
         } catch (Exception e) {
             LOGGER.error("Geolosys has faced a fatal error. The game will crash...");
             throw new RuntimeException(e);
