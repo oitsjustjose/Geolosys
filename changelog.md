@@ -1,5 +1,12 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.5
+
+### Fixed
+
+- `setBlock detected in far chunk` spam. This fix was made by [BlackxSnow](https://github.com/BlackxSnow) - ✨THANK YOU!!✨
+- Field Manual being gifted multiple times
+
 ## 7.0.4
 
 ### Ported to 1.18.2
