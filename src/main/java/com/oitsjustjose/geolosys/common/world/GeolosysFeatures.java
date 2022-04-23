@@ -26,12 +26,12 @@ public class GeolosysFeatures {
     public static Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> REMOVE_VEINS_ALL = FeatureUtils
             .register(REMOVE_VEIN_FEATURE.getRegistryName().toString(), REMOVE_VEIN_FEATURE);
 
-    public static Holder<PlacedFeature> DEPOSITS_ALL_PLACED = PlacementUtils.register(
+    public static Holder<PlacedFeature> DEPOSITS_PLACED = PlacementUtils.register(
             DEPOSIT_FEATURE.getRegistryName().toString(), DEPOSITS_ALL,
             HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
                     VerticalAnchor.absolute(320)));
 
-    public static Holder<PlacedFeature> REMOVE_VEINS_ALL_PLACED = PlacementUtils.register(
+    public static Holder<PlacedFeature> REMOVE_VEINS_PLACED = PlacementUtils.register(
             REMOVE_VEIN_FEATURE.getRegistryName().toString(), REMOVE_VEINS_ALL,
             HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
                     VerticalAnchor.absolute(320)));

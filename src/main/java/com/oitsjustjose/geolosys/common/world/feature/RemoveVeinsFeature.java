@@ -59,7 +59,7 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos p = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(p);
                     if (UNACCEPTABLE.contains(state.getBlock())) {
-                        FeatureUtils.tryPlaceBlock(level, cp, p, Blocks.TUFF.defaultBlockState(), cap);
+                        FeatureUtils.enqueueBlockPlacement(level, cp, p, Blocks.TUFF.defaultBlockState(), cap);
                     }
                 }
             }

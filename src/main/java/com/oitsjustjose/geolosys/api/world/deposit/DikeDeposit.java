@@ -247,7 +247,7 @@ public class DikeDeposit implements IDeposit {
                         continue;
                     }
 
-                    if (FeatureUtils.tryPlaceBlock(level, new ChunkPos(pos), placePos, tmp, cap)) {
+                    if (FeatureUtils.enqueueBlockPlacement(level, new ChunkPos(pos), placePos, tmp, cap)) {
                         totlPlaced++;
                     }
                 }
@@ -299,7 +299,7 @@ public class DikeDeposit implements IDeposit {
                 tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.tryPlaceBlock(level, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.enqueueBlockPlacement(level, thisChunk, samplePos, tmp, cap);
             FeatureUtils.fixSnowyBlock(level, samplePos);
         }
     }

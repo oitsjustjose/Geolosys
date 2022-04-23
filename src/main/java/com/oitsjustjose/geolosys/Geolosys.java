@@ -1,6 +1,8 @@
 package com.oitsjustjose.geolosys;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.player.IPlayerCapability;
 import com.oitsjustjose.geolosys.capability.player.PlayerCapability;
 import com.oitsjustjose.geolosys.client.ClientProxy;
@@ -17,11 +19,10 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
-import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
-import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
@@ -52,7 +53,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import org.jetbrains.annotations.NotNull;
 
 @Mod(Constants.MODID)
 public class Geolosys {
@@ -121,13 +121,15 @@ public class Geolosys {
 
                 @Override
                 public CompoundTag serializeNBT() {
-                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
                     return cap.serializeNBT();
                 }
 
                 @Override
                 public void deserializeNBT(CompoundTag nbt) {
-                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    IDepositCapability cap = this.getCapability(DepositCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
                     cap.deserializeNBT(nbt);
                 }
             };
@@ -148,13 +150,15 @@ public class Geolosys {
 
                 @Override
                 public CompoundTag serializeNBT() {
-                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
                     return cap.serializeNBT();
                 }
 
                 @Override
                 public void deserializeNBT(CompoundTag nbt) {
-                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY).orElseThrow(RuntimeException::new);
+                    IPlayerCapability cap = this.getCapability(PlayerCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
                     cap.deserializeNBT(nbt);
                 }
             };

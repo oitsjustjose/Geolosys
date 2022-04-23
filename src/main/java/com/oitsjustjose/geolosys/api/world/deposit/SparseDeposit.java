@@ -275,7 +275,7 @@ public class SparseDeposit implements IDeposit {
                                         continue;
                                     }
 
-                                    if (FeatureUtils.tryPlaceBlock(level, thisChunk, placePos, tmp, cap)) {
+                                    if (FeatureUtils.enqueueBlockPlacement(level, thisChunk, placePos, tmp, cap)) {
                                         totlPlaced++;
                                     } else {
                                         totlPnding++;
@@ -323,7 +323,7 @@ public class SparseDeposit implements IDeposit {
                 tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.tryPlaceBlock(level, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.enqueueBlockPlacement(level, thisChunk, samplePos, tmp, cap);
             FeatureUtils.fixSnowyBlock(level, samplePos);
         }
     }

@@ -109,7 +109,7 @@ public class PlutonRegistry {
             }
         }
 
-        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.DEPOSITS_ALL_PLACED);
-        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GeolosysFeatures.REMOVE_VEINS_ALL_PLACED);
+        gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.DEPOSITS_PLACED);
+        gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.REMOVE_VEINS_PLACED);
     }
 }

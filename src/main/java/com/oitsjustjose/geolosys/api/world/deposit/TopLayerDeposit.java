@@ -238,12 +238,12 @@ public class TopLayerDeposit implements IDeposit {
                         continue;
                     }
 
-                    if (FeatureUtils.tryPlaceBlock(level, thisChunk, placePos, tmp, cap)) {
+                    if (FeatureUtils.enqueueBlockPlacement(level, thisChunk, placePos, tmp, cap)) {
                         totlPlaced++;
                         if (isTop && level.getRandom().nextFloat() <= this.sampleChance) {
                             BlockState smpl = this.getSample();
                             if (smpl != null) {
-                                FeatureUtils.tryPlaceBlock(level, thisChunk, placePos.above(), smpl, cap);
+                                FeatureUtils.enqueueBlockPlacement(level, thisChunk, placePos.above(), smpl, cap);
                                 FeatureUtils.fixSnowyBlock(level, placePos);
                             }
                         }

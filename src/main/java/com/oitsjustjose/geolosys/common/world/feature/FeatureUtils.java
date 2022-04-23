@@ -12,41 +12,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class FeatureUtils {
-    private static boolean ensureCanWriteNoThrow(WorldGenLevel level, BlockPos pos)
-    {
-        if (level instanceof WorldGenRegion region)
-        {
+    private static boolean ensureCanWriteNoThrow(WorldGenLevel level, BlockPos pos) {
+        if (level instanceof WorldGenRegion region) {
             ChunkPos center = region.getCenter();
             int i = SectionPos.blockToSectionCoord(pos.getX());
             int j = SectionPos.blockToSectionCoord(pos.getZ());
             int k = Math.abs(center.x - i);
             int l = Math.abs(center.z - j);
             // writeRadiusCutoff is not accessible, so use a constant 1 for 3x3 generation.
-            if (k > 1 || l > 1)
-            {
-                return false;
-            }
-            return true;
-        }
-        else
-        {
+            return k <= 1 && l <= 1;
+        } else {
             // All feature levels *should* be WorldGenRegions (this has not thrown yet)
             Geolosys.getInstance().LOGGER.error("level was not WorldGenRegion");
             return false;
         }
     }
-    
-    public static boolean tryPlaceBlock(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
-            IDepositCapability cap) {
 
-        if(!ensureCanWriteNoThrow(level, pos))
-        {
-            cap.putPendingBlock(new BlockPos(pos), state);
+    public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
+            IDepositCapability cap) {
+        if (!ensureCanWriteNoThrow(level, pos)) {
+            cap.putPendingBlock(pos, state);
             return false;
         }
 
         if (!level.setBlock(pos, state, 2 | 16)) {
-            cap.putPendingBlock(new BlockPos(pos), state);
+            cap.putPendingBlock(pos, state);
             return false;
         }
         return true;
