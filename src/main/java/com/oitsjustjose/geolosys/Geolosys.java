@@ -5,6 +5,8 @@ import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.player.IPlayerCapability;
 import com.oitsjustjose.geolosys.capability.player.PlayerCapability;
+import com.oitsjustjose.geolosys.capability.world.ChunkGennedCapability;
+import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
@@ -103,6 +105,7 @@ public class Geolosys {
     public void registerCaps(RegisterCapabilitiesEvent event) {
         event.register(DepositCapability.class);
         event.register(PlayerCapability.class);
+        event.register(ChunkGennedCapability.class);
     }
 
     @SubscribeEvent
@@ -163,6 +166,35 @@ public class Geolosys {
                 }
             };
             event.addCapability(Constants.PLAYER_CAPABILITY_NAME, provider);
+            event.addListener(inst::invalidate);
+        } catch (Exception e) {
+            LOGGER.error("Geolosys has faced a fatal error. The game will crash...");
+            throw new RuntimeException(e);
+        }
+
+        try {
+            final LazyOptional<IChunkGennedCapability> inst = LazyOptional.of(ChunkGennedCapability::new);
+            final ICapabilitySerializable<CompoundTag> provider = new ICapabilitySerializable<>() {
+                @Override
+                public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
+                    return ChunkGennedCapability.CAPABILITY.orEmpty(cap, inst);
+                }
+
+                @Override
+                public CompoundTag serializeNBT() {
+                    IChunkGennedCapability cap = this.getCapability(ChunkGennedCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
+                    return cap.serializeNBT();
+                }
+
+                @Override
+                public void deserializeNBT(CompoundTag nbt) {
+                    IChunkGennedCapability cap = this.getCapability(ChunkGennedCapability.CAPABILITY)
+                            .orElseThrow(RuntimeException::new);
+                    cap.deserializeNBT(nbt);
+                }
+            };
+            event.addCapability(Constants.CHUNKGEN_CAPABILITY_NAME, provider);
             event.addListener(inst::invalidate);
         } catch (Exception e) {
             LOGGER.error("Geolosys has faced a fatal error. The game will crash...");

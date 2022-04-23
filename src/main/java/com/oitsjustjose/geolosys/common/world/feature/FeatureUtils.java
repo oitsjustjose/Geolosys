@@ -1,7 +1,10 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
+import javax.annotation.Nullable;
+
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -10,6 +13,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.chunk.ChunkAccess;
 
 public class FeatureUtils {
     private static boolean ensureCanWriteNoThrow(WorldGenLevel level, BlockPos pos) {
@@ -30,15 +34,32 @@ public class FeatureUtils {
 
     public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
             IDepositCapability cap) {
+        return enqueueBlockPlacement(level, chunk, pos, state, cap, null);
+    }
+
+    public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
+            IDepositCapability depCap, @Nullable IChunkGennedCapability cgCap) {
+        // It's too late to enqueue so just bite the bullet and force placement
+        if (cgCap != null) {
+            if (cgCap.hasChunkGenerated(new ChunkPos(pos))) {
+                ChunkAccess chunkaccess = level.getChunk(pos);
+                BlockState blockstate = chunkaccess.setBlockState(pos, state, false);
+                if (blockstate != null) {
+                    level.getLevel().onBlockStateChange(pos, blockstate, state);
+                }
+            }
+        }
+
         if (!ensureCanWriteNoThrow(level, pos)) {
-            cap.putPendingBlock(pos, state);
+            depCap.putPendingBlock(pos, state);
             return false;
         }
 
         if (!level.setBlock(pos, state, 2 | 16)) {
-            cap.putPendingBlock(pos, state);
+            depCap.putPendingBlock(pos, state);
             return false;
         }
+
         return true;
     }
 

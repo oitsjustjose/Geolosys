@@ -42,8 +42,8 @@ public class PlayerCapability implements IPlayerCapability {
 
     @Override
     public void deserializeNBT(CompoundTag compound) {
-        ListTag pending = compound.getList("playersReceivedManual", 10);
-        pending.forEach((tmp) -> {
+        ListTag uuids = compound.getList("playersReceivedManual", 10);
+        uuids.forEach((tmp) -> {
             CompoundTag comp = (CompoundTag) tmp;
             this.playersReceived.add(comp.getString("uuid"));
         });
