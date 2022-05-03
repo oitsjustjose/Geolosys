@@ -4,8 +4,6 @@ import com.oitsjustjose.geolosys.common.blocks.Types.Ores;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class GeolosysGroup extends CreativeModeTab {
     private static GeolosysGroup instance;
@@ -31,7 +29,6 @@ public class GeolosysGroup extends CreativeModeTab {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public ItemStack getIconItem() {
         // Init the anim only when the first ore is init'd
         if (Ores.COAL.getBlock() != null && counter == -1) {
@@ -39,7 +36,7 @@ public class GeolosysGroup extends CreativeModeTab {
         }
 
         if (System.currentTimeMillis() - lastTick > 1000L) {
-            display = new ItemStack(Ores.values()[counter].getBlock());
+            display = new ItemStack(Ores.values()[counter].getBlock().get());
             counter = counter == (Ores.values().length - 1) ? 0 : counter + 1;
             lastTick = System.currentTimeMillis();
         }

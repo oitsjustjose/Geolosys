@@ -23,10 +23,10 @@ public class BlockColorInit {
 
         blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
                 ? BiomeColors.getAverageGrassColor(lightReader, pos)
-                : GrassColor.get(0.5D, 1.0D), Registry.PEAT);
+                : GrassColor.get(0.5D, 1.0D), Registry.PEAT.get());
         blockColors.register((unknown, lightReader, pos, unknown2) -> lightReader != null && pos != null
                 ? BiomeColors.getAverageGrassColor(lightReader, pos)
-                : GrassColor.get(0.5D, 1.0D), Registry.RHODODENDRON);
+                : GrassColor.get(0.5D, 1.0D), Registry.RHODODENDRON.get());
 
     }
 
@@ -41,9 +41,7 @@ public class BlockColorInit {
             return blockColors.getColor(state, null, null, tintIndex);
         };
 
-        if (itemBlockColourHandler != null) {
-            itemColors.register(itemBlockColourHandler, Registry.PEAT);
-            itemColors.register(itemBlockColourHandler, Registry.RHODODENDRON);
-        }
+        itemColors.register(itemBlockColourHandler, Registry.PEAT.get());
+        itemColors.register(itemBlockColourHandler, Registry.RHODODENDRON.get());
     }
 }
