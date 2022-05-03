@@ -10,6 +10,7 @@ import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.client.render.Cutouts;
+import com.oitsjustjose.geolosys.client.GeolosysClient;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -19,22 +20,15 @@ import com.oitsjustjose.geolosys.common.data.modifiers.QuartzDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.SulfurDropModifier;
 import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
+import com.oitsjustjose.geolosys.common.items.Types;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.GeolosysFeatures;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -44,7 +38,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -55,6 +49,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(Constants.MODID)
 public class Geolosys {
@@ -67,8 +64,13 @@ public class Geolosys {
 
         // Register the setup method for modloading
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        Registry.register(bus);
+
         bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
+
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->GeolosysClient::setup);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());
@@ -203,18 +205,11 @@ public class Geolosys {
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onHover(ItemTooltipEvent event) {
-        if (!ClientConfig.ENABLE_TAG_DEBUG.get()) {
-            return;
-        }
-
-        Minecraft mc = Minecraft.getInstance();
-
-        if (mc.options.advancedItemTooltips) {
-            event.getItemStack().getTags().forEach(x -> {
-                event.getToolTip().add(new TextComponent("\u00A78#" + x.location() + "\u00A7r"));
-            });
+    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent) {
+        for (Types.Coals c : Types.Coals.values()) {
+            if (fuelBurnoutEvent.getItemStack().getItem().equals(c.getItem())) {
+                fuelBurnoutEvent.setBurnTime(c.getBurnTime() * 200);
+            }
         }
     }
 

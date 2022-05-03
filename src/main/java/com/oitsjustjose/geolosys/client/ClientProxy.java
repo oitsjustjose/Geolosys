@@ -1,5 +1,7 @@
 package com.oitsjustjose.geolosys.client;
 
+import com.oitsjustjose.geolosys.client.network.PacketStackClientSurface;
+import com.oitsjustjose.geolosys.client.network.PacketStackClientUnderground;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketHelpers;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
@@ -16,10 +18,10 @@ import java.util.HashSet;
 public class ClientProxy extends CommonProxy {
     public void init() {
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
-                PacketStackSurface::encode, PacketStackSurface::decode, PacketStackSurface::handleClient);
+                PacketStackSurface::encode, PacketStackSurface::decode, PacketStackClientSurface::handleClient);
         CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++,
                 PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode,
-                PacketStackUnderground::handleClient);
+                PacketStackClientUnderground::handleClient);
     }
 
     @Override

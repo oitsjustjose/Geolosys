@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 
@@ -33,8 +34,8 @@ public class Types {
         private final String unlocalizedName;
         private final int xp;
 
-        private Block instance;
-        private Block sample;
+        private RegistryObject<Block> instance;
+        private RegistryObject<Block> sample;
 
         Ores(String unlocalizedName, int xp) {
             this.unlocalizedName = unlocalizedName;
@@ -54,20 +55,20 @@ public class Types {
         }
 
         @Nullable
-        public Block getBlock() {
+        public RegistryObject<Block> getBlock() {
             return this.instance;
         }
 
         @Nullable
-        public Block getSample() {
+        public RegistryObject<Block> getSample() {
             return this.sample;
         }
 
-        public void setBlock(Block b) {
+        public void setBlock(RegistryObject<Block> b) {
             this.instance = b;
         }
 
-        public void setSample(Block b) {
+        public void setSample(RegistryObject<Block> b) {
             this.sample = b;
         }
     }
@@ -98,8 +99,8 @@ public class Types {
         private final String unlocalizedName;
         private final int xp;
 
-        private Block instance;
-        private Block sample;
+        private RegistryObject<Block> instance;
+        private RegistryObject<Block> sample;
         private Ores origin;
 
         DeepslateOres(String unlocalizedName, Ores origin, int xp) {
@@ -121,7 +122,7 @@ public class Types {
         }
 
         @Nullable
-        public Block getBlock() {
+        public RegistryObject<Block> getBlock() {
             return this.instance;
         }
 
@@ -131,15 +132,15 @@ public class Types {
         }
 
         @Nullable
-        public Block getSample() {
+        public RegistryObject<Block> getSample() {
             return this.sample;
         }
 
-        public void setBlock(Block b) {
+        public void setBlock(RegistryObject<Block> b) {
             this.instance = b;
         }
 
-        public void setSample(Block b) {
+        public void setSample(RegistryObject<Block> b) {
             this.sample = b;
         }
     }

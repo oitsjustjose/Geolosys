@@ -1,13 +1,14 @@
 package com.oitsjustjose.geolosys.common.items;
 
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
 
 public class Types {
     public enum Coals {
         PEAT(6, "peat", false), LIGNITE(12, "lignite", false), BITUMINOUS(16, "bituminous", false),
         ANTHRACITE(20, "anthracite", false), LIGNITE_COKE(24, "lignite", true), BITUMINOUS_COKE(32, "bituminous", true);
 
-        private Item instance;
+        private RegistryObject<Item> instance;
 
         private final int burnTime;
         private final String serializedName;
@@ -41,11 +42,11 @@ public class Types {
             return this.isCoalCoke;
         }
 
-        public void setItem(Item i) {
+        public void setItem(RegistryObject<Item> i) {
             this.instance = i;
         }
 
-        public Item getItem() {
+        public RegistryObject<Item> getItem() {
             return this.instance;
         }
     }
@@ -54,7 +55,7 @@ public class Types {
         TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
         PLATINUM("platinum"), ZINC("zinc");
 
-        private Item instance;
+        private RegistryObject<Item> instance;
 
         private final String serializedName;
         private final String unlocalizedName;
@@ -76,11 +77,11 @@ public class Types {
             return this.serializedName;
         }
 
-        public void setItem(Item i) {
+        public void setItem(RegistryObject<Item> i) {
             this.instance = i;
         }
 
-        public Item getItem() {
+        public RegistryObject<Item> getItem() {
             return this.instance;
         }
     }
@@ -89,7 +90,7 @@ public class Types {
         COPPER("copper"), TIN("tin"), SILVER("silver"), LEAD("lead"), ALUMINUM("aluminum"), NICKEL("nickel"),
         PLATINUM("platinum"), ZINC("zinc");
 
-        private Item instance;
+        private RegistryObject<Item> instance;
 
         private final String serializedName;
         private final String unlocalizedName;
@@ -111,11 +112,11 @@ public class Types {
             return this.serializedName;
         }
 
-        public void setItem(Item i) {
+        public void setItem(RegistryObject<Item> i) {
             this.instance = i;
         }
 
-        public Item getItem() {
+        public RegistryObject<Item> getItem() {
             return this.instance;
         }
     }
@@ -125,7 +126,7 @@ public class Types {
         NICKEL("nickel"), PLATINUM("platinum"), URANIUM("uranium"), ZINC("zinc"), YELLORIUM("yellorium"),
         OSMIUM("osmium"), ANCIENT_DEBRIS("ancient_debris"), NETHER_GOLD("nether_gold");
 
-        private Item instance;
+        private RegistryObject<Item> instance;
 
         private final String serializedName;
         private final String unlocalizedName;
@@ -147,11 +148,11 @@ public class Types {
             return this.serializedName;
         }
 
-        public void setItem(Item i) {
+        public void setItem(RegistryObject<Item> i) {
             this.instance = i;
         }
 
-        public Item getItem() {
+        public RegistryObject<Item> getItem() {
             return this.instance;
         }
     }

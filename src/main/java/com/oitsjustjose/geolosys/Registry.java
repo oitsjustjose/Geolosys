@@ -1,19 +1,11 @@
 package com.oitsjustjose.geolosys;
 
-import com.oitsjustjose.geolosys.common.blocks.OreBlock;
-import com.oitsjustjose.geolosys.common.blocks.PeatBlock;
-import com.oitsjustjose.geolosys.common.blocks.PlantBlock;
-import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
-import com.oitsjustjose.geolosys.common.blocks.Types;
+import com.oitsjustjose.geolosys.common.blocks.*;
 import com.oitsjustjose.geolosys.common.items.CoalItem;
 import com.oitsjustjose.geolosys.common.items.ProPickItem;
-import com.oitsjustjose.geolosys.common.items.Types.Clusters;
 import com.oitsjustjose.geolosys.common.items.Types.Coals;
-import com.oitsjustjose.geolosys.common.items.Types.Ingots;
-import com.oitsjustjose.geolosys.common.items.Types.Nuggets;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -24,69 +16,48 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.util.function.Supplier;
+
 public class Registry {
-    public static Block PEAT;
-    public static Block RHODODENDRON;
-    public static Item PRO_PICK;
+    public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MODID);
+    public static DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MODID);
+    public static RegistryObject<Block> PEAT;
+    public static RegistryObject<Block> RHODODENDRON;
+    public static RegistryObject<Item> PRO_PICK;
     public static TagKey<Block> SUPPORTS_SAMPLE = BlockTags
             .create(new ResourceLocation(Constants.MODID, "supports_sample"));
 
-    @SubscribeEvent
-    public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-        BlockBehaviour.Properties stoneOreProperties = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
-                .strength(5.0F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
-        BlockBehaviour.Properties deepslateOreProperties = BlockBehaviour.Properties
-                .of(Material.STONE, MaterialColor.DEEPSLATE)
-                .strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
+    public static void register(IEventBus modbus) {
+        registerBlocks();
+        registerItems();
+        BLOCKS.register(modbus);
+        ITEMS.register(modbus);
+    }
+
+    private static void registerBlocks() {
 
         for (Types.Ores o : Types.Ores.values()) {
-            final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
-            final String SAMPLE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore_sample";
-
-            Block block = new OreBlock(stoneOreProperties, o.getXp())
-                    .setRegistryName(new ResourceLocation(Constants.MODID, ORE_REGISTRY_NAME));
-            Block sample = new SampleBlock()
-                    .setRegistryName(new ResourceLocation(Constants.MODID, SAMPLE_REGISTRY_NAME));
-            event.getRegistry().register(block);
-            event.getRegistry().register(sample);
-            o.setBlock(block);
-            o.setSample(sample);
+            registerOre(o);
         }
 
         for (Types.DeepslateOres o : Types.DeepslateOres.values()) {
-            final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
-            Block block = new OreBlock(deepslateOreProperties, o.getXp())
-                    .setRegistryName(new ResourceLocation(Constants.MODID, ORE_REGISTRY_NAME));
-            event.getRegistry().register(block);
-
-            o.setBlock(block);
-            o.setSample(o.getOrigin().getSample());
+            registerDeepslateOre(o);
         }
 
-        Registry.PEAT = new PeatBlock().setRegistryName(Constants.MODID, "peat");
-        event.getRegistry().register(PEAT);
+        PEAT = BLOCKS.register("peat",PeatBlock::new);
+        ITEMS.register("peat",itemOf(PEAT));
 
-        Registry.RHODODENDRON = new PlantBlock(false, Registry.PEAT).setRegistryName(Constants.MODID, "rhododendron");
-        event.getRegistry().register(RHODODENDRON);
+        RHODODENDRON = BLOCKS.register("rhododendron",()->new PlantBlock(false, PEAT));
+        ITEMS.register("rhododendron",itemOf(RHODODENDRON));
     }
 
-    @SubscribeEvent
-    public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
+    private static void registerItems() {
         Item.Properties genericItemProps = new Item.Properties().tab(GeolosysGroup.getInstance());
-
-        // Init Block-Items
-        ForgeRegistries.BLOCKS.getValues().parallelStream()
-                .filter(x -> x.getRegistryName().getNamespace().equals(Constants.MODID))
-                .forEach(x -> event.getRegistry()
-                        .register(new BlockItem(x, new Item.Properties().tab(GeolosysGroup.getInstance()))
-                                .setRegistryName(x.getRegistryName())));
 
         String CLUSTER_POSTFIX = "_cluster";
         String INGOT_POSTFIX = "_ingot";
@@ -94,40 +65,62 @@ public class Registry {
         String COAL_POSTFIX = "_coal";
         String COAL_COKE_POSTFIX = "_coal_coke";
 
-        for (Clusters cluster : Clusters.values()) {
-            Item item = new Item(genericItemProps).setRegistryName(Constants.MODID,
-                    cluster.getName() + CLUSTER_POSTFIX);
-            event.getRegistry().register(item);
+        for (com.oitsjustjose.geolosys.common.items.Types.Clusters cluster : com.oitsjustjose.geolosys.common.items.Types.Clusters.values()) {
+            RegistryObject<Item> item = ITEMS.register(cluster.getName() + CLUSTER_POSTFIX,
+                    ()->new Item(genericItemProps));
             cluster.setItem(item);
         }
-        for (Ingots ingot : Ingots.values()) {
-            Item item = new Item(genericItemProps).setRegistryName(Constants.MODID, ingot.getName() + INGOT_POSTFIX);
-            event.getRegistry().register(item);
+        for (com.oitsjustjose.geolosys.common.items.Types.Ingots ingot : com.oitsjustjose.geolosys.common.items.Types.Ingots.values()) {
+            RegistryObject<Item> item = ITEMS.register(ingot.getName() + INGOT_POSTFIX,
+                    ()->new Item(genericItemProps));
             ingot.setItem(item);
         }
-        for (Nuggets nugget : Nuggets.values()) {
-            Item item = new Item(genericItemProps).setRegistryName(Constants.MODID, nugget.getName() + NUGGET_POSTFIX);
-            event.getRegistry().register(item);
+        for (com.oitsjustjose.geolosys.common.items.Types.Nuggets nugget : com.oitsjustjose.geolosys.common.items.Types.Nuggets.values()) {
+            RegistryObject<Item> item = ITEMS.register(nugget.getName() + NUGGET_POSTFIX,
+                    ()->new Item(genericItemProps));
             nugget.setItem(item);
         }
         // Init Coals
         for (Coals coal : Coals.values()) {
-            Item item = new CoalItem(coal).setRegistryName(Constants.MODID,
-                    coal.getName() + (coal.isCoalCoke() ? COAL_COKE_POSTFIX : COAL_POSTFIX));
-            event.getRegistry().register(item);
+            RegistryObject<Item> item = ITEMS.register(coal.getName() + (coal.isCoalCoke() ? COAL_COKE_POSTFIX : COAL_POSTFIX),
+                    ()->new CoalItem(coal));
             coal.setItem(item);
         }
 
-        Registry.PRO_PICK = new ProPickItem();
-        event.getRegistry().register(Registry.PRO_PICK);
+        PRO_PICK = ITEMS.register("prospectors_pick", ProPickItem::new);
     }
 
-    @SubscribeEvent
-    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent) {
-        for (Coals c : Coals.values()) {
-            if (fuelBurnoutEvent.getItemStack().getItem().equals(c.getItem())) {
-                fuelBurnoutEvent.setBurnTime(c.getBurnTime() * 200);
-            }
-        }
+    private static void registerOre(Types.Ores o) {
+        BlockBehaviour.Properties stoneOreProperties = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+                .strength(5.0F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+
+        final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
+        final String SAMPLE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore_sample";
+
+        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME, ()->new OreBlock(stoneOreProperties, o.getXp()));
+        RegistryObject<Block> sample = BLOCKS.register(SAMPLE_REGISTRY_NAME, SampleBlock::new);
+        o.setBlock(block);
+        o.setSample(sample);
+
+        ITEMS.register(ORE_REGISTRY_NAME, itemOf(block));
+        ITEMS.register(SAMPLE_REGISTRY_NAME, itemOf(sample));
+    }
+
+    private static void registerDeepslateOre(Types.DeepslateOres o) {
+        BlockBehaviour.Properties deepslateOreProperties = BlockBehaviour.Properties
+                .of(Material.STONE, MaterialColor.DEEPSLATE)
+                .strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
+
+        final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
+        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME, ()->new OreBlock(deepslateOreProperties, o.getXp()));
+
+        o.setBlock(block);
+        o.setSample(o.getOrigin().getSample());
+
+        ITEMS.register(ORE_REGISTRY_NAME, itemOf(block));
+    }
+
+    private static Supplier<Item> itemOf(RegistryObject<Block> block) {
+        return ()->new BlockItem(block.get(), new Item.Properties().tab(GeolosysGroup.getInstance()));
     }
 }
