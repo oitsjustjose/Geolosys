@@ -1,5 +1,6 @@
-package com.oitsjustjose.geolosys.client.render;
+package com.oitsjustjose.geolosys.client;
 
+import com.oitsjustjose.geolosys.client.render.ProPickOverlay;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TextComponent;
@@ -14,7 +15,7 @@ public class GeolosysClient {
     }
 
     @SubscribeEvent
-    public void onHover(ItemTooltipEvent event) {
+    public static void onHover(ItemTooltipEvent event) {
         if (!ClientConfig.ENABLE_TAG_DEBUG.get()) {
             return;
         }
