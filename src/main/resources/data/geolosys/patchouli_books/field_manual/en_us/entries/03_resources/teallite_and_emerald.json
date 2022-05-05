@@ -1,1 +1,14 @@
-{"name": "Teallite and Beryl", "icon": "geolosys:teallite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Teallite and Beryl", "item": "geolosys:teallite_ore", "link_recipe": false, "text": "This dike deposit can be found between 104 meters below and 116 meters below sea level. It can only be found in the overworld and is only found in river and hot biomes."}]}
+{
+  "name": "Teallite and Beryl",
+  "icon": "geolosys:teallite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Teallite and Beryl",
+      "item": "geolosys:teallite_ore",
+      "link_recipe": false,
+      "text": "This dike deposit can be found between 104 meters below and 116 meters below sea level. It can only be found in the overworld and is only found in river and hot biomes."
+    }
+  ]
+}

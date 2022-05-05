@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:aluminum_nugget"
-  ]
+  "values": ["geolosys:aluminum_nugget"]
 }

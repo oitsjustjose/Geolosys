@@ -1,1 +1,14 @@
-{"name": "Sphalerite", "icon": "geolosys:sphalerite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Sphalerite", "item": "geolosys:sphalerite_ore", "link_recipe": false, "text": "This sparse deposit can be found between 18 meters below and 27 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Sphalerite",
+  "icon": "geolosys:sphalerite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Sphalerite",
+      "item": "geolosys:sphalerite_ore",
+      "link_recipe": false,
+      "text": "This sparse deposit can be found between 18 meters below and 27 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

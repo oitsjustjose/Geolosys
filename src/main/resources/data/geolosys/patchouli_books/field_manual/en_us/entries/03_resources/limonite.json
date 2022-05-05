@@ -1,1 +1,14 @@
-{"name": "Limonite", "icon": "geolosys:limonite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Limonite", "item": "geolosys:limonite_ore", "link_recipe": false, "text": "This dike deposit can be found between 96 meters below and 112 meters below sea level. It can only be found in the overworld and is only found in swamp, mushroom and wet biomes."}]}
+{
+  "name": "Limonite",
+  "icon": "geolosys:limonite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Limonite",
+      "item": "geolosys:limonite_ore",
+      "link_recipe": false,
+      "text": "This dike deposit can be found between 96 meters below and 112 meters below sea level. It can only be found in the overworld and is only found in swamp, mushroom and wet biomes."
+    }
+  ]
+}

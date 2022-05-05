@@ -7,9 +7,7 @@
     "spread": 48,
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
+      "filter": ["overworld"]
     },
     "blocks": {
       "default": [

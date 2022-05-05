@@ -13,19 +13,17 @@
     ],
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "the_nether"
-      ]
+      "filter": ["the_nether"]
     },
     "blocks": {
       "default": [
         {
           "block": "geolosys:nether_gold_ore",
-          "chance": 0.30
+          "chance": 0.3
         },
         {
           "block": null,
-          "chance": 0.70
+          "chance": 0.7
         }
       ]
     },

@@ -12,16 +12,12 @@
       "type": "image",
       "title": "Samples",
       "text": "An example of what samples look like on the surface.",
-      "images": [
-        "geolosys:textures/gui/patchouli/introduction/samples.png"
-      ],
+      "images": ["geolosys:textures/gui/patchouli/introduction/samples.png"],
       "border": true
     },
     {
       "type": "relations",
-      "entries": [
-        "geolosys:introduction/02_ore_plutons"
-      ]
+      "entries": ["geolosys:introduction/02_ore_plutons"]
     }
   ]
 }

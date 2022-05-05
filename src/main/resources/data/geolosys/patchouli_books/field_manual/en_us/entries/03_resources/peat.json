@@ -1,1 +1,14 @@
-{"name": "Peat", "icon": "geolosys:peat", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Peat", "item": "geolosys:peat", "link_recipe": false, "text": "This top layer deposit can be found directly on the surface with Rhododendron on top of it. It cannot be found in the nether or end and can be found in any biome."}]}
+{
+  "name": "Peat",
+  "icon": "geolosys:peat",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Peat",
+      "item": "geolosys:peat",
+      "link_recipe": false,
+      "text": "This top layer deposit can be found directly on the surface with Rhododendron on top of it. It cannot be found in the nether or end and can be found in any biome."
+    }
+  ]
+}

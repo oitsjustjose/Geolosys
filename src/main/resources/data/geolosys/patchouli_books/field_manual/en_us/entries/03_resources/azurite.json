@@ -1,1 +1,14 @@
-{"name": "Azurite", "icon": "geolosys:azurite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Azurite", "item": "geolosys:azurite_ore", "link_recipe": false, "text": "This dense deposit can be found between 51 meters below and 113 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Azurite",
+  "icon": "geolosys:azurite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Azurite",
+      "item": "geolosys:azurite_ore",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 51 meters below and 113 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

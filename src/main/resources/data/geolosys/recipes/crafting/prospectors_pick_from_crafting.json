@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "III",
-    "  S",
-    "  S"
-  ],
+  "pattern": ["III", "  S", "  S"],
   "key": {
     "S": {
       "tag": "forge:rods/wooden"

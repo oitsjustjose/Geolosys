@@ -12,11 +12,9 @@ import net.minecraftforge.network.PacketDistributor;
 import javax.annotation.Nullable;
 import java.util.HashSet;
 
-
 public class CommonProxy {
     public static NetworkManager networkManager = new NetworkManager();
     public static int discriminator = 0;
-
 
     public void init() {
         networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,

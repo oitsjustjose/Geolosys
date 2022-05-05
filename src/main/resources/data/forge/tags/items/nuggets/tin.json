@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:tin_nugget"
-  ]
+  "values": ["geolosys:tin_nugget"]
 }

@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:lead_nugget"
-  ]
+  "values": ["geolosys:lead_nugget"]
 }

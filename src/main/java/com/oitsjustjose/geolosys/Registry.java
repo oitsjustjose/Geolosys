@@ -49,11 +49,11 @@ public class Registry {
             registerDeepslateOre(o);
         }
 
-        PEAT = BLOCKS.register("peat",PeatBlock::new);
-        ITEMS.register("peat",itemOf(PEAT));
+        PEAT = BLOCKS.register("peat", PeatBlock::new);
+        ITEMS.register("peat", itemOf(PEAT));
 
-        RHODODENDRON = BLOCKS.register("rhododendron",()->new PlantBlock(false, PEAT));
-        ITEMS.register("rhododendron",itemOf(RHODODENDRON));
+        RHODODENDRON = BLOCKS.register("rhododendron", () -> new PlantBlock(false, PEAT));
+        ITEMS.register("rhododendron", itemOf(RHODODENDRON));
     }
 
     private static void registerItems() {
@@ -65,25 +65,29 @@ public class Registry {
         String COAL_POSTFIX = "_coal";
         String COAL_COKE_POSTFIX = "_coal_coke";
 
-        for (com.oitsjustjose.geolosys.common.items.Types.Clusters cluster : com.oitsjustjose.geolosys.common.items.Types.Clusters.values()) {
+        for (com.oitsjustjose.geolosys.common.items.Types.Clusters cluster : com.oitsjustjose.geolosys.common.items.Types.Clusters
+                .values()) {
             RegistryObject<Item> item = ITEMS.register(cluster.getName() + CLUSTER_POSTFIX,
-                    ()->new Item(genericItemProps));
+                    () -> new Item(genericItemProps));
             cluster.setItem(item);
         }
-        for (com.oitsjustjose.geolosys.common.items.Types.Ingots ingot : com.oitsjustjose.geolosys.common.items.Types.Ingots.values()) {
+        for (com.oitsjustjose.geolosys.common.items.Types.Ingots ingot : com.oitsjustjose.geolosys.common.items.Types.Ingots
+                .values()) {
             RegistryObject<Item> item = ITEMS.register(ingot.getName() + INGOT_POSTFIX,
-                    ()->new Item(genericItemProps));
+                    () -> new Item(genericItemProps));
             ingot.setItem(item);
         }
-        for (com.oitsjustjose.geolosys.common.items.Types.Nuggets nugget : com.oitsjustjose.geolosys.common.items.Types.Nuggets.values()) {
+        for (com.oitsjustjose.geolosys.common.items.Types.Nuggets nugget : com.oitsjustjose.geolosys.common.items.Types.Nuggets
+                .values()) {
             RegistryObject<Item> item = ITEMS.register(nugget.getName() + NUGGET_POSTFIX,
-                    ()->new Item(genericItemProps));
+                    () -> new Item(genericItemProps));
             nugget.setItem(item);
         }
         // Init Coals
         for (Coals coal : Coals.values()) {
-            RegistryObject<Item> item = ITEMS.register(coal.getName() + (coal.isCoalCoke() ? COAL_COKE_POSTFIX : COAL_POSTFIX),
-                    ()->new CoalItem(coal));
+            RegistryObject<Item> item = ITEMS.register(
+                    coal.getName() + (coal.isCoalCoke() ? COAL_COKE_POSTFIX : COAL_POSTFIX),
+                    () -> new CoalItem(coal));
             coal.setItem(item);
         }
 
@@ -97,7 +101,8 @@ public class Registry {
         final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
         final String SAMPLE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore_sample";
 
-        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME, ()->new OreBlock(stoneOreProperties, o.getXp()));
+        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME,
+                () -> new OreBlock(stoneOreProperties, o.getXp()));
         RegistryObject<Block> sample = BLOCKS.register(SAMPLE_REGISTRY_NAME, SampleBlock::new);
         o.setBlock(block);
         o.setSample(sample);
@@ -112,7 +117,8 @@ public class Registry {
                 .strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
 
         final String ORE_REGISTRY_NAME = o.getUnlocalizedName().toLowerCase() + "_ore";
-        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME, ()->new OreBlock(deepslateOreProperties, o.getXp()));
+        RegistryObject<Block> block = BLOCKS.register(ORE_REGISTRY_NAME,
+                () -> new OreBlock(deepslateOreProperties, o.getXp()));
 
         o.setBlock(block);
         o.setSample(o.getOrigin().getSample());
@@ -121,6 +127,6 @@ public class Registry {
     }
 
     private static Supplier<Item> itemOf(RegistryObject<Block> block) {
-        return ()->new BlockItem(block.get(), new Item.Properties().tab(GeolosysGroup.getInstance()));
+        return () -> new BlockItem(block.get(), new Item.Properties().tab(GeolosysGroup.getInstance()));
     }
 }

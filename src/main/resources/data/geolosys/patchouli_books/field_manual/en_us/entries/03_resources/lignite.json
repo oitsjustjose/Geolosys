@@ -1,1 +1,14 @@
-{"name": "Lignite", "icon": "geolosys:lignite_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Lignite", "item": "geolosys:lignite_ore", "link_recipe": false, "text": "This layer deposit can be found between 32 meters below and 68 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Lignite",
+  "icon": "geolosys:lignite_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Lignite",
+      "item": "geolosys:lignite_ore",
+      "link_recipe": false,
+      "text": "This layer deposit can be found between 32 meters below and 68 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

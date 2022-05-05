@@ -12,36 +12,28 @@
       "type": "image",
       "title": "Dense Plutons",
       "text": "An Example Dense Gold Pluton",
-      "images": [
-        "geolosys:textures/gui/patchouli/introduction/dense.png"
-      ],
+      "images": ["geolosys:textures/gui/patchouli/introduction/dense.png"],
       "border": true
     },
     {
       "type": "image",
       "title": "Dikes",
       "text": "An Example Quartz Dike",
-      "images": [
-        "geolosys:textures/gui/patchouli/introduction/dike.png"
-      ],
+      "images": ["geolosys:textures/gui/patchouli/introduction/dike.png"],
       "border": true
     },
     {
       "type": "image",
       "title": "Layered Plutons",
       "text": "An Example Layered Coal Pluton",
-      "images": [
-        "geolosys:textures/gui/patchouli/introduction/layer.png"
-      ],
+      "images": ["geolosys:textures/gui/patchouli/introduction/layer.png"],
       "border": true
     },
     {
       "type": "image",
       "title": "Sparse Plutons",
       "text": "An Example Sparse Redstone Deposit",
-      "images": [
-        "geolosys:textures/gui/patchouli/introduction/sparse.png"
-      ],
+      "images": ["geolosys:textures/gui/patchouli/introduction/sparse.png"],
       "border": true
     }
   ]

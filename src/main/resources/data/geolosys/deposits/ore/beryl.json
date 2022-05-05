@@ -6,15 +6,11 @@
     "baseRadius": 2,
     "biomes": {
       "isBlacklist": false,
-      "filter": [
-        "MOUNTAIN"
-      ]
+      "filter": ["MOUNTAIN"]
     },
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
+      "filter": ["overworld"]
     },
     "blocks": {
       "default": [

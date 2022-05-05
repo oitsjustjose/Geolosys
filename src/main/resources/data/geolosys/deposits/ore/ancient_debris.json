@@ -6,9 +6,7 @@
     "baseRadius": 3,
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "the_nether"
-      ]
+      "filter": ["the_nether"]
     },
     "blockStateMatchers": [
       "minecraft:netherrack",

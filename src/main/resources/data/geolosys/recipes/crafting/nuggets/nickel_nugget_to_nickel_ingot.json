@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "sss",
-    "sis",
-    "sss"
-  ],
+  "pattern": ["sss", "sis", "sss"],
   "key": {
     "s": {
       "tag": "forge:nuggets/nickel"

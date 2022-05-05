@@ -1,1 +1,14 @@
-{"name": "Quartz", "icon": "geolosys:quartz_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Quartz", "item": "geolosys:quartz_ore", "link_recipe": false, "text": "This dike deposit can be found between 112 meters below and 128 meters below sea level. It can only be found in the overworld and can be found in any biome."}]}
+{
+  "name": "Quartz",
+  "icon": "geolosys:quartz_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Quartz",
+      "item": "geolosys:quartz_ore",
+      "link_recipe": false,
+      "text": "This dike deposit can be found between 112 meters below and 128 meters below sea level. It can only be found in the overworld and can be found in any biome."
+    }
+  ]
+}

@@ -21,14 +21,8 @@
     "generationWeight": 3,
     "dimensions": {
       "isBlacklist": true,
-      "filter": [
-        "the_nether",
-        "the_end"
-      ]
+      "filter": ["the_nether", "the_end"]
     },
-    "blockStateMatchers": [
-      "minecraft:dirt",
-      "minecraft:grass_block"
-    ]
+    "blockStateMatchers": ["minecraft:dirt", "minecraft:grass_block"]
   }
 }

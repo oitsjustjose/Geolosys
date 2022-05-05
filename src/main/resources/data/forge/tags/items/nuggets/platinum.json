@@ -1,6 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "geolosys:platinum_nugget"
-  ]
+  "values": ["geolosys:platinum_nugget"]
 }

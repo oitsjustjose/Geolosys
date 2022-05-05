@@ -70,7 +70,7 @@ public class Geolosys {
         bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->GeolosysClient::setup);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GeolosysClient::setup);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ManualGifting());

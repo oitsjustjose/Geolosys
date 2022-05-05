@@ -1,1 +1,14 @@
-{"name": "Nether Gold", "icon": "geolosys:nether_gold_ore", "category": "geolosys:03_resources", "pages": [{"type": "spotlight", "title": "Nether Gold", "item": "geolosys:nether_gold_ore", "link_recipe": false, "text": "This dense deposit can be found between 24 meters below and 54 meters below sea level. It can only be found in the nether and can be found in any biome."}]}
+{
+  "name": "Nether Gold",
+  "icon": "geolosys:nether_gold_ore",
+  "category": "geolosys:03_resources",
+  "pages": [
+    {
+      "type": "spotlight",
+      "title": "Nether Gold",
+      "item": "geolosys:nether_gold_ore",
+      "link_recipe": false,
+      "text": "This dense deposit can be found between 24 meters below and 54 meters below sea level. It can only be found in the nether and can be found in any biome."
+    }
+  ]
+}

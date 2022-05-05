@@ -42,16 +42,11 @@
     "baseRadius": 6,
     "biomes": {
       "isBlacklist": false,
-      "filter": [
-        "RIVER",
-        "HOT"
-      ]
+      "filter": ["RIVER", "HOT"]
     },
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
+      "filter": ["overworld"]
     },
     "generationWeight": 2
   }

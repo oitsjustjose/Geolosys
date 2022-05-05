@@ -6,9 +6,7 @@
     "baseRadius": 7,
     "dimensions": {
       "isBlacklist": false,
-      "filter": [
-        "overworld"
-      ]
+      "filter": ["overworld"]
     },
     "blocks": {
       "default": [
