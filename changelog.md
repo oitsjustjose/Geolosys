@@ -1,5 +1,15 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.6
+
+This version was made insanely optimized and less buggy thanks to the incredible work of [@lukebemish](https://github.com/lukebemish). Please go follow them on GitHub if that's your thing ❤️❤️
+
+### Fixed
+
+- Bizarre crashes on startup (again, thanks to [@lukebemish](https://github.com/lukebemish)) ([#308](https://github.com/oitsjustjose/Geolosys/issues/308))
+- Geolosys world generation just stopping at chunk borders, even though it's seriously not supposed to.
+- Geolosys causing large worlds, long save times ([#307](https://github.com/oitsjustjose/Geolosys/issues/307))
+
 ## 7.0.5
 
 ### Fixed
