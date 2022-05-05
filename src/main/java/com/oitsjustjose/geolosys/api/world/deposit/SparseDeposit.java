@@ -16,11 +16,12 @@ import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
+import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
-import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 
 import net.minecraft.core.BlockPos;
@@ -203,7 +204,8 @@ public class SparseDeposit implements IDeposit {
      *         generation code in
      */
     @Override
-    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
+    public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability deposits,
+            IChunkGennedCapability chunksGenerated) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(level.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
@@ -275,7 +277,8 @@ public class SparseDeposit implements IDeposit {
                                         continue;
                                     }
 
-                                    if (FeatureUtils.enqueueBlockPlacement(level, thisChunk, placePos, tmp, cap)) {
+                                    if (FeatureUtils.enqueueBlockPlacement(level, thisChunk, placePos, tmp, deposits,
+                                            chunksGenerated)) {
                                         totlPlaced++;
                                     } else {
                                         totlPnding++;
@@ -295,7 +298,8 @@ public class SparseDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability deposits,
+            IChunkGennedCapability chunksGenerated) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.info("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
@@ -323,7 +327,7 @@ public class SparseDeposit implements IDeposit {
                 tmp = tmp.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.enqueueBlockPlacement(level, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.enqueueBlockPlacement(level, thisChunk, samplePos, tmp, deposits, chunksGenerated);
             FeatureUtils.fixSnowyBlock(level, samplePos);
         }
     }

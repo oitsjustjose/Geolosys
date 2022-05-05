@@ -9,6 +9,8 @@ import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
+import com.oitsjustjose.geolosys.capability.world.ChunkGennedCapability;
+import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +51,10 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
 
         WorldGenLevel level = f.level();
         ChunkPos cp = new ChunkPos(f.origin());
-        IDepositCapability cap = level.getLevel().getCapability(DepositCapability.CAPABILITY)
+        IDepositCapability deposits = level.getLevel().getCapability(DepositCapability.CAPABILITY)
+                .orElseThrow(() -> new RuntimeException(
+                        "Geolosys detected a null Pluton capability somehow. Are any invasive world gen mods active?"));
+        IChunkGennedCapability chunks = level.getLevel().getCapability(ChunkGennedCapability.CAPABILITY)
                 .orElseThrow(() -> new RuntimeException(
                         "Geolosys detected a null Pluton capability somehow. Are any invasive world gen mods active?"));
 
@@ -59,7 +64,8 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos p = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(p);
                     if (UNACCEPTABLE.contains(state.getBlock())) {
-                        FeatureUtils.enqueueBlockPlacement(level, cp, p, Blocks.TUFF.defaultBlockState(), cap);
+                        FeatureUtils.enqueueBlockPlacement(level, cp, p, Blocks.TUFF.defaultBlockState(), deposits,
+                                chunks);
                     }
                 }
             }

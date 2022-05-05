@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.mojang.serialization.Codec;
+import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
@@ -59,10 +60,10 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
                     continue;
                 }
 
-                boolean anyGenerated = pluton.generate(level, pos, depCap) > 0;
+                boolean anyGenerated = pluton.generate(level, pos, depCap, cgCap) > 0;
                 if (anyGenerated) {
                     placedPluton = true;
-                    pluton.afterGen(level, pos, depCap);
+                    pluton.afterGen(level, pos, depCap, cgCap);
                 }
             }
         }
@@ -75,6 +76,11 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
             BlockPos origin) {
         ChunkPos cp = new ChunkPos(origin);
         ConcurrentLinkedQueue<PendingBlock> q = depCap.getPendingBlocks(cp);
+        if (cgCap.hasChunkGenerated(cp) && q.size() > 0) {
+            Geolosys.getInstance().LOGGER.info(
+                    "Chunk [{}, {}] has already generated but we're trying to place pending blocks anyways", cp.x,
+                    cp.z);
+        }
         q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(level, cp, x.getPos(), x.getState(), depCap, cgCap));
         depCap.removePendingBlocksForChunk(cp);
         return q.size() > 0;

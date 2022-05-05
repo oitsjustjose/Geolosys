@@ -33,21 +33,15 @@ public class FeatureUtils {
     }
 
     public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
-            IDepositCapability cap) {
-        return enqueueBlockPlacement(level, chunk, pos, state, cap, null);
-    }
-
-    public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
             IDepositCapability depCap, @Nullable IChunkGennedCapability cgCap) {
         // It's too late to enqueue so just bite the bullet and force placement
-        if (cgCap != null) {
-            if (cgCap.hasChunkGenerated(new ChunkPos(pos))) {
-                ChunkAccess chunkaccess = level.getChunk(pos);
-                BlockState blockstate = chunkaccess.setBlockState(pos, state, false);
-                if (blockstate != null) {
-                    level.getLevel().onBlockStateChange(pos, blockstate, state);
-                }
+        if (cgCap != null && cgCap.hasChunkGenerated(new ChunkPos(pos))) {
+            ChunkAccess chunkaccess = level.getChunk(pos);
+            BlockState blockstate = chunkaccess.setBlockState(pos, state, false);
+            if (blockstate != null) {
+                level.getLevel().onBlockStateChange(pos, blockstate, state);
             }
+            return true;
         }
 
         if (!ensureCanWriteNoThrow(level, pos)) {

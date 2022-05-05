@@ -14,6 +14,8 @@ public interface IDepositCapability {
 
     void removePendingBlocksForChunk(ChunkPos p);
 
+    int getPendingBlockCount();
+
     ConcurrentLinkedQueue<PendingBlock> getPendingBlocks(ChunkPos chunkPos);
 
     CompoundTag serializeNBT();

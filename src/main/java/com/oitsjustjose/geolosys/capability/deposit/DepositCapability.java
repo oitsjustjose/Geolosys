@@ -2,6 +2,7 @@ package com.oitsjustjose.geolosys.capability.deposit;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +26,11 @@ public class DepositCapability implements IDepositCapability {
 
     public DepositCapability() {
         this.pendingBlocks = new ConcurrentHashMap<>();
+    }
+
+    public int getPendingBlockCount() {
+        return (int) this.pendingBlocks.values().stream().collect(Collectors.summarizingInt(x -> x.size())).getSum();
+        // return this.pendingBlocks.size();
     }
 
     @Override
