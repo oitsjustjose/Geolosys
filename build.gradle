@@ -8,15 +8,16 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
-    dependencies {
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.modrinth.minotaur" version "1.2.1"
 }
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply plugin: 'com.matthewprenger.cursegradle'
+import com.modrinth.minotaur.TaskModrinthUpload
 
 group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Geolosys-${game_version}-${mod_version}"
@@ -107,14 +108,30 @@ artifacts {
     archives sourcesJar
 }
 
+tasks.register('modrinth', TaskModrinthUpload.class).configure {
+    dependsOn('assemble', 'reobfJar')
+    onlyIf {
+        project.hasProperty('modrinthApiKey')
+    }
+
+    token = project.hasProperty('MODRINTH_API_KEY') ? project.getProperty('MODRINTH_API_KEY') : ''
+    projectId = 'gu7yAYhd'
+    versionNumber = "${project.game_version}-${project.mod_version}"
+    uploadFile = jar
+    versionType = 'RELEASE'
+    addGameVersion(project.game_version)
+    changelog = file("./changelog.md").text
+    addLoader('forge')
+}
+
 curseforge {
   apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
   project {
     id = '271856'
     changelogType = 'markdown'
     changelog = file("./changelog.md")
-    releaseType = 'beta'
-    addGameVersion '1.18.2'
+    releaseType = 'release'
+    addGameVersion project.game_version
     
     relations {
       requiredDependency 'patchouli'
@@ -150,4 +167,11 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+def uploadTasks = ["curseforge", "modrinth"]
+
+task uploadAll(dependsOn: uploadTasks) {
+    group "upload"
+    description "Uploads to all repositories (Curse & Modrinth)"
 }
