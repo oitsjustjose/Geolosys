@@ -119,34 +119,4 @@ public class PlutonRegistry {
         gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.DEPOSITS_PLACED);
         gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.REMOVE_VEINS_PLACED);
     }
-
-    // TODO: Remove debug
-    @SubscribeEvent
-    public void registerEvent(PlayerEvent evt) {
-        if (evt.getPlayer() != null) {
-            try {
-                IDepositCapability cap = evt.getPlayer().getLevel().getCapability(DepositCapability.CAPABILITY)
-                        .orElseThrow(RuntimeException::new);
-                ChunkPos p = new ChunkPos(evt.getPlayer().blockPosition());
-                int t = cap.getPendingBlocks(p).size();
-                int x = cap.getPendingBlockCount();
-                evt.getPlayer().displayClientMessage(
-                        new TextComponent("Chunk has " + t + " pending blocks. " + x + " total."), true);
-            } catch (RuntimeException ex) {
-            }
-        }
-        // if (evt.getPlayer() != null) {
-        // try {
-        // IChunkGennedCapability cap =
-        // evt.getPlayer().getLevel().getCapability(ChunkGennedCapability.CAPABILITY)
-        // .orElseThrow(RuntimeException::new);
-        // ChunkPos p = new ChunkPos(evt.getPlayer().blockPosition());
-        // boolean t = cap.hasChunkGenerated(p);
-        // evt.getPlayer().displayClientMessage(new TextComponent("hasChunkGenerated(" +
-        // p + ") = " + t), true);
-        // } catch (RuntimeException ex) {
-        // // Geolosys.getInstance().LOGGER.info(ex.getMessage());
-        // }
-        // }
-    }
 }

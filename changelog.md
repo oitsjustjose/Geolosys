@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.7
+
+### Fixed
+
+- Debug messaging being left in D:
+
 ## 7.0.6
 
 This version was made insanely optimized and less buggy thanks to the incredible work of [@lukebemish](https://github.com/lukebemish). Please go follow them on GitHub if that's your thing ❤️❤️
