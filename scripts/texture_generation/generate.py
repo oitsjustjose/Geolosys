@@ -16,29 +16,36 @@ def main() -> None:
         python[3] generate.py <PATH_TO_BASE_LAYER>.png
     """
 
-    # if len(sys.argv) != 2:
-    #     print("Expected one argument:")
-    #     print("\tpython[3] generate.py <PATH_TO_BASE_LAYER>.png")
-    #     return
-
-    # background_fn = sys.argv[1]
-
     if not os.path.exists("./out"):
         os.mkdir("./out")
 
-    for base_fn in os.listdir("./bases"):
+    if not os.path.exists("./base_layers"):
+        print("Base Layers folder not found!")
+        print(
+            "Please place your Base Layer Textures in a new folder adjacent to this file named `base_layers`"
+        )
+        sys.exit(0)
+    if not os.path.exists("./overlay_layers"):
+        print("Overlay Layers folder not found!")
+        print(
+            "Please place your Overlay Textures in a new folder adjacent to this file named `overlay_layers`"
+        )
+
+        sys.exit(0)
+
+    for base_fn in os.listdir("./base_layers"):
         if not base_fn.endswith(".png"):
             continue
 
         background_name = base_fn[: base_fn.rindex(".")]
-        background = Image.open(f"./bases/{base_fn}").convert("RGBA")
+        background = Image.open(f"./base_layers/{base_fn}").convert("RGBA")
 
-        for overlay_fn in os.listdir("./overlays"):
+        for overlay_fn in os.listdir("./overlay_layers"):
             try:
                 if not overlay_fn.endswith(".png"):
                     continue
 
-                overlay = Image.open(f"./overlays/{overlay_fn}")
+                overlay = Image.open(f"./overlay_layers/{overlay_fn}")
                 Image.alpha_composite(background, overlay).save(
                     f"./out/{background_name}_{overlay_fn}"
                 )
