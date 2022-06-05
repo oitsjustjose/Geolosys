@@ -18,6 +18,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue DEBUG_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue ADVANCED_DEBUG_WORLD_GEN;
     public static ForgeConfigSpec.BooleanValue REMOVE_VANILLA_ORES;
+    public static ForgeConfigSpec.BooleanValue REMOVE_VEIN_ORES;
     public static ForgeConfigSpec.DoubleValue CHUNK_SKIP_CHANCE;
     public static ForgeConfigSpec.IntValue MAX_SAMPLES_PER_CHUNK;
     public static ForgeConfigSpec.IntValue NUMBER_PLUTONS_PER_CHUNK;
@@ -61,6 +62,8 @@ public class CommonConfig {
                 .define("advancedDebugWorldGen", false);
         REMOVE_VANILLA_ORES = COMMON_BUILDER.comment("Disable generation of Vanilla ores")
                 .define("disableVanillaOreGen", true);
+        REMOVE_VEIN_ORES = COMMON_BUILDER.comment("If \"disableVanillaOreGen\" is set to true, setting this to false will allow \nyou to replace vanilla ores associated with ore veins with geolosys equivalents.")
+                .define("removeVeinOres", false);
         DEFAULT_REPLACEMENT_MATS = COMMON_BUILDER.comment(
                 "The fallback materials which a Deposit can replace if they're not specified by the deposit itself\n"
                         + "Format: Comma-delimited set of <modid:block> (see default for example)")

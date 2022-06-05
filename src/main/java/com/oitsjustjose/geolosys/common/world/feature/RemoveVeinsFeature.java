@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,14 +24,45 @@ import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
 
-    private final ArrayList<Block> UNACCEPTABLE = Lists.newArrayList(Blocks.RAW_IRON_BLOCK, Blocks.RAW_COPPER_BLOCK,
-            Blocks.DEEPSLATE_IRON_ORE, Blocks.COPPER_ORE);
+    private final ArrayList<Block> UNACCEPTABLE = Lists.newArrayList(
+            Blocks.RAW_IRON_BLOCK,
+            Blocks.RAW_COPPER_BLOCK,
+            Blocks.DEEPSLATE_IRON_ORE,
+            Blocks.COPPER_ORE
+    );
 
+    // TODO get better way to get instances of the blocks
+    @ObjectHolder("geolosys:malachite_ore")
+    public static final Block geolosysMalachiteOreBlock = null;
+
+    @ObjectHolder("geolosys:deepslate_hematite_ore")
+    public static final Block geolosysDeepslateHematiteOreBlock = null;
+
+    private final HashMap<Block, Block> oreReplacementMap;
     public RemoveVeinsFeature(Codec<NoneFeatureConfiguration> p_i231976_1_) {
         super(p_i231976_1_);
+        oreReplacementMap = initOreReplacementMap();
+    }
+
+    private HashMap<Block, Block> initOreReplacementMap() {
+        HashMap<Block, Block> map = new HashMap<>(){{
+            put(Blocks.COPPER_ORE, geolosysMalachiteOreBlock);
+            put(Blocks.RAW_COPPER_BLOCK, geolosysMalachiteOreBlock);
+            put(Blocks.DEEPSLATE_IRON_ORE, geolosysDeepslateHematiteOreBlock);
+            put(Blocks.RAW_IRON_BLOCK, geolosysDeepslateHematiteOreBlock);
+        }};
+
+        if (CommonConfig.REMOVE_VEIN_ORES.get()) {
+            map.put(Blocks.COPPER_ORE, Blocks.STONE);
+            map.put(Blocks.RAW_COPPER_BLOCK, Blocks.STONE);
+            map.put(Blocks.DEEPSLATE_IRON_ORE, Blocks.DEEPSLATE);
+            map.put(Blocks.RAW_IRON_BLOCK, Blocks.DEEPSLATE);
+        }
+        return map;
     }
 
     public final RemoveVeinsFeature withRegistryName(String modID, String name) {
@@ -64,8 +96,8 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos p = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(p);
                     if (UNACCEPTABLE.contains(state.getBlock())) {
-                        FeatureUtils.enqueueBlockPlacement(level, cp, p, Blocks.TUFF.defaultBlockState(), deposits,
-                                chunks);
+                        BlockState properReplacement = oreReplacementMap.get(state.getBlock()).defaultBlockState();
+                        FeatureUtils.enqueueBlockPlacement(level, cp, p, properReplacement, deposits, chunks);
                     }
                 }
             }
