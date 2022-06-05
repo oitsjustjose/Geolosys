@@ -60,9 +60,10 @@ dependencies {
 
 repositories {
     maven { url 'https://maven.blamejared.com' }
-    repositories {
-        maven {
-            url "https://www.cursemaven.com"
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
         }
     }
 }
@@ -70,19 +71,20 @@ repositories {
 dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    implementation fg.deobf("curse.maven:worldstripper-250603:3670854")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-            "Specification-Title": "geolosys",
-            "Specification-Vendor": "oitsjustjose.com",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${mod_version}",
-            "Implementation-Vendor" :"oitsjustjose.com",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "geolosys",
+                "Specification-Vendor"    : "oitsjustjose.com",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${mod_version}",
+                "Implementation-Vendor"   : "oitsjustjose.com",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
@@ -125,35 +127,35 @@ tasks.register('modrinth', TaskModrinthUpload.class).configure {
 }
 
 curseforge {
-  apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
-  project {
-    id = '271856'
-    changelogType = 'markdown'
-    changelog = file("./changelog.md")
-    releaseType = 'release'
-    addGameVersion project.game_version
-    
-    relations {
-      requiredDependency 'patchouli'
-      optionalDependency 'applied-energistics-2'
-      optionalDependency 'extreme-reactors'
-      optionalDependency 'biggerreactors'
-      optionalDependency 'mekanism'
-    }
+    apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
+    project {
+        id = '271856'
+        changelogType = 'markdown'
+        changelog = file("./changelog.md")
+        releaseType = 'release'
+        addGameVersion project.game_version
 
-    mainArtifact(jar) {
-        displayName = "Geolosys ${game_version} ${mod_version}"
-    }
+        relations {
+            requiredDependency 'patchouli'
+            optionalDependency 'applied-energistics-2'
+            optionalDependency 'extreme-reactors'
+            optionalDependency 'biggerreactors'
+            optionalDependency 'mekanism'
+        }
+
+        mainArtifact(jar) {
+            displayName = "Geolosys ${game_version} ${mod_version}"
+        }
 
 
-    addArtifact(deobfJar) {
-        displayName = "Geolosys ${game_version} ${mod_version} Deobf"
-    }
+        addArtifact(deobfJar) {
+            displayName = "Geolosys ${game_version} ${mod_version} Deobf"
+        }
 
-    addArtifact(sourcesJar){
-        displayName = "Geolosys ${game_version} ${mod_version} Sources"
+        addArtifact(sourcesJar) {
+            displayName = "Geolosys ${game_version} ${mod_version} Sources"
+        }
     }
-  }
 }
 
 publishing {
