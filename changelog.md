@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.8
+
+### Added
+
+- `removeVeinOres` config option - allows you to configure if the Minecraft Vanilla Vein Ores (Tuff + Deepslate Iron and Copper + Granite) are removed, or left in place (**defaults to false**). If set to false, the Deepslate Iron & Standard Copper ores will be replaced with Geolosys Variants -- many thanks to [Akkad Abraham](https://github.com/akkad-abraham) for this feature!!
+
 ## 7.0.7
 
 ### Fixed
