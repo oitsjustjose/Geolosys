@@ -2,17 +2,23 @@ package com.oitsjustjose.geolosys.common.world.feature;
 
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.IChunkGennedCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.DepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.IDepositCapability;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
@@ -26,20 +32,22 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
     @Override
     @ParametersAreNonnullByDefault
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos,
-            NoFeatureConfig config) {
+                            NoFeatureConfig config) {
         if (generator instanceof FlatChunkGenerator) {
             return false;
         }
 
-        IDepositCapability cap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY).orElse(null);
-        if (cap == null) {
-            Geolosys.getInstance().LOGGER.error("NULL PLUTON CAPABILITY!!!");
-            return false;
-        }
+        IDepositCapability depCap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
+                .orElseThrow(() -> new RuntimeException("Geolosys Pluton Capability Is Null.."));
 
-        boolean placedPending = placePendingBlocks(reader, cap, pos);
+        IChunkGennedCapability cgCap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_CHUNK_GEN_CAPABILITY)
+                .orElseThrow(() -> new RuntimeException("Geolosys Chunk Gen Capability Is Null.."));
+        // Let our tracker know that we did in fact traverse this chunk
+        cgCap.setChunkGenerated(new ChunkPos(pos));
+
+        boolean placedPending = placePendingBlocks(reader, depCap, cgCap, pos);
         ChunkPos chunkPos = new ChunkPos(pos);
-        if (cap.hasPlutonGenerated(chunkPos)) {
+        if (depCap.hasPlutonGenerated(chunkPos)) {
             return false;
         }
 
@@ -52,37 +60,28 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             return false;
         }
 
-        boolean anyGenerated = pluton.generate(reader, pos, cap) > 0;
+        boolean anyGenerated = pluton.generate(reader, pos, depCap, cgCap) > 0;
 
         if (anyGenerated) {
-            pluton.afterGen(reader, pos, cap);
-            cap.setPlutonGenerated(chunkPos);
+            pluton.afterGen(reader, pos, depCap, cgCap);
+            depCap.setPlutonGenerated(chunkPos);
             return true;
         }
 
         return placedPending;
     }
 
-    private boolean placePendingBlocks(ISeedReader reader, IDepositCapability cap, BlockPos pos) {
-        boolean placedAny = false;
-        for (Entry<BlockPos, BlockState> e : cap.getPendingBlocks().entrySet()) {
-            if (FeatureUtils.isInChunk(new ChunkPos(pos), e.getKey())) {
-                if (reader.setBlockState(e.getKey(), e.getValue(), 2 | 16)) {
-                    placedAny = true;
-                    cap.getPendingBlocks().remove(e.getKey());
-                    if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
-                        Geolosys.getInstance().LOGGER.debug("Generated pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
-                    }
-                } else {
-                    if (CommonConfig.DEBUG_WORLD_GEN.get()) {
-                        Geolosys.getInstance().LOGGER.error("FAILED to generate pending block "
-                                + e.getValue().getBlock().getRegistryName().toString() + " at " + e.getKey());
-                    }
-                }
-            }
+    private boolean placePendingBlocks(ISeedReader reader, IDepositCapability depCap, IChunkGennedCapability cgCap, BlockPos origin) {
+        ChunkPos cp = new ChunkPos(origin);
+        ConcurrentLinkedQueue<DepositCapability.PendingBlock> q = depCap.getPendingBlocks(cp);
+        if (cgCap.hasChunkGenerated(cp) && q.size() > 0) {
+            Geolosys.getInstance().LOGGER.info(
+                    "Chunk [{}, {}] has already generated but we're trying to place pending blocks anyways", cp.x,
+                    cp.z);
         }
-
-        return placedAny;
+        q.parallelStream().forEach(x -> FeatureUtils.enqueueBlockPlacement(reader, cp, x.getPos(), x.getState(), depCap, cgCap));
+        depCap.removePendingBlocksForChunk(cp);
+        Geolosys.getInstance().LOGGER.info("Still {} pending blocks", depCap.getPendingBlockCount());
+        return q.size() > 0;
     }
 }

@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys.common.world.capability;
+package com.oitsjustjose.geolosys.common.world.capability.Deposit;
 
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import net.minecraft.nbt.CompoundNBT;

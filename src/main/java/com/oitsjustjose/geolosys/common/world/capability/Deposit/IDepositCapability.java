@@ -1,14 +1,14 @@
-package com.oitsjustjose.geolosys.common.world.capability;
-
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
+package com.oitsjustjose.geolosys.common.world.capability.Deposit;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public interface IDepositCapability extends INBTSerializable<CompoundNBT> {
     boolean hasPlutonGenerated(ChunkPos pos);
@@ -17,11 +17,13 @@ public interface IDepositCapability extends INBTSerializable<CompoundNBT> {
 
     void putPendingBlock(BlockPos pos, BlockState state);
 
-    BlockState getPendingBlock(BlockPos pos);
+    void removePendingBlocksForChunk(ChunkPos cp);
+
+    ConcurrentLinkedQueue<DepositCapability.PendingBlock> getPendingBlocks(ChunkPos cp);
+
+    int getPendingBlockCount();
 
     ConcurrentLinkedQueue<ChunkPos> getGenMap();
-
-    Map<BlockPos, BlockState> getPendingBlocks();
 
     boolean hasPlayerReceivedManual(UUID uuid);
 

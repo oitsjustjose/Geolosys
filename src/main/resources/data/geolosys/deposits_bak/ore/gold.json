@@ -2,8 +2,8 @@
   "type": "geolosys:deposit_dense",
   "config": {
     "yMin": 5,
-    "yMax": 64,
-    "size": 192,
+    "yMax": 30,
+    "size": 40,
     "dimensions": {
       "isBlacklist": false,
       "filter": [
@@ -13,7 +13,11 @@
     "blocks": [
       {
         "block": "geolosys:gold_ore",
-        "chance": 1.0
+        "chance": 0.85
+      },
+      {
+        "block": null,
+        "chance": 0.15
       }
     ],
     "samples": [

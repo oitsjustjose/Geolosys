@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,7 +19,8 @@ import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.serializer.SerializerUtils;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.IChunkGennedCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.block.BlockState;
@@ -55,9 +57,9 @@ public class LayerDeposit implements IDeposit {
     private float sumWtSamples = 0.0F;
 
     public LayerDeposit(HashMap<BlockState, Float> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin,
-            int yMax, int radius, int depth, int genWt, String[] dimFilter, boolean isDimFilterBl,
-            @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
-            @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
+                        int yMax, int radius, int depth, int genWt, String[] dimFilter, boolean isDimFilterBl,
+                        @Nullable List<BiomeDictionary.Type> biomeTypes, @Nullable List<Biome> biomeFilter,
+                        @Nullable boolean isBiomeFilterBl, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
         this.sampleToWtMap = sampleBlocks;
         this.yMin = yMin;
@@ -86,11 +88,11 @@ public class LayerDeposit implements IDeposit {
     /**
      * Uses {@link DepositUtils#pick(HashMap, float)} to find a random ore block to
      * return.
-     * 
+     *
      * @return the random ore block chosen (based on weight) Can be null to
-     *         represent "density" of the ore -- null results should be used to
-     *         determine if the block in the world should be replaced. If null,
-     *         don't replace 😉
+     * represent "density" of the ore -- null results should be used to
+     * determine if the block in the world should be replaced. If null,
+     * don't replace 😉
      */
     @Nullable
     public BlockState getOre() {
@@ -100,11 +102,11 @@ public class LayerDeposit implements IDeposit {
     /**
      * Uses {@link DepositUtils#pick(HashMap, float)} to find a random pluton sample
      * to return.
-     * 
+     *
      * @return the random pluton sample chosen (based on weight) Can be null to
-     *         represent "density" of the samples -- null results should be used to
-     *         determine if the sample in the world should be replaced. If null,
-     *         don't replace 😉
+     * represent "density" of the samples -- null results should be used to
+     * determine if the sample in the world should be replaced. If null,
+     * don't replace 😉
      */
     @Nullable
     public BlockState getSample() {
@@ -169,14 +171,14 @@ public class LayerDeposit implements IDeposit {
     /**
      * Handles full-on generation of this type of pluton. Requires 0 arguments as
      * everything is self-contained in this class
-     * 
+     *
      * @return (int) the number of pluton resource blocks placed. If 0 -- this
-     *         should be evaluted as a false for use of Mojang's sort-of sketchy
-     *         generation code in
-     *         {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
+     * should be evaluted as a false for use of Mojang's sort-of sketchy
+     * generation code in
+     * {@link DepositFeature#generate(net.minecraft.world.ISeedReader, net.minecraft.world.gen.ChunkGenerator, java.util.Random, net.minecraft.util.math.BlockPos, net.minecraft.world.gen.feature.NoFeatureConfig)}
      */
     @Override
-    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public int generate(ISeedReader reader, BlockPos pos, IDepositCapability cap, IChunkGennedCapability cgCap) {
         /* Dimension checking is done in PlutonRegistry#pick */
         /* Check biome allowance */
         if (!DepositUtils.canPlaceInBiome(reader.getBiome(pos), this.biomeFilter, this.biomeTypeFilter,
@@ -220,7 +222,7 @@ public class LayerDeposit implements IDeposit {
                         continue;
                     }
 
-                    if (FeatureUtils.tryPlaceBlock(reader, thisChunk, placePos, tmp, cap)) {
+                    if (FeatureUtils.enqueueBlockPlacement(reader, thisChunk, placePos, tmp, cap, cgCap)) {
                         totlPlaced++;
                     }
                 }
@@ -233,7 +235,7 @@ public class LayerDeposit implements IDeposit {
      * Handles what to do after the world has generated
      */
     @Override
-    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap) {
+    public void afterGen(ISeedReader reader, BlockPos pos, IDepositCapability cap, IChunkGennedCapability cgCap) {
         // Debug the pluton
         if (CommonConfig.DEBUG_WORLD_GEN.get()) {
             Geolosys.getInstance().LOGGER.debug("Generated {} in Chunk {} (Pos [{} {} {}])", this.toString(),
@@ -260,7 +262,7 @@ public class LayerDeposit implements IDeposit {
                 tmp = tmp.with(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true));
             }
 
-            FeatureUtils.tryPlaceBlock(reader, thisChunk, samplePos, tmp, cap);
+            FeatureUtils.enqueueBlockPlacement(reader, thisChunk, samplePos, tmp, cap, cgCap);
             FeatureUtils.fixSnowyBlock(reader, samplePos);
         }
     }

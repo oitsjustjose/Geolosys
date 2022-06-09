@@ -3,7 +3,7 @@ package com.oitsjustjose.geolosys.common.event;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.IDepositCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;

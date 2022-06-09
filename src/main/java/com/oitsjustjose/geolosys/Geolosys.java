@@ -18,10 +18,15 @@ import com.oitsjustjose.geolosys.common.data.modifiers.YelloriumDropModifier;
 import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.ModItems;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapProvider;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapStorage;
-import com.oitsjustjose.geolosys.common.world.capability.DepositCapability;
-import com.oitsjustjose.geolosys.common.world.capability.IDepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.DepositCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.DepositCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.DepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Deposit.IDepositCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.ChunkGennedCapProvider;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.ChunkGennedCapStorage;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.ChunkGennedCapability;
+import com.oitsjustjose.geolosys.common.world.capability.Chunk.IChunkGennedCapability;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,6 +93,7 @@ public class Geolosys {
 
     public void setup(final FMLCommonSetupEvent event) {
         CapabilityManager.INSTANCE.register(IDepositCapability.class, new DepositCapStorage(), DepositCapability::new);
+        CapabilityManager.INSTANCE.register(IChunkGennedCapability.class, new ChunkGennedCapStorage(), ChunkGennedCapability::new);
 
         GeolosysAPI.init();
         proxy.init();
@@ -100,9 +106,11 @@ public class Geolosys {
 
     @SubscribeEvent
     public void attachCap(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new DepositCapProvider());
         String dimName = event.getObject().getDimensionKey().getLocation().toString();
-        LOGGER.info("Geolosys capability attached for {}", dimName);
+
+        event.addCapability(new ResourceLocation(Constants.MODID, "pluton"), new DepositCapProvider());
+        event.addCapability(new ResourceLocation(Constants.MODID, "generated_chunks"), new ChunkGennedCapProvider());
+        LOGGER.info("Geolosys Capabilities attached for {}", dimName);
     }
 
     @SubscribeEvent

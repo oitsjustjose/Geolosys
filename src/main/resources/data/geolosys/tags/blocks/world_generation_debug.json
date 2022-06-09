@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:clay",
+    "minecraft:dirt",
+    "minecraft:kelp",
+    "minecraft:seagrass",
+    "#minecraft:sand",
+    "minecraft:gravel",
+    "#forge:stone",
+    "minecraft:lava",
+    "minecraft:water",
+    "minecraft:sandstone",
+    "minecraft:grass_block",
+    "#minecraft:logs",
+    "#minecraft:leaves"
+  ]
+}
