@@ -9,9 +9,13 @@ import java.util.stream.Collectors;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+
+import javax.annotation.Nullable;
 
 public class DepositCapability implements IDepositCapability {
     private final ConcurrentLinkedQueue<ChunkPos> oreGenMap;
@@ -91,27 +95,50 @@ public class DepositCapability implements IDepositCapability {
 
         this.getGenMap().forEach(cp -> oreDeposits.putBoolean(serializeChunkPos(cp), true));
         this.getGivenMap().forEach((x, y) -> playersGifted.putBoolean(x.toString(), y));
-        this.pendingBlocks.values().forEach(pbs -> {
-            pbs.forEach(pendingBlock -> {
-               pendingBlocks.put(serializeBlockPos(pendingBlock.getPos()), NBTUtil.writeBlockState(pendingBlock.getState()));
-            });
+        this.pendingBlocks.entrySet().forEach(e -> {
+           ListNBT p = new ListNBT();
+           String key = e.getKey().x + "_" + e.getKey().z;
+           e.getValue().forEach(pb -> p.add(pb.serialize()));
+           pendingBlocks.put(key, p);
         });
+
         return compound;
     }
 
     @Override
     public void deserializeNBT(CompoundNBT compound) {
-        CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
-        CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
-        CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
+        // Check to see if the old storage is still there
+        if (compound.contains("PendingBlocks")) {
+            CompoundNBT pendingBlocks = compound.getCompound("PendingBlocks");
+            pendingBlocks.keySet().forEach(key -> {
+                BlockPos pos = deSerializeBlockPos(key);
+                BlockState state = NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)));
+                this.putPendingBlock(pos, state);
+            });
+        }
 
+        if (compound.contains("PendingBlocksNew")) {
+            CompoundNBT pendingBlocks = compound.getCompound("PendingBlocksNew");
+            compound.keySet().forEach(chunkPosAsString -> {
+                String[] parts = chunkPosAsString.split("_");
+                ChunkPos cp = new ChunkPos(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+
+                ListNBT pending = compound.getList(chunkPosAsString, 10);
+                ConcurrentLinkedQueue<PendingBlock> lq = new ConcurrentLinkedQueue<>();
+                pending.forEach(x -> {
+                    PendingBlock pb = PendingBlock.deserialize(x);
+                    if (pb != null) {
+                        lq.add(pb);
+                    }
+                });
+                this.pendingBlocks.put(cp, lq);
+            });
+        }
+
+        CompoundNBT oreDeposits = compound.getCompound("WorldOreDeposits");
+        CompoundNBT playersGifted = compound.getCompound("PlayersGifted");
         oreDeposits.keySet().forEach(key -> this.setPlutonGenerated(deSerializeChunkPos(key)));
         playersGifted.keySet().forEach(key -> this.setPlayerReceivedManual(UUID.fromString(key)));
-        pendingBlocks.keySet().forEach(key -> {
-            BlockPos pos = deSerializeBlockPos(key);
-            BlockState state = NBTUtil.readBlockState((CompoundNBT) Objects.requireNonNull(pendingBlocks.get(key)));
-            this.putPendingBlock(pos, state);
-        });
     }
 
     private String serializeChunkPos(ChunkPos pos) {
@@ -147,6 +174,27 @@ public class DepositCapability implements IDepositCapability {
 
         public BlockState getState() {
             return this.state;
+        }
+
+        public CompoundNBT serialize() {
+            CompoundNBT tag = new CompoundNBT();
+            CompoundNBT posTag = NBTUtil.writeBlockPos(this.pos);
+            CompoundNBT stateTag = NBTUtil.writeBlockState(this.state);
+            tag.put("pos", posTag);
+            tag.put("state", stateTag);
+            return tag;
+        }
+
+        @Nullable
+        public static PendingBlock deserialize(INBT nbt) {
+            if (nbt instanceof CompoundNBT) {
+                CompoundNBT tag = (CompoundNBT) nbt;
+                BlockPos pos = NBTUtil.readBlockPos(tag.getCompound("pos"));
+                BlockState state = NBTUtil.readBlockState(tag.getCompound("state"));
+                return new PendingBlock(pos, state);
+            }
+
+            return null;
         }
     }
 }

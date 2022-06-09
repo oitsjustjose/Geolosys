@@ -59,7 +59,7 @@ public class FeatureUtils {
         // It's too late to enqueue so just bite the bullet and force placement
         if (cgCap != null && cgCap.hasChunkGenerated(new ChunkPos(pos))) {
             if (!level.setBlockState(pos, state, 2 | 16)) {
-                Geolosys.getInstance().LOGGER.info("Somehow {} could not be placed at {} even though chunk has generated", state.getBlock().getRegistryName(), pos);
+                Geolosys.getInstance().LOGGER.warn("Somehow {} could not be placed at {} even though chunk has generated", state.getBlock().getRegistryName(), pos);
             }
             return true;
         }

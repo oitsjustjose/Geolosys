@@ -43,7 +43,8 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                 .orElseThrow(() -> new RuntimeException("Geolosys Chunk Gen Capability Is Null.."));
 
         boolean placedPluton = false;
-        boolean placedPending = placePendingBlocks(reader, depCap, cgCap, pos);
+        int pendingBlocksPlaced = placePendingBlocks(reader, depCap, cgCap, pos);
+        ChunkPos chunkPos = new ChunkPos(pos);
 
         if (reader.getRandom().nextDouble() > CommonConfig.CHUNK_SKIP_CHANCE.get()) {
             IDeposit pluton = GeolosysAPI.plutonRegistry.pick(reader, pos, reader.getRandom());
@@ -56,12 +57,19 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
             }
         }
 
+        if (CommonConfig.DEBUG_WORLD_GEN.get()) {
+            Geolosys.getInstance().LOGGER.info("Geolosys has processed for chunk [{}, {}] and {} place a pluton.",
+                    chunkPos.x, chunkPos.z, placedPluton ? "did" : "did not");
+            Geolosys.getInstance().LOGGER.info("Geolosys has processed for chunk [{}, {}] and placed {} pending blocks.",
+                    chunkPos.x, chunkPos.z, pendingBlocksPlaced);
+        }
+
         // Let our tracker know that we did in fact traverse this chunk
-        cgCap.setChunkGenerated(new ChunkPos(pos));
-        return placedPending || placedPluton;
+        cgCap.setChunkGenerated(chunkPos);
+        return pendingBlocksPlaced > 0 || placedPluton;
     }
 
-    private boolean placePendingBlocks(ISeedReader reader, IDepositCapability depCap, IChunkGennedCapability cgCap, BlockPos origin) {
+    private int placePendingBlocks(ISeedReader reader, IDepositCapability depCap, IChunkGennedCapability cgCap, BlockPos origin) {
         ChunkPos cp = new ChunkPos(origin);
         ConcurrentLinkedQueue<DepositCapability.PendingBlock> q = depCap.getPendingBlocks(cp);
         if (cgCap.hasChunkGenerated(cp) && q.size() > 0) {
@@ -71,7 +79,9 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
         }
         q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(reader, cp, x.getPos(), x.getState(), depCap, cgCap));
         depCap.removePendingBlocksForChunk(cp);
-        Geolosys.getInstance().LOGGER.info("Still {} pending blocks", depCap.getPendingBlockCount());
-        return q.size() > 0;
+        if (CommonConfig.ADVANCED_DEBUG_WORLD_GEN.get()) {
+            Geolosys.getInstance().LOGGER.info("{} Blocks are Stored for Future Placement", depCap.getPendingBlockCount());
+        }
+        return q.size();
     }
 }
