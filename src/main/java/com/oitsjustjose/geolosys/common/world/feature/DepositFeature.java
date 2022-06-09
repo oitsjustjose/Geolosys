@@ -39,36 +39,26 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
 
         IDepositCapability depCap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_WORLD_CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("Geolosys Pluton Capability Is Null.."));
-
         IChunkGennedCapability cgCap = reader.getWorld().getCapability(GeolosysAPI.GEOLOSYS_CHUNK_GEN_CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("Geolosys Chunk Gen Capability Is Null.."));
+
+        boolean placedPluton = false;
+        boolean placedPending = placePendingBlocks(reader, depCap, cgCap, pos);
+
+        if (reader.getRandom().nextDouble() > CommonConfig.CHUNK_SKIP_CHANCE.get()) {
+            IDeposit pluton = GeolosysAPI.plutonRegistry.pick(reader, pos, reader.getRandom());
+            if (pluton != null) {
+                boolean anyGenerated = pluton.generate(reader, pos, depCap, cgCap) > 0;
+                if (anyGenerated) {
+                    placedPluton = true;
+                    pluton.afterGen(reader, pos, depCap, cgCap);
+                }
+            }
+        }
+
         // Let our tracker know that we did in fact traverse this chunk
         cgCap.setChunkGenerated(new ChunkPos(pos));
-
-        boolean placedPending = placePendingBlocks(reader, depCap, cgCap, pos);
-        ChunkPos chunkPos = new ChunkPos(pos);
-        if (depCap.hasPlutonGenerated(chunkPos)) {
-            return false;
-        }
-
-        IDeposit pluton = GeolosysAPI.plutonRegistry.pick(reader, pos, rand);
-        if (pluton == null) { // Could be no pluton for the dimension
-            return false;
-        }
-
-        if (rand.nextInt(CommonConfig.CHUNK_SKIP_CHANCE.get()) > pluton.getGenWt()) {
-            return false;
-        }
-
-        boolean anyGenerated = pluton.generate(reader, pos, depCap, cgCap) > 0;
-
-        if (anyGenerated) {
-            pluton.afterGen(reader, pos, depCap, cgCap);
-            depCap.setPlutonGenerated(chunkPos);
-            return true;
-        }
-
-        return placedPending;
+        return placedPending || placedPluton;
     }
 
     private boolean placePendingBlocks(ISeedReader reader, IDepositCapability depCap, IChunkGennedCapability cgCap, BlockPos origin) {
@@ -79,7 +69,7 @@ public class DepositFeature extends Feature<NoFeatureConfig> {
                     "Chunk [{}, {}] has already generated but we're trying to place pending blocks anyways", cp.x,
                     cp.z);
         }
-        q.parallelStream().forEach(x -> FeatureUtils.enqueueBlockPlacement(reader, cp, x.getPos(), x.getState(), depCap, cgCap));
+        q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(reader, cp, x.getPos(), x.getState(), depCap, cgCap));
         depCap.removePendingBlocksForChunk(cp);
         Geolosys.getInstance().LOGGER.info("Still {} pending blocks", depCap.getPendingBlockCount());
         return q.size() > 0;
