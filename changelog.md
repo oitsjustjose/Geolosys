@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.9
+
+### Fixed
+
+- Immersive Engineering Compatibility has been properly added
+
 ## 7.0.8
 
 ### Added

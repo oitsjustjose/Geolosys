@@ -1,0 +1,18 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "immersiveengineering"
+        }
+      ],
+      "recipe": {
+        "type": "immersiveengineering:blast_furnace_fuel",
+        "input": { "item": "geolosys:lignite_coal_coke" },
+        "time": 1800
+      }
+    }
+  ]
+}
