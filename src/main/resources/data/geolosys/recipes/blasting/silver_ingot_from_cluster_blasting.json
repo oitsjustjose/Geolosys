@@ -1,27 +1,15 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:blasting",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "values": [
-            {
-              "item": "geolosys:silver_ingot",
-              "type": "forge:item_exists"
-            }
-          ],
-          "type": "forge:and"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:blasting",
-        "ingredient": {
-          "item": "geolosys:silver_cluster"
-        },
-        "result": "geolosys:silver_ingot",
-        "experience": 0.7,
-        "cookingtime": 100
-      }
+      "type": "forge:item_exists",
+      "item": "geolosys:silver_ingot"
     }
-  ]
+  ],
+  "ingredient": {
+    "item": "geolosys:silver_cluster"
+  },
+  "result": "geolosys:silver_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
 }

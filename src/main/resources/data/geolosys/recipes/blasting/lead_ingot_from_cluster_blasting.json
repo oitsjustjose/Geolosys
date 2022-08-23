@@ -1,27 +1,15 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:blasting",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "values": [
-            {
-              "item": "geolosys:lead_ingot",
-              "type": "forge:item_exists"
-            }
-          ],
-          "type": "forge:and"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:blasting",
-        "ingredient": {
-          "item": "geolosys:lead_cluster"
-        },
-        "result": "geolosys:lead_ingot",
-        "experience": 0.7,
-        "cookingtime": 100
-      }
+      "type": "forge:item_exists",
+      "item": "geolosys:lead_ingot"
     }
-  ]
+  ],
+  "ingredient": {
+    "item": "geolosys:lead_cluster"
+  },
+  "result": "geolosys:lead_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
 }

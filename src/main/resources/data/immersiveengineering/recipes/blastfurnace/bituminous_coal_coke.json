@@ -1,18 +1,11 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "immersiveengineering:blast_furnace_fuel",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "immersiveengineering"
-        }
-      ],
-      "recipe": {
-        "type": "immersiveengineering:blast_furnace_fuel",
-        "input": { "item": "geolosys:bituminous_coal_coke" },
-        "time": 2400
-      }
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
     }
-  ]
+  ],
+  "input": { "item": "geolosys:bituminous_coal_coke" },
+  "time": 2400
 }

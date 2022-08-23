@@ -1,20 +1,13 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "immersiveengineering:crusher",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "immersiveengineering"
-        }
-      ],
-      "recipe": {
-        "type": "immersiveengineering:crusher",
-        "input": { "item": "geolosys:lignite_coal_coke" },
-        "secondaries": [],
-        "result": { "tag": "forge:dusts/coal_coke" },
-        "energy": 3600
-      }
+      "type": "forge:mod_loaded",
+      "modid": "immersiveengineering"
     }
-  ]
+  ],
+  "input": { "item": "geolosys:lignite_coal_coke" },
+  "secondaries": [],
+  "result": { "tag": "forge:dusts/coal_coke" },
+  "energy": 3600
 }

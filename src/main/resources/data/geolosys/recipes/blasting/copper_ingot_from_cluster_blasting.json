@@ -1,27 +1,15 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:blasting",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "values": [
-            {
-              "item": "minecraft:copper_ingot",
-              "type": "forge:item_exists"
-            }
-          ],
-          "type": "forge:and"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:blasting",
-        "ingredient": {
-          "item": "geolosys:copper_cluster"
-        },
-        "result": "minecraft:copper_ingot",
-        "experience": 0.7,
-        "cookingtime": 100
-      }
+      "type": "forge:item_exists",
+      "item": "minecraft:copper_ingot"
     }
-  ]
+  ],
+  "ingredient": {
+    "item": "geolosys:copper_cluster"
+  },
+  "result": "minecraft:copper_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
 }

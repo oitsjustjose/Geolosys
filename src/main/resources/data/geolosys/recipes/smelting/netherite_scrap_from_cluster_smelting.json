@@ -1,27 +1,15 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:smelting",
+  "conditions": [
     {
-      "conditions": [
-        {
-          "values": [
-            {
-              "item": "minecraft:netherite_scrap",
-              "type": "forge:item_exists"
-            }
-          ],
-          "type": "forge:and"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:smelting",
-        "ingredient": {
-          "item": "geolosys:ancient_debris_cluster"
-        },
-        "result": "minecraft:netherite_scrap",
-        "experience": 1.0,
-        "cookingtime": 400
-      }
+      "type": "forge:item_exists",
+      "item": "minecraft:netherite_scrap"
     }
-  ]
+  ],
+  "ingredient": {
+    "item": "geolosys:ancient_debris_cluster"
+  },
+  "result": "minecraft:netherite_scrap",
+  "experience": 1.0,
+  "cookingtime": 400
 }
