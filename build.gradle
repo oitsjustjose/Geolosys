@@ -71,7 +71,6 @@ repositories {
 dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:worldstripper-250603:3670854")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -133,7 +132,8 @@ curseforge {
         changelogType = 'markdown'
         changelog = file("./changelog.md")
         releaseType = 'release'
-        addGameVersion project.game_version
+        addGameVersion '1.19'
+        addGameVersion '1.19.1'
 
         relations {
             requiredDependency 'patchouli'
