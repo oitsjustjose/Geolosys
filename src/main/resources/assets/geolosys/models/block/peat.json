@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout_mipped",
   "parent": "block/cube_all",
   "textures": {
     "all": "geolosys:blocks/peat/bottom"
