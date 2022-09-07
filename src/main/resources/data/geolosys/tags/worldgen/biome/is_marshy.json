@@ -1,0 +1,7 @@
+{
+"replace": true,
+  "values": [
+    "#forge:is_swamp",
+    "#forge:is_mushroom"
+  ]
+}

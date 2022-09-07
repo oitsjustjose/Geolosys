@@ -4,10 +4,7 @@
     "yMin": 32,
     "yMax": 60,
     "baseRadius": 2,
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#minecraft:is_overworld",
     "blocks": {
       "default": [
         {

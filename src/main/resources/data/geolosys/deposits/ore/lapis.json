@@ -5,14 +5,7 @@
     "yMax": 64,
     "size": 30,
     "spread": 24,
-    "biomes": {
-      "isBlacklist": false,
-      "filter": ["SANDY"]
-    },
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#forge:is_dry/overworld",
     "blocks": {
       "default": [
         {

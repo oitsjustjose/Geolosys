@@ -32,10 +32,7 @@
     "yMin": -49,
     "yMax": 13,
     "size": 80,
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#minecraft:is_overworld",
     "generationWeight": 3
   }
 }

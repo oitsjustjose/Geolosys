@@ -1,0 +1,8 @@
+{
+  "replace": true,
+  "values": [
+    "#forge:is_sandy",
+    "#forge:is_hot/overworld",
+    "#forge:is_dry/overworld"
+  ]
+}

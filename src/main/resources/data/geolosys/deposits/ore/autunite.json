@@ -33,14 +33,7 @@
     "yMax": 33,
     "spread": 6,
     "size": 24,
-    "biomes": {
-      "isBlacklist": false,
-      "filter": ["MOUNTAIN"]
-    },
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#minecraft:is_mountain",
     "generationWeight": 4
   }
 }

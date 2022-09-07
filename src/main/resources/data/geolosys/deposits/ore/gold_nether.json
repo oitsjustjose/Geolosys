@@ -11,10 +11,7 @@
       "minecraft:magma_block",
       "minecraft:lava"
     ],
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["the_nether"]
-    },
+    "biomeTag": "#minecraft:is_nether",
     "blocks": {
       "default": [
         {

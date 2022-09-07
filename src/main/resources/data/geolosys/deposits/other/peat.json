@@ -19,10 +19,7 @@
     "depth": 4,
     "chanceForSample": 0.25,
     "generationWeight": 3,
-    "dimensions": {
-      "isBlacklist": true,
-      "filter": ["the_nether", "the_end"]
-    },
+    "biomeTag": "#minecraft:is_overworld",
     "blockStateMatchers": ["minecraft:dirt", "minecraft:grass_block"]
   }
 }

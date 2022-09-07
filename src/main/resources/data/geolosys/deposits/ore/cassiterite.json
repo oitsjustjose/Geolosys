@@ -5,14 +5,7 @@
     "yMax": 68,
     "size": 24,
     "density": 1.0,
-    "biomes": {
-      "isBlacklist": false,
-      "filter": ["BEACH", "OCEAN", "HOT"]
-    },
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#geolosys:is_sandy",
     "blocks": {
       "default": [
         {

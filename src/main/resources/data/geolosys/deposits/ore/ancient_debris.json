@@ -4,10 +4,7 @@
     "yMin": 8,
     "yMax": 22,
     "baseRadius": 3,
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["the_nether"]
-    },
+    "biomeTag": "#minecraft:is_nether",
     "blockStateMatchers": [
       "minecraft:netherrack",
       "minecraft:basalt",

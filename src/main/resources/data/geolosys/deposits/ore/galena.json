@@ -5,14 +5,7 @@
     "yMax": 32,
     "size": 32,
     "spread": 32,
-    "biomes": {
-      "isBlacklist": false,
-      "filter": ["PLAINS"]
-    },
-    "dimensions": {
-      "isBlacklist": false,
-      "filter": ["overworld"]
-    },
+    "biomeTag": "#forge:is_plains",
     "blocks": {
       "default": [
         {
