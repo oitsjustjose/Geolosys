@@ -4,9 +4,9 @@ import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.utils.Prospecting;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -18,14 +18,12 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
 public class ProPickItem extends Item {
-    public static Item.Properties props = CommonConfig.ENABLE_PRO_PICK_DMG.get()
-            ? new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance())
-                    .durability(CommonConfig.PRO_PICK_DURABILITY.get())
-            : new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance());
+    public static Item.Properties props = CommonConfig.ENABLE_PRO_PICK_DMG.get() ? new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance()).durability(CommonConfig.PRO_PICK_DURABILITY.get()) : new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance());
 
     public ProPickItem() {
         super(props);
@@ -33,12 +31,16 @@ public class ProPickItem extends Item {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
         InteractionHand hand = context.getHand();
         Level worldIn = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Direction facing = context.getClickedFace();
+
+        if (player == null) {
+            return InteractionResult.PASS;
+        }
 
         if (player.isCrouching()) {
             return InteractionResult.CONSUME;
@@ -70,9 +72,7 @@ public class ProPickItem extends Item {
         return InteractionResult.CONSUME;
     }
 
-    private boolean prospect(Player player, ItemStack stack, Level level, BlockPos pos, Direction facing,
-            int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
-
+    private void prospect(Player player, ItemStack stack, Level level, BlockPos pos, Direction facing, int xStart, int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
         HashSet<BlockState> foundBlocks = new HashSet<>();
         HashSet<BlockPos> foundBlockPos = new HashSet<>();
         HashSet<BlockState> depositBlocks = Prospecting.getDepositBlocks();
@@ -82,7 +82,7 @@ public class ProPickItem extends Item {
                 for (int z = zStart; z <= zEnd; z++) {
                     BlockPos tmpPos = pos.offset(x, y, z);
                     BlockState state = level.getBlockState(tmpPos);
-                    if (depositBlocks.contains(state) && !Prospecting.isBlacklistedFromDetection(state)) {
+                    if (depositBlocks.contains(state) && Prospecting.canDetect(state)) {
                         foundBlocks.add(state);
                         foundBlockPos.add(tmpPos);
                     }
@@ -95,12 +95,12 @@ public class ProPickItem extends Item {
             foundBlockPos.forEach((_pos) -> {
                 level.playSound(null, _pos, SoundEvents.ANVIL_PLACE, SoundSource.PLAYERS, 0.15F, 2F);
             });
-            return true;
+            return;
         }
-        return prospectChunk(level, stack, pos, player);
+        prospectChunk(level, pos, player);
     }
 
-    private boolean prospectChunk(Level level, ItemStack stack, BlockPos pos, Player player) {
+    private void prospectChunk(Level level, BlockPos pos, Player player) {
         HashSet<BlockState> foundBlocks = new HashSet<BlockState>();
         HashSet<BlockState> depositBlocks = Prospecting.getDepositBlocks();
         ChunkPos tempPos = new ChunkPos(pos);
@@ -109,7 +109,7 @@ public class ProPickItem extends Item {
             for (int z = tempPos.getMinBlockZ(); z <= tempPos.getMaxBlockZ(); z++) {
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
                     BlockState state = level.getBlockState(new BlockPos(x, y, z));
-                    if (depositBlocks.contains(state) && !Prospecting.isBlacklistedFromDetection(state)) {
+                    if (depositBlocks.contains(state) && Prospecting.canDetect(state)) {
                         foundBlocks.add(state);
                     }
                 }
@@ -118,10 +118,9 @@ public class ProPickItem extends Item {
 
         if (!foundBlocks.isEmpty()) {
             Geolosys.proxy.sendProspectingMessage(player, foundBlocks, null);
-            return true;
+            return;
         }
 
-        player.displayClientMessage(new TranslatableComponent("geolosys.pro_pick.tooltip.nonefound_surface"), true);
-        return false;
+        player.displayClientMessage(Utils.tryTranslate("geolosys.pro_pick.tooltip.nonefound_surface"), true);
     }
 }

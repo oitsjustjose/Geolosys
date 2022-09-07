@@ -7,11 +7,11 @@ import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.api.world.deposit.DikeDeposit;
 
 public class DikeDepositSerializer {
-    public DikeDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
-        return DikeDeposit.deserialize(json, ctx);
+    public DikeDeposit deserialize(JsonObject json) {
+        return DikeDeposit.deserialize(json);
     }
 
-    public JsonElement serialize(DikeDeposit dep, JsonSerializationContext ctx) {
-        return dep.serialize(dep, ctx);
+    public JsonElement serialize(DikeDeposit dep) {
+        return dep.serialize();
     }
 }

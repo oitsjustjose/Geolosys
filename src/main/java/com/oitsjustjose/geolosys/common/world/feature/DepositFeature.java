@@ -29,11 +29,6 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
         super(p_i231976_1_);
     }
 
-    public final DepositFeature withRegistryName(String modID, String name) {
-        this.setRegistryName(new ResourceLocation(modID, name));
-        return this;
-    }
-
     @Override
     @ParametersAreNonnullByDefault
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> f) {
@@ -73,7 +68,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private boolean placePendingBlocks(WorldGenLevel level, IDepositCapability depCap, IChunkGennedCapability cgCap,
-            BlockPos origin) {
+                                       BlockPos origin) {
         ChunkPos cp = new ChunkPos(origin);
         ConcurrentLinkedQueue<PendingBlock> q = depCap.getPendingBlocks(cp);
         if (cgCap.hasChunkGenerated(cp) && q.size() > 0) {
@@ -81,7 +76,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
                     "Chunk [{}, {}] has already generated but we're trying to place pending blocks anyways", cp.x,
                     cp.z);
         }
-        q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(level, cp, x.getPos(), x.getState(), depCap, cgCap));
+        q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(level, cp, x.pos(), x.state(), depCap, cgCap));
         depCap.removePendingBlocksForChunk(cp);
         return q.size() > 0;
     }

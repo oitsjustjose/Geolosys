@@ -1,11 +1,5 @@
 package com.oitsjustjose.geolosys.capability.deposit;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,10 +10,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 public class DepositCapability implements IDepositCapability {
     // Essentially indexed by ChunkPos for ease of use
-    private ConcurrentHashMap<ChunkPos, ConcurrentLinkedQueue<PendingBlock>> pendingBlocks;
+    private final ConcurrentHashMap<ChunkPos, ConcurrentLinkedQueue<PendingBlock>> pendingBlocks;
 
     public static final Capability<IDepositCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
@@ -29,8 +29,7 @@ public class DepositCapability implements IDepositCapability {
     }
 
     public int getPendingBlockCount() {
-        return (int) this.pendingBlocks.values().stream().collect(Collectors.summarizingInt(x -> x.size())).getSum();
-        // return this.pendingBlocks.size();
+        return (int) this.pendingBlocks.values().stream().collect(Collectors.summarizingInt(ConcurrentLinkedQueue::size)).getSum();
     }
 
     @Override
@@ -54,10 +53,10 @@ public class DepositCapability implements IDepositCapability {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag compound = new CompoundTag();
-        this.pendingBlocks.entrySet().forEach(e -> {
+        this.pendingBlocks.forEach((pos, pending) -> {
             ListTag p = new ListTag();
-            String key = e.getKey().x + "_" + e.getKey().z;
-            e.getValue().forEach(pb -> p.add(pb.serialize()));
+            String key = pos.x + "_" + pos.z;
+            pending.forEach(pb -> p.add(pb.serialize()));
             compound.put(key, p);
         });
         return compound;
@@ -82,22 +81,7 @@ public class DepositCapability implements IDepositCapability {
         });
     }
 
-    public static class PendingBlock {
-        private BlockPos pos;
-        private BlockState state;
-
-        public PendingBlock(BlockPos pos, BlockState state) {
-            this.pos = pos;
-            this.state = state;
-        }
-
-        public BlockPos getPos() {
-            return this.pos;
-        }
-
-        public BlockState getState() {
-            return this.state;
-        }
+    public record PendingBlock(BlockPos pos, BlockState state) {
 
         public CompoundTag serialize() {
             CompoundTag tmp = new CompoundTag();
@@ -110,8 +94,7 @@ public class DepositCapability implements IDepositCapability {
 
         @Nullable
         public static PendingBlock deserialize(Tag t) {
-            if (t instanceof CompoundTag) {
-                CompoundTag tag = (CompoundTag) t;
+            if (t instanceof CompoundTag tag) {
                 BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
                 BlockState state = NbtUtils.readBlockState(tag.getCompound("state"));
                 return new PendingBlock(pos, state);
@@ -121,16 +104,7 @@ public class DepositCapability implements IDepositCapability {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            sb.append(this.pos.getX());
-            sb.append(" ");
-            sb.append(this.pos.getY());
-            sb.append(" ");
-            sb.append(this.pos.getZ());
-            sb.append("]: ");
-            sb.append(this.state.getBlock().getRegistryName().toString());
-            return sb.toString();
+            return "[" + this.pos.getX() + " " + this.pos.getY() + " " + this.pos.getZ() + "]: " + ForgeRegistries.BLOCKS.getKey(this.state.getBlock());
         }
     }
 }

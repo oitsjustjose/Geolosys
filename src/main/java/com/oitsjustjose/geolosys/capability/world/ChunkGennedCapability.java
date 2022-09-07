@@ -10,7 +10,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
 public class ChunkGennedCapability implements IChunkGennedCapability {
-    private ConcurrentLinkedQueue<ChunkPos> generatedChunks;
+    private final ConcurrentLinkedQueue<ChunkPos> generatedChunks;
 
     public static final Capability<IChunkGennedCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });

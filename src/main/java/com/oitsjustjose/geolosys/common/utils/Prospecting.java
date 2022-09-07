@@ -56,7 +56,7 @@ public class Prospecting {
         });
     }
 
-    public static boolean isBlacklistedFromDetection(BlockState test) {
-        return getDetectionBlacklist().contains(test.getBlock().defaultBlockState());
+    public static boolean canDetect(BlockState test) {
+        return !getDetectionBlacklist().contains(test.getBlock().defaultBlockState());
     }
 }

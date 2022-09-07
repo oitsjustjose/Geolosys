@@ -1,26 +1,20 @@
 package com.oitsjustjose.geolosys.api.world;
 
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ForgeRegistries;
-
 public class DepositUtils {
-    private static Random random = new Random();
     private static HashSet<BlockState> defaultMatchersCached = null;
 
     /**
@@ -30,10 +24,10 @@ public class DepositUtils {
      * @param map  the map between a blockstate and its chance
      * @param totl the total of all chances
      * @return null if no block should be used or placed, T instanceof BlockState if
-     *         actual block should be placed.
+     * actual block should be placed.
      */
     @Nullable
-    public static BlockState pick(HashMap<BlockState, Float> map, float totl) {
+    public static BlockState pick(HashMap<BlockState, Float> map, float totl, RandomSource random) {
         if (totl == 1.0F) {
             totl = 0;
             for (Entry<BlockState, Float> e : map.entrySet()) {
@@ -52,24 +46,6 @@ public class DepositUtils {
 
         Geolosys.getInstance().LOGGER.error("Could not reach decision on block to place at Utils#pick");
         return null;
-    }
-
-    public static boolean canPlaceInBiome(Holder<Biome> targetBiome, @Nullable List<Biome> biomes,
-            @Nullable List<BiomeDictionary.Type> biomeTypes, boolean isBiomeFilterBl) {
-        boolean matchForBiome = false;
-        boolean matchForBiomeType = false;
-
-        if (biomes != null) {
-            matchForBiome = biomes.stream().anyMatch((b) -> targetBiome.is(b.getRegistryName()));
-        }
-
-        if (biomeTypes != null) {
-            matchForBiomeType = biomeTypes.stream().anyMatch(t -> BiomeDictionary.getBiomes(t).stream()
-                    .anyMatch(b -> targetBiome.is(b.location())));
-        }
-
-        return ((matchForBiome || matchForBiomeType) && !isBiomeFilterBl)
-                || (!matchForBiome && !matchForBiomeType && isBiomeFilterBl);
     }
 
     @SuppressWarnings("unchecked")

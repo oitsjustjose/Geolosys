@@ -33,14 +33,14 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final Properties BASE_PROPS = Properties.of(Material.DIRT, MaterialColor.STONE)
-            .strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape();
+    private static final Properties BASE_PROPS = Properties.of(Material.DIRT, MaterialColor.STONE).strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape().offsetType(OffsetType.XZ);
 
     public SampleBlock() {
-        super(CommonConfig.SAMPLE_TICK_ENABLED.get() ? BASE_PROPS.randomTicks() : BASE_PROPS);
+        super(BASE_PROPS);
         this.registerDefaultState(this.getStateDefinition().any().setValue(WATERLOGGED, Boolean.FALSE));
     }
 
@@ -54,28 +54,27 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        Vec3 offset = state.getOffset(worldIn, pos);
+    public VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        Vec3 offset = state.getOffset(level, pos);
         return Shapes.create(0.2D, 0.0D, 0.2D, 0.8D, 0.2D, 0.8D).move(offset.x, offset.y, offset.z);
     }
 
     @Override
-    public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
-        super.fallOn(worldIn, state, pos, entityIn, fallDistance);
+    public void fallOn(@NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull Entity entity, float fallDistance) {
+        super.fallOn(level, state, pos, entity, fallDistance);
         // One in ten chance for the sample to break when fallen on
         Random random = new Random();
         if (((int) fallDistance) > 0) {
             if (random.nextInt((int) fallDistance) > 5) {
-                worldIn.destroyBlock(pos, true);
+                level.destroyBlock(pos, true);
             }
         }
     }
 
     @Nonnull
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
-            BlockHitResult hit) {
+    public InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand handIn, @NotNull BlockHitResult hit) {
         if (!player.isCrouching()) {
-            worldIn.destroyBlock(pos, true);
+            level.destroyBlock(pos, true);
             player.swing(handIn);
             return InteractionResult.SUCCESS;
         }
@@ -83,9 +82,9 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        BlockState below = worldIn.getBlockState(pos.below());
-        return below.isSolidRender(worldIn, pos.below());
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState below = level.getBlockState(pos.below());
+        return below.isSolidRender(level, pos.below());
     }
 
     @Override
@@ -94,57 +93,21 @@ public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    @Nonnull
-    public Block.OffsetType getOffsetType() {
-        return Block.OffsetType.XZ;
-    }
-
-    @Override
     @SuppressWarnings("deprecation")
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
-            boolean isMoving) {
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
-        if (!this.canSurvive(state, worldIn, pos)) {
-            worldIn.destroyBlock(pos, true);
+    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block blockIn, @NotNull BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, blockIn, fromPos, isMoving);
+        if (!this.canSurvive(state, level, pos)) {
+            level.destroyBlock(pos, true);
         }
         // Update the water from flowing to still or vice-versa
         if (state.getValue(WATERLOGGED)) {
-            worldIn.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
-        }
-    }
-
-    // Only tick randomly whenever not waterlogged, to make it waterlogged.
-    @Override
-    public boolean isRandomlyTicking(BlockState state) {
-        return CommonConfig.SAMPLE_TICK_ENABLED.get()
-                && (state.hasProperty(WATERLOGGED) && state.getValue(WATERLOGGED).equals(Boolean.FALSE));
-    }
-
-    @SuppressWarnings("deprecation")
-    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
-        if (!worldIn.isAreaLoaded(pos, 1)) {
-            return;
-        }
-
-        BlockState[] neighbors = new BlockState[] { worldIn.getBlockState(pos.offset(1, 0, 0)),
-                worldIn.getBlockState(pos.offset(-1, 0, 0)), worldIn.getBlockState(pos.offset(0, 0, 1)),
-                worldIn.getBlockState(pos.offset(0, 0, -1)) };
-
-        int waterNeighbors = 0;
-        for (BlockState b : neighbors) {
-            if (b.getFluidState() == Fluids.WATER.getSource(false)) {
-                waterNeighbors++;
-            }
-        }
-
-        if (waterNeighbors > 1) {
-            worldIn.setBlock(pos, state.setValue(WATERLOGGED, Boolean.TRUE), 2 | 16);
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
     }
 }

@@ -33,7 +33,7 @@ public class PlayerCapability implements IPlayerCapability {
         ListTag playersReceived = new ListTag();
         this.playersReceived.forEach(id -> {
             CompoundTag t = new CompoundTag();
-            t.putString("uuid", id.toString());
+            t.putString("uuid", id);
             playersReceived.add(t);
         });
         compound.put("playersReceivedManual", playersReceived);

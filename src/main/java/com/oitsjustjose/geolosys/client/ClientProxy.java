@@ -6,8 +6,8 @@ import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.PacketHelpers;
 import com.oitsjustjose.geolosys.common.network.PacketStackSurface;
 import com.oitsjustjose.geolosys.common.network.PacketStackUnderground;
+import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,21 +17,16 @@ import java.util.HashSet;
 
 public class ClientProxy extends CommonProxy {
     public void init() {
-        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class,
-                PacketStackSurface::encode, PacketStackSurface::decode, PacketStackClientSurface::handleClient);
-        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++,
-                PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode,
-                PacketStackClientUnderground::handleClient);
+        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackSurface.class, PacketStackSurface::encode, PacketStackSurface::decode, PacketStackClientSurface::handleClient);
+        CommonProxy.networkManager.networkWrapper.registerMessage(CommonProxy.discriminator++, PacketStackUnderground.class, PacketStackUnderground::encode, PacketStackUnderground::decode, PacketStackClientUnderground::handleClient);
     }
 
     @Override
     public void sendProspectingMessage(Player player, HashSet<BlockState> blocks, @Nullable Direction direction) {
         if (direction != null) {
-            player.displayClientMessage(new TranslatableComponent("geolosys.pro_pick.tooltip.found",
-                    PacketHelpers.messagify(blocks), direction), true);
+            player.displayClientMessage(Utils.tryTranslate("geolosys.pro_pick.tooltip.found", PacketHelpers.messagify(blocks), direction), true);
         } else {
-            player.displayClientMessage(new TranslatableComponent("geolosys.pro_pick.tooltip.found_surface",
-                    PacketHelpers.messagify(blocks)), true);
+            player.displayClientMessage(Utils.tryTranslate("geolosys.pro_pick.tooltip.found_surface", PacketHelpers.messagify(blocks)), true);
         }
     }
 

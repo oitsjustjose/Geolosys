@@ -1,18 +1,12 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.world.ChunkGennedCapability;
 import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
-
+import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
@@ -24,7 +18,11 @@ import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -35,39 +33,23 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
             Blocks.COPPER_ORE
     );
 
-    // TODO get better way to get instances of the blocks
-    @ObjectHolder("geolosys:malachite_ore")
-    public static final Block geolosysMalachiteOreBlock = null;
-
-    @ObjectHolder("geolosys:deepslate_hematite_ore")
-    public static final Block geolosysDeepslateHematiteOreBlock = null;
-
     private final HashMap<Block, Block> oreReplacementMap;
+
     public RemoveVeinsFeature(Codec<NoneFeatureConfiguration> p_i231976_1_) {
         super(p_i231976_1_);
         oreReplacementMap = initOreReplacementMap();
     }
 
     private HashMap<Block, Block> initOreReplacementMap() {
-        HashMap<Block, Block> map = new HashMap<>(){{
-            put(Blocks.COPPER_ORE, geolosysMalachiteOreBlock);
-            put(Blocks.RAW_COPPER_BLOCK, geolosysMalachiteOreBlock);
-            put(Blocks.DEEPSLATE_IRON_ORE, geolosysDeepslateHematiteOreBlock);
-            put(Blocks.RAW_IRON_BLOCK, geolosysDeepslateHematiteOreBlock);
+        Block malachite = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("geolosys:malachite_ore"));
+        Block hematite = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("geolosys:deepslate_hematite_ore"));
+
+        return new HashMap<>() {{
+            put(Blocks.COPPER_ORE, CommonConfig.REMOVE_VEIN_ORES.get() ? Blocks.STONE : malachite);
+            put(Blocks.RAW_COPPER_BLOCK, CommonConfig.REMOVE_VEIN_ORES.get() ? Blocks.STONE : malachite);
+            put(Blocks.DEEPSLATE_IRON_ORE, CommonConfig.REMOVE_VEIN_ORES.get() ? Blocks.DEEPSLATE : hematite);
+            put(Blocks.RAW_IRON_BLOCK, CommonConfig.REMOVE_VEIN_ORES.get() ? Blocks.DEEPSLATE : hematite);
         }};
-
-        if (CommonConfig.REMOVE_VEIN_ORES.get()) {
-            map.put(Blocks.COPPER_ORE, Blocks.STONE);
-            map.put(Blocks.RAW_COPPER_BLOCK, Blocks.STONE);
-            map.put(Blocks.DEEPSLATE_IRON_ORE, Blocks.DEEPSLATE);
-            map.put(Blocks.RAW_IRON_BLOCK, Blocks.DEEPSLATE);
-        }
-        return map;
-    }
-
-    public final RemoveVeinsFeature withRegistryName(String modID, String name) {
-        this.setRegistryName(new ResourceLocation(modID, name));
-        return this;
     }
 
     @Override
@@ -75,10 +57,6 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> f) {
         if (f.chunkGenerator() instanceof FlatLevelSource) {
             return false;
-        }
-
-        if (!CommonConfig.REMOVE_VANILLA_ORES.get()) {
-            return true;
         }
 
         WorldGenLevel level = f.level();

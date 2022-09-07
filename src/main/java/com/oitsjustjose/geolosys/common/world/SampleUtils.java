@@ -2,8 +2,7 @@ package com.oitsjustjose.geolosys.common.world;
 
 import javax.annotation.Nullable;
 
-import com.oitsjustjose.geolosys.Registry;
-
+import com.oitsjustjose.geolosys.common.utils.Constants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.WorldGenRegion;
@@ -22,11 +21,10 @@ public class SampleUtils {
     @Nullable
     public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos, int spread) {
 
-        if (!(level instanceof WorldGenRegion)) {
+        if (!(level instanceof WorldGenRegion world)) {
             return null;
         }
 
-        WorldGenRegion world = (WorldGenRegion) level;
         int usedSpread = Math.max(8, spread);
         int xCenter = (chunkPos.getMinBlockX() + chunkPos.getMaxBlockX()) / 2;
         int zCenter = (chunkPos.getMinBlockZ() + chunkPos.getMaxBlockZ()) / 2;
@@ -49,7 +47,7 @@ public class SampleUtils {
             BlockState blockToPlaceOn = world.getBlockState(searchPos);
             // Check if the location itself is solid
             if (Block.isFaceFull(blockToPlaceOn.getShape(world, searchPos), Direction.UP)) {
-                if (!blockToPlaceOn.is(Registry.SUPPORTS_SAMPLE)) {
+                if (!blockToPlaceOn.is(Constants.SUPPORTS_SAMPLE)) {
                     searchPos = searchPos.below();
                     continue;
                 }

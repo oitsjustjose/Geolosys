@@ -10,7 +10,6 @@ public class NetworkManager {
     private static final String PROTOCOL_VERSION = "1";
 
     public NetworkManager() {
-        networkWrapper = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MODID, "main"),
-                () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
+        networkWrapper = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MODID, "main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
     }
 }

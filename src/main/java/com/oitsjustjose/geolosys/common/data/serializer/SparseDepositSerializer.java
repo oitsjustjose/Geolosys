@@ -7,11 +7,11 @@ import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.api.world.deposit.SparseDeposit;
 
 public class SparseDepositSerializer {
-    public SparseDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
-        return SparseDeposit.deserialize(json, ctx);
+    public SparseDeposit deserialize(JsonObject json) {
+        return SparseDeposit.deserialize(json);
     }
 
-    public JsonElement serialize(SparseDeposit dep, JsonSerializationContext ctx) {
-        return dep.serialize(dep, ctx);
+    public JsonElement serialize(SparseDeposit dep) {
+        return dep.serialize();
     }
 }

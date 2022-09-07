@@ -7,11 +7,11 @@ import com.google.gson.JsonSerializationContext;
 import com.oitsjustjose.geolosys.api.world.deposit.TopLayerDeposit;
 
 public class TopLayerDepositSerializer {
-    public TopLayerDeposit deserialize(JsonObject json, JsonDeserializationContext ctx) {
-        return TopLayerDeposit.deserialize(json, ctx);
+    public TopLayerDeposit deserialize(JsonObject json) {
+        return TopLayerDeposit.deserialize(json);
     }
 
-    public JsonElement serialize(TopLayerDeposit dep, JsonSerializationContext ctx) {
-        return dep.serialize(dep, ctx);
+    public JsonElement serialize(TopLayerDeposit dep) {
+        return dep.serialize();
     }
 }

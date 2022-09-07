@@ -1,14 +1,15 @@
 package com.oitsjustjose.geolosys.client.patchouli.processors;
 
+import org.jetbrains.annotations.NotNull;
+import vazkii.patchouli.api.IComponentProcessor;
+import vazkii.patchouli.api.IVariable;
+import vazkii.patchouli.api.IVariableProvider;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
-
-import vazkii.patchouli.api.IComponentProcessor;
-import vazkii.patchouli.api.IVariable;
-import vazkii.patchouli.api.IVariableProvider;
 
 public class PatronProcessor implements IComponentProcessor {
 
@@ -41,7 +42,7 @@ public class PatronProcessor implements IComponentProcessor {
     }
 
     @Override
-    public void setup(IVariableProvider variables) {
+    public void setup(@NotNull IVariableProvider variables) {
         // No setup required, fetchPatrons is ran from Geolosys main on startup
     }
 
