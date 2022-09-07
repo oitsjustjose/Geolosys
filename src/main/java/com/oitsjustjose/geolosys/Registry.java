@@ -157,7 +157,6 @@ public class Registry {
         ItemRegistry.register("silver_cluster", () -> new Item(baseProps));
         ItemRegistry.register("tin_cluster", () -> new Item(baseProps));
         ItemRegistry.register("uranium_cluster", () -> new Item(baseProps));
-        ItemRegistry.register("yellorium_cluster", () -> new Item(baseProps));
         ItemRegistry.register("zinc_cluster", () -> new Item(baseProps));
     }
 
