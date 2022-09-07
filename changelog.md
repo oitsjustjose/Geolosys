@@ -1,130 +1,51 @@
-# Geolosys Changelog (1.18)
+# Geolosys Changelog (1.19)
 
 ## 7.0.9
 
-### Fixed
+Initial port to 1.19.2. This version might also work on 1.19 and 1.19.1, but I haven't tested that myself.
 
-- Immersive Engineering Compatibility has been properly added
+## Changes
 
-## 7.0.8
+### Changes to Vanilla Ore Removal
 
-### Added
+If you want to tweak which ores Geolosys disables, you can easily do that now via datapack! Check out [this nifty blog post](https://forge.gemwire.uk/wiki/Biome_Modifiers#Builtin_Biome_Modifier_Types) explaining the new Biome Modifier system. In short, this system gives modders and modpack devs a way to modify which things get added to a biome - we can now add or remove features from biomes!
 
-- `removeVeinOres` config option - allows you to configure if the Minecraft Vanilla Vein Ores (Tuff + Deepslate Iron and Copper + Granite) are removed, or left in place (**defaults to false**). If set to false, the Deepslate Iron & Standard Copper ores will be replaced with Geolosys Variants -- many thanks to [Akkad Abraham](https://github.com/akkad-abraham) for this feature!!
+As such, Geolosys now removes Vanilla's Ores in [this file](https://github.com/oitsjustjose/Geolosys/blob/1.19/src/main/resources/data/geolosys/forge/biome_modifier/remove_vanilla_ores.json). You can override it via datapack to change which ores the game will disable (don't forget to set `replace` to `true`!).
 
-## 7.0.7
+### Geolosys Datapack Changes (Again, I know)
 
-### Fixed
+In summary, the datapack system hasn't changed too much. The biggest change is that the following properties have been removed:
 
-- Debug messaging being left in D:
+```json5
+"dimensions": {
+    "isBlacklist": false,
+    "filter": [ "overworld" ]
+},
+"biomes": {
+    "isBlacklist": true,
+    "filter": [ "minecraft:the_void" ]
+}
+```
 
-## 7.0.6
+I know what you're thinking: "**What?!?** How am I supposed to control where plutons generate??". In 1.18.2, Vanilla MC added in Tags for Biomes, which are user customizable and can be used to filter out biomes. This system does not care about dimensions, but fortunately it is still pretty respective (i.e. `#minecraft:is_mountain` won't include anything from the Nether or End).
 
-This version was made insanely optimized and less buggy thanks to the incredible work of [@lukebemish](https://github.com/lukebemish). Please go follow them on GitHub if that's your thing ❤️❤️
+So, for pack makers I strongly suggest that you take a look at [this commit](https://github.com/oitsjustjose/Geolosys/commit/0c0c6bd1c03b839bdcbe4cbaf3231cff6519b07c) to see exactly how small the change was :)
 
-### Fixed
+#### What if a mod adds a new dimension that I want to use?
 
-- Bizarre crashes on startup (again, thanks to [@lukebemish](https://github.com/lukebemish)) ([#308](https://github.com/oitsjustjose/Geolosys/issues/308))
-- Geolosys world generation just stopping at chunk borders, even though it's seriously not supposed to.
-- Geolosys causing large worlds, long save times ([#307](https://github.com/oitsjustjose/Geolosys/issues/307))
+Dimensions that aren't in the Biome Tag `#geolosys:all_dimensions` tag will **never** get Geolosys's Plutons.
 
-## 7.0.5
+To support new dimensions, just modify the Biome Tag `#geolosys:all_dimensions` to include that dimensions' biomes. I would **strongly** recommend creating a new tag for all biomes in that dimension (i.e. `#my_modpack:is_twilight_forest`) and then adding it to the tag itself, a. la.
 
-### Fixed
+```json
+{
+  "replace": false,
+  "values": ["#my_modpack:is_twilight_forest"]
+}
+```
 
-- `setBlock detected in far chunk` spam. This fix was made by [BlackxSnow](https://github.com/BlackxSnow) - ✨THANK YOU!!✨
-- Field Manual being gifted multiple times
+## Removed
 
-## 7.0.4
+### Extra Drops from Ores
 
-### Ported to 1.18.2
-
-With the major changes in this version, any and all input on any issues faced with Geolosys are insanely helpful. Please leave any bug reports over at [https://issues.geolosys.com](https://issues.geolosys.com)
-
-## 7.0.3
-
-### Fixed
-
-- `setBlock detected in far chunk` spam. As it happens, this was on my end 😑
-- Fixed biome types not working as expected
-- Potential fix for servers crashing with no log (🤞)
-
-## 7.0.2
-
-Relegating to status of Release, because ForgeCraft has found most of the nasty bugs
-
-### Changed
-
-- The config item `samplePlacementBlacklist` has been removed in favor of using a new block tag that ats as a _white_-list: `geolosys:supports_sample`
-
-### Fixed
-
-- Persistent data not being persistent
-- Crashes / errors with Patreon fetching
-- When holding a block/item in your offhand and a ProPick in your mainhand, both hands' items would be used
-- Geolosys features showing up as `null` rather than `geolosys:deposits`, etc.. (i.e. properly register features so the game no get angy)
-
-## 7.0.1-beta-4
-
-### Fixed
-
-- Patron chapter in the Field Manual causing significant lag on reload/join
-- Patron chapter in the Field Manual not rendering Patrons
-
-## 7.0.1-beta-3
-
-### Fixed
-
-- Wrong tags being used for Clusters. Should now work better with your machinery
-- Deepslate ores not being registered as #forge:ore
-- Coals not being usable for Torch recipe, not being registered as #minecraft:coal
-
-## 7.0.1-beta-2
-
-### Fixed
-
-- Crash when no plutons are defined for a given condition, dimension, etc.
-
-## 7.0.1-beta-1
-
-### Added
-
-- New Config Option `proPickDetectionBlacklist`
-  - Allows you to blacklist certain blocks from being picked up by the Pro Pick regardless of if it's part of a deposit or not.
-
-## 7.0.0-alpha-2
-
-### Added
-
-- Patchouli Compatibility
-  - Patchouli is once again required for Geolosys to run.
-  - You'll need to get the latest build [from the Patchouli Maven](https://maven.blamejared.com/vazkii/patchouli/Patchouli/1.18-58-SNAPSHOT/) - choose `Patchouli-1.18-58-20211211.180957-1.jar`
-  - Apologies that it's not yet on CurseForge, but it's not in my control and Geolosys _is_ currently in alpha, so...
-- Re-introduced Osmium, Certus Quartz, Charged Certus Quartz, Yellorium & Sulfur drops for their respective ores.
-
-### Fixed
-
-- Copper and Raw Copper Still Generating
-- **[Potentially Fixed]** Deposits being cut off at chunk borders.
-
-### Changed
-
-- Malachite & Azurite are now separate.
-  - Malachite is more commonly found and is found usually more higher up, though it _can_ be found in deepslate
-  - Azurite is less frequently found, but comes in larger deposits. Usually found in deepslate levels
-- `chunkSkipChance` is now a `double` (ranges from `0.0` to `1.0`) rather than a somewhat-arbitrary integer
-  - it is used in a more logical way as well - rather than being based on the `generationWeight` for a randomly picked pluton
-- Stored data for Geolosys deposit placement has been removed. This may come back if someone finds a critical issue with this
-- Stored data for Manual Gifting has been moved to player-level to make it easier to maintain for server owners as well as myself
-- `[CODE]` Reworked serialization/deserialization of pending blocks in Capability
-
-## 7.0.0-alpha
-
-Pretty much just a port rather than the full rewrite I wanted from before. Some things to note:
-
-- Cave biomes can be used for Geolosys now!
-- You can now control how many deposits try to generate in a single chunk
-- New deepslate variants made
-- Changes to the datapacks: [https://twitter.com/oitsjustjose/status/1467995430059487239](https://twitter.com/oitsjustjose/status/1467995430059487239)
-- I know about the `Detected setBlock in a far chunk` bug. I can't fix it. I don't care.
-- Patchouli isn't out yet so no field manual.. yet.
+Mod Compatibility Drops for ores (such as Sulfur, AE2 Quartz, Yellorium, etc.) have been disabled. As such, Yellorium Clusters have also been removed as all of these features can be easily reproduced by a pack maker using Datapacks and KubeJS / Custom Item Mods. I'm trying to keep Geolosys as light-weight and with the times as possible, and Forge is leaning away from mods' contents being "dynamic" or "disableable" without using a datapack, which is fair.
