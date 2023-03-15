@@ -75,7 +75,7 @@ public class SparseDeposit implements IDeposit {
                 this.cumulOreWtMap.put(i.getKey(), v + j.getValue());
             }
 
-            if (this.cumulOreWtMap.get(i.getKey()) != 1.0F) {
+            if (!DepositUtils.nearlyEquals(this.cumulOreWtMap.get(i.getKey()), 1.0F)) {
                 throw new RuntimeException("Sum of weights for pluton blocks should equal 1.0");
             }
         }
@@ -84,7 +84,7 @@ public class SparseDeposit implements IDeposit {
             this.sumWtSamples += e.getValue();
         }
 
-        if (sumWtSamples != 1.0F) {
+        if (!DepositUtils.nearlyEquals(sumWtSamples, 1.0F)) {
             throw new RuntimeException("Sum of weights for pluton samples should equal 1.0");
         }
     }
@@ -249,7 +249,7 @@ public class SparseDeposit implements IDeposit {
         }
 
         ChunkPos thisChunk = new ChunkPos(pos);
-        int maxSampleCnt = (Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get()) + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get()))) * (spread / 16);
+        int maxSampleCnt = (int)((float)Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get()) + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get())) * ((float)spread / 16.0F));
 
         for (int i = 0; i < maxSampleCnt; i++) {
             BlockState tmp = this.getSample(level.getRandom());

@@ -71,8 +71,8 @@ public class DenseDeposit implements IDeposit {
                 float v = this.cumulOreWtMap.get(i.getKey());
                 this.cumulOreWtMap.put(i.getKey(), v + j.getValue());
             }
-
-            if (this.cumulOreWtMap.get(i.getKey()) != 1.0F) {
+            
+            if (!DepositUtils.nearlyEquals(this.cumulOreWtMap.get(i.getKey()), 1.0F)) {
                 throw new RuntimeException("Sum of weights for pluton blocks should equal 1.0");
             }
         }
@@ -81,7 +81,7 @@ public class DenseDeposit implements IDeposit {
             this.sumWtSamples += e.getValue();
         }
 
-        if (sumWtSamples != 1.0F) {
+        if (!DepositUtils.nearlyEquals(sumWtSamples, 1.0F)) {
             throw new RuntimeException("Sum of weights for pluton samples should equal 1.0");
         }
     }
@@ -97,13 +97,9 @@ public class DenseDeposit implements IDeposit {
      */
     @Nullable
     public BlockState getOre(BlockState currentState, RandomSource rand) {
-        String res = Utils.getRegistryName(currentState);
-        if (this.oreToWtMap.containsKey(res)) {
-            // Return a choice from a specialized set here
-            HashMap<BlockState, Float> mp = this.oreToWtMap.get(res);
-            return DepositUtils.pick(mp, this.cumulOreWtMap.get(res), rand);
-        }
-        return DepositUtils.pick(this.oreToWtMap.get("default"), this.cumulOreWtMap.get("default"), rand);
+        String res = this.oreToWtMap.containsKey(Utils.getRegistryName(currentState)) ? Utils.getRegistryName(currentState) : "default";
+        // Return a choice from a specialized set here
+        return DepositUtils.pick(this.oreToWtMap.get(res), this.cumulOreWtMap.get(res), rand);
     }
 
     /**
