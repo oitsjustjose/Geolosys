@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -90,7 +91,7 @@ public class TopLayerDeposit implements IDeposit {
                 this.cumulOreWtMap.put(i.getKey(), v + j.getValue());
             }
 
-            if (this.cumulOreWtMap.get(i.getKey()) != 1.0F) {
+            if (!DepositUtils.nearlyEquals(this.cumulOreWtMap.get(i.getKey()), 1.0F)) {
                 throw new RuntimeException("Sum of weights for pluton blocks should equal 1.0");
             }
         }
@@ -99,7 +100,7 @@ public class TopLayerDeposit implements IDeposit {
             this.sumWtSamples += e.getValue();
         }
 
-        if (sumWtSamples != 1.0F) {
+        if (!DepositUtils.nearlyEquals(sumWtSamples, 1.0F)) {
             throw new RuntimeException("Sum of weights for pluton samples should equal 1.0");
         }
     }
@@ -115,13 +116,9 @@ public class TopLayerDeposit implements IDeposit {
      */
     @Nullable
     public BlockState getOre(BlockState currentState) {
-        String res = currentState.getBlock().getRegistryName().toString();
-        if (this.oreToWtMap.containsKey(res)) {
-            // Return a choice from a specialized set here
-            HashMap<BlockState, Float> mp = this.oreToWtMap.get(res);
-            return DepositUtils.pick(mp, this.cumulOreWtMap.get(res));
-        }
-        return DepositUtils.pick(this.oreToWtMap.get("default"), this.cumulOreWtMap.get("default"));
+        String currentStateRegName = Objects.requireNonNull(currentState.getBlock().getRegistryName()).toString();
+        String res = this.oreToWtMap.containsKey(currentStateRegName) ? currentStateRegName : "default";
+        return DepositUtils.pick(this.oreToWtMap.get(res), this.cumulOreWtMap.get(res));
     }
 
     /**

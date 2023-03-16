@@ -1,5 +1,9 @@
 # Geolosys Changelog (1.18)
 
+## 7.0.10
+
+Backport of Significant chunk generation performance improvements thanks to Kyba [kyragit on GitHub](https://github.com/oitsjustjose/Geolosys/issues?q=is%3Apr+author%3Akyragit) to 1.18
+
 ## 7.0.9
 
 ### Fixed
