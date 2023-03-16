@@ -1,8 +1,8 @@
 {
   "type": "geolosys:deposit_layer",
   "config": {
-    "yMin": -52,
-    "yMax": -64,
+    "yMin": -64,
+    "yMax": -52,
     "radius": 3,
     "depth": 4,
     "dimensions": {
