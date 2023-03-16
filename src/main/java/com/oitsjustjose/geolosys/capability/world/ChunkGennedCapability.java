@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.capability.world;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,13 +10,13 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
 public class ChunkGennedCapability implements IChunkGennedCapability {
-    private final ConcurrentLinkedQueue<ChunkPos> generatedChunks;
+    private final ConcurrentHashMap.KeySetView<ChunkPos, Boolean> generatedChunks;
 
     public static final Capability<IChunkGennedCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public ChunkGennedCapability() {
-        this.generatedChunks = new ConcurrentLinkedQueue<>();
+        this.generatedChunks = ConcurrentHashMap.newKeySet();
     }
 
     @Override

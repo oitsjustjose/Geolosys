@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
-import java.util.Random;
 
 public class DepositUtils {
     private static HashSet<BlockState> defaultMatchersCached = null;
@@ -28,13 +27,6 @@ public class DepositUtils {
      */
     @Nullable
     public static BlockState pick(HashMap<BlockState, Float> map, float totl, RandomSource random) {
-        if (totl == 1.0F) {
-            totl = 0;
-            for (Entry<BlockState, Float> e : map.entrySet()) {
-                totl += e.getValue();
-            }
-        }
-
         float rng = random.nextFloat();
         for (Entry<BlockState, Float> e : map.entrySet()) {
             float wt = e.getValue();
@@ -71,5 +63,13 @@ public class DepositUtils {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns true if a and b are within epsilon of each other, where epsilon is the minimum
+     * representable value by a 32-bit floating point number.
+     */
+    public static boolean nearlyEquals(float a, float b) {
+        return Math.abs(a - b) <= Float.MIN_VALUE;
     }
 }
