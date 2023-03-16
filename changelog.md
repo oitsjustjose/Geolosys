@@ -1,5 +1,9 @@
 # Geolosys Changelog (1.19)
 
+## 7.0.10
+
+Significant chunk generation performance improvements thanks to Kyba [kyragit on GitHub](https://github.com/oitsjustjose/Geolosys/issues?q=is%3Apr+author%3Akyragit)
+
 ## 7.0.9
 
 Initial port to 1.19.2. This version might also work on 1.19 and 1.19.1, but I haven't tested that myself.
