@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": "#geolosys:all_dimensions",
-  "features": "geolosys:deposits_placed",
-  "step": "underground_ores"
+  "features": "geolosys:placed_deposits",
+  "step": "vegetal_decoration"
 }

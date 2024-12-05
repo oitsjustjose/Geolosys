@@ -8,23 +8,19 @@ import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
 import com.oitsjustjose.geolosys.common.items.CoalItem;
 import com.oitsjustjose.geolosys.common.items.ProPickItem;
 import com.oitsjustjose.geolosys.common.utils.Constants;
-import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
 import com.oitsjustjose.geolosys.common.world.feature.RemoveVeinsFeature;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,16 +30,20 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Registry {
-    public final DeferredRegister<Block> BlockRegistry = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MODID);
-    public final DeferredRegister<Item> ItemRegistry = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MODID);
+    public final DeferredRegister<Block> BlockRegistry = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MOD_ID);
+    public final DeferredRegister<Item> ItemRegistry = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
 
-    public final DeferredRegister<Feature<?>> FeatureRegistry = DeferredRegister.create(net.minecraft.core.Registry.FEATURE_REGISTRY, Constants.MODID);
-    public final DeferredRegister<ConfiguredFeature<?, ?>> ConfiguredFeatureRegistry = DeferredRegister.create(net.minecraft.core.Registry.CONFIGURED_FEATURE_REGISTRY, Constants.MODID);
-    public final DeferredRegister<PlacedFeature> PlacedFeatureRegistry = DeferredRegister.create(net.minecraft.core.Registry.PLACED_FEATURE_REGISTRY, Constants.MODID);
+    public final DeferredRegister<Feature<?>> FeatureRegistry = DeferredRegister.create(ForgeRegistries.FEATURES, Constants.MOD_ID);
+    public final DeferredRegister<CreativeModeTab> TabRegistry = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
 
     // Here because cutouts and coloring
     public final RegistryObject<Block> peat = BlockRegistry.register("peat", PeatBlock::new);
     public final RegistryObject<Block> rhododendron = BlockRegistry.register("rhododendron", () -> new PlantBlock(false, peat));
+
+    // Creative tab registry things
+    public RegistryObject<CreativeModeTab> CreativeTab;
+    public final RegistryObject<Item> proPick = ItemRegistry.register("prospectors_pick", ProPickItem::new);
+
     private final List<RegistryObject<Block>> NeedItemBlocks = Lists.newArrayList();
     private final HashMap<String, Integer> UniversalMaterials = new HashMap<>() {{
         put("anthracite_coal", 2);
@@ -74,20 +74,21 @@ public class Registry {
         RegisterBlocks();
         RegisterItems();
         RegisterWorldGen();
+        RegisterCreativeTab();
     }
 
     public void RegisterAll(FMLJavaModLoadingContext ctx) {
         BlockRegistry.register(ctx.getModEventBus());
         ItemRegistry.register(ctx.getModEventBus());
         FeatureRegistry.register(ctx.getModEventBus());
-        ConfiguredFeatureRegistry.register(ctx.getModEventBus());
-        PlacedFeatureRegistry.register(ctx.getModEventBus());
+        FeatureRegistry.register(ctx.getModEventBus());
+        TabRegistry.register(ctx.getModEventBus());
     }
 
     private void RegisterBlocks() {
-        BlockBehaviour.Properties baseProps = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(5.0F, 10F).sound(SoundType.STONE).requiresCorrectToolForDrops();
-        BlockBehaviour.Properties dsProps = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).strength(7.5F, 10F).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops();
-        BlockBehaviour.Properties netherProps = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).strength(7.5F, 10F).requiresCorrectToolForDrops();
+        var baseProps = Block.Properties.of().strength(5.0F, 10F).sound(SoundType.STONE).mapColor(MapColor.STONE).requiresCorrectToolForDrops();
+        var dsProps = Block.Properties.of().strength(7.5F, 10F).sound(SoundType.DEEPSLATE).mapColor(MapColor.DEEPSLATE).requiresCorrectToolForDrops();
+        var netherProps = Block.Properties.of().strength(7.5F, 10F).sound(SoundType.STONE).mapColor(MapColor.NETHER).requiresCorrectToolForDrops();
 
         // Non-standard blocks
         NeedItemBlocks.add(this.peat);
@@ -107,14 +108,10 @@ public class Registry {
     }
 
     private void RegisterItems() {
-        GeolosysGroup tab = GeolosysGroup.getInstance();
-        Item.Properties baseProps = new Item.Properties().tab(tab);
+        Item.Properties baseProps = new Item.Properties();
 
         // Register Block Items
-        NeedItemBlocks.forEach(x -> ItemRegistry.register(x.getId().getPath(), () -> new BlockItem(x.get(), new Item.Properties().tab(tab))));
-
-        // Special Items -- just the one AFAIK
-        ItemRegistry.register("prospectors_pick", ProPickItem::new);
+        NeedItemBlocks.forEach(x -> ItemRegistry.register(x.getId().getPath(), () -> new BlockItem(x.get(), new Item.Properties())));
 
         // Coals
         ItemRegistry.register("anthracite_coal", () -> new CoalItem(20));
@@ -161,14 +158,20 @@ public class Registry {
     }
 
     public void RegisterWorldGen() {
-        List<PlacementModifier> placement = Lists.newArrayList(HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(320)));
+        FeatureRegistry.register("deposits", () -> new DepositFeature(NoneFeatureConfiguration.CODEC));
+//        FeatureRegistry.register("remove_veins", () -> new RemoveVeinsFeature(NoneFeatureConfiguration.CODEC));
+    }
 
-        RegistryObject<Feature<NoneFeatureConfiguration>> pebbles = FeatureRegistry.register("deposits", () -> new DepositFeature(NoneFeatureConfiguration.CODEC));
-        RegistryObject<ConfiguredFeature<?, ?>> configuredPebbles = ConfiguredFeatureRegistry.register("deposits_configured", () -> new ConfiguredFeature<>(pebbles.get(), NoneFeatureConfiguration.INSTANCE));
-        PlacedFeatureRegistry.register("deposits_placed", () -> new PlacedFeature(configuredPebbles.getHolder().get(), placement));
+    public void RegisterCreativeTab() {
+        CreativeTab = TabRegistry.register("items", () -> CreativeModeTab.builder().icon(() -> new ItemStack(proPick.get())).title(Component.translatable("itemGroup." + Constants.MOD_ID + ".name")).displayItems((params, output) -> {
+            var items = ForgeRegistries.ITEMS.getKeys().stream().filter(x -> x.getNamespace().equals(Constants.MOD_ID));
 
-        RegistryObject<Feature<NoneFeatureConfiguration>> twigs = FeatureRegistry.register("remove_veins", () -> new RemoveVeinsFeature(NoneFeatureConfiguration.CODEC));
-        RegistryObject<ConfiguredFeature<?, ?>> configuredTwigs = ConfiguredFeatureRegistry.register("remove_veins_configured", () -> new ConfiguredFeature<>(twigs.get(), NoneFeatureConfiguration.INSTANCE));
-        PlacedFeatureRegistry.register("remove_veins_placed", () -> new PlacedFeature(configuredTwigs.getHolder().get(), placement));
+            items.sorted().forEach(key -> { // Add to tab
+                var item = ForgeRegistries.ITEMS.getValue(key);
+                if (item != null) {
+                    output.accept(new ItemStack(item));
+                }
+            });
+        }).build());
     }
 }
