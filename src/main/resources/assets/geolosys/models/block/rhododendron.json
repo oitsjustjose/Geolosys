@@ -2,9 +2,9 @@
   "render_type": "cutout_mipped",
   "parent": "minecraft:block/block",
   "textures": {
-    "base": "geolosys:blocks/rhododendron_base",
-    "overlay": "geolosys:blocks/rhododendron_overlay",
-    "particle": "geolosys:blocks/rhododendron_overlay"
+    "base": "geolosys:block/rhododendron_base",
+    "overlay": "geolosys:block/rhododendron_overlay",
+    "particle": "geolosys:block/rhododendron_overlay"
   },
   "elements": [
     {

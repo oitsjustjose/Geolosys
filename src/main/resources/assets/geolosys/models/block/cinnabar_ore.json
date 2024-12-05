@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/cinnabar_ore"
+    "all": "geolosys:block/cinnabar_ore"
   }
 }

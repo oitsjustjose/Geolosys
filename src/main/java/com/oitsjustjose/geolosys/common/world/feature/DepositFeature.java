@@ -1,28 +1,23 @@
 package com.oitsjustjose.geolosys.common.world.feature;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.serialization.Codec;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
-import com.oitsjustjose.geolosys.capability.deposit.DepositCapability.PendingBlock;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.world.ChunkGennedCapability;
 import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DepositFeature extends Feature<NoneFeatureConfiguration> {
     public DepositFeature(Codec<NoneFeatureConfiguration> p_i231976_1_) {
@@ -32,17 +27,15 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     @ParametersAreNonnullByDefault
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> f) {
-        if (f.chunkGenerator() instanceof FlatLevelSource) {
-            return false;
-        }
+        if (f.chunkGenerator() instanceof FlatLevelSource) return false;
 
-        WorldGenLevel level = f.level();
-        BlockPos pos = f.origin();
+        var level = f.level();
+        var pos = f.origin();
 
-        IDepositCapability depCap = level.getLevel().getCapability(DepositCapability.CAPABILITY)
+        var depCap = level.getLevel().getCapability(DepositCapability.CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("Geolosys Pluton Capability Is Null.."));
 
-        IChunkGennedCapability cgCap = level.getLevel().getCapability(ChunkGennedCapability.CAPABILITY)
+        var cgCap = level.getLevel().getCapability(ChunkGennedCapability.CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("Geolosys Pluton Capability Is Null.."));
 
         boolean placedPluton = false;
@@ -50,7 +43,7 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
 
         if (level.getRandom().nextDouble() > CommonConfig.CHUNK_SKIP_CHANCE.get()) {
             for (int p = 0; p < CommonConfig.NUMBER_PLUTONS_PER_CHUNK.get(); p++) {
-                IDeposit pluton = GeolosysAPI.plutonRegistry.pick(level, pos);
+                var pluton = GeolosysAPI.plutonRegistry.pick(level, pos);
                 if (pluton == null) {
                     continue;
                 }
@@ -70,14 +63,14 @@ public class DepositFeature extends Feature<NoneFeatureConfiguration> {
     private boolean placePendingBlocks(WorldGenLevel level, IDepositCapability depCap, IChunkGennedCapability cgCap,
                                        BlockPos origin) {
         ChunkPos cp = new ChunkPos(origin);
-        ConcurrentLinkedQueue<PendingBlock> q = depCap.getPendingBlocks(cp);
-        if (cgCap.hasChunkGenerated(cp) && q.size() > 0) {
+        ConcurrentLinkedQueue<DepositCapability.PendingBlock> q = depCap.getPendingBlocks(cp);
+        if (cgCap.hasChunkGenerated(cp) && !q.isEmpty()) {
             Geolosys.getInstance().LOGGER.info(
                     "Chunk [{}, {}] has already generated but we're trying to place pending blocks anyways", cp.x,
                     cp.z);
         }
-        q.stream().forEach(x -> FeatureUtils.enqueueBlockPlacement(level, cp, x.pos(), x.state(), depCap, cgCap));
+        q.forEach(x -> FeatureUtils.enqueueBlockPlacement(level, cp, x.pos(), x.state(), depCap, cgCap));
         depCap.removePendingBlocksForChunk(cp);
-        return q.size() > 0;
+        return !q.isEmpty();
     }
 }

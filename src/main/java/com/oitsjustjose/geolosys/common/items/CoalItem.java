@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -12,7 +11,7 @@ public class CoalItem extends Item {
     private int burnTime;
 
     public CoalItem(int burnTime) {
-        super(new Item.Properties().tab(GeolosysGroup.getInstance()).fireResistant());
+        super(new Item.Properties().fireResistant());
     }
 
     @Override

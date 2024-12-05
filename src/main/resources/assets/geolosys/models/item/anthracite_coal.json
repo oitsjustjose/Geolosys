@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/anthracite_coal"
+    "layer0": "geolosys:item/anthracite_coal"
   }
 }

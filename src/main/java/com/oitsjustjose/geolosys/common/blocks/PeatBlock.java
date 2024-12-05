@@ -8,13 +8,12 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 
 public class PeatBlock extends Block {
 
     public PeatBlock() {
-        super(Properties.of(Material.DIRT, MaterialColor.GRASS).strength(4F, 3F).sound(SoundType.SOUL_SOIL));
+        super(Properties.of().sound(SoundType.GRAVEL).mapColor(MapColor.PODZOL).strength(4F, 3F).sound(SoundType.SOUL_SOIL));
         this.registerDefaultState(this.getStateDefinition().any().setValue(BlockStateProperties.BOTTOM, Boolean.TRUE));
     }
 
@@ -35,7 +34,7 @@ public class PeatBlock extends Block {
     @Override
     @SuppressWarnings("deprecation")
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
-            boolean isMoving) {
+                                boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
         if (!worldIn.getBlockState(pos.above()).isSolidRender(worldIn, pos.above())

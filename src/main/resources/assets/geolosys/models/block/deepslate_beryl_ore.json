@@ -1,4 +1,4 @@
 {
   "parent": "block/cube_all",
-  "textures": { "all": "geolosys:blocks/deepslate_beryl_ore" }
+  "textures": { "all": "geolosys:block/deepslate_beryl_ore" }
 }

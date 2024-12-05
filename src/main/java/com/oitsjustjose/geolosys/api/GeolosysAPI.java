@@ -12,8 +12,4 @@ import net.minecraftforge.common.MinecraftForge;
 public class GeolosysAPI {
     // An instance of the registry for all generatable plutons
     public static PlutonRegistry plutonRegistry = new PlutonRegistry();
-
-    public static void init() {
-        MinecraftForge.EVENT_BUS.register(plutonRegistry);
-    }
 }

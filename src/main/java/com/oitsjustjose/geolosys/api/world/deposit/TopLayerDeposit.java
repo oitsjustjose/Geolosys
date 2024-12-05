@@ -13,7 +13,7 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -238,7 +238,7 @@ public class TopLayerDeposit implements IDeposit {
             int depth = json.get("depth").getAsInt();
             float sampleChance = json.get("chanceForSample").getAsFloat();
             int genWt = json.get("generationWeight").getAsInt();
-            TagKey<Biome> biomeTag = TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(json.get("biomeTag").getAsString().replace("#", "")));
+            TagKey<Biome> biomeTag = TagKey.create(Registries.BIOME, new ResourceLocation(json.get("biomeTag").getAsString().replace("#", "")));
 
             // Block State Matchers
             HashSet<BlockState> blockStateMatchers = DepositUtils.getDefaultMatchers();

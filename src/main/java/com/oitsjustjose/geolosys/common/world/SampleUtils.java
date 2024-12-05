@@ -10,7 +10,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class SampleUtils {
     @Nullable
@@ -21,38 +20,38 @@ public class SampleUtils {
     @Nullable
     public static BlockPos getSamplePosition(WorldGenLevel level, ChunkPos chunkPos, int spread) {
 
-        if (!(level instanceof WorldGenRegion world)) {
+        if (!(level instanceof WorldGenRegion region)) {
             return null;
         }
 
-        int usedSpread = Math.max(8, spread);
-        int xCenter = (chunkPos.getMinBlockX() + chunkPos.getMaxBlockX()) / 2;
-        int zCenter = (chunkPos.getMinBlockZ() + chunkPos.getMaxBlockZ()) / 2;
+        var usedSpread = Math.max(8, spread);
+        var xCenter = (chunkPos.getMinBlockX() + chunkPos.getMaxBlockX()) / 2;
+        var zCenter = (chunkPos.getMinBlockZ() + chunkPos.getMaxBlockZ()) / 2;
 
         // Only put things in the negative X|Z if the spread is provided.
-        int blockPosX = xCenter
+        var blockPosX = xCenter
                 + (level.getRandom().nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
-        int blockPosZ = zCenter
+        var blockPosZ = zCenter
                 + (level.getRandom().nextInt(usedSpread) * ((level.getRandom().nextBoolean()) ? 1 : -1));
 
-        if (!world.hasChunk(chunkPos.x, chunkPos.z)) {
+        if (!region.hasChunk(chunkPos.x, chunkPos.z)) {
             return null;
         }
 
-        BlockPos searchPos = new BlockPos(blockPosX, world.getHeight(), blockPosZ);
+        var searchPos = new BlockPos(blockPosX, region.getHeight(), blockPosZ);
 
         // With worlds being so much deeper,
         // it makes most sense to take a top-down approach
-        while (searchPos.getY() > world.getMinBuildHeight()) {
-            BlockState blockToPlaceOn = world.getBlockState(searchPos);
+        while (searchPos.getY() > region.getMinBuildHeight()) {
+            var blockToPlaceOn = region.getBlockState(searchPos);
             // Check if the location itself is solid
-            if (Block.isFaceFull(blockToPlaceOn.getShape(world, searchPos), Direction.UP)) {
+            if (Block.isFaceFull(blockToPlaceOn.getShape(region, searchPos), Direction.UP)) {
                 if (!blockToPlaceOn.is(Constants.SUPPORTS_SAMPLE)) {
                     searchPos = searchPos.below();
                     continue;
                 }
-                BlockPos actualPlacePos = searchPos.above();
-                if (canReplace(world, actualPlacePos)) {
+                var actualPlacePos = searchPos.above();
+                if (canReplace(region, actualPlacePos)) {
                     return actualPlacePos;
                 }
             }
@@ -68,8 +67,8 @@ public class SampleUtils {
      * @return true if the block at pos is replaceable
      */
     public static boolean canReplace(WorldGenLevel level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        return state.getMaterial().isReplaceable() || state.isAir();
+        var state = level.getBlockState(pos);
+        return state.canBeReplaced() || state.isAir();
     }
 
     /**
@@ -87,7 +86,7 @@ public class SampleUtils {
      * @return true if the block is in a non-water fluid
      */
     public static boolean inNonWaterFluid(WorldGenLevel level, BlockPos pos) {
-        return level.getBlockState(pos).getMaterial().isLiquid() && !isInWater(level, pos);
+        return (!level.getBlockState(pos).getFluidState().isEmpty()) && !isInWater(level, pos);
     }
 
     /**

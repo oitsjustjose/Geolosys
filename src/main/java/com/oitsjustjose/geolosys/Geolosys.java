@@ -1,6 +1,5 @@
 package com.oitsjustjose.geolosys;
 
-import com.oitsjustjose.geolosys.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.capability.deposit.DepositCapability;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.player.IPlayerCapability;
@@ -9,12 +8,11 @@ import com.oitsjustjose.geolosys.capability.world.ChunkGennedCapability;
 import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.client.ClientProxy;
 import com.oitsjustjose.geolosys.client.GeolosysClient;
-import com.oitsjustjose.geolosys.client.patchouli.processors.PatronProcessor;
 import com.oitsjustjose.geolosys.common.CommonProxy;
+import com.oitsjustjose.geolosys.common.Registry;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
-import com.oitsjustjose.geolosys.common.event.ManualGifting;
 import com.oitsjustjose.geolosys.common.items.CoalItem;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import net.minecraft.core.Direction;
@@ -29,7 +27,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -42,12 +39,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-@Mod(Constants.MODID)
+@Mod(Constants.MOD_ID)
 public class Geolosys {
+    public static final CommonProxy Proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     private static Geolosys instance;
     public final Registry REGISTRY;
 
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public Logger LOGGER = LogManager.getLogger();
 
     public Geolosys() {
@@ -56,33 +53,22 @@ public class Geolosys {
         REGISTRY = new Registry();
         REGISTRY.RegisterAll(FMLJavaModLoadingContext.get());
 
-        // Register the setup method for modloading
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        MinecraftForge.EVENT_BUS.register(this);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GeolosysClient::setup);
-
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ManualGifting());
 
         this.configSetup();
     }
 
-    public static Geolosys getInstance() {
-        return instance;
-    }
+    public static Geolosys getInstance() { return instance; }
+
+    public void setup(final FMLCommonSetupEvent event) { Proxy.init(); }
 
     private void configSetup() {
         ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.COMMON_CONFIG);
         CommonConfig.loadConfig(CommonConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("geolosys-common.toml"));
-    }
-
-
-    public void setup(final FMLCommonSetupEvent event) {
-        GeolosysAPI.init();
-        PatronProcessor.fetchPatrons();
-        proxy.init();
     }
 
     @SubscribeEvent

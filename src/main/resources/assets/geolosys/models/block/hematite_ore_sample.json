@@ -2,7 +2,7 @@
   "parent": "geolosys:block/ore_sample",
   "textures": {
     "particle": "minecraft:block/gravel",
-    "ore": "geolosys:blocks/hematite_ore",
+    "ore": "geolosys:block/hematite_ore",
     "stone": "minecraft:block/gravel"
   }
 }

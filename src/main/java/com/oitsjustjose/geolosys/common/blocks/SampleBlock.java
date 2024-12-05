@@ -1,13 +1,6 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
-import com.oitsjustjose.geolosys.common.config.CommonConfig;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -26,8 +19,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -35,9 +27,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import java.util.Random;
+
 public class SampleBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final Properties BASE_PROPS = Properties.of(Material.DIRT, MaterialColor.STONE).strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape().offsetType(OffsetType.XZ);
+    private static final Properties BASE_PROPS = Properties.of().mapColor(MapColor.STONE).sound(SoundType.ROOTED_DIRT).strength(0.125F, 2F).sound(SoundType.GRAVEL).dynamicShape().offsetType(OffsetType.XZ);
 
     public SampleBlock() {
         super(BASE_PROPS);

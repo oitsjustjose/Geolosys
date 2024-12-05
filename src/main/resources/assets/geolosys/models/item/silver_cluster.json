@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/silver_cluster"
+    "layer0": "geolosys:item/silver_cluster"
   }
 }

@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[41,)" #mandatory
+loaderVersion="[47,)" #mandatory
 issueTrackerURL="http://github.com/oitsjustjose/geolosys/issues"
 license="GNU GPLv3"
 
@@ -7,7 +7,7 @@ license="GNU GPLv3"
 modId="geolosys"
 version="${file.jarVersion}"
 displayName="Geolosys"
-displayURL="http://geolosys.oitsjustjose.com/en/latest/"
+displayURL="https://mods.oitsjustjose.com/Geolosys/"
 credits="Contributors on GitHub"
 authors="oitsjustjose"
 description='''
@@ -18,20 +18,20 @@ Support me on Patreon at https://patreon.com/oitsjustjose
 [[dependencies.geolosys]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[41,)" #mandatory
+    versionRange="[47,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.geolosys]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,)"
+    versionRange="[1.20.1,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.geolosys]]
     modId="patchouli"
-    mandatory=true
-    versionRange="[1.19,)"
-    ordering="NONE"
+    mandatory=false
+    versionRange="[1.20.1,)"
+    ordering="AFTER"
     side="BOTH"

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/ancient_debris_cluster"
+    "layer0": "geolosys:item/ancient_debris_cluster"
   }
 }

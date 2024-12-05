@@ -2,7 +2,7 @@
   "parent": "geolosys:block/ore_sample",
   "textures": {
     "particle": "minecraft:block/netherrack",
-    "ore": "geolosys:blocks/nether_gold_ore",
+    "ore": "geolosys:block/nether_gold_ore",
     "stone": "minecraft:block/netherrack"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/platinum_ore"
+    "all": "geolosys:block/platinum_ore"
   }
 }

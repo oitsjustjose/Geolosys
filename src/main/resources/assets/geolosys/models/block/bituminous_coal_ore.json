@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/bituminous_coal_ore"
+    "all": "geolosys:block/bituminous_coal_ore"
   }
 }

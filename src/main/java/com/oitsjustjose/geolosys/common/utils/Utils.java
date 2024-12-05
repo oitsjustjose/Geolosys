@@ -30,12 +30,13 @@ public class Utils {
         return getRegistryName(state.getBlock());
     }
 
-    public static BlockPos getTopSolidBlock(LevelReader world, BlockPos start) {
-        BlockPos retPos = new BlockPos(start.getX(), world.getHeight() - 1, start.getZ());
+    public static BlockPos getTopSolidBlock(LevelReader level, BlockPos start) {
+        var retPos = new BlockPos(start.getX(), level.getHeight() - 1, start.getZ());
         while (retPos.getY() > 0) {
-            if (world.getBlockState(retPos).getMaterial().isSolid()) {
+            if (level.getBlockState(retPos).isSolidRender(level, retPos)) {
                 break;
             }
+
             retPos = retPos.below();
         }
         return retPos;
@@ -43,7 +44,7 @@ public class Utils {
 
     public static MutableComponent tryTranslate(String transKey, Object... values) {
         try {
-            TranslatableContents contents = new TranslatableContents(transKey, values);
+            var contents = new TranslatableContents(transKey, "Failed to translate in Utils#tryTranslate", values);
             return contents.resolve(null, null, 0);
         } catch (CommandSyntaxException ex) {
             return Component.empty().append(transKey);

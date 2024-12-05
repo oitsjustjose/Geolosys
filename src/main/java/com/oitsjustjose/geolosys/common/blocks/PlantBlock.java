@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class PlantBlock extends BushBlock {
     private final boolean isExclusive;
 
     public PlantBlock(boolean exclusive, RegistryObject<Block> placeable) {
-        super(Properties.of(Material.PLANT).noCollission().sound(SoundType.SWEET_BERRY_BUSH).randomTicks());
+        super(Properties.of().mapColor(MapColor.PLANT).sound(SoundType.FLOWERING_AZALEA).noCollission().sound(SoundType.SWEET_BERRY_BUSH).randomTicks());
         this.placelist = placeable;
         this.isExclusive = exclusive;
     }

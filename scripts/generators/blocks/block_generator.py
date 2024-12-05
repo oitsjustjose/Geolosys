@@ -27,7 +27,7 @@ def generate_item_models(states: list) -> None:
     for state in states:
         json_doc = {
             "parent": "block/cube_all",
-            "textures": {"all": f"geolosys:blocks/{state}"},
+            "textures": {"all": f"geolosys:block/{state}"},
         }
         with open(f"./models/block/{state}.json", "w") as file:
             file.write(json.dumps(json_doc))

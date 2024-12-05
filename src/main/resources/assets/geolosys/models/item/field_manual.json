@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/field_manual"
+    "layer0": "geolosys:item/field_manual"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/lead_cluster"
+    "layer0": "geolosys:item/lead_cluster"
   }
 }

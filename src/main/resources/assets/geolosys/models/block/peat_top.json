@@ -2,10 +2,10 @@
   "render_type": "cutout_mipped",
   "parent": "block/grass_block",
   "textures": {
-    "particle": "geolosys:blocks/peat/bottom",
-    "bottom": "geolosys:blocks/peat/bottom",
-    "top": "geolosys:blocks/peat/top",
-    "side": "geolosys:blocks/peat/bottom",
-    "overlay": "geolosys:blocks/peat/side_overlay"
+    "particle": "geolosys:block/peat/bottom",
+    "bottom": "geolosys:block/peat/bottom",
+    "top": "geolosys:block/peat/top",
+    "side": "geolosys:block/peat/bottom",
+    "overlay": "geolosys:block/peat/side_overlay"
   }
 }

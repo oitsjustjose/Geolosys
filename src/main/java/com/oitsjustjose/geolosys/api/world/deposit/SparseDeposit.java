@@ -14,7 +14,7 @@ import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -35,8 +35,8 @@ import java.util.Map.Entry;
 public class SparseDeposit implements IDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_sparse";
 
-    private final HashMap<String, HashMap<BlockState, Float>> oreToWtMap ;
-    private final HashMap<BlockState, Float> sampleToWtMap ;
+    private final HashMap<String, HashMap<BlockState, Float>> oreToWtMap;
+    private final HashMap<BlockState, Float> sampleToWtMap;
     private final int yMin;
     private final int yMax;
     private final int size;
@@ -249,7 +249,7 @@ public class SparseDeposit implements IDeposit {
         }
 
         ChunkPos thisChunk = new ChunkPos(pos);
-        int maxSampleCnt = (int)((float)Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get()) + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get())) * ((float)spread / 16.0F));
+        int maxSampleCnt = (int) ((float) Math.min(CommonConfig.MAX_SAMPLES_PER_CHUNK.get(), (this.size / CommonConfig.MAX_SAMPLES_PER_CHUNK.get()) + (this.size % CommonConfig.MAX_SAMPLES_PER_CHUNK.get())) * ((float) spread / 16.0F));
 
         for (int i = 0; i < maxSampleCnt; i++) {
             BlockState tmp = this.getSample(level.getRandom());
@@ -290,7 +290,7 @@ public class SparseDeposit implements IDeposit {
             int spread = json.get("spread").getAsInt();
             int size = json.get("size").getAsInt();
             int genWt = json.get("generationWeight").getAsInt();
-            TagKey<Biome> biomeTag = TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(json.get("biomeTag").getAsString().replace("#", "")));
+            TagKey<Biome> biomeTag = TagKey.create(Registries.BIOME, new ResourceLocation(json.get("biomeTag").getAsString().replace("#", "")));
 
             // Block State Matchers
             HashSet<BlockState> blockStateMatchers = DepositUtils.getDefaultMatchers();

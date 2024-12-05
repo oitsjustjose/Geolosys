@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/lignite_ore"
+    "all": "geolosys:block/lignite_ore"
   }
 }

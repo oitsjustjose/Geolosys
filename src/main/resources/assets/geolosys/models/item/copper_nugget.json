@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/copper_nugget"
+    "layer0": "geolosys:item/copper_nugget"
   }
 }

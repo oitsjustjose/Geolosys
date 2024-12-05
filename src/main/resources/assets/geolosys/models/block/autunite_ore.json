@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/autunite_ore"
+    "all": "geolosys:block/autunite_ore"
   }
 }

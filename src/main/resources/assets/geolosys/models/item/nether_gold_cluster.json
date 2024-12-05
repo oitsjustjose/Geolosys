@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/nether_gold_cluster"
+    "layer0": "geolosys:item/nether_gold_cluster"
   }
 }

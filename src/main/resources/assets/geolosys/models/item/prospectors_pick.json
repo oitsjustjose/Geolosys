@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "geolosys:items/prospectors_pick"
+    "layer0": "geolosys:item/prospectors_pick"
   }
 }

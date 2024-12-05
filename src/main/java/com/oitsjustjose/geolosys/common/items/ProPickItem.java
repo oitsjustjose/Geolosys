@@ -2,7 +2,6 @@ package com.oitsjustjose.geolosys.common.items;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
-import com.oitsjustjose.geolosys.common.utils.GeolosysGroup;
 import com.oitsjustjose.geolosys.common.utils.Prospecting;
 import com.oitsjustjose.geolosys.common.utils.Utils;
 import net.minecraft.core.BlockPos;
@@ -23,11 +22,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 
 public class ProPickItem extends Item {
-    public static Item.Properties props = CommonConfig.ENABLE_PRO_PICK_DMG.get() ? new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance()).durability(CommonConfig.PRO_PICK_DURABILITY.get()) : new Item.Properties().stacksTo(1).tab(GeolosysGroup.getInstance());
+    public static Item.Properties props = CommonConfig.ENABLE_PRO_PICK_DMG.get() ? new Item.Properties().stacksTo(1).durability(CommonConfig.PRO_PICK_DURABILITY.get()) : new Item.Properties().stacksTo(1);
 
     public ProPickItem() {
         super(props);
-        Geolosys.proxy.registerClientSubscribeEvent(this);
+        Geolosys.Proxy.registerClientSubscribeEvent(this);
     }
 
     @Override
@@ -91,7 +90,7 @@ public class ProPickItem extends Item {
         }
 
         if (!foundBlocks.isEmpty()) {
-            Geolosys.proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
+            Geolosys.Proxy.sendProspectingMessage(player, foundBlocks, facing.getOpposite());
             foundBlockPos.forEach((_pos) -> {
                 level.playSound(null, _pos, SoundEvents.ANVIL_PLACE, SoundSource.PLAYERS, 0.15F, 2F);
             });
@@ -117,7 +116,7 @@ public class ProPickItem extends Item {
         }
 
         if (!foundBlocks.isEmpty()) {
-            Geolosys.proxy.sendProspectingMessage(player, foundBlocks, null);
+            Geolosys.Proxy.sendProspectingMessage(player, foundBlocks, null);
             return;
         }
 

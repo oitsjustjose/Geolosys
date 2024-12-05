@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/uranium_cluster"
+    "layer0": "geolosys:item/uranium_cluster"
   }
 }

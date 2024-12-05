@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.common.network;
 
 import com.oitsjustjose.geolosys.Geolosys;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -22,12 +23,13 @@ public class PacketHelpers {
         return comp;
     }
 
+    @SuppressWarnings("deprecation")
     public static HashSet<BlockState> decodeBlocks(CompoundTag comp) {
         HashSet<BlockState> ret = new HashSet<BlockState>();
         ListTag list = comp.getList(BLOCK_NBT_NAME, 10);
         list.forEach((c) -> {
             if (c instanceof CompoundTag) {
-                ret.add(NbtUtils.readBlockState((CompoundTag) c));
+                ret.add(NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), (CompoundTag) c));
             } else {
                 Geolosys.getInstance().LOGGER.error("The following compound appears to be broken: {}", c);
             }

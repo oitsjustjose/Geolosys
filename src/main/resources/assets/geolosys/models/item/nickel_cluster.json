@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "geolosys:items/nickel_cluster"
+    "layer0": "geolosys:item/nickel_cluster"
   }
 }

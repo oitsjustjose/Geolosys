@@ -55,9 +55,7 @@ public class RemoveVeinsFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     @ParametersAreNonnullByDefault
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> f) {
-        if (f.chunkGenerator() instanceof FlatLevelSource) {
-            return false;
-        }
+        if (f.chunkGenerator() instanceof FlatLevelSource) return false;
 
         WorldGenLevel level = f.level();
         ChunkPos cp = new ChunkPos(f.origin());

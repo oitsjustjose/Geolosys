@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "geolosys:blocks/rhododendron"
+    "layer0": "geolosys:block/rhododendron"
   }
 }

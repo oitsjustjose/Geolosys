@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "geolosys:blocks/kimberlite_ore"
+    "all": "geolosys:block/kimberlite_ore"
   }
 }

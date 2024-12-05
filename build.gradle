@@ -1,83 +1,41 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url "https://plugins.gradle.org/m2/" }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
-}
-
 plugins {
-    id 'eclipse'
-    id 'maven-publish'
-    id "com.matthewprenger.cursegradle" version "1.4.0"
-    id "com.modrinth.minotaur" version "1.2.1"
+    id "com.modrinth.minotaur" version "2.+"
+    id "com.matthewprenger.cursegradle" version "1.4.0+"
+    id "net.neoforged.gradle" version "[6.0.18,6.2)"
 }
-apply plugin: 'net.minecraftforge.gradle'
-import com.modrinth.minotaur.TaskModrinthUpload
 
 group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Geolosys-${game_version}-${mod_version}"
+version = "${mod_version}"
+base { archivesName = "Geolosys-${game_version}-${mod_version}" }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-
 minecraft {
     mappings channel: 'official', version: "${game_version}"
+    copyIdeResources = true
     runs {
         client {
             workingDirectory project.file('run')
-            properties 'mixin.env.disableRefMap': 'true'
             property 'forge.logging.console.level', 'debug'
-
-            mods {
-                geolosys {
-                    source sourceSets.main
-                }
-            }
+            mods { geolosys { source sourceSets.main } }
         }
 
         server {
             workingDirectory project.file('run')
-            properties 'mixin.env.disableRefMap': 'true'
             property 'forge.logging.console.level', 'debug'
-
-            mods {
-                geolosys {
-                    source sourceSets.main
-                }
-            }
+            mods { geolosys { source sourceSets.main } }
         }
     }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${game_version}-${forge_version}"
-}
-
-repositories {
-    maven { url 'https://maven.blamejared.com' }
-    maven {
-        url "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-}
-
-dependencies {
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    minecraft "net.neoforged:forge:${game_version}-${neo_version}"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "geolosys",
+                "Specification-Title"     : "Geolosys",
                 "Specification-Vendor"    : "oitsjustjose.com",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
@@ -88,41 +46,9 @@ jar {
     }
 }
 
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'Deobf'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'Sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives deobfJar
-    archives sourcesJar
-}
-
-tasks.register('modrinth', TaskModrinthUpload.class).configure {
-    dependsOn('assemble', 'reobfJar')
-    onlyIf {
-        project.hasProperty('modrinthApiKey')
-    }
-
-    token = project.hasProperty('MODRINTH_API_KEY') ? project.getProperty('MODRINTH_API_KEY') : ''
-    projectId = 'gu7yAYhd'
-    versionNumber = "${project.game_version}-${project.mod_version}"
-    uploadFile = jar
-    versionType = 'RELEASE'
-    addGameVersion(project.game_version)
-    changelog = file("./changelog.md").text
-    addLoader('forge')
+tasks.register('publish') {
+    dependsOn 'curseforge'
+    dependsOn 'modrinth'
 }
 
 curseforge {
@@ -131,49 +57,23 @@ curseforge {
         id = '271856'
         changelogType = 'markdown'
         changelog = file("./changelog.md")
-        releaseType = 'release'
-        addGameVersion '1.19'
-        addGameVersion '1.19.1'
-
-        relations {
-            requiredDependency 'patchouli'
-            optionalDependency 'applied-energistics-2'
-            optionalDependency 'extreme-reactors'
-            optionalDependency 'biggerreactors'
-            optionalDependency 'mekanism'
-        }
-
+        releaseType = "${mod_release_type}"
+        addGameVersion "${game_version}"
         mainArtifact(jar) {
             displayName = "Geolosys ${game_version} ${mod_version}"
         }
-
-
-        addArtifact(deobfJar) {
-            displayName = "Geolosys ${game_version} ${mod_version} Deobf"
-        }
-
-        addArtifact(sourcesJar) {
-            displayName = "Geolosys ${game_version} ${mod_version} Sources"
-        }
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact reobfArtifact
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
-def uploadTasks = ["curseforge", "modrinth"]
-
-task uploadAll(dependsOn: uploadTasks) {
-    group "upload"
-    description "Uploads to all repositories (Curse & Modrinth)"
+modrinth {
+    token = project.hasProperty("MODRINTH_TOKEN") ? project.MODRINTH_TOKEN : ""
+    projectId = "aPBZx3jD"
+    versionName = "Geolosys ${game_version} ${mod_version}"
+    versionNumber = "${game_version}-${mod_version}"
+    versionType = "${mod_release_type}"
+    uploadFile = jar
+    gameVersions = ["${game_version}"]
+    loaders = ["forge"]
+    changelog = file("./changelog.md").text
+    dependencies { optional.project "patchouli" }
 }

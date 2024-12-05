@@ -59,30 +59,4 @@ public class PlutonRegistry {
         Geolosys.getInstance().LOGGER.error("Could not reach decision on pluton to generate at PlutonRegistry#pick");
         return null;
     }
-
-//    private static final List<GenerationStep.Decoration> decorations = new LinkedList<>();
-//
-//    static {
-//        decorations.add(GenerationStep.Decoration.UNDERGROUND_ORES);
-//        decorations.add(GenerationStep.Decoration.UNDERGROUND_DECORATION);
-//    }
-
-//    @SubscribeEvent
-//    public void onBiomesLoaded(BiomeLoadingEvent evt) {
-//        BiomeGenerationSettingsBuilder gen = evt.getGeneration();
-//
-//        if (CommonConfig.REMOVE_VANILLA_ORES.get()) {
-//            for (GenerationStep.Decoration stage : decorations) {
-//                List<Holder<PlacedFeature>> feats = gen.getFeatures(stage);
-//                List<Holder<PlacedFeature>> filtered = OreRemover.filterFeatures(feats);
-//                Geolosys.getInstance().LOGGER.info("Removing {} Vanilla Ore Entries", filtered.size());
-//                for (Holder<PlacedFeature> feature : filtered) {
-//                    feats.remove(feature);
-//                }
-//            }
-//        }
-//
-//        gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.DEPOSITS_PLACED);
-//        gen.addFeature(GenerationStep.Decoration.RAW_GENERATION, GeolosysFeatures.REMOVE_VEINS_PLACED);
-//    }
 }

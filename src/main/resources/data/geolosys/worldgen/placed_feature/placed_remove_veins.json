@@ -1,5 +1,5 @@
 {
-  "feature": "geolosys:conf_deposits",
+  "feature": "geolosys:conf_remove_veins",
   "placement": [
     {
       "type": "minecraft:height_range",

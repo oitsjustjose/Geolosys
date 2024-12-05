@@ -1,4 +1,4 @@
-package com.oitsjustjose.geolosys;
+package com.oitsjustjose.geolosys.common;
 
 import com.google.common.collect.Lists;
 import com.oitsjustjose.geolosys.common.blocks.OreBlock;
@@ -81,7 +81,6 @@ public class Registry {
         BlockRegistry.register(ctx.getModEventBus());
         ItemRegistry.register(ctx.getModEventBus());
         FeatureRegistry.register(ctx.getModEventBus());
-        FeatureRegistry.register(ctx.getModEventBus());
         TabRegistry.register(ctx.getModEventBus());
     }
 
@@ -159,14 +158,23 @@ public class Registry {
 
     public void RegisterWorldGen() {
         FeatureRegistry.register("deposits", () -> new DepositFeature(NoneFeatureConfiguration.CODEC));
-//        FeatureRegistry.register("remove_veins", () -> new RemoveVeinsFeature(NoneFeatureConfiguration.CODEC));
+        FeatureRegistry.register("remove_veins", () -> new RemoveVeinsFeature(NoneFeatureConfiguration.CODEC));
     }
 
     public void RegisterCreativeTab() {
         CreativeTab = TabRegistry.register("items", () -> CreativeModeTab.builder().icon(() -> new ItemStack(proPick.get())).title(Component.translatable("itemGroup." + Constants.MOD_ID + ".name")).displayItems((params, output) -> {
             var items = ForgeRegistries.ITEMS.getKeys().stream().filter(x -> x.getNamespace().equals(Constants.MOD_ID));
 
-            items.sorted().forEach(key -> { // Add to tab
+            items.sorted((a, b) -> {
+                var x = ForgeRegistries.ITEMS.getValue(a);
+                var y = ForgeRegistries.ITEMS.getValue(b);
+
+                if (x != null && y != null) {
+                    return x.getClass().toString().compareTo(y.getClass().toString());
+                }
+
+                return a.compareTo(b);
+            }).forEach(key -> { // Add to tab
                 var item = ForgeRegistries.ITEMS.getValue(key);
                 if (item != null) {
                     output.accept(new ItemStack(item));

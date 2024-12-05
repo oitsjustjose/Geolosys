@@ -2,7 +2,7 @@
   "parent": "geolosys:block/ore_sample",
   "textures": {
     "particle": "minecraft:block/gravel",
-    "ore": "geolosys:blocks/cassiterite_ore",
+    "ore": "geolosys:block/cassiterite_ore",
     "stone": "minecraft:block/gravel"
   }
 }

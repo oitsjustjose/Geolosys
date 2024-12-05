@@ -1,6 +1,7 @@
 package com.oitsjustjose.geolosys.capability.deposit;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -81,6 +82,7 @@ public class DepositCapability implements IDepositCapability {
         });
     }
 
+    @SuppressWarnings("deprecation")
     public record PendingBlock(BlockPos pos, BlockState state) {
 
         public CompoundTag serialize() {
@@ -96,7 +98,7 @@ public class DepositCapability implements IDepositCapability {
         public static PendingBlock deserialize(Tag t) {
             if (t instanceof CompoundTag tag) {
                 BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-                BlockState state = NbtUtils.readBlockState(tag.getCompound("state"));
+                BlockState state = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag.getCompound("state"));
                 return new PendingBlock(pos, state);
             }
             return null;
