@@ -17,7 +17,7 @@
     },
     {
       "type": "relations",
-      "entries": ["geolosys:introduction/02_ore_plutons"]
+      "entries": ["geolosys:01_introduction/02_ore_plutons"]
     }
   ]
 }

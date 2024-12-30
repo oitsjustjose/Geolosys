@@ -11,7 +11,7 @@
     {
       "type": "link",
       "text": "Geolosys comes with a datapack built-in set of ores in its own data pack, organized as such:$(br)$(li)deposits/ores/<ore>$(li)deposits/stones/<stone>$(li)deposits/other/peat (and others)$(br)If you want to prevent any pre-configured ore, just overwrite the file with the exact path and name. You can find more help $(l:https://mods.oitsjustjose.com/Geolosys/#datapacks)here$(/l)!",
-      "url": "https://minecraft.gamepedia.com/Data_Pack",
+      "url": "https://minecraft.wiki/w/Data_pack",
       "link_text": "Data Pack Wiki"
     }
   ]

@@ -4,5 +4,6 @@
   "model": "geolosys:field_manual",
   "version": 1,
   "creative_tab": "geolosys.name",
-  "show_progress": false
+  "show_progress": false,
+  "use_resource_pack": true
 }
