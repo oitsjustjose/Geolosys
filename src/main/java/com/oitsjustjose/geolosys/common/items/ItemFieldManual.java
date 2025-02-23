@@ -1,12 +1,7 @@
 package com.oitsjustjose.geolosys.common.items;
 
-import java.util.Objects;
-
-import javax.annotation.Nonnull;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.client.ClientGUIProxy;
-
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +13,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class ItemFieldManual extends Item {
     public ItemFieldManual() {

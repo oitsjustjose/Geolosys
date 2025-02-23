@@ -1,25 +1,9 @@
 package com.oitsjustjose.geolosys.common.config;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.google.gson.stream.JsonReader;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -27,10 +11,21 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
 public class ConfigOres {
-    private File jsonFile;
-    private ArrayList<PendingOre> pendingOres;
-    private ArrayList<PendingStone> pendingStones;
+    private final File jsonFile;
+    private final ArrayList<PendingOre> pendingOres;
+    private final ArrayList<PendingStone> pendingStones;
 
     public ConfigOres(File configRoot) {
         this.jsonFile = new File(configRoot.getAbsolutePath() + "/geolosys.json");
@@ -40,9 +35,8 @@ public class ConfigOres {
 
     /**
      * Runs after @EventHandler(FMLPostInitEvent)
-     * 
-     * Makes sure blocks not available in init are loaded now. If they're not, then
-     * an error is displayed in the logs
+     * <p>
+     * Makes sure blocks not available in init are loaded now. If they're not, then an error is displayed in the logs
      */
     public void postInit() {
         for (PendingOre pending : this.pendingOres) {
@@ -68,23 +62,34 @@ public class ConfigOres {
 
     public void init() {
         try {
-            InputStream jsonStream = new FileInputStream(jsonFile);
+            InputStream jsonStream = Files.newInputStream(jsonFile.toPath());
             this.read(jsonStream);
         } catch (IOException e) {
-            // Download the file from GitHub if it can't be found
-            try {
-                Geolosys.getInstance().LOGGER.info("Could not find geolosys.json. Downloading it from GitHub...");
-                BufferedInputStream in = new BufferedInputStream(
-                        new URL("https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json")
-                                .openStream());
-                Files.copy(in, Paths.get(jsonFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
-                Geolosys.getInstance().LOGGER.info("Done downloading geolosys.json from GitHub!");
-                InputStream jsonStream = new FileInputStream(jsonFile);
-                this.read(jsonStream);
+            extractConfigFromJar();
+        }
+    }
 
-            } catch (IOException f) {
-                Geolosys.proxy.throwDownloadError(this.jsonFile);
+    private void extractConfigFromJar() {
+        try {
+            InputStream jsonStream = Geolosys.class.getResourceAsStream("/assets/geolosys/geolosys.json");
+            if (jsonStream == null) {
+                Geolosys.proxy.throwExtractError(this.jsonFile);
+                return;
             }
+
+            FileOutputStream outputStream = new FileOutputStream(jsonFile);
+            byte[] buffer = new byte[16384];
+            int bytesRead = jsonStream.read(buffer);
+
+            while (bytesRead > 0) {
+                outputStream.write(buffer, 0, bytesRead);
+                bytesRead = jsonStream.read(buffer);
+            }
+
+            jsonStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            Geolosys.proxy.throwExtractError(this.jsonFile);
         }
     }
 
@@ -103,14 +108,14 @@ public class ConfigOres {
                         int yMax = -1;
                         int size = -1;
                         int chance = -1;
-                        int[] dimBlacklist = new int[] {};
+                        int[] dimBlacklist = new int[]{};
                         ArrayList<String> blockStateMatchers = new ArrayList<>();
                         ArrayList<Biome> biomes = new ArrayList<>();
                         ArrayList<BiomeDictionary.Type> biomeTypes = new ArrayList<>();
                         boolean isWhitelist = false;
                         boolean hasIsWhitelist = false;
                         float density = 1.0F;
-                        String plutonName = new String();
+                        String plutonName = "";
                         jReader.beginObject();
                         while (jReader.hasNext()) {
                             String subName = jReader.nextName();
@@ -171,10 +176,10 @@ public class ConfigOres {
                             } else if (subName.equalsIgnoreCase("density")) {
                                 density = (float) jReader.nextDouble();
                             } else if (subName.equalsIgnoreCase("name")) {
-                                plutonName = (String) jReader.nextString();
+                                plutonName = jReader.nextString();
                             } else {
                                 Geolosys.getInstance().LOGGER
-                                        .info("Unknown property found in geolosys_ores.json file. Skipping it.");
+                                        .info("Unknown property found in geolosys.json file. Skipping it.");
                                 jReader.skipValue();
 
                             }
@@ -198,7 +203,7 @@ public class ConfigOres {
                         int yMax = -1;
                         int chance = -1;
                         int size = -1;
-                        int[] dimBlacklist = new int[] {};
+                        int[] dimBlacklist = new int[]{};
                         while (jReader.hasNext()) {
                             String subName = jReader.nextName();
                             if (subName.equalsIgnoreCase("block")) {
@@ -234,7 +239,7 @@ public class ConfigOres {
             jReader.endObject();
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error(
-                    "There was a parsing error with the geolosys_ores.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
+                    "There was a parsing error with the geolosys.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
             Geolosys.getInstance().LOGGER.error(e.getMessage());
         } finally {
             jReader.close();
@@ -242,10 +247,9 @@ public class ConfigOres {
     }
 
     /**
-     * 
      * @param stone The Pending Stone to register
      * @return true if the registreation succeeded (i.e. no null blockstates); false
-     *         otherwise
+     * otherwise
      */
     private boolean register(PendingStone stone) {
         return register(stone.stone, stone.yMin, stone.yMax, stone.chance, stone.size, stone.dimBlacklist);
@@ -253,7 +257,7 @@ public class ConfigOres {
 
     /**
      * Registers a stone with the GeolosysAPI using the passed params
-     * 
+     *
      * @param stone        The String form of the IBlockState
      * @param yMin         The minimum Y level this stone can generate
      * @param yMax         The maximum Y level this stone can generate
@@ -272,10 +276,9 @@ public class ConfigOres {
     }
 
     /**
-     * 
      * @param ore The Pending Ore to register
      * @return true if the registration succeeded (i.e. no null blockstates); false
-     *         otherwise.
+     * otherwise.
      */
     private boolean register(PendingOre ore) {
         return register(ore.oreBlocks, ore.sampleBlocks, ore.yMin, ore.yMax, ore.size, ore.chance, ore.dimBlacklist,
@@ -285,32 +288,25 @@ public class ConfigOres {
 
     /**
      * Registers an ore with the GeolosysAPI using the passed params
-     * 
-     * @param oreBlocks          A pair of String forms of an IBlockState of ores,
-     *                           paried with their chance
-     * @param sampleBlocks       A pair of String forms of an IBlockState of
-     *                           samples, paired with their chance
+     *
+     * @param oreBlocks          A pair of String forms of an IBlockState of ores, paired with their chance
+     * @param sampleBlocks       A pair of String forms of an IBlockState of samples, paired with their chance
      * @param yMin               The minimum Y level this ore can generate
      * @param yMax               The maximum Y level this ore can generate
      * @param size               The size this ore can generate to be
      * @param chance             The chance this ore can generate
      * @param dimBlacklist       The list of dims the ore cannot generate
-     * @param blockStateMatchers A list of String forms of IBlockStates that this
-     *                           ore can replace when genning
-     * @param biomes             A list of Biomes that this ore can/cannot generate
-     *                           in
-     * @param isWhitelist        Whether or not the list of biomes is whitelist or
-     *                           not
-     * @param hasIsWhitelist     Whether or not the isWhitelist boolean had been
-     *                           populated
-     * @param density            The density (amount of ore vs. air/stone blocks)
-     *                           this deposit has
+     * @param blockStateMatchers A list of String forms of IBlockStates that this ore can replace when genning
+     * @param biomes             A list of Biomes that this ore can/cannot generate in
+     * @param isWhitelist        Whether the list of biomes is whitelist or not
+     * @param hasIsWhitelist     Whether the isWhitelist boolean had been populated
+     * @param density            The density (amount of ore vs. air/stone blocks) this deposit has
      * @return true if successfully registered, false if any blockstates are null
      */
     private boolean register(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin,
-            int yMax, int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers,
-            ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist,
-            float density, String plutonName) {
+                             int yMax, int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers,
+                             ArrayList<Biome> biomes, List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist,
+                             float density, String plutonName) {
         HashMap<IBlockState, Integer> oreBlocksParsed = new HashMap<>();
         HashMap<IBlockState, Integer> sampleBlocksParsed = new HashMap<>();
         ArrayList<IBlockState> blockStateMatchersParsed = new ArrayList<>();
@@ -398,9 +394,9 @@ public class ConfigOres {
         public String plutonName;
 
         public PendingOre(HashMap<String, Integer> oreBlocks, HashMap<String, Integer> sampleBlocks, int yMin, int yMax,
-                int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers, ArrayList<Biome> biomes,
-                List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density,
-                String plutonName) {
+                          int size, int chance, int[] dimBlacklist, ArrayList<String> blockStateMatchers, ArrayList<Biome> biomes,
+                          List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, boolean hasIsWhitelist, float density,
+                          String plutonName) {
             this.oreBlocks = oreBlocks;
             this.sampleBlocks = sampleBlocks;
             this.yMin = yMin;

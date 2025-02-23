@@ -1,20 +1,19 @@
 package com.oitsjustjose.geolosys.common.api.world;
 
-import java.util.List;
-
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
+import java.util.List;
+
 public class DepositStone implements IOre {
-    private IBlockState block;
-    private int yMin;
-    private int yMax;
-    private int chance;
-    private int size;
-    private int[] dimBlacklist;
+    private final IBlockState block;
+    private final int yMin;
+    private final int yMax;
+    private final int chance;
+    private final int size;
+    private final int[] dimBlacklist;
 
     public DepositStone(IBlockState stoneBlock, int yMin, int yMax, int chance, int size, int[] dimBlacklist) {
         this.block = stoneBlock;

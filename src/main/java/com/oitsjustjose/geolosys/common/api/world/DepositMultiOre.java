@@ -1,38 +1,36 @@
 package com.oitsjustjose.geolosys.common.api.world;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
 @SuppressWarnings("unchecked")
 public class DepositMultiOre implements IOre {
-    private ArrayList<IBlockState> ores = new ArrayList<>();
-    private ArrayList<IBlockState> samples = new ArrayList<>();
     public HashMap<IBlockState, Integer> oreBlocks;
     public HashMap<IBlockState, Integer> sampleBlocks;
-    private int yMin;
-    private int yMax;
-    private int size;
-    private int chance;
-    private int[] dimensionBlacklist;
-    private List<IBlockState> blockStateMatchers;
-    private float density;
+    private final ArrayList<IBlockState> ores = new ArrayList<>();
+    private final ArrayList<IBlockState> samples = new ArrayList<>();
+    private final int yMin;
+    private final int yMax;
+    private final int size;
+    private final int chance;
+    private final int[] dimensionBlacklist;
+    private final List<IBlockState> blockStateMatchers;
+    private final float density;
     private String customName;
 
     public DepositMultiOre(HashMap<IBlockState, Integer> oreBlocks, HashMap<IBlockState, Integer> sampleBlocks,
-            int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers,
-            float density, @Nullable String customName) {
+                           int yMin, int yMax, int size, int chance, int[] dimensionBlacklist, List<IBlockState> blockStateMatchers,
+                           float density, @Nullable String customName) {
         // Sanity checking:
         int sum = 0;
         for (IBlockState key : oreBlocks.keySet()) {
@@ -125,7 +123,7 @@ public class DepositMultiOre implements IOre {
             }
         }
         // Return substr(3) to ignore the first " & "
-        return sb.toString().substring(3);
+        return sb.substring(3);
     }
 
     public String getFriendlyName(World world, BlockPos pos, EntityPlayer player) {
@@ -140,7 +138,7 @@ public class DepositMultiOre implements IOre {
             }
         }
         // Return substr(3) to ignore the first " & "
-        return sb.toString().substring(3);
+        return sb.substring(3);
     }
 
     public int getYMin() {

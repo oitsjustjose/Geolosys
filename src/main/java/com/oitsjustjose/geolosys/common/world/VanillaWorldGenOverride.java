@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.common.world;
 
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;

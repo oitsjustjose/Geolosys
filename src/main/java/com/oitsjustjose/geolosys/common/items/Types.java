@@ -47,9 +47,7 @@ public class Types {
             return this.serializedName;
         }
 
-        public int getBurnTime()
-
-        {
+        public int getBurnTime() {
             return this.burnTime;
         }
 
@@ -98,9 +96,7 @@ public class Types {
             return this.serializedName;
         }
 
-        public int getBurnTime()
-
-        {
+        public int getBurnTime() {
             return this.burnTime;
         }
 

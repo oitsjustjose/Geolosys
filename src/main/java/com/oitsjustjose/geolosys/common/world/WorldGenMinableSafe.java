@@ -1,11 +1,8 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -13,9 +10,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import java.util.Random;
+
 public class WorldGenMinableSafe extends WorldGenerator {
-    private IOre ore;
-    private String dataName;
+    private final IOre ore;
+    private final String dataName;
 
     public WorldGenMinableSafe(IOre ore, String dataName) {
         this.ore = ore;

@@ -1,18 +1,17 @@
 package com.oitsjustjose.geolosys.common.util;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class GeolosysSaveData extends WorldSavedData {
     private boolean hasOldFiles;
@@ -23,7 +22,7 @@ public class GeolosysSaveData extends WorldSavedData {
         this.hasOldFiles = (new File(
                 DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists()
                 || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat"))
-                        .exists();
+                .exists();
     }
 
     public GeolosysSaveData(String s) {
@@ -32,7 +31,20 @@ public class GeolosysSaveData extends WorldSavedData {
         this.hasOldFiles = (new File(
                 DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysDeposits.dat")).exists()
                 || (new File(DimensionManager.getCurrentSaveRootDirectory() + File.separator + "GeolosysRegen.dat"))
-                        .exists();
+                .exists();
+    }
+
+    public static GeolosysSaveData get(World world) {
+        // The IS_GLOBAL constant is there for clarity, and should be simplified into
+        // the right branch.
+        MapStorage storage = world.getPerWorldStorage();
+        GeolosysSaveData instance = (GeolosysSaveData) storage.getOrLoadData(GeolosysSaveData.class, Geolosys.MODID);
+
+        if (instance == null) {
+            instance = new GeolosysSaveData();
+            storage.setData(Geolosys.MODID, instance);
+        }
+        return instance;
     }
 
     private void convertFromOld(NBTTagCompound nbt) {
@@ -115,18 +127,5 @@ public class GeolosysSaveData extends WorldSavedData {
         }
 
         return compound;
-    }
-
-    public static GeolosysSaveData get(World world) {
-        // The IS_GLOBAL constant is there for clarity, and should be simplified into
-        // the right branch.
-        MapStorage storage = world.getPerWorldStorage();
-        GeolosysSaveData instance = (GeolosysSaveData) storage.getOrLoadData(GeolosysSaveData.class, Geolosys.MODID);
-
-        if (instance == null) {
-            instance = new GeolosysSaveData();
-            storage.setData(Geolosys.MODID, instance);
-        }
-        return instance;
     }
 }

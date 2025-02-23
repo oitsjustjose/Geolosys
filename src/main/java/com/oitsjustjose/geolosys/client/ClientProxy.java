@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys.client;
 
-import java.io.File;
-
 import com.oitsjustjose.geolosys.client.errors.DownloadErrorDisplayException;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.HandlerIOreSurfaceClient;
@@ -21,6 +19,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.io.File;
 
 public class ClientProxy extends CommonProxy {
     public NetworkManager networkManager;
@@ -50,10 +50,10 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void throwDownloadError(File jsonFile) {
+    public void throwExtractError(File jsonFile) {
         throw new DownloadErrorDisplayException("Geolosys Download Exception", "File " + jsonFile.getAbsolutePath()
-                + " could neither be found nor downloaded. "
-                + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
+                + " could not be extracted from the Geolosys jar file."
+                + " You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/refs/heads/1.12.x/src/main/resources/assets/geolosys/geolosys.json and put it in your config folder manually if you wish.");
     }
 
     @Override

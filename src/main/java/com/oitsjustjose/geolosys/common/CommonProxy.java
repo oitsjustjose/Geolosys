@@ -1,7 +1,5 @@
 package com.oitsjustjose.geolosys.common;
 
-import java.io.File;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.client.ClientGUIProxy;
 import com.oitsjustjose.geolosys.common.network.HandlerIOreSurfaceServer;
@@ -23,9 +21,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.io.File;
+
 public class CommonProxy {
-    public NetworkManager networkManager;
     public static int discriminator = 0;
+    public NetworkManager networkManager;
 
     public void preInit() {
         networkManager = new NetworkManager();
@@ -46,10 +46,10 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-    public void throwDownloadError(File jsonFile) {
+    public void throwExtractError(File jsonFile) {
         Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
-                + " could neither be found nor downloaded. "
-                + "You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/1.12.x/geolosys_ores.json and put it in your config folder manually if you wish (it will need to be renamed \"geolosys.json\").");
+                + " could not be extracted from the Geolosys jar file."
+                + " You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/refs/heads/1.12.x/src/main/resources/assets/geolosys/geolosys.json and put it in your config folder manually if you wish.");
     }
 
     public void sendProspectingMessage(EntityPlayer player, ItemStack stack, EnumFacing direction) {

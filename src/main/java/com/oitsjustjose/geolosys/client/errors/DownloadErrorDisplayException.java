@@ -21,7 +21,7 @@ public class DownloadErrorDisplayException extends CustomModLoadingErrorDisplayE
 
     @Override
     public void drawScreen(GuiErrorScreen gui, FontRenderer fontRenderer, int mouseRelX, int mouseRelY,
-            float tickTime) {
+                           float tickTime) {
         gui.drawCenteredString(fontRenderer, this.title, gui.width / 2, 90, 16777215);
         int y = 110;
         for (String s : fontRenderer.listFormattedStringToWidth(message, (gui.width * 9) / 10)) {

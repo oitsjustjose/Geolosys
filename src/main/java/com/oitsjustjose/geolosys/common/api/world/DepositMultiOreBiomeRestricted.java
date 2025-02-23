@@ -1,24 +1,23 @@
 package com.oitsjustjose.geolosys.common.api.world;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 public class DepositMultiOreBiomeRestricted extends DepositMultiOre {
-    private List<Biome> biomes;
-    private List<BiomeDictionary.Type> biomeTypes;
-    private boolean useWhitelist;
+    private final List<Biome> biomes;
+    private final List<BiomeDictionary.Type> biomeTypes;
+    private final boolean useWhitelist;
 
     public DepositMultiOreBiomeRestricted(HashMap<IBlockState, Integer> oreBlocks,
-            HashMap<IBlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes,
-            List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, float density, @Nullable String customName) {
+                                          HashMap<IBlockState, Integer> sampleBlocks, int yMin, int yMax, int size, int chance,
+                                          int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomes,
+                                          List<BiomeDictionary.Type> biomeTypes, boolean useWhitelist, float density, @Nullable String customName) {
         super(oreBlocks, sampleBlocks, yMin, yMax, size, chance, dimensionBlacklist, blockStateMatchers, density,
                 customName);
         this.biomes = biomes;

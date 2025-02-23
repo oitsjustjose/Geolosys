@@ -1,11 +1,8 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.items.ItemCluster;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -31,10 +28,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Random;
+
 public class BlockOre extends Block {
     public static final PropertyEnum<Types.Modded> VARIANT = PropertyEnum.create("variant", Types.Modded.class);
-    public static final String[] oreDictByMeta = new String[] { "oreIron", "oreNickel", "oreCopper", "oreCopper",
-            "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum", "oreUranium", "oreZinc" };
+    public static final String[] oreDictByMeta = new String[]{"oreIron", "oreNickel", "oreCopper", "oreCopper",
+            "oreTin", "oreTin", "oreGalena", "oreAluminum", "orePlatinum", "oreUranium", "oreZinc"};
 
     public BlockOre() {
         super(Material.ROCK);
@@ -71,7 +70,7 @@ public class BlockOre extends Block {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
-            int fortune) {
+                         int fortune) {
         Item CLUSTER = Geolosys.getInstance().CLUSTER;
         // Special case for Limonite; odd-chance for the drop to be nickel AND iron
         if (state.getBlock().getMetaFromState(state) == 1) {
@@ -102,7 +101,7 @@ public class BlockOre extends Block {
                 if (rng) {
                     count = fortune > 0
                             ? (ModConfig.featureControl.enableFortuneOnAllOres ? Math.max(1, rand.nextInt(fortune) + 1)
-                                    : 1)
+                            : 1)
                             : 1;
                     drops.add(new ItemStack(CLUSTER, count, ItemCluster.META_LEAD));
                 }
@@ -261,13 +260,13 @@ public class BlockOre extends Block {
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-            EntityPlayer player) {
+                                  EntityPlayer player) {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+                                            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(VARIANT, Types.Modded.byMetadata(meta));
     }
 

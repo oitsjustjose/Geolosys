@@ -1,12 +1,11 @@
 package com.oitsjustjose.geolosys.compat;
 
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.common.blocks.BlockOreVanilla;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Random;
 
 public class AppEngCompat {
     @SubscribeEvent

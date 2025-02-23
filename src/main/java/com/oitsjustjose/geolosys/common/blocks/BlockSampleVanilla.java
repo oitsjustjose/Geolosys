@@ -1,11 +1,8 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
-import java.util.ArrayList;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -35,6 +32,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 public class BlockSampleVanilla extends Block {
     public static final PropertyEnum<Types.Vanilla> VARIANT = PropertyEnum.create("variant", Types.Vanilla.class);
@@ -94,7 +93,7 @@ public class BlockSampleVanilla extends Block {
 
     @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_,
-            EnumFacing p_193383_4_) {
+                                            EnumFacing p_193383_4_) {
         return BlockFaceShape.UNDEFINED;
     }
 
@@ -119,7 +118,7 @@ public class BlockSampleVanilla extends Block {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-            EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (ModConfig.prospecting.boringSamples) {
             String resource = Types.Vanilla.byMetadata(state.getBlock().getMetaFromState(state)).getResource();
             playerIn.sendStatusMessage(new TextComponentString("You break the sample to find " + resource), true);
@@ -153,7 +152,7 @@ public class BlockSampleVanilla extends Block {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
-            int fortune) {
+                         int fortune) {
         if (ModConfig.prospecting.boringSamples) {
             drops.clear();
             return;
@@ -174,13 +173,13 @@ public class BlockSampleVanilla extends Block {
 
     @Override
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-            EntityPlayer player) {
+                                  EntityPlayer player) {
         return new ItemStack(state.getBlock(), 1, this.getMetaFromState(state));
     }
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+                                            float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(VARIANT, Types.Vanilla.byMetadata(meta));
     }
 

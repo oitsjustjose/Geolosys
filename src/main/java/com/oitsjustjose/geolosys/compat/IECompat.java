@@ -1,23 +1,22 @@
 package com.oitsjustjose.geolosys.compat;
 
-import java.util.LinkedHashMap;
-
-import com.oitsjustjose.geolosys.Geolosys;
-import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
-import com.oitsjustjose.geolosys.common.api.world.IOre;
-import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe;
 import blusunrize.immersiveengineering.api.crafting.BlastFurnaceRecipe.BlastFurnaceFuel;
 import blusunrize.immersiveengineering.api.crafting.CokeOvenRecipe;
 import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
+import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
+import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
+import com.oitsjustjose.geolosys.common.api.world.IOre;
+import com.oitsjustjose.geolosys.common.config.ModConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.LinkedHashMap;
 
 public class IECompat {
     public static void init() {
@@ -46,8 +45,8 @@ public class IECompat {
         for (IOre ore : GeolosysAPI.oreBlocks) {
             if (ore instanceof DepositMultiOre) {
                 DepositMultiOre tmp = (DepositMultiOre) ore;
-                String oreNames[] = new String[tmp.oreBlocks.size()];
-                float oreChances[] = new float[tmp.oreBlocks.size()];
+                String[] oreNames = new String[tmp.oreBlocks.size()];
+                float[] oreChances = new float[tmp.oreBlocks.size()];
                 int tally = 0;
                 for (IBlockState state : tmp.oreBlocks.keySet()) {
                     ItemStack tempStack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
@@ -62,8 +61,8 @@ public class IECompat {
                 ItemStack tempStack = new ItemStack(ore.getOre().getBlock(), 1,
                         ore.getOre().getBlock().getMetaFromState(ore.getOre()));
                 String oreName = "deposit" + tempStack.getDisplayName();
-                ExcavatorHandler.addMineral(ore.getFriendlyName(), ore.getChance(), .05F, new String[] { oreName },
-                        new float[] { 1.0F });
+                ExcavatorHandler.addMineral(ore.getFriendlyName(), ore.getChance(), .05F, new String[]{oreName},
+                        new float[]{1.0F});
             }
         }
     }

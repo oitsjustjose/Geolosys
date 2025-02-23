@@ -6,12 +6,11 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class PacketIOreUnderground implements IMessage {
+    String depositName;
+    String direction;
     // A default constructor is always required
     public PacketIOreUnderground() {
     }
-
-    String depositName;
-    String direction;
 
     public PacketIOreUnderground(String depositName, EnumFacing direction) {
         this.depositName = depositName;

@@ -5,14 +5,14 @@ import java.util.List;
 
 /**
  * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
- *         from:
- *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookChapter {
-    private String name;
-    private String parent;
-    private List<BookPage> pages;
+    private final String name;
+    private final String parent;
+    private final List<BookPage> pages;
 
     public BookChapter(String name) {
         this.name = name;

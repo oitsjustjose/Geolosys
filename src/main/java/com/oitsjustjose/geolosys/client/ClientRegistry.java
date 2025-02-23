@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ClientRegistry {
-    private HashMap<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap<>();
+    private final HashMap<ItemStack, ModelResourceLocation> LOCATIONS = new HashMap<>();
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)

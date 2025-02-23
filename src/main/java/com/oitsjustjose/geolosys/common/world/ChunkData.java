@@ -1,13 +1,10 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.blocks.BlockSample;
 import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -17,8 +14,10 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 
+import java.util.Random;
+
 public class ChunkData {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public void addChunk(ChunkPos pos, World world, int depositHeight, IOre ore) {
         if (world.getWorldType() == WorldType.FLAT) {
@@ -42,8 +41,8 @@ public class ChunkData {
 
     public boolean canGenerateInChunk(World world, ChunkPos pos, int dimension) {
         // Return true if the dimension is -9999; the default ExU Mining Dim
-        return dimension == -9999 || !GeolosysAPI.getCurrentWorldDeposits().keySet()
-                .contains(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
+        return dimension == -9999 || !GeolosysAPI.getCurrentWorldDeposits()
+                .containsKey(new GeolosysAPI.ChunkPosSerializable(pos, dimension));
     }
 
     /**
@@ -85,7 +84,6 @@ public class ChunkData {
     }
 
     /**
-     * 
      * @param posA
      * @param posB
      * @param range An integer representing how far is acceptable to be considered

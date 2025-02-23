@@ -5,11 +5,11 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class PacketIOreSurface implements IMessage {
+    public String depositName;
+
     // A default constructor is always required
     public PacketIOreSurface() {
     }
-
-    public String depositName;
 
     public PacketIOreSurface(String depositName) {
         this.depositName = depositName;

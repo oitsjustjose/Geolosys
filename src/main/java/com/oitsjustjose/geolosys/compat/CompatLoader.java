@@ -2,23 +2,21 @@ package com.oitsjustjose.geolosys.compat;
 
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
-import org.apache.logging.log4j.Logger;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
+import org.apache.logging.log4j.Logger;
 
 public class CompatLoader {
-    private Logger logger;
-
-    public static void init() {
-        new CompatLoader();
-    }
+    private final Logger logger;
 
     public CompatLoader() {
         ModMaterials.init();
         this.logger = Geolosys.getInstance().LOGGER;
         this.initCompats();
+    }
+
+    public static void init() {
+        new CompatLoader();
     }
 
     private void initCompats() {

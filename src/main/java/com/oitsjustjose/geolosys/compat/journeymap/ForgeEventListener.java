@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.compat.journeymap;
 
 import com.oitsjustjose.geolosys.Geolosys;
-
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.display.DisplayType;
 import journeymap.client.api.display.Waypoint;
@@ -11,7 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBloc
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ForgeEventListener {
-    private IClientAPI jmAPI;
+    private final IClientAPI jmAPI;
 
     public ForgeEventListener(IClientAPI jmAPI) {
         this.jmAPI = jmAPI;

@@ -1,28 +1,26 @@
 package com.oitsjustjose.geolosys.common.api.world;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class Deposit implements IOre {
-    private IBlockState oreBlock;
-    private IBlockState sampleBlock;
-    private int yMin;
-    private int yMax;
-    private int size;
-    private int chance;
-    private int[] dimensionBlacklist;
-    private List<IBlockState> blockStateMatchers;
-    private float density;
+    private final IBlockState oreBlock;
+    private final IBlockState sampleBlock;
+    private final int yMin;
+    private final int yMax;
+    private final int size;
+    private final int chance;
+    private final int[] dimensionBlacklist;
+    private final List<IBlockState> blockStateMatchers;
+    private final float density;
     private String customName;
 
     public Deposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax, int size, int chance,
-            int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, float density, @Nullable String name) {
+                   int[] dimensionBlacklist, List<IBlockState> blockStateMatchers, float density, @Nullable String name) {
         this.oreBlock = oreBlock;
         this.sampleBlock = sampleBlock;
         this.yMin = yMin;
@@ -48,7 +46,7 @@ public class Deposit implements IOre {
     public String getFriendlyName() {
         return this.customName == null
                 ? new ItemStack(this.oreBlock.getBlock(), 1, this.oreBlock.getBlock().getMetaFromState(this.oreBlock))
-                        .getDisplayName()
+                .getDisplayName()
                 : this.customName;
     }
 

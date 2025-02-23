@@ -45,8 +45,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * @author Mangoose / https://github.com/the-realest-stu/ Code taken directly
- *         from:
- *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 @SideOnly(Side.CLIENT)
@@ -54,7 +54,7 @@ public class GuiManual extends GuiScreen {
     private static final int WIDTH = 146;
     private static final int HEIGHT = 180;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(Geolosys.MODID, "textures/gui/book.png");
-    private static HashMap<String, BookChapter> chapters = new HashMap<>();
+    private static final HashMap<String, BookChapter> chapters = new HashMap<>();
     private String currentChapter;
     private int currentPageNum;
     private BookPage currentPage;
@@ -206,7 +206,7 @@ public class GuiManual extends GuiScreen {
             chapters.put("extra_utils", new BookChapter("extra_utils", "mod_compat"));
             chapters.get("extra_utils").addPage(new BookPageItemDisplay("geolosys.guide.chapter.extra_utils.name",
                     "geolosys.guide.chapter.extra_utils.text", new ItemStack(Objects.requireNonNull(
-                            ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"))))));
+                    ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrautils2", "ingredients"))))));
         }
         if (ForgeRegistries.ITEMS.getValue(new ResourceLocation("actuallyadditions", "item_misc")) != null) {
             modCompat.addLink(new ChapterLink("geolosys.guide.chapter.actually_additions.name", "actually_additions"));
@@ -382,63 +382,6 @@ public class GuiManual extends GuiScreen {
         GlStateManager.popMatrix();
 
         renderTooltip(mouseX, mouseY, itemX, itemY, itemScale);
-
-    }
-
-    private class GuiButtonURL extends GuiButton {
-        private String url;
-
-        public GuiButtonURL(int x, int y, int widthIn, int heightIn, String buttonText, String url) {
-            super(42069, x, y, widthIn, heightIn, buttonText);
-            this.url = url;
-        }
-
-        @Override
-        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-            if (this.visible) {
-                FontRenderer fontrenderer = mc.fontRenderer;
-                mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
-                        && mouseY < this.y + this.height;
-                int i = this.getHoverState(this.hovered);
-                GlStateManager.enableBlend();
-                GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                        GlStateManager.DestFactor.ZERO);
-                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                this.drawTexturedModalRect(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-                this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20,
-                        this.width / 2, this.height);
-                this.mouseDragged(mc, mouseX, mouseY);
-                int j = 14737632;
-
-                if (packedFGColour != 0) {
-                    j = packedFGColour;
-                } else if (!this.enabled) {
-                    j = 10526880;
-                } else if (this.hovered) {
-                    j = 16777120;
-                }
-
-                this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2,
-                        this.y + (this.height - 8) / 2, j);
-            }
-        }
-
-        @Override
-        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-            boolean clicked = super.mousePressed(mc, mouseX, mouseY);
-            if (clicked) {
-                try {
-                    java.awt.Desktop.getDesktop().browse(URI.create(this.url));
-                } catch (NullPointerException | UnsupportedOperationException | IOException e) {
-                    Geolosys.getInstance().LOGGER.error("Opening the url " + this.url + " failed.");
-                }
-            }
-            return clicked;
-        }
 
     }
 
@@ -685,10 +628,67 @@ public class GuiManual extends GuiScreen {
         this.resetPage();
     }
 
+    private class GuiButtonURL extends GuiButton {
+        private final String url;
+
+        public GuiButtonURL(int x, int y, int widthIn, int heightIn, String buttonText, String url) {
+            super(42069, x, y, widthIn, heightIn, buttonText);
+            this.url = url;
+        }
+
+        @Override
+        public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+            if (this.visible) {
+                FontRenderer fontrenderer = mc.fontRenderer;
+                mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
+                        && mouseY < this.y + this.height;
+                int i = this.getHoverState(this.hovered);
+                GlStateManager.enableBlend();
+                GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                        GlStateManager.DestFactor.ZERO);
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                this.drawTexturedModalRect(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+                this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20,
+                        this.width / 2, this.height);
+                this.mouseDragged(mc, mouseX, mouseY);
+                int j = 14737632;
+
+                if (packedFGColour != 0) {
+                    j = packedFGColour;
+                } else if (!this.enabled) {
+                    j = 10526880;
+                } else if (this.hovered) {
+                    j = 16777120;
+                }
+
+                this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2,
+                        this.y + (this.height - 8) / 2, j);
+            }
+        }
+
+        @Override
+        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+            boolean clicked = super.mousePressed(mc, mouseX, mouseY);
+            if (clicked) {
+                try {
+                    java.awt.Desktop.getDesktop().browse(URI.create(this.url));
+                } catch (NullPointerException | UnsupportedOperationException | IOException e) {
+                    Geolosys.getInstance().LOGGER.error("Opening the url " + this.url + " failed.");
+                }
+            }
+            return clicked;
+        }
+
+    }
+
     @SideOnly(Side.CLIENT)
     public class ChapterLinkButton extends GuiButton {
 
-        private String chapter;
+        private final String chapter;
 
         public ChapterLinkButton(int buttonId, int x, int y, String buttonText, String chapter) {
             super(buttonId, x, y, Minecraft.getMinecraft().fontRenderer.getStringWidth(I18n.format(buttonText)),

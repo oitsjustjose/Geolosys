@@ -42,11 +42,10 @@ public class GeolosysAPI {
     public static ArrayList<IBlockState> replacementMats = new ArrayList<>();
     // A collection of blocks to ignore in the OreConverter feature
     public static ArrayList<IBlockState> oreConverterBlacklist = new ArrayList<>();
-    private static HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
-    private static LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
-
     // An arraylist of IBlockState of all stones registered
     public static ArrayList<DepositStone> stones = new ArrayList<>();
+    private static final HashMap<ChunkPosSerializable, String> currentWorldDeposits = new HashMap<>();
+    private static final LinkedHashMap<ChunkPosSerializable, Boolean> regennedChunks = new LinkedHashMap<>();
 
     /**
      * @param pos   The Mojang ChunkPos to act as a key
@@ -88,7 +87,7 @@ public class GeolosysAPI {
 
     /**
      * @return The world's current deposits throughout the world. The string is
-     *         formatted as modid:block:meta
+     * formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, String> getCurrentWorldDeposits() {
@@ -97,7 +96,7 @@ public class GeolosysAPI {
 
     /**
      * @return The world's current deposits throughout the world. The string is
-     *         formatted as modid:block:meta
+     * formatted as modid:block:meta
      */
     @SuppressWarnings("unchecked")
     public static HashMap<ChunkPosSerializable, Boolean> getRegennedChunks() {
@@ -177,8 +176,8 @@ public class GeolosysAPI {
      *                           can replace
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
-            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, float density,
-            @Nullable String customName) {
+                                              int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, float density,
+                                              @Nullable String customName) {
         Deposit tempDeposit = new Deposit(oreBlock, sampleBlock, yMin, yMax, size, chance, dimBlacklist,
                 blockStateMatchers, density, customName);
         OreGenerator.addOreGen(tempDeposit);
@@ -203,8 +202,8 @@ public class GeolosysAPI {
      *                           can replace
      */
     public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
-            HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
-            List<IBlockState> blockStateMatchers, float density, @Nullable String customName) {
+                                              HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+                                              List<IBlockState> blockStateMatchers, float density, @Nullable String customName) {
         DepositMultiOre tempDeposit = new DepositMultiOre(oreBlockMap, sampleBlockMap, yMin, yMax, size, chance,
                 dimBlacklist, blockStateMatchers, density, customName);
         OreGenerator.addOreGen(tempDeposit);
@@ -233,8 +232,8 @@ public class GeolosysAPI {
      *                           or whitelist
      */
     public static void registerMineralDeposit(IBlockState oreBlock, IBlockState sampleBlock, int yMin, int yMax,
-            int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomeList,
-            List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density, @Nullable String customName) {
+                                              int size, int chance, int[] dimBlacklist, List<IBlockState> blockStateMatchers, List<Biome> biomeList,
+                                              List<BiomeDictionary.Type> biomeTypes, boolean isWhitelist, float density, @Nullable String customName) {
         DepositBiomeRestricted tempDeposit = new DepositBiomeRestricted(oreBlock, sampleBlock, yMin, yMax, size, chance,
                 dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density, customName);
         OreGenerator.addOreGen(tempDeposit);
@@ -264,9 +263,9 @@ public class GeolosysAPI {
      *                           or whitelist
      */
     public static void registerMineralDeposit(HashMap<IBlockState, Integer> oreBlockMap,
-            HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
-            List<IBlockState> blockStateMatchers, List<Biome> biomeList, List<BiomeDictionary.Type> biomeTypes,
-            boolean isWhitelist, float density, @Nullable String customName) {
+                                              HashMap<IBlockState, Integer> sampleBlockMap, int yMin, int yMax, int size, int chance, int[] dimBlacklist,
+                                              List<IBlockState> blockStateMatchers, List<Biome> biomeList, List<BiomeDictionary.Type> biomeTypes,
+                                              boolean isWhitelist, float density, @Nullable String customName) {
         DepositMultiOreBiomeRestricted tempDeposit = new DepositMultiOreBiomeRestricted(oreBlockMap, sampleBlockMap,
                 yMin, yMax, size, chance, dimBlacklist, blockStateMatchers, biomeList, biomeTypes, isWhitelist, density,
                 customName);
@@ -283,7 +282,7 @@ public class GeolosysAPI {
      * @param chance     The chance of the deposit generating (higher = more likely)
      */
     public static void registerStoneDeposit(IBlockState stoneBlock, int yMin, int yMax, int chance, int size,
-            int[] dimBlacklist) {
+                                            int[] dimBlacklist) {
         DepositStone tempDeposit = new DepositStone(stoneBlock, yMin, yMax, chance, size, dimBlacklist);
         StoneGenerator.addStoneGen(tempDeposit);
         stones.add(tempDeposit);
@@ -292,7 +291,7 @@ public class GeolosysAPI {
     /**
      * @param file The file object used to load up the DEPRECATED regenned chunks
      * @return the LinkedHashMap of regenned chunks for conversion to new WorldData
-     *         model
+     * model
      */
     @SuppressWarnings("unchecked")
     public static LinkedHashMap<ChunkPosSerializable, Boolean> getRegennedChunks(File file) {
@@ -334,9 +333,9 @@ public class GeolosysAPI {
      */
     public static class ChunkPosSerializable implements Serializable {
         private static final long serialVersionUID = 6006452707959877895L;
-        private int x;
-        private int z;
-        private int dim;
+        private final int x;
+        private final int z;
+        private final int dim;
 
         /**
          * @param pos A Mojang ChunkPos initializer for ChunkPosSerializable

@@ -1,15 +1,14 @@
 package com.oitsjustjose.geolosys.common.config;
 
-import java.util.HashMap;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import java.util.HashMap;
 
 public class ConfigParser {
     private static ConfigParser instance;

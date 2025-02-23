@@ -154,7 +154,7 @@ public class ItemProPick extends Item {
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-            EnumFacing facing, float hitX, float hitY, float hitZ) {
+                                      EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (player.isSneaking()) {
             this.onItemRightClick(worldIn, player, hand);
         } else {
@@ -273,7 +273,7 @@ public class ItemProPick extends Item {
     }
 
     private boolean prospectUnderground(EntityPlayer player, World worldIn, BlockPos pos, EnumFacing facing, int xStart,
-            int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
+                                        int xEnd, int yStart, int yEnd, int zStart, int zEnd) {
         HashMap<IOre, HashSet<IBlockState>> foundMap = new HashMap<>();
         for (IOre ore : GeolosysAPI.oreBlocks) {
             if (ore instanceof DepositMultiOre) {
@@ -293,7 +293,7 @@ public class ItemProPick extends Item {
                                     foundMap.get(ore).add(state);
                                     if (foundMap.get(ore).size() == ((DepositMultiOre) ore).oreBlocks.keySet().size()) {
                                         Geolosys.proxy.sendProspectingMessage(player,
-                                                ((DepositMultiOre) ore).getFriendlyName(worldIn, pos, player),
+                                                ore.getFriendlyName(worldIn, pos, player),
                                                 facing.getOpposite());
                                         return true;
                                     }

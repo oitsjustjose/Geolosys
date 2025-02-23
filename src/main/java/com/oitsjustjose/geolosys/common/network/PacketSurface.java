@@ -6,11 +6,11 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class PacketSurface implements IMessage {
+    public ItemStack stack;
+
     // A default constructor is always required
     public PacketSurface() {
     }
-
-    public ItemStack stack;
 
     public PacketSurface(ItemStack stack) {
         this.stack = stack;

@@ -21,9 +21,6 @@ import com.oitsjustjose.geolosys.common.world.OreGenerator;
 import com.oitsjustjose.geolosys.common.world.StoneGenerator;
 import com.oitsjustjose.geolosys.common.world.VanillaWorldGenOverride;
 import com.oitsjustjose.geolosys.compat.CompatLoader;
-
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
@@ -35,6 +32,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Geolosys.MODID, name = "Geolosys", version = Geolosys.VERSION, acceptedMinecraftVersions = "1.12", dependencies = "after:immersiveengineering@[0.12,);after:contenttweaker;")
 public class Geolosys {
@@ -51,7 +49,7 @@ public class Geolosys {
     public ChunkData chunkOreGen;
 
     public BlockOre ORE;
-    public BlockOreVanilla ORE_VANILLA;
+public BlockOreVanilla ORE_VANILLA;
     public BlockSample ORE_SAMPLE;
     public BlockSampleVanilla ORE_SAMPLE_VANILLA;
 

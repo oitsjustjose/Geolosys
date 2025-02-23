@@ -1,7 +1,6 @@
 package com.oitsjustjose.geolosys.common.blocks;
 
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-
 import net.minecraft.util.IStringSerializable;
 
 public class Types {

@@ -4,7 +4,6 @@ import com.oitsjustjose.geolosys.common.api.world.DepositBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOreBiomeRestricted;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
@@ -13,12 +12,12 @@ import net.minecraftforge.common.BiomeDictionary;
 /**
  * @author oitsjustjose,
  * @author Mangoose / https://github.com/the-realest-stu/ Code inspired directly
- *         from:
- *         https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
+ * from:
+ * https://github.com/the-realest-stu/Adventurers-Toolbox/tree/master/src/main/java/api/guide
  */
 
 public class BookPageOre extends BookPage {
-    private IOre ore;
+    private final IOre ore;
     private long lastUpdate;
     private ItemStack displayStack;
 
@@ -70,7 +69,7 @@ public class BookPageOre extends BookPage {
     }
 
     public boolean isWhitelist() {
-        if(this.ore instanceof DepositBiomeRestricted) {
+        if (this.ore instanceof DepositBiomeRestricted) {
             DepositBiomeRestricted biomeRestricted = (DepositBiomeRestricted) this.ore;
             return biomeRestricted.useWhitelist();
         }
@@ -92,7 +91,7 @@ public class BookPageOre extends BookPage {
                 sb.append(type.getName().toLowerCase());
             }
 
-            String sbRet = sb.toString().substring(2);
+            String sbRet = sb.substring(2);
             int commaCount = sbRet.split(",").length;
             if (commaCount == 1) {
                 return sbRet.replace(",", " &");
@@ -114,7 +113,7 @@ public class BookPageOre extends BookPage {
                 sb.append(type.getName().toLowerCase());
             }
 
-            String sbRet = sb.toString().substring(2);
+            String sbRet = sb.substring(2);
             int commaCount = sbRet.split(",").length;
             if (commaCount == 1) {
                 return sbRet.replace(",", " &");

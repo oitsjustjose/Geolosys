@@ -1,11 +1,7 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.HashMap;
-import java.util.Random;
-
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.common.api.world.DepositStone;
-
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -15,6 +11,9 @@ import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
+import java.util.HashMap;
+import java.util.Random;
+
 /**
  * A modified version of:
  * https://github.com/BluSunrize/ImmersiveEngineering/blob/master/src/main/java/blusunrize/immersiveengineering/common/world/IEWorldGen.java
@@ -23,7 +22,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class StoneGenerator implements IWorldGenerator {
     private static final String dataID = "geolosysStoneGeneratorPending";
-    private static HashMap<Integer, StoneGen> stoneSpawnWeights = new HashMap<>();
+    private static final HashMap<Integer, StoneGen> stoneSpawnWeights = new HashMap<>();
     private static int last = 0;
 
     public static void addStoneGen(DepositStone stone) {
@@ -36,7 +35,7 @@ public class StoneGenerator implements IWorldGenerator {
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
-            IChunkProvider chunkProvider) {
+                         IChunkProvider chunkProvider) {
         ToDoBlocks.getForWorld(world, dataID).processPending(new ChunkPos(chunkX, chunkZ), world);
         if (world.provider.getDimension() == 1 || world.provider.getDimension() == -1) {
             return;
@@ -74,7 +73,7 @@ public class StoneGenerator implements IWorldGenerator {
             if (rand.nextInt(100) < this.depositStone.getChance()) {
                 int y = this.depositStone.getYMin() != this.depositStone.getYMax()
                         ? this.depositStone.getYMin()
-                                + rand.nextInt(this.depositStone.getYMax() - this.depositStone.getYMin())
+                        + rand.nextInt(this.depositStone.getYMax() - this.depositStone.getYMin())
                         : this.depositStone.getYMin();
                 pluton.generate(world, rand, new BlockPos(x, y, z));
             }

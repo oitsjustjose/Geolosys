@@ -1,15 +1,9 @@
 package com.oitsjustjose.geolosys.common.world;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.oitsjustjose.geolosys.common.api.GeolosysAPI;
 import com.oitsjustjose.geolosys.common.api.world.DepositMultiOre;
 import com.oitsjustjose.geolosys.common.api.world.IOre;
 import com.oitsjustjose.geolosys.common.util.Utils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,11 +15,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Thiakil on 17/06/2018. Minor edits by PersonTheCat
  */
 public class ToDoBlocks extends WorldSavedData {
-    private Map<ChunkPos, Map<BlockPos, IBlockState>> pendingBlocks = new HashMap<>();
+    private final Map<ChunkPos, Map<BlockPos, IBlockState>> pendingBlocks = new HashMap<>();
 
     public ToDoBlocks(String name) {
         super(name);

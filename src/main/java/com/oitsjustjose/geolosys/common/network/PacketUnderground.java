@@ -7,12 +7,11 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class PacketUnderground implements IMessage {
+    ItemStack stack;
+    String direction;
     // A default constructor is always required
     public PacketUnderground() {
     }
-
-    ItemStack stack;
-    String direction;
 
     public PacketUnderground(ItemStack stack, EnumFacing direction) {
         this.stack = stack;
