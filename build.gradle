@@ -1,8 +1,9 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url "https://plugins.gradle.org/m2/" }
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -17,12 +18,10 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 
-import com.modrinth.minotaur.TaskModrinthUpload
-
 group = "com.oitsjustjose.geolosys"
 archivesBaseName = "Geolosys-${game_version}-${mod_version}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
     mappings channel: 'snapshot', version: "${mappings_version}"
@@ -62,7 +61,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${game_version}-${forge_version}"
-	
+
     compileOnly fg.deobf("blusunrize:ImmersiveEngineering:${ie_version}")
     compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
     compileOnly group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
@@ -70,32 +69,28 @@ dependencies {
 
 jar {
     manifest {
-        attributes([
-            "Specification-Title": "geolosys",
-            "Specification-Vendor": "oitsjustjose.com",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${mod_version}",
-            "Implementation-Vendor" :"oitsjustjose.com",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+        attributes(["Specification-Title"     : "geolosys",
+                    "Specification-Vendor"    : "oitsjustjose.com",
+                    "Specification-Version"   : "1", // We are version 1 of ourselves
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : "${mod_version}",
+                    "Implementation-Vendor"   : "oitsjustjose.com",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
     }
 }
 
 processResources {
-    from(sourceSets.main.java.srcDirs) {
-        include 'com.oitsjustjose.geolosys.Geolosys.java'
-        expand '@VERSION@': "${mod_version}"
-    }
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.mod_version
+    inputs.property "mcversion", project.game_version
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand '@MC_VERSION@': "${game_version}"
+        expand 'version': project.mod_version, 'mcversion': project.game_version
     }
 
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand '@VERSION@': "${mod_version}"
+        exclude 'mcmod.info'
     }
 }
 
@@ -110,23 +105,19 @@ tasks.register('publish') {
 }
 
 tasks.register('modrinth', TaskModrinthUpload.class).configure {
-    dependsOn('assemble', 'reobfJar')
-    onlyIf {
-        project.hasProperty('MODRINTH_TOKEN')
-    }
-
     group "upload"
     description "Uploads to Modrinth project"
 
+    dependsOn('assemble', 'reobfJar')
+
     token = project.hasProperty("MODRINTH_TOKEN") ? project.MODRINTH_TOKEN : ""
-    projectId = "aPBZx3jD"
-    versionName = "Geolosys ${game_version} ${mod_version}"
-    versionNumber = "${game_version}-${mod_version}"
-    versionType = 'release'
+    projectId = 'gu7yAYhd'
+    versionNumber = "${project.game_version}-${project.mod_version}"
     uploadFile = jar
-    gameVersions = ["${game_version}"]
-    loaders = ["forge"]
+    versionType = 'RELEASE'
+    addGameVersion(project.game_version)
     changelog = file("./changelog.md").text
+    addLoader('forge')
 }
 
 curseforge {
