@@ -1,11 +1,30 @@
 # Geolosys Changelog
 
+## 3.0.12 (we skipped a version??)
+
+This was a pain in the butt to get working again -- seems 1.12 is harder to maintain than I expected, but also not
+harder than I expected in the same right... anyways!
+
+- FIXED: `geolosys.json` not downloading successfully
+    - The Jar File now contains the default configuration and unpacks it if/when needed
+- FIXED: Missing `pack.mcmeta`
+    - Not sure if this was causing issues in the last build, but this build would have had broken localizations if I
+      didn't do this
+- FIXED: Field Manual not tinting the background world
+    - This is how all GUIs work in Vanilla, but my implementation didn't do this and it bothered me.
+- FIXED: Field Manual pages for Inter-Mod Compat having `Format Error:` in the start of their descriptions
+- UPDATED: ForgeGradle & Mappings
+    - Keeps the project more alive and maintainable (by others if they want) in 1.12.
+    - Not visible to the end user
+- REMOVED: Patron page & loader
+    - I shut down my Patreon a while back, so this isn't needed anymore.
+
 ## 3.0.10
 
 - ADDED: Preference for biome-restricted plutons to generate in a biome they're allowed to generate in
 - ADDED: UK Translations for Aluminum -> Aluminium.
 - FIXED: Localization being broken
-- FIXED: Prospector's Pick "detecting" Multi-Ore Plutons if only one of the ore is within it 
+- FIXED: Prospector's Pick "detecting" Multi-Ore Plutons if only one of the ore is within it
 
 ## 3.0.9
 
@@ -22,28 +41,37 @@
 
 ## 3.0.6
 
-- FIXED: Localization issues when on a server - this took [a lot of work to fix](https://github.com/oitsjustjose/Geolosys/commit/4a90db3423132581a7177cd6842dbbccca873256) but it's fixed.
-- FIXED: ProPick reporting `MultiOreDeposits` as present when not every block in the deposit is present (i.e. triggering "Autunite & Granite in the area" when only Autunite was).
+- FIXED: Localization issues when on a server - this
+  took [a lot of work to fix](https://github.com/oitsjustjose/Geolosys/commit/4a90db3423132581a7177cd6842dbbccca873256)
+  but it's fixed.
+- FIXED: ProPick reporting `MultiOreDeposits` as present when not every block in the deposit is present (i.e.
+  triggering "Autunite & Granite in the area" when only Autunite was).
 
 ## 3.0.5
 
 - ADDED: Dedicated startup screen for errors with downloading `geolosys.json` from GitHub
-- FIXED: Inability to auto-download `geolosys.json` from GitHub (this was because of an issue with changing branch-names on my end)
+- FIXED: Inability to auto-download `geolosys.json` from GitHub (this was because of an issue with changing branch-names
+  on my end)
 - CHANGED: Prospector's Pick Chunk-scan method to improve accuracy with multi-ore deposits
 
 ## 3.0.4
 
 - ADDED: Patrons segment to the Field Manual!
-  - Requires internet to grab the patrons list once-per-launch
-  - Automatically updates (at game launch) with patrons from [my Patreon](https://patreon.com/oitsjustjose).
-  - In-game button in the manual to link you if you want to support me! :D
+    - Requires internet to grab the patrons list once-per-launch
+    - Automatically updates (at game launch) with patrons from [my Patreon](https://patreon.com/oitsjustjose).
+    - In-game button in the manual to link you if you want to support me! :D
 
 ## 3.0.3
 
-- ADDED: BiomeTypes can be used in the JSON/CraftTweaker API, e.g. `minecraft:desert`, `DRY` - you can find a full list of BiomeTypes [here](https://pastebin.com/XgHNzaBg)
+- ADDED: BiomeTypes can be used in the JSON/CraftTweaker API, e.g. `minecraft:desert`, `DRY` - you can find a full list
+  of BiomeTypes [here](https://pastebin.com/XgHNzaBg)
 - ADDED: Ability for Fortune to work on cluster-dropping ores (configurable, off by default)
-- CHANGED: Updated German translation (thanks to [ACGaming](https://github.com/oitsjustjose/Geolosys/commits?author=ACGaming))
-- CHANGED: Loading order again. Custom ore entries will try to be added on the game's `init` phase - if a mod adds an ore later than `init` (they shouldn't though..) then Geolosys will try to add it in the game's `postInit` phase. The downside of it being added in `postInit` is that some mod compatibility won't be available. You will see a log entry if it isn't added in init, though.
+- CHANGED: Updated German translation (thanks
+  to [ACGaming](https://github.com/oitsjustjose/Geolosys/commits?author=ACGaming))
+- CHANGED: Loading order again. Custom ore entries will try to be added on the game's `init` phase - if a mod adds an
+  ore later than `init` (they shouldn't though..) then Geolosys will try to add it in the game's `postInit` phase. The
+  downside of it being added in `postInit` is that some mod compatibility won't be available. You will see a log entry
+  if it isn't added in init, though.
 
 ## 3.0.2b
 
@@ -55,29 +83,43 @@
 
 ## 3.0.1
 
-- ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). **This requires UBC 1.3.6 or greater**
+- ADDED: official Underground Biomes / Underground Biome Constructs support (with full thanks to its dev, Aang23). *
+  *This requires UBC 1.3.6 or greater**
 - ADDED: Config option to disable AE2 compat
-- CHANGED: Cassiterite now generates in Rivers by default -- this will not be changed unless you change it manually in your config (or start over with a new config).
-- CHANGED: Default config options (for UBC compat). If you want these to be in effect, back up your old config and delete existing configs for `Extra Ores the Prospector's Pick should search for` and `Blocks mineral deposits can replace`.
+- CHANGED: Cassiterite now generates in Rivers by default -- this will not be changed unless you change it manually in
+  your config (or start over with a new config).
+- CHANGED: Default config options (for UBC compat). If you want these to be in effect, back up your old config and
+  delete existing configs for `Extra Ores the Prospector's Pick should search for` and
+  `Blocks mineral deposits can replace`.
 - FIXED: Wonky manual rendering with multi-line entries.
-- FIXED: Various issues with the default config. If you were having issues with it before (crashing or not working), try resetting it to this new one.
+- FIXED: Various issues with the default config. If you were having issues with it before (crashing or not working), try
+  resetting it to this new one.
 
 ## 3.0.0
 
-- ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
-- ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of blocks, or **both**!
-- ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs) for syntax and usage.
-- ADDED: Users can now configure extra blocks for the Prospector's Pick to search for (allows for compat with other ores not registered in Geolosys at all).
-- ADDED: The ability for config options to use the `*` wildcard for the predicates and converter blacklist config options
-- CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire entries on your own instead of doing so in the config file**.
-- CHANGED: `geolosys_ores.json` is now called `geolosys.json` and downloads from GitHub pre-configured if you don't already have it.
+- ADDED: Ore deposits now have density. This allows you to define how much of a pluton is actually the ore and how much
+  isn't. In other words: A huge pluton with low density will result in a nicely scattered pluton!
+- ADDED: New Deposit Generation Mechanics! They can now generate in specific biomes, consist of different types of
+  blocks, or **both**!
+- ADDED: CraftTweaker API. See [this](https://github.com/oitsjustjose/Geolosys/blob/master/Craft%20Tweaker%20Example.zs)
+  for syntax and usage.
+- ADDED: Users can now configure extra blocks for the Prospector's Pick to search for (allows for compat with other ores
+  not registered in Geolosys at all).
+- ADDED: The ability for config options to use the `*` wildcard for the predicates and converter blacklist config
+  options
+- CHANGED: The layout of the `geolosys_ores.json` file. It now includes stones, and **you can now add or remove entire
+  entries on your own instead of doing so in the config file**.
+- CHANGED: `geolosys_ores.json` is now called `geolosys.json` and downloads from GitHub pre-configured if you don't
+  already have it.
 - CHANGED: You can now define the size and dim blacklist of stone deposits
 - CHANGED: The configs for inter-mod type things have been moved to a new section called Compat
-- CHANGED IE Compat: now removes recipes from Geolosys's Config file instead of dynamically, as there's not an easy way to do that.
+- CHANGED IE Compat: now removes recipes from Geolosys's Config file instead of dynamically, as there's not an easy way
+  to do that.
 - CHANGED IE Compat: now adds all oreBlocks from the API as excavator recipes.
 - [API] ADDED: New options for generating using the new options (MultiOre, BiomeRestricted, and MultiOreBiomeRestricted)
 - [API] ADDED: IOre interface for creating your own deposit type.
-- [API] CHANGED: Generation rules now follow an Interface IOre. If you were making a custom ore directly before, you should start implementing
+- [API] CHANGED: Generation rules now follow an Interface IOre. If you were making a custom ore directly before, you
+  should start implementing
 
 ## 2.2.6
 
@@ -92,8 +134,9 @@
 
 - ADDED: Config option for the "sea level" for each dimension
 - ADDED: Compat for IE Coal Cokes:
-  - Anthracite coal can be used directly in the blast furnace
-  - Bituminous and Lignite Coals can be coked for more creosote & smelting time plus the ability to be used in the blast furnace
+    - Anthracite coal can be used directly in the blast furnace
+    - Bituminous and Lignite Coals can be coked for more creosote & smelting time plus the ability to be used in the
+      blast furnace
 - CHANGED: Configs regarding the new sea level option and the ore converter blacklist now take effect immediately
 
 ## 2.2.3
@@ -103,8 +146,11 @@
 
 ## 2.2.2
 
-- FIXED: How translations for the prospector's pick work. They now use native Vanilla code that I didn't even know existed and worked exactly how I've been wanting.
-- CHANGED **IMPORTANT**: How ores and stones generate. Again. Yes. I'm sorry, but this time it MAKES SENSE OK?! The larger the number for "chance" the more likely it is to generate. End of story. That's how it works and there's no real special math around it this time. Here's a visualization of how it works if you want it.
+- FIXED: How translations for the prospector's pick work. They now use native Vanilla code that I didn't even know
+  existed and worked exactly how I've been wanting.
+- CHANGED **IMPORTANT**: How ores and stones generate. Again. Yes. I'm sorry, but this time it MAKES SENSE OK?! The
+  larger the number for "chance" the more likely it is to generate. End of story. That's how it works and there's no
+  real special math around it this time. Here's a visualization of how it works if you want it.
 
 !["graphs"](generation.png)
 
@@ -115,16 +161,22 @@
 ## 2.2.0
 
 - ADDED: Thaumcraft rare earth drop to all geolosys ores (10% chance - let me know if that's too high)
-- ADDED: Ability for the prospector's pick to search for specialty stones instead of just ores - this mode is changed via shift-Rclick
-- CHANGED **IMPORTANT**: How ores and stones generate. They are now based off of local chance. That is to say, if all chances add up to 20 and the chance of a particular ore is set to 1, then it's closer to a 1 out of 20 chance it'll generate. **Keep this in mind**
-- CHANGED: How samples are placed; they are only placed if the pluton DEFINITELY generated, and they generate in a way that supports other dimensions MUCH beter now (Starting from 0 and going up, instead of using vanilla logic)
+- ADDED: Ability for the prospector's pick to search for specialty stones instead of just ores - this mode is changed
+  via shift-Rclick
+- CHANGED **IMPORTANT**: How ores and stones generate. They are now based off of local chance. That is to say, if all
+  chances add up to 20 and the chance of a particular ore is set to 1, then it's closer to a 1 out of 20 chance it'll
+  generate. **Keep this in mind**
+- CHANGED: How samples are placed; they are only placed if the pluton DEFINITELY generated, and they generate in a way
+  that supports other dimensions MUCH beter now (Starting from 0 and going up, instead of using vanilla logic)
 - CHANGED: Ores don't have to be enabled in order for their cluster smelting recipe to be registered
-- CHANGED: If below sea-level, instead of saying "Nothing found this direction" the ore found in that chunk is just repeated to let you know you're still in the right area (and more useful for ores in the nether or end)
+- CHANGED: If below sea-level, instead of saying "Nothing found this direction" the ore found in that chunk is just
+  repeated to let you know you're still in the right area (and more useful for ores in the nether or end)
 
 ## 2.1.4
 
 - ADDED: Sample Blacklist config (control what block samples can generate on)
-- ADDED: Raw ore blocks excavated by the Immersive Engineering excavator can be crushed to get their drops (with improved bonuses)
+- ADDED: Raw ore blocks excavated by the Immersive Engineering excavator can be crushed to get their drops (with
+  improved bonuses)
 - FIXED: Implemented Paul17041993's solution for Quartz Silk Touch Drops
 - CHANGED: Ore Converter now converts the chunks around the player to visually smooth out the process.
 
@@ -153,8 +205,10 @@
 
 ## 2.1.0
 
-- NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+ packs or newcomers), and generates ores with their respective Vanilla variants.
-- NEW: Silk Touching a mod-based material now drops the first entry in the ore dictionary not from Geolosys (i.e.: silk-touching Geolosys Uranium with other mods offering uranium will drop one of those mods' uranium ore instead)
+- NEW: Vanilla Mode (configurable) disguises vanilla samples added by Geolosys to look like Vanilla (good for Vanilla+
+  packs or newcomers), and generates ores with their respective Vanilla variants.
+- NEW: Silk Touching a mod-based material now drops the first entry in the ore dictionary not from Geolosys (i.e.:
+  silk-touching Geolosys Uranium with other mods offering uranium will drop one of those mods' uranium ore instead)
 - NEW: Separate config option for disabling _all_ default vanilla ore generation.
 - NEW: Depleting a mineral resource prevents it from showing up with the prospector's pick on the surface
 - CHANGED: ProPick and guide book now use depth relative to sea-level instead of just Y level
@@ -164,28 +218,35 @@
 - REMOVED: Chunk boundaries no longer show when holding the prospector's pickaxe
 - FIXED: Ore converter converting Osmium to Uranium
 - FIXED: Propick doesn't take damage if creative
-- FIXED: Wrong metadata of stone defaulting in the replacement materials config (should be 0, 1, 3 and 5 - not 0, 1, 2 and 3).
-- FIXED: Stone entries generating in the nether and end. I might eventually just use a dimension blacklist system for this too...
+- FIXED: Wrong metadata of stone defaulting in the replacement materials config (should be 0, 1, 3 and 5 - not 0, 1, 2
+  and 3).
+- FIXED: Stone entries generating in the nether and end. I might eventually just use a dimension blacklist system for
+  this too...
 
 ## 2.0.0
 
 - NEW: Prospector's Pick _can_ have a configurable durability (if enabled!)
 - NEW: Prospector's Pick can show you your Y-Level (if enabled!)
-- NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him for saving me a week of cursing at GL rendering algorithms.
-  - Font Size is configurable via the mod's config.
-  - Images of game objects! This should make it easier to identify things.
-  - Field Manual values can be dynamic:
-    - Disabled ores will not appear.
-    - Disabled features will not appear.
-    - Mod compat that isn't enabled (either due to absence of mod or otherwise) will not appear.
-    - Y-values for ores matches what is configured
+- NEW: Field Manual GUI! This code is 97% Mangoose (the Rustic dev, amongst other popular mods). Huge shoutout to him
+  for saving me a week of cursing at GL rendering algorithms.
+    - Font Size is configurable via the mod's config.
+    - Images of game objects! This should make it easier to identify things.
+    - Field Manual values can be dynamic:
+        - Disabled ores will not appear.
+        - Disabled features will not appear.
+        - Mod compat that isn't enabled (either due to absence of mod or otherwise) will not appear.
+        - Y-values for ores matches what is configured
 - ADDED: NuclearCraft compatibility
 - [API] ADDED: Ability to register a mineral deposit with _specific_ replacement blocks for that ore.
-- CHANGED: `geolosys_ores.json` config layout. It's much easier to read, but you'll need to re-configure it from scratch. In my opinion: **delete it**.
+- CHANGED: `geolosys_ores.json` config layout. It's much easier to read, but you'll need to re-configure it from
+  scratch. In my opinion: **delete it**.
 - CHANGED: Updated Field Manual to correspond with the actual Pro Pick's featureset
-- CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (Thanks to thiakil <3)
+- CHANGED: How ore generation is done - should massively reduce or eliminate the amount of cascading world generation (
+  Thanks to thiakil <3)
 - CHANGED: How Geolosys saves some world data - this is now done on another thread (another thanks to thiakil <3)
-- CHANGED: Forcefully disabled logging of Cascading World Gen, but only for Geolosys (that is, if it's not already disabled). The code to prevent it is 100% solid _and works_, so why it's still outputting it rarely is beyond me. So I shushed it.
+- CHANGED: Forcefully disabled logging of Cascading World Gen, but only for Geolosys (that is, if it's not already
+  disabled). The code to prevent it is 100% solid _and works_, so why it's still outputting it rarely is beyond me. So I
+  shushed it.
 - CHANGED: IE Compatibility is only enabled for those ores that are enabled.
 - CHANGED: Samples category to Prospecting category; also, moved all ProPick things to here.
 - REMOVED: A couple of unnecessary / redundant config options... oops.
@@ -207,9 +268,9 @@
 - ADDED: BetterWithMods smelting compatibility (attempts to smelt all clusters to nuggets)
 - REMOVED: Depth Finder feature from compass - this is mostly implemented in the prospector's pick now
 - CHANGED: Prospector's pick behavior:
-  - Now shows what ore is in the chunk if you're on the surface
-  - If beneath the surface, maintains normal functionality
-  - Shows chunk borders when held
+    - Now shows what ore is in the chunk if you're on the surface
+    - If beneath the surface, maintains normal functionality
+    - Shows chunk borders when held
 - FIXED: File saving with Geolosys Deposits & Regenned Chunks
 
 ## 1.9.2
@@ -224,7 +285,8 @@
 ## 1.9
 
 - ADDED: Extra Prospector's Pick settings (Thanks agentgoblin!)
-- ADDED: Ore-swapping: replaces other mod ores with Geolosys ones _after_ they've generated (like for Twilight Forest). This only happens **once** per chunk visited, when the player visits it
+- ADDED: Ore-swapping: replaces other mod ores with Geolosys ones _after_ they've generated (like for Twilight Forest).
+  This only happens **once** per chunk visited, when the player visits it
 - ADDED: Compatibility for Astral Sorcery's Infused Crystal Pickaxe
 - [API] ADDED: Ability to check or mark if chunks have been ore-swapped
 - CHANGED: Textures for coal variants (thanks Wiiv :))
@@ -257,7 +319,9 @@
 - CHANGED: Minerals will now automatically replace any "stones" added when generating
 - CHANGED: Replacement materials config no longer _requires_ metadata
 - CHANGED: World generator to the Vanilla MC one. This means **no more cascading lag**, but no more magma blocks.
-- CHANGED: **THIS IS IMPORTANT**: Config Layout. Forge came out with a new one that is much nicer. Unfortunately this means you'll need to **UPDATE YOUR CONFIG**. I'd suggest moving your old one to a new folder (or renaming it), letting a new one get created, and copying entries side-by-side.
+- CHANGED: **THIS IS IMPORTANT**: Config Layout. Forge came out with a new one that is much nicer. Unfortunately this
+  means you'll need to **UPDATE YOUR CONFIG**. I'd suggest moving your old one to a new folder (or renaming it), letting
+  a new one get created, and copying entries side-by-side.
 
 ## 1.8.9c
 
@@ -269,7 +333,8 @@
 
 ## 1.8.9
 
-- ADDED: API for Geolosys, so that other mods can see where mineral deposits have generated and even do some simple trickery to basically control Geolosys.
+- ADDED: API for Geolosys, so that other mods can see where mineral deposits have generated and even do some simple
+  trickery to basically control Geolosys.
 
 ## 1.8.8c
 
@@ -284,7 +349,8 @@
 
 ## 1.8.8
 
-- ADDED: New Coal Variants! Vanilla coal still drops, but peat, lignite coal, bituminous coal or anthracite coal can also drop depending on depth. Deeper coals yield better burn times in a furnace.
+- ADDED: New Coal Variants! Vanilla coal still drops, but peat, lignite coal, bituminous coal or anthracite coal can
+  also drop depending on depth. Deeper coals yield better burn times in a furnace.
 - CHANGED: Default ore generation options to be more vanilla-esque
 - CHANGED: Ore generation logic - this will take the chance into account in a better way
 - CHANGED: Optimized generation performance slightly (and reduce cascading lag a decent bit, but not by 100%)
@@ -300,7 +366,8 @@
 ## 1.8.6
 
 - ADDED: Immersive Engineering Excavator Integration!
-- This integration removes existing excavator entries that are added by Geolosys. The excavated resource texture will look a little off - this isn't on my end :(
+- This integration removes existing excavator entries that are added by Geolosys. The excavated resource texture will
+  look a little off - this isn't on my end :(
 - FIXED: Dimension blacklist configs not working if you allow an ore in dim -1 or 1
 - FIXED: Duplicate waypoints from the JourneyMap integration
 - UPDATED: German and Simplified Chinese translations (thanks to ACGaming and 3TUSK)
@@ -319,7 +386,8 @@
 ## 1.8.4
 
 - ADDED: Beryl, a mineral resource for emeralds!
-- ADDED: New JSON file for ore generation settings (offers more refined settings). See your /config/geolsys_ores.json for more!
+- ADDED: New JSON file for ore generation settings (offers more refined settings). See your /config/geolsys_ores.json
+  for more!
 - ADDED: New texture for cassiterite samples, to make them distinguishable
 - ADDED: Ability for osmium to be enabled _alone_
 - CHANGED: Ingot textures to new beta-style ingot texture
@@ -348,8 +416,11 @@
 
 ## 1.8
 
-- ADDED: User Entries for mineral deposits can now have a custom "sample" specified - particularly useful alongside ContentTweaker if you want to make your own sample replicas. `See config for usage` - Thanks Darkosto for the suggestion!
-- ADDED: Config option to disable the cluster smelting recipes, since their recipes are registered in `postInit` (and _have_ to be) so they can't be CraftTweak'd out - Thanks Darkosto for the suggestion!
+- ADDED: User Entries for mineral deposits can now have a custom "sample" specified - particularly useful alongside
+  ContentTweaker if you want to make your own sample replicas. `See config for usage` - Thanks Darkosto for the
+  suggestion!
+- ADDED: Config option to disable the cluster smelting recipes, since their recipes are registered in `postInit` (and
+  _have_ to be) so they can't be CraftTweak'd out - Thanks Darkosto for the suggestion!
 - CHANGED: Internal refactors that the user should probably never have to worry about
 - CHANGED: Game no longers crash if `enableIngots` is false but you lack an ingot; it'll just log it and move on :)
 - CHANGED: In-game config now notifies of restart requirement
@@ -358,7 +429,8 @@
 
 - ADDED: Prospector's Pick
 - ADDED: Prospector's Pick feature config
-- FIXED: Odd ore generation in the Twilight Forest dimension. **I will be in contact with the Twilight Forest devs to see if we can come up with a means of replacing the ore generation in Hollow Hills.**
+- FIXED: Odd ore generation in the Twilight Forest dimension. **I will be in contact with the Twilight Forest devs to
+  see if we can come up with a means of replacing the ore generation in Hollow Hills.**
 
 ## 1.6
 
@@ -374,10 +446,15 @@
 ### WARNING: You should disable 'cascading chunk lag' logging in the Forge Config. More explained below
 
 - ADDED: ExU2 Compatibility for Cinnabar!
-- REMOVED: Config for custom ores... if this is chaos, let me know, but I decided to remove it ultimately because the samples wouldn't ever be able to be dynamic like that..
-- CHANGED: Mineral deposits below Y=24 now generate magma blocks instead of lava to prevent frustration and be more geologically accurate
-- CHANGED: Mineral deposits of lesser minerals (cassiterite, malachite & hematite) generate in smaller clusters by default (delete config entries to reset them!)
-- CHANGED: Mineral deposits now generate... differently. Still in the same chunk and the same formation, but at . It's bound to cause "cascading chunk lag", but I've tested this extensively and it **does not progress for long** before stopping :)
+- REMOVED: Config for custom ores... if this is chaos, let me know, but I decided to remove it ultimately because the
+  samples wouldn't ever be able to be dynamic like that..
+- CHANGED: Mineral deposits below Y=24 now generate magma blocks instead of lava to prevent frustration and be more
+  geologically accurate
+- CHANGED: Mineral deposits of lesser minerals (cassiterite, malachite & hematite) generate in smaller clusters by
+  default (delete config entries to reset them!)
+- CHANGED: Mineral deposits now generate... differently. Still in the same chunk and the same formation, but at . It's
+  bound to cause "cascading chunk lag", but I've tested this extensively and it **does not progress for long** before
+  stopping :)
 - FIXED: Some chunks not generating mineral deposits even though there was a sample
 - FIXED: Samples on samples
 - CHANGED: Some new textures by Wiiv! When the rest are done, a new version will be released :D
@@ -404,9 +481,11 @@
 
 ## 1.2
 
-- ADDED: Custom vanilla ore variants - these can be silk touched for the Vanilla ores. All drop values are directly referenced from their vanilla variants
+- ADDED: Custom vanilla ore variants - these can be silk touched for the Vanilla ores. All drop values are directly
+  referenced from their vanilla variants
 - ADDED: Assorted Quartz Clusters can drop Certus Quartz, Charged Certus Quartz or Black Quartz if available.
-- ADDED: Ore Samples on the surface above where that type of ore will generate. Mining within the chunk you find one will lead you to a deposit.
+- ADDED: Ore Samples on the surface above where that type of ore will generate. Mining within the chunk you find one
+  will lead you to a deposit.
 - ADDED: Separate user entries in the config for custom "stones" / "rocks"
 - CHANGED: Mineral deposits found below Y = 24 can contain pockets of magma
 - CHANGED: Rarities - a lot - only one ore type can generate per chunk
