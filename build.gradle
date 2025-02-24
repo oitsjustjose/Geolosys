@@ -2,21 +2,25 @@ buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
         mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
-    dependencies {
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-    }
+}
+
+plugins {
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.modrinth.minotaur" version "1.2.1"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'com.matthewprenger.cursegradle'
 
-group= "com.oitsjustjose.geolosys"
-archivesBaseName = "Geolosys-${minecraft_version}"
+import com.modrinth.minotaur.TaskModrinthUpload
+
+group = "com.oitsjustjose.geolosys"
+archivesBaseName = "Geolosys-${game_version}-${mod_version}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -45,12 +49,10 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    // minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
-
-    
-	implementation fg.deobf("blusunrize:ImmersiveEngineering:${ie_version}")
-    implementation fg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}")
+    minecraft "net.minecraftforge:forge:${game_version}-${forge_version}"
+	
+    compileOnly fg.deobf("blusunrize:ImmersiveEngineering:${ie_version}")
+    compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
     compileOnly group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
 }
 
@@ -71,7 +73,7 @@ jar {
 processResources {
     from(sourceSets.main) {
         include '**/*'
-        expand '@MC_VERSION@': "${minecraft_version}"
+        expand '@game_version@': "${game_version}"
     }
 
     from(sourceSets.main) {
@@ -82,17 +84,44 @@ processResources {
 
 build.dependsOn processResources
 
-curseforge {
-  apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
-  project {
-    id = '271856'
-    changelogType = 'markdown'
-    changelog = file("./changelog.md")
-    releaseType = 'release'
-    addGameVersion "${minecraft_version}"
+tasks.register('publish') {
+    group "upload"
+    description "Uploads to all repositories (Curse & Modrinth)"
 
-    mainArtifact(jar) {
-        displayName = "Geolosys ${minecraft_version} ${mod_version}"
+    dependsOn 'curseforge'
+    dependsOn 'modrinth'
+}
+
+tasks.register('modrinth', TaskModrinthUpload.class).configure {
+    dependsOn('assemble', 'reobfJar')
+    onlyIf {
+        project.hasProperty('MODRINTH_TOKEN')
     }
-  }
+
+    group "upload"
+    description "Uploads to Modrinth project"
+
+    token = project.hasProperty("MODRINTH_TOKEN") ? project.MODRINTH_TOKEN : ""
+    projectId = "aPBZx3jD"
+    versionName = "Geolosys ${game_version} ${mod_version}"
+    versionNumber = "${game_version}-${mod_version}"
+    versionType = 'release'
+    uploadFile = jar
+    gameVersions = ["${game_version}"]
+    loaders = ["forge"]
+    changelog = file("./changelog.md").text
+}
+
+curseforge {
+    apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
+    project {
+        id = '271856'
+        changelogType = 'markdown'
+        changelog = file("./changelog.md")
+        releaseType = 'release'
+        addGameVersion "${game_version}"
+        mainArtifact(jar) {
+            displayName = "Geolosys ${game_version} ${mod_version}"
+        }
+    }
 }
