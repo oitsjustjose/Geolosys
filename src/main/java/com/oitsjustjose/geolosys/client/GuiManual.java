@@ -23,7 +23,6 @@ import com.oitsjustjose.geolosys.common.manual.BookPageOre;
 import com.oitsjustjose.geolosys.common.manual.BookPageText;
 import com.oitsjustjose.geolosys.common.manual.BookPageURL;
 import com.oitsjustjose.geolosys.common.manual.ChapterLink;
-import com.oitsjustjose.geolosys.common.manual.PatronUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -74,14 +73,12 @@ public class GuiManual extends GuiScreen {
         home.addLink(new ChapterLink("geolosys.guide.chapter.prospecting.name", "prospecting"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.resources.name", "resources"));
         home.addLink(new ChapterLink("geolosys.guide.chapter.mod_compat.name", "mod_compat"));
-        home.addLink(new ChapterLink("geolosys.guide.chapter.patrons.name", "patrons"));
 
         chapters.put("home", new BookChapter("home"));
         chapters.put("introduction", new BookChapter("introduction", "home"));
         chapters.put("prospecting", new BookChapter("prospecting", "home"));
         chapters.put("resources", new BookChapter("resources", "home"));
         chapters.put("mod_compat", new BookChapter("mod_compat", "home"));
-        chapters.put("patrons", new BookChapter("patrons", "home"));
 
         chapters.get("home").addPage(home);
 
@@ -253,40 +250,6 @@ public class GuiManual extends GuiScreen {
                                     0)));
         }
         chapters.get("mod_compat").addPage(modCompat);
-
-        ArrayList<BookPage> patrons = new ArrayList<>();
-        ArrayList<String> patronNames = PatronUtil.getInstance().getPatrons();
-        if (patronNames.size() == 0) {
-            patrons.add(
-                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.none.text",
-                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
-        } else {
-            patrons.add(
-                    new BookPageURL("geolosys.guide.chapter.patrons.name", "geolosys.guide.chapter.patrons.desc.text",
-                            "https://patreon.com/oitsjustjose", "geolosys.guide.chapter.patrons.link"));
-            count = 0;
-            page_num = 0;
-            int total = 0;
-            StringBuilder pageText = new StringBuilder();
-            for (String patronName : patronNames) {
-                pageText.append("\u2022 " + patronName);
-                total = total + 1;
-
-                if (count == 12 || total == patronNames.size()) {
-                    patrons.add(new BookPageText("geolosys.guide.chapter.patrons.name", pageText.toString()));
-                    pageText = new StringBuilder();
-                    count = 0;
-                    page_num += 1;
-                    continue;
-                }
-
-                pageText.append("<br>");
-                count++;
-            }
-        }
-        for (BookPage page : patrons) {
-            chapters.get("patrons").addPage(page);
-        }
 
         for (BookChapter chapter : chapters.values()) {
             if (chapter.getPageCount() <= 0) {
