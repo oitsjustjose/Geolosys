@@ -3,8 +3,8 @@
     "modid": "geolosys",
     "name": "Geolosys",
     "description": "Ores in Geological Systems added to Minecraft, logically!",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
+    "version": "@VERSION@",
+    "mcversion": "@MC_VERSION@",
     "url": "",
     "updateUrl": "",
     "authorList": [

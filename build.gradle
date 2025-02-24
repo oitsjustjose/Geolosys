@@ -1,90 +1,86 @@
 buildscript {
     repositories {
-        jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
     dependencies {
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.matthewprenger.cursegradle'
 
-version = mod_version
 group= "com.oitsjustjose.geolosys"
 archivesBaseName = "Geolosys-${minecraft_version}"
 
-sourceCompatibility = targetCompatibility = "1.8"
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    runDir = "run"
+    mappings channel: 'snapshot', version: "${mappings_version}"
 
-    useDepAts = true
-    replaceIn "/Geolosys.java"
-    replace "@VERSION@", mod_version
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
 
-    mappings = "${mappings_version}"
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
-    mavenCentral()
-
-    // JM
-    maven {
-    	url 'https://oss.sonatype.org/content/groups/public/'
-    }
-    // IE
-    maven {
-    	name 'jared maven'
-    	url 'https://maven.blamejared.com/'
-	}
-}
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    // Journey Map API
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    // Immersive Engineering & Craft Tweaker 2
+    maven { url 'https://maven.blamejared.com/' }
 }
 
 dependencies {
-	deobfCompile "blusunrize:ImmersiveEngineering:${ie_version}"
-    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
-    compile group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+
+    
+	implementation fg.deobf("blusunrize:ImmersiveEngineering:${ie_version}")
+    implementation fg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}")
+    compileOnly group: "info.journeymap", name: "journeymap-api", version: journeymap_version, changing: true
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'DEV'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'Sources'
-    from sourceSets.main.allSource
-}
-
-artifacts{
-	archives deobfJar
-}
-
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "geolosys",
+            "Specification-Vendor": "oitsjustjose.com",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${mod_version}",
+            "Implementation-Vendor" :"oitsjustjose.com",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
+
+processResources {
+    from(sourceSets.main) {
+        include '**/*'
+        expand '@MC_VERSION@': "${minecraft_version}"
+    }
+
+    from(sourceSets.main) {
+        include '**/*'
+        expand '@VERSION@': "${mod_version}"
+    }
+}
+
+build.dependsOn processResources
 
 curseforge {
   apiKey = project.hasProperty("CURSEFORGE_API_KEY") ? project.CURSEFORGE_API_KEY : ""
@@ -97,15 +93,6 @@ curseforge {
 
     mainArtifact(jar) {
         displayName = "Geolosys ${minecraft_version} ${mod_version}"
-    }
-
-
-    addArtifact(deobfJar) {
-        displayName = "Geolosys ${minecraft_version} ${mod_version} Deobf"
-    }
-
-    addArtifact(sourcesJar){
-        displayName = "Geolosys ${minecraft_version} ${mod_version} Sources"
     }
   }
 }
