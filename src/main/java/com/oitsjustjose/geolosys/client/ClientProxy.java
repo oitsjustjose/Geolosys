@@ -1,6 +1,6 @@
 package com.oitsjustjose.geolosys.client;
 
-import com.oitsjustjose.geolosys.client.errors.DownloadErrorDisplayException;
+import com.oitsjustjose.geolosys.client.errors.UnpackErrorDisplayException;
 import com.oitsjustjose.geolosys.common.CommonProxy;
 import com.oitsjustjose.geolosys.common.network.HandlerIOreSurfaceClient;
 import com.oitsjustjose.geolosys.common.network.HandlerIOreUndergroundClient;
@@ -50,8 +50,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void throwExtractError(File jsonFile) {
-        throw new DownloadErrorDisplayException("Geolosys Download Exception", "File " + jsonFile.getAbsolutePath()
+    public void throwUnpackError(File jsonFile) {
+        throw new UnpackErrorDisplayException("Geolosys Download Exception", "File " + jsonFile.getAbsolutePath()
                 + " could not be extracted from the Geolosys jar file."
                 + " You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/refs/heads/1.12.x/src/main/resources/assets/geolosys/geolosys.json and put it in your config folder manually if you wish.");
     }

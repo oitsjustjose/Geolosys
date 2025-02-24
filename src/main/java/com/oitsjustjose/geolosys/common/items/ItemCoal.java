@@ -13,12 +13,14 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class ItemCoal extends Item {
     public ItemCoal() {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "COAL"));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
         MinecraftForge.EVENT_BUS.register(this);
@@ -35,7 +37,7 @@ public class ItemCoal extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) {
+    public @Nonnull String getTranslationKey(ItemStack stack) {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                 + Types.Coal.byMetadata(stack.getMetadata()).getName();
     }

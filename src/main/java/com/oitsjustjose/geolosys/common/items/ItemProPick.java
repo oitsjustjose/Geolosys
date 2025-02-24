@@ -54,7 +54,7 @@ public class ItemProPick extends Item {
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "PRO_PICK"));
-        this.setUnlocalizedName(Objects.requireNonNull(this.getRegistryName()).toString().replaceAll(":", "."));
+        this.setTranslationKey(Objects.requireNonNull(this.getRegistryName()).toString().replaceAll(":", "."));
         MinecraftForge.EVENT_BUS.register(this);
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
@@ -73,7 +73,7 @@ public class ItemProPick extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(@Nonnull ItemStack stack) {
+    public @Nonnull String getTranslationKey(@Nonnull ItemStack stack) {
         return Objects.requireNonNull(stack.getItem().getRegistryName()).toString().replaceAll(":", ".");
     }
 

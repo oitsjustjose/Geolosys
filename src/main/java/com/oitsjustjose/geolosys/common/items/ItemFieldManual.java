@@ -22,7 +22,7 @@ public class ItemFieldManual extends Item {
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "FIELD_MANUAL"));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModel();
     }
@@ -33,7 +33,7 @@ public class ItemFieldManual extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(@Nonnull ItemStack stack) {
+    public @Nonnull String getTranslationKey(@Nonnull ItemStack stack) {
         return Objects.requireNonNull(stack.getItem().getRegistryName()).toString().replaceAll(":", ".");
     }
 

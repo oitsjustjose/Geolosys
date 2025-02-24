@@ -27,7 +27,7 @@ public class ForgeEventListener {
                         String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state))
                                 .getDisplayName();
                         String id = Geolosys.MODID + " - " + name + " - "
-                                + event.getWorld().getChunkFromBlockCoords(event.getPos()).getPos();
+                                + event.getWorld().getChunk(event.getPos()).getPos();
                         try {
                             jmAPI.show(new Waypoint(Geolosys.MODID, id, name, event.getWorld().provider.getDimension(),
                                     event.getPos()));

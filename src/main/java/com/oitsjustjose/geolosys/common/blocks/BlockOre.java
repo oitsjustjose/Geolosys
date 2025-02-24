@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockOre extends Block {
@@ -43,7 +44,7 @@ public class BlockOre extends Block {
         this.setSoundType(SoundType.STONE);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, Types.Modded.HEMATITE));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         this.setHarvestLevels();
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
@@ -305,7 +306,7 @@ public class BlockOre extends Block {
         }
 
         @Override
-        public String getUnlocalizedName(ItemStack stack) {
+        public @Nonnull String getTranslationKey(ItemStack stack) {
             return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                     + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }

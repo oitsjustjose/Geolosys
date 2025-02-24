@@ -32,11 +32,23 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+
+            mods {
+                geolosys {
+                    source sourceSets.main
+                }
+            }
         }
 
         server {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+
+            mods {
+                geolosys {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
@@ -71,13 +83,18 @@ jar {
 }
 
 processResources {
-    from(sourceSets.main) {
-        include '**/*'
-        expand '@game_version@': "${game_version}"
+    from(sourceSets.main.java.srcDirs) {
+        include 'com.oitsjustjose.geolosys.Geolosys.java'
+        expand '@VERSION@': "${mod_version}"
     }
 
-    from(sourceSets.main) {
-        include '**/*'
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand '@MC_VERSION@': "${game_version}"
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
         expand '@VERSION@': "${mod_version}"
     }
 }
@@ -125,3 +142,5 @@ curseforge {
         }
     }
 }
+
+sourceSets { main { output.resourcesDir = output.classesDir } }

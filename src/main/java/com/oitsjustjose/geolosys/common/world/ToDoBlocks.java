@@ -96,7 +96,7 @@ public class ToDoBlocks extends WorldSavedData {
         for (String key : nbt.getKeySet()) {
             NBTBase val = nbt.getTag(key);
             if (val instanceof NBTTagList && ((NBTTagList) val).getTagType() == Constants.NBT.TAG_COMPOUND
-                    && !val.hasNoTags()) {
+                    && !val.isEmpty()) {
                 try {
                     Long asLong = Long.parseLong(key);
                     NBTTagList list = (NBTTagList) val;

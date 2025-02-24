@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
+
 public class ItemCluster extends Item {
     public static final int META_IRON = 0;
     public static final int META_GOLD = 1;
@@ -32,7 +34,7 @@ public class ItemCluster extends Item {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "CLUSTER"));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
         this.registerOreDict();
@@ -49,7 +51,7 @@ public class ItemCluster extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) {
+    public @Nonnull String getTranslationKey(ItemStack stack) {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                 + Types.Cluster.byMetadata(stack.getMetadata()).getName();
     }

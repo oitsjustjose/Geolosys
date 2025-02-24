@@ -46,7 +46,7 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-    public void throwExtractError(File jsonFile) {
+    public void throwUnpackError(File jsonFile) {
         Geolosys.getInstance().LOGGER.error("File " + jsonFile.getAbsolutePath()
                 + " could not be extracted from the Geolosys jar file."
                 + " You can download the file at https://raw.githubusercontent.com/oitsjustjose/Geolosys/refs/heads/1.12.x/src/main/resources/assets/geolosys/geolosys.json and put it in your config folder manually if you wish.");

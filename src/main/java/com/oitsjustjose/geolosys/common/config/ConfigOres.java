@@ -65,16 +65,19 @@ public class ConfigOres {
             InputStream jsonStream = Files.newInputStream(jsonFile.toPath());
             this.read(jsonStream);
         } catch (IOException e) {
-            extractConfigFromJar();
+            if (unpackConfig()) {
+                init(); // Recurse *only* if we succeed in unpacking the config
+            } else {
+                Geolosys.proxy.throwUnpackError(this.jsonFile);
+            }
         }
     }
 
-    private void extractConfigFromJar() {
+    private boolean unpackConfig() {
         try {
-            InputStream jsonStream = Geolosys.class.getResourceAsStream("/assets/geolosys/geolosys.json");
+            InputStream jsonStream = Geolosys.class.getResourceAsStream("/assets/geolosys/default_config.json");
             if (jsonStream == null) {
-                Geolosys.proxy.throwExtractError(this.jsonFile);
-                return;
+                return false;
             }
 
             FileOutputStream outputStream = new FileOutputStream(jsonFile);
@@ -89,8 +92,10 @@ public class ConfigOres {
             jsonStream.close();
             outputStream.close();
         } catch (IOException e) {
-            Geolosys.proxy.throwExtractError(this.jsonFile);
+            return false;
         }
+
+        return true;
     }
 
     private void read(InputStream in) throws IOException {
@@ -179,7 +184,7 @@ public class ConfigOres {
                                 plutonName = jReader.nextString();
                             } else {
                                 Geolosys.getInstance().LOGGER
-                                        .info("Unknown property found in geolosys.json file. Skipping it.");
+                                        .info("Unknown property found in default_config.json file. Skipping it.");
                                 jReader.skipValue();
 
                             }
@@ -239,7 +244,7 @@ public class ConfigOres {
             jReader.endObject();
         } catch (Exception e) {
             Geolosys.getInstance().LOGGER.error(
-                    "There was a parsing error with the geolosys.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
+                    "There was a parsing error with the default_config.json file. Please check for drastic syntax errors and check it at https://jsonlint.com/");
             Geolosys.getInstance().LOGGER.error(e.getMessage());
         } finally {
             jReader.close();

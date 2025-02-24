@@ -33,6 +33,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class BlockSample extends Block {
@@ -47,7 +48,7 @@ public class BlockSample extends Block {
         this.setSoundType(SoundType.GROUND);
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, Types.Modded.HEMATITE));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.BLOCKS.register(this);
         ForgeRegistries.ITEMS.register(new ItemBlockOre(this));
         MinecraftForge.EVENT_BUS.register(this);
@@ -230,7 +231,7 @@ public class BlockSample extends Block {
         }
 
         @Override
-        public String getUnlocalizedName(ItemStack stack) {
+        public @Nonnull String getTranslationKey(ItemStack stack) {
             return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                     + Types.Modded.byMetadata(stack.getMetadata()).getName();
         }

@@ -9,12 +9,7 @@ import com.oitsjustjose.geolosys.common.blocks.BlockSampleVanilla;
 import com.oitsjustjose.geolosys.common.config.ConfigOres;
 import com.oitsjustjose.geolosys.common.config.ConfigParser;
 import com.oitsjustjose.geolosys.common.config.ModConfig;
-import com.oitsjustjose.geolosys.common.items.ItemCluster;
-import com.oitsjustjose.geolosys.common.items.ItemCoal;
-import com.oitsjustjose.geolosys.common.items.ItemCoalCoke;
-import com.oitsjustjose.geolosys.common.items.ItemFieldManual;
-import com.oitsjustjose.geolosys.common.items.ItemIngot;
-import com.oitsjustjose.geolosys.common.items.ItemProPick;
+import com.oitsjustjose.geolosys.common.items.*;
 import com.oitsjustjose.geolosys.common.util.Recipes;
 import com.oitsjustjose.geolosys.common.world.ChunkData;
 import com.oitsjustjose.geolosys.common.world.OreGenerator;
@@ -49,7 +44,7 @@ public class Geolosys {
     public ChunkData chunkOreGen;
 
     public BlockOre ORE;
-public BlockOreVanilla ORE_VANILLA;
+    public BlockOreVanilla ORE_VANILLA;
     public BlockSample ORE_SAMPLE;
     public BlockSampleVanilla ORE_SAMPLE_VANILLA;
 

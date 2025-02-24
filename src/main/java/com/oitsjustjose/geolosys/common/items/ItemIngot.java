@@ -11,12 +11,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
+
 public class ItemIngot extends Item {
     public ItemIngot() {
         this.setHasSubtypes(true);
         this.setCreativeTab(CreativeTabs.MISC);
         this.setRegistryName(new ResourceLocation(Geolosys.MODID, "INGOT"));
-        this.setUnlocalizedName(this.getRegistryName().toString().replaceAll(":", "."));
+        this.setTranslationKey(this.getRegistryName().toString().replaceAll(":", "."));
         ForgeRegistries.ITEMS.register(this);
         this.registerModels();
         this.registerOreDict();
@@ -33,7 +35,7 @@ public class ItemIngot extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) {
+    public @Nonnull String getTranslationKey(ItemStack stack) {
         return stack.getItem().getRegistryName().toString().replaceAll(":", ".") + "."
                 + Types.Ingot.byMetadata(stack.getMetadata()).getName();
     }
