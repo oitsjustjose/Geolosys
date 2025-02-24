@@ -266,6 +266,7 @@ public class GuiManual extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().renderEngine.bindTexture(BACKGROUND);
         this.drawTexturedModalRect(left, top, 0, 0, WIDTH, HEIGHT);
