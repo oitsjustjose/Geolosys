@@ -1,52 +1,91 @@
+
 plugins {
-    id "com.modrinth.minotaur" version "2.+"
-    id "com.matthewprenger.cursegradle" version "1.4.0+"
-    id "net.neoforged.gradle" version "[6.0.18,6.2)"
+    id 'idea'
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.78'
+    id 'com.modrinth.minotaur' version '2.+'
+    id 'com.matthewprenger.cursegradle' version '1.4.0+'
 }
 
-group = 'com.oitsjustjose.geolosys' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-version = "${mod_version}"
-base { archivesName = "Geolosys-${game_version}" }
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-minecraft {
-    mappings channel: 'official', version: "${game_version}"
-    copyIdeResources = true
+group = mod_group_id
+version = mod_version
+base { archivesName = "${mod_name}-${minecraft_version}-${mod_version}" }
+
+repositories { 
+    mavenLocal() 
+    maven { url = "https://maven.blamejared.com" }
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
     runs {
         client {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods { geolosys { source sourceSets.main } }
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods { geolosys { source sourceSets.main } }
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" { // define mod <-> source bindings
+            sourceSet(sourceSets.main)
         }
     }
 }
 
-dependencies {
-    minecraft "net.neoforged:forge:${game_version}-${neo_version}"
-}
 
-// Example for how to get properties into the manifest for reading by the runtime..
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : "Geolosys",
-                "Specification-Vendor"    : "oitsjustjose.com",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${mod_version}",
-                "Implementation-Vendor"   : "oitsjustjose.com",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
+configurations { runtimeClasspath.extendsFrom localRuntime }
 
-tasks.register('publish') {
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+neoForge.ideSyncTask generateModMetadata
+
+publish {
     dependsOn 'curseforge'
     dependsOn 'modrinth'
 }
@@ -57,10 +96,11 @@ curseforge {
         id = '271856'
         changelogType = 'markdown'
         changelog = file("./changelog.md")
-        releaseType = "${mod_release_type}"
-        addGameVersion "${game_version}"
+        releaseType = "${publication_release_type}"
+        addGameVersion "NeoForge"
+        addGameVersion "${minecraft_version}"
         mainArtifact(jar) {
-            displayName = "Geolosys ${game_version} ${mod_version}"
+            displayName = "${mod_name} ${minecraft_version} ${mod_version}"
         }
     }
 }
@@ -68,12 +108,25 @@ curseforge {
 modrinth {
     token = project.hasProperty("MODRINTH_TOKEN") ? project.MODRINTH_TOKEN : ""
     projectId = "aPBZx3jD"
-    versionName = "Geolosys ${game_version} ${mod_version}"
-    versionNumber = "${game_version}-${mod_version}"
-    versionType = "${mod_release_type}"
+    versionName = "${mod_name} ${minecraft_version} ${mod_version}"
+    versionNumber = "${minecraft_version}-${mod_version}"
+    versionType = "${publication_release_type}"
     uploadFile = jar
-    gameVersions = ["${game_version}"]
-    loaders = ["forge"]
+    gameVersions = ["${minecraft_version}"]
+    loaders = ["neoforge"]
     changelog = file("./changelog.md").text
     dependencies { optional.project "patchouli" }
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
