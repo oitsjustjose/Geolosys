@@ -43,9 +43,6 @@ public class DenseDeposit implements IDeposit {
     private final int genWt;
     private final HashSet<BlockState> blockStateMatchers;
     private final TagKey<Biome> biomeTag;
-    /* Hashmap of blockMatcher.getRegistryName(): sumWt */
-    private final HashMap<String, Float> cumulOreWtMap = new HashMap<>();
-    private float sumWtSamples = 0.0F;
 
     public DenseDeposit(HashMap<String, HashMap<BlockState, Float>> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin, int yMax, int size, int genWt, TagKey<Biome> biomeTag, HashSet<BlockState> blockStateMatchers) {
         this.oreToWtMap = oreBlocks;
@@ -56,38 +53,11 @@ public class DenseDeposit implements IDeposit {
         this.genWt = genWt;
         this.biomeTag = biomeTag;
         this.blockStateMatchers = blockStateMatchers;
-
-        // Verify that blocks.default exists.
-        if (!this.oreToWtMap.containsKey("default")) {
-            throw new RuntimeException("Pluton blocks should always have a default key");
-        }
-
-        for (Entry<String, HashMap<BlockState, Float>> i : this.oreToWtMap.entrySet()) {
-            if (!this.cumulOreWtMap.containsKey(i.getKey())) {
-                this.cumulOreWtMap.put(i.getKey(), 0.0F);
-            }
-
-            for (Entry<BlockState, Float> j : i.getValue().entrySet()) {
-                float v = this.cumulOreWtMap.get(i.getKey());
-                this.cumulOreWtMap.put(i.getKey(), v + j.getValue());
-            }
-
-            if (!DepositUtils.nearlyEquals(this.cumulOreWtMap.get(i.getKey()), 1.0F)) {
-                throw new RuntimeException("Sum of weights for pluton blocks should equal 1.0");
-            }
-        }
-
-        for (Entry<BlockState, Float> e : this.sampleToWtMap.entrySet()) {
-            this.sumWtSamples += e.getValue();
-        }
-
-        if (!DepositUtils.nearlyEquals(sumWtSamples, 1.0F)) {
-            throw new RuntimeException("Sum of weights for pluton samples should equal 1.0");
-        }
+        validate(oreBlocks, sampleBlocks);
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float, RandomSource)} to find a random ore block to
+     * Uses {@link DepositUtils#pick(HashMap, RandomSource)} to find a random ore block to
      * return.
      *
      * @return the random ore block chosen (based on weight) Can be null to
@@ -99,11 +69,11 @@ public class DenseDeposit implements IDeposit {
     public BlockState getOre(BlockState currentState, RandomSource rand) {
         String res = this.oreToWtMap.containsKey(Utils.getRegistryName(currentState)) ? Utils.getRegistryName(currentState) : "default";
         // Return a choice from a specialized set here
-        return DepositUtils.pick(this.oreToWtMap.get(res), this.cumulOreWtMap.get(res), rand);
+        return DepositUtils.pick(this.oreToWtMap.get(res), rand);
     }
 
     /**
-     * Uses {@link DepositUtils#pick(HashMap, float, RandomSource)} to find a random pluton sample
+     * Uses {@link DepositUtils#pick(HashMap, RandomSource)} to find a random pluton sample
      * to return.
      *
      * @return the random pluton sample chosen (based on weight) Can be null to
@@ -113,7 +83,7 @@ public class DenseDeposit implements IDeposit {
      */
     @Nullable
     public BlockState getSample(RandomSource rand) {
-        return DepositUtils.pick(this.sampleToWtMap, this.sumWtSamples, rand);
+        return DepositUtils.pick(this.sampleToWtMap, rand);
     }
 
     @Override

@@ -21,12 +21,13 @@ public class DepositUtils {
      * totl will result in a total being calculated.
      *
      * @param map  the map between a blockstate and its chance
-     * @param totl the total of all chances
      * @return null if no block should be used or placed, T instanceof BlockState if
      * actual block should be placed.
      */
     @Nullable
-    public static BlockState pick(HashMap<BlockState, Float> map, float totl, RandomSource random) {
+    public static BlockState pick(HashMap<BlockState, Float> map, RandomSource random) {
+        if (map.isEmpty()) return null;
+
         float rng = random.nextFloat();
         for (Entry<BlockState, Float> e : map.entrySet()) {
             float wt = e.getValue();
