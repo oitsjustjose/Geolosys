@@ -13,7 +13,7 @@ import com.oitsjustjose.geolosys.common.Registry;
 import com.oitsjustjose.geolosys.common.config.ClientConfig;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
 import com.oitsjustjose.geolosys.common.data.WorldGenDataLoader;
-import com.oitsjustjose.geolosys.common.items.CoalItem;
+import com.oitsjustjose.geolosys.common.items.FuelItem;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -172,9 +172,9 @@ public class Geolosys {
     }
 
     @SubscribeEvent
-    public void onFuelRegistry(FurnaceFuelBurnTimeEvent fuelBurnoutEvent) {
-        if (fuelBurnoutEvent.getItemStack().getItem() instanceof CoalItem c) {
-            fuelBurnoutEvent.setBurnTime(c.getBurnTime());
+    public void onFuelRegistry(FurnaceFuelBurnTimeEvent evt) {
+        if (evt.getItemStack().getItem() instanceof FuelItem f) {
+            evt.setBurnTime(f.getBurnTime());
         }
     }
 }

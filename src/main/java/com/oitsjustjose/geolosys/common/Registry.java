@@ -5,7 +5,7 @@ import com.oitsjustjose.geolosys.common.blocks.OreBlock;
 import com.oitsjustjose.geolosys.common.blocks.PeatBlock;
 import com.oitsjustjose.geolosys.common.blocks.PlantBlock;
 import com.oitsjustjose.geolosys.common.blocks.SampleBlock;
-import com.oitsjustjose.geolosys.common.items.CoalItem;
+import com.oitsjustjose.geolosys.common.items.FuelItem;
 import com.oitsjustjose.geolosys.common.items.ProPickItem;
 import com.oitsjustjose.geolosys.common.utils.Constants;
 import com.oitsjustjose.geolosys.common.world.feature.DepositFeature;
@@ -113,12 +113,12 @@ public class Registry {
         NeedItemBlocks.forEach(x -> ItemRegistry.register(x.getId().getPath(), () -> new BlockItem(x.get(), new Item.Properties())));
 
         // Coals
-        ItemRegistry.register("anthracite_coal", () -> new CoalItem(20));
-        ItemRegistry.register("bituminous_coal", () -> new CoalItem(16));
-        ItemRegistry.register("lignite_coal", () -> new CoalItem(12));
-        ItemRegistry.register("peat_coal", () -> new CoalItem(6));
-        ItemRegistry.register("bituminous_coal_coke", () -> new CoalItem(32));
-        ItemRegistry.register("lignite_coal_coke", () -> new CoalItem(24));
+        ItemRegistry.register("anthracite_coal", () -> new FuelItem(20));
+        ItemRegistry.register("bituminous_coal", () -> new FuelItem(16));
+        ItemRegistry.register("lignite_coal", () -> new FuelItem(12));
+        ItemRegistry.register("peat_coal", () -> new FuelItem(6));
+        ItemRegistry.register("bituminous_coal_coke", () -> new FuelItem(32));
+        ItemRegistry.register("lignite_coal_coke", () -> new FuelItem(24));
 
         // Ingots
         ItemRegistry.register("aluminum_ingot", () -> new Item(baseProps));
