@@ -8,10 +8,11 @@ import javax.annotation.Nullable;
 
 public class CoalItem extends Item {
 
-    private int burnTime;
+    private final int burnTime;
 
     public CoalItem(int burnTime) {
         super(new Item.Properties().fireResistant());
+        this.burnTime = burnTime;
     }
 
     @Override
