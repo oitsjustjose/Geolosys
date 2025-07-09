@@ -34,8 +34,13 @@ public class FeatureUtils {
 
     public static boolean enqueueBlockPlacement(WorldGenLevel level, ChunkPos chunk, BlockPos pos, BlockState state,
             IDepositCapability depCap, @Nullable IChunkGennedCapability cgCap) {
-        // It's too late to enqueue so just bite the bullet and force placement
+        // It's too late to enqueue so just bite the bullet and force placement in a chunk that's already been generated
         if (cgCap != null && cgCap.hasChunkGenerated(new ChunkPos(pos))) {
+            // If the WorldGenLevel is already done here, then I guess we lose this block
+            if (!level.hasChunk(chunk.x, chunk.z)) return false;
+            // If we can't write, then we just lose the block too
+            if (!ensureCanWriteNoThrow(level, pos)) return false;
+
             ChunkAccess chunkaccess = level.getChunk(pos);
             BlockState blockstate = chunkaccess.setBlockState(pos, state, false);
             if (blockstate != null) {
