@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.20.1)
 
+## 7.0.13
+
+### Fixed:
+
+- Recipe registration for the Field Manual always occurring, even if Patchouli isn't installed
+
 ## 7.0.12
 
 ### Fixed:
