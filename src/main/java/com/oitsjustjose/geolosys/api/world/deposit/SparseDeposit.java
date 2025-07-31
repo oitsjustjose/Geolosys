@@ -252,7 +252,7 @@ public class SparseDeposit implements IDeposit {
         try {
             // Plutons 101 -- basics and intro to getting one gen'd
             HashMap<String, HashMap<BlockState, Float>> oreBlocks = SerializerUtils.buildMultiBlockMatcherMap(json.get("blocks").getAsJsonObject());
-            HashMap<BlockState, Float> sampleBlocks = SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Float> sampleBlocks = SerializerUtils.buildMultiBlockMap(json, "samples");
             int yMin = json.get("yMin").getAsInt();
             int yMax = json.get("yMax").getAsInt();
             int spread = json.get("spread").getAsInt();

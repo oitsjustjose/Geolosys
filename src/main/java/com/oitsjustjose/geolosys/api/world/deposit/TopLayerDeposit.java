@@ -201,7 +201,7 @@ public class TopLayerDeposit implements IDeposit {
         try {
             // Plutons 101 -- basics and intro to getting one gen'd
             HashMap<String, HashMap<BlockState, Float>> oreBlocks = SerializerUtils.buildMultiBlockMatcherMap(json.get("blocks").getAsJsonObject());
-            HashMap<BlockState, Float> sampleBlocks = SerializerUtils.buildMultiBlockMap(json.get("samples").getAsJsonArray());
+            HashMap<BlockState, Float> sampleBlocks = SerializerUtils.buildMultiBlockMap(json, "samples");
             int radius = json.get("radius").getAsInt();
             int depth = json.get("depth").getAsInt();
             float sampleChance = json.get("chanceForSample").getAsFloat();

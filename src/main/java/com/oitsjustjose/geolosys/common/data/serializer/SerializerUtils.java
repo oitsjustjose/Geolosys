@@ -46,10 +46,13 @@ public class SerializerUtils {
         return ret;
     }
 
-    public static HashMap<BlockState, Float> buildMultiBlockMap(JsonArray arr) {
+    public static HashMap<BlockState, Float> buildMultiBlockMap(JsonObject obj, String key) {
         HashMap<BlockState, Float> ret = new HashMap<BlockState, Float>();
 
-        for (JsonElement j : arr) {
+        if (!obj.has(key)) return ret;
+        if (!obj.get(key).isJsonArray()) return ret;
+
+        for (JsonElement j : obj.getAsJsonArray(key)) {
             JsonObject pair = j.getAsJsonObject();
             if (pair.get("block").isJsonNull()) {
                 ret.put(null, pair.get("chance").getAsFloat());
@@ -78,7 +81,7 @@ public class SerializerUtils {
         HashMap<String, HashMap<BlockState, Float>> ret = new HashMap<>();
 
         obj.keySet().forEach((key) -> {
-            HashMap<BlockState, Float> value = buildMultiBlockMap(obj.get(key).getAsJsonArray());
+            HashMap<BlockState, Float> value = buildMultiBlockMap(obj, key);
             ret.put(key, value);
         });
 
