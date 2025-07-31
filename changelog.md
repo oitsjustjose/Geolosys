@@ -1,5 +1,11 @@
 # Geolosys Changelog (1.20.1)
 
+## 7.0.14
+
+### Added:
+
+- The ability for `samples` field to be entirely absent from your deposit
+
 ## 7.0.13
 
 ### Fixed:
