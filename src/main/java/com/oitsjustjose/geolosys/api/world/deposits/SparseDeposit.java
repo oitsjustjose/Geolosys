@@ -1,10 +1,10 @@
-package com.oitsjustjose.geolosys.api.world.deposit;
+package com.oitsjustjose.geolosys.api.world.deposits;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.Geolosys;
+import com.oitsjustjose.geolosys.api.world.AbstractDeposit;
 import com.oitsjustjose.geolosys.api.world.DepositUtils;
-import com.oitsjustjose.geolosys.api.world.IDeposit;
 import com.oitsjustjose.geolosys.capability.deposit.IDepositCapability;
 import com.oitsjustjose.geolosys.capability.world.IChunkGennedCapability;
 import com.oitsjustjose.geolosys.common.config.CommonConfig;
@@ -13,115 +13,42 @@ import com.oitsjustjose.geolosys.common.utils.Utils;
 import com.oitsjustjose.geolosys.common.world.SampleUtils;
 import com.oitsjustjose.geolosys.common.world.feature.FeatureUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class SparseDeposit implements IDeposit {
+public class SparseDeposit extends AbstractDeposit {
     public static final String JSON_TYPE = "geolosys:deposit_sparse";
 
-    private final HashMap<String, HashMap<BlockState, Float>> oreToWtMap;
-    private final HashMap<BlockState, Float> sampleToWtMap;
     private final int yMin;
     private final int yMax;
     private final int size;
     private final int spread;
-    private final int genWt;
-    private final HashSet<BlockState> blockStateMatchers;
-    private final TagKey<Biome> biomeTag;
 
-    public SparseDeposit(HashMap<String, HashMap<BlockState, Float>> oreBlocks, HashMap<BlockState, Float> sampleBlocks, int yMin, int yMax, int size, int spread, int genWt, TagKey<Biome> biomeTag, HashSet<BlockState> blockStateMatchers) {
-        this.oreToWtMap = oreBlocks;
-        this.sampleToWtMap = sampleBlocks;
+    public SparseDeposit(HashMap<String, HashMap<BlockState, Float>> matcherToOreWeightPair, HashMap<BlockState, Float> sampleWeightPair, int yMin, int yMax, int size, int spread, int generationWeight, TagKey<Biome> biomeKey, HashSet<BlockState> matchers) {
+        super(matcherToOreWeightPair, sampleWeightPair, biomeKey, matchers, generationWeight);
         this.yMin = yMin;
         this.yMax = yMax;
         this.size = size;
         this.spread = spread;
-        this.genWt = genWt;
-        this.biomeTag = biomeTag;
-        this.blockStateMatchers = blockStateMatchers;
-        validate(oreBlocks, sampleBlocks);
-    }
-
-    /**
-     * Uses {@link DepositUtils#pick(HashMap, RandomSource)} to find a random ore block to
-     * return.
-     *
-     * @return the random ore block chosen (based on weight) Can be null to
-     * represent "density" of the ore -- null results should be used to
-     * determine if the block in the world should be replaced. If null,
-     * don't replace 😉
-     */
-    @Nullable
-    public BlockState getOre(BlockState currentState, RandomSource rand) {
-        String res = Utils.getRegistryName(currentState);
-        if (this.oreToWtMap.containsKey(res)) {
-            // Return a choice from a specialized set here
-            HashMap<BlockState, Float> mp = this.oreToWtMap.get(res);
-            return DepositUtils.pick(mp, rand);
-        }
-        return DepositUtils.pick(this.oreToWtMap.get("default"), rand);
-    }
-
-    /**
-     * Uses {@link DepositUtils#pick(HashMap, RandomSource)} to find a random pluton sample
-     * to return.
-     *
-     * @return the random pluton sample chosen (based on weight) Can be null to
-     * represent "density" of the samples -- null results should be used to
-     * determine if the sample in the world should be replaced. If null,
-     * don't replace 😉
-     */
-    @Nullable
-    public BlockState getSample(RandomSource rand) {
-        return DepositUtils.pick(this.sampleToWtMap, rand);
-    }
-
-    @Override
-    @Nullable
-    public HashSet<BlockState> getAllOres() {
-        HashSet<BlockState> ret = new HashSet<BlockState>();
-        this.oreToWtMap.values().forEach(x -> ret.addAll(x.keySet()));
-        ret.remove(Blocks.AIR.defaultBlockState());
-        return ret.isEmpty() ? null : ret;
-    }
-
-    @Override
-    public boolean canPlaceInBiome(Holder<Biome> b) {
-        return b.is(this.biomeTag);
-    }
-
-    public int getGenWt() {
-        return this.genWt;
+        validate(matcherToOreWeightPair, sampleWeightPair);
     }
 
     @Override
     public String toString() {
-        return "Sparse deposit with Blocks=" + this.getAllOres() + ", Samples=" + Arrays.toString(this.sampleToWtMap.keySet().toArray()) + ", Y Range=[" + this.yMin + "," + this.yMax + "], Size of deposit =" + this.size + ", Spread=" + this.spread;
+        return "Sparse deposit with Blocks=" + this.getAllOres() + ", Samples=" + Arrays.toString(this.sampleWeightPair.keySet().toArray()) + ", Y Range=[" + this.yMin + "," + this.yMax + "], Size of deposit =" + this.size + ", Spread=" + this.spread;
     }
 
-    /**
-     * Handles full-on generation of this type of pluton. Requires 0 arguments as
-     * everything is self-contained in this class
-     *
-     * @return (int) the number of pluton resource blocks placed. If 0 -- this
-     * should be evaluted as a false for use of Mojang's sort-of sketchy
-     * generation code in
-     */
     @Override
     public int generate(WorldGenLevel level, BlockPos pos, IDepositCapability deposits, IChunkGennedCapability chunksGenerated) {
         /* Dimension checking is done in PlutonRegistry#pick */
@@ -186,7 +113,7 @@ public class SparseDeposit implements IDeposit {
                                     }
                                     // Skip this block if it can't replace the target block or doesn't have a
                                     // manually-configured replacer in the blocks object
-                                    if (!(this.getBlockStateMatchers().contains(current) || this.oreToWtMap.containsKey(Utils.getRegistryName(current)))) {
+                                    if (!(this.getMatchers().contains(current) || this.matcherToOreWeightPair.containsKey(Utils.getRegistryName(current)))) {
                                         continue;
                                     }
 
@@ -206,9 +133,6 @@ public class SparseDeposit implements IDeposit {
         return totlPlaced + totlPnding;
     }
 
-    /**
-     * Handles what to do after the world has generated
-     */
     @Override
     public void afterGen(WorldGenLevel level, BlockPos pos, IDepositCapability deposits, IChunkGennedCapability chunksGenerated) {
         // Debug the pluton
@@ -237,11 +161,6 @@ public class SparseDeposit implements IDeposit {
             FeatureUtils.enqueueBlockPlacement(level, thisChunk, samplePos, tmp, deposits, chunksGenerated);
             FeatureUtils.fixSnowyBlock(level, samplePos);
         }
-    }
-
-    @Override
-    public HashSet<BlockState> getBlockStateMatchers() {
-        return this.blockStateMatchers == null ? DepositUtils.getDefaultMatchers() : this.blockStateMatchers;
     }
 
     public static SparseDeposit deserialize(JsonObject json) {
@@ -278,14 +197,14 @@ public class SparseDeposit implements IDeposit {
         JsonObject config = new JsonObject();
 
         // Add basics of Plutons
-        config.add("blocks", SerializerUtils.deconstructMultiBlockMatcherMap(this.oreToWtMap));
-        config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.sampleToWtMap));
+        config.add("blocks", SerializerUtils.deconstructMultiBlockMatcherMap(this.matcherToOreWeightPair));
+        config.add("samples", SerializerUtils.deconstructMultiBlockMap(this.sampleWeightPair));
         config.addProperty("yMin", this.yMin);
         config.addProperty("yMax", this.yMax);
         config.addProperty("size", this.size);
         config.addProperty("spread", this.spread);
-        config.addProperty("generationWeight", this.genWt);
-        config.addProperty("biomeTag", this.biomeTag.location().toString());
+        config.addProperty("generationWeight", this.generationWeight);
+        config.addProperty("biomeTag", this.biomeKey.location().toString());
         // Glue the two parts of this together.
         json.addProperty("type", JSON_TYPE);
         json.add("config", config);

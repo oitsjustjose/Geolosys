@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.oitsjustjose.geolosys.Geolosys;
 import com.oitsjustjose.geolosys.api.GeolosysAPI;
-import com.oitsjustjose.geolosys.api.world.deposit.*;
+import com.oitsjustjose.geolosys.api.world.deposits.*;
 import com.oitsjustjose.geolosys.common.data.serializer.*;
 import com.oitsjustjose.geolosys.common.utils.Prospecting;
 import net.minecraft.resources.ResourceLocation;
@@ -76,9 +76,8 @@ public class WorldGenDataLoader extends SimpleJsonResourceReloadListener {
                             GeolosysAPI.plutonRegistry.addDeposit(sparseDeposit);
                         }
                     }
-                    default -> {
-                        Geolosys.getInstance().LOGGER.warn("Unknown JSON type. Received JSON {}", json.toString());
-                    }
+                    default ->
+                            Geolosys.getInstance().LOGGER.warn("Unknown JSON type. Received JSON {}", json.toString());
                 }
             } catch (NullPointerException ex) {
                 Geolosys.getInstance().LOGGER.info("Skipping registration of ore {}", rl);

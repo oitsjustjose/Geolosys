@@ -2,7 +2,7 @@ package com.oitsjustjose.geolosys.common.data.serializer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.oitsjustjose.geolosys.api.world.deposit.LayerDeposit;
+import com.oitsjustjose.geolosys.api.world.deposits.LayerDeposit;
 
 public class LayerDepositSerializer {
     public LayerDeposit deserialize(JsonObject json) {
