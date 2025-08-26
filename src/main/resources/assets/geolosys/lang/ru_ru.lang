@@ -56,7 +56,7 @@ geolosys.ore_sample_vanilla.beryl_vanilla.name=Изумрудный Образе
 geolosys.ore_sample.hematite_vanilla.name=Образец железа
 
 geolosys.ore_vanilla.coal_vanilla.name=Угольная руда
-geolosys.ore_vanilla.cinnabar_vanilla.name=Редстоун Руда
+geolosys.ore_vanilla.cinnabar_vanilla.name=Редстоуновая Руда
 geolosys.ore_vanilla.gold_vanilla.name=Золотая руда
 geolosys.ore_vanilla.lapis_vanilla.name=Руда Лазурита
 geolosys.ore_vanilla.quartz_vanilla.name=Кварцевая Руда
@@ -78,7 +78,7 @@ geolosys.cluster.uranium.name=Урановое Скопление
 geolosys.cluster.nickel.name=Никелевое Скопление
 geolosys.cluster.platinum.name=Платиновое Скопление
 geolosys.cluster.zinc.name=Цинковое Скопление
-geolosys.cluster.osmium.name=Осмиумовое Скопление
+geolosys.cluster.osmium.name=Осмиевое Скопление
 geolosys.cluster.yellorium.name=Йеллориумовое Скопление
 
 # ------------------------------------ #
@@ -98,20 +98,25 @@ geolosys.ingot.zinc.name=Цинковый Слиток
 # ------------------------------------ #
 geolosys.coal.peat.name=Торф
 geolosys.coal.lignite.name=Бурый Уголь
-geolosys.coal.bituminous.name=Битумиозный Уголь
+geolosys.coal.bituminous.name=Битуминозный Уголь
 geolosys.coal.anthracite.name=Антрацитовый Уголь
+geolosys.coal_coke.lignite.name=Кокс из бурого угля
+geolosys.coal_coke.bituminous.name=Кокс из битуминозного угля
 
 # ------------------------------------ #
 #               Misc                   #
 # ------------------------------------ #
-geolosys.pro_pick.name=Кирка Проспектора
+geolosys.pro_pick.name=Кирка геолога
 geolosys.field_manual.name=Руководство по Месторождениям
 geolosys.field_manual.tooltip=Всё, что нужно знать о копании с Geolosys!
 geolosys.pro_pick.tooltip=Полезнее, когда вместе с компасом!
+geolosys.pro_pick.tooltip.nonefound_stone_surface=В этой области нет особой породы
 geolosys.pro_pick.tooltip.nonefound_surface=Нет залежи в этой области
 geolosys.pro_pick.tooltip.nonefound=Никаких залежей в этом направлении
-geolosys.pro_pick.tooltip.found_surface=найдено в этой области
-geolosys.pro_pick.tooltip.found=Найдено %БЛОК% %DIR% от вас
+geolosys.pro_pick.tooltip.found_surface=%s найдено в этой области
+geolosys.pro_pick.tooltip.found=Найдено %s к %s от вас
+geolosys.pro_pick.tooltip.mode.ores=§6Поиск залежей руды
+geolosys.pro_pick.tooltip.mode.stones=§bПоиск залежей камня
 shift.tooltip=Нажмите Shift.
 compass.tooltip=Показывает высоту над уровнем моря и локальные координаты чанка, когда в руке.
 
@@ -151,49 +156,17 @@ geolosys.guide.chapter.propick_3.text=Кроме того, если щелкну
 # ------------------------------------ #
 #             Resources                #
 # ------------------------------------ #
-geolosys.guide.generic.belowsealevel=m ниже уровня моря
-geolosys.guide.generic.abovesealevel=m над уровнем моря
+geolosys.guide.generic.belowsealevel=%1$s ниже уровня моря
+geolosys.guide.generic.abovesealevel=%1$s над уровнем моря
 geolosys.guide.generic.atsealevel=на уровне моря
 
 geolosys.guide.chapter.stones.name=Каменные варианты
 geolosys.guide.chapter.stones.text=Варианты ванильного камня могут быть (если включены) сгруппированы в большие плутоны, а не генерироваться спорадически по всему миру.
-geolosys.guide.chapter.coal.name=Уголь
-geolosys.guide.chapter.coal.text=Уголь находится между §3<maxY> и <minY>§0 и может сбрасывать серу, если его добавит другой мод. Угольная руда также может сбрасывать торф, лигнит, битум или антрацит (в дополнение к обычному углю); то, что он падает, зависит от вашего §lглубины§r§0. Предыдущий список находится в порядке от самой высокой до самой низкой глубины и от самой низкой до самой высокой по воспламеняемости (в печи).
-geolosys.guide.chapter.cinnabar.name=Киноварь
-geolosys.guide.chapter.cinnabar.text=Киноварь находится между §3<maxY> и <minY>§0 и может сбрасывать кристаллы Redstone из Extra Utils 2 или Киноварь из Thermal Expansion (случайное изменение, основанное на удаче). §4Требуется железная кирка.§0
-geolosys.guide.chapter.gold.name=Золото
-geolosys.guide.chapter.gold.text=Золото от Geolosys ведет себя так же, как ваниль, и находится между §3<maxY> и <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.lapis.name=Лазурит
-geolosys.guide.chapter.lapis.text=Лазурит из Geolosys ведет себя так же, как Ванилный, и находится между §3<maxY> и <minY>§0. §4Требуется каменная кирка.§0
-geolosys.guide.chapter.quartz.name=Ассорти из кварца
-geolosys.guide.chapter.quartz.text= Из Ассорти из кварца выпадает множество различных кварцев, если таковые имеются. К таким разновидностям относятся Actuals 'Black Quartz и Applied Energistics' заряженный и незаряженный Certus Quartz. Ассорти Кварц находится между §3<maxY> and <minY>§0. §4Требуется каменная кирка.§0
-geolosys.guide.chapter.kimberlite.name=Кимберлит
-geolosys.guide.chapter.kimberlite.text=Кимберлит от Geolosys является реалистичной альтернативой алмазной руде Ванилы. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.beryl.name=Берил
-geolosys.guide.chapter.beryl.text=Берилл от Geolosys является реалистичной альтернативой изумрудной руде ванили. Он может генерироваться в любом биоме и находится между §3<maxY> и <minY>§0. §4Требуется железная кирка.§0
-
-geolosys.guide.chapter.hematite.name=Гематит
-geolosys.guide.chapter.hematite.text=Гематит (запланированный, по крайней мере) более легкий способ для получения доступа к железу. Находится между §3<maxY> and <minY>§0. §4Требуется каменная кирка.§0
-geolosys.guide.chapter.limonite.name=Лимонит
-geolosys.guide.chapter.limonite.text=Лимонит - это более крупный и труднодоступный ресурс как для железа, так и для никеля. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.malachite.name=Малахит
-geolosys.guide.chapter.malachite.text=Малахит (предназначен, по крайней мере) меньше, легче для доступа к ресурсам для меди. Находится между §3<maxY> and <minY>§0. §4Требуется каменная кирка.§0
-geolosys.guide.chapter.azurite.name=Азурит
-geolosys.guide.chapter.azurite.text=Азурит - более крупный и труднодоступный ресурс для меди. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.cassiterite.name=Касситерит
-geolosys.guide.chapter.cassiterite.text=Касситерит (предназначен, по крайней мере) меньше, легче для доступа к ресурсу олова. Находится между §3<maxY> and <minY>§0. §4Требуется каменная кирка.§0
-geolosys.guide.chapter.teallite.name=Teaллит
-geolosys.guide.chapter.teallite.text=Teaллит - более крупный и труднодоступный ресурс для Олова. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.galena.name=Галенит
-geolosys.guide.chapter.galena.text=Галенит является крупным ресурсом для серебра и свинца. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.bauxite.name=Боксит
-geolosys.guide.chapter.bauxite.text=Боксит - это большой ресурс для алюминия/боксита(в зависимости от мода). Находится между §3<maxY> and <minY>§0. §4Требуется деревянная кирка.§0
-geolosys.guide.chapter.platinum.name=Платина
-geolosys.guide.chapter.platinum.text=Платина является основным ресурсом для платины, и может включить осмий, если он включен. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.autunite.name=Аутунит
-geolosys.guide.chapter.autunite.text=Aутунит является основным ресурсом для Урана и может включать Йеллориум, если он включен. Находится между §3<maxY> and <minY>§0. §4Требуется железная кирка.§0
-geolosys.guide.chapter.sphalerite.name=Сфалерит
-geolosys.guide.chapter.sphalerite.text=Сфалерит является основным ресурсом для цинка. Находится между §3<maxY> и <minY>§0. §4Требуется железная кирка.§0
+geolosys.guide.chapter.ore.description=%1$s Находится между %2$s и %3$s в любом биоме. Имеет шанс генерации в %4$s%% и появляется залежами размером в %5$s блоков. Уровень кирки, нужный для сбора этой руды: %6$s.
+geolosys.guide.chapter.ore.multi.description=%1$s Находится между %2$s и %3$s в любом биоме. Жила имеет шанс генерации %4$s%% и появляется залежами размером в %5$s блоков. Уровень кирки, нужный для сбора этой руды: %6$s.
+geolosys.guide.chapter.ore.biome.description=%1$s Находится между %2$s и %3$s, только в %4$s. Имеет шанс появления в %5$s%% и появляется залежами размером в %6$s блоков. The harvest level of this deposit is %7$s.
+geolosys.guide.chapter.ore.multi.biome.whitelist.description=%1$s Находится между %2$s и %3$s, только в %4$s. Жила имеет шанс генерации %5$s%% и появляется залежами размером в %6$s блоков. Уровень кирки, нужный для сбора этой руды: %7$s.
+geolosys.guide.chapter.ore.multi.biome.blacklist.description=%1$s Находится между %2$s и %3$s в любом биоме КРОМЕ %4$s. Жила имеет шанс генерации %5$s%% и появляется залежами размером в %6$s блоков. Уровень кирки, нужный для сбора этой руды: %7$s.
 
 # ------------------------------------ #
 #              Mod Compat              #
@@ -205,20 +178,20 @@ geolosys.guide.chapter.journeymap.text=При щелчке правой кноп
 geolosys.guide.chapter.immersive_engineering.name=Immersive Engineering
 geolosys.guide.chapter.immersive_engineering.text=Помимо серы, сбрасывающей уголь, пробоотборник и экскаватор для керна будут обнаруживать и добывать блоки Geolosys §oруды§r.
 geolosys.guide.chapter.better_with_mods.name=Better with Mods
-geolosys.guide.chapter.better_with_mods.text=If Better With Mods is installed, all smelting recipes will output nuggets instead of ingots.
+geolosys.guide.chapter.better_with_mods.text=Если установлен Better with Mods, все рецепты переплавки будут давать самородки вместо слитков.
 geolosys.guide.chapter.twilight_forest.name=Twilight Forest
-geolosys.guide.chapter.twilight_forest.text=If in the Twilight Forest dimension, all ores will generate scaled to the Twilight Forest's shorter world height.
+geolosys.guide.chapter.twilight_forest.text=В измерении Сумеречного леса все залежи будут уменьшены под масштаб измерения.
 geolosys.guide.chapter.applied_energistics.name=Applied Energistics
-geolosys.guide.chapter.applied_energistics.text=If AE is installed, Certus Quartz can drop from Assorted Quartz at an 8% chance. In addition, Charged Certus Quartz can drop at a 4% chance.
+geolosys.guide.chapter.applied_energistics.text=Если AE установлен, Certus Quartz будет выпадать из смешанного уварца с шансом 8%. Также, Charged Certus Quartz будет выпадать с шансом в 4%.
 geolosys.guide.chapter.extra_utils.name=Extra Utilities 2
-geolosys.guide.chapter.extra_utils.text=If Extra Utilities 2 is installed, Redstone Crystals can drop from Cinnabar at a 3.33% chance.
+geolosys.guide.chapter.extra_utils.text=Если Extra Utilities 2 установлен, Редстоуновые кристаллы будут падать из Киновари с шансом 3.33%.
 geolosys.guide.chapter.actually_additions.name=Actually Additions
-geolosys.guide.chapter.actually_additions.text=If Actually Additions is installed, Black Quartz can drop from Assorted Quartz at an 8% chance.
+geolosys.guide.chapter.actually_additions.text=Если Actually Additions установлен, из смешанного кварца будет выпадать Чёрный кварц с шансом 8%.
 geolosys.guide.chapter.cofh_mods.name=Thermal Foundation
-geolosys.guide.chapter.cofh_mods.text=If Thermal Foundation is installed, then Cinnabar can drop from Cinnabar at a 3.33% chance.
+geolosys.guide.chapter.cofh_mods.text=Если Thermal Foundation установлен, Киноварь будет выпадать из киноварной руды с шансом 3.33%.
 geolosys.guide.chapter.mekanism.name=Mekanism
-geolosys.guide.chapter.mekanism.text=If Osmium is enabled in the config, Platinum will split its drop chance 50% with Osmium. If Osmium is enabled §oexclusively§r, then Osmium will be the only drop from Platinum.
+geolosys.guide.chapter.mekanism.text=Если Осмий включен в конфиге, Из платиновой руды будут выпадать и платина, и осмий с шансом 50/50. Если Осмий включен §oexclusively§r, тогда из платиновой руды будет выпадать только он.
 geolosys.guide.chapter.extreme_reactors.name=Extreme Reactors
-geolosys.guide.chapter.extreme_reactors.text=If Yellorium is enabled in the config, Autunite will split its drop chance 50% with Yellorium.
+geolosys.guide.chapter.extreme_reactors.text=Если Йеллориум включен в конфиге, Аутунит будет давать и его, и йеллориум с шансом 50/50.
 geolosys.guide.chapter.nuclearcraft.name=NuclearCraft
-geolosys.guide.chapter.nuclearcraft.text=If NuclearCraft is installed, Geolosys's Vanilla Ore variants will drop NuclearCraft's usual added drops, with the same chance as NuclearCraft.
+geolosys.guide.chapter.nuclearcraft.text=Если NuclearCraft установлен, Варианты ванильных руд из Geolosys будут давать обычный дроп из NuclearCraft с теми же самыми шансами.
